@@ -1,0 +1,23 @@
+<div class='admin-page'>
+    <h2>Administration</h2>
+    <form action='/admin/save' method='POST'>
+    <label>Theme</label>
+        <select name="config[theme]">
+      <%
+        themes.forEach(function(theme) { %>
+        <option value='<%-theme.name %>' <%= theme.selected ? "SELECTED" : "" %>/><%-theme.name%><br/>                 
+    <%
+        });
+    %>    
+    </select>
+    <label>Cache</label><input name='config[cache]' type='text' value='<%- item.meta.cache %>'/>
+    <label>Modules</label><br/>
+    <%
+        modules.forEach(function(module) { %>
+        <input type='checkbox' name='config[modules][<%-module.name%>]' <%= module.enabled ? "checked" : "unchecked" %>/><%-module.name%><br/>                 
+    <%
+        });
+    %>    
+    <input type='submit'/>
+    </form>
+</div>

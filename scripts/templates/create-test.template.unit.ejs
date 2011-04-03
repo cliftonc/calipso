@@ -1,0 +1,67 @@
+<?
+	var modelVariable = modelName.toLowerCase();
+	var basePath = modelName.toLowerCase();
+	var basePathPlural = controllerName.toLowerCase();
+?>
+/**
+ *  <?= controllerName ?> Unit Test
+ *  Created by create-test script @ <?= new Date() ?>
+ **/
+/**
+ * Dependencies
+ */
+var     should = require('should')
+	  , mongoose = require('mongoose')
+	  , example = require('models/<?= modelName ?>')
+	  , Schema = mongoose.Schema
+	  , SchemaType = mongoose.SchemaType
+	  , ValidatorError = SchemaType.ValidatorError
+	  , DocumentObjectId = mongoose.Types.ObjectId
+	  , MongooseError = mongoose.Error;
+
+/**
+ * Simple expresso tests for the <?= modelName ?> model
+ */
+module.exports = {
+		    
+  'Test that a model can be created': function(){
+	    var <?= modelName ?> = mongoose.model('<?= modelName ?>');
+	    var model = new <?= modelName ?>();
+	    model.isNew.should.be.true;    
+   },
+  'Test that the model is an instance of a mongoose schema': function(){
+    var <?= modelName ?> = mongoose.model('<?= modelName ?>');
+    <?= modelName ?>.schema.should.be.an.instanceof(Schema);
+    <?= modelName ?>.prototype.schema.should.be.an.instanceof(Schema);
+  },
+  'Test that an <?= modelName ?> has all of the default fields and values': function(){
+    
+    var <?= modelName ?> = mongoose.model('<?= modelName ?>');
+
+    var model = new <?= modelName ?>();
+    model.isNew.should.be.true;
+
+    model.get('_id').should.be.an.instanceof(DocumentObjectId);
+    should.equal(undefined, model.get('name'));
+    
+   },
+  'Test that saving a record with invalid fields returns a validation error': function(){
+	  
+	    var <?= modelName ?> = mongoose.model('<?= modelName ?>');	    
+	    var model = new <?= modelName ?>();
+	    model.set('name', '');
+	    model.save(function(err){
+	      
+	      err.should.be.an.instanceof(MongooseError);
+	      err.should.be.an.instanceof(ValidatorError);
+	      
+	      model.set('name', 'I exist!');
+	      model.save(function(err){
+	        should.strictEqual(err, null);
+	      });
+	      
+	    });	    
+
+  }
+
+};

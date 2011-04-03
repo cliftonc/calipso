@@ -1,0 +1,8 @@
+<div class="breaking-news">
+<h2>Breaking News</h2>
+<ul>     
+  <% news.forEach(function(item){ %>          
+    <li><a href='/<%- item.meta.alias %>.html'><%- item.meta.title %></a></li>  
+  <% }) %>
+  </ul>  
+</div>

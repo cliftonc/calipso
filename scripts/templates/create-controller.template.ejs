@@ -1,0 +1,180 @@
+<?
+	var modelVariable = modelName.toLowerCase();
+	var basePath = modelName.toLowerCase();
+	var basePathPlural = controllerName.toLowerCase();
+?>
+/**
+ *  <?= controllerName ?> Controller
+ *  Created by create-controller script @ <?= new Date() ?>
+ **/
+ var mongoose = require('mongoose'),	
+	<?= modelName ?> = mongoose.model('<?= modelName ?>'),
+	pager = require('../utils/pager.js'),
+	ViewTemplatePath = '<?= basePathPlural ?>';
+
+module.exports = {
+
+	/**
+	 * Index action, returns a list either via the views/<?= basePathPlural ?>/index.html view or via json
+	 * Default mapping to GET '/<?= basePathPlural ?>'
+	 * For JSON use '/<?= basePathPlural ?>.json'
+	 **/
+	index: function(req, res, next) {
+		  	 
+		  var from = req.params.from ? parseInt(req.params.from) - 1 : 0;
+		  var to = req.params.to ? parseInt(req.params.to) : 10;
+	      var total = 0;
+	      
+	      <?= modelName ?>.count({}, function (err, count) {
+	    	total = count;  
+	    	var pagerHtml = pager.render(from,to,total,'/<?= basePathPlural ?>');    	
+	                  
+			  <?= modelName ?>.find({})
+			  	.sort('name', 1)
+			  	.skip(from).limit(to)
+			  	.find(function (err, <?= basePathPlural ?>) {
+				
+				  if(err) return next(err);
+				  
+			      switch (req.params.format) {
+			        case 'json':	          
+			          res.send(<?= basePathPlural ?>.map(function(u) {
+			              return u.toObject();
+			          }));
+			          break;
+		
+			        default:			        	
+			        	res.render(ViewTemplatePath,{<?= basePathPlural ?>:<?= basePathPlural ?>,pagerHtml:pagerHtml});
+			      }
+			      
+			  });
+	      
+	      });
+	      	  	
+	},
+	
+	/**
+	 * Show action, returns shows a single item via views/<?= basePathPlural ?>/show.html view or via json
+	 * Default mapping to GET '/<?= basePath ?>/:id'
+	 * For JSON use '/<?= basePath ?>/:id.json'
+	 **/	
+	show: function(req, res, next) {	  		  
+			
+		  <?= modelName ?>.findById(req.params.id, function(err, <?= modelVariable ?>) {
+			  
+			  if(err) return next(err);
+			  
+		      switch (req.params.format) {
+		        case 'json':
+		          res.send(<?= modelVariable ?>.toObject());
+		          break;
+	
+		        default:
+		        	res.render(ViewTemplatePath + "/show",{<?= modelVariable ?>:<?= modelVariable ?>});
+		      }
+		      
+		  });
+		      
+	},
+	
+	/**
+	 * Edit action, returns a form via views/<?= basePathPlural ?>/edit.html view no JSON view.
+	 * Default mapping to GET '/<?= basePath ?>/:id/edit'
+	 **/  	  
+	edit: function(req, res, next){
+		  <?= modelName ?>.findById(req.params.id, function(err, <?= modelVariable ?>) {
+			  if(err) return next(err);
+			  res.render(ViewTemplatePath + "/edit",{<?= modelVariable ?>:<?= modelVariable ?>});
+		});
+	},
+	  
+	/**
+	 * Update action, updates a single item and redirects to Show or returns the object as json
+	 * Default mapping to PUT '/<?= basePath ?>/:id', no GET mapping	 
+	 **/  
+	update: function(req, res, next){
+	    
+	    <?= modelName ?>.findById(req.params.id, function(err, <?= modelVariable ?>) {
+	        
+	    	if (!<?= modelVariable ?>) return next(err);
+	        
+	    	<?= modelVariable ?>.name = req.body.<?= modelVariable ?>.name;
+	    	
+	        <?= modelVariable ?>.save(function(err) {
+	        
+	    	  if (err) {
+	    		  console.log(err);
+	        	  req.flash('error','Could not update <?= modelVariable ?>: ' + err);
+	          	  res.redirect('/<?= basePathPlural ?>');
+	          	  return;
+	    	  }
+	    		
+	          switch (req.params.format) {
+	            case 'json':
+	              res.send(<?= modelVariable ?>.toObject());
+	              break;
+	            default:
+	              req.flash('info', '<?= modelName ?> updated');
+	              res.redirect('/<?= modelVariable ?>/' + req.params.id);
+	          }
+	        });
+	      });
+	},
+	  
+	/**
+	 * Create action, creates a single item and redirects to Show or returns the object as json
+	 * Default mapping to POST '/<?= basePathPlural ?>', no GET mapping	 
+	 **/  
+	create: function(req, res, next){
+		  
+		  var <?= modelVariable ?> = new <?= modelName ?>(req.body.<?= modelVariable ?>);
+		  
+		  <?= modelVariable ?>.save(function(err) {
+		   
+			if (err) {
+	    	  req.flash('error','Could not create <?= modelVariable ?>: ' + err);
+	      	  res.redirect('/<?= basePathPlural ?>');
+	      	  return;
+			}
+	
+		    switch (req.params.format) {
+		      case 'json':
+		        res.send(<?= modelVariable ?>.toObject());
+		        break;
+	
+		      default:
+		    	  req.flash('info','<?= modelName ?> created');
+		      	  res.redirect('/<?= modelVariable ?>/' + <?= modelVariable ?>.id);
+			 }
+		  });	  
+		  
+	},
+	  
+	/**
+	 * Delete action, deletes a single item and redirects to index
+	 * Default mapping to DEL '/<?= basePath ?>/:id', no GET mapping	 
+	 **/ 
+	destroy: function(req, res, next){
+		  
+		  <?= modelName ?>.findById(req.params.id, function(err, <?= modelVariable ?>) {
+		        
+		    	if (!<?= modelVariable ?>) { 
+	  	    	  	req.flash('error','Unable to locate the <?= modelVariable ?> to delete!');
+		    		res.send('false'); 
+		    		return false; 
+		    	};
+		    		    
+		    	<?= modelVariable ?>.remove(function(err) {
+	    		  if(err) {
+	    	    	  req.flash('error','There was an error deleting the <?= modelVariable ?>!');
+	    			  res.send('false');
+	    		  } else {
+	    	    	  req.flash('info','<?= modelName ?> deleted');
+	    			  res.send('true');
+	    		  }    	          
+	   	      	}); 
+		  });
+		  
+	}
+	
+};

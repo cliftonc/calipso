@@ -1,0 +1,21 @@
+
+Express MVC Bootstrapper
+
+This is the help file for the Express based application bootstrapper.  Parameters marked with * are optional, and are shown with their defaults.
+
+Command format:
+
+eb                                   : Run the application using the cluster module.
+eb cluster *server.port=3000         : Run the application using the cluster module.
+eb server *server.port=3000          : Run the application as a server.
+
+eb test                              : Run all tests.
+eb test unit|integration|functional  : Run a particular type of test.
+
+eb script help *<name>               : This help script, optional script name for additional help. 
+eb script <name> *params             : Run a script with <name>, with params.
+eb script <name> *params             : Run a script with <name>, with params.
+
+Available scripts:
+<? if (scripts.length) { scripts.forEach(function(name){ ?>
+<?= name ?><? }) } ?>

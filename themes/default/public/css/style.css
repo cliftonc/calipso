@@ -1,0 +1,458 @@
+/*--- Reset ---*/
+* { margin: 0; padding: 0; }
+
+html, body { height: 100%; min-height: 100%; background-color: #ffffff; }
+
+/*--- Layout ---*/
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.5em;
+	color: #0d0d0d;
+	background-color: #fff;
+}
+
+#container {
+	position: relative;
+	padding: 10px 10%;
+	top: 25px;
+}
+
+#header {
+    position: relative;
+    padding-bottom: 10px;    
+    border-bottom: solid 1px silver;
+    margin-bottom: 20px;    
+}
+
+#content {
+  float: left; 
+  width: 80%;
+}
+
+#right {
+  float: right; 
+  width: 16%;
+}
+
+#footer {
+	border-top: solid 1px silver;
+	margin-top: 20px;	
+}
+
+/*--- Basics ---*/
+h1, h2, h3, h4, h5, h6 {
+	font-weight:normal;
+	color:#111;
+	line-height: 1;
+	margin: 0.5em 0 0.5em 0;
+}
+h1 { font-size: 1.6em; }
+h2, h5 { font-size: 1.3em; color: #666; }
+h3, h6 { font-size: 1.2em; color: #888; }
+h4 { font-size: 1.1em; }
+h5 { font-size: 1.1em; }
+h6 { font-size: 1em; }
+p { margin-bottom: 1em; }
+strong { font-weight: bold; }
+em { font-style: italic; }
+a { text-decoration: none; color: #333; }
+a, h1 a, h2 a { text-decoration: none; }
+a:hover { text-decoration: underline; color: #6F6F6F; }
+a img { border: none; }
+
+/*--- Lists ---*/
+li ul, li ol { margin: 0; }
+ul, ol { margin: 0 0 1em 2.75em; }
+dt, dd {
+	font-style: italic;
+	margin: .5em 0;
+}
+dt {
+	font-weight: bold;
+}
+dd {
+	margin-left: 1em;
+}
+/*--- Header ---*/
+#header h1 {
+	margin: .1em 0;
+	font-size: 2.2em;
+}
+#header h2 {
+	width: 70%;
+	margin: .5em .5em 2em 0;
+	color: #666;
+	font-size: 1.3em;
+	line-height: 22px;
+}
+
+/*--- Tables ---*/
+table {
+	clear: both;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #e6e6e6;
+	background: #eaeafa;
+	margin: 12px 0;
+}
+td, th {
+	padding: .25em 1em;
+	border: 1px solid #a6a6c6;
+	vertical-align: middle;
+	text-align: left;
+	font-weight: normal;
+	color: #333;
+	font-size: 0.85em;
+}
+
+table tr {
+	background: #fff;
+}
+
+table.tabular tr:nth-child(even) {
+	background: #eaeafa;
+}
+
+tfoot td {
+	background: #d3d3f3;
+	color: #333;
+	text-align: left;	
+	padding: 1em 0.5em;
+	font-size: 0.7em;
+}
+
+th {
+	background: #d3d3f3;
+	color: #333;
+	text-align: left;
+	font-weight: bold;
+	padding: .5em .75em;
+}
+/*--- Forms ---*/
+form {
+	display: block;
+	clear: both;	
+	
+}
+fieldset {
+	padding: 2em;
+	margin: 0 0 1em 0;
+	border: 1px solid #a6a6a6;
+	background: #f3f3f3;
+}
+legend {
+	padding: .5em 1em;
+	border: 1px solid #a6a6a6;
+	background: #fff;
+	font-size: 22px;
+}
+label {
+	padding: 0 1em 0 0;
+	color: #454545;
+	font-weight: normal;
+	font-size: 0.9em;
+}
+input[type=text],[type=password], textarea {
+	font-family: Helvetica, Arial, sans-serif;	
+	border: 1px solid #a6a6a6;
+	color: #454545;
+	font-size: 0.9em;
+	line-height: 1em;
+}
+input[type=text], input[type=password], textarea {
+	clear: both;
+	display: block;
+	padding: .25em .5em;
+}
+input[type=text], input[type=password], textarea {
+	width: 97%;
+	max-width: 950px;
+	margin: .2em 0 1em 0;
+	padding:.2em;
+}
+select {
+	clear: both;
+	display: block;
+	margin: .5em 0 1em 0;
+}
+div.checkbox {
+	clear: both;
+	padding: 1em 0;
+}
+.checkbox label {
+	display: inline;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus, select:focus {
+	border-color: #00a8e6;
+	outline: none;
+}
+
+/*--- Misc ---*/
+hr {
+	border: none;
+	height: 0;
+	border-bottom: 1px solid #e6e6e6;
+	margin:1em 0;
+}
+sup, sub {
+	color: #666;
+	font-size: .65em;
+}
+acronym {
+	font-weight: bold;
+	font-style: italic;
+	color: #333;
+}
+abbr {
+	color: #333;
+}
+
+blockquote {
+	padding: 0.15em .5em;
+	margin: 0.5em 0;
+	font-size: 1em;
+	color: #666;	
+	display: block;
+	font-style: italic;
+}
+
+blockquote:before, blockquote:after {
+	display: inline;
+	color: #e5e5e5;
+	font-size: 3em;
+	position: relative;
+	top: 0.25em;
+	left: -0.1em;
+}
+
+blockquote:before {
+	content: '\D \201C';
+}
+
+
+span.pager-page {
+	font-family: Helvetica, Arial, sans-serif;
+	padding: 3px 3px;
+	margin: 3px 3px 3px 3px;
+	color: #454545;	
+	line-height: 1.25em;	
+}
+
+input.pager-page {
+	display: inline !important; 
+	width: 30px;
+	font-family: Helvetica, Arial, sans-serif;
+	padding: 2px 2px;
+	margin: 3px 3px 3px 3px;
+	color: #454545;	
+	line-height: 1.25em;	
+	clear: none;
+}
+
+a.pager-page {
+	font-family: Helvetica, Arial, sans-serif;
+	padding: 3px 3px;
+	margin: 3px 3px 3px 3px;	
+	border: 1px solid #a6a6c6;
+	color: #454545;	
+	line-height: 1.25em;
+	background-color: #efefef;
+}
+
+blockquote:after {
+	content: '\201D';
+}
+
+pre.code {
+	padding: 10px;
+	color: black;
+	font-size: 0.8em;
+	font-family: courier;
+	background-color: #F5F5F5;        
+    margin: 20px;		
+}
+
+/*--- Shadows ---*/
+pre.code {
+	-moz-box-shadow: 0 0 3px rgba(0,0,0,.4);
+	-webkit-box-shadow: 0 0 3px rgba(0,0,0,.4);
+	box-shadow: 0 0 3px rgba(0,0,0,.4);	
+}
+
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+table, form {
+	margin-top: 0px;
+	margin-bottom: 12px;
+}
+table, pre > code, .shadow {
+	-moz-box-shadow: 2px 2px 12px rgba(0,0,0,.15);
+	-webkit-box-shadow: 2px 2px 12px rgba(0,0,0,0.15);
+	box-shadow: 2px 2px 12px rgba(0,0,0,.15);
+}
+img.shadow {
+	border: 1px solid rgba(255,255,255,.15);
+}
+
+input[type=text],input[type=password], textarea {
+	-moz-box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+	-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+	box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+}
+
+/* -- Content --*/
+.content-list-item {
+    width: 130;
+    float: left;
+    height: 150px;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: solid 1px silver;	
+    background: #EEF;
+    -moz-box-shadow: 2px 2px 6px rgba(0,0,0,.15);
+    -webkit-box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
+    box-shadow: 2px 2px 6px rgba(0,0,0,.15);  
+    font-size: 0.9em;
+}
+
+.content-list-item-draft {
+    background: #FED;    
+}
+
+.content-list-item h1 {
+    margin-top: 5px;   
+}
+
+.content-item {
+    
+}
+
+/** -- Menus **/
+.primary-menu {    
+    background-color: #343434;
+    color: white;
+    position: absolute;
+    left: 10;
+    top: 0;
+    width: 98%;
+    font-size: 0.9em;
+    padding-left: 5px;    
+     -moz-box-shadow: 2px 2px 12px rgba(0,0,0,.35);
+    -webkit-box-shadow: 2px 2px 12px rgba(0,0,0,0.35);
+    box-shadow: 2px 2px 12px rgba(0,0,0,.35);        
+}
+
+.primary-menu .menu-item {    
+    color: white;
+    padding: 3px;
+    margin-right: 10px;    
+}
+
+.primary-menu .menu-item-selected {    
+    color: white;
+    font-weight: bold;    
+    padding: 3px;
+    margin-right: 10px;        
+}
+
+.secondary-menu {    
+    padding-left: 5px;
+    font-size: 0.8em;
+    position: absolute;
+    left: 10;
+    top: 21;
+    width: 98%;
+    background-color: #646474;
+    color: white;
+    -moz-box-shadow: 2px 2px 12px rgba(0,0,0,.35);
+    -webkit-box-shadow: 2px 2px 12px rgba(0,0,0,0.35);
+    box-shadow: 2px 2px 12px rgba(0,0,0,.35);    
+}
+
+.secondary-menu .menu-item {    
+    color: white;
+    padding: 3px;
+    margin-right: 10px;        
+}
+
+.debug-menu {    	  
+    position: relative;    
+	margin-right: 20; 
+	font-size: 0.8em;
+	z-index: 20;
+	float: right;        
+}
+
+.debug-menu a {
+	color: white;
+}
+.user-logout {
+	position: relative;    
+    margin-right: 10; 
+    font-size: 0.9em;
+    z-index: 20;
+    float: right;    
+}
+.user-logout a {
+    color: white;
+}
+
+.menu-separator {
+    clear: both;
+}
+
+/** - Content -- **/
+
+.content-item {
+}
+
+.content-item .by {
+	font-size: 0.8em;
+	float: left; 
+	margin-right: 50px;
+}
+
+.content-item .status {
+    font-size: 0.8em;
+    float: left;
+    margin-right: 50px;
+}
+
+.content-item .tags {
+    font-size: 0.8em;
+    float: right;
+}
+
+.content-item .created {
+    font-size: 0.8em;
+    float: left;
+    margin-right: 50px;
+}
+
+.content-item .content {
+    clear:both;
+}
+
+.breaking-news ul {
+	margin-left: 0;
+    padding-left: 0;
+    font-size: 0.8em;
+}
+
+.breaking-news li {
+	margin-left: 0;
+    list-style: none;    
+}
+
+
+	

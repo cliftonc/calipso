@@ -1,0 +1,35 @@
+<?
+	var modelVariable = modelName.toLowerCase();
+	var basePath = modelName.toLowerCase();
+	var basePathPlural = controllerName.toLowerCase();
+?>
+<h1><?= basePathPlural ?></h1>
+<%- partial('../messages') %>
+<div style="float: left; width: 60%;">
+	<table class="tabular">
+		<tr>
+			<th>Name</th>
+		</tr>
+		<% <?= basePathPlural ?>.forEach(function(<?= modelVariable ?>){ %>
+		<tr>
+			<td><a href="/<?= modelVariable ?>/<%= <?= modelVariable ?>.id %>"><%= <?= modelVariable ?>.name %></a></td>
+		</tr>
+		<% }) %>
+		<tfoot>
+			<tr>
+				<td colspan='2'><%- pagerHtml %></td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+<div style="float: left; margin-left: 5%; width: 35%;">
+	<form method="post" action="/<?= basePathPlural ?>">
+		<input type="hidden" name="_method" value="post" />
+		<p>
+			Name: <input type="text" name="<?= modelVariable ?>[name]" />
+		</p>
+		<p>
+			<button class="button-submit" type="submit" value="Create">Create</button>
+		</p>
+	</form>
+</div>

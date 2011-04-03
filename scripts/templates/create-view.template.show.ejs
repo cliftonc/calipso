@@ -1,0 +1,64 @@
+<?
+	var modelVariable = modelName.toLowerCase();
+	var basePath = modelName.toLowerCase();
+	var basePathPlural = controllerName.toLowerCase();
+?>
+<h1>Viewing <?= basePath ?></h1>
+<script type="text/javascript">
+	$(function(){
+
+		// Delete User
+		$('.button-delete').click(function(){
+			
+			var <?= modelVariable ?>Id = this.id;
+			
+			$("#dialog-confirm" ).dialog({
+				resizable: false,
+				height:180,
+				width:400,
+				modal: true,
+				buttons: {
+					"Delete": function() {
+						$( this ).dialog( "close" );
+						$.ajax({
+							   type: "DELETE",
+							   url: "/<?= modelVariable ?>/" + <?= modelVariable ?>Id,				   
+							   success: function(msg) {				   	  
+								  window.location.replace("/<?= modelVariable ?>s");
+							   },
+							   error: function(msg) {					  
+								  alert("I was unable to delete the <?= modelVariable ?> - something has gone wrong, apologies!");
+							   }
+						});
+					},
+					Cancel: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});			
+			
+		});
+		
+	});
+</script>
+<div id="dialog-confirm" style="display: none;" title="Delete <?= modelVariable ?>?">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+<%- partial('../messages') %>
+<table>
+	<tr>
+  		<th>ID</th><td><%= <?= modelVariable ?>.id %></td>
+  	</tr>
+  	<tr>
+  		<th>Name</th><td><%= <?= modelVariable ?>.name %></td>
+  	</tr> 	
+</table>
+<a class="button-edit" href="<%= <?= modelVariable ?>.id %>/edit" title="Edit <?= modelVariable ?> ...">
+	Edit 
+</a>
+<button class="button-delete" id="<%= <?= modelVariable ?>.id %>"  title="Delete <?= modelVariable ?> ...">
+	Delete
+</button>
+<a class="button-home" href="/<?= basePathPlural ?>" title="List <?= controllerName ?>">
+	List <?= controllerName ?>
+</a>
