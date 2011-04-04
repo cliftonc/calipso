@@ -32,8 +32,13 @@ function load(req,res,app,next) {
       Step(
           function addRoutes() {
             if(!router.configured) {              
-              router.addRoute('GET /admin',showAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());              
-              router.addRoute('POST /admin/save',saveAdmin,null,this.parallel());              
+              router.addRoute('GET /admin',showAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());
+              router.addRoute('POST /admin/save',saveAdmin,null,this.parallel());
+              
+              // TODO: Disable these routes once you have installed 
+              router.addRoute('GET /admin/install',install,{templatePath:__dirname + '/templates/install.html'},this.parallel());  
+              router.addRoute('POST /admin/install',installSave,null,this.parallel());
+              
             }            
             initialiseModule(app,req,res,this.parallel());
           },
@@ -61,6 +66,29 @@ function initialiseModule(app,req,res,next) {
 
 }
 
+function install(req,res,next,template) {      
+    
+  if(template) {
+    res.renderedBlocks.body.push(ejs.render(template));
+  }   
+  next();
+                      
+};
+
+
+function installSave(req,res,next,template) {      
+    
+  // Fix to an admin
+  req.body.user.isAdmin = 'yes';
+  
+  var user = require("../user/user.module");
+  user.registerUser(req,res,function() { 
+      req.flash('info','New administrative user created, you can now login as this user and begin using NCMS!');
+      next();
+    },template);  
+                      
+};
+
 function showAdmin(req,res,next,template) {      
   
   // Re-retrieve our object
@@ -79,8 +107,6 @@ function showAdmin(req,res,next,template) {
                       
 };
 
-
-
 function saveAdmin(req,res,next,template) {
                     
   
@@ -88,6 +114,10 @@ function saveAdmin(req,res,next,template) {
   var AppConfig = mongoose.model('AppConfig');    
   
   AppConfig.findOne({}, function(err,config) {    
+    
+    if(config.theme != req.body.config.theme) {
+      req.flash('info','You need to restart NCMS to see the theme changes (live restart todo!).')
+    }
     
     config.theme = req.body.config.theme;
     config.cache = req.body.config.cache;

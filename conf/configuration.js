@@ -79,10 +79,11 @@ function loadConfig(app,defaultConfig,next) {
             
           } else {
               
-            var app = new AppConfig(defaultConfig);  
+            var newConfig = new AppConfig(defaultConfig);  
             
-            app.save(function(err) {
-                next(app);
+            newConfig.save(function(err) {
+                app.install = true;
+                next(newConfig);
                 return;
             });                           
           }

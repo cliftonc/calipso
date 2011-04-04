@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 
 exports = module.exports;
 exports.load = load;
+exports.registerUser = registerUser; // Exported to enable admin module to use it
 
 /**
  * Base news module

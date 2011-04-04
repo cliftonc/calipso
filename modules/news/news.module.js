@@ -22,7 +22,7 @@ function load(req,res,app,next) {
        * Menu items
        */
       // res.menu.primary.push({name:'News',url:'/news',regexp:/news/});
-      res.menu.secondary.push({name:'News',parentUrl:'/admin',url:'/admin/news'});         
+      // res.menu.secondary.push({name:'News',parentUrl:'/admin',url:'/admin/news'});         
   
       /**
        * Routes
