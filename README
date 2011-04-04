@@ -1,3 +1,16 @@
-Details to come, but this is a NodeJS CMS, modular, based on Drupal Module / Theme concepts.
+Details to come, but this is a NodeJS CMS, modular, based on Drupal Module / Theme concepts, runs on Mongodb via MongooseJS.
 
-If you want to use it, you need to create an admin user (http://localhost:3000/user/register) first, best of luck until I get around to better docs.
+If you want to use it, simply clone from github, make sure you have all of the dependencies installed, and run node app.
+
+Thoughts / TODO :
+
+ * I wanted a CMS that enabled a 'block' build up style leveraging the asynch nature of node.  e.g. On a request, a set of modules would intercept the request chain in an asynch manner, and build up blocks in the output (as both JSON and pre-rendered HTML so that each module can create its own look and feel, or you can completely override it from your theme).
+ * A theme system.
+ * The core modules required to make it work.
+ * Needs tests - lots of them!
+ * Very early days, still have some issues re. ordering (given the asynch), dependencies between modules (ditto).
+
+Any early feedback would be great!
+
+
+
