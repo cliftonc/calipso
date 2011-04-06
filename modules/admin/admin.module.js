@@ -1,12 +1,4 @@
-var   mongoose = require('mongoose'),      
-      Schema = mongoose.Schema,
-      url = require('url'),
-      router = require('../../lib/router').Router(),
-      sys = require('sys'),
-      Step = require('step'),
-      ejs = require('ejs'),
-      fs = require('fs'),
-      ObjectId = Schema.ObjectId;      
+var ncms = require("../../lib/ncms");      
 
 exports = module.exports;
 exports.load = load;
@@ -19,7 +11,7 @@ exports.load = load;
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,app,next) {      
+function load(req,res,router,app,next) {      
       
       /**
        * Menu items
@@ -29,7 +21,9 @@ function load(req,res,app,next) {
       /**
        * Routing and Route Handler
        */          
-      Step(
+      // var router = ncms.moduleRouter.Router();
+      
+      ncms.lib.step(
           function addRoutes() {
             if(!router.configured) {              
               router.addRoute('GET /admin',showAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());
@@ -53,10 +47,9 @@ function load(req,res,app,next) {
 function initialiseModule(app,req,res,next) {  
     
     // Admin schemas are defined in Configuration.js
-    res.modules = app.modules;   
     res.themes = [];
         
-    fs.readdir(app.path + '/themes',function(err,folders) {
+    ncms.lib.fs.readdir(app.path + '/themes',function(err,folders) {
        folders.forEach(function(name){
          res.themes.push({name:name,selected: app.set('config').theme === name ? true : false}); 
        });
@@ -69,7 +62,7 @@ function initialiseModule(app,req,res,next) {
 function install(req,res,next,template) {      
     
   if(template) {
-    res.renderedBlocks.body.push(ejs.render(template));
+    res.renderedBlocks.body.push(ncms.lib.ejs.render(template));
   }   
   next();
                       
@@ -92,14 +85,14 @@ function installSave(req,res,next,template) {
 function showAdmin(req,res,next,template) {      
   
   // Re-retrieve our object
-  var AppConfig = mongoose.model('AppConfig');    
+  var AppConfig = ncms.lib.mongoose.model('AppConfig');    
   
   AppConfig.findOne({}, function(err,config) {    
                 
           var item = {id:config._id,type:'config',meta:config.toObject()};                
           res.blocks.body.push(item);               
           if(template) {
-            res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item,modules:res.modules,themes:res.themes}}));
+            res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item,modules:ncms.modules,themes:res.themes}}));
           }                
           next();
           
@@ -111,7 +104,7 @@ function saveAdmin(req,res,next,template) {
                     
   
   // Re-retrieve our object
-  var AppConfig = mongoose.model('AppConfig');    
+  var AppConfig = ncms.lib.mongoose.model('AppConfig');    
   
   AppConfig.findOne({}, function(err,config) {    
     
@@ -152,12 +145,10 @@ function moduleFormtToArray(res,modules) {
   
   var arrayModules = [];
   
-  res.modules.forEach(function(module) {
-      
-      var enabled = modules[module.name] === 'on' ? true : false;
-      arrayModules.push({name:module.name,enabled:enabled});     
-      
-  })
+  for(var module in ncms.modules) {                     
+      var enabled = modules[module] === 'on' ? true : false;
+      arrayModules.push({name:module,enabled:enabled});           
+  }
   
   return arrayModules;
   

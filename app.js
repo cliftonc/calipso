@@ -3,8 +3,11 @@
  */
 var fs = require('fs'),express = require('express'),
 	 mongoose = require('mongoose'), sys = require('sys'), nodepath = require('path'),
-	 content = require('./lib/content');
+	 ncms = require('./lib/ncms');
 
+/** 
+ * Global variables
+ */
 var path = __dirname;
 var theme = 'default';
 var app;
@@ -48,7 +51,7 @@ function bootApplication(app) {
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'helloworld' }));
   app.use(express.static(path + '/themes/' + theme + '/public'));  // Before router to enable dynamic routing
-  app.use(content.content(app,app.set('config')));
+  app.use(ncms.ncmsRouter(app,app.set('config')));
 
   // Setup ejs views as default, with .html as the extension      
   app.set('views', path + '/themes/' + theme);

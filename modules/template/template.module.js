@@ -1,9 +1,4 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    router = require('../../lib/router').Router(),
-    Step = require('step'),
-    ejs = require('ejs'),
-    ObjectId = Schema.ObjectId;      
+var ncms = require("../../lib/ncms");      
 
 exports = module.exports;
 exports.load = load;
@@ -16,7 +11,7 @@ exports.load = load;
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,app,next) {      
+function load(req,res,router,app,next) {      
       
       /** 
        * Menu items
@@ -27,7 +22,10 @@ function load(req,res,app,next) {
       /**
        * Routes
        */      
-      Step(
+      
+      // var router = ncms.moduleRouter.Router();
+      
+      ncms.lib.step(
           function addRoutes() {
             if(!router.configured) {              
               router.addRoute(/.*/,allPages,{end:false, templatePath:__dirname + '/templates/template-all.html'},this.parallel());
@@ -58,7 +56,7 @@ function templatePage(req,res,next,template) {
     
     // Render template
     if(template) {
-      res.renderedBlocks.body.push(ejs.render(template,{locals:{variable:myVariable}}));
+      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{variable:myVariable}}));
     }
     next();      
 };
@@ -73,7 +71,7 @@ function allPages(req,res,next,template) {
   
   if(template) {
     // render to the right
-    res.renderedBlocks.right.push(ejs.render(template,{locals:{variable:myVariable}}));
+    res.renderedBlocks.right.push(ncms.lib.ejs.render(template,{locals:{variable:myVariable}}));
   }
   next();      
 };

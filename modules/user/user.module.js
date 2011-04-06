@@ -1,9 +1,4 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    router = require('../../lib/router').Router(),
-    Step = require('step'),
-    ejs = require('ejs'),
-    ObjectId = Schema.ObjectId;      
+var ncms = require("../../lib/ncms");      
 
 exports = module.exports;
 exports.load = load;
@@ -17,7 +12,7 @@ exports.registerUser = registerUser; // Exported to enable admin module to use i
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,app,next) {      
+function load(req,res,router,app,next) {      
       
       /** 
        * Menu items
@@ -26,8 +21,10 @@ function load(req,res,app,next) {
       
       /**
        * Routes
-       */      
-      Step(
+       */            
+      // var router = ncms.moduleRouter.Router();
+      
+      ncms.lib.step(
           function addRoutes() {
             if(!router.configured) {
               router.addRoute(/.*/,loginForm,{end:false,templatePath:__dirname + '/templates/login.html'},this.parallel());              
@@ -50,14 +47,15 @@ function load(req,res,app,next) {
 }
 
 function initialiseModule(next) {
-  var User = new Schema({
+  
+  var User = new ncms.lib.mongoose.Schema({
     // Single default property
     username:{type: String, required: true, unique:true},
     password:{type: String, required: true},
     isAdmin:{type: Boolean, required: true, default: true}
   });
 
-  mongoose.model('User', User);    
+  ncms.lib.mongoose.model('User', User);    
 
   next();
 }
@@ -71,7 +69,7 @@ function loginForm(req,res,next,template) {
     
     res.blocks.right.push(item);
     if(template) {
-      res.renderedBlocks.right.push(ejs.render(template,{locals:{item:item,request:req}}));
+      res.renderedBlocks.right.push(ncms.lib.ejs.render(template,{locals:{item:item,request:req}}));
     }                    
     
     next();
@@ -89,7 +87,7 @@ function registerUserForm(req,res,next,template) {
   
   res.blocks.body.push(item);
   if(template) {
-    res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
   }                    
   
   next();
@@ -98,7 +96,7 @@ function registerUserForm(req,res,next,template) {
 
 function loginUser(req,res,next,template) {
 
-  var User = mongoose.model('User');
+  var User = ncms.lib.mongoose.model('User');
   
   var username = req.body.user.username;
   var password = req.body.user.password;
@@ -144,7 +142,7 @@ function logoutUser(req,res,next,template) {
 
 function registerUser(req,res,next,template) {
   
-  var User = mongoose.model('User');                  
+  var User = ncms.lib.mongoose.model('User');                  
   var u = new User(req.body.user);
   
   // Over ride admin
@@ -181,7 +179,7 @@ function myProfile(req,res,next,template) {
 
 function userProfile(req,res,next,template) {
 
-  var User = mongoose.model('User');
+  var User = ncms.lib.mongoose.model('User');
   var username = req.moduleParams.username;          
   
   User.findOne({username:username}, function(err, u) {
@@ -193,7 +191,7 @@ function userProfile(req,res,next,template) {
     }           
     res.blocks.body.push(item);
     if(template) {
-      res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item}}));
+      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
     }                
     next();   
     
@@ -204,7 +202,7 @@ function userProfile(req,res,next,template) {
 function listUsers(req,res,next,template) {      
   
   // Re-retrieve our object
-  var User = mongoose.model('User');      
+  var User = ncms.lib.mongoose.model('User');      
     
   User.find({})
     .find(function (err, contents) {
@@ -213,7 +211,7 @@ function listUsers(req,res,next,template) {
             var item = {id:u._id,type:'user',meta:c.toObject()};                
             res.blocks.body.push(item);               
             if(template) {
-              res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item}}));
+              res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
             }                
           });              
           next();

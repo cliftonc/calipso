@@ -1,11 +1,4 @@
-var   mongoose = require('mongoose'),      
-      Schema = mongoose.Schema,
-      url = require('url'),
-      router = require('../../lib/router').Router(),
-      sys = require('sys'),
-      Step = require('step'),
-      ejs = require('ejs'),
-      ObjectId = Schema.ObjectId;      
+var  ncms = require("../../lib/ncms");      
 
 exports = module.exports;
 exports.load = load;
@@ -18,8 +11,8 @@ exports.load = load;
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,app,next) {      
-      
+function load(req,res,router,app,next) {      
+            
       /**
        * Menu items
        */
@@ -27,8 +20,8 @@ function load(req,res,app,next) {
         
       /**
        * Routing and Route Handler
-       */          
-      Step(
+       */      
+      ncms.lib.step(
           function addRoutes() {
             if(!router.configured) {
               router.addRoute(/html$/,showAliasedContent,{templatePath:__dirname + '/templates/show.html'},this.parallel());
@@ -40,19 +33,19 @@ function load(req,res,app,next) {
               router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());
               router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());         
             }
-            initialiseModule(this.parallel());
+            initialiseModule(req,res,app,this.parallel());
           },
           function done() {              
-            router.configured = true;  
+            router.configured = true;            
             router.route(req,res,next);
           }
       );      
                                                                 
 }
 
-function initialiseModule(next) {  
+function initialiseModule(req,res,app,next) {  
   
-    var Content = new Schema({
+    var Content = new ncms.lib.mongoose.Schema({
       // Single default property
       title:{type: String, required: true},
       teaser:{type: String, required: true},
@@ -65,7 +58,7 @@ function initialiseModule(next) {
       updated: { type: Date, default: Date.now },
     });
 
-    mongoose.model('Content', Content);    
+    ncms.lib.mongoose.model('Content', Content);    
     
     next();
 }
@@ -78,8 +71,8 @@ function initialiseModule(next) {
  * @param next
  */
 function createContent(req,res,next,template) {
-              
-      var Content = mongoose.model('Content');                  
+                  
+      var Content = ncms.lib.mongoose.model('Content');                  
       var c = new Content(req.body.content);
       c.alias = titleAlias(c.title);      
       c.tags = req.body.content.tags ? req.body.content.tags.split(",") : [];      
@@ -127,7 +120,7 @@ function createContentForm(req,res,next,template) {
   
   res.blocks.body.push(item);
   if(template) {
-    res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
   }                      
   
   // res.blocks.html = [];
@@ -139,7 +132,7 @@ function createContentForm(req,res,next,template) {
 function editContentForm(req,res,next,template) {
   
   
-  var Content = mongoose.model('Content');
+  var Content = ncms.lib.mongoose.model('Content');
   var id = req.moduleParams.id;          
   var item;
   
@@ -165,7 +158,7 @@ function editContentForm(req,res,next,template) {
     
     res.blocks.body.push(item);
     if(template) {
-      res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item}}));
+      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
     }                    
     next();   
     
@@ -175,7 +168,7 @@ function editContentForm(req,res,next,template) {
 
 function updateContent(req,res,next,template) {
       
-  var Content = mongoose.model('Content');
+  var Content = ncms.lib.mongoose.model('Content');
   var id = req.moduleParams.id;          
   
   Content.findById(id, function(err, c) {    
@@ -214,7 +207,7 @@ function updateContent(req,res,next,template) {
 
 function showAliasedContent(req,res,next,template) {  
   
-  var Content = mongoose.model('Content');
+  var Content = ncms.lib.mongoose.model('Content');
 
   var alias = req.url
                   .replace(/^\//, "")
@@ -242,7 +235,7 @@ function showContent(req,res,next,template,err,content) {
   }           
   res.blocks.body.push(item);
   if(template) {
-    res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
   }                
   
   next();
@@ -251,7 +244,7 @@ function showContent(req,res,next,template,err,content) {
 
 function showContentByID(req,res,next,template) {
 
-  var Content = mongoose.model('Content');
+  var Content = ncms.lib.mongoose.model('Content');
   var id = req.moduleParams.id;          
   
   Content.findById(id, function(err, content) {   
@@ -261,9 +254,9 @@ function showContentByID(req,res,next,template) {
 }
 
 function listContent(req,res,next,template) {      
-        
+  
       // Re-retrieve our object
-      var Content = mongoose.model('Content');      
+      var Content = ncms.lib.mongoose.model('Content');      
       
       res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
       
@@ -288,7 +281,7 @@ function listContent(req,res,next,template) {
                 var item = {id:c._id,type:'content',meta:c.toObject()};                
                 res.blocks.body.push(item);               
                 if(template) {
-                  res.renderedBlocks.body.push(ejs.render(template,{locals:{item:item}}));
+                  res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
                 }                
  
               });              

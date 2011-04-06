@@ -12,11 +12,12 @@
     </select>
     <label>Cache</label><input name='config[cache]' type='text' value='<%- item.meta.cache %>'/>
     <label>Modules</label><br/>
+    <%        
+        for(var module in modules) {                     
+         %>
+              <input type='checkbox' name='config[modules][<%-module%>]' <%= modules[module].enabled ? "checked" : "unchecked" %>/><%-module%><br/>                 
     <%
-        modules.forEach(function(module) { %>
-        <input type='checkbox' name='config[modules][<%-module.name%>]' <%= module.enabled ? "checked" : "unchecked" %>/><%-module.name%><br/>                 
-    <%
-        });
+        }
     %>    
     <input type='submit'/>
     </form>

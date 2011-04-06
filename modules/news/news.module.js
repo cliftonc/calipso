@@ -1,9 +1,4 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    router = require('../../lib/router').Router(),
-    Step = require('step'),
-    ejs = require('ejs'),
-    ObjectId = Schema.ObjectId;      
+var ncms = require("../../lib/ncms");      
 
 exports = module.exports;
 exports.load = load;
@@ -16,7 +11,7 @@ exports.load = load;
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,app,next) {      
+function load(req,res,router,app,next) {      
       
       /** 
        * Menu items
@@ -26,8 +21,9 @@ function load(req,res,app,next) {
   
       /**
        * Routes
-       */      
-      Step(
+       */   
+  
+      ncms.lib.step(
           function addRoutes() {
             if(!router.configured) {
               router.addRoute(/.*/,breakingNews,{end:false, templatePath:__dirname + '/templates/breaking.html'},this.parallel());            
@@ -51,7 +47,7 @@ function breakingNews(req,res,next,template) {
   
     // Create a new news block
     res.blocks.news = [];
-    var Content = mongoose.model('Content');
+    var Content = ncms.lib.mongoose.model('Content');
     
     Content.find({tags:'breaking'})
       .sort('created', -1)
@@ -62,7 +58,7 @@ function breakingNews(req,res,next,template) {
               res.blocks.news.push(item);                                            
             });
             if(template) {
-              res.renderedBlocks.right.push(ejs.render(template,{locals:{news:res.blocks.news}}));
+              res.renderedBlocks.right.push(ncms.lib.ejs.render(template,{locals:{news:res.blocks.news}}));
             }
             next();
     });
