@@ -1,7 +1,6 @@
 var ncms = require("../../lib/ncms");      
 
-exports = module.exports;
-exports.load = load;
+exports = module.exports = {init: init, route: route};
 exports.registerUser = registerUser; // Exported to enable admin module to use it
 
 /**
@@ -12,7 +11,7 @@ exports.registerUser = registerUser; // Exported to enable admin module to use i
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,router,app,next) {      
+function route(req,res,module,app,next) {      
       
       /** 
        * Menu items
@@ -23,42 +22,37 @@ function load(req,res,router,app,next) {
        * Routes
        */            
       // var router = ncms.moduleRouter.Router();
-      
-      ncms.lib.step(
-          function addRoutes() {
-            if(!router.configured) {
-              router.addRoute(/.*/,loginForm,{end:false,templatePath:__dirname + '/templates/login.html'},this.parallel());              
-              router.addRoute('POST /user/login',loginUser,null,this.parallel());
-              router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
-              router.addRoute('GET /user/register',registerUserForm,{templatePath:__dirname + '/templates/register.html'},this.parallel());
-              router.addRoute('POST /user/register',registerUser,null,this.parallel());
-              router.addRoute('GET /user',myProfile,{templatePath:__dirname + '/templates/profile.html'},this.parallel());
-              router.addRoute('GET /user/profile/:username',userProfile,{templatePath:__dirname + '/templates/profile.html'},this.parallel());
-            }
-            
-            initialiseModule(this.parallel());
-          },
-          function done() {              
-            router.configured = true;  
-            router.route(req,res,next);
-          }
-      );                                                                                   
+      module.router.route(req,res,next);
       
 }
 
-function initialiseModule(next) {
+
+function init(ncms,module,app,next) {      
   
-  var User = new ncms.lib.mongoose.Schema({
-    // Single default property
-    username:{type: String, required: true, unique:true},
-    password:{type: String, required: true},
-    isAdmin:{type: Boolean, required: true, default: true}
-  });
-
-  ncms.lib.mongoose.model('User', User);    
-
-  next();
-}
+  ncms.lib.step(
+      function defineRoutes() {
+        module.router.addRoute(/.*/,loginForm,{end:false,templatePath:__dirname + '/templates/login.html'},this.parallel());              
+        module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
+        module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
+        module.router.addRoute('GET /user/register',registerUserForm,{templatePath:__dirname + '/templates/register.html'},this.parallel());
+        module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
+        module.router.addRoute('GET /user',myProfile,{templatePath:__dirname + '/templates/profile.html'},this.parallel());
+        module.router.addRoute('GET /user/profile/:username',userProfile,{templatePath:__dirname + '/templates/profile.html'},this.parallel());
+      },
+      function done() {
+                
+        var User = new ncms.lib.mongoose.Schema({
+          // Single default property
+          username:{type: String, required: true, unique:true},
+          password:{type: String, required: true},
+          isAdmin:{type: Boolean, required: true, default: true}
+        });
+        ncms.lib.mongoose.model('User', User);    
+        next();
+      }           
+  )
+  
+ }
 
 function loginForm(req,res,next,template) {      
              

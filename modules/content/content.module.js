@@ -1,7 +1,6 @@
 var  ncms = require("../../lib/ncms");      
 
-exports = module.exports;
-exports.load = load;
+exports = module.exports = {init: init, route: route};
 
 /**
  * Base content module
@@ -11,7 +10,7 @@ exports.load = load;
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,router,app,next) {      
+function route(req,res,module,app,next) {      
             
       /**
        * Menu items
@@ -21,46 +20,43 @@ function load(req,res,router,app,next) {
       /**
        * Routing and Route Handler
        */      
-      ncms.lib.step(
-          function addRoutes() {
-            if(!router.configured) {
-              router.addRoute(/html$/,showAliasedContent,{templatePath:__dirname + '/templates/show.html'},this.parallel());
-              router.addRoute('GET /',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());              
-              router.addRoute('GET /content',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());            
-              router.addRoute('POST /content',createContent,{admin:true},this.parallel());    
-              router.addRoute('GET /content/new',createContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());  
-              router.addRoute('GET /content/show/:id',showContentByID,{templatePath:__dirname + '/templates/show.html'},this.parallel());
-              router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());
-              router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());         
-            }
-            initialiseModule(req,res,app,this.parallel());
-          },
-          function done() {              
-            router.configured = true;            
-            router.route(req,res,next);
-          }
-      );      
+      module.router.route(req,res,next);
                                                                 
 }
 
-function initialiseModule(req,res,app,next) {  
+function init(ncms,module,app,next) {  
   
-    var Content = new ncms.lib.mongoose.Schema({
-      // Single default property
-      title:{type: String, required: true},
-      teaser:{type: String, required: true},
-      content:{type: String, required: true},
-      status:{type: String, required: true, default:'draft'},
-      alias:{type: String, required: true, unique: true},
-      author:{type: String, required: true},
-      tags:[String],
-      created: { type: Date, default: Date.now },
-      updated: { type: Date, default: Date.now },
-    });
+  
+  ncms.lib.step(
+      function defineRoutes() {
+        module.router.addRoute(/html$/,showAliasedContent,{templatePath:__dirname + '/templates/show.html'},this.parallel());
+        module.router.addRoute('GET /',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());              
+        module.router.addRoute('GET /content',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());            
+        module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());    
+        module.router.addRoute('GET /content/new',createContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());  
+        module.router.addRoute('GET /content/show/:id',showContentByID,{templatePath:__dirname + '/templates/show.html'},this.parallel());
+        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());
+        module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());        
+      },
+      function done() {
+        var Content = new ncms.lib.mongoose.Schema({
+          // Single default property
+          title:{type: String, required: true},
+          teaser:{type: String, required: true},
+          content:{type: String, required: true},
+          status:{type: String, required: true, default:'draft'},
+          alias:{type: String, required: true, unique: true},
+          author:{type: String, required: true},
+          tags:[String],
+          created: { type: Date, default: Date.now },
+          updated: { type: Date, default: Date.now },
+        });
 
-    ncms.lib.mongoose.model('Content', Content);    
-    
-    next();
+        ncms.lib.mongoose.model('Content', Content);    
+        
+        next();
+      }        
+  );        
 }
 
 /**

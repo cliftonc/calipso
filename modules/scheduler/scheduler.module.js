@@ -1,8 +1,6 @@
-var ncms = require("../../lib/ncms");      
+var ncms = require("../../lib/ncms"), cron = require('cron');      
 
 exports = module.exports = {init: init, route: route};
-
-
 /**
  * Base news module
  * 
@@ -13,10 +11,11 @@ exports = module.exports = {init: init, route: route};
  */
 function route(req,res,module,app,next) {      
 
+      
       /** 
        * Menu items
        */
-      res.menu.primary.push({name:'Template',url:'/template',regexp:/template/});
+      res.menu.primary.push({name:'Scheduler',url:'/admin/scheduler',regexp:/admin\/scheduler/});
       // res.menu.secondary.push({name:'Blah',parentUrl:'/template',url:'/template/blah'});         
   
       /**
@@ -24,27 +23,33 @@ function route(req,res,module,app,next) {
        */      
       
       // var router = ncms.moduleRouter.Router();
+      
       module.router.route(req,res,next);
       
 };
 
 function init(ncms,module,app,next) {      
+
+    //
   
-    // Any pre-route config  
   ncms.lib.step(
       function defineRoutes() {
-        module.router.addRoute(/.*/,allPages,{end:false, templatePath:__dirname + '/templates/template-all.html'},this.parallel());
-        module.router.addRoute('GET /template',templatePage,{templatePath:__dirname + '/templates/template.html'},this.parallel());        
+        module.router.addRoute('GET /admin/scheduler',schedulerAdmin,{templatePath:__dirname + '/templates/admin.html'},this.parallel());
       },
       function done() {
-        next();
+        
+        // Any pre-route config          
+        module.cron = new cron.CronJob('* * * * * *', function(){
+            ncms.lib.sys.puts('You will see this message every second');
+        });
+        
+        next();          
       }        
   );
-    
-    
+  
 };
 
-function templatePage(req,res,next,template) {      
+function schedulerAdmin(req,res,next,template) {      
   
     var myVariable = "Hello World";
     
@@ -57,19 +62,4 @@ function templatePage(req,res,next,template) {
       res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{variable:myVariable}}));
     }
     next();      
-};
-
-function allPages(req,res,next,template) {      
-  
-  var myVariable = "I will be on every page!";
-  
-  // Render json to blocks
-  var item = {id:"NA",type:'content',meta:{variable:myVariable}};                
-  res.blocks.right.push(item);  
-  
-  if(template) {
-    // render to the right
-    res.renderedBlocks.right.push(ncms.lib.ejs.render(template,{locals:{variable:myVariable}}));
-  }
-  next();      
 };

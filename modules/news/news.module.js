@@ -1,7 +1,6 @@
 var ncms = require("../../lib/ncms");      
 
-exports = module.exports;
-exports.load = load;
+exports = module.exports = {init: init, route: route};
 
 /**
  * Base news module
@@ -11,36 +10,29 @@ exports.load = load;
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,router,app,next) {      
+function route(req,res,module,app,next) {      
+
       
-      /** 
-       * Menu items
-       */
-      // res.menu.primary.push({name:'News',url:'/news',regexp:/news/});
-      // res.menu.secondary.push({name:'News',parentUrl:'/admin',url:'/admin/news'});         
   
       /**
        * Routes
        */   
-  
-      ncms.lib.step(
-          function addRoutes() {
-            if(!router.configured) {
-              router.addRoute(/.*/,breakingNews,{end:false, templatePath:__dirname + '/templates/breaking.html'},this.parallel());            
-            }
-            initialiseModule(this.parallel());
-          },
-          function done() {              
-            router.configured = true;  
-            router.route(req,res,next);
-          }
-      );                                                                                   
+     module.router.route(req,res,next);
       
 };
 
-function initialiseModule(next,counter) {
+
+function init(ncms,module,app,next) {       
     
-    next();          
+  ncms.lib.step(
+      function defineRoutes() {
+        module.router.addRoute(/.*/,breakingNews,{end:false, templatePath:__dirname + '/templates/breaking.html'},this.parallel());
+      },
+      function done() {
+        next();
+      }        
+  );
+                  
 };
 
 function breakingNews(req,res,next,template) {      

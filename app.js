@@ -3,7 +3,7 @@
  */
 var fs = require('fs'),express = require('express'),
 	 mongoose = require('mongoose'), sys = require('sys'), nodepath = require('path'),
-	 ncms = require('./lib/ncms');
+	 ncms = require('./lib/ncms'), profiler = require('v8-profiler');
 
 /** 
  * Global variables

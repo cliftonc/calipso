@@ -1,7 +1,6 @@
 var ncms = require("../../lib/ncms");      
 
-exports = module.exports;
-exports.load = load;
+exports = module.exports = {init: init, route: route};
 
 /**
  * Base content module
@@ -11,7 +10,8 @@ exports.load = load;
  * @param blocks   blocks response object
  * @param db       database reference
  */
-function load(req,res,router,app,next) {      
+function route(req,res,module,app,next) {      
+
       
       /**
        * Menu items
@@ -20,41 +20,38 @@ function load(req,res,router,app,next) {
         
       /**
        * Routing and Route Handler
-       */          
-      // var router = ncms.moduleRouter.Router();
-      
-      ncms.lib.step(
-          function addRoutes() {
-            if(!router.configured) {              
-              router.addRoute('GET /admin',showAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());
-              router.addRoute('POST /admin/save',saveAdmin,null,this.parallel());
-              
-              // TODO: Disable these routes once you have installed 
-              router.addRoute('GET /admin/install',install,{templatePath:__dirname + '/templates/install.html'},this.parallel());  
-              router.addRoute('POST /admin/install',installSave,null,this.parallel());
-              
-            }            
-            initialiseModule(app,req,res,this.parallel());
-          },
-          function done() {              
-            router.configured = true;  
-            router.route(req,res,next);
-          }
-      );      
+       */                  
+      module.router.route(req,res,next);
                                                                 
 }
 
-function initialiseModule(app,req,res,next) {  
+function init(ncms,module,app,next) {      
+  
+  ncms.lib.step(
+      function defineRoutes() {
+        
+        module.router.addRoute('GET /admin',showAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());
+        module.router.addRoute('GET /admin/reload',reloadAdmin,{templatePath:__dirname + '/templates/reload.html',admin:true},this.parallel());
+        module.router.addRoute('POST /admin/save',saveAdmin,{admin:true},this.parallel());        
+        
+        // TODO: Disable these routes once you have installed 
+        module.router.addRoute('GET /admin/install',install,{templatePath:__dirname + '/templates/install.html'},this.parallel());  
+        module.router.addRoute('POST /admin/install',installSave,null,this.parallel());
+      },
+      function done() {
+        
+        ncms.data.themes = [];        
+        ncms.lib.fs.readdir(app.path + '/themes',function(err,folders) {
+           folders.forEach(function(name){
+             ncms.data.themes.push({name:name,selected: app.set('config').theme === name ? true : false}); 
+           });
+           next();
+        });
+        
+      }        
+  );
     
     // Admin schemas are defined in Configuration.js
-    res.themes = [];
-        
-    ncms.lib.fs.readdir(app.path + '/themes',function(err,folders) {
-       folders.forEach(function(name){
-         res.themes.push({name:name,selected: app.set('config').theme === name ? true : false}); 
-       });
-      next();      
-    });
     
 
 }
@@ -78,12 +75,12 @@ function installSave(req,res,next,template) {
   user.registerUser(req,res,function() { 
       req.flash('info','New administrative user created, you can now login as this user and begin using NCMS!');
       next();
-    },template);  
+    },template);
                       
 };
 
 function showAdmin(req,res,next,template) {      
-  
+    
   // Re-retrieve our object
   var AppConfig = ncms.lib.mongoose.model('AppConfig');    
   
@@ -92,7 +89,7 @@ function showAdmin(req,res,next,template) {
           var item = {id:config._id,type:'config',meta:config.toObject()};                
           res.blocks.body.push(item);               
           if(template) {
-            res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item,modules:ncms.modules,themes:res.themes}}));
+            res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item,modules:ncms.modules,themes:ncms.data.themes}}));
           }                
           next();
           
@@ -100,48 +97,64 @@ function showAdmin(req,res,next,template) {
                       
 };
 
-function saveAdmin(req,res,next,template) {
-                    
+function reloadAdmin(req,res,next,template) {  
   
+  res.reloadConfig = true;    
+    
+  var item = {id:'0',type:'config',meta:{reload:true}};      
+  res.blocks.body.push(item);
+  
+  if(template) {
+    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+  }                
+  next();
+
+  
+}
+
+function saveAdmin(req,res,next,template) {
+                      
   // Re-retrieve our object
   var AppConfig = ncms.lib.mongoose.model('AppConfig');    
   
-  AppConfig.findOne({}, function(err,config) {    
-    
-    if(config.theme != req.body.config.theme) {
-      req.flash('info','You need to restart NCMS to see the theme changes (live restart todo!).')
-    }
-    
-    config.theme = req.body.config.theme;
-    config.cache = req.body.config.cache;
-    config.modules = moduleFormtToArray(res,req.body.config.modules);
-    
-    if (config) {      
-                
-        config.save(function(err) {
+  AppConfig.findOne({}, function(err,c) {    
+      
+    if (!err && c) {
+      
+        if(c.theme != req.body.config.theme) {
+          req.flash('info','You need to restart NCMS to see the theme changes (live restart todo!).')
+        }
+        
+        c.theme = req.body.config.theme;
+        c.cache = req.body.config.cache;
+        c.modules = moduleFormatToArray(res,req.body.config.modules);
+      
+        c.save(function(err) {                              
           if(err) {
             req.flash('error','Could not update config: ' + err.message);
             if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
               res.redirect('/admin');
             }
           } else {
-            res.reloadConfig = true;
-            res.reloadConfigOptions = config;
-            res.redirect('/admin');
+            ncms.config = c; // TODO : This wont work on multiple edits
+            res.redirect('/admin/reload');
           }
           next();         
         });
         
     } else {
-      req.flash('error','Could not locate admin!');
+      
+      req.flash('error','Could not locate configuration!');
       res.redirect('/admin');
       next();
+      
     }
+    
   });
   
 }
 
-function moduleFormtToArray(res,modules) {
+function moduleFormatToArray(res,modules) {
   
   var arrayModules = [];
   
