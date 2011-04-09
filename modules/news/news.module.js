@@ -22,7 +22,7 @@ function route(req,res,module,app,next) {
 };
 
 
-function init(ncms,module,app,next) {       
+function init(module,app,next) {       
     
   ncms.lib.step(
       function defineRoutes() {

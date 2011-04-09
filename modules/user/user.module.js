@@ -1,7 +1,6 @@
 var ncms = require("../../lib/ncms");      
 
-exports = module.exports = {init: init, route: route};
-exports.registerUser = registerUser; // Exported to enable admin module to use it
+exports = module.exports = {init: init, route: route, registerUser: registerUser};
 
 /**
  * Base news module
@@ -27,7 +26,7 @@ function route(req,res,module,app,next) {
 }
 
 
-function init(ncms,module,app,next) {      
+function init(module,app,next) {      
   
   ncms.lib.step(
       function defineRoutes() {

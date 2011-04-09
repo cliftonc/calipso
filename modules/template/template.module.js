@@ -28,7 +28,7 @@ function route(req,res,module,app,next) {
       
 };
 
-function init(ncms,module,app,next) {      
+function init(module,app,next) {      
   
     // Any pre-route config  
   ncms.lib.step(

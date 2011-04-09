@@ -1,6 +1,6 @@
 var  ncms = require("../../lib/ncms");      
 
-exports = module.exports = {init: init, route: route};
+exports = module.exports = {init: init, route: route, jobs:{scheduledPublish:scheduledPublish}};
 
 /**
  * Base content module
@@ -24,8 +24,7 @@ function route(req,res,module,app,next) {
                                                                 
 }
 
-function init(ncms,module,app,next) {  
-  
+function init(module,app,next) {    
   
   ncms.lib.step(
       function defineRoutes() {
@@ -36,6 +35,7 @@ function init(ncms,module,app,next) {
         module.router.addRoute('GET /content/new',createContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());  
         module.router.addRoute('GET /content/show/:id',showContentByID,{templatePath:__dirname + '/templates/show.html'},this.parallel());
         module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());
+        module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true},this.parallel());
         module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());        
       },
       function done() {
@@ -227,6 +227,8 @@ function showContent(req,res,next,template,err,content) {
   } else {      
     res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
     res.menu.secondary.push({name:'Edit Content',parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
+    res.menu.secondary.push({name:'Delete Content',parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
+    
     item = {id:content._id,type:'content',meta:content.toObject()};                
   }           
   res.blocks.body.push(item);
@@ -285,3 +287,28 @@ function listContent(req,res,next,template) {
       });
                 
 };
+
+
+
+function deleteContent(req,res,next,template,err) {
+  
+  var Content = ncms.lib.mongoose.model('Content');        
+  var id = req.moduleParams.id;
+  
+  Content.remove({_id:id}, function(err) {
+    if(err) {      
+      req.flash("info","Unable to delete the content because " + err.message);
+      res.redirect("/");
+    } else {
+      req.flash("info","The content has now been deleted.");      
+      res.redirect("/");      
+    }
+    next();
+  });
+   
+}
+
+// Example job
+function scheduledPublish(args) {
+  console.log("Scheduled publish: " + args);
+}

@@ -454,5 +454,17 @@ input[type=text],input[type=password], textarea {
     list-style: none;    
 }
 
+.job-invalid {
+	background-color: #EFCFCF;
+}
 
-	
+.job-crontime {
+    width: 60px !important;
+    display: inline !important;
+}
+
+
+.job-crontime-label {
+    width: 60px !important;
+    display: inline !important;
+}
