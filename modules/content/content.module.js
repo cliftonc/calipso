@@ -1,6 +1,6 @@
-var  ncms = require("../../lib/ncms");      
+var  ncms = require("../../lib/ncms"), pager = "../../utils/pager.js";      
 
-exports = module.exports = {init: init, route: route, jobs:{scheduledPublish:scheduledPublish}};
+exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jobs:{scheduledPublish:scheduledPublish}};
 
 /**
  * Base content module
@@ -29,7 +29,8 @@ function init(module,app,next) {
   ncms.lib.step(
       function defineRoutes() {
         module.router.addRoute(/html$/,showAliasedContent,{templatePath:__dirname + '/templates/show.html'},this.parallel());
-        module.router.addRoute('GET /',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());              
+        module.router.addRoute('GET /',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());
+        module.router.addRoute('GET /:from-:to',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());
         module.router.addRoute('GET /content',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());            
         module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());    
         module.router.addRoute('GET /content/new',createContentForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());  
@@ -257,9 +258,9 @@ function listContent(req,res,next,template) {
       var Content = ncms.lib.mongoose.model('Content');      
       
       res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
-      
-      var skip = 0;
-      var limit = 10; 
+            
+      var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
+      var to = req.moduleParams.to ? parseInt(req.moduleParams.to) : 10;
             
       var query = {};
       
@@ -270,22 +271,31 @@ function listContent(req,res,next,template) {
         query.status = 'published';
       }
       
-      Content.find(query)
-        .sort('created', -1)
-        .skip(skip).limit(limit)          
-        .find(function (err, contents) {
-              contents.forEach(function(c) {
+      Content.count(query, function (err, count) {
+        
+        var total = count;  
+        var pagerHtml = ncms.lib.pager.render(from,to,total,"");
+              
+        Content.find(query)
+          .sort('created', -1)
+          .skip(from).limit(to)          
+          .find(function (err, contents) {
                 
-                var item = {id:c._id,type:'content',meta:c.toObject()};                
-                res.blocks.body.push(item);               
-                if(template) {
-                  res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
-                }                
- 
-              });              
-              next();
-      });
+                contents.forEach(function(c) {                  
+                  var item = {id:c._id,type:'content',meta:c.toObject()};                
+                  res.blocks.body.push(item);               
+                  if(template) {
+                    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+                  }                
+                });    
                 
+                res.renderedBlocks.body.push(pagerHtml);
+                
+                next();
+        });
+        
+        
+    });              
 };
 
 
