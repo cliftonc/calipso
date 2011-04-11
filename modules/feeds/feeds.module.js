@@ -1,4 +1,4 @@
-var ncms = require("../../lib/ncms"), rss = require('./lib/node-rss');;      
+var ncms = require("../../lib/ncms"), sys = require('sys'), events = require('events');      
 
 exports = module.exports = {init: init, route: route, jobs: {getFeed:getFeed}};
 
@@ -12,59 +12,182 @@ exports = module.exports = {init: init, route: route, jobs: {getFeed:getFeed}};
  */
 function route(req,res,module,app,next) {      
 
-      /** 
-       * Menu items
-       */
-      // res.menu.primary.push({name:'Template',url:'/template',regexp:/template/});
-      // res.menu.secondary.push({name:'Blah',parentUrl:'/template',url:'/template/blah'});         
-  
-      /**
-       * Routes
-       */      
-      
-      // var router = ncms.moduleRouter.Router();
-      // module.router.route(req,res,next);
-  
-      next();
+  next();
       
 };
 
 function init(module,app,next) {      
   
-  next();  
+  next();
     
 };
 
 function getFeed(args) {
-  
-  var url = args;
+    
+  try {
+    args = JSON.parse(args);
+  } catch(ex) {    
+    console.log("Invalid arguments: " + args);
+    return;  
+  }
+    
+  var url = args.url;
   if(!url) {
      return;
   }
+    
+  // Allow this only to have local scope
+  var feed = require('./lib/feed-expat');  
   
-  var Content = ncms.lib.mongoose.model('Content');                 
-  
-  var response = rss.parseURL(url, function(articles) {  
-      for(i=0; i<articles.length; i++) {
+  var response = feed.parseURL(url, function(data) {        
           
-        var c = new Content({
-            title:articles[i].title,
-            teaser:articles[i].description,
-            content:articles[i].content ? articles[i].content : "No Content" 
-        });
-        
-        c.alias = ncms.modules['content'].fn.titleAlias(c.title);      
-        c.tags = [];      
-        c.author = "feeds"; 
-        
-        // Asynch save
-        c.save(function(err) {
-          if(err) {
-            console.log(err);
-          }
-        });
-        
+      var feedType = data['#name'];
+      
+      switch (feedType) {
+        case "feed":
+          processAtom(data);
+          break;
+        case "rss":
+          processRss(data);
+          break;
+        default:
+           console.log("Unidentified feed type: " + feedType);
       }
+      
   });
   
 };
+
+/**
+ * AtomParser
+ * @param data
+ * @returns
+ */
+function AtomParser() {  
+  
+  var parser = this;  
+  this.parse = function(data) {        
+    if(data.entry) {
+      data.entry.forEach(function(item) {
+        parser.emit("item", item);    
+      });
+    }          
+  }
+  
+};
+
+function processAtom(data) {
+  
+  var parser = new AtomParser();
+  parser.on('item', function(item) {
+      processAtomItem(item);
+  });
+  parser.parse(data);
+  
+};
+
+function processAtomItem(item) {
+  
+  var Content = ncms.lib.mongoose.model('Content');
+  
+  var alias = ncms.modules['content'].fn.titleAlias(item.title.text);
+    
+  Content.findOne({alias:alias},function (err, c) {
+    
+    if(!c) {
+      var c = new Content();    
+    }
+    
+    c.title=item.title.text;
+    c.teaser=item.title.text;
+    c.content=item.content.text;
+    c.tags=[]; 
+    c.status='published';
+    c.alias = alias;                    
+    c.author = "feeds";            
+  
+    // Asynch save
+    c.save(function(err) {
+      if(err) {
+        console.log(err.message);
+      }
+    });
+    
+  });
+  
+};
+
+/**
+ * RSS Parser
+ * @param data
+ * @returns
+ */
+var RssParser = function(data) {
+  
+  var parser = this;  
+  this.parse = function(data) {
+        
+    if(data.channel.item) {
+      data.channel.item.forEach(function(item) {
+        parser.emit("item", item);    
+      });
+    }          
+  }
+};
+
+function processRss(data) {
+  var parser = new RssParser();
+  parser.on('item', function(item) {
+      processRssItem(item);
+  });
+  parser.parse(data);
+};
+
+
+function processRssItem(item) {
+    
+  var Content = ncms.lib.mongoose.model('Content');  
+  var alias = ncms.modules['content'].fn.titleAlias(item.title.text);
+  
+  
+  Content.findOne({alias:alias},function (err, c) {
+    
+    if(!c) {
+      var c = new Content();    
+    }
+    
+    c.title=item.title.text;
+    c.teaser=item.title.text;
+    c.content=item.description.text;  
+    c.status='published';
+    
+    // TODO: How do you cleanly update an array in Mongoosejs???
+    if(c.tags) {
+      var tags = c.tags;
+      tags.forEach(function(v,k) {          
+        c.tags.remove(v);
+      });      
+    } else {
+      c.tags = [];  
+    }    
+    item.category.forEach(function(category) {
+      c.tags.push(category.text);
+    });
+    
+    c.alias = alias;                    
+    c.author = "feeds";       
+        
+    // Asynch save
+    c.save(function(err) {
+      if(err) {
+        console.log(err.message);
+      }
+    });
+    
+  });
+
+ 
+};
+
+sys.inherits(AtomParser, events.EventEmitter);
+sys.inherits(RssParser, events.EventEmitter);
