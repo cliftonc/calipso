@@ -22,7 +22,11 @@ exports.boot = function(next) {
   app.path = path;
   
    // Import configuration
-  require(path + '/conf/configuration.js')(app,express,function(){    
+  require(path + '/conf/configuration.js')(app,express,function(err){    
+    
+    if(err) {
+      console.log("There was a fatal error attempting to load the configuration, application will terminate.");
+    }
     
     // Load application configuration  
     theme = app.set('config').theme;

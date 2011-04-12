@@ -101,8 +101,9 @@ function loginUser(req,res,next,template) {
           found = true;         
           req.session.user = {username: user.username, isAdmin: user.isAdmin, id: user._id};
           req.session.save(function(err) {
-                // Check for error
-          console.log("USER SAVED: " + req.session);
+            if(err) {
+              ncms.error("Error saving session: " + err);  
+            }            
           });
         }
         if(!found) {

@@ -1,0 +1,486 @@
+12 Apr 06:29:00 - info: Job Local started @ Tue Apr 12 2011 06:29:00 GMT+0100 (BST)
+12 Apr 06:29:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:29:00 GMT+0100 (BST)
+12 Apr 06:29:00 - info: Job AtomTester started @ Tue Apr 12 2011 06:29:00 GMT+0100 (BST)
+12 Apr 06:29:00 - info: Job Local completed in 77 ms
+12 Apr 06:29:00 - info: Job GuardianEnvironment completed in 418 ms
+12 Apr 06:29:10 - info: Job Local started @ Tue Apr 12 2011 06:29:10 GMT+0100 (BST)
+12 Apr 06:29:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:29:10 GMT+0100 (BST)
+12 Apr 06:29:10 - info: Job Local completed in 45 ms
+12 Apr 06:29:10 - info: Job GuardianEnvironment completed in 354 ms
+12 Apr 06:29:20 - debug: Job Local started @ Tue Apr 12 2011 06:29:20 GMT+0100 (BST)
+12 Apr 06:29:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 06:29:20 GMT+0100 (BST)
+12 Apr 06:29:20 - debug: Job Local completed in 64 ms
+12 Apr 06:29:20 - debug: Job GuardianEnvironment completed in 585 ms
+12 Apr 06:29:21 - debug: Job AtomTester started @ Tue Apr 12 2011 06:29:21 GMT+0100 (BST)
+12 Apr 06:34:56 - info: Job AtomTester started @ Tue Apr 12 2011 06:34:56 GMT+0100 (BST)
+12 Apr 06:35:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:35:00 GMT+0100 (BST)
+12 Apr 06:35:00 - info: Job Local started @ Tue Apr 12 2011 06:35:00 GMT+0100 (BST)
+12 Apr 06:35:00 - info: Job Local completed in 57 ms
+12 Apr 06:38:28 - info: Job AtomTester started @ Tue Apr 12 2011 06:38:28 GMT+0100 (BST)
+12 Apr 06:43:40 - info: Job Local started @ Tue Apr 12 2011 06:43:40 GMT+0100 (BST)
+12 Apr 06:43:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:43:40 GMT+0100 (BST)
+12 Apr 06:43:40 - info: Job Local completed in 69 ms
+12 Apr 06:43:40 - info: Job GuardianEnvironment completed in 384 ms
+12 Apr 06:43:42 - info: Job AtomTester started @ Tue Apr 12 2011 06:43:42 GMT+0100 (BST)
+12 Apr 06:43:50 - info: Job Local started @ Tue Apr 12 2011 06:43:50 GMT+0100 (BST)
+12 Apr 06:43:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:43:50 GMT+0100 (BST)
+12 Apr 06:43:50 - info: Job Local completed in 69 ms
+12 Apr 06:43:50 - info: Job GuardianEnvironment completed in 366 ms
+12 Apr 06:44:00 - info: Job Local started @ Tue Apr 12 2011 06:44:00 GMT+0100 (BST)
+12 Apr 06:44:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:44:00 GMT+0100 (BST)
+12 Apr 06:44:00 - info: Job Local completed in 59 ms
+12 Apr 06:44:00 - info: Job GuardianEnvironment completed in 451 ms
+12 Apr 06:46:14 - info: Job AtomTester started @ Tue Apr 12 2011 06:46:14 GMT+0100 (BST)
+12 Apr 06:46:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:46:30 GMT+0100 (BST)
+12 Apr 06:46:30 - info: Job Local started @ Tue Apr 12 2011 06:46:30 GMT+0100 (BST)
+12 Apr 06:46:30 - info: Job Local completed in 56 ms
+12 Apr 06:46:30 - info: Job GuardianEnvironment completed in 447 ms
+12 Apr 06:46:35 - info: Job AtomTester started @ Tue Apr 12 2011 06:46:35 GMT+0100 (BST)
+12 Apr 06:46:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:46:40 GMT+0100 (BST)
+12 Apr 06:46:40 - info: Job Local started @ Tue Apr 12 2011 06:46:40 GMT+0100 (BST)
+12 Apr 06:46:40 - info: Job Local completed in 51 ms
+12 Apr 06:46:40 - info: Job GuardianEnvironment completed in 367 ms
+12 Apr 06:46:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:46:50 GMT+0100 (BST)
+12 Apr 06:46:50 - info: Job Local started @ Tue Apr 12 2011 06:46:50 GMT+0100 (BST)
+12 Apr 06:46:50 - info: Job Local completed in 43 ms
+12 Apr 06:46:50 - info: Job GuardianEnvironment completed in 411 ms
+12 Apr 06:50:07 - info: Job AtomTester started @ Tue Apr 12 2011 06:50:07 GMT+0100 (BST)
+12 Apr 06:50:10 - info: Job Local started @ Tue Apr 12 2011 06:50:10 GMT+0100 (BST)
+12 Apr 06:50:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:50:10 GMT+0100 (BST)
+12 Apr 06:50:10 - info: Job Local completed in 44 ms
+12 Apr 06:50:10 - info: Job GuardianEnvironment completed in 634 ms
+12 Apr 06:50:20 - info: Job Local started @ Tue Apr 12 2011 06:50:20 GMT+0100 (BST)
+12 Apr 06:50:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:50:20 GMT+0100 (BST)
+12 Apr 06:50:20 - info: Job Local completed in 49 ms
+12 Apr 06:50:20 - info: Job GuardianEnvironment completed in 350 ms
+12 Apr 06:50:30 - info: Job Local started @ Tue Apr 12 2011 06:50:30 GMT+0100 (BST)
+12 Apr 06:50:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:50:30 GMT+0100 (BST)
+12 Apr 06:50:30 - info: Job Local completed in 46 ms
+12 Apr 06:50:30 - info: Job GuardianEnvironment completed in 427 ms
+12 Apr 06:50:40 - info: Job Local started @ Tue Apr 12 2011 06:50:40 GMT+0100 (BST)
+12 Apr 06:50:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:50:40 GMT+0100 (BST)
+12 Apr 06:50:40 - info: Job Local completed in 46 ms
+12 Apr 06:50:40 - info: Job GuardianEnvironment completed in 346 ms
+12 Apr 06:50:50 - info: Job Local started @ Tue Apr 12 2011 06:50:50 GMT+0100 (BST)
+12 Apr 06:50:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:50:50 GMT+0100 (BST)
+12 Apr 06:50:50 - info: Job Local completed in 43 ms
+12 Apr 06:50:50 - info: Job GuardianEnvironment completed in 353 ms
+12 Apr 06:51:00 - info: Job AtomTester started @ Tue Apr 12 2011 06:51:00 GMT+0100 (BST)
+12 Apr 06:51:00 - info: Job Local started @ Tue Apr 12 2011 06:51:00 GMT+0100 (BST)
+12 Apr 06:51:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:51:00 GMT+0100 (BST)
+12 Apr 06:51:00 - info: Job Local completed in 48 ms
+12 Apr 06:51:00 - info: Job GuardianEnvironment completed in 394 ms
+12 Apr 06:51:10 - info: Job Local started @ Tue Apr 12 2011 06:51:10 GMT+0100 (BST)
+12 Apr 06:51:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:51:10 GMT+0100 (BST)
+12 Apr 06:51:10 - info: Job Local completed in 43 ms
+12 Apr 06:51:10 - info: Job GuardianEnvironment completed in 395 ms
+12 Apr 06:51:20 - info: Job Local started @ Tue Apr 12 2011 06:51:20 GMT+0100 (BST)
+12 Apr 06:51:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:51:20 GMT+0100 (BST)
+12 Apr 06:51:20 - info: Job Local completed in 55 ms
+12 Apr 06:51:20 - info: Job GuardianEnvironment completed in 391 ms
+12 Apr 06:51:30 - info: Job Local started @ Tue Apr 12 2011 06:51:30 GMT+0100 (BST)
+12 Apr 06:51:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:51:30 GMT+0100 (BST)
+12 Apr 06:51:30 - info: Job Local completed in 67 ms
+12 Apr 06:51:30 - info: Job GuardianEnvironment completed in 368 ms
+12 Apr 06:51:40 - info: Job Local started @ Tue Apr 12 2011 06:51:40 GMT+0100 (BST)
+12 Apr 06:51:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:51:40 GMT+0100 (BST)
+12 Apr 06:51:40 - info: Job Local completed in 51 ms
+12 Apr 06:51:40 - info: Job GuardianEnvironment completed in 345 ms
+12 Apr 06:51:50 - info: Job Local started @ Tue Apr 12 2011 06:51:50 GMT+0100 (BST)
+12 Apr 06:51:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:51:50 GMT+0100 (BST)
+12 Apr 06:51:50 - info: Job Local completed in 43 ms
+12 Apr 06:51:50 - info: Job GuardianEnvironment completed in 514 ms
+12 Apr 06:52:00 - info: Job Local started @ Tue Apr 12 2011 06:52:00 GMT+0100 (BST)
+12 Apr 06:52:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:52:00 GMT+0100 (BST)
+12 Apr 06:52:00 - info: Job Local completed in 44 ms
+12 Apr 06:52:00 - info: Job GuardianEnvironment completed in 342 ms
+12 Apr 06:52:07 - info: Job AtomTester started @ Tue Apr 12 2011 06:52:07 GMT+0100 (BST)
+12 Apr 06:52:10 - info: Job Local started @ Tue Apr 12 2011 06:52:10 GMT+0100 (BST)
+12 Apr 06:52:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:52:10 GMT+0100 (BST)
+12 Apr 06:52:10 - info: Job Local completed in 45 ms
+12 Apr 06:52:10 - info: Job GuardianEnvironment completed in 615 ms
+12 Apr 06:52:20 - info: Job Local started @ Tue Apr 12 2011 06:52:20 GMT+0100 (BST)
+12 Apr 06:52:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:52:20 GMT+0100 (BST)
+12 Apr 06:52:20 - info: Job Local completed in 60 ms
+12 Apr 06:52:20 - info: Job GuardianEnvironment completed in 353 ms
+12 Apr 06:57:49 - info: Job AtomTester started @ Tue Apr 12 2011 06:57:49 GMT+0100 (BST)
+12 Apr 06:57:50 - info: Job Local started @ Tue Apr 12 2011 06:57:50 GMT+0100 (BST)
+12 Apr 06:57:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:57:50 GMT+0100 (BST)
+12 Apr 06:57:50 - info: Job Local completed in 51 ms
+12 Apr 06:57:50 - info: Job GuardianEnvironment completed in 427 ms
+12 Apr 06:58:00 - info: Job Local started @ Tue Apr 12 2011 06:58:00 GMT+0100 (BST)
+12 Apr 06:58:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:58:00 GMT+0100 (BST)
+12 Apr 06:58:00 - info: Job Local completed in 43 ms
+12 Apr 06:58:00 - info: Job GuardianEnvironment completed in 383 ms
+12 Apr 06:58:10 - info: Job Local started @ Tue Apr 12 2011 06:58:10 GMT+0100 (BST)
+12 Apr 06:58:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:58:10 GMT+0100 (BST)
+12 Apr 06:58:10 - info: Job Local completed in 45 ms
+12 Apr 06:58:10 - info: Job GuardianEnvironment completed in 605 ms
+12 Apr 06:58:20 - info: Job Local started @ Tue Apr 12 2011 06:58:20 GMT+0100 (BST)
+12 Apr 06:58:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:58:20 GMT+0100 (BST)
+12 Apr 06:58:20 - info: Job Local completed in 52 ms
+12 Apr 06:58:20 - info: Job GuardianEnvironment completed in 368 ms
+12 Apr 06:58:35 - info: Job AtomTester started @ Tue Apr 12 2011 06:58:35 GMT+0100 (BST)
+12 Apr 06:58:40 - info: Job Local started @ Tue Apr 12 2011 06:58:40 GMT+0100 (BST)
+12 Apr 06:58:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:58:40 GMT+0100 (BST)
+12 Apr 06:58:40 - info: Job Local started @ Tue Apr 12 2011 06:58:40 GMT+0100 (BST)
+12 Apr 06:58:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:58:40 GMT+0100 (BST)
+12 Apr 06:58:40 - info: Job Local started @ Tue Apr 12 2011 06:58:40 GMT+0100 (BST)
+12 Apr 06:58:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:58:40 GMT+0100 (BST)
+12 Apr 06:58:40 - info: Job Local completed in 77 ms
+12 Apr 06:58:40 - info: Job Local completed in 147 ms
+12 Apr 06:58:40 - info: Job Local completed in 150 ms
+12 Apr 06:58:40 - info: Job GuardianEnvironment completed in 380 ms
+12 Apr 06:58:40 - info: Job GuardianEnvironment completed in 575 ms
+12 Apr 06:58:40 - info: Job GuardianEnvironment completed in 678 ms
+12 Apr 06:59:28 - info: Job AtomTester started @ Tue Apr 12 2011 06:59:28 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job Local started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job Local started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job Local started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job Local started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job Local started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job Local started @ Tue Apr 12 2011 06:59:30 GMT+0100 (BST)
+12 Apr 06:59:30 - info: Job Local completed in 94 ms
+12 Apr 06:59:30 - info: Job Local completed in 98 ms
+12 Apr 06:59:30 - info: Job Local completed in 152 ms
+12 Apr 06:59:30 - info: Job Local completed in 193 ms
+12 Apr 06:59:30 - info: Job Local completed in 236 ms
+12 Apr 06:59:30 - info: Job Local completed in 427 ms
+12 Apr 06:59:30 - info: Job GuardianEnvironment completed in 562 ms
+12 Apr 06:59:30 - info: Job GuardianEnvironment completed in 780 ms
+12 Apr 06:59:30 - info: Job GuardianEnvironment completed in 853 ms
+12 Apr 06:59:31 - info: Job GuardianEnvironment completed in 1026 ms
+12 Apr 06:59:31 - info: Job GuardianEnvironment completed in 1265 ms
+12 Apr 06:59:31 - info: Job GuardianEnvironment completed in 1303 ms
+12 Apr 06:59:40 - info: Job Local started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job Local started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job Local started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job Local started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job Local started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job Local started @ Tue Apr 12 2011 06:59:40 GMT+0100 (BST)
+12 Apr 06:59:40 - info: Job Local completed in 84 ms
+12 Apr 06:59:40 - info: Job Local completed in 119 ms
+12 Apr 06:59:40 - info: Job Local completed in 161 ms
+12 Apr 06:59:40 - info: Job Local completed in 203 ms
+12 Apr 06:59:40 - info: Job Local completed in 241 ms
+12 Apr 06:59:40 - info: Job Local completed in 455 ms
+12 Apr 06:59:40 - info: Job GuardianEnvironment completed in 551 ms
+12 Apr 06:59:40 - info: Job GuardianEnvironment completed in 641 ms
+12 Apr 06:59:40 - info: Job GuardianEnvironment completed in 746 ms
+12 Apr 06:59:40 - info: Job GuardianEnvironment completed in 832 ms
+12 Apr 06:59:41 - info: Job GuardianEnvironment completed in 1084 ms
+12 Apr 06:59:41 - info: Job GuardianEnvironment completed in 1265 ms
+12 Apr 06:59:50 - info: Job Local started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job Local started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job Local started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job Local started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job Local started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job Local started @ Tue Apr 12 2011 06:59:50 GMT+0100 (BST)
+12 Apr 06:59:50 - info: Job Local completed in 68 ms
+12 Apr 06:59:50 - info: Job Local completed in 102 ms
+12 Apr 06:59:50 - info: Job Local completed in 142 ms
+12 Apr 06:59:50 - info: Job Local completed in 189 ms
+12 Apr 06:59:50 - info: Job Local completed in 224 ms
+12 Apr 06:59:50 - info: Job Local completed in 461 ms
+12 Apr 06:59:50 - info: Job GuardianEnvironment completed in 499 ms
+12 Apr 06:59:50 - info: Job GuardianEnvironment completed in 667 ms
+12 Apr 06:59:50 - info: Job GuardianEnvironment completed in 734 ms
+12 Apr 06:59:50 - info: Job GuardianEnvironment completed in 854 ms
+12 Apr 06:59:51 - info: Job GuardianEnvironment completed in 1006 ms
+12 Apr 06:59:51 - info: Job GuardianEnvironment completed in 1182 ms
+12 Apr 07:00:00 - info: Job Local started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job Local started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job Local started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job Local started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job Local started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job Local started @ Tue Apr 12 2011 07:00:00 GMT+0100 (BST)
+12 Apr 07:00:00 - info: Job Local completed in 70 ms
+12 Apr 07:00:00 - info: Job Local completed in 106 ms
+12 Apr 07:00:00 - info: Job Local completed in 184 ms
+12 Apr 07:00:00 - info: Job Local completed in 187 ms
+12 Apr 07:00:00 - info: Job Local completed in 231 ms
+12 Apr 07:00:00 - info: Job GuardianEnvironment completed in 468 ms
+12 Apr 07:00:00 - info: Job Local completed in 521 ms
+12 Apr 07:00:00 - info: Job GuardianEnvironment completed in 611 ms
+12 Apr 07:00:00 - info: Job GuardianEnvironment completed in 913 ms
+12 Apr 07:00:01 - info: Job GuardianEnvironment completed in 1091 ms
+12 Apr 07:00:01 - info: Job GuardianEnvironment completed in 1190 ms
+12 Apr 07:00:01 - info: Job GuardianEnvironment completed in 1462 ms
+12 Apr 07:00:10 - info: Job Local started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job Local started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job Local started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job Local started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job Local started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job Local started @ Tue Apr 12 2011 07:00:10 GMT+0100 (BST)
+12 Apr 07:00:10 - info: Job Local completed in 81 ms
+12 Apr 07:00:10 - info: Job Local completed in 86 ms
+12 Apr 07:00:10 - info: Job Local completed in 309 ms
+12 Apr 07:00:10 - info: Job Local completed in 347 ms
+12 Apr 07:00:10 - info: Job Local completed in 584 ms
+12 Apr 07:00:10 - info: Job Local completed in 705 ms
+12 Apr 07:00:11 - info: Job GuardianEnvironment completed in 1143 ms
+12 Apr 07:00:11 - info: Job GuardianEnvironment completed in 1209 ms
+12 Apr 07:00:11 - info: Job GuardianEnvironment completed in 1325 ms
+12 Apr 07:00:11 - info: Job GuardianEnvironment completed in 1489 ms
+12 Apr 07:00:11 - info: Job GuardianEnvironment completed in 1798 ms
+12 Apr 07:00:11 - info: Job GuardianEnvironment completed in 1939 ms
+12 Apr 07:00:20 - info: Job Local started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job Local started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job Local started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job Local started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job Local started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job Local started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job Local started @ Tue Apr 12 2011 07:00:20 GMT+0100 (BST)
+12 Apr 07:00:20 - info: Job Local completed in 85 ms
+12 Apr 07:00:20 - info: Job Local completed in 162 ms
+12 Apr 07:00:20 - info: Job Local completed in 166 ms
+12 Apr 07:00:20 - info: Job Local completed in 253 ms
+12 Apr 07:00:20 - info: Job Local completed in 255 ms
+12 Apr 07:00:20 - info: Job Local completed in 465 ms
+12 Apr 07:00:20 - info: Job GuardianEnvironment completed in 507 ms
+12 Apr 07:00:20 - info: Job Local completed in 569 ms
+12 Apr 07:00:20 - info: Job GuardianEnvironment completed in 782 ms
+12 Apr 07:00:20 - info: Job GuardianEnvironment completed in 830 ms
+12 Apr 07:00:21 - info: Job GuardianEnvironment completed in 992 ms
+12 Apr 07:00:21 - info: Job AtomTester started @ Tue Apr 12 2011 07:00:21 GMT+0100 (BST)
+12 Apr 07:00:21 - info: Job GuardianEnvironment completed in 1075 ms
+12 Apr 07:00:21 - info: Job GuardianEnvironment completed in 1288 ms
+12 Apr 07:00:21 - info: Job GuardianEnvironment completed in 1411 ms
+12 Apr 07:06:35 - info: Job AtomTester started @ Tue Apr 12 2011 07:06:35 GMT+0100 (BST)
+12 Apr 07:06:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:06:40 GMT+0100 (BST)
+12 Apr 07:06:40 - info: Job Local started @ Tue Apr 12 2011 07:06:40 GMT+0100 (BST)
+12 Apr 07:06:40 - info: Job Local completed in 88 ms
+12 Apr 07:06:40 - info: Job GuardianEnvironment completed in 455 ms
+12 Apr 07:06:42 - info: Job AtomTester started @ Tue Apr 12 2011 07:06:42 GMT+0100 (BST)
+12 Apr 07:06:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:06:50 GMT+0100 (BST)
+12 Apr 07:06:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:06:50 GMT+0100 (BST)
+12 Apr 07:06:50 - info: Job Local started @ Tue Apr 12 2011 07:06:50 GMT+0100 (BST)
+12 Apr 07:06:50 - info: Job Local started @ Tue Apr 12 2011 07:06:50 GMT+0100 (BST)
+12 Apr 07:06:50 - info: Job Local completed in 61 ms
+12 Apr 07:06:50 - info: Job Local completed in 102 ms
+12 Apr 07:06:50 - info: Job GuardianEnvironment completed in 439 ms
+12 Apr 07:06:50 - info: Job GuardianEnvironment completed in 572 ms
+12 Apr 07:08:00 - info: Job Local started @ Tue Apr 12 2011 07:08:00 GMT+0100 (BST)
+12 Apr 07:08:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:08:00 GMT+0100 (BST)
+12 Apr 07:08:00 - info: Job AtomTester started @ Tue Apr 12 2011 07:08:00 GMT+0100 (BST)
+12 Apr 07:08:00 - info: Job Local completed in 64 ms
+12 Apr 07:08:00 - info: Job GuardianEnvironment completed in 540 ms
+12 Apr 07:08:10 - info: Job Local started @ Tue Apr 12 2011 07:08:10 GMT+0100 (BST)
+12 Apr 07:08:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:08:10 GMT+0100 (BST)
+12 Apr 07:08:10 - info: Job Local completed in 52 ms
+12 Apr 07:08:10 - info: Job GuardianEnvironment completed in 656 ms
+12 Apr 07:08:20 - info: Job Local started @ Tue Apr 12 2011 07:08:20 GMT+0100 (BST)
+12 Apr 07:08:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:08:20 GMT+0100 (BST)
+12 Apr 07:08:20 - info: Job Local completed in 45 ms
+12 Apr 07:08:20 - info: Job GuardianEnvironment completed in 345 ms
+12 Apr 07:09:57 - debug: HERE
+12 Apr 07:10:13 - debug: HERE
+12 Apr 07:11:03 - debug: undefined
+12 Apr 07:11:56 - info: Job AtomTester started @ Tue Apr 12 2011 07:11:56 GMT+0100 (BST)
+12 Apr 07:12:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:00 GMT+0100 (BST)
+12 Apr 07:12:00 - info: Job Local started @ Tue Apr 12 2011 07:12:00 GMT+0100 (BST)
+12 Apr 07:12:00 - info: Job Local completed in 51 ms
+12 Apr 07:12:00 - info: Job GuardianEnvironment completed in 486 ms
+12 Apr 07:12:07 - info: Job AtomTester started @ Tue Apr 12 2011 07:12:07 GMT+0100 (BST)
+12 Apr 07:12:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:10 GMT+0100 (BST)
+12 Apr 07:12:10 - info: Job Local started @ Tue Apr 12 2011 07:12:10 GMT+0100 (BST)
+12 Apr 07:12:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:10 GMT+0100 (BST)
+12 Apr 07:12:10 - info: Job Local started @ Tue Apr 12 2011 07:12:10 GMT+0100 (BST)
+12 Apr 07:12:10 - info: Job Local completed in 46 ms
+12 Apr 07:12:10 - info: Job Local completed in 153 ms
+12 Apr 07:12:10 - info: Job GuardianEnvironment completed in 646 ms
+12 Apr 07:12:10 - info: Job GuardianEnvironment completed in 834 ms
+12 Apr 07:12:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:20 GMT+0100 (BST)
+12 Apr 07:12:20 - info: Job Local started @ Tue Apr 12 2011 07:12:20 GMT+0100 (BST)
+12 Apr 07:12:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:20 GMT+0100 (BST)
+12 Apr 07:12:20 - info: Job Local started @ Tue Apr 12 2011 07:12:20 GMT+0100 (BST)
+12 Apr 07:12:20 - info: Job Local completed in 45 ms
+12 Apr 07:12:20 - info: Job Local completed in 118 ms
+12 Apr 07:12:20 - info: Job GuardianEnvironment completed in 425 ms
+12 Apr 07:12:20 - info: Job GuardianEnvironment completed in 615 ms
+12 Apr 07:12:21 - info: Job AtomTester started @ Tue Apr 12 2011 07:12:21 GMT+0100 (BST)
+12 Apr 07:12:30 - info: Job Local started @ Tue Apr 12 2011 07:12:30 GMT+0100 (BST)
+12 Apr 07:12:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:30 GMT+0100 (BST)
+12 Apr 07:12:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:30 GMT+0100 (BST)
+12 Apr 07:12:30 - info: Job Local started @ Tue Apr 12 2011 07:12:30 GMT+0100 (BST)
+12 Apr 07:12:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:12:30 GMT+0100 (BST)
+12 Apr 07:12:30 - info: Job Local started @ Tue Apr 12 2011 07:12:30 GMT+0100 (BST)
+12 Apr 07:12:30 - info: Job Local completed in 53 ms
+12 Apr 07:12:30 - info: Job Local completed in 87 ms
+12 Apr 07:12:30 - info: Job Local completed in 130 ms
+12 Apr 07:12:30 - info: Job GuardianEnvironment completed in 403 ms
+12 Apr 07:12:30 - info: Job GuardianEnvironment completed in 571 ms
+12 Apr 07:12:30 - info: Job GuardianEnvironment completed in 692 ms
+12 Apr 07:13:07 - info: Job AtomTester started @ Tue Apr 12 2011 07:13:07 GMT+0100 (BST)
+12 Apr 07:13:10 - info: Job Local started @ Tue Apr 12 2011 07:13:10 GMT+0100 (BST)
+12 Apr 07:13:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:13:10 GMT+0100 (BST)
+12 Apr 07:13:10 - info: Job Local completed in 70 ms
+12 Apr 07:13:10 - info: Job GuardianEnvironment completed in 418 ms
+12 Apr 07:13:18 - debug: CHECKING : template
+12 Apr 07:13:18 - error: TypeError: Cannot read property 'reload' of undefined
+12 Apr 07:13:20 - info: Job Local started @ Tue Apr 12 2011 07:13:20 GMT+0100 (BST)
+12 Apr 07:13:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:13:20 GMT+0100 (BST)
+12 Apr 07:13:20 - info: Job Local completed in 46 ms
+12 Apr 07:13:20 - info: Job GuardianEnvironment completed in 348 ms
+12 Apr 07:14:28 - info: Job AtomTester started @ Tue Apr 12 2011 07:14:28 GMT+0100 (BST)
+12 Apr 07:14:30 - info: Job Local started @ Tue Apr 12 2011 07:14:30 GMT+0100 (BST)
+12 Apr 07:14:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:14:30 GMT+0100 (BST)
+12 Apr 07:14:30 - info: Job Local completed in 46 ms
+12 Apr 07:14:30 - info: Job GuardianEnvironment completed in 375 ms
+12 Apr 07:14:34 - debug: CHECKING : template
+12 Apr 07:14:34 - error: TypeError: Cannot read property 'reload' of undefined
+12 Apr 07:14:40 - info: Job Local started @ Tue Apr 12 2011 07:14:40 GMT+0100 (BST)
+12 Apr 07:14:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:14:40 GMT+0100 (BST)
+12 Apr 07:14:40 - info: Job Local completed in 63 ms
+12 Apr 07:14:40 - info: Job GuardianEnvironment completed in 448 ms
+12 Apr 07:15:20 - info: Job Local started @ Tue Apr 12 2011 07:15:20 GMT+0100 (BST)
+12 Apr 07:15:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:15:20 GMT+0100 (BST)
+12 Apr 07:15:20 - info: Job Local completed in 73 ms
+12 Apr 07:15:20 - info: Job GuardianEnvironment completed in 398 ms
+12 Apr 07:15:21 - info: Job AtomTester started @ Tue Apr 12 2011 07:15:21 GMT+0100 (BST)
+12 Apr 07:15:28 - debug: CHECKING : template
+12 Apr 07:15:28 - debug: CHECKING : admin
+12 Apr 07:15:28 - debug: CHECKING : content
+12 Apr 07:15:28 - debug: CHECKING : feeds
+12 Apr 07:15:28 - debug: CHECKING : news
+12 Apr 07:15:28 - debug: CHECKING : scheduler
+12 Apr 07:15:28 - debug: scheduler RELOAD
+12 Apr 07:15:28 - debug: CHECKING : user
+12 Apr 07:15:30 - info: Job Local started @ Tue Apr 12 2011 07:15:30 GMT+0100 (BST)
+12 Apr 07:15:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:15:30 GMT+0100 (BST)
+12 Apr 07:15:30 - info: Job Local started @ Tue Apr 12 2011 07:15:30 GMT+0100 (BST)
+12 Apr 07:15:30 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:15:30 GMT+0100 (BST)
+12 Apr 07:15:30 - info: Job Local completed in 52 ms
+12 Apr 07:15:30 - info: Job Local completed in 125 ms
+12 Apr 07:15:30 - info: Job GuardianEnvironment completed in 406 ms
+12 Apr 07:15:30 - info: Job GuardianEnvironment completed in 581 ms
+12 Apr 07:15:35 - info: Job AtomTester started @ Tue Apr 12 2011 07:15:35 GMT+0100 (BST)
+12 Apr 07:16:56 - info: Job AtomTester started @ Tue Apr 12 2011 07:16:56 GMT+0100 (BST)
+12 Apr 07:16:58 - debug: CHECKING : template
+12 Apr 07:16:58 - debug: CHECKING : admin
+12 Apr 07:16:58 - debug: CHECKING : content
+12 Apr 07:16:58 - debug: CHECKING : feeds
+12 Apr 07:16:58 - debug: CHECKING : news
+12 Apr 07:16:58 - debug: CHECKING : scheduler
+12 Apr 07:16:58 - debug: scheduler RELOAD
+12 Apr 07:16:58 - debug: CHECKING : user
+12 Apr 07:17:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:17:00 GMT+0100 (BST)
+12 Apr 07:17:00 - info: Job Local started @ Tue Apr 12 2011 07:17:00 GMT+0100 (BST)
+12 Apr 07:17:00 - info: Job Local started @ Tue Apr 12 2011 07:17:00 GMT+0100 (BST)
+12 Apr 07:17:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:17:00 GMT+0100 (BST)
+12 Apr 07:17:00 - info: Job AtomTester started @ Tue Apr 12 2011 07:17:00 GMT+0100 (BST)
+12 Apr 07:17:00 - info: Job Local completed in 58 ms
+12 Apr 07:17:00 - info: Job Local completed in 98 ms
+12 Apr 07:17:00 - info: Job GuardianEnvironment completed in 497 ms
+12 Apr 07:17:00 - info: Job GuardianEnvironment completed in 619 ms
+12 Apr 07:17:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:17:10 GMT+0100 (BST)
+12 Apr 07:17:10 - info: Job Local started @ Tue Apr 12 2011 07:17:10 GMT+0100 (BST)
+12 Apr 07:17:10 - info: Job Local started @ Tue Apr 12 2011 07:17:10 GMT+0100 (BST)
+12 Apr 07:17:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:17:10 GMT+0100 (BST)
+12 Apr 07:17:10 - info: Job Local completed in 53 ms
+12 Apr 07:17:10 - info: Job Local completed in 95 ms
+12 Apr 07:17:10 - info: Job GuardianEnvironment completed in 428 ms
+12 Apr 07:17:10 - info: Job GuardianEnvironment completed in 544 ms
+12 Apr 07:17:49 - info: Job AtomTester started @ Tue Apr 12 2011 07:17:49 GMT+0100 (BST)
+12 Apr 07:17:50 - info: Job Local started @ Tue Apr 12 2011 07:17:50 GMT+0100 (BST)
+12 Apr 07:17:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:17:50 GMT+0100 (BST)
+12 Apr 07:17:50 - info: Job Local completed in 62 ms
+12 Apr 07:17:50 - info: Job GuardianEnvironment completed in 407 ms
+12 Apr 07:17:58 - debug: CHECKING : template
+12 Apr 07:17:58 - debug: CHECKING : admin
+12 Apr 07:17:58 - debug: CHECKING : content
+12 Apr 07:17:58 - debug: CHECKING : feeds
+12 Apr 07:17:58 - debug: CHECKING : news
+12 Apr 07:17:58 - debug: CHECKING : scheduler
+12 Apr 07:17:58 - debug: scheduler RELOAD
+12 Apr 07:17:58 - debug: CHECKING : user
+12 Apr 07:18:00 - info: Job Local started @ Tue Apr 12 2011 07:18:00 GMT+0100 (BST)
+12 Apr 07:18:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:18:00 GMT+0100 (BST)
+12 Apr 07:18:00 - info: Job AtomTester started @ Tue Apr 12 2011 07:18:00 GMT+0100 (BST)
+12 Apr 07:18:00 - info: Job Local started @ Tue Apr 12 2011 07:18:00 GMT+0100 (BST)
+12 Apr 07:18:00 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:18:00 GMT+0100 (BST)
+12 Apr 07:18:00 - info: Job Local completed in 89 ms
+12 Apr 07:18:00 - info: Job Local completed in 96 ms
+12 Apr 07:18:00 - info: Job GuardianEnvironment completed in 458 ms
+12 Apr 07:18:00 - info: Job GuardianEnvironment completed in 588 ms
+12 Apr 07:18:35 - info: Job AtomTester started @ Tue Apr 12 2011 07:18:35 GMT+0100 (BST)
+12 Apr 07:18:40 - info: Job Local started @ Tue Apr 12 2011 07:18:40 GMT+0100 (BST)
+12 Apr 07:18:40 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:18:40 GMT+0100 (BST)
+12 Apr 07:18:40 - info: Job Local completed in 47 ms
+12 Apr 07:18:40 - info: Job GuardianEnvironment completed in 420 ms
+12 Apr 07:18:42 - debug: CHECKING : template
+12 Apr 07:18:42 - debug: CHECKING : admin
+12 Apr 07:18:42 - debug: CHECKING : content
+12 Apr 07:18:42 - debug: CHECKING : feeds
+12 Apr 07:18:42 - debug: CHECKING : news
+12 Apr 07:18:42 - debug: CHECKING : scheduler
+12 Apr 07:18:42 - debug: [object Object]
+12 Apr 07:18:42 - debug: CHECKING : user
+12 Apr 07:18:49 - info: Job AtomTester started @ Tue Apr 12 2011 07:18:49 GMT+0100 (BST)
+12 Apr 07:18:50 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:18:50 GMT+0100 (BST)
+12 Apr 07:18:50 - info: Job Local started @ Tue Apr 12 2011 07:18:50 GMT+0100 (BST)
+12 Apr 07:18:50 - info: Job Local completed in 63 ms
+12 Apr 07:18:50 - info: Job GuardianEnvironment completed in 381 ms
+12 Apr 07:18:56 - debug: CHECKING : template
+12 Apr 07:18:56 - debug: CHECKING : admin
+12 Apr 07:18:56 - debug: CHECKING : content
+12 Apr 07:18:56 - debug: CHECKING : feeds
+12 Apr 07:18:56 - debug: CHECKING : news
+12 Apr 07:18:56 - debug: CHECKING : scheduler
+12 Apr 07:18:56 - debug: scheduler DISABLE
+12 Apr 07:18:56 - debug: [object Object]
+12 Apr 07:18:56 - debug: CHECKING : user
+12 Apr 07:22:04 - debug: User logged in ... [object Object]
+12 Apr 07:22:08 - debug: CHECKING : template
+12 Apr 07:22:08 - debug: CHECKING : admin
+12 Apr 07:22:08 - debug: CHECKING : content
+12 Apr 07:22:08 - debug: CHECKING : feeds
+12 Apr 07:22:08 - debug: CHECKING : news
+12 Apr 07:22:08 - debug: CHECKING : scheduler
+12 Apr 07:22:08 - debug: CHECKING : user
+12 Apr 07:22:10 - info: Job Local started @ Tue Apr 12 2011 07:22:10 GMT+0100 (BST)
+12 Apr 07:22:10 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:22:10 GMT+0100 (BST)
+12 Apr 07:22:10 - info: Job Local completed in 56 ms
+12 Apr 07:22:10 - info: Job GuardianEnvironment completed in 778 ms
+12 Apr 07:22:14 - info: Job AtomTester started @ Tue Apr 12 2011 07:22:14 GMT+0100 (BST)
+12 Apr 07:22:20 - info: Job Local started @ Tue Apr 12 2011 07:22:20 GMT+0100 (BST)
+12 Apr 07:22:20 - info: Job GuardianEnvironment started @ Tue Apr 12 2011 07:22:20 GMT+0100 (BST)
+12 Apr 07:22:20 - info: Job Local completed in 45 ms
+12 Apr 07:22:20 - info: Job GuardianEnvironment completed in 444 ms

@@ -10,6 +10,7 @@ module.exports = function(app,express,next) {
   var defaultConfig = {
     cache:false,
     theme:'default',
+    logs:{level:'info',console:{enabled:true},file:{enabled:true,filepath:'logs/calipso.log'}},
     modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'user',enabled:true}]
   };  
   
@@ -17,7 +18,15 @@ module.exports = function(app,express,next) {
   var AppConfigSchema = new Schema({
     cache:{type: Boolean, required: true, default:false},
     theme:{type: String, required: true, default:'default'},
-    modules:[AppModule]      
+    logs:{
+        level:{type: String, required: true, default:'info'},
+        console:{enabled:{type:Boolean, default:true}},
+        file:{
+             enabled:{type:Boolean, default:true},
+             filepath:{type: String, required: true, default:'logs/calipso.log'}
+        }
+   },
+   modules:[AppModule]      
   });
 
   var AppModule = new Schema({
@@ -30,27 +39,27 @@ module.exports = function(app,express,next) {
 	// DEVELOPMENT
 	app.configure('development', function() {
 	  require("./development.js")(app,express);
-	  loadConfig(app,defaultConfig,function(config) {	      
+	  loadConfig(app,defaultConfig,function(err,config) {	      
 	      app.set('config',config);
-	      next();
+	      next(err);
 	  });
 	});
 
 	// TEST
 	app.configure('test', function() {
 		require("./test.js")(app,express);
-		loadConfig(app,defaultConfig,function(config) {       
+		loadConfig(app,defaultConfig,function(err,config) {       
       app.set('config',config);
-      next();
+      next(err);
 		});
 	});
 	
 	// PRODUCTION
 	app.configure('production', function() {
 		require("./production.js")(app,express);
-		loadConfig(app,defaultConfig,function(config) {       
+		loadConfig(app,defaultConfig,function(err,config) {       
       app.set('config',config);
-      next();
+      next(err);
 		});
 	});		
 		 
@@ -68,14 +77,13 @@ function loadConfig(app,defaultConfig,next) {
                   
         if(err) {          
           
-          console.log(err);
-          next();
+          next(err);
           
         } else {
           
           if(config) {
             
-            next(config);
+            next(null,config);
             
           } else {
               
@@ -83,7 +91,7 @@ function loadConfig(app,defaultConfig,next) {
             
             newConfig.save(function(err) {
                 app.install = true;
-                next(newConfig);
+                next(null,newConfig);
                 return;
             });                           
           }

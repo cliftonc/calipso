@@ -89,7 +89,7 @@ function showAdmin(req,res,next,template) {
           var item = {id:config._id,type:'config',meta:config.toObject()};                
           res.blocks.body.push(item);               
           if(template) {
-            res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item,modules:ncms.modules,themes:ncms.data.themes}}));
+            res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item,modules:ncms.modules,themes:ncms.data.themes, loglevels:ncms.lib.winston.levels}}));
           }                
           next();
           
@@ -126,8 +126,13 @@ function saveAdmin(req,res,next,template) {
         }
         
         c.theme = req.body.config.theme;
-        c.cache = req.body.config.cache;
-        c.modules = moduleFormatToArray(res,req.body.config.modules);
+        c.cache = req.body.config.cache;        
+        c.logs.level = req.body.config.logslevel;
+        c.logs.file.enabled = req.body.config.logsfileenabled === 'on' ? true : false;        
+        c.logs.file.filepath = req.body.config.logsfilefilepath;
+        c.logs.console.enabled = req.body.config.logsconsoleenabled  === 'on' ? true : false;
+        
+        c.modules = moduleFormatToArray(res,req.body.config.modules);        
       
         c.save(function(err) {                              
           if(err) {

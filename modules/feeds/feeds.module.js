@@ -22,36 +22,42 @@ function init(module,app,next) {
     
 };
 
-function getFeed(args) {
+function getFeed(args,next) {
     
   try {
     args = JSON.parse(args);
   } catch(ex) {    
-    console.log("Invalid arguments: " + args);
+    next(new Error("Invalid arguments: " + args));
     return;  
   }
     
   var url = args.url;
   if(!url) {
+     next(new Error("Invalid url: " + url));
      return;
   }
     
   // Allow this only to have local scope
   var feed = require('./lib/feed-expat');  
   
-  var response = feed.parseURL(url, function(data) {        
+  var response = feed.parseURL(url, function(err,data) {        
           
+      if(err) {
+          next(err);
+          return;
+      }
+      
       var feedType = data['#name'];
       
       switch (feedType) {
         case "feed":
-          processAtom(data);
+          processAtom(data,next);
           break;
         case "rss":
-          processRss(data);
+          processRss(data,next);
           break;
-        default:
-           console.log("Unidentified feed type: " + feedType);
+        default:           
+           next(new Error("Unidentified feed type: " + feedType));
       }
       
   });
@@ -67,26 +73,43 @@ function AtomParser() {
   
   var parser = this;  
   this.parse = function(data) {        
-    if(data.entry) {
-      data.entry.forEach(function(item) {
-        parser.emit("item", item);    
-      });
-    }          
+    ncms.lib.step(
+        function processItems() {
+          var group = this.group();
+          data.entry.forEach(function(item) {        
+            parser.emit("item", item, group);    
+          });
+        },
+        function processItemsDone() {
+          parser.emit("done");    
+        }        
+    )              
   }
   
 };
 
-function processAtom(data) {
+function processAtom(data,next) {
   
   var parser = new AtomParser();
-  parser.on('item', function(item) {
-      processAtomItem(item);
+  
+  parser.on('item', function(item,next) {
+      processAtomItem(item,next);
+  });      
+
+  parser.on('done', function(err) {
+    next(err);
   });
+  
   parser.parse(data);
   
 };
 
-function processAtomItem(item) {
+
+/**
+ * Process a single atom feed item
+ * @param item
+ */
+function processAtomItem(item,next) {
   
   var Content = ncms.lib.mongoose.model('Content');
   
@@ -109,7 +132,9 @@ function processAtomItem(item) {
     // Asynch save
     c.save(function(err) {
       if(err) {
-        console.log(err.message);
+        next(err);        
+      } else {
+        next();
       }
     });
     
@@ -122,34 +147,52 @@ function processAtomItem(item) {
  * @param data
  * @returns
  */
-var RssParser = function(data) {
+var RssParser = function() {
   
   var parser = this;  
-  this.parse = function(data) {
-        
+  
+  this.parse = function(data) {        
+
     if(data.channel.item) {
-      data.channel.item.forEach(function(item) {
-        parser.emit("item", item);    
-      });
-    }          
+      ncms.lib.step(
+          function processItems() {
+            var group = this.group();
+            data.channel.item.forEach(function(item) {        
+              parser.emit("item", item, group);    
+            });
+          },
+          function processItemsDone() {
+            parser.emit("done");    
+          }        
+      )
+    }
+    
   }
+  
 };
 
-function processRss(data) {
+function processRss(data,next) {
+  
   var parser = new RssParser();
-  parser.on('item', function(item) {
-      processRssItem(item);
+  
+  parser.on('item', function(item,next) {
+      processRssItem(item,next);
   });
+
+  parser.on('done', function(err) {
+    next();
+  });
+  
   parser.parse(data);
+  
 };
 
 
-function processRssItem(item) {
+function processRssItem(item, next) {
     
   var Content = ncms.lib.mongoose.model('Content');  
   var alias = ncms.modules['content'].fn.titleAlias(item.title.text);
-  
-  
+      
   Content.findOne({alias:alias},function (err, c) {
     
     if(!c) {
@@ -169,10 +212,13 @@ function processRssItem(item) {
       });      
     } else {
       c.tags = [];  
-    }    
-    item.category.forEach(function(category) {
-      c.tags.push(category.text);
-    });
+    }  
+    
+    if(item.category) {
+      //item.category.forEach(function(category) {
+      //  c.tags.push(category.text);
+      //});        
+    }
     
     c.alias = alias;                    
     c.author = "feeds";       
@@ -180,7 +226,9 @@ function processRssItem(item) {
     // Asynch save
     c.save(function(err) {
       if(err) {
-        console.log(err.message);
+        next(err);
+      } else {
+        next();
       }
     });
     

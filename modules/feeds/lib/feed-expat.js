@@ -109,9 +109,13 @@ exports.parseURL = function(url, cb) {
           client = require('https');           
         } else {
           client = require('http');
+          if(!parts.port) {
+            parts.port = 80;
+          }
         }
-                     
-        client.get({ host: parts.host, path: parts.pathname }, function(res) {
+        
+        client.get({ host: parts.hostname, port: parts.port, path: parts.pathname }, function(res) {
+          
           var data = '';
           
           res.on('data', function(d) {
@@ -121,15 +125,15 @@ exports.parseURL = function(url, cb) {
           res.on('end', function(d) {
             
             var parser = new Parser();
-            parser.addListener('end', function(r) {
-                cb(r);
+            parser.addListener('end', function(data) {
+                cb(null,data);
             });
             parser.parse(data);
             
           });
           
-        }).on('error', function(e) {
-          console.error(e);
+        }).on('error', function(err) {
+          cb(err,null);          
         });
         
 }

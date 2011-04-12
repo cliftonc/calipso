@@ -1,6 +1,6 @@
 var ncms = require("../../lib/ncms"), cron = require('./scheduler.cron');      
 
-exports = module.exports = {init: init, route: route};
+exports = module.exports = {init: init, route: route, reload: reload, disable: disable};
 /**
  * Base news module
  * 
@@ -79,9 +79,32 @@ function loadJobs(next) {
         jobs.forEach(function(job) {          
           // '* * * * * *'
           if(ncms.modules[job.module] && ncms.modules[job.module].fn.jobs[job.method]) {
-            ncms.jobs[job.name] = new cron.CronJob(job.name,job.cronTime, job.enabled, job.module, job.method, ncms.modules[job.module].fn.jobs[job.method], job.args);           
+            
+
+            var options = {
+                jobName: job.name,
+                cronTime: job.cronTime, 
+                enabled: job.enabled, 
+                module: job.module, 
+                method: job.method, 
+                fn: ncms.modules[job.module].fn.jobs[job.method],
+                args: job.args
+            }
+            
+            ncms.jobs[job.name] = new cron.CronJob(options);           
           } else {            
-            ncms.jobs[job.name] = new cron.CronJob(job.name,job.cronTime, false, job.module, job.method, function() { console.log("Invalid function " + job.module + "." + job.method + " for job: " + job.name)});
+            
+            var options = {
+                jobName: job.name,
+                cronTime: job.cronTime, 
+                enabled: job.enabled, 
+                module: job.module, 
+                method: job.method, 
+                fn: function() { ncms.error("Invalid function " + job.module 
+                                + "." + job.method + " for job: " + job.name)},
+                args: job.args
+            }
+            ncms.jobs[job.name] = new cron.CronJob(options);
             ncms.jobs[job.name].invalid = true;
           }
           
@@ -211,7 +234,19 @@ function createJob(req,res,next,template) {
         } else {
           
           if(ncms.modules[job.module] && ncms.modules[job.module].fn.jobs[job.method]) {
-            ncms.jobs[job.name] = new cron.CronJob(job.name,job.cronTime, job.enabled, job.module, job.method, ncms.modules[job.module].fn.jobs[job.method],job.args);
+            
+            var options = {
+                jobName: job.name,
+                cronTime: job.cronTime, 
+                enabled: job.enabled, 
+                module: job.module, 
+                method: job.method, 
+                fn: ncms.modules[job.module].fn.jobs[job.method],
+                args: job.args
+            }
+            
+            ncms.jobs[job.name] = new cron.CronJob(options);
+            
           } else {
             req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job not initialised.");
           }
@@ -313,8 +348,18 @@ function updateJob(req,res,next,template) {
             }
             
             if(ncms.modules[job.module] && ncms.modules[job.module].fn.jobs[job.method]) {
+
+              var options = {
+                  jobName: job.name,
+                  cronTime: job.cronTime, 
+                  enabled: job.enabled, 
+                  module: job.module, 
+                  method: job.method, 
+                  fn: ncms.modules[job.module].fn.jobs[job.method],
+                  args: job.args
+              }
               
-              ncms.jobs[job.name].configure(job.name,job.cronTime, job.enabled, job.module, job.method, ncms.modules[job.module].fn.jobs[job.method], job.args);
+              ncms.jobs[job.name].configure(options);
               
             } else {
               req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job modified but not initialised.");
@@ -387,4 +432,20 @@ function deleteJob(req,res,next,template,err) {
     next();
   });
    
+}
+
+// Disable - same as reload
+function disable() {
+  reload();
+}
+
+// Reload
+function reload() {
+
+  // As the cron jobs are background tasks, we need to delete them all from the ncms object 
+  for(var jobName in ncms.jobs) {
+    ncms.jobs[jobName].disable() // Disable it
+    delete ncms.jobs[jobName];   // 'Delete' it - GC will get it later ???
+  }
+    
 }

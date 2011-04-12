@@ -320,5 +320,5 @@ function deleteContent(req,res,next,template,err) {
 
 // Example job
 function scheduledPublish(args) {
-  console.log("Scheduled publish: " + args);
+  ncms.info("Scheduled publish: " + args);
 }

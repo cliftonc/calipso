@@ -17,6 +17,8 @@
  *    - http://www.gnu.org/copyleft/gpl.html
  */
 
+var sys = require("sys"), ncms = require("../../lib/ncms"); 
+
 function CronTime(time) {
 
   this.source = time;
@@ -105,34 +107,51 @@ CronTime.prototype = {
 };
 
 
-function CronJob(jobName, cronTime, enabled, module, method, events,args) {
+function CronJob(options) {
 
   if (!(this instanceof CronJob)) {
-    return new CronJob(jobName, cronTime, enabled, module, method, events);
+    return new CronJob(options);
   }
 
-  this.configure(jobName, cronTime, enabled, module, method, events, args);
+  this.configure(options);
+  
 }
 
 CronJob.prototype = {    
-  configure: function(jobName, cronTime, enabled, module, method, events, args) {
-    this.jobName = jobName;
-    this.events = [events];  
+  
+    configure: function(options) {
+      
+    options = options ? options : {jobName:'', 
+                                   cronTime:'* * * * * *',
+                                   enabled:true, 
+                                   module:'',
+                                   method:'',
+                                   events:'',
+                                   args:''
+    }
+        
+    // Set options
+    this.jobName = options.jobName;
+    this.fn = options.fn;      
+    this.enabled = options.enabled;
+    this.module = options.module;
+    this.method = options.method;
+    this.args = options.args;
+    this.blocking = options.blocking ? options.blocking : true;
+    
+    // calculation holders
     this.now = {};
+    this.running = false;
     this.initiated = false;
     this.invalid = false;
-    this.enabled = enabled;
-    this.module = module;
-    this.method = method;
-    this.args = args;
+    
     try {
-      this.cronTime = new CronTime(cronTime);    
+      this.cronTime = new CronTime(options.cronTime);    
     } catch(ex) {
-      console.log(ex.message);
       this.invalid = true;   
       this.enabled = false;
     }
-    this.cronTimeString = cronTime;
+    this.cronTimeString = options.cronTime;
     this.clock();
   },
   enable: function() {
@@ -145,17 +164,36 @@ CronJob.prototype = {
     this.enabled = false;
     this.clock();
   }, 
-  addEvent: function(event) {
-    this.events.push(event);
+  executeJob: function() {
+      if (typeof this.fn === 'function' && !(this.blocking && this.running)) {
+        
+        // Job starter
+        this.jobStart();                 
+        // Create the callback wrapper
+        // TODO : This doesn't feel right?
+        var job = this;        
+        function jobFinish(err) {
+          job.jobFinish(job,err);
+        }
+        
+        this.fn(this.args,jobFinish);
+      }  
   },
-  runEvents: function() {
-    for (var i = -1, l = this.events.length; ++i < l; ) {
-      if (typeof this.events[i] === 'function') {
-        this.events[i](this.args);
-      }
+  jobStart: function() {
+    this.running = true;
+    this.jobStarted = new Date;
+    ncms.log("Job " + this.jobName + " started @ " + this.jobStarted);
+  },
+  jobFinish: function(job, err) {
+    this.running = false;
+    this.jobFinished = new Date;
+    if(!err) {
+      ncms.log("Job " + job.jobName + " completed in " + (job.jobFinished - job.jobStarted) + " ms");  
+    } else {
+      ncms.log("Job " + job.jobName + " completed with an error: " + err);
     }
+    
   },
-
   clock: function() {
 
     if(!this.enabled) {
@@ -192,11 +230,22 @@ CronJob.prototype = {
       }
     }
 
-    this.runEvents();
+    this.executeJob();
 
   }
 
 };
+
+/**
+ * Timer helper functions
+ */
+function jobStart() {
+  ncms.debug("Job Started " + this.jobName);  
+}
+
+function jobFinish(err) {
+  ncms.debug("Job Started " + this.jobName);
+}
 
 exports.CronJob = CronJob;
 exports.CronTime = CronTime;
