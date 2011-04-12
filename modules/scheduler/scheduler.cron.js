@@ -17,7 +17,7 @@
  *    - http://www.gnu.org/copyleft/gpl.html
  */
 
-var sys = require("sys"), ncms = require("../../lib/ncms"); 
+var sys = require("sys"), calipso = require("../../lib/calipso"); 
 
 function CronTime(time) {
 
@@ -182,15 +182,15 @@ CronJob.prototype = {
   jobStart: function() {
     this.running = true;
     this.jobStarted = new Date;
-    ncms.log("Job " + this.jobName + " started @ " + this.jobStarted);
+    calipso.debug("Job " + this.jobName + " started @ " + this.jobStarted);
   },
   jobFinish: function(job, err) {
     this.running = false;
     this.jobFinished = new Date;
     if(!err) {
-      ncms.log("Job " + job.jobName + " completed in " + (job.jobFinished - job.jobStarted) + " ms");  
+      calipso.debug("Job " + job.jobName + " completed in " + (job.jobFinished - job.jobStarted) + " ms");  
     } else {
-      ncms.log("Job " + job.jobName + " completed with an error: " + err);
+      calipso.error("Job " + job.jobName + " completed with an error: " + err);
     }
     
   },
@@ -240,11 +240,11 @@ CronJob.prototype = {
  * Timer helper functions
  */
 function jobStart() {
-  ncms.debug("Job Started " + this.jobName);  
+  calipso.debug("Job Started " + this.jobName);  
 }
 
 function jobFinish(err) {
-  ncms.debug("Job Started " + this.jobName);
+  calipso.debug("Job Started " + this.jobName);
 }
 
 exports.CronJob = CronJob;

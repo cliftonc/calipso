@@ -1,4 +1,4 @@
-var ncms = require("../../lib/ncms"), sys = require('sys'), events = require('events');      
+var calipso = require("../../lib/calipso"), sys = require('sys'), events = require('events');      
 
 exports = module.exports = {init: init, route: route, jobs: {getFeed:getFeed}};
 
@@ -73,7 +73,7 @@ function AtomParser() {
   
   var parser = this;  
   this.parse = function(data) {        
-    ncms.lib.step(
+    calipso.lib.step(
         function processItems() {
           var group = this.group();
           data.entry.forEach(function(item) {        
@@ -111,9 +111,9 @@ function processAtom(data,next) {
  */
 function processAtomItem(item,next) {
   
-  var Content = ncms.lib.mongoose.model('Content');
+  var Content = calipso.lib.mongoose.model('Content');
   
-  var alias = ncms.modules['content'].fn.titleAlias(item.title.text);
+  var alias = calipso.modules['content'].fn.titleAlias(item.title.text);
     
   Content.findOne({alias:alias},function (err, c) {
     
@@ -154,7 +154,7 @@ var RssParser = function() {
   this.parse = function(data) {        
 
     if(data.channel.item) {
-      ncms.lib.step(
+      calipso.lib.step(
           function processItems() {
             var group = this.group();
             data.channel.item.forEach(function(item) {        
@@ -190,8 +190,8 @@ function processRss(data,next) {
 
 function processRssItem(item, next) {
     
-  var Content = ncms.lib.mongoose.model('Content');  
-  var alias = ncms.modules['content'].fn.titleAlias(item.title.text);
+  var Content = calipso.lib.mongoose.model('Content');  
+  var alias = calipso.modules['content'].fn.titleAlias(item.title.text);
       
   Content.findOne({alias:alias},function (err, c) {
     

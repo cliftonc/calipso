@@ -3,7 +3,7 @@
  */
 var fs = require('fs'),express = require('express'),
 	 mongoose = require('mongoose'), sys = require('sys'), nodepath = require('path'),
-	 ncms = require('./lib/ncms'), profiler = require('v8-profiler');
+	 calipso = require('./lib/calipso'), profiler = require('v8-profiler');
 
 /** 
  * Global variables
@@ -55,7 +55,7 @@ function bootApplication(app) {
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'helloworld' }));
   app.use(express.static(path + '/themes/' + theme + '/public'));  // Before router to enable dynamic routing
-  app.use(ncms.ncmsRouter(app,app.set('config')));
+  app.use(calipso.calipsoRouter(app,app.set('config')));
 
   // Setup ejs views as default, with .html as the extension      
   app.set('views', path + '/themes/' + theme);
@@ -89,31 +89,25 @@ function bootApplication(app) {
   });
 }
 
-//Bootstrap models 
-function bootModules(app) {
-	
-  fs.readdir(path + '/modules', function(err, files){
-    if (err) throw err;
-    files.forEach(function(file){
-    	bootModule(app, file);
-    });
-  });
-    
-}
-
-// simplistic model support
-function bootModule(app, file) {
-
-    var name = file.replace('.js', ''),
-    	  schema = require(path + '/modules/'+ name);				// Include the mongoose file        
-    
-}
-
 // allow normal node loading if appropriate
 if (!module.parent) {
+  
+  console.log("");
+  console.log("\x1b[36m   ###   ##   ##   ## ##### ####   ####  \x1b[0m");
+  console.log("\x1b[36m ###    ####  ##      ##  # ##    ##  ## \x1b[0m");
+  console.log("\x1b[36m ##    ##  ## ##   ## ##  # ##    ##  ## \x1b[0m");
+  console.log("\x1b[36m ##    ##  ## ##   ## #####  ###  ##  ## \x1b[0m");
+  console.log("\x1b[36m ##    ###### ##   ## ##       ## ##  ## \x1b[0m");
+  console.log("\x1b[36m ###   ##  ## ##   ## ##       ## ##  ## \x1b[0m");
+  console.log("\x1b[36m   ### ##  ## #### ## ##    ####   ####  \x1b[0m");
+  console.log("");
+  
   exports.boot(function(app) {
-    app.listen(3000);
-    console.log("Express server %s listening on port %d", express.version, app.address().port)
+    
+    app.listen(3000);          
+    console.log("\x1b[36mCalipso server listening on port: \x1b[0m %d\r\n", app.address().port)
+    
   });  
 }
 
+       

@@ -1,4 +1,4 @@
-var ncms = require("../../lib/ncms");      
+var calipso = require("../../lib/calipso");      
 
 exports = module.exports = {init: init, route: route};
 
@@ -23,7 +23,7 @@ function route(req,res,module,app,next) {
        * Routes
        */      
       
-      // var router = ncms.moduleRouter.Router();
+      // var router = calipso.moduleRouter.Router();
       module.router.route(req,res,next);
       
 };
@@ -31,7 +31,7 @@ function route(req,res,module,app,next) {
 function init(module,app,next) {      
   
     // Any pre-route config  
-  ncms.lib.step(
+  calipso.lib.step(
       function defineRoutes() {
         module.router.addRoute(/.*/,allPages,{end:false, templatePath:__dirname + '/templates/template-all.html'},this.parallel());
         module.router.addRoute('GET /template',templatePage,{templatePath:__dirname + '/templates/template.html'},this.parallel());        
@@ -54,7 +54,7 @@ function templatePage(req,res,next,template) {
     
     // Render template
     if(template) {
-      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{variable:myVariable}}));
+      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{variable:myVariable}}));
     }
     next();      
 };
@@ -69,7 +69,7 @@ function allPages(req,res,next,template) {
   
   if(template) {
     // render to the right
-    res.renderedBlocks.right.push(ncms.lib.ejs.render(template,{locals:{variable:myVariable}}));
+    res.renderedBlocks.right.push(calipso.lib.ejs.render(template,{locals:{variable:myVariable}}));
   }
   next();      
 };

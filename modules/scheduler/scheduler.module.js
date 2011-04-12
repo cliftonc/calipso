@@ -1,4 +1,4 @@
-var ncms = require("../../lib/ncms"), cron = require('./scheduler.cron');      
+var calipso = require("../../lib/calipso"), cron = require('./scheduler.cron');      
 
 exports = module.exports = {init: init, route: route, reload: reload, disable: disable};
 /**
@@ -25,7 +25,7 @@ function route(req,res,module,app,next) {
 
 function init(module,app,next) {      
 
-  ncms.lib.step(
+  calipso.lib.step(
       function defineRoutes() {
         module.router.addRoute('GET /scheduler',schedulerAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());  
         module.router.addRoute('POST /scheduler',createJob,{admin:true},this.parallel());    
@@ -40,7 +40,7 @@ function init(module,app,next) {
       function done() {
         
         // Ensure we have the job schema defined
-        var ScheduledJob = new ncms.lib.mongoose.Schema({
+        var ScheduledJob = new calipso.lib.mongoose.Schema({
           name:{type: String, required: true, unique: true},
           cronTime:{type: String, default:'* * * * * *',required: true},
           enabled:{type: Boolean, default:false, required: true},
@@ -49,15 +49,15 @@ function init(module,app,next) {
           args:{type: String, default:'', required: false},
           created: { type: Date, default: Date.now }          
         });
-        ncms.lib.mongoose.model('ScheduledJob', ScheduledJob);  
+        calipso.lib.mongoose.model('ScheduledJob', ScheduledJob);  
                 
         loadJobs(next);
         
-        ncms.data.jobFunctions = [];
+        calipso.data.jobFunctions = [];
         
-        for(var module in ncms.modules) {                    
-          for(var job in ncms.modules[module].fn.jobs) {
-              ncms.data.jobFunctions.push(module + "." + job);
+        for(var module in calipso.modules) {                    
+          for(var job in calipso.modules[module].fn.jobs) {
+              calipso.data.jobFunctions.push(module + "." + job);
           }          
         }                                
         
@@ -68,17 +68,17 @@ function init(module,app,next) {
 
 function loadJobs(next) {
   
-  var ScheduledJob = ncms.lib.mongoose.model('ScheduledJob');      
+  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');      
 
   // Check to see if we already have any jobs.
   // Create a holder for our jobs - DOES THIS STOP EVERYTHING ELSE??!
-  ncms.jobs = {};
+  calipso.jobs = {};
             
   ScheduledJob.find({}, function(err, jobs) {
         
         jobs.forEach(function(job) {          
           // '* * * * * *'
-          if(ncms.modules[job.module] && ncms.modules[job.module].fn.jobs[job.method]) {
+          if(calipso.modules[job.module] && calipso.modules[job.module].fn.jobs[job.method]) {
             
 
             var options = {
@@ -87,11 +87,11 @@ function loadJobs(next) {
                 enabled: job.enabled, 
                 module: job.module, 
                 method: job.method, 
-                fn: ncms.modules[job.module].fn.jobs[job.method],
+                fn: calipso.modules[job.module].fn.jobs[job.method],
                 args: job.args
             }
             
-            ncms.jobs[job.name] = new cron.CronJob(options);           
+            calipso.jobs[job.name] = new cron.CronJob(options);           
           } else {            
             
             var options = {
@@ -100,12 +100,12 @@ function loadJobs(next) {
                 enabled: job.enabled, 
                 module: job.module, 
                 method: job.method, 
-                fn: function() { ncms.error("Invalid function " + job.module 
+                fn: function() { calipso.error("Invalid function " + job.module 
                                 + "." + job.method + " for job: " + job.name)},
                 args: job.args
             }
-            ncms.jobs[job.name] = new cron.CronJob(options);
-            ncms.jobs[job.name].invalid = true;
+            calipso.jobs[job.name] = new cron.CronJob(options);
+            calipso.jobs[job.name].invalid = true;
           }
           
         });
@@ -132,7 +132,7 @@ function enableScheduler(req,res,next,template) {
     
     if(jobName) {
       
-      if(!ncms.jobs[jobName]) {
+      if(!calipso.jobs[jobName]) {
         
         if(format === 'json') {
           res.send({status:'error',msg:'Could not locate job: ' + jobName});
@@ -144,18 +144,18 @@ function enableScheduler(req,res,next,template) {
       }
       
       if(req.moduleParams.onoff === 'on') {
-        ncms.jobs[jobName].enable();
+        calipso.jobs[jobName].enable();
       } else {
-        ncms.jobs[jobName].disable();
+        calipso.jobs[jobName].disable();
       }
       
     } else {
       
-      for(var job in ncms.jobs) {
+      for(var job in calipso.jobs) {
         if(req.moduleParams.onoff === 'on') {
-            ncms.jobs[job].enable();  
+            calipso.jobs[job].enable();  
         } else {
-            ncms.jobs[job].disable();
+            calipso.jobs[job].disable();
         }      
       }
       
@@ -178,15 +178,15 @@ function schedulerAdmin(req,res,next,template) {
     res.menu.secondary.push({name:'Disable All',parentUrl:'/scheduler',url:'/scheduler/switch/off'});
   
     
-    var ScheduledJob = ncms.lib.mongoose.model('ScheduledJob'); 
+    var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob'); 
     
     // Render json to blocks
-    var item = {id:"NA",type:'content',meta:{jobs:ncms.jobs}};                
+    var item = {id:"NA",type:'content',meta:{jobs:calipso.jobs}};                
     res.blocks.body.push(item);
     
     // Render template
     if(template) {
-      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
     }
     next();
     
@@ -201,13 +201,13 @@ function createJobForm(req,res,next,template) {
                  {label:'Name',name:'job[name]',type:'text',value:''},                 
                  {label:'CRON Time',type:'cronTime',value:''},                 
                  {label:'Enabled',name:'job[enabled]',type:'select',value:'no',options:["yes","no"]},
-                 {label:'Job Function',name:'job[moduleMethod]',type:'select',value:'',options:ncms.data.jobFunctions},
+                 {label:'Job Function',name:'job[moduleMethod]',type:'select',value:'',options:calipso.data.jobFunctions},
                  {label:'Arguments',name:'job[args]',type:'textarea',value:""}
               ]}
   
   res.blocks.body.push(item);
   if(template) {
-    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
   }                      
   
   next();
@@ -222,7 +222,7 @@ function createJobForm(req,res,next,template) {
  */
 function createJob(req,res,next,template) {
                   
-      var ScheduledJob = ncms.lib.mongoose.model('ScheduledJob');                        
+      var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');                        
       var job = processForm(req.body.job,new ScheduledJob(req.body.job));      
       
       job.save(function(err) {    
@@ -233,7 +233,7 @@ function createJob(req,res,next,template) {
           }                          
         } else {
           
-          if(ncms.modules[job.module] && ncms.modules[job.module].fn.jobs[job.method]) {
+          if(calipso.modules[job.module] && calipso.modules[job.module].fn.jobs[job.method]) {
             
             var options = {
                 jobName: job.name,
@@ -241,11 +241,11 @@ function createJob(req,res,next,template) {
                 enabled: job.enabled, 
                 module: job.module, 
                 method: job.method, 
-                fn: ncms.modules[job.module].fn.jobs[job.method],
+                fn: calipso.modules[job.module].fn.jobs[job.method],
                 args: job.args
             }
             
-            ncms.jobs[job.name] = new cron.CronJob(options);
+            calipso.jobs[job.name] = new cron.CronJob(options);
             
           } else {
             req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job not initialised.");
@@ -290,7 +290,7 @@ function processForm(formObject,job) {
 
 function editJobForm(req,res,next,template) {
   
-  var ScheduledJob = ncms.lib.mongoose.model('ScheduledJob');      
+  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');      
 
   var jobName = req.moduleParams.jobName;          
   var item;
@@ -308,7 +308,7 @@ function editJobForm(req,res,next,template) {
                  {label:'Name',name:'job[name]',type:'text',value:job.name},                 
                  {label:'CRON Time',type:'cronTime',value:job.cronTime},                 
                  {label:'Enabled',name:'job[enabled]',type:'select',value: job.enabled ? "yes" : "no",options:["yes","no"]},
-                 {label:'Job Function',name:'job[moduleMethod]',type:'select',value:job.module + "." + job.method,options:ncms.data.jobFunctions},
+                 {label:'Job Function',name:'job[moduleMethod]',type:'select',value:job.module + "." + job.method,options:calipso.data.jobFunctions},
                  {label:'Arguments',name:'job[args]',type:'textarea',value:job.args}                
            ]};
         
@@ -316,7 +316,7 @@ function editJobForm(req,res,next,template) {
     
     res.blocks.body.push(item);
     if(template) {
-      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
     }                    
     next();   
     
@@ -326,7 +326,7 @@ function editJobForm(req,res,next,template) {
 
 function updateJob(req,res,next,template) {
       
-  var ScheduledJob = ncms.lib.mongoose.model('ScheduledJob');        
+  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');        
   var jobName = req.moduleParams.jobName;          
   
   ScheduledJob.findOne({name:jobName}, function(err, job) {
@@ -343,11 +343,11 @@ function updateJob(req,res,next,template) {
           } else {
             
             if(jobName != job.name) {
-              ncms.jobs[job.name] = ncms.jobs[jobName];   // Copy it
-              delete ncms.jobs[jobName];                  // 'Delete' it - GC will get it later ???
+              calipso.jobs[job.name] = calipso.jobs[jobName];   // Copy it
+              delete calipso.jobs[jobName];                  // 'Delete' it - GC will get it later ???
             }
             
-            if(ncms.modules[job.module] && ncms.modules[job.module].fn.jobs[job.method]) {
+            if(calipso.modules[job.module] && calipso.modules[job.module].fn.jobs[job.method]) {
 
               var options = {
                   jobName: job.name,
@@ -355,11 +355,11 @@ function updateJob(req,res,next,template) {
                   enabled: job.enabled, 
                   module: job.module, 
                   method: job.method, 
-                  fn: ncms.modules[job.module].fn.jobs[job.method],
+                  fn: calipso.modules[job.module].fn.jobs[job.method],
                   args: job.args
               }
               
-              ncms.jobs[job.name].configure(options);
+              calipso.jobs[job.name].configure(options);
               
             } else {
               req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job modified but not initialised.");
@@ -383,7 +383,7 @@ function updateJob(req,res,next,template) {
 
 function showJob(req,res,next,template,err) {
      
-  var ScheduledJob = ncms.lib.mongoose.model('ScheduledJob');      
+  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');      
 
   var jobName = req.moduleParams.jobName;          
   var item;
@@ -404,7 +404,7 @@ function showJob(req,res,next,template,err) {
       
     res.blocks.body.push(item);
     if(template) {
-      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
     }                
   
     next();
@@ -413,10 +413,9 @@ function showJob(req,res,next,template,err) {
   
 }
 
-
 function deleteJob(req,res,next,template,err) {
   
-  var ScheduledJob = ncms.lib.mongoose.model('ScheduledJob');        
+  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');        
   var jobName = req.moduleParams.jobName;          
   
   ScheduledJob.remove({name:jobName}, function(err) {
@@ -424,8 +423,8 @@ function deleteJob(req,res,next,template,err) {
       req.flash("info","Unable to delete the job: " + jobName + " because " + err.message);
       res.redirect("/scheduler");
     } else {
-      ncms.jobs[jobName].disable() // Disable it
-      delete ncms.jobs[jobName];   // 'Delete' it - GC will get it later ???
+      calipso.jobs[jobName].disable() // Disable it
+      delete calipso.jobs[jobName];   // 'Delete' it - GC will get it later ???
       req.flash("info","Job: " + jobName + " has now been deleted.");      
       res.redirect("/scheduler");      
     }
@@ -442,10 +441,10 @@ function disable() {
 // Reload
 function reload() {
 
-  // As the cron jobs are background tasks, we need to delete them all from the ncms object 
-  for(var jobName in ncms.jobs) {
-    ncms.jobs[jobName].disable() // Disable it
-    delete ncms.jobs[jobName];   // 'Delete' it - GC will get it later ???
+  // As the cron jobs are background tasks, we need to delete them all from the calipso object 
+  for(var jobName in calipso.jobs) {
+    calipso.jobs[jobName].disable() // Disable it
+    delete calipso.jobs[jobName];   // 'Delete' it - GC will get it later ???
   }
     
 }

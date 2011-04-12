@@ -1,4 +1,4 @@
-var ncms = require("../../lib/ncms");      
+var calipso = require("../../lib/calipso");      
 
 exports = module.exports = {init: init, route: route, registerUser: registerUser};
 
@@ -20,7 +20,7 @@ function route(req,res,module,app,next) {
       /**
        * Routes
        */            
-      // var router = ncms.moduleRouter.Router();
+      // var router = calipso.moduleRouter.Router();
       module.router.route(req,res,next);
       
 }
@@ -28,7 +28,7 @@ function route(req,res,module,app,next) {
 
 function init(module,app,next) {      
   
-  ncms.lib.step(
+  calipso.lib.step(
       function defineRoutes() {
         module.router.addRoute(/.*/,loginForm,{end:false,templatePath:__dirname + '/templates/login.html'},this.parallel());              
         module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
@@ -40,13 +40,13 @@ function init(module,app,next) {
       },
       function done() {
                 
-        var User = new ncms.lib.mongoose.Schema({
+        var User = new calipso.lib.mongoose.Schema({
           // Single default property
           username:{type: String, required: true, unique:true},
           password:{type: String, required: true},
           isAdmin:{type: Boolean, required: true, default: true}
         });
-        ncms.lib.mongoose.model('User', User);    
+        calipso.lib.mongoose.model('User', User);    
         next();
       }           
   )
@@ -62,7 +62,7 @@ function loginForm(req,res,next,template) {
     
     res.blocks.right.push(item);
     if(template) {
-      res.renderedBlocks.right.push(ncms.lib.ejs.render(template,{locals:{item:item,request:req}}));
+      res.renderedBlocks.right.push(calipso.lib.ejs.render(template,{locals:{item:item,request:req}}));
     }                    
     
     next();
@@ -80,7 +80,7 @@ function registerUserForm(req,res,next,template) {
   
   res.blocks.body.push(item);
   if(template) {
-    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
   }                    
   
   next();
@@ -89,7 +89,7 @@ function registerUserForm(req,res,next,template) {
 
 function loginUser(req,res,next,template) {
 
-  var User = ncms.lib.mongoose.model('User');
+  var User = calipso.lib.mongoose.model('User');
   
   var username = req.body.user.username;
   var password = req.body.user.password;
@@ -102,7 +102,7 @@ function loginUser(req,res,next,template) {
           req.session.user = {username: user.username, isAdmin: user.isAdmin, id: user._id};
           req.session.save(function(err) {
             if(err) {
-              ncms.error("Error saving session: " + err);  
+              calipso.error("Error saving session: " + err);  
             }            
           });
         }
@@ -136,7 +136,7 @@ function logoutUser(req,res,next,template) {
 
 function registerUser(req,res,next,template) {
   
-  var User = ncms.lib.mongoose.model('User');                  
+  var User = calipso.lib.mongoose.model('User');                  
   var u = new User(req.body.user);
   
   // Over ride admin
@@ -173,7 +173,7 @@ function myProfile(req,res,next,template) {
 
 function userProfile(req,res,next,template) {
 
-  var User = ncms.lib.mongoose.model('User');
+  var User = calipso.lib.mongoose.model('User');
   var username = req.moduleParams.username;          
   
   User.findOne({username:username}, function(err, u) {
@@ -185,7 +185,7 @@ function userProfile(req,res,next,template) {
     }           
     res.blocks.body.push(item);
     if(template) {
-      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
     }                
     next();   
     
@@ -196,7 +196,7 @@ function userProfile(req,res,next,template) {
 function listUsers(req,res,next,template) {      
   
   // Re-retrieve our object
-  var User = ncms.lib.mongoose.model('User');      
+  var User = calipso.lib.mongoose.model('User');      
     
   User.find({})
     .find(function (err, contents) {
@@ -205,7 +205,7 @@ function listUsers(req,res,next,template) {
             var item = {id:u._id,type:'user',meta:c.toObject()};                
             res.blocks.body.push(item);               
             if(template) {
-              res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+              res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
             }                
           });              
           next();

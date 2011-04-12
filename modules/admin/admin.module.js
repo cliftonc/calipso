@@ -1,4 +1,4 @@
-var ncms = require("../../lib/ncms");      
+var calipso = require("../../lib/calipso");      
 
 exports = module.exports = {init: init, route: route};
 
@@ -27,7 +27,7 @@ function route(req,res,module,app,next) {
 
 function init(module,app,next) {      
   
-  ncms.lib.step(
+  calipso.lib.step(
       function defineRoutes() {
         
         module.router.addRoute('GET /admin',showAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());
@@ -40,10 +40,10 @@ function init(module,app,next) {
       },
       function done() {
         
-        ncms.data.themes = [];        
-        ncms.lib.fs.readdir(app.path + '/themes',function(err,folders) {
+        calipso.data.themes = [];        
+        calipso.lib.fs.readdir(app.path + '/themes',function(err,folders) {
            folders.forEach(function(name){
-             ncms.data.themes.push({name:name,selected: app.set('config').theme === name ? true : false}); 
+             calipso.data.themes.push({name:name,selected: app.set('config').theme === name ? true : false}); 
            });
            next();
         });
@@ -59,7 +59,7 @@ function init(module,app,next) {
 function install(req,res,next,template) {      
     
   if(template) {
-    res.renderedBlocks.body.push(ncms.lib.ejs.render(template));
+    res.renderedBlocks.body.push(calipso.lib.ejs.render(template));
   }   
   next();
                       
@@ -73,7 +73,7 @@ function installSave(req,res,next,template) {
   
   var user = require("../user/user.module");
   user.registerUser(req,res,function() { 
-      req.flash('info','New administrative user created, you can now login as this user and begin using NCMS!');
+      req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');
       next();
     },template);
                       
@@ -82,14 +82,14 @@ function installSave(req,res,next,template) {
 function showAdmin(req,res,next,template) {      
     
   // Re-retrieve our object
-  var AppConfig = ncms.lib.mongoose.model('AppConfig');    
+  var AppConfig = calipso.lib.mongoose.model('AppConfig');    
   
   AppConfig.findOne({}, function(err,config) {    
                 
           var item = {id:config._id,type:'config',meta:config.toObject()};                
           res.blocks.body.push(item);               
           if(template) {
-            res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item,modules:ncms.modules,themes:ncms.data.themes, loglevels:ncms.lib.winston.levels}}));
+            res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item,modules:calipso.modules,themes:calipso.data.themes, loglevels:calipso.lib.winston.levels}}));
           }                
           next();
           
@@ -105,7 +105,7 @@ function reloadAdmin(req,res,next,template) {
   res.blocks.body.push(item);
   
   if(template) {
-    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
   }                
   next();
 
@@ -115,14 +115,14 @@ function reloadAdmin(req,res,next,template) {
 function saveAdmin(req,res,next,template) {
                       
   // Re-retrieve our object
-  var AppConfig = ncms.lib.mongoose.model('AppConfig');    
+  var AppConfig = calipso.lib.mongoose.model('AppConfig');    
   
   AppConfig.findOne({}, function(err,c) {    
       
     if (!err && c) {
       
         if(c.theme != req.body.config.theme) {
-          req.flash('info','You need to restart NCMS to see the theme changes (live restart todo!).')
+          req.flash('info','You need to restart calipso to see the theme changes (live restart todo!).')
         }
         
         c.theme = req.body.config.theme;
@@ -141,7 +141,7 @@ function saveAdmin(req,res,next,template) {
               res.redirect('/admin');
             }
           } else {
-            ncms.config = c; // TODO : This wont work on multiple edits
+            calipso.config = c; // TODO : This wont work on multiple edits
             res.redirect('/admin/reload');
           }
           next();         
@@ -163,7 +163,7 @@ function moduleFormatToArray(res,modules) {
   
   var arrayModules = [];
   
-  for(var module in ncms.modules) {                     
+  for(var module in calipso.modules) {                     
       var enabled = modules[module] === 'on' ? true : false;
       arrayModules.push({name:module,enabled:enabled});           
   }

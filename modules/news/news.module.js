@@ -1,4 +1,4 @@
-var ncms = require("../../lib/ncms");      
+var calipso = require("../../lib/calipso");      
 
 exports = module.exports = {init: init, route: route};
 
@@ -24,7 +24,7 @@ function route(req,res,module,app,next) {
 
 function init(module,app,next) {       
     
-  ncms.lib.step(
+  calipso.lib.step(
       function defineRoutes() {
         module.router.addRoute(/.*/,breakingNews,{end:false, templatePath:__dirname + '/templates/breaking.html'},this.parallel());
       },
@@ -39,7 +39,7 @@ function breakingNews(req,res,next,template) {
   
     // Create a new news block
     res.blocks.news = [];
-    var Content = ncms.lib.mongoose.model('Content');
+    var Content = calipso.lib.mongoose.model('Content');
     
     Content.find({tags:'breaking'})
       .sort('created', -1)
@@ -50,7 +50,7 @@ function breakingNews(req,res,next,template) {
               res.blocks.news.push(item);                                            
             });
             if(template) {
-              res.renderedBlocks.right.push(ncms.lib.ejs.render(template,{locals:{news:res.blocks.news}}));
+              res.renderedBlocks.right.push(calipso.lib.ejs.render(template,{locals:{news:res.blocks.news}}));
             }
             next();
     });

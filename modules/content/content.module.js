@@ -1,4 +1,4 @@
-var  ncms = require("../../lib/ncms"), pager = "../../utils/pager.js";      
+var  calipso = require("../../lib/calipso"), pager = "../../utils/pager.js";      
 
 exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jobs:{scheduledPublish:scheduledPublish}};
 
@@ -26,7 +26,7 @@ function route(req,res,module,app,next) {
 
 function init(module,app,next) {    
   
-  ncms.lib.step(
+  calipso.lib.step(
       function defineRoutes() {
         module.router.addRoute(/html$/,showAliasedContent,{templatePath:__dirname + '/templates/show.html'},this.parallel());
         module.router.addRoute('GET /',listContent,{templatePath:__dirname + '/templates/list.html'},this.parallel());
@@ -40,20 +40,23 @@ function init(module,app,next) {
         module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());        
       },
       function done() {
-        var Content = new ncms.lib.mongoose.Schema({
+        
+        var Content = new calipso.lib.mongoose.Schema({
           // Single default property
-          title:{type: String, required: true},
-          teaser:{type: String, required: true},
+          type:{type: String, required: true, default:'content'},
+          title:{type: String, required: true, default: ''},
+          teaser:{type: String, required: true, default: ''},
+          taxonomy:{type: String, required: true, default:'pages'},
           content:{type: String, required: true},
           status:{type: String, required: true, default:'draft'},
           alias:{type: String, required: true, unique: true},
           author:{type: String, required: true},
           tags:[String],
           created: { type: Date, default: Date.now },
-          updated: { type: Date, default: Date.now },
+          updated: { type: Date, default: Date.now }
         });
 
-        ncms.lib.mongoose.model('Content', Content);    
+        calipso.lib.mongoose.model('Content', Content);    
         
         next();
       }        
@@ -69,7 +72,7 @@ function init(module,app,next) {
  */
 function createContent(req,res,next,template) {
                   
-      var Content = ncms.lib.mongoose.model('Content');                  
+      var Content = calipso.lib.mongoose.model('Content');                  
       var c = new Content(req.body.content);
       c.alias = titleAlias(c.title);      
       c.tags = req.body.content.tags ? req.body.content.tags.split(",") : [];      
@@ -117,7 +120,7 @@ function createContentForm(req,res,next,template) {
   
   res.blocks.body.push(item);
   if(template) {
-    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
   }                      
   
   // res.blocks.html = [];
@@ -129,7 +132,7 @@ function createContentForm(req,res,next,template) {
 function editContentForm(req,res,next,template) {
   
   
-  var Content = ncms.lib.mongoose.model('Content');
+  var Content = calipso.lib.mongoose.model('Content');
   var id = req.moduleParams.id;          
   var item;
   
@@ -155,7 +158,7 @@ function editContentForm(req,res,next,template) {
     
     res.blocks.body.push(item);
     if(template) {
-      res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
     }                    
     next();   
     
@@ -165,7 +168,7 @@ function editContentForm(req,res,next,template) {
 
 function updateContent(req,res,next,template) {
       
-  var Content = ncms.lib.mongoose.model('Content');
+  var Content = calipso.lib.mongoose.model('Content');
   var id = req.moduleParams.id;          
   
   Content.findById(id, function(err, c) {    
@@ -204,7 +207,7 @@ function updateContent(req,res,next,template) {
 
 function showAliasedContent(req,res,next,template) {  
   
-  var Content = ncms.lib.mongoose.model('Content');
+  var Content = calipso.lib.mongoose.model('Content');
 
   var alias = req.url
                   .replace(/^\//, "")
@@ -234,7 +237,7 @@ function showContent(req,res,next,template,err,content) {
   }           
   res.blocks.body.push(item);
   if(template) {
-    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
   }                
   
   next();
@@ -243,7 +246,7 @@ function showContent(req,res,next,template,err,content) {
 
 function showContentByID(req,res,next,template) {
 
-  var Content = ncms.lib.mongoose.model('Content');
+  var Content = calipso.lib.mongoose.model('Content');
   var id = req.moduleParams.id;          
   
   Content.findById(id, function(err, content) {   
@@ -255,7 +258,7 @@ function showContentByID(req,res,next,template) {
 function listContent(req,res,next,template) {      
   
       // Re-retrieve our object
-      var Content = ncms.lib.mongoose.model('Content');      
+      var Content = calipso.lib.mongoose.model('Content');      
       
       res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
             
@@ -274,7 +277,7 @@ function listContent(req,res,next,template) {
       Content.count(query, function (err, count) {
         
         var total = count;  
-        var pagerHtml = ncms.lib.pager.render(from,to,total,"");
+        var pagerHtml = calipso.lib.pager.render(from,to,total,"");
               
         Content.find(query)
           .sort('created', -1)
@@ -285,7 +288,7 @@ function listContent(req,res,next,template) {
                   var item = {id:c._id,type:'content',meta:c.toObject()};                
                   res.blocks.body.push(item);               
                   if(template) {
-                    res.renderedBlocks.body.push(ncms.lib.ejs.render(template,{locals:{item:item}}));
+                    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
                   }                
                 });    
                 
@@ -302,7 +305,7 @@ function listContent(req,res,next,template) {
 
 function deleteContent(req,res,next,template,err) {
   
-  var Content = ncms.lib.mongoose.model('Content');        
+  var Content = calipso.lib.mongoose.model('Content');        
   var id = req.moduleParams.id;
   
   Content.remove({_id:id}, function(err) {
@@ -320,5 +323,5 @@ function deleteContent(req,res,next,template,err) {
 
 // Example job
 function scheduledPublish(args) {
-  ncms.info("Scheduled publish: " + args);
+  calipso.info("Scheduled publish: " + args);
 }

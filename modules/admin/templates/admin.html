@@ -12,19 +12,21 @@
     </select>
     <label>Cache</label><input name='config[cache]' type='text' value='<%- item.meta.cache %>'/>
     
-    <label>Logs</label>    
-    
-    <br/>Level: <select style='display: inline' name="config[logslevel]">
+    <label>Log Level</label>     
+    <select name="config[logslevel]">
       <%
         for(var level in loglevels) { %>
             <option value='<%-level %>' <%= item.meta.logs.level === level ? "SELECTED" : "" %>/><%-level%><br/>                 
     <%
         }
     %>    
-    </select><br/>
-    <input type='checkbox' name='config[logsconsoleenabled]' <%= item.meta.logs.console.enabled ? "checked" : "unchecked" %>/>Console Log<br/>
-    <input type='checkbox' name='config[logsfileenabled]' <%= item.meta.logs.file.enabled ? "checked" : "unchecked" %>/>File Log<br/>
-    Path: <input  style='display: inline' type='text' name='config[logsfilefilepath]' style='width: 80% !important;' value='<%= item.meta.logs.file.filepath%>'/>                 
+    </select>
+    <label>Console Logging Enabled</label>
+    <input type='checkbox' name='config[logsconsoleenabled]' <%= item.meta.logs.console.enabled ? "checked" : "unchecked" %>/>Enabled<br/>
+    <label>File Logging Enabled</label>
+    <input type='checkbox' name='config[logsfileenabled]' <%= item.meta.logs.file.enabled ? "checked" : "unchecked" %>/>Enabled<br/>
+    <label>File Log Path</label>
+    <input type='text' name='config[logsfilefilepath]' style='width: 80% !important;' value='<%= item.meta.logs.file.filepath%>'/>                 
     
     <label>Modules</label><br/>
     <%        
