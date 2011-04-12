@@ -726,3 +726,173 @@
 12 Apr 21:40:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:40:50 GMT+0100 (BST)
 12 Apr 21:40:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
 12 Apr 21:40:50 - debug: Job Local completed in 67 ms
+12 Apr 21:43:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:43:07 GMT+0100 (BST)
+12 Apr 21:43:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:10 - debug: Job Local started @ Tue Apr 12 2011 21:43:10 GMT+0100 (BST)
+12 Apr 21:43:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:43:10 GMT+0100 (BST)
+12 Apr 21:43:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:10 - debug: Job Local completed in 48 ms
+12 Apr 21:43:10 - info: HERE
+12 Apr 21:43:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:43:14 GMT+0100 (BST)
+12 Apr 21:43:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:20 - debug: Job Local started @ Tue Apr 12 2011 21:43:20 GMT+0100 (BST)
+12 Apr 21:43:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:43:20 GMT+0100 (BST)
+12 Apr 21:43:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:20 - debug: Job Local completed in 49 ms
+12 Apr 21:43:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:43:21 GMT+0100 (BST)
+12 Apr 21:43:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:43:28 GMT+0100 (BST)
+12 Apr 21:43:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:30 - debug: Job Local started @ Tue Apr 12 2011 21:43:30 GMT+0100 (BST)
+12 Apr 21:43:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:43:30 GMT+0100 (BST)
+12 Apr 21:43:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:30 - debug: Job Local completed in 49 ms
+12 Apr 21:43:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:43:35 GMT+0100 (BST)
+12 Apr 21:43:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:36 - info: HERE
+12 Apr 21:43:38 - info: HERE
+12 Apr 21:43:40 - debug: Job Local started @ Tue Apr 12 2011 21:43:40 GMT+0100 (BST)
+12 Apr 21:43:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:43:40 GMT+0100 (BST)
+12 Apr 21:43:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:43:40 - debug: Job Local completed in 53 ms
+12 Apr 21:43:41 - info: HERE
+12 Apr 21:43:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:43:42 GMT+0100 (BST)
+12 Apr 21:43:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:17 - info: HERE
+12 Apr 21:45:19 - info: HERE
+12 Apr 21:45:20 - debug: Job Local started @ Tue Apr 12 2011 21:45:20 GMT+0100 (BST)
+12 Apr 21:45:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:45:20 GMT+0100 (BST)
+12 Apr 21:45:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:20 - debug: Job Local completed in 60 ms
+12 Apr 21:45:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:45:21 GMT+0100 (BST)
+12 Apr 21:45:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:45:28 GMT+0100 (BST)
+12 Apr 21:45:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:30 - debug: Job Local started @ Tue Apr 12 2011 21:45:30 GMT+0100 (BST)
+12 Apr 21:45:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:45:30 GMT+0100 (BST)
+12 Apr 21:45:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:30 - debug: Job Local completed in 102 ms
+12 Apr 21:45:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:45:35 GMT+0100 (BST)
+12 Apr 21:45:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:40 - debug: Job Local started @ Tue Apr 12 2011 21:45:40 GMT+0100 (BST)
+12 Apr 21:45:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:45:40 GMT+0100 (BST)
+12 Apr 21:45:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:40 - debug: Job Local completed in 49 ms
+12 Apr 21:45:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:45:42 GMT+0100 (BST)
+12 Apr 21:45:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:44 - info: HERE
+12 Apr 21:45:49 - debug: Job AtomTester started @ Tue Apr 12 2011 21:45:49 GMT+0100 (BST)
+12 Apr 21:45:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:50 - debug: Job Local started @ Tue Apr 12 2011 21:45:50 GMT+0100 (BST)
+12 Apr 21:45:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:45:50 GMT+0100 (BST)
+12 Apr 21:45:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:50 - debug: Job Local completed in 52 ms
+12 Apr 21:45:53 - info: HERE
+12 Apr 21:45:55 - info: HERE
+12 Apr 21:45:56 - debug: Job AtomTester started @ Tue Apr 12 2011 21:45:56 GMT+0100 (BST)
+12 Apr 21:45:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:45:56 - info: HERE
+12 Apr 21:46:00 - debug: Job Local started @ Tue Apr 12 2011 21:46:00 GMT+0100 (BST)
+12 Apr 21:46:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:46:00 GMT+0100 (BST)
+12 Apr 21:46:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:46:00 GMT+0100 (BST)
+12 Apr 21:46:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:00 - debug: Job Local completed in 48 ms
+12 Apr 21:46:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:46:07 GMT+0100 (BST)
+12 Apr 21:46:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:10 - debug: Job Local started @ Tue Apr 12 2011 21:46:10 GMT+0100 (BST)
+12 Apr 21:46:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:46:10 GMT+0100 (BST)
+12 Apr 21:46:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:10 - debug: Job Local completed in 43 ms
+12 Apr 21:46:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:46:28 GMT+0100 (BST)
+12 Apr 21:46:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:46:30 GMT+0100 (BST)
+12 Apr 21:46:30 - debug: Job Local started @ Tue Apr 12 2011 21:46:30 GMT+0100 (BST)
+12 Apr 21:46:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:30 - debug: Job Local completed in 51 ms
+12 Apr 21:46:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:46:35 GMT+0100 (BST)
+12 Apr 21:46:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:46:40 GMT+0100 (BST)
+12 Apr 21:46:40 - debug: Job Local started @ Tue Apr 12 2011 21:46:40 GMT+0100 (BST)
+12 Apr 21:46:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:40 - debug: Job Local completed in 48 ms
+12 Apr 21:46:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:46:42 GMT+0100 (BST)
+12 Apr 21:46:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:49 - debug: Job AtomTester started @ Tue Apr 12 2011 21:46:49 GMT+0100 (BST)
+12 Apr 21:46:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:46:50 GMT+0100 (BST)
+12 Apr 21:46:50 - debug: Job Local started @ Tue Apr 12 2011 21:46:50 GMT+0100 (BST)
+12 Apr 21:46:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:46:50 - debug: Job Local completed in 46 ms
+12 Apr 21:46:56 - debug: Job AtomTester started @ Tue Apr 12 2011 21:46:56 GMT+0100 (BST)
+12 Apr 21:46:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:47:00 GMT+0100 (BST)
+12 Apr 21:47:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:00 GMT+0100 (BST)
+12 Apr 21:47:00 - debug: Job Local started @ Tue Apr 12 2011 21:47:00 GMT+0100 (BST)
+12 Apr 21:47:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:00 - debug: Job Local completed in 103 ms
+12 Apr 21:47:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:07 GMT+0100 (BST)
+12 Apr 21:47:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:47:10 GMT+0100 (BST)
+12 Apr 21:47:10 - debug: Job Local started @ Tue Apr 12 2011 21:47:10 GMT+0100 (BST)
+12 Apr 21:47:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:10 - debug: Job Local completed in 116 ms
+12 Apr 21:47:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:14 GMT+0100 (BST)
+12 Apr 21:47:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:47:20 GMT+0100 (BST)
+12 Apr 21:47:20 - debug: Job Local started @ Tue Apr 12 2011 21:47:20 GMT+0100 (BST)
+12 Apr 21:47:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:20 - debug: Job Local completed in 35 ms
+12 Apr 21:47:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:21 GMT+0100 (BST)
+12 Apr 21:47:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:28 GMT+0100 (BST)
+12 Apr 21:47:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:47:30 GMT+0100 (BST)
+12 Apr 21:47:30 - debug: Job Local started @ Tue Apr 12 2011 21:47:30 GMT+0100 (BST)
+12 Apr 21:47:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:30 - debug: Job Local completed in 48 ms
+12 Apr 21:47:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:35 GMT+0100 (BST)
+12 Apr 21:47:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:47:40 GMT+0100 (BST)
+12 Apr 21:47:40 - debug: Job Local started @ Tue Apr 12 2011 21:47:40 GMT+0100 (BST)
+12 Apr 21:47:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:40 - debug: Job Local completed in 49 ms
+12 Apr 21:47:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:42 GMT+0100 (BST)
+12 Apr 21:47:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:49 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:49 GMT+0100 (BST)
+12 Apr 21:47:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:47:50 GMT+0100 (BST)
+12 Apr 21:47:50 - debug: Job Local started @ Tue Apr 12 2011 21:47:50 GMT+0100 (BST)
+12 Apr 21:47:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:47:50 - debug: Job Local completed in 49 ms
+12 Apr 21:47:56 - debug: Job AtomTester started @ Tue Apr 12 2011 21:47:56 GMT+0100 (BST)
+12 Apr 21:47:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:48:00 GMT+0100 (BST)
+12 Apr 21:48:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:48:00 GMT+0100 (BST)
+12 Apr 21:48:00 - debug: Job Local started @ Tue Apr 12 2011 21:48:00 GMT+0100 (BST)
+12 Apr 21:48:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:00 - debug: Job Local completed in 42 ms
+12 Apr 21:48:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:48:07 GMT+0100 (BST)
+12 Apr 21:48:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:48:10 GMT+0100 (BST)
+12 Apr 21:48:10 - debug: Job Local started @ Tue Apr 12 2011 21:48:10 GMT+0100 (BST)
+12 Apr 21:48:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:10 - debug: Job Local completed in 50 ms
+12 Apr 21:48:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:48:14 GMT+0100 (BST)
+12 Apr 21:48:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:48:20 GMT+0100 (BST)
+12 Apr 21:48:20 - debug: Job Local started @ Tue Apr 12 2011 21:48:20 GMT+0100 (BST)
+12 Apr 21:48:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:20 - debug: Job Local completed in 46 ms
+12 Apr 21:48:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:48:21 GMT+0100 (BST)
+12 Apr 21:48:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:48:28 GMT+0100 (BST)
+12 Apr 21:48:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:48:30 GMT+0100 (BST)
+12 Apr 21:48:30 - debug: Job Local started @ Tue Apr 12 2011 21:48:30 GMT+0100 (BST)
+12 Apr 21:48:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:48:30 - debug: Job Local completed in 44 ms
+12 Apr 21:48:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:48:35 GMT+0100 (BST)
+12 Apr 21:48:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
