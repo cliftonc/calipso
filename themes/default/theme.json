@@ -1,0 +1,30 @@
+{
+  "name": "default",
+  "description": "Default Drupal Theme",
+  "version": "0.0.2",
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",  
+  "layouts":{
+        "default":{
+            "layout":{"template":"default.html",
+                      "sections":{                
+                        "menu":{"template":"menu.html"},         
+                        "header":{"template":"header.html"},                
+                        "body":{"template":"body.html","blocks":["messages","content","admin"]},
+                        "right":{"template":"right.html","blocks":["user.login","news.breaking","right"]},
+                        "footer":{"template":"footer.html"}
+                     }
+            }
+        },
+        "admin":{
+            "layout":{"template":"admin.html",
+                      "sections":{                
+                        "menu":{"template":"menu.html"},         
+                        "header":{"template":"header.html"},                
+                        "body":{"template":"body.html","blocks":["messages","admin"]},
+                        "right":{"template":"right.html","blocks":["user.login"]},
+                        "footer":{"template":"footer.html"}
+                     }
+            }
+        }                        
+  }  
+}

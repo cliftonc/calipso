@@ -26,7 +26,7 @@ function init(module,app,next) {
     
   calipso.lib.step(
       function defineRoutes() {
-        module.router.addRoute(/.*/,breakingNews,{end:false, templatePath:__dirname + '/templates/breaking.html'},this.parallel());
+        module.router.addRoute(/.*/,breakingNews,{end:false, template:'breaking',block:'news.breaking'},this.parallel());
       },
       function done() {
         next();
@@ -35,7 +35,7 @@ function init(module,app,next) {
                   
 };
 
-function breakingNews(req,res,next,template) {      
+function breakingNews(req,res,template,block,next) {      
   
     // Create a new news block
     res.blocks.news = [];
@@ -45,13 +45,15 @@ function breakingNews(req,res,next,template) {
       .sort('created', -1)
       .skip(0).limit(5)          
       .find(function (err, contents) {
+            
+            var news = [];
             contents.forEach(function(c) {              
-              var item = {id:c._id,type:'content',meta:c.toObject()};                
-              res.blocks.news.push(item);                                            
+              var item = {id:c._id,type:'content',meta:c.toObject()};
+              news.push(item);
             });
-            if(template) {
-              res.renderedBlocks.right.push(calipso.lib.ejs.render(template,{locals:{news:res.blocks.news}}));
-            }
+            
+            calipso.theme.renderItem(req,res,template,block,{news:news});
+            
             next();
     });
       

@@ -33,8 +33,8 @@ function init(module,app,next) {
     // Any pre-route config  
   calipso.lib.step(
       function defineRoutes() {
-        module.router.addRoute(/.*/,allPages,{end:false, templatePath:__dirname + '/templates/template-all.html'},this.parallel());
-        module.router.addRoute('GET /template',templatePage,{templatePath:__dirname + '/templates/template.html'},this.parallel());        
+        module.router.addRoute(/.*/,allPages,{end:false, template:'template-all',block:'right'},this.parallel());
+        module.router.addRoute('GET /template',templatePage,{template:'template',block:'content'},this.parallel());        
       },
       function done() {
         next();
@@ -44,32 +44,25 @@ function init(module,app,next) {
     
 };
 
-function templatePage(req,res,next,template) {      
+function templatePage(req,res,template,block,next) {      
   
     var myVariable = "Hello World";
     
     // Render json to blocks
     var item = {id:"NA",type:'content',meta:{variable:myVariable}};                
-    res.blocks.body.push(item);
-    
-    // Render template
-    if(template) {
-      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{variable:myVariable}}));
-    }
+    calipso.theme.renderItem(req,res,template,block,{item:item});                     
+
     next();      
 };
 
-function allPages(req,res,next,template) {      
+function allPages(req,res,template,block,next) {      
   
   var myVariable = "I will be on every page!";
   
   // Render json to blocks
   var item = {id:"NA",type:'content',meta:{variable:myVariable}};                
-  res.blocks.right.push(item);  
   
-  if(template) {
-    // render to the right
-    res.renderedBlocks.right.push(calipso.lib.ejs.render(template,{locals:{variable:myVariable}}));
-  }
+  calipso.theme.renderItem(req,res,template,block,{item:item});                     
+  
   next();      
 };

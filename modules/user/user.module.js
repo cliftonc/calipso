@@ -30,13 +30,13 @@ function init(module,app,next) {
   
   calipso.lib.step(
       function defineRoutes() {
-        module.router.addRoute(/.*/,loginForm,{end:false,templatePath:__dirname + '/templates/login.html'},this.parallel());              
+        module.router.addRoute(/.*/,loginForm,{end:false,template:'login',block:'user.login'},this.parallel());              
         module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
         module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
-        module.router.addRoute('GET /user/register',registerUserForm,{templatePath:__dirname + '/templates/register.html'},this.parallel());
+        module.router.addRoute('GET /user/register',registerUserForm,{template:'register',block:'content'},this.parallel());
         module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
-        module.router.addRoute('GET /user',myProfile,{templatePath:__dirname + '/templates/profile.html'},this.parallel());
-        module.router.addRoute('GET /user/profile/:username',userProfile,{templatePath:__dirname + '/templates/profile.html'},this.parallel());
+        module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
+        module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
       },
       function done() {
                 
@@ -53,24 +53,22 @@ function init(module,app,next) {
   
  }
 
-function loginForm(req,res,next,template) {      
-             
+function loginForm(req,res,template,block,next) {      
+       
+      
     var item = {id:'FORM',title:'Login',type:'form',method:'POST',action:'/user/login',fields:[                                                                                                         
                    {label:'Username',name:'user[username]',type:'text',value:''},
                    {label:'Password',name:'user[password]',type:'password',value:''}                   
                 ]}
-    
-    res.blocks.right.push(item);
-    if(template) {
-      res.renderedBlocks.right.push(calipso.lib.ejs.render(template,{locals:{item:item,request:req}}));
-    }                    
-    
+           
+    calipso.theme.renderItem(req,res,template,block,{item:item});
+
     next();
       
 };
 
 
-function registerUserForm(req,res,next,template) {      
+function registerUserForm(req,res,template,block,next) {      
   
   var item = {id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',fields:[                                                                                                         
                  {label:'Username',name:'user[username]',type:'text',value:''},
@@ -78,16 +76,13 @@ function registerUserForm(req,res,next,template) {
                  {label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['yes','no']} // CLEARLY DISABLE THIS IN THE REAL WORLD!!!
               ]}
   
-  res.blocks.body.push(item);
-  if(template) {
-    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
-  }                    
+  calipso.theme.renderItem(req,res,template,block,{item:item});          
   
   next();
     
 };
 
-function loginUser(req,res,next,template) {
+function loginUser(req,res,template,block,next) {
 
   var User = calipso.lib.mongoose.model('User');
   
@@ -121,7 +116,7 @@ function loginUser(req,res,next,template) {
   
 }
 
-function logoutUser(req,res,next,template) {
+function logoutUser(req,res,template,block,next) {
 
    req.session.user = null;
    req.session.save(function(err) {
@@ -134,7 +129,7 @@ function logoutUser(req,res,next,template) {
   
 }
 
-function registerUser(req,res,next,template) {
+function registerUser(req,res,template,block,next) {
   
   var User = calipso.lib.mongoose.model('User');                  
   var u = new User(req.body.user);
@@ -160,18 +155,18 @@ function registerUser(req,res,next,template) {
 }
 
 
-function myProfile(req,res,next,template) {
+function myProfile(req,res,template,block,next) {
   
   if(req.session.user) {
     req.moduleParams.username = req.session.user.username;
-    userProfile(req,res,next,template);
+    userProfile(req,res,template,block,next);
   } else {    
     req.flash('error','You need to login to view your created profile!');
     res.redirect('/');
   }  
 }
 
-function userProfile(req,res,next,template) {
+function userProfile(req,res,template,block,next) {
 
   var User = calipso.lib.mongoose.model('User');
   var username = req.moduleParams.username;          
@@ -183,17 +178,16 @@ function userProfile(req,res,next,template) {
     } else {      
       item = {id:u._id,type:'user',meta:u.toObject()};                
     }           
-    res.blocks.body.push(item);
-    if(template) {
-      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
-    }                
+    
+    calipso.theme.renderItem(req,res,template,block,{item:item});
+    
     next();   
     
   });
 
 }
 
-function listUsers(req,res,next,template) {      
+function listUsers(req,res,template,block,next) {      
   
   // Re-retrieve our object
   var User = calipso.lib.mongoose.model('User');      
@@ -205,7 +199,7 @@ function listUsers(req,res,next,template) {
             var item = {id:u._id,type:'user',meta:c.toObject()};                
             res.blocks.body.push(item);               
             if(template) {
-              res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
+              calipso.theme.renderItem(req,res,template,block,{item:item});
             }                
           });              
           next();

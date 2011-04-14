@@ -57,51 +57,20 @@ function bootApplication(app) {
   app.use(express.static(path + '/themes/' + theme + '/public'));  // Before router to enable dynamic routing
   app.use(calipso.calipsoRouter(app,app.set('config')));
 
-  // Setup ejs views as default, with .html as the extension      
-  app.set('views', path + '/themes/' + theme);
-  app.register('.html', require('ejs'));
-  app.set('view engine', 'html');
-
-  // Some dynamic view helpers
-  app.dynamicHelpers({
-  
-	request: function(req){
-	   return req;
-	},	 
-  user: function(req){
-     return req.session.user;
-  },
-	showDebug: function(req,res){
-	  return "Raw: \r\n\r\n" + sys.inspect(res.blocks,false,10,false) + "\r\n\r\nRendered:\r\n\r\n" + sys.inspect(res.renderedBlocks,false,10,false);
-	},
-	hasMessages: function(req){
-      return Object.keys(req.session.flash || {}).length;
-    },
-
-    messages: function(req){
-      return function(){
-        var msgs = req.flash();
-        return Object.keys(msgs).reduce(function(arr, type){
-          return arr.concat(msgs[type]);
-        }, []);        
-      }
-    }
-  });
 }
 
 // allow normal node loading if appropriate
 if (!module.parent) {
   
   console.log("");
-  console.log("\x1b[36m   ###   ##   ##   ## ##### ####   ####  \x1b[0m");
-  console.log("\x1b[36m ###    ####  ##      ##  # ##    ##  ## \x1b[0m");
-  console.log("\x1b[36m ##    ##  ## ##   ## ##  # ##    ##  ## \x1b[0m");
-  console.log("\x1b[36m ##    ##  ## ##   ## #####  ###  ##  ## \x1b[0m");
-  console.log("\x1b[36m ##    ###### ##   ## ##       ## ##  ## \x1b[0m");
-  console.log("\x1b[36m ###   ##  ## ##   ## ##       ## ##  ## \x1b[0m");
-  console.log("\x1b[36m   ### ##  ## #### ## ##    ####   ####  \x1b[0m");
+  console.log("\x1b[36m            _ _                    \x1b[0m");
+  console.log("\x1b[36m  ___  __ _| (_)_ __  ___  ___     \x1b[0m");
+  console.log("\x1b[36m / __|/ _` | | | '_ \\/ __|/ _ \\  \x1b[0m");
+  console.log("\x1b[36m| (__| (_| | | | |_) \\__ \\ (_) | \x1b[0m");
+  console.log("\x1b[36m \\___|\\__,_|_|_| .__/|___/\\___/ \x1b[0m");
+  console.log("\x1b[36m               |_|                 \x1b[0m");
   console.log("");
-  
+                          
   exports.boot(function(app) {
     
     app.listen(3000);          

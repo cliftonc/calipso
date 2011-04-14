@@ -27,13 +27,13 @@ function init(module,app,next) {
 
   calipso.lib.step(
       function defineRoutes() {
-        module.router.addRoute('GET /scheduler',schedulerAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());  
+        module.router.addRoute('GET /scheduler',schedulerAdmin,{template:'admin',block:'admin',admin:true},this.parallel());  
         module.router.addRoute('POST /scheduler',createJob,{admin:true},this.parallel());    
-        module.router.addRoute('GET /scheduler/new',createJobForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());
+        module.router.addRoute('GET /scheduler/new',createJobForm,{admin:true,template:'form',block:'admin'},this.parallel());
         module.router.addRoute('GET /scheduler/switch/:onoff.:format?',enableScheduler,{admin:true},this.parallel());
         module.router.addRoute('GET /scheduler/switch/:onoff/:jobName.:format?',enableScheduler,{admin:true},this.parallel());
-        module.router.addRoute('GET /scheduler/show/:jobName',showJob,{admin:true,templatePath:__dirname + '/templates/show.html'},this.parallel());
-        module.router.addRoute('GET /scheduler/edit/:jobName',editJobForm,{admin:true,templatePath:__dirname + '/templates/form.html'},this.parallel());
+        module.router.addRoute('GET /scheduler/show/:jobName',showJob,{admin:true,template:'show',block:'admin'},this.parallel());
+        module.router.addRoute('GET /scheduler/edit/:jobName',editJobForm,{admin:true,template:'form',block:'content'},this.parallel());
         module.router.addRoute('GET /scheduler/delete/:jobName',deleteJob,{admin:true},this.parallel());
         module.router.addRoute('POST /scheduler/:jobName',updateJob,{admin:true},this.parallel());
       },
@@ -123,7 +123,7 @@ function loadJobs(next) {
  * @param next
  * @param template
  */
-function enableScheduler(req,res,next,template) {      
+function enableScheduler(req,res,template,block,next) {      
 
     // TODO : THIS DOESN@T ACTUALLY UPDATE THE DATABASE AND SO IS NOT STORED!
   
@@ -170,7 +170,7 @@ function enableScheduler(req,res,next,template) {
     
 };
 
-function schedulerAdmin(req,res,next,template) {      
+function schedulerAdmin(req,res,template,block,next) {      
       
  
     res.menu.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
@@ -182,18 +182,13 @@ function schedulerAdmin(req,res,next,template) {
     
     // Render json to blocks
     var item = {id:"NA",type:'content',meta:{jobs:calipso.jobs}};                
-    res.blocks.body.push(item);
-    
-    // Render template
-    if(template) {
-      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
-    }
+    calipso.theme.renderItem(req,res,template,block,{item:item});                     
     next();
     
 };
 
 
-function createJobForm(req,res,next,template) {
+function createJobForm(req,res,template,block,next) {
  
   res.menu.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
 
@@ -205,10 +200,7 @@ function createJobForm(req,res,next,template) {
                  {label:'Arguments',name:'job[args]',type:'textarea',value:""}
               ]}
   
-  res.blocks.body.push(item);
-  if(template) {
-    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
-  }                      
+  calipso.theme.renderItem(req,res,template,block,{item:item});                     
   
   next();
 }
@@ -220,7 +212,7 @@ function createJobForm(req,res,next,template) {
  * @param res
  * @param next
  */
-function createJob(req,res,next,template) {
+function createJob(req,res,template,block,next) {
                   
       var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');                        
       var job = processForm(req.body.job,new ScheduledJob(req.body.job));      
@@ -288,7 +280,7 @@ function processForm(formObject,job) {
                  
 }
 
-function editJobForm(req,res,next,template) {
+function editJobForm(req,res,template,block,next) {
   
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');      
 
@@ -314,17 +306,15 @@ function editJobForm(req,res,next,template) {
         
     }           
     
-    res.blocks.body.push(item);
-    if(template) {
-      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
-    }                    
+    calipso.theme.renderItem(req,res,template,block,{item:item});                     
+                
     next();   
     
   });
   
 }
 
-function updateJob(req,res,next,template) {
+function updateJob(req,res,template,block,next) {
       
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');        
   var jobName = req.moduleParams.jobName;          
@@ -381,7 +371,7 @@ function updateJob(req,res,next,template) {
 }
 
 
-function showJob(req,res,next,template,err) {
+function showJob(req,res,template,block,next,err) {
      
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');      
 
@@ -402,10 +392,7 @@ function showJob(req,res,next,template,err) {
         item = {id:job._id,type:'job',meta:job.toObject()};                
     }   
       
-    res.blocks.body.push(item);
-    if(template) {
-      res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
-    }                
+    calipso.theme.renderItem(req,res,template,block,{item:item});                                
   
     next();
     
@@ -413,7 +400,7 @@ function showJob(req,res,next,template,err) {
   
 }
 
-function deleteJob(req,res,next,template,err) {
+function deleteJob(req,res,template,block,next,err) {
   
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');        
   var jobName = req.moduleParams.jobName;          

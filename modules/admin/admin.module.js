@@ -30,21 +30,26 @@ function init(module,app,next) {
   calipso.lib.step(
       function defineRoutes() {
         
-        module.router.addRoute('GET /admin',showAdmin,{templatePath:__dirname + '/templates/admin.html',admin:true},this.parallel());
-        module.router.addRoute('GET /admin/reload',reloadAdmin,{templatePath:__dirname + '/templates/reload.html',admin:true},this.parallel());
+        module.router.addRoute('GET /admin',showAdmin,{template:'admin',block:'admin',admin:true},this.parallel());
+        module.router.addRoute('GET /admin/reload',reloadAdmin,{template:'reload',block:'admin',admin:true},this.parallel());
         module.router.addRoute('POST /admin/save',saveAdmin,{admin:true},this.parallel());        
         
         // TODO: Disable these routes once you have installed 
-        module.router.addRoute('GET /admin/install',install,{templatePath:__dirname + '/templates/install.html'},this.parallel());  
+        module.router.addRoute('GET /admin/install',install,{template:'install',block:'admin'},this.parallel());  
         module.router.addRoute('POST /admin/install',installSave,null,this.parallel());
       },
       function done() {
         
         calipso.data.themes = [];        
         calipso.lib.fs.readdir(app.path + '/themes',function(err,folders) {
+          
            folders.forEach(function(name){
              calipso.data.themes.push({name:name,selected: app.set('config').theme === name ? true : false}); 
            });
+           
+           calipso.data.loglevels = calipso.lib.winston.config.npm.levels;           
+           calipso.data.modules = calipso.modules;
+           
            next();
         });
         
@@ -56,17 +61,15 @@ function init(module,app,next) {
 
 }
 
-function install(req,res,next,template) {      
+function install(req,res,template,block,next) {      
     
-  if(template) {
-    res.renderedBlocks.body.push(calipso.lib.ejs.render(template));
-  }   
-  next();
+    calipso.theme.renderItem(req,res,template,block);
+    next();
                       
 };
 
 
-function installSave(req,res,next,template) {      
+function installSave(req,res,template,block,next) {      
     
   // Fix to an admin
   req.body.user.isAdmin = 'yes';
@@ -79,40 +82,37 @@ function installSave(req,res,next,template) {
                       
 };
 
-function showAdmin(req,res,next,template) {      
+function showAdmin(req,res,template,block,next) {      
     
   // Re-retrieve our object
+  res.layout = "admin";
+  
   var AppConfig = calipso.lib.mongoose.model('AppConfig');    
   
   AppConfig.findOne({}, function(err,config) {    
                 
           var item = {id:config._id,type:'config',meta:config.toObject()};                
-          res.blocks.body.push(item);               
-          if(template) {
-            res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item,modules:calipso.modules,themes:calipso.data.themes, loglevels:calipso.lib.winston.levels}}));
-          }                
+          calipso.theme.renderItem(req,res,template,block,{item:item});
           next();
           
   });
                       
 };
 
-function reloadAdmin(req,res,next,template) {  
+function reloadAdmin(req,res,template,block,next) {  
   
   res.reloadConfig = true;    
     
   var item = {id:'0',type:'config',meta:{reload:true}};      
-  res.blocks.body.push(item);
   
-  if(template) {
-    res.renderedBlocks.body.push(calipso.lib.ejs.render(template,{locals:{item:item}}));
-  }                
+  calipso.theme.renderItem(req,res,template,block,{item:item});
+  
   next();
 
   
 }
 
-function saveAdmin(req,res,next,template) {
+function saveAdmin(req,res,template,block,next) {
                       
   // Re-retrieve our object
   var AppConfig = calipso.lib.mongoose.model('AppConfig');    

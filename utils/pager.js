@@ -7,7 +7,7 @@ exports = module.exports = {
   
     var totalPages = Math.ceil(total/limit) + 1;
   	var currentPage = skip/limit + 1;
-  	var result = "<div class='pager'>", start, finish;
+  	var result = "", resultStart = "<div class='pager'>", start, finish;
   	var selectedClass = 'page-selected';
   	var visiblePages = 5;
   	
@@ -43,13 +43,13 @@ exports = module.exports = {
   	result += "&nbsp;Go To: <input id='pagerGoto' type='text' name='skip' value='' class='pager-page' title='Go to a specific start point, type and enter ...' />";  	
   	result += "<span style='float: right'>" + (skip + 1) + " to " + (skip + limit) + " of " + (total) + "</span></div>";		
   	
-  	return result
+  	return resultStart + result
   	
   }
 }
 
 function pageLink(path,skip,limit,page) {
-	return "<a class='pager-page' href='" + path + "/" + skip + "-" + limit + "'>" + page + "</a>";
+	return "<a class='pager-page' href='" + path + "/" + skip + "," + limit + "'>" + page + "</a>";
 }
 
 function pageSpan(page) {

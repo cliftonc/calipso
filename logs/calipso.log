@@ -896,3 +896,1196 @@
 12 Apr 21:48:30 - debug: Job Local completed in 44 ms
 12 Apr 21:48:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:48:35 GMT+0100 (BST)
 12 Apr 21:48:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:00 GMT+0100 (BST)
+12 Apr 21:49:00 - debug: Job Local started @ Tue Apr 12 2011 21:49:00 GMT+0100 (BST)
+12 Apr 21:49:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:49:00 GMT+0100 (BST)
+12 Apr 21:49:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:00 - debug: Job Local completed in 62 ms
+12 Apr 21:49:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:07 GMT+0100 (BST)
+12 Apr 21:49:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:10 - debug: Job Local started @ Tue Apr 12 2011 21:49:10 GMT+0100 (BST)
+12 Apr 21:49:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:49:10 GMT+0100 (BST)
+12 Apr 21:49:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:10 - debug: Job Local completed in 44 ms
+12 Apr 21:49:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:14 GMT+0100 (BST)
+12 Apr 21:49:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:20 - debug: Job Local started @ Tue Apr 12 2011 21:49:20 GMT+0100 (BST)
+12 Apr 21:49:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:49:20 GMT+0100 (BST)
+12 Apr 21:49:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:20 - debug: Job Local completed in 80 ms
+12 Apr 21:49:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:21 GMT+0100 (BST)
+12 Apr 21:49:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:28 GMT+0100 (BST)
+12 Apr 21:49:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:30 - debug: Job Local started @ Tue Apr 12 2011 21:49:30 GMT+0100 (BST)
+12 Apr 21:49:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:49:30 GMT+0100 (BST)
+12 Apr 21:49:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:30 - debug: Job Local completed in 51 ms
+12 Apr 21:49:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:35 GMT+0100 (BST)
+12 Apr 21:49:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:40 - debug: Job Local started @ Tue Apr 12 2011 21:49:40 GMT+0100 (BST)
+12 Apr 21:49:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:49:40 GMT+0100 (BST)
+12 Apr 21:49:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:40 - debug: Job Local completed in 44 ms
+12 Apr 21:49:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:42 GMT+0100 (BST)
+12 Apr 21:49:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:49 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:49 GMT+0100 (BST)
+12 Apr 21:49:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:50 - debug: Job Local started @ Tue Apr 12 2011 21:49:50 GMT+0100 (BST)
+12 Apr 21:49:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:49:50 GMT+0100 (BST)
+12 Apr 21:49:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:49:50 - debug: Job Local completed in 57 ms
+12 Apr 21:49:56 - debug: Job AtomTester started @ Tue Apr 12 2011 21:49:56 GMT+0100 (BST)
+12 Apr 21:49:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:00 GMT+0100 (BST)
+12 Apr 21:50:00 - debug: Job Local started @ Tue Apr 12 2011 21:50:00 GMT+0100 (BST)
+12 Apr 21:50:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:50:00 GMT+0100 (BST)
+12 Apr 21:50:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:00 - debug: Job Local completed in 42 ms
+12 Apr 21:50:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:07 GMT+0100 (BST)
+12 Apr 21:50:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:10 - debug: Job Local started @ Tue Apr 12 2011 21:50:10 GMT+0100 (BST)
+12 Apr 21:50:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:50:10 GMT+0100 (BST)
+12 Apr 21:50:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:10 - debug: Job Local completed in 43 ms
+12 Apr 21:50:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:14 GMT+0100 (BST)
+12 Apr 21:50:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:20 - debug: Job Local started @ Tue Apr 12 2011 21:50:20 GMT+0100 (BST)
+12 Apr 21:50:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:50:20 GMT+0100 (BST)
+12 Apr 21:50:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:20 - debug: Job Local completed in 59 ms
+12 Apr 21:50:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:21 GMT+0100 (BST)
+12 Apr 21:50:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:28 GMT+0100 (BST)
+12 Apr 21:50:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:30 - debug: Job Local started @ Tue Apr 12 2011 21:50:30 GMT+0100 (BST)
+12 Apr 21:50:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:50:30 GMT+0100 (BST)
+12 Apr 21:50:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:30 - debug: Job Local completed in 49 ms
+12 Apr 21:50:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:35 GMT+0100 (BST)
+12 Apr 21:50:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:40 - debug: Job Local started @ Tue Apr 12 2011 21:50:40 GMT+0100 (BST)
+12 Apr 21:50:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:50:40 GMT+0100 (BST)
+12 Apr 21:50:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:40 - debug: Job Local completed in 42 ms
+12 Apr 21:50:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:42 GMT+0100 (BST)
+12 Apr 21:50:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:49 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:49 GMT+0100 (BST)
+12 Apr 21:50:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:50 - debug: Job Local started @ Tue Apr 12 2011 21:50:50 GMT+0100 (BST)
+12 Apr 21:50:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:50:50 GMT+0100 (BST)
+12 Apr 21:50:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:50:50 - debug: Job Local completed in 43 ms
+12 Apr 21:50:56 - debug: Job AtomTester started @ Tue Apr 12 2011 21:50:56 GMT+0100 (BST)
+12 Apr 21:50:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:00 - debug: Job Local started @ Tue Apr 12 2011 21:51:00 GMT+0100 (BST)
+12 Apr 21:51:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:51:00 GMT+0100 (BST)
+12 Apr 21:51:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:00 GMT+0100 (BST)
+12 Apr 21:51:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:00 - debug: Job Local completed in 41 ms
+12 Apr 21:51:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:07 GMT+0100 (BST)
+12 Apr 21:51:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:10 - debug: Job Local started @ Tue Apr 12 2011 21:51:10 GMT+0100 (BST)
+12 Apr 21:51:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:51:10 GMT+0100 (BST)
+12 Apr 21:51:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:10 - debug: Job Local completed in 40 ms
+12 Apr 21:51:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:14 GMT+0100 (BST)
+12 Apr 21:51:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:20 - debug: Job Local started @ Tue Apr 12 2011 21:51:20 GMT+0100 (BST)
+12 Apr 21:51:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:51:20 GMT+0100 (BST)
+12 Apr 21:51:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:20 - debug: Job Local completed in 58 ms
+12 Apr 21:51:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:21 GMT+0100 (BST)
+12 Apr 21:51:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:28 GMT+0100 (BST)
+12 Apr 21:51:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:30 - debug: Job Local started @ Tue Apr 12 2011 21:51:30 GMT+0100 (BST)
+12 Apr 21:51:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:51:30 GMT+0100 (BST)
+12 Apr 21:51:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:30 - debug: Job Local completed in 43 ms
+12 Apr 21:51:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:35 GMT+0100 (BST)
+12 Apr 21:51:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:40 - debug: Job Local started @ Tue Apr 12 2011 21:51:40 GMT+0100 (BST)
+12 Apr 21:51:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:51:40 GMT+0100 (BST)
+12 Apr 21:51:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:40 - debug: Job Local completed in 51 ms
+12 Apr 21:51:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:42 GMT+0100 (BST)
+12 Apr 21:51:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:49 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:49 GMT+0100 (BST)
+12 Apr 21:51:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:50 - debug: Job Local started @ Tue Apr 12 2011 21:51:50 GMT+0100 (BST)
+12 Apr 21:51:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:51:50 GMT+0100 (BST)
+12 Apr 21:51:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:51:50 - debug: Job Local completed in 43 ms
+12 Apr 21:51:56 - debug: Job AtomTester started @ Tue Apr 12 2011 21:51:56 GMT+0100 (BST)
+12 Apr 21:51:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:00 - debug: Job Local started @ Tue Apr 12 2011 21:52:00 GMT+0100 (BST)
+12 Apr 21:52:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:52:00 GMT+0100 (BST)
+12 Apr 21:52:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:00 GMT+0100 (BST)
+12 Apr 21:52:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:00 - debug: Job Local completed in 53 ms
+12 Apr 21:52:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:07 GMT+0100 (BST)
+12 Apr 21:52:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:10 - debug: Job Local started @ Tue Apr 12 2011 21:52:10 GMT+0100 (BST)
+12 Apr 21:52:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:52:10 GMT+0100 (BST)
+12 Apr 21:52:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:10 - debug: Job Local completed in 47 ms
+12 Apr 21:52:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:14 GMT+0100 (BST)
+12 Apr 21:52:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:20 - debug: Job Local started @ Tue Apr 12 2011 21:52:20 GMT+0100 (BST)
+12 Apr 21:52:20 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:52:20 GMT+0100 (BST)
+12 Apr 21:52:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:20 - debug: Job Local completed in 42 ms
+12 Apr 21:52:21 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:21 GMT+0100 (BST)
+12 Apr 21:52:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:28 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:28 GMT+0100 (BST)
+12 Apr 21:52:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:30 - debug: Job Local started @ Tue Apr 12 2011 21:52:30 GMT+0100 (BST)
+12 Apr 21:52:30 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:52:30 GMT+0100 (BST)
+12 Apr 21:52:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:30 - debug: Job Local completed in 50 ms
+12 Apr 21:52:35 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:35 GMT+0100 (BST)
+12 Apr 21:52:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:40 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:52:40 GMT+0100 (BST)
+12 Apr 21:52:40 - debug: Job Local started @ Tue Apr 12 2011 21:52:40 GMT+0100 (BST)
+12 Apr 21:52:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:40 - debug: Job Local completed in 45 ms
+12 Apr 21:52:42 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:42 GMT+0100 (BST)
+12 Apr 21:52:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:49 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:49 GMT+0100 (BST)
+12 Apr 21:52:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:50 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:52:50 GMT+0100 (BST)
+12 Apr 21:52:50 - debug: Job Local started @ Tue Apr 12 2011 21:52:50 GMT+0100 (BST)
+12 Apr 21:52:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:52:50 - debug: Job Local completed in 45 ms
+12 Apr 21:52:56 - debug: Job AtomTester started @ Tue Apr 12 2011 21:52:56 GMT+0100 (BST)
+12 Apr 21:52:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:53:00 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:53:00 GMT+0100 (BST)
+12 Apr 21:53:00 - debug: Job AtomTester started @ Tue Apr 12 2011 21:53:00 GMT+0100 (BST)
+12 Apr 21:53:00 - debug: Job Local started @ Tue Apr 12 2011 21:53:00 GMT+0100 (BST)
+12 Apr 21:53:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:53:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:53:00 - debug: Job Local completed in 53 ms
+12 Apr 21:53:07 - debug: Job AtomTester started @ Tue Apr 12 2011 21:53:07 GMT+0100 (BST)
+12 Apr 21:53:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:53:10 - debug: Job GuardianEnvironment started @ Tue Apr 12 2011 21:53:10 GMT+0100 (BST)
+12 Apr 21:53:10 - debug: Job Local started @ Tue Apr 12 2011 21:53:10 GMT+0100 (BST)
+12 Apr 21:53:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+12 Apr 21:53:10 - debug: Job Local completed in 42 ms
+12 Apr 21:53:14 - debug: Job AtomTester started @ Tue Apr 12 2011 21:53:14 GMT+0100 (BST)
+12 Apr 21:53:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+13 Apr 05:58:35 - debug: Job AtomTester started @ Wed Apr 13 2011 05:58:35 GMT+0100 (BST)
+13 Apr 05:58:40 - debug: Job Local started @ Wed Apr 13 2011 05:58:40 GMT+0100 (BST)
+13 Apr 05:58:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:58:40 GMT+0100 (BST)
+13 Apr 05:58:40 - debug: Job GuardianEnvironment completed in 389 ms
+13 Apr 05:58:41 - debug: Job Local completed in 1916 ms
+13 Apr 05:58:50 - debug: Job Local started @ Wed Apr 13 2011 05:58:50 GMT+0100 (BST)
+13 Apr 05:58:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:58:50 GMT+0100 (BST)
+13 Apr 05:58:50 - debug: Job Local completed in 51 ms
+13 Apr 05:58:50 - debug: Job GuardianEnvironment completed in 846 ms
+13 Apr 05:59:00 - debug: Job Local started @ Wed Apr 13 2011 05:59:00 GMT+0100 (BST)
+13 Apr 05:59:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:59:00 GMT+0100 (BST)
+13 Apr 05:59:00 - debug: Job Local completed in 45 ms
+13 Apr 05:59:00 - debug: Job GuardianEnvironment completed in 728 ms
+13 Apr 05:59:10 - debug: Job Local started @ Wed Apr 13 2011 05:59:10 GMT+0100 (BST)
+13 Apr 05:59:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:59:10 GMT+0100 (BST)
+13 Apr 05:59:10 - debug: Job Local completed in 82 ms
+13 Apr 05:59:10 - debug: Job GuardianEnvironment completed in 421 ms
+13 Apr 05:59:20 - debug: Job Local started @ Wed Apr 13 2011 05:59:20 GMT+0100 (BST)
+13 Apr 05:59:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:59:20 GMT+0100 (BST)
+13 Apr 05:59:20 - debug: Job Local completed in 47 ms
+13 Apr 05:59:20 - debug: Job GuardianEnvironment completed in 382 ms
+13 Apr 05:59:30 - debug: Job Local started @ Wed Apr 13 2011 05:59:30 GMT+0100 (BST)
+13 Apr 05:59:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:59:30 GMT+0100 (BST)
+13 Apr 05:59:30 - debug: Job Local completed in 47 ms
+13 Apr 05:59:30 - debug: Job GuardianEnvironment completed in 378 ms
+13 Apr 05:59:40 - debug: Job Local started @ Wed Apr 13 2011 05:59:40 GMT+0100 (BST)
+13 Apr 05:59:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:59:40 GMT+0100 (BST)
+13 Apr 05:59:40 - debug: Job Local completed in 51 ms
+13 Apr 05:59:40 - debug: Job GuardianEnvironment completed in 383 ms
+13 Apr 05:59:50 - debug: Job Local started @ Wed Apr 13 2011 05:59:50 GMT+0100 (BST)
+13 Apr 05:59:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 05:59:50 GMT+0100 (BST)
+13 Apr 05:59:50 - debug: Job Local completed in 44 ms
+13 Apr 05:59:50 - debug: Job GuardianEnvironment completed in 615 ms
+13 Apr 06:00:00 - debug: Job Local started @ Wed Apr 13 2011 06:00:00 GMT+0100 (BST)
+13 Apr 06:00:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:00:00 GMT+0100 (BST)
+13 Apr 06:00:00 - debug: Job Local completed in 48 ms
+13 Apr 06:00:00 - debug: Job GuardianEnvironment completed in 386 ms
+13 Apr 06:00:10 - debug: Job Local started @ Wed Apr 13 2011 06:00:10 GMT+0100 (BST)
+13 Apr 06:00:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:00:10 GMT+0100 (BST)
+13 Apr 06:00:10 - debug: Job Local completed in 43 ms
+13 Apr 06:00:10 - debug: Job GuardianEnvironment completed in 377 ms
+13 Apr 06:00:20 - debug: Job Local started @ Wed Apr 13 2011 06:00:20 GMT+0100 (BST)
+13 Apr 06:00:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:00:20 GMT+0100 (BST)
+13 Apr 06:00:20 - debug: Job Local completed in 42 ms
+13 Apr 06:00:20 - debug: Job GuardianEnvironment completed in 380 ms
+13 Apr 06:00:30 - debug: Job Local started @ Wed Apr 13 2011 06:00:30 GMT+0100 (BST)
+13 Apr 06:00:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:00:30 GMT+0100 (BST)
+13 Apr 06:00:30 - debug: Job Local completed in 43 ms
+13 Apr 06:00:30 - debug: Job GuardianEnvironment completed in 378 ms
+13 Apr 06:00:40 - debug: Job Local started @ Wed Apr 13 2011 06:00:40 GMT+0100 (BST)
+13 Apr 06:00:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:00:40 GMT+0100 (BST)
+13 Apr 06:00:40 - debug: Job Local completed in 46 ms
+13 Apr 06:00:40 - debug: Job GuardianEnvironment completed in 371 ms
+13 Apr 06:00:50 - debug: Job Local started @ Wed Apr 13 2011 06:00:50 GMT+0100 (BST)
+13 Apr 06:00:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:00:50 GMT+0100 (BST)
+13 Apr 06:00:50 - debug: Job Local completed in 42 ms
+13 Apr 06:00:50 - debug: Job GuardianEnvironment completed in 582 ms
+13 Apr 06:01:00 - debug: Job Local started @ Wed Apr 13 2011 06:01:00 GMT+0100 (BST)
+13 Apr 06:01:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:01:00 GMT+0100 (BST)
+13 Apr 06:01:00 - debug: Job Local completed in 43 ms
+13 Apr 06:01:01 - debug: Job GuardianEnvironment completed in 1269 ms
+13 Apr 06:01:10 - debug: Job Local started @ Wed Apr 13 2011 06:01:10 GMT+0100 (BST)
+13 Apr 06:01:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:01:10 GMT+0100 (BST)
+13 Apr 06:01:10 - debug: Job Local completed in 45 ms
+13 Apr 06:01:10 - debug: Job GuardianEnvironment completed in 427 ms
+13 Apr 06:01:20 - debug: Job Local started @ Wed Apr 13 2011 06:01:20 GMT+0100 (BST)
+13 Apr 06:01:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:01:20 GMT+0100 (BST)
+13 Apr 06:01:20 - debug: Job Local completed in 43 ms
+13 Apr 06:01:20 - debug: Job GuardianEnvironment completed in 394 ms
+13 Apr 06:01:30 - debug: Job Local started @ Wed Apr 13 2011 06:01:30 GMT+0100 (BST)
+13 Apr 06:01:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:01:30 GMT+0100 (BST)
+13 Apr 06:01:30 - debug: Job Local completed in 47 ms
+13 Apr 06:01:30 - debug: Job GuardianEnvironment completed in 386 ms
+13 Apr 06:01:40 - debug: Job Local started @ Wed Apr 13 2011 06:01:40 GMT+0100 (BST)
+13 Apr 06:01:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:01:40 GMT+0100 (BST)
+13 Apr 06:01:40 - debug: Job Local completed in 49 ms
+13 Apr 06:01:40 - debug: Job GuardianEnvironment completed in 414 ms
+13 Apr 06:01:50 - debug: Job Local started @ Wed Apr 13 2011 06:01:50 GMT+0100 (BST)
+13 Apr 06:01:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:01:50 GMT+0100 (BST)
+13 Apr 06:01:50 - debug: Job Local completed in 54 ms
+13 Apr 06:01:50 - debug: Job GuardianEnvironment completed in 582 ms
+13 Apr 06:02:00 - debug: Job Local started @ Wed Apr 13 2011 06:02:00 GMT+0100 (BST)
+13 Apr 06:02:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:02:00 GMT+0100 (BST)
+13 Apr 06:02:00 - debug: Job Local completed in 43 ms
+13 Apr 06:02:00 - debug: Job GuardianEnvironment completed in 367 ms
+13 Apr 06:02:10 - debug: Job Local started @ Wed Apr 13 2011 06:02:10 GMT+0100 (BST)
+13 Apr 06:02:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:02:10 GMT+0100 (BST)
+13 Apr 06:02:10 - debug: Job Local completed in 45 ms
+13 Apr 06:02:10 - debug: Job GuardianEnvironment completed in 435 ms
+13 Apr 06:02:20 - debug: Job Local started @ Wed Apr 13 2011 06:02:20 GMT+0100 (BST)
+13 Apr 06:02:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:02:20 GMT+0100 (BST)
+13 Apr 06:02:20 - debug: Job Local completed in 51 ms
+13 Apr 06:02:20 - debug: Job GuardianEnvironment completed in 378 ms
+13 Apr 06:02:30 - debug: Job Local started @ Wed Apr 13 2011 06:02:30 GMT+0100 (BST)
+13 Apr 06:02:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:02:30 GMT+0100 (BST)
+13 Apr 06:02:30 - debug: Job Local completed in 45 ms
+13 Apr 06:02:30 - debug: Job GuardianEnvironment completed in 377 ms
+13 Apr 06:02:40 - debug: Job Local started @ Wed Apr 13 2011 06:02:40 GMT+0100 (BST)
+13 Apr 06:02:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:02:40 GMT+0100 (BST)
+13 Apr 06:02:40 - debug: Job Local completed in 62 ms
+13 Apr 06:02:40 - debug: Job GuardianEnvironment completed in 393 ms
+13 Apr 06:02:50 - debug: Job Local started @ Wed Apr 13 2011 06:02:50 GMT+0100 (BST)
+13 Apr 06:02:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:02:50 GMT+0100 (BST)
+13 Apr 06:02:50 - debug: Job Local completed in 49 ms
+13 Apr 06:02:50 - debug: Job GuardianEnvironment completed in 377 ms
+13 Apr 06:03:00 - debug: Job Local started @ Wed Apr 13 2011 06:03:00 GMT+0100 (BST)
+13 Apr 06:03:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:03:00 GMT+0100 (BST)
+13 Apr 06:03:00 - debug: Job Local completed in 44 ms
+13 Apr 06:03:00 - debug: Job GuardianEnvironment completed in 707 ms
+13 Apr 06:03:10 - debug: Job Local started @ Wed Apr 13 2011 06:03:10 GMT+0100 (BST)
+13 Apr 06:03:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:03:10 GMT+0100 (BST)
+13 Apr 06:03:10 - debug: Job Local completed in 48 ms
+13 Apr 06:03:11 - debug: Job GuardianEnvironment completed in 1290 ms
+13 Apr 06:03:20 - debug: Job Local started @ Wed Apr 13 2011 06:03:20 GMT+0100 (BST)
+13 Apr 06:03:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:03:20 GMT+0100 (BST)
+13 Apr 06:03:20 - debug: Job Local completed in 42 ms
+13 Apr 06:03:20 - debug: Job GuardianEnvironment completed in 384 ms
+13 Apr 06:03:30 - debug: Job Local started @ Wed Apr 13 2011 06:03:30 GMT+0100 (BST)
+13 Apr 06:03:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:03:30 GMT+0100 (BST)
+13 Apr 06:03:30 - debug: Job Local completed in 44 ms
+13 Apr 06:03:30 - debug: Job GuardianEnvironment completed in 371 ms
+13 Apr 06:03:40 - debug: Job Local started @ Wed Apr 13 2011 06:03:40 GMT+0100 (BST)
+13 Apr 06:03:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:03:40 GMT+0100 (BST)
+13 Apr 06:03:40 - debug: Job Local completed in 54 ms
+13 Apr 06:03:40 - debug: Job GuardianEnvironment completed in 387 ms
+13 Apr 06:03:50 - debug: Job Local started @ Wed Apr 13 2011 06:03:50 GMT+0100 (BST)
+13 Apr 06:03:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:03:50 GMT+0100 (BST)
+13 Apr 06:03:50 - debug: Job Local completed in 41 ms
+13 Apr 06:03:50 - debug: Job GuardianEnvironment completed in 369 ms
+13 Apr 06:04:00 - debug: Job Local started @ Wed Apr 13 2011 06:04:00 GMT+0100 (BST)
+13 Apr 06:04:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:04:00 GMT+0100 (BST)
+13 Apr 06:04:00 - debug: Job Local completed in 51 ms
+13 Apr 06:04:00 - debug: Job GuardianEnvironment completed in 547 ms
+13 Apr 06:04:10 - debug: Job Local started @ Wed Apr 13 2011 06:04:10 GMT+0100 (BST)
+13 Apr 06:04:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:04:10 GMT+0100 (BST)
+13 Apr 06:04:10 - debug: Job Local completed in 43 ms
+13 Apr 06:04:10 - debug: Job GuardianEnvironment completed in 375 ms
+13 Apr 06:04:20 - debug: Job Local started @ Wed Apr 13 2011 06:04:20 GMT+0100 (BST)
+13 Apr 06:04:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:04:20 GMT+0100 (BST)
+13 Apr 06:04:20 - debug: Job Local completed in 51 ms
+13 Apr 06:04:20 - debug: Job GuardianEnvironment completed in 424 ms
+13 Apr 06:04:28 - debug: Job AtomTester started @ Wed Apr 13 2011 06:04:28 GMT+0100 (BST)
+13 Apr 06:04:30 - debug: Job Local started @ Wed Apr 13 2011 06:04:30 GMT+0100 (BST)
+13 Apr 06:04:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:04:30 GMT+0100 (BST)
+13 Apr 06:04:30 - debug: Job Local completed in 66 ms
+13 Apr 06:04:30 - debug: Job GuardianEnvironment completed in 414 ms
+13 Apr 06:05:20 - debug: Job Local started @ Wed Apr 13 2011 06:05:20 GMT+0100 (BST)
+13 Apr 06:05:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:05:20 GMT+0100 (BST)
+13 Apr 06:05:20 - debug: Job Local completed in 64 ms
+13 Apr 06:05:20 - debug: Job GuardianEnvironment completed in 744 ms
+13 Apr 06:05:21 - debug: Job AtomTester started @ Wed Apr 13 2011 06:05:21 GMT+0100 (BST)
+13 Apr 06:05:30 - debug: Job Local started @ Wed Apr 13 2011 06:05:30 GMT+0100 (BST)
+13 Apr 06:05:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:05:30 GMT+0100 (BST)
+13 Apr 06:05:30 - debug: Job Local completed in 49 ms
+13 Apr 06:05:30 - debug: Job GuardianEnvironment completed in 426 ms
+13 Apr 06:05:40 - debug: Job Local started @ Wed Apr 13 2011 06:05:40 GMT+0100 (BST)
+13 Apr 06:05:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:05:40 GMT+0100 (BST)
+13 Apr 06:05:40 - debug: Job Local completed in 62 ms
+13 Apr 06:05:40 - debug: Job GuardianEnvironment completed in 398 ms
+13 Apr 06:05:49 - debug: Job AtomTester started @ Wed Apr 13 2011 06:05:49 GMT+0100 (BST)
+13 Apr 06:06:00 - debug: Job Local started @ Wed Apr 13 2011 06:06:00 GMT+0100 (BST)
+13 Apr 06:06:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:06:00 GMT+0100 (BST)
+13 Apr 06:06:00 - debug: Job AtomTester started @ Wed Apr 13 2011 06:06:00 GMT+0100 (BST)
+13 Apr 06:06:00 - debug: Job Local completed in 59 ms
+13 Apr 06:06:00 - debug: Job GuardianEnvironment completed in 383 ms
+13 Apr 06:06:07 - debug: Job AtomTester started @ Wed Apr 13 2011 06:06:07 GMT+0100 (BST)
+13 Apr 06:06:10 - debug: Job Local started @ Wed Apr 13 2011 06:06:10 GMT+0100 (BST)
+13 Apr 06:06:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:06:10 GMT+0100 (BST)
+13 Apr 06:06:10 - debug: Job Local completed in 65 ms
+13 Apr 06:06:28 - debug: Job AtomTester started @ Wed Apr 13 2011 06:06:28 GMT+0100 (BST)
+13 Apr 06:06:30 - debug: Job Local started @ Wed Apr 13 2011 06:06:30 GMT+0100 (BST)
+13 Apr 06:06:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:06:30 GMT+0100 (BST)
+13 Apr 06:06:30 - debug: Job Local completed in 61 ms
+13 Apr 06:06:30 - debug: Job GuardianEnvironment completed in 425 ms
+13 Apr 06:06:56 - debug: Job AtomTester started @ Wed Apr 13 2011 06:06:56 GMT+0100 (BST)
+13 Apr 06:07:00 - debug: Job Local started @ Wed Apr 13 2011 06:07:00 GMT+0100 (BST)
+13 Apr 06:07:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:07:00 GMT+0100 (BST)
+13 Apr 06:07:00 - debug: Job Local completed in 58 ms
+13 Apr 06:07:00 - debug: Job GuardianEnvironment completed in 729 ms
+13 Apr 06:36:18 - error: Can't find specified template configuration ../themes/default/theme.json
+13 Apr 06:36:20 - debug: Job Local started @ Wed Apr 13 2011 06:36:20 GMT+0100 (BST)
+13 Apr 06:36:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:36:20 GMT+0100 (BST)
+13 Apr 06:36:20 - debug: Job Local completed in 73 ms
+13 Apr 06:36:20 - debug: Job GuardianEnvironment completed in 427 ms
+13 Apr 06:36:21 - debug: Job AtomTester started @ Wed Apr 13 2011 06:36:21 GMT+0100 (BST)
+13 Apr 06:36:50 - error: Can't find specified template configuration ../themes/default/theme.json
+13 Apr 06:37:20 - debug: /var/www/calipso/lib
+13 Apr 06:37:20 - error: Can't find specified template configuration ../themes/default/theme.json
+13 Apr 06:37:21 - debug: Job AtomTester started @ Wed Apr 13 2011 06:37:21 GMT+0100 (BST)
+13 Apr 06:38:41 - debug: ../themes/default/theme.jsonfalse
+13 Apr 06:38:41 - error: Can't find specified theme configuration ../themes/default/theme.json
+13 Apr 06:38:42 - debug: Job AtomTester started @ Wed Apr 13 2011 06:38:42 GMT+0100 (BST)
+13 Apr 06:38:59 - debug: /var/www/calipso/lib../themes/default/theme.jsonfalse
+13 Apr 06:38:59 - error: Can't find specified theme configuration /var/www/calipso/lib../themes/default/theme.json
+13 Apr 06:39:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:39:00 GMT+0100 (BST)
+13 Apr 06:39:00 - debug: Job AtomTester started @ Wed Apr 13 2011 06:39:00 GMT+0100 (BST)
+13 Apr 06:39:00 - debug: Job Local started @ Wed Apr 13 2011 06:39:00 GMT+0100 (BST)
+13 Apr 06:39:00 - debug: Job Local completed in 52 ms
+13 Apr 06:39:00 - debug: Job GuardianEnvironment completed in 734 ms
+13 Apr 06:39:04 - debug: /var/www/calipso/lib/../themes/default/theme.jsontrue
+13 Apr 06:39:40 - error: Unexpected token ILLEGAL
+13 Apr 06:39:42 - debug: Job AtomTester started @ Wed Apr 13 2011 06:39:42 GMT+0100 (BST)
+13 Apr 06:41:42 - error: Error parsing theme configuration: sys is not defined
+13 Apr 06:41:58 - debug: { name: 'default',
+  description: 'Default Drupal Theme',
+  version: '0.0.2',
+  author: 'Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)',
+  layouts: 
+   { content: 
+      { includes: [Object],
+        header: [Object],
+        left: {},
+        body: [Object],
+        right: [Object],
+        footer: [Object] },
+     admin: { header: {}, left: {}, body: {}, right: {}, footer: {} } } }
+13 Apr 06:42:00 - debug: Job Local started @ Wed Apr 13 2011 06:42:00 GMT+0100 (BST)
+13 Apr 06:42:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:42:00 GMT+0100 (BST)
+13 Apr 06:42:00 - debug: Job AtomTester started @ Wed Apr 13 2011 06:42:00 GMT+0100 (BST)
+13 Apr 06:42:00 - debug: Job Local completed in 75 ms
+13 Apr 06:42:00 - debug: Job GuardianEnvironment completed in 608 ms
+13 Apr 06:44:39 - info: OK ... here
+13 Apr 06:44:40 - debug: Job Local started @ Wed Apr 13 2011 06:44:40 GMT+0100 (BST)
+13 Apr 06:44:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:44:40 GMT+0100 (BST)
+13 Apr 06:44:40 - debug: Job Local completed in 65 ms
+13 Apr 06:46:30 - debug: Job Local started @ Wed Apr 13 2011 06:46:30 GMT+0100 (BST)
+13 Apr 06:46:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 06:46:30 GMT+0100 (BST)
+13 Apr 06:46:30 - debug: Job Local completed in 63 ms
+13 Apr 06:46:30 - debug: Job GuardianEnvironment completed in 429 ms
+13 Apr 06:46:35 - debug: Job AtomTester started @ Wed Apr 13 2011 06:46:35 GMT+0100 (BST)
+13 Apr 06:47:13 - debug: RENDER!
+13 Apr 06:47:14 - debug: Job AtomTester started @ Wed Apr 13 2011 06:47:14 GMT+0100 (BST)
+13 Apr 06:58:16 - debug: includes.html
+13 Apr 06:58:16 - debug: header.html
+13 Apr 06:58:16 - debug: undefined
+13 Apr 06:58:16 - debug: body.html
+13 Apr 06:58:16 - debug: right.html
+13 Apr 06:58:16 - debug: footer.html
+13 Apr 07:01:44 - debug: [object Object]
+13 Apr 07:01:44 - debug: header.html
+13 Apr 07:01:44 - debug: body.html
+13 Apr 07:01:44 - debug: right.html
+13 Apr 07:01:44 - debug: footer.html
+13 Apr 07:01:51 - debug: layout.html
+13 Apr 07:01:51 - debug: header.html
+13 Apr 07:01:51 - debug: body.html
+13 Apr 07:01:51 - debug: right.html
+13 Apr 07:01:51 - debug: footer.html
+13 Apr 07:04:04 - debug: [object Object]/layout.html,[object Object]/header.html,[object Object]/body.html,[object Object]/right.html,[object Object]/footer.html
+13 Apr 07:04:32 - debug: undefined/layout.html,[object Object]/header.html,[object Object]/body.html,[object Object]/right.html,[object Object]/footer.html
+13 Apr 07:04:44 - debug: { template: 'layout.html',
+  sections: 
+   { header: { template: 'header.html' },
+     body: { template: 'body.html', blocks: [Object] },
+     right: { template: 'right.html', blocks: [Object] },
+     footer: { template: 'footer.html' } } }/layout.html,[object Object]/header.html,[object Object]/body.html,[object Object]/right.html,[object Object]/footer.html
+13 Apr 07:05:56 - debug: content/undefined,content/header.html,content/body.html,content/right.html,content/footer.html
+13 Apr 07:13:00 - error: Bad argument
+13 Apr 07:13:00 - debug: {}
+13 Apr 07:13:26 - error: Step error: Bad argument
+13 Apr 07:13:26 - debug: {}
+13 Apr 07:13:45 - info: undefined
+13 Apr 07:13:45 - error: Step error: Bad argument
+13 Apr 07:13:45 - debug: {}
+13 Apr 07:14:09 - info: templates/layout.html
+13 Apr 07:14:09 - info: templates/content/header.html
+13 Apr 07:14:19 - info: templates/layout.html
+13 Apr 07:14:19 - info: templates/content/header.html
+13 Apr 07:14:19 - info: templates/content/body.html
+13 Apr 07:14:19 - info: templates/content/right.html
+13 Apr 07:14:19 - info: templates/content/footer.html
+13 Apr 07:14:19 - debug: {}
+13 Apr 07:14:19 - debug: LOADED
+13 Apr 07:14:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:14:20 GMT+0100 (BST)
+13 Apr 07:14:20 - debug: Job Local started @ Wed Apr 13 2011 07:14:20 GMT+0100 (BST)
+13 Apr 07:14:20 - debug: Job Local completed in 52 ms
+13 Apr 07:14:20 - debug: Job GuardianEnvironment completed in 448 ms
+13 Apr 07:14:21 - debug: Job AtomTester started @ Wed Apr 13 2011 07:14:21 GMT+0100 (BST)
+13 Apr 07:14:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:14:30 GMT+0100 (BST)
+13 Apr 07:14:30 - debug: Job Local started @ Wed Apr 13 2011 07:14:30 GMT+0100 (BST)
+13 Apr 07:14:30 - debug: Job Local completed in 44 ms
+13 Apr 07:14:30 - debug: Job GuardianEnvironment completed in 478 ms
+13 Apr 07:15:05 - info: templates/layout.html
+13 Apr 07:15:05 - info: templates/content/header.html
+13 Apr 07:15:05 - info: templates/content/body.html
+13 Apr 07:15:05 - info: templates/content/right.html
+13 Apr 07:15:05 - info: templates/content/footer.html
+13 Apr 07:15:05 - debug: {}
+13 Apr 07:15:05 - debug: LOADED
+13 Apr 07:15:05 - info: ERROR
+13 Apr 07:15:05 - info: ERROR
+13 Apr 07:15:05 - info: ERROR
+13 Apr 07:15:05 - info: ERROR
+13 Apr 07:15:05 - info: ERROR
+13 Apr 07:15:37 - info: templates/layout.html
+13 Apr 07:15:37 - info: templates/content/header.html
+13 Apr 07:15:37 - info: templates/content/body.html
+13 Apr 07:15:37 - info: templates/content/right.html
+13 Apr 07:15:37 - info: templates/content/footer.html
+13 Apr 07:15:37 - debug: LOADED
+13 Apr 07:15:37 - debug: {}
+13 Apr 07:15:37 - info: ERROR
+13 Apr 07:15:37 - info: ERROR
+13 Apr 07:15:37 - info: ERROR
+13 Apr 07:15:37 - info: ERROR
+13 Apr 07:15:37 - info: ERROR
+13 Apr 07:16:38 - debug: LOADED
+13 Apr 07:16:38 - debug: {}
+13 Apr 07:17:05 - debug: LOADED
+13 Apr 07:17:15 - debug: LOADED
+13 Apr 07:17:15 - debug: {}
+13 Apr 07:17:15 - debug: C
+13 Apr 07:17:15 - debug: C
+13 Apr 07:17:15 - debug: C
+13 Apr 07:17:15 - debug: C
+13 Apr 07:17:15 - debug: C
+13 Apr 07:17:20 - debug: Job Local started @ Wed Apr 13 2011 07:17:20 GMT+0100 (BST)
+13 Apr 07:17:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:17:20 GMT+0100 (BST)
+13 Apr 07:17:20 - debug: Job Local completed in 65 ms
+13 Apr 07:17:20 - debug: Job GuardianEnvironment completed in 626 ms
+13 Apr 07:17:21 - debug: Job AtomTester started @ Wed Apr 13 2011 07:17:21 GMT+0100 (BST)
+13 Apr 07:17:30 - debug: Job Local started @ Wed Apr 13 2011 07:17:30 GMT+0100 (BST)
+13 Apr 07:17:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:17:30 GMT+0100 (BST)
+13 Apr 07:17:30 - debug: Job Local completed in 48 ms
+13 Apr 07:17:30 - debug: Job GuardianEnvironment completed in 408 ms
+13 Apr 07:17:40 - debug: Job Local started @ Wed Apr 13 2011 07:17:40 GMT+0100 (BST)
+13 Apr 07:17:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:17:40 GMT+0100 (BST)
+13 Apr 07:17:40 - debug: Job Local completed in 44 ms
+13 Apr 07:17:40 - debug: Job GuardianEnvironment completed in 390 ms
+13 Apr 07:17:46 - debug: C
+13 Apr 07:17:46 - debug: C
+13 Apr 07:17:46 - debug: C
+13 Apr 07:17:46 - debug: C
+13 Apr 07:17:46 - debug: C
+13 Apr 07:17:46 - error: Step error: Can't find specified template configuration templates/content/footer.html
+13 Apr 07:17:46 - debug: {}
+13 Apr 07:18:13 - error: Step error: { stack: [Getter/Setter],
+  arguments: undefined,
+  type: undefined,
+  message: 'Can\'t find specified template configuration templates/content/footer.html' }
+13 Apr 07:18:13 - debug: {}
+13 Apr 07:18:14 - debug: Job AtomTester started @ Wed Apr 13 2011 07:18:14 GMT+0100 (BST)
+13 Apr 07:18:30 - error: Error attempting to precache templates, Can't find specified template configuration templates/content/footer.html
+13 Apr 07:18:30 - debug: {}
+13 Apr 07:21:05 - error: Error attempting to precache templates, Can't find specified template configuration templates/content/footer.html
+13 Apr 07:21:05 - debug: {}
+13 Apr 07:21:07 - debug: Job AtomTester started @ Wed Apr 13 2011 07:21:07 GMT+0100 (BST)
+13 Apr 07:24:37 - debug: LOADED
+13 Apr 07:24:37 - debug: { content: '<html>\n  <head>\n    <title>Calipso - A Node CMS</title>\n    \t<link rel="stylesheet" href="/css/style.css" />\n    \t<link type="text/css" href="/css/Aristo/jquery-ui-1.8.7.custom.css" rel="stylesheet" />\t\n\t\t<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>\n\t\t<script type="text/javascript" src="/js/jquery-ui-1.8.10.custom.min.js"></script>\t\t\t\t\n  </head>\n  <body>  \t\n    <div id="menu">\n      <%- menu %>\n    </div>\n  \t<div id="container">\n\t  \t<div id="header">\n            <%- header %>                        \n\t\t</div>\t      \n\t\t<div id="content">    \t\t    \t\t\n    \t\t<%- body %>\n    \t</div>\n    \t<div id="right">    \t                 \n            <%- right %>\n        </div>        \n        <div style="clear:both"></div>\n    \t<div id="footer">\n    \t    <%- footer %>\n        </div>\t\t\n    </div>\n  </body>\n</html>',
+  'content.header': '<!-- Default Content -->\n<div id="content-header>\n    <h1>Header</h1>\n</div>',
+  'content.body': '<div id="content-block">     \n    Body\n</div>',
+  'content.right': '<div id="content-block">     \nRight\n</div>',
+  'content.footer': '<!-- Default Content -->\n<div id="content-footer>\n    <h1>Header</h1>\n</div>' }
+13 Apr 07:24:40 - debug: Job Local started @ Wed Apr 13 2011 07:24:40 GMT+0100 (BST)
+13 Apr 07:24:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:24:40 GMT+0100 (BST)
+13 Apr 07:24:40 - debug: Job Local completed in 71 ms
+13 Apr 07:24:40 - debug: Job GuardianEnvironment completed in 432 ms
+13 Apr 07:27:10 - debug: { content: [Function],
+  'content.header': [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:29:13 - debug: { content: [Function],
+  'content.header': [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:29:14 - debug: Job AtomTester started @ Wed Apr 13 2011 07:29:14 GMT+0100 (BST)
+13 Apr 07:29:17 - debug: undefined
+13 Apr 07:29:20 - debug: Job Local started @ Wed Apr 13 2011 07:29:20 GMT+0100 (BST)
+13 Apr 07:29:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:29:20 GMT+0100 (BST)
+13 Apr 07:29:20 - debug: Job Local completed in 46 ms
+13 Apr 07:30:05 - debug: { content: [Function],
+  'content.header': [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:30:07 - debug: Job AtomTester started @ Wed Apr 13 2011 07:30:07 GMT+0100 (BST)
+13 Apr 07:30:09 - debug: undefined
+13 Apr 07:30:10 - debug: Job Local started @ Wed Apr 13 2011 07:30:10 GMT+0100 (BST)
+13 Apr 07:30:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:30:10 GMT+0100 (BST)
+13 Apr 07:30:10 - debug: Job Local completed in 50 ms
+13 Apr 07:30:10 - debug: Job GuardianEnvironment completed in 439 ms
+13 Apr 07:31:07 - debug: Job AtomTester started @ Wed Apr 13 2011 07:31:07 GMT+0100 (BST)
+13 Apr 07:31:07 - debug: undefined
+13 Apr 07:31:26 - debug: undefined
+13 Apr 07:31:28 - debug: Job AtomTester started @ Wed Apr 13 2011 07:31:28 GMT+0100 (BST)
+13 Apr 07:31:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:31:30 GMT+0100 (BST)
+13 Apr 07:31:30 - debug: Job Local started @ Wed Apr 13 2011 07:31:30 GMT+0100 (BST)
+13 Apr 07:31:30 - debug: Job Local completed in 42 ms
+13 Apr 07:31:30 - debug: Job GuardianEnvironment completed in 440 ms
+13 Apr 07:31:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:31:40 GMT+0100 (BST)
+13 Apr 07:31:40 - debug: Job Local started @ Wed Apr 13 2011 07:31:40 GMT+0100 (BST)
+13 Apr 07:31:40 - debug: Job Local completed in 42 ms
+13 Apr 07:31:40 - debug: Job GuardianEnvironment completed in 423 ms
+13 Apr 07:31:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:31:50 GMT+0100 (BST)
+13 Apr 07:31:50 - debug: Job Local started @ Wed Apr 13 2011 07:31:50 GMT+0100 (BST)
+13 Apr 07:31:50 - debug: Job Local completed in 55 ms
+13 Apr 07:31:50 - debug: Job GuardianEnvironment completed in 408 ms
+13 Apr 07:32:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:32:00 GMT+0100 (BST)
+13 Apr 07:32:00 - debug: Job Local started @ Wed Apr 13 2011 07:32:00 GMT+0100 (BST)
+13 Apr 07:32:00 - debug: Job Local completed in 45 ms
+13 Apr 07:32:00 - debug: Job GuardianEnvironment completed in 402 ms
+13 Apr 07:32:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:32:10 GMT+0100 (BST)
+13 Apr 07:32:10 - debug: Job Local started @ Wed Apr 13 2011 07:32:10 GMT+0100 (BST)
+13 Apr 07:32:10 - debug: Job Local completed in 43 ms
+13 Apr 07:32:10 - debug: Job GuardianEnvironment completed in 394 ms
+13 Apr 07:32:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:32:20 GMT+0100 (BST)
+13 Apr 07:32:20 - debug: Job Local started @ Wed Apr 13 2011 07:32:20 GMT+0100 (BST)
+13 Apr 07:32:20 - debug: Job Local completed in 47 ms
+13 Apr 07:32:20 - debug: Job GuardianEnvironment completed in 391 ms
+13 Apr 07:32:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:32:30 GMT+0100 (BST)
+13 Apr 07:32:30 - debug: Job Local started @ Wed Apr 13 2011 07:32:30 GMT+0100 (BST)
+13 Apr 07:32:30 - debug: Job Local completed in 41 ms
+13 Apr 07:32:30 - debug: Job GuardianEnvironment completed in 681 ms
+13 Apr 07:32:34 - debug: { 'content.header': [Function],
+  'content.right': [Function],
+  'content.footer': [Function],
+  'content.body': [Function],
+  content: [Function] }
+13 Apr 07:32:35 - debug: Job AtomTester started @ Wed Apr 13 2011 07:32:35 GMT+0100 (BST)
+13 Apr 07:32:36 - debug: { 'content.header': [Function],
+  'content.right': [Function],
+  'content.footer': [Function],
+  'content.body': [Function],
+  content: [Function] }
+13 Apr 07:33:13 - debug: { content: [Function],
+  'content.header': [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:33:14 - debug: Job AtomTester started @ Wed Apr 13 2011 07:33:14 GMT+0100 (BST)
+13 Apr 07:33:38 - debug: { content: [Function],
+  'content.header': [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:34:43 - debug: { 'content.header': [Function],
+  content: [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:34:47 - debug: '<html>\n  <head>\n    <title>Calipso - A Node CMS</title>\n    \t<link rel="stylesheet" href="/css/style.css" />\n    \t<link type="text/css" href="/css/Aristo/jquery-ui-1.8.7.custom.css" rel="stylesheet" />\t\n\t\t<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>\n\t\t<script type="text/javascript" src="/js/jquery-ui-1.8.10.custom.min.js"></script>\t\t\t\t\n  </head>\n  <body>  \t\n    <div id="menu">\n      E\n    </div>\n  \t<div id="container">\n\t  \t<div id="header">\n            B                        \n\t\t</div>\t      \n\t\t<div id="content">    \t\t    \t\t\n    \t\tA\n    \t</div>\n    \t<div id="right">    \t                 \n            C\n        </div>        \n        <div style="clear:both"></div>\n    \t<div id="footer">\n    \t    D\n        </div>\t\t\n    </div>\n  </body>\n</html>'
+13 Apr 07:34:49 - debug: Job AtomTester started @ Wed Apr 13 2011 07:34:49 GMT+0100 (BST)
+13 Apr 07:34:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:34:50 GMT+0100 (BST)
+13 Apr 07:34:50 - debug: Job Local started @ Wed Apr 13 2011 07:34:50 GMT+0100 (BST)
+13 Apr 07:34:50 - debug: Job Local completed in 43 ms
+13 Apr 07:34:50 - debug: Job GuardianEnvironment completed in 605 ms
+13 Apr 07:35:15 - debug: { content: [Function],
+  'content.header': [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:35:32 - debug: { content: [Function],
+  'content.header': [Function],
+  'content.body': [Function],
+  'content.right': [Function],
+  'content.footer': [Function] }
+13 Apr 07:35:35 - debug: Job AtomTester started @ Wed Apr 13 2011 07:35:35 GMT+0100 (BST)
+13 Apr 07:35:40 - debug: Job Local started @ Wed Apr 13 2011 07:35:40 GMT+0100 (BST)
+13 Apr 07:35:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:35:40 GMT+0100 (BST)
+13 Apr 07:35:40 - debug: Job Local completed in 58 ms
+13 Apr 07:35:40 - debug: Job GuardianEnvironment completed in 450 ms
+13 Apr 07:35:50 - debug: Job Local started @ Wed Apr 13 2011 07:35:50 GMT+0100 (BST)
+13 Apr 07:35:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:35:50 GMT+0100 (BST)
+13 Apr 07:35:50 - debug: Job Local completed in 56 ms
+13 Apr 07:35:50 - debug: Job GuardianEnvironment completed in 593 ms
+13 Apr 07:36:00 - debug: Job Local started @ Wed Apr 13 2011 07:36:00 GMT+0100 (BST)
+13 Apr 07:36:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:36:00 GMT+0100 (BST)
+13 Apr 07:36:00 - debug: Job Local completed in 53 ms
+13 Apr 07:36:00 - debug: Job GuardianEnvironment completed in 458 ms
+13 Apr 07:36:10 - debug: Job Local started @ Wed Apr 13 2011 07:36:10 GMT+0100 (BST)
+13 Apr 07:36:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:36:10 GMT+0100 (BST)
+13 Apr 07:36:10 - debug: Job Local completed in 50 ms
+13 Apr 07:36:10 - debug: Job GuardianEnvironment completed in 387 ms
+13 Apr 07:36:20 - debug: Job Local started @ Wed Apr 13 2011 07:36:20 GMT+0100 (BST)
+13 Apr 07:36:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:36:20 GMT+0100 (BST)
+13 Apr 07:36:20 - debug: Job Local completed in 48 ms
+13 Apr 07:36:20 - debug: Job GuardianEnvironment completed in 388 ms
+13 Apr 07:36:30 - debug: Job Local started @ Wed Apr 13 2011 07:36:30 GMT+0100 (BST)
+13 Apr 07:36:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:36:30 GMT+0100 (BST)
+13 Apr 07:36:30 - debug: Job Local completed in 50 ms
+13 Apr 07:36:30 - debug: Job GuardianEnvironment completed in 397 ms
+13 Apr 07:36:40 - debug: Job Local started @ Wed Apr 13 2011 07:36:40 GMT+0100 (BST)
+13 Apr 07:36:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:36:40 GMT+0100 (BST)
+13 Apr 07:36:40 - debug: Job Local completed in 50 ms
+13 Apr 07:36:40 - debug: Job GuardianEnvironment completed in 398 ms
+13 Apr 07:36:50 - debug: Job Local started @ Wed Apr 13 2011 07:36:50 GMT+0100 (BST)
+13 Apr 07:36:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:36:50 GMT+0100 (BST)
+13 Apr 07:36:50 - debug: Job Local completed in 63 ms
+13 Apr 07:36:50 - debug: Job GuardianEnvironment completed in 887 ms
+13 Apr 07:37:04 - debug: [object Object]
+13 Apr 07:37:07 - debug: Job AtomTester started @ Wed Apr 13 2011 07:37:07 GMT+0100 (BST)
+13 Apr 07:37:25 - debug: { name: 'default',
+  description: 'Default Drupal Theme',
+  version: '0.0.2',
+  author: 'Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)',
+  layouts: { content: { layout: [Object] } } }
+13 Apr 07:37:28 - debug: Job AtomTester started @ Wed Apr 13 2011 07:37:28 GMT+0100 (BST)
+13 Apr 07:37:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:37:30 GMT+0100 (BST)
+13 Apr 07:37:30 - debug: Job Local started @ Wed Apr 13 2011 07:37:30 GMT+0100 (BST)
+13 Apr 07:37:30 - debug: Job Local completed in 57 ms
+13 Apr 07:37:30 - debug: Job GuardianEnvironment completed in 447 ms
+13 Apr 07:43:37 - debug: body-messages
+13 Apr 07:43:37 - debug: body-content
+13 Apr 07:43:37 - debug: right-user.login
+13 Apr 07:43:37 - debug: right-news.breaking
+13 Apr 07:43:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:43:40 GMT+0100 (BST)
+13 Apr 07:43:40 - debug: Job Local started @ Wed Apr 13 2011 07:43:40 GMT+0100 (BST)
+13 Apr 07:43:40 - debug: Job Local completed in 50 ms
+13 Apr 07:43:40 - debug: Job GuardianEnvironment completed in 454 ms
+13 Apr 07:44:01 - debug: undefined
+13 Apr 07:44:01 - debug: undefined
+13 Apr 07:44:01 - debug: undefined
+13 Apr 07:44:01 - debug: undefined
+13 Apr 07:44:07 - debug: Job AtomTester started @ Wed Apr 13 2011 07:44:07 GMT+0100 (BST)
+13 Apr 07:44:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:44:10 GMT+0100 (BST)
+13 Apr 07:44:10 - debug: Job Local started @ Wed Apr 13 2011 07:44:10 GMT+0100 (BST)
+13 Apr 07:44:10 - debug: Job Local completed in 55 ms
+13 Apr 07:44:10 - debug: Job GuardianEnvironment completed in 387 ms
+13 Apr 07:44:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:44:20 GMT+0100 (BST)
+13 Apr 07:44:20 - debug: Job Local started @ Wed Apr 13 2011 07:44:20 GMT+0100 (BST)
+13 Apr 07:44:20 - debug: Job Local completed in 42 ms
+13 Apr 07:44:20 - debug: Job GuardianEnvironment completed in 407 ms
+13 Apr 07:44:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:44:30 GMT+0100 (BST)
+13 Apr 07:44:30 - debug: Job Local started @ Wed Apr 13 2011 07:44:30 GMT+0100 (BST)
+13 Apr 07:44:30 - debug: Job Local completed in 42 ms
+13 Apr 07:44:30 - debug: Job GuardianEnvironment completed in 392 ms
+13 Apr 07:44:40 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:44:40 GMT+0100 (BST)
+13 Apr 07:44:40 - debug: Job Local started @ Wed Apr 13 2011 07:44:40 GMT+0100 (BST)
+13 Apr 07:44:40 - debug: Job Local completed in 57 ms
+13 Apr 07:44:42 - debug: Job AtomTester started @ Wed Apr 13 2011 07:44:42 GMT+0100 (BST)
+13 Apr 07:44:50 - debug: Job Local started @ Wed Apr 13 2011 07:44:50 GMT+0100 (BST)
+13 Apr 07:44:50 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:44:50 GMT+0100 (BST)
+13 Apr 07:44:50 - debug: Job Local completed in 56 ms
+13 Apr 07:44:50 - debug: Job GuardianEnvironment completed in 408 ms
+13 Apr 07:44:56 - debug: Job AtomTester started @ Wed Apr 13 2011 07:44:56 GMT+0100 (BST)
+13 Apr 07:45:00 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:45:00 GMT+0100 (BST)
+13 Apr 07:45:00 - debug: Job Local started @ Wed Apr 13 2011 07:45:00 GMT+0100 (BST)
+13 Apr 07:45:00 - debug: Job Local completed in 53 ms
+13 Apr 07:45:00 - debug: Job GuardianEnvironment completed in 694 ms
+13 Apr 07:46:30 - debug: Job Local started @ Wed Apr 13 2011 07:46:30 GMT+0100 (BST)
+13 Apr 07:46:30 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 07:46:30 GMT+0100 (BST)
+13 Apr 07:46:30 - debug: Job Local completed in 64 ms
+13 Apr 07:46:30 - debug: Job GuardianEnvironment completed in 625 ms
+13 Apr 07:46:35 - debug: Job AtomTester started @ Wed Apr 13 2011 07:46:35 GMT+0100 (BST)
+13 Apr 09:38:08 - info: ../modules/template/templates
+13 Apr 09:38:08 - info: ../modules/admin/templates
+13 Apr 09:38:08 - info: ../modules/content/templates
+13 Apr 09:38:08 - info: ../modules/feeds/templates
+13 Apr 09:38:08 - info: ../modules/news/templates
+13 Apr 09:38:08 - info: ../modules/scheduler/templates
+13 Apr 09:38:08 - info: ../modules/user/templates
+13 Apr 09:38:10 - debug: Job Local started @ Wed Apr 13 2011 09:38:10 GMT+0100 (BST)
+13 Apr 09:38:10 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 09:38:10 GMT+0100 (BST)
+13 Apr 09:38:10 - debug: Job Local completed in 63 ms
+13 Apr 09:38:10 - debug: Job GuardianEnvironment completed in 226 ms
+13 Apr 09:38:33 - info: ../modules/template/templates
+13 Apr 09:38:33 - info: ../modules/admin/templates
+13 Apr 09:38:33 - info: ../modules/content/templates
+13 Apr 09:38:33 - info: ../modules/feeds/templates
+13 Apr 09:38:33 - info: ../modules/news/templates
+13 Apr 09:38:33 - info: ../modules/scheduler/templates
+13 Apr 09:38:33 - info: ../modules/user/templates
+13 Apr 09:38:54 - info: ../modules/template/templates/
+13 Apr 09:38:54 - info: ../modules/admin/templates/
+13 Apr 09:38:54 - info: ../modules/content/templates/
+13 Apr 09:38:54 - info: ../modules/feeds/templates/
+13 Apr 09:38:54 - info: ../modules/news/templates/
+13 Apr 09:38:54 - info: ../modules/scheduler/templates/
+13 Apr 09:38:54 - info: ../modules/user/templates/
+13 Apr 09:41:05 - info: /var/www/calipso/lib../modules/template/templates
+13 Apr 09:41:05 - info: /var/www/calipso/lib../modules/admin/templates
+13 Apr 09:41:05 - info: /var/www/calipso/lib../modules/content/templates
+13 Apr 09:41:05 - info: /var/www/calipso/lib../modules/feeds/templates
+13 Apr 09:41:05 - info: /var/www/calipso/lib../modules/news/templates
+13 Apr 09:41:05 - info: /var/www/calipso/lib../modules/scheduler/templates
+13 Apr 09:41:05 - info: /var/www/calipso/lib../modules/user/templates
+13 Apr 09:41:07 - debug: Job AtomTester started @ Wed Apr 13 2011 09:41:07 GMT+0100 (BST)
+13 Apr 09:41:13 - info: /var/www/calipso/lib/../modules/template/templates
+13 Apr 09:41:13 - info: template-all.html
+13 Apr 09:41:13 - info: template.html
+13 Apr 09:41:13 - info: /var/www/calipso/lib/../modules/admin/templates
+13 Apr 09:41:13 - info: reload.html
+13 Apr 09:41:13 - info: install.html
+13 Apr 09:41:13 - info: admin.html
+13 Apr 09:41:13 - info: /var/www/calipso/lib/../modules/content/templates
+13 Apr 09:41:13 - info: list.html
+13 Apr 09:41:13 - info: form.html
+13 Apr 09:41:13 - info: show.html
+13 Apr 09:41:13 - info: /var/www/calipso/lib/../modules/feeds/templates
+13 Apr 09:41:13 - info: /var/www/calipso/lib/../modules/news/templates
+13 Apr 09:41:13 - info: breaking.html
+13 Apr 09:41:13 - info: /var/www/calipso/lib/../modules/scheduler/templates
+13 Apr 09:41:13 - info: admin.html
+13 Apr 09:41:13 - info: form.html
+13 Apr 09:41:13 - info: show.html
+13 Apr 09:41:13 - info: /var/www/calipso/lib/../modules/user/templates
+13 Apr 09:41:13 - info: profile.html
+13 Apr 09:41:13 - info: login.html
+13 Apr 09:41:13 - info: register.html
+13 Apr 09:41:14 - debug: Job AtomTester started @ Wed Apr 13 2011 09:41:14 GMT+0100 (BST)
+13 Apr 09:41:21 - info: template-all.html
+13 Apr 09:41:21 - info: template.html
+13 Apr 09:41:21 - info: reload.html
+13 Apr 09:41:21 - info: install.html
+13 Apr 09:41:21 - info: admin.html
+13 Apr 09:41:21 - info: list.html
+13 Apr 09:41:21 - info: form.html
+13 Apr 09:41:21 - info: show.html
+13 Apr 09:41:21 - info: breaking.html
+13 Apr 09:41:21 - info: admin.html
+13 Apr 09:41:21 - info: form.html
+13 Apr 09:41:21 - info: show.html
+13 Apr 09:41:21 - info: profile.html
+13 Apr 09:41:21 - info: login.html
+13 Apr 09:41:21 - info: register.html
+13 Apr 09:45:20 - debug: Job Local started @ Wed Apr 13 2011 09:45:20 GMT+0100 (BST)
+13 Apr 09:45:20 - debug: Job GuardianEnvironment started @ Wed Apr 13 2011 09:45:20 GMT+0100 (BST)
+13 Apr 09:45:20 - debug: Job Local completed in 75 ms
+13 Apr 09:45:20 - debug: Job GuardianEnvironment completed in 267 ms
+13 Apr 09:45:21 - debug: Job AtomTester started @ Wed Apr 13 2011 09:45:21 GMT+0100 (BST)
+13 Apr 09:46:35 - debug: Job AtomTester started @ Wed Apr 13 2011 09:46:35 GMT+0100 (BST)
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 09:52:14 - info: undefined
+13 Apr 10:07:23 - debug: body-common.messages
+13 Apr 10:07:23 - debug: body-content.content
+13 Apr 10:07:23 - debug: right-user.login
+13 Apr 10:07:23 - debug: right-news.breaking
+13 Apr 10:14:39 - info: YES
+13 Apr 10:14:39 - info: YES
+13 Apr 10:14:39 - info: YES
+13 Apr 10:14:39 - info: YES
+13 Apr 10:15:54 - info: body:common.messages - NO
+13 Apr 10:15:54 - info: body:content.content - YES
+13 Apr 10:15:54 - info: right:user.login - NO
+13 Apr 10:15:54 - info: right:news.breaking - NO
+13 Apr 10:23:46 - info: body:common.messages - NO
+13 Apr 10:23:46 - info: body:content.content - YES
+13 Apr 10:23:46 - info: right:user.login - NO
+13 Apr 10:23:46 - info: right:news.breaking - NO
+13 Apr 10:24:18 - info: body:common.messages - NO
+13 Apr 10:24:18 - info: body:content.content - YES
+13 Apr 10:24:18 - info: right:user.login - NO
+13 Apr 10:24:18 - info: right:news.breaking - NO
+13 Apr 10:25:57 - info: body:common.messages - NO
+13 Apr 10:25:57 - info: body:content.content - YES
+13 Apr 10:25:57 - info: right:user.login - NO
+13 Apr 10:25:57 - info: right:news.breaking - NO
+13 Apr 10:26:46 - info: body:common.messages - NO
+13 Apr 10:26:46 - info: body:content.content - YES
+13 Apr 10:26:46 - info: right:user.login - NO
+13 Apr 10:26:46 - info: right:news.breaking - NO
+13 Apr 10:26:51 - info: body:common.messages - NO
+13 Apr 10:26:51 - info: body:content.content - YES
+13 Apr 10:26:51 - info: right:user.login - NO
+13 Apr 10:26:51 - info: right:news.breaking - NO
+13 Apr 10:26:51 - info: body:common.messages - NO
+13 Apr 10:26:51 - info: body:content.content - YES
+13 Apr 10:26:51 - info: right:user.login - NO
+13 Apr 10:26:51 - info: right:news.breaking - NO
+13 Apr 10:26:52 - info: body:common.messages - NO
+13 Apr 10:26:52 - info: body:content.content - YES
+13 Apr 10:26:52 - info: right:user.login - NO
+13 Apr 10:26:52 - info: right:news.breaking - NO
+13 Apr 10:26:52 - info: body:common.messages - NO
+13 Apr 10:26:52 - info: body:content.content - YES
+13 Apr 10:26:52 - info: right:user.login - NO
+13 Apr 10:26:52 - info: right:news.breaking - NO
+13 Apr 10:26:52 - info: body:common.messages - NO
+13 Apr 10:26:52 - info: body:content.content - YES
+13 Apr 10:26:52 - info: right:user.login - NO
+13 Apr 10:26:52 - info: right:news.breaking - NO
+13 Apr 10:26:52 - info: body:common.messages - NO
+13 Apr 10:26:52 - info: body:content.content - YES
+13 Apr 10:26:52 - info: right:user.login - NO
+13 Apr 10:26:52 - info: right:news.breaking - NO
+13 Apr 10:26:52 - info: body:common.messages - NO
+13 Apr 10:26:52 - info: body:content.content - YES
+13 Apr 10:26:52 - info: right:user.login - NO
+13 Apr 10:26:52 - info: right:news.breaking - NO
+13 Apr 10:26:58 - info: body:common.messages - NO
+13 Apr 10:26:58 - info: body:content.content - YES
+13 Apr 10:26:58 - info: right:user.login - NO
+13 Apr 10:26:58 - info: right:news.breaking - NO
+13 Apr 10:27:03 - info: body:common.messages - NO
+13 Apr 10:27:03 - info: body:content.content - YES
+13 Apr 10:27:03 - info: right:user.login - NO
+13 Apr 10:27:03 - info: right:news.breaking - NO
+13 Apr 10:29:32 - info: body:common.messages - NO
+13 Apr 10:29:32 - info: body:content.content - YES
+13 Apr 10:29:32 - info: right:user.login - NO
+13 Apr 10:29:32 - info: right:news.breaking - NO
+13 Apr 10:29:43 - info: body:common.messages - NO
+13 Apr 10:29:43 - info: body:content.content - YES
+13 Apr 10:29:43 - info: right:user.login - NO
+13 Apr 10:29:43 - info: right:news.breaking - NO
+13 Apr 10:29:44 - info: body:common.messages - NO
+13 Apr 10:29:44 - info: body:content.content - YES
+13 Apr 10:29:44 - info: right:user.login - NO
+13 Apr 10:29:44 - info: right:news.breaking - NO
+13 Apr 10:29:45 - info: body:common.messages - NO
+13 Apr 10:29:45 - info: body:content.content - YES
+13 Apr 10:29:45 - info: right:user.login - NO
+13 Apr 10:29:45 - info: right:news.breaking - NO
+13 Apr 10:29:45 - info: body:common.messages - NO
+13 Apr 10:29:45 - info: body:content.content - YES
+13 Apr 10:29:45 - info: right:user.login - NO
+13 Apr 10:29:45 - info: right:news.breaking - NO
+13 Apr 10:29:46 - info: body:common.messages - NO
+13 Apr 10:29:46 - info: body:content.content - YES
+13 Apr 10:29:46 - info: right:user.login - NO
+13 Apr 10:29:46 - info: right:news.breaking - NO
+14 Apr 06:47:28 - debug: Job AtomTester started @ Thu Apr 14 2011 06:47:28 GMT+0100 (BST)
+14 Apr 06:47:30 - debug: Job Local started @ Thu Apr 14 2011 06:47:30 GMT+0100 (BST)
+14 Apr 06:47:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:47:30 GMT+0100 (BST)
+14 Apr 06:47:30 - debug: Job Local completed in 80 ms
+14 Apr 06:47:30 - debug: Job GuardianEnvironment completed in 494 ms
+14 Apr 06:47:40 - debug: Job Local started @ Thu Apr 14 2011 06:47:40 GMT+0100 (BST)
+14 Apr 06:47:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:47:40 GMT+0100 (BST)
+14 Apr 06:47:40 - debug: Job Local completed in 48 ms
+14 Apr 06:47:40 - debug: Job GuardianEnvironment completed in 394 ms
+14 Apr 06:47:50 - debug: Job Local started @ Thu Apr 14 2011 06:47:50 GMT+0100 (BST)
+14 Apr 06:47:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:47:50 GMT+0100 (BST)
+14 Apr 06:47:50 - debug: Job Local completed in 42 ms
+14 Apr 06:47:50 - debug: Job GuardianEnvironment completed in 559 ms
+14 Apr 06:48:00 - debug: Job Local started @ Thu Apr 14 2011 06:48:00 GMT+0100 (BST)
+14 Apr 06:48:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:48:00 GMT+0100 (BST)
+14 Apr 06:48:00 - debug: Job Local completed in 86 ms
+14 Apr 06:48:00 - debug: Job GuardianEnvironment completed in 460 ms
+14 Apr 06:48:10 - debug: Job Local started @ Thu Apr 14 2011 06:48:10 GMT+0100 (BST)
+14 Apr 06:48:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:48:10 GMT+0100 (BST)
+14 Apr 06:48:10 - debug: Job Local completed in 46 ms
+14 Apr 06:48:10 - debug: Job GuardianEnvironment completed in 403 ms
+14 Apr 06:48:20 - debug: Job Local started @ Thu Apr 14 2011 06:48:20 GMT+0100 (BST)
+14 Apr 06:48:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:48:20 GMT+0100 (BST)
+14 Apr 06:48:20 - debug: Job Local completed in 65 ms
+14 Apr 06:48:20 - debug: Job GuardianEnvironment completed in 421 ms
+14 Apr 06:48:30 - debug: Job Local started @ Thu Apr 14 2011 06:48:30 GMT+0100 (BST)
+14 Apr 06:48:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:48:30 GMT+0100 (BST)
+14 Apr 06:48:30 - debug: Job Local completed in 45 ms
+14 Apr 06:48:30 - debug: Job GuardianEnvironment completed in 426 ms
+14 Apr 06:48:40 - debug: Job Local started @ Thu Apr 14 2011 06:48:40 GMT+0100 (BST)
+14 Apr 06:48:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:48:40 GMT+0100 (BST)
+14 Apr 06:48:40 - debug: Job Local completed in 45 ms
+14 Apr 06:48:40 - debug: Job GuardianEnvironment completed in 758 ms
+14 Apr 06:48:50 - debug: Job Local started @ Thu Apr 14 2011 06:48:50 GMT+0100 (BST)
+14 Apr 06:48:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:48:50 GMT+0100 (BST)
+14 Apr 06:48:50 - debug: Job Local completed in 61 ms
+14 Apr 06:48:50 - debug: Job GuardianEnvironment completed in 407 ms
+14 Apr 06:49:00 - debug: Job Local started @ Thu Apr 14 2011 06:49:00 GMT+0100 (BST)
+14 Apr 06:49:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:49:00 GMT+0100 (BST)
+14 Apr 06:49:00 - debug: Job Local completed in 49 ms
+14 Apr 06:49:00 - debug: Job GuardianEnvironment completed in 402 ms
+14 Apr 06:49:10 - debug: Job Local started @ Thu Apr 14 2011 06:49:10 GMT+0100 (BST)
+14 Apr 06:49:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:49:10 GMT+0100 (BST)
+14 Apr 06:49:10 - debug: Job Local completed in 45 ms
+14 Apr 06:49:10 - debug: Job GuardianEnvironment completed in 569 ms
+14 Apr 06:49:20 - debug: Job Local started @ Thu Apr 14 2011 06:49:20 GMT+0100 (BST)
+14 Apr 06:49:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:49:20 GMT+0100 (BST)
+14 Apr 06:49:20 - debug: Job Local completed in 70 ms
+14 Apr 06:49:20 - debug: Job GuardianEnvironment completed in 377 ms
+14 Apr 06:49:21 - debug: Job AtomTester started @ Thu Apr 14 2011 06:49:21 GMT+0100 (BST)
+14 Apr 06:49:30 - debug: Job Local started @ Thu Apr 14 2011 06:49:30 GMT+0100 (BST)
+14 Apr 06:49:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:49:30 GMT+0100 (BST)
+14 Apr 06:49:30 - debug: Job Local completed in 48 ms
+14 Apr 06:49:30 - debug: Job GuardianEnvironment completed in 611 ms
+14 Apr 06:49:40 - debug: Job Local started @ Thu Apr 14 2011 06:49:40 GMT+0100 (BST)
+14 Apr 06:49:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:49:40 GMT+0100 (BST)
+14 Apr 06:49:40 - debug: Job Local completed in 57 ms
+14 Apr 06:49:40 - debug: Job GuardianEnvironment completed in 411 ms
+14 Apr 06:49:50 - debug: Job Local started @ Thu Apr 14 2011 06:49:50 GMT+0100 (BST)
+14 Apr 06:49:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:49:50 GMT+0100 (BST)
+14 Apr 06:49:50 - debug: Job Local completed in 48 ms
+14 Apr 06:49:50 - debug: Job GuardianEnvironment completed in 380 ms
+14 Apr 06:50:00 - debug: Job Local started @ Thu Apr 14 2011 06:50:00 GMT+0100 (BST)
+14 Apr 06:50:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:50:00 GMT+0100 (BST)
+14 Apr 06:50:00 - debug: Job Local completed in 47 ms
+14 Apr 06:50:00 - debug: Job GuardianEnvironment completed in 435 ms
+14 Apr 06:50:10 - debug: Job Local started @ Thu Apr 14 2011 06:50:10 GMT+0100 (BST)
+14 Apr 06:50:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:50:10 GMT+0100 (BST)
+14 Apr 06:50:10 - debug: Job Local completed in 57 ms
+14 Apr 06:50:10 - debug: Job GuardianEnvironment completed in 462 ms
+14 Apr 06:50:20 - debug: Job Local started @ Thu Apr 14 2011 06:50:20 GMT+0100 (BST)
+14 Apr 06:50:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:50:20 GMT+0100 (BST)
+14 Apr 06:50:20 - debug: Job Local completed in 58 ms
+14 Apr 06:50:20 - debug: Job GuardianEnvironment completed in 389 ms
+14 Apr 06:50:30 - debug: Job Local started @ Thu Apr 14 2011 06:50:30 GMT+0100 (BST)
+14 Apr 06:50:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:50:30 GMT+0100 (BST)
+14 Apr 06:50:30 - debug: Job Local completed in 71 ms
+14 Apr 06:50:30 - debug: Job GuardianEnvironment completed in 424 ms
+14 Apr 06:50:40 - debug: Job Local started @ Thu Apr 14 2011 06:50:40 GMT+0100 (BST)
+14 Apr 06:50:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:50:40 GMT+0100 (BST)
+14 Apr 06:50:40 - debug: Job Local completed in 62 ms
+14 Apr 06:50:40 - debug: Job GuardianEnvironment completed in 397 ms
+14 Apr 06:50:42 - debug: Job AtomTester started @ Thu Apr 14 2011 06:50:42 GMT+0100 (BST)
+14 Apr 06:50:50 - debug: Job Local started @ Thu Apr 14 2011 06:50:50 GMT+0100 (BST)
+14 Apr 06:50:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 06:50:50 GMT+0100 (BST)
+14 Apr 06:50:50 - debug: Job Local completed in 55 ms
+14 Apr 06:50:50 - debug: Job GuardianEnvironment completed in 400 ms
+14 Apr 07:10:37 - error: Error attempting to precache templates, Can't find specified template configuration /var/www/calipso/lib/../themes/default/templates/default/footer.html
+14 Apr 07:12:15 - error: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:16:09 - error: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:17:00 - error: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:18:05 - error: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:18:40 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:19:03 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:19:31 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:21:34 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:21:58 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:21:59 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:01 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:01 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:02 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:02 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:03 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:03 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:04 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:04 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:06 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:22:12 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:25:40 - error: Error attempting to precache templates, Can't find specified template configuration /var/www/calipso/lib/../themes/default/templates/admin/footer.html
+14 Apr 07:28:13 - debug: Error attempting to precache templates Can't find specified template configuration /var/www/calipso/lib/../themes/default/templates/admin/footer.html
+14 Apr 07:28:23 - debug: Can't find specified template configuration /var/www/calipso/lib/../themes/default/templates/admin/footer.html
+14 Apr 07:28:27 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:20 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:24 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:30 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:32 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:33 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:35 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:47 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:49 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:49 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:53 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:54 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:57 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:30:58 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:01 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:02 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:10 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:12 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:16 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:17 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:18 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:20 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:21 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:21 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:23 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:24 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:25 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:27 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:31 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:32 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:32 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:33 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:35 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:36 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:37 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:38 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:39 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:41 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:46 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:31:49 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:21 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:24 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:26 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:30 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:36 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:40 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:44 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:46 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:54 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:55 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:56 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:57 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:32:59 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:35:12 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:35:14 - debug: Layout: undefined is not defined within the current theme, using default.
+14 Apr 07:38:50 - debug: Job Local started @ Thu Apr 14 2011 07:38:50 GMT+0100 (BST)
+14 Apr 07:38:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:38:50 GMT+0100 (BST)
+14 Apr 07:38:50 - debug: Job Local completed in 91 ms
+14 Apr 07:38:50 - debug: Job GuardianEnvironment completed in 735 ms
+14 Apr 07:38:56 - debug: Job AtomTester started @ Thu Apr 14 2011 07:38:56 GMT+0100 (BST)
+14 Apr 07:39:00 - debug: Job Local started @ Thu Apr 14 2011 07:39:00 GMT+0100 (BST)
+14 Apr 07:39:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:39:00 GMT+0100 (BST)
+14 Apr 07:39:00 - debug: Job Local completed in 57 ms
+14 Apr 07:39:00 - debug: Job GuardianEnvironment completed in 410 ms
+14 Apr 07:39:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:39:10 GMT+0100 (BST)
+14 Apr 07:39:10 - debug: Job GuardianEnvironment completed in 386 ms
+14 Apr 07:39:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:39:20 GMT+0100 (BST)
+14 Apr 07:39:20 - debug: Job GuardianEnvironment completed in 387 ms
+14 Apr 07:39:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:39:30 GMT+0100 (BST)
+14 Apr 07:39:30 - debug: Job GuardianEnvironment completed in 435 ms
+14 Apr 07:39:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:39:40 GMT+0100 (BST)
+14 Apr 07:39:40 - debug: Job GuardianEnvironment completed in 394 ms
+14 Apr 07:39:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:39:50 GMT+0100 (BST)
+14 Apr 07:39:50 - debug: Job GuardianEnvironment completed in 747 ms
+14 Apr 07:40:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:40:00 GMT+0100 (BST)
+14 Apr 07:40:00 - debug: Job GuardianEnvironment completed in 392 ms
+14 Apr 07:40:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:40:10 GMT+0100 (BST)
+14 Apr 07:40:10 - debug: Job GuardianEnvironment completed in 464 ms
+14 Apr 07:40:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:40:20 GMT+0100 (BST)
+14 Apr 07:40:20 - debug: Job GuardianEnvironment completed in 481 ms
+14 Apr 07:40:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:40:30 GMT+0100 (BST)
+14 Apr 07:40:30 - debug: Job GuardianEnvironment completed in 372 ms
+14 Apr 07:40:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:40:40 GMT+0100 (BST)
+14 Apr 07:40:40 - debug: Job GuardianEnvironment completed in 452 ms
+14 Apr 07:40:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:40:50 GMT+0100 (BST)
+14 Apr 07:40:50 - debug: Job GuardianEnvironment completed in 723 ms
+14 Apr 07:41:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:41:00 GMT+0100 (BST)
+14 Apr 07:41:00 - debug: Job GuardianEnvironment completed in 390 ms
+14 Apr 07:41:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:41:10 GMT+0100 (BST)
+14 Apr 07:41:10 - debug: Job GuardianEnvironment completed in 388 ms
+14 Apr 07:41:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:41:20 GMT+0100 (BST)
+14 Apr 07:41:20 - debug: Job GuardianEnvironment completed in 381 ms
+14 Apr 07:41:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:41:40 GMT+0100 (BST)
+14 Apr 07:41:40 - debug: Job GuardianEnvironment completed in 398 ms
+14 Apr 07:41:42 - debug: Job AtomTester started @ Thu Apr 14 2011 07:41:42 GMT+0100 (BST)
+14 Apr 07:41:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:41:50 GMT+0100 (BST)
+14 Apr 07:41:50 - debug: Job GuardianEnvironment completed in 398 ms
+14 Apr 07:41:56 - debug: Job AtomTester started @ Thu Apr 14 2011 07:41:56 GMT+0100 (BST)
+14 Apr 07:42:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:42:00 GMT+0100 (BST)
+14 Apr 07:42:00 - debug: Job GuardianEnvironment completed in 693 ms
+14 Apr 07:42:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:42:10 GMT+0100 (BST)
+14 Apr 07:42:10 - debug: Job GuardianEnvironment completed in 509 ms
+14 Apr 07:42:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:42:20 GMT+0100 (BST)
+14 Apr 07:42:20 - debug: Job GuardianEnvironment completed in 377 ms
+14 Apr 07:42:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:42:30 GMT+0100 (BST)
+14 Apr 07:42:30 - debug: Job GuardianEnvironment completed in 450 ms
+14 Apr 07:42:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:42:40 GMT+0100 (BST)
+14 Apr 07:42:40 - debug: Job GuardianEnvironment completed in 381 ms
+14 Apr 07:42:49 - debug: Job AtomTester started @ Thu Apr 14 2011 07:42:49 GMT+0100 (BST)
+14 Apr 07:42:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:42:50 GMT+0100 (BST)
+14 Apr 07:42:50 - debug: Job GuardianEnvironment completed in 394 ms
+14 Apr 07:43:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:43:00 GMT+0100 (BST)
+14 Apr 07:43:00 - debug: Job GuardianEnvironment completed in 476 ms
+14 Apr 07:43:14 - debug: Job AtomTester started @ Thu Apr 14 2011 07:43:14 GMT+0100 (BST)
+14 Apr 07:43:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:43:20 GMT+0100 (BST)
+14 Apr 07:43:20 - debug: Job GuardianEnvironment completed in 390 ms
+14 Apr 07:43:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:43:30 GMT+0100 (BST)
+14 Apr 07:43:30 - debug: Job GuardianEnvironment completed in 498 ms
+14 Apr 07:43:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:43:40 GMT+0100 (BST)
+14 Apr 07:43:40 - debug: Job GuardianEnvironment completed in 398 ms
+14 Apr 07:43:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:43:50 GMT+0100 (BST)
+14 Apr 07:43:50 - debug: Job GuardianEnvironment completed in 359 ms
+14 Apr 07:44:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:44:00 GMT+0100 (BST)
+14 Apr 07:44:00 - debug: Job GuardianEnvironment completed in 380 ms
+14 Apr 07:44:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:44:10 GMT+0100 (BST)
+14 Apr 07:44:10 - debug: Job GuardianEnvironment completed in 570 ms
+14 Apr 07:44:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:44:20 GMT+0100 (BST)
+14 Apr 07:44:20 - debug: Job GuardianEnvironment completed in 399 ms
+14 Apr 07:44:28 - debug: Job AtomTester started @ Thu Apr 14 2011 07:44:28 GMT+0100 (BST)
+14 Apr 07:44:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:44:30 GMT+0100 (BST)
+14 Apr 07:44:30 - debug: Job GuardianEnvironment completed in 381 ms
+14 Apr 07:44:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:44:40 GMT+0100 (BST)
+14 Apr 07:44:40 - debug: Job GuardianEnvironment completed in 386 ms
+14 Apr 07:44:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:44:50 GMT+0100 (BST)
+14 Apr 07:44:50 - debug: Job GuardianEnvironment completed in 392 ms
+14 Apr 07:44:51 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:44:51 GMT+0100 (BST)
+14 Apr 07:44:51 - debug: Job GuardianEnvironment completed in 384 ms
+14 Apr 07:44:56 - debug: Job AtomTester started @ Thu Apr 14 2011 07:44:56 GMT+0100 (BST)
+14 Apr 07:45:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:45:00 GMT+0100 (BST)
+14 Apr 07:45:00 - debug: Job GuardianEnvironment completed in 421 ms
+14 Apr 07:45:07 - debug: Job AtomTester started @ Thu Apr 14 2011 07:45:07 GMT+0100 (BST)
+14 Apr 07:45:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:45:10 GMT+0100 (BST)
+14 Apr 07:45:10 - debug: Job GuardianEnvironment completed in 369 ms
+14 Apr 07:45:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:45:20 GMT+0100 (BST)
+14 Apr 07:45:20 - debug: Job GuardianEnvironment completed in 424 ms
+14 Apr 07:45:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:45:30 GMT+0100 (BST)
+14 Apr 07:45:30 - debug: Job GuardianEnvironment completed in 464 ms
+14 Apr 07:45:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:45:40 GMT+0100 (BST)
+14 Apr 07:45:40 - debug: Job GuardianEnvironment completed in 384 ms
+14 Apr 07:45:49 - debug: Job AtomTester started @ Thu Apr 14 2011 07:45:49 GMT+0100 (BST)
+14 Apr 07:45:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:45:50 GMT+0100 (BST)
+14 Apr 07:45:50 - debug: Job GuardianEnvironment completed in 376 ms
+14 Apr 07:46:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:46:00 GMT+0100 (BST)
+14 Apr 07:46:00 - debug: Job GuardianEnvironment completed in 592 ms
+14 Apr 07:46:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:46:10 GMT+0100 (BST)
+14 Apr 07:46:10 - debug: Job GuardianEnvironment completed in 396 ms
+14 Apr 07:46:14 - debug: Job AtomTester started @ Thu Apr 14 2011 07:46:14 GMT+0100 (BST)
+14 Apr 07:46:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:46:20 GMT+0100 (BST)
+14 Apr 07:46:20 - debug: Job GuardianEnvironment completed in 383 ms
+14 Apr 07:46:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:46:30 GMT+0100 (BST)
+14 Apr 07:46:30 - debug: Job GuardianEnvironment completed in 378 ms
+14 Apr 07:46:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:46:40 GMT+0100 (BST)
+14 Apr 07:46:40 - debug: Job GuardianEnvironment completed in 507 ms
+14 Apr 07:46:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:46:50 GMT+0100 (BST)
+14 Apr 07:46:50 - debug: Job GuardianEnvironment completed in 521 ms
+14 Apr 07:47:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:47:00 GMT+0100 (BST)
+14 Apr 07:47:00 - debug: Job GuardianEnvironment completed in 558 ms
+14 Apr 07:47:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:47:10 GMT+0100 (BST)
+14 Apr 07:47:10 - debug: Job GuardianEnvironment completed in 521 ms
+14 Apr 07:47:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:47:20 GMT+0100 (BST)
+14 Apr 07:47:20 - debug: Job GuardianEnvironment completed in 381 ms
+14 Apr 07:47:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:47:30 GMT+0100 (BST)
+14 Apr 07:47:30 - debug: Job GuardianEnvironment completed in 473 ms
+14 Apr 07:47:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:47:40 GMT+0100 (BST)
+14 Apr 07:47:40 - debug: Job GuardianEnvironment completed in 406 ms
+14 Apr 07:47:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:47:50 GMT+0100 (BST)
+14 Apr 07:47:50 - debug: Job GuardianEnvironment completed in 395 ms
+14 Apr 07:48:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:48:00 GMT+0100 (BST)
+14 Apr 07:48:01 - debug: Job GuardianEnvironment completed in 1359 ms

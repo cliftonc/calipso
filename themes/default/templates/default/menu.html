@@ -1,6 +1,7 @@
-<div class='debug-menu'><a href='#' class='showDebug'>Show Blocks</a></div>
+<% if(user.isAdmin) { %>
+<br/>
 <div class='menu-separator'></div>               
-<div class="primary-menu">  	
+<div class="primary-menu">      
   <% menu.primary.forEach(function(menuItem){ 
   
         var menuSelected = '';
@@ -17,4 +18,5 @@
     <a class='menu-item' href="<%- menuItem.url %>"><%- menuItem.name %></a>
   <% }) %> 
 </div>
-<div class='menu-separator'></div>               
+<div class='menu-separator'></div>
+<% } %>               

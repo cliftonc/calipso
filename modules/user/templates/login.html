@@ -1,5 +1,5 @@
 <%
-if(!request.session.user) { %>    
+if(user.anonymous) { %>    
 <h2><%= item.title %></h2>
 <form method="<%- item.method %>" action="<%- item.action %>" >
 <%           
@@ -34,8 +34,8 @@ if(!request.session.user) { %>
 <% }  else { %>
  
             <h2>User Profile</h2>
-            <% if(request.session.user) { %>
-                  <a href="/user"><%- request.session.user.username %></a>&nbsp;|&nbsp;
+            <% if(user) { %>
+                  <a href="/user"><%- user.username %></a>&nbsp;|&nbsp;
                   <a href="/user/logout">Logout</a>
             <% } %>
  
