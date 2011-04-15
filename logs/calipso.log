@@ -2089,3 +2089,2953 @@
 14 Apr 07:47:50 - debug: Job GuardianEnvironment completed in 395 ms
 14 Apr 07:48:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 07:48:00 GMT+0100 (BST)
 14 Apr 07:48:01 - debug: Job GuardianEnvironment completed in 1359 ms
+14 Apr 13:27:14 - debug: Job AtomTester started @ Thu Apr 14 2011 13:27:14 GMT+0100 (BST)
+14 Apr 13:27:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:27:20 GMT+0100 (BST)
+14 Apr 13:27:22 - debug: Job GuardianEnvironment completed in 2761 ms
+14 Apr 13:27:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:27:30 GMT+0100 (BST)
+14 Apr 13:27:33 - debug: Job GuardianEnvironment completed in 3252 ms
+14 Apr 13:27:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:27:40 GMT+0100 (BST)
+14 Apr 13:27:43 - debug: Job GuardianEnvironment completed in 3282 ms
+14 Apr 13:27:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:27:50 GMT+0100 (BST)
+14 Apr 13:27:53 - debug: Job GuardianEnvironment completed in 3497 ms
+14 Apr 13:28:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:28:00 GMT+0100 (BST)
+14 Apr 13:28:04 - debug: Job GuardianEnvironment completed in 4160 ms
+14 Apr 13:28:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:28:10 GMT+0100 (BST)
+14 Apr 13:28:13 - debug: Job GuardianEnvironment completed in 3550 ms
+14 Apr 13:28:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:28:20 GMT+0100 (BST)
+14 Apr 13:28:23 - debug: Job GuardianEnvironment completed in 3243 ms
+14 Apr 13:28:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:28:30 GMT+0100 (BST)
+14 Apr 13:28:34 - debug: Job GuardianEnvironment completed in 4170 ms
+14 Apr 13:28:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:28:40 GMT+0100 (BST)
+14 Apr 13:28:43 - debug: Job GuardianEnvironment completed in 3933 ms
+14 Apr 13:28:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:28:50 GMT+0100 (BST)
+14 Apr 13:28:53 - debug: Job GuardianEnvironment completed in 3893 ms
+14 Apr 13:29:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:29:00 GMT+0100 (BST)
+14 Apr 13:29:02 - debug: Job GuardianEnvironment completed in 2549 ms
+14 Apr 13:29:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:29:10 GMT+0100 (BST)
+14 Apr 13:29:12 - debug: Job GuardianEnvironment completed in 2096 ms
+14 Apr 13:29:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:29:20 GMT+0100 (BST)
+14 Apr 13:29:26 - debug: Job GuardianEnvironment completed in 6010 ms
+14 Apr 13:29:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:29:30 GMT+0100 (BST)
+14 Apr 13:29:34 - debug: Job GuardianEnvironment completed in 4586 ms
+14 Apr 13:29:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:29:40 GMT+0100 (BST)
+14 Apr 13:29:52 - debug: Job GuardianEnvironment completed in 12467 ms
+14 Apr 13:30:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:30:00 GMT+0100 (BST)
+14 Apr 13:30:03 - debug: Job GuardianEnvironment completed in 3694 ms
+14 Apr 13:30:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:30:10 GMT+0100 (BST)
+14 Apr 13:30:13 - debug: Job GuardianEnvironment completed in 3750 ms
+14 Apr 13:30:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:30:20 GMT+0100 (BST)
+14 Apr 13:30:23 - debug: Job GuardianEnvironment completed in 3420 ms
+14 Apr 13:30:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:30:30 GMT+0100 (BST)
+14 Apr 13:30:33 - debug: Job GuardianEnvironment completed in 3581 ms
+14 Apr 13:30:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:30:40 GMT+0100 (BST)
+14 Apr 13:30:43 - debug: Job GuardianEnvironment completed in 3700 ms
+14 Apr 13:30:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:30:50 GMT+0100 (BST)
+14 Apr 13:30:54 - debug: Job GuardianEnvironment completed in 4082 ms
+14 Apr 13:31:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:31:00 GMT+0100 (BST)
+14 Apr 13:31:04 - debug: Job GuardianEnvironment completed in 4121 ms
+14 Apr 13:31:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:31:10 GMT+0100 (BST)
+14 Apr 13:31:13 - debug: Job GuardianEnvironment completed in 3391 ms
+14 Apr 13:31:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:31:20 GMT+0100 (BST)
+14 Apr 13:31:24 - debug: Job GuardianEnvironment completed in 4510 ms
+14 Apr 13:31:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:31:30 GMT+0100 (BST)
+14 Apr 13:31:33 - debug: Job GuardianEnvironment completed in 3677 ms
+14 Apr 13:31:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:31:40 GMT+0100 (BST)
+14 Apr 13:31:45 - debug: Job GuardianEnvironment completed in 5018 ms
+14 Apr 13:31:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:31:50 GMT+0100 (BST)
+14 Apr 13:31:54 - debug: Job GuardianEnvironment completed in 4431 ms
+14 Apr 13:32:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:32:00 GMT+0100 (BST)
+14 Apr 13:32:03 - debug: Job GuardianEnvironment completed in 3726 ms
+14 Apr 13:32:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:32:10 GMT+0100 (BST)
+14 Apr 13:32:21 - debug: Job GuardianEnvironment completed in 11911 ms
+14 Apr 13:32:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:32:30 GMT+0100 (BST)
+14 Apr 13:32:33 - debug: Job GuardianEnvironment completed in 3272 ms
+14 Apr 13:32:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:32:40 GMT+0100 (BST)
+14 Apr 13:32:43 - debug: Job GuardianEnvironment completed in 3680 ms
+14 Apr 13:32:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:32:50 GMT+0100 (BST)
+14 Apr 13:32:53 - debug: Job GuardianEnvironment completed in 3868 ms
+14 Apr 13:33:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:33:00 GMT+0100 (BST)
+14 Apr 13:33:08 - debug: Job GuardianEnvironment completed in 8630 ms
+14 Apr 13:33:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:33:10 GMT+0100 (BST)
+14 Apr 13:33:18 - debug: Job GuardianEnvironment completed in 8821 ms
+14 Apr 13:33:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:33:20 GMT+0100 (BST)
+14 Apr 13:33:21 - debug: Job GuardianEnvironment completed in 1922 ms
+14 Apr 13:33:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:33:30 GMT+0100 (BST)
+14 Apr 13:33:33 - debug: Job GuardianEnvironment completed in 3677 ms
+14 Apr 13:33:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:33:40 GMT+0100 (BST)
+14 Apr 13:33:43 - debug: Job GuardianEnvironment completed in 3740 ms
+14 Apr 13:33:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:33:50 GMT+0100 (BST)
+14 Apr 13:33:55 - debug: Job GuardianEnvironment completed in 5951 ms
+14 Apr 13:34:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:34:00 GMT+0100 (BST)
+14 Apr 13:34:05 - debug: Job GuardianEnvironment completed in 5308 ms
+14 Apr 13:34:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:34:10 GMT+0100 (BST)
+14 Apr 13:34:19 - debug: Job GuardianEnvironment completed in 9021 ms
+14 Apr 13:34:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:34:20 GMT+0100 (BST)
+14 Apr 13:34:22 - debug: Job GuardianEnvironment completed in 2440 ms
+14 Apr 13:34:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:34:30 GMT+0100 (BST)
+14 Apr 13:34:33 - debug: Job GuardianEnvironment completed in 3670 ms
+14 Apr 13:34:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:34:40 GMT+0100 (BST)
+14 Apr 13:34:43 - debug: Job GuardianEnvironment completed in 3612 ms
+14 Apr 13:34:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:34:50 GMT+0100 (BST)
+14 Apr 13:34:54 - debug: Job GuardianEnvironment completed in 4010 ms
+14 Apr 13:35:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:35:00 GMT+0100 (BST)
+14 Apr 13:35:03 - debug: Job GuardianEnvironment completed in 3873 ms
+14 Apr 13:35:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:35:10 GMT+0100 (BST)
+14 Apr 13:35:13 - debug: Job GuardianEnvironment completed in 3520 ms
+14 Apr 13:35:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:35:20 GMT+0100 (BST)
+14 Apr 13:35:23 - debug: Job GuardianEnvironment completed in 3799 ms
+14 Apr 13:35:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:35:30 GMT+0100 (BST)
+14 Apr 13:35:34 - debug: Job GuardianEnvironment completed in 4827 ms
+14 Apr 13:35:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:35:40 GMT+0100 (BST)
+14 Apr 13:35:44 - debug: Job GuardianEnvironment completed in 4439 ms
+14 Apr 13:35:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:35:50 GMT+0100 (BST)
+14 Apr 13:35:53 - debug: Job GuardianEnvironment completed in 3971 ms
+14 Apr 13:36:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:36:00 GMT+0100 (BST)
+14 Apr 13:36:06 - debug: Job GuardianEnvironment completed in 6639 ms
+14 Apr 13:36:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:36:10 GMT+0100 (BST)
+14 Apr 13:36:17 - debug: Job GuardianEnvironment completed in 6989 ms
+14 Apr 13:36:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:36:20 GMT+0100 (BST)
+14 Apr 13:36:23 - debug: Job GuardianEnvironment completed in 3187 ms
+14 Apr 13:36:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:36:30 GMT+0100 (BST)
+14 Apr 13:36:33 - debug: Job GuardianEnvironment completed in 3949 ms
+14 Apr 13:36:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:36:40 GMT+0100 (BST)
+14 Apr 13:36:43 - debug: Job GuardianEnvironment completed in 3402 ms
+14 Apr 13:36:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:36:50 GMT+0100 (BST)
+14 Apr 13:36:52 - debug: Job GuardianEnvironment completed in 2172 ms
+14 Apr 13:37:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:37:00 GMT+0100 (BST)
+14 Apr 13:37:02 - debug: Job GuardianEnvironment completed in 2231 ms
+14 Apr 13:37:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:37:10 GMT+0100 (BST)
+14 Apr 13:37:14 - debug: Job GuardianEnvironment completed in 4299 ms
+14 Apr 13:37:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:37:20 GMT+0100 (BST)
+14 Apr 13:37:24 - debug: Job GuardianEnvironment completed in 4238 ms
+14 Apr 13:37:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:37:30 GMT+0100 (BST)
+14 Apr 13:37:33 - debug: Job GuardianEnvironment completed in 3694 ms
+14 Apr 13:37:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:37:40 GMT+0100 (BST)
+14 Apr 13:37:44 - debug: Job GuardianEnvironment completed in 4283 ms
+14 Apr 13:37:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:37:50 GMT+0100 (BST)
+14 Apr 13:37:53 - debug: Job GuardianEnvironment completed in 3742 ms
+14 Apr 13:38:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:38:00 GMT+0100 (BST)
+14 Apr 13:38:04 - debug: Job GuardianEnvironment completed in 4260 ms
+14 Apr 13:38:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:38:10 GMT+0100 (BST)
+14 Apr 13:38:13 - debug: Job GuardianEnvironment completed in 3705 ms
+14 Apr 13:38:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:38:20 GMT+0100 (BST)
+14 Apr 13:38:23 - debug: Job GuardianEnvironment completed in 3866 ms
+14 Apr 13:38:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:38:30 GMT+0100 (BST)
+14 Apr 13:38:34 - debug: Job GuardianEnvironment completed in 4710 ms
+14 Apr 13:38:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:38:40 GMT+0100 (BST)
+14 Apr 13:38:45 - debug: Job GuardianEnvironment completed in 5392 ms
+14 Apr 13:38:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:38:50 GMT+0100 (BST)
+14 Apr 13:38:53 - debug: Job GuardianEnvironment completed in 3919 ms
+14 Apr 13:39:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:39:00 GMT+0100 (BST)
+14 Apr 13:39:03 - debug: Job GuardianEnvironment completed in 3458 ms
+14 Apr 13:39:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:39:10 GMT+0100 (BST)
+14 Apr 13:39:13 - debug: Job GuardianEnvironment completed in 3818 ms
+14 Apr 13:39:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:39:20 GMT+0100 (BST)
+14 Apr 13:39:24 - debug: Job GuardianEnvironment completed in 4285 ms
+14 Apr 13:39:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:39:30 GMT+0100 (BST)
+14 Apr 13:39:34 - debug: Job GuardianEnvironment completed in 4909 ms
+14 Apr 13:39:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:39:40 GMT+0100 (BST)
+14 Apr 13:39:44 - debug: Job GuardianEnvironment completed in 4131 ms
+14 Apr 13:39:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:39:50 GMT+0100 (BST)
+14 Apr 13:39:53 - debug: Job GuardianEnvironment completed in 3974 ms
+14 Apr 13:40:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:40:00 GMT+0100 (BST)
+14 Apr 13:40:04 - debug: Job GuardianEnvironment completed in 4132 ms
+14 Apr 13:40:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:40:10 GMT+0100 (BST)
+14 Apr 13:40:14 - debug: Job GuardianEnvironment completed in 4186 ms
+14 Apr 13:40:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:40:20 GMT+0100 (BST)
+14 Apr 13:40:24 - debug: Job GuardianEnvironment completed in 4664 ms
+14 Apr 13:40:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:40:30 GMT+0100 (BST)
+14 Apr 13:40:34 - debug: Job GuardianEnvironment completed in 4381 ms
+14 Apr 13:40:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:40:40 GMT+0100 (BST)
+14 Apr 13:40:44 - debug: Job GuardianEnvironment completed in 4373 ms
+14 Apr 13:40:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:40:50 GMT+0100 (BST)
+14 Apr 13:40:53 - debug: Job GuardianEnvironment completed in 3769 ms
+14 Apr 13:41:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:41:00 GMT+0100 (BST)
+14 Apr 13:41:04 - debug: Job GuardianEnvironment completed in 4345 ms
+14 Apr 13:41:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:41:10 GMT+0100 (BST)
+14 Apr 13:41:14 - debug: Job GuardianEnvironment completed in 4230 ms
+14 Apr 13:41:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:41:20 GMT+0100 (BST)
+14 Apr 13:41:24 - debug: Job GuardianEnvironment completed in 4022 ms
+14 Apr 13:41:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:41:30 GMT+0100 (BST)
+14 Apr 13:41:33 - debug: Job GuardianEnvironment completed in 3699 ms
+14 Apr 13:41:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 13:41:40 GMT+0100 (BST)
+14 Apr 18:13:49 - debug: Job AtomTester started @ Thu Apr 14 2011 18:13:49 GMT+0100 (BST)
+14 Apr 18:13:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:13:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:13:50 GMT+0100 (BST)
+14 Apr 18:13:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:13:56 - debug: Job AtomTester started @ Thu Apr 14 2011 18:13:56 GMT+0100 (BST)
+14 Apr 18:13:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:14:00 GMT+0100 (BST)
+14 Apr 18:14:00 - debug: Job AtomTester started @ Thu Apr 14 2011 18:14:00 GMT+0100 (BST)
+14 Apr 18:14:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:07 - debug: Job AtomTester started @ Thu Apr 14 2011 18:14:07 GMT+0100 (BST)
+14 Apr 18:14:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:14:10 GMT+0100 (BST)
+14 Apr 18:14:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:14 - debug: Job AtomTester started @ Thu Apr 14 2011 18:14:14 GMT+0100 (BST)
+14 Apr 18:14:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:14:20 GMT+0100 (BST)
+14 Apr 18:14:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:21 - debug: Job AtomTester started @ Thu Apr 14 2011 18:14:21 GMT+0100 (BST)
+14 Apr 18:14:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:28 - debug: Job AtomTester started @ Thu Apr 14 2011 18:14:28 GMT+0100 (BST)
+14 Apr 18:14:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:14:30 GMT+0100 (BST)
+14 Apr 18:14:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:35 - debug: Job AtomTester started @ Thu Apr 14 2011 18:14:35 GMT+0100 (BST)
+14 Apr 18:14:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:14:40 GMT+0100 (BST)
+14 Apr 18:14:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:49 - debug: Job AtomTester started @ Thu Apr 14 2011 18:14:49 GMT+0100 (BST)
+14 Apr 18:14:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:14:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:14:50 GMT+0100 (BST)
+14 Apr 18:14:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:15:20 GMT+0100 (BST)
+14 Apr 18:15:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:21 - debug: Job AtomTester started @ Thu Apr 14 2011 18:15:21 GMT+0100 (BST)
+14 Apr 18:15:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:28 - debug: Job AtomTester started @ Thu Apr 14 2011 18:15:28 GMT+0100 (BST)
+14 Apr 18:15:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:15:30 GMT+0100 (BST)
+14 Apr 18:15:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:35 - debug: Job AtomTester started @ Thu Apr 14 2011 18:15:35 GMT+0100 (BST)
+14 Apr 18:15:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:15:40 GMT+0100 (BST)
+14 Apr 18:15:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:42 - debug: Job AtomTester started @ Thu Apr 14 2011 18:15:42 GMT+0100 (BST)
+14 Apr 18:15:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:49 - debug: Job AtomTester started @ Thu Apr 14 2011 18:15:49 GMT+0100 (BST)
+14 Apr 18:15:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:15:50 GMT+0100 (BST)
+14 Apr 18:15:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:15:56 - debug: Job AtomTester started @ Thu Apr 14 2011 18:15:56 GMT+0100 (BST)
+14 Apr 18:15:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:00 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:00 GMT+0100 (BST)
+14 Apr 18:16:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:16:00 GMT+0100 (BST)
+14 Apr 18:16:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:07 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:07 GMT+0100 (BST)
+14 Apr 18:16:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:16:10 GMT+0100 (BST)
+14 Apr 18:16:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:14 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:14 GMT+0100 (BST)
+14 Apr 18:16:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:16:20 GMT+0100 (BST)
+14 Apr 18:16:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:21 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:21 GMT+0100 (BST)
+14 Apr 18:16:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:28 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:28 GMT+0100 (BST)
+14 Apr 18:16:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:16:30 GMT+0100 (BST)
+14 Apr 18:16:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:35 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:35 GMT+0100 (BST)
+14 Apr 18:16:35 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:40 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:16:40 GMT+0100 (BST)
+14 Apr 18:16:40 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:42 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:42 GMT+0100 (BST)
+14 Apr 18:16:42 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:49 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:49 GMT+0100 (BST)
+14 Apr 18:16:49 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:50 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:16:50 GMT+0100 (BST)
+14 Apr 18:16:50 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:16:56 - debug: Job AtomTester started @ Thu Apr 14 2011 18:16:56 GMT+0100 (BST)
+14 Apr 18:16:56 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:00 - debug: Job AtomTester started @ Thu Apr 14 2011 18:17:00 GMT+0100 (BST)
+14 Apr 18:17:00 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:17:00 GMT+0100 (BST)
+14 Apr 18:17:00 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:00 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:07 - debug: Job AtomTester started @ Thu Apr 14 2011 18:17:07 GMT+0100 (BST)
+14 Apr 18:17:07 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:10 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:17:10 GMT+0100 (BST)
+14 Apr 18:17:10 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:14 - debug: Job AtomTester started @ Thu Apr 14 2011 18:17:14 GMT+0100 (BST)
+14 Apr 18:17:14 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:20 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:17:20 GMT+0100 (BST)
+14 Apr 18:17:20 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:21 - debug: Job AtomTester started @ Thu Apr 14 2011 18:17:21 GMT+0100 (BST)
+14 Apr 18:17:21 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:28 - debug: Job AtomTester started @ Thu Apr 14 2011 18:17:28 GMT+0100 (BST)
+14 Apr 18:17:28 - error: Job AtomTester completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:17:30 - debug: Job GuardianEnvironment started @ Thu Apr 14 2011 18:17:30 GMT+0100 (BST)
+14 Apr 18:17:30 - error: Job GuardianEnvironment completed with an error: Error: ECONNREFUSED, Could not contact DNS servers
+14 Apr 18:26:51 - silly: Layout defaultis not defined within the current theme, using default.
+14 Apr 18:27:15 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:28:32 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:28:35 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:28:40 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:28:53 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:28:54 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:29:33 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:29:40 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:29:43 - silly: Layout content is not defined within the current theme, using default.
+14 Apr 18:29:45 - silly: Layout content is not defined within the current theme, using default.
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:14 - silly: Caching template [object Object] from /var/www/calipso/lib/../themes/default/
+15 Apr 07:02:33 - silly: Caching template default from templates/default.html
+15 Apr 07:02:33 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:02:33 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:02:33 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:02:33 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:02:33 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:02:33 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:02:33 - silly: Caching template admin from templates/admin.html
+15 Apr 07:02:33 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:02:33 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:02:33 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:02:33 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:02:33 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:02:33 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:02:33 - silly: Caching template blog from templates/default.html
+15 Apr 07:02:33 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:02:33 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:02:33 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:02:33 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:02:33 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:02:33 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:02:43 - silly: Caching template default from templates/default.html
+15 Apr 07:02:43 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:02:43 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:02:43 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:02:43 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:02:43 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:02:43 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:02:43 - silly: Caching template admin from templates/admin.html
+15 Apr 07:02:43 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:02:43 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:02:43 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:02:43 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:02:43 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:02:43 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:02:43 - silly: Caching template blog from templates/default.html
+15 Apr 07:02:43 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:02:43 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:02:43 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:02:43 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:02:43 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:02:43 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:04:42 - silly: Caching template default from templates/default.html
+15 Apr 07:04:42 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:04:42 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:04:42 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:04:42 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:04:42 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:04:42 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:04:42 - silly: Caching template admin from templates/admin.html
+15 Apr 07:04:42 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:04:42 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:04:42 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:04:42 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:04:42 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:04:42 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:04:42 - silly: Caching template blog from templates/default.html
+15 Apr 07:04:42 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:04:42 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:04:42 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:04:42 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:04:42 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:04:42 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:04:44 - silly: Using theme cache default.admin
+15 Apr 07:04:44 - silly: Generating menu for section admin
+15 Apr 07:04:44 - silly: Using theme cache default.menu
+15 Apr 07:04:44 - silly: Using theme cache default.header
+15 Apr 07:04:44 - silly: Using theme cache default.body
+15 Apr 07:04:44 - silly: Using theme cache default.right
+15 Apr 07:04:44 - silly: Using theme cache default.footer
+15 Apr 07:04:44 - silly: Using theme cache default.admin
+15 Apr 07:04:44 - silly: Generating menu for section admin
+15 Apr 07:04:44 - silly: Using theme cache default.menu
+15 Apr 07:04:44 - silly: Using theme cache default.header
+15 Apr 07:04:44 - silly: Using theme cache default.body
+15 Apr 07:04:44 - silly: Using theme cache default.right
+15 Apr 07:04:44 - silly: Using theme cache default.footer
+15 Apr 07:05:27 - silly: Caching template default from templates/default.html
+15 Apr 07:05:27 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:05:27 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:05:27 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:05:27 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:05:27 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:05:27 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:05:27 - silly: Caching template admin from templates/admin.html
+15 Apr 07:05:27 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:05:27 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:05:27 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:05:27 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:05:27 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:05:27 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:05:27 - silly: Caching template blog from templates/default.html
+15 Apr 07:05:27 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:05:27 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:05:27 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:05:27 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:05:27 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:05:27 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:05:29 - silly: Using theme cache default.admin
+15 Apr 07:05:29 - silly: Generating menu for section admin
+15 Apr 07:05:29 - silly: HERE
+               
+15 Apr 07:05:29 - silly: Using theme cache default.menu
+15 Apr 07:05:29 - silly: Using theme cache default.header
+15 Apr 07:05:29 - silly: Using theme cache default.body
+15 Apr 07:05:29 - silly: Using theme cache default.right
+15 Apr 07:05:29 - silly: Using theme cache default.footer
+15 Apr 07:05:47 - silly: Using theme cache default.admin
+15 Apr 07:05:47 - silly: Generating menu for section admin
+15 Apr 07:05:47 - silly: HERE
+               
+15 Apr 07:05:47 - silly: Using theme cache default.menu
+15 Apr 07:05:47 - silly: Using theme cache default.header
+15 Apr 07:05:47 - silly: Using theme cache default.body
+15 Apr 07:05:47 - silly: Using theme cache default.right
+15 Apr 07:05:47 - silly: Using theme cache default.footer
+15 Apr 07:06:20 - silly: Caching template default from templates/default.html
+15 Apr 07:06:20 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:06:20 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:06:20 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:06:20 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:06:20 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:06:20 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:06:20 - silly: Caching template admin from templates/admin.html
+15 Apr 07:06:20 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:06:20 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:06:20 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:06:20 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:06:20 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:06:20 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:06:20 - silly: Caching template blog from templates/default.html
+15 Apr 07:06:20 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:06:20 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:06:20 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:06:20 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:06:20 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:06:20 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:06:22 - silly: Using theme cache default.admin
+15 Apr 07:06:22 - silly: Generating menu for section admin
+15 Apr 07:06:22 - silly: HERE
+               
+15 Apr 07:06:22 - silly: Using theme cache default.menu
+15 Apr 07:06:22 - silly: Using theme cache default.header
+15 Apr 07:06:22 - silly: Using theme cache default.body
+15 Apr 07:06:22 - silly: Using theme cache default.right
+15 Apr 07:06:22 - silly: Using theme cache default.footer
+15 Apr 07:06:25 - silly: Using theme cache default.admin
+15 Apr 07:07:22 - silly: Caching template default from templates/default.html
+15 Apr 07:07:22 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:07:22 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:07:22 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:07:22 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:07:22 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:07:22 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:07:22 - silly: Caching template admin from templates/admin.html
+15 Apr 07:07:22 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:07:22 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:07:22 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:07:22 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:07:22 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:07:22 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:07:22 - silly: Caching template blog from templates/default.html
+15 Apr 07:07:22 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:07:22 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:07:22 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:07:22 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:07:22 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:07:22 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:07:24 - silly: Using theme cache default.admin
+15 Apr 07:07:24 - silly: Generating menu for section admin
+15 Apr 07:07:24 - silly:                
+15 Apr 07:07:24 - silly: Using theme cache default.menu
+15 Apr 07:07:24 - silly: Using theme cache default.header
+15 Apr 07:07:24 - silly: Using theme cache default.body
+15 Apr 07:07:24 - silly: Using theme cache default.right
+15 Apr 07:07:24 - silly: Using theme cache default.footer
+15 Apr 07:07:27 - silly: Using theme cache default.admin
+15 Apr 07:08:07 - silly: Caching template default from templates/default.html
+15 Apr 07:08:07 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:08:07 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:08:07 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:08:07 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:08:07 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:08:07 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:08:07 - silly: Caching template admin from templates/admin.html
+15 Apr 07:08:07 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:08:07 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:08:07 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:08:07 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:08:07 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:08:07 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:08:07 - silly: Caching template blog from templates/default.html
+15 Apr 07:08:07 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:08:07 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:08:07 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:08:07 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:08:07 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:08:07 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:08:08 - silly: Using theme cache default.admin
+15 Apr 07:08:08 - silly: Generating menu for section admin
+15 Apr 07:08:08 - silly:                
+15 Apr 07:08:08 - silly: Using theme cache default.menu
+15 Apr 07:08:08 - silly: Using theme cache default.header
+15 Apr 07:08:08 - silly: Using theme cache default.body
+15 Apr 07:08:08 - silly: Using theme cache default.right
+15 Apr 07:08:08 - silly: Using theme cache default.footer
+15 Apr 07:08:12 - silly: Using theme cache default.admin
+15 Apr 07:08:12 - silly: Generating menu for section admin
+15 Apr 07:08:12 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:12 - silly: Using theme cache default.menu
+15 Apr 07:08:12 - silly: Using theme cache default.header
+15 Apr 07:08:12 - silly: Using theme cache default.body
+15 Apr 07:08:12 - silly: Using theme cache default.right
+15 Apr 07:08:12 - silly: Using theme cache default.footer
+15 Apr 07:08:14 - silly: Using theme cache default.admin
+15 Apr 07:08:14 - silly: Generating menu for section admin
+15 Apr 07:08:14 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:14 - silly: Using theme cache default.menu
+15 Apr 07:08:14 - silly: Using theme cache default.header
+15 Apr 07:08:14 - silly: Using theme cache default.body
+15 Apr 07:08:14 - silly: Using theme cache default.right
+15 Apr 07:08:14 - silly: Using theme cache default.footer
+15 Apr 07:08:14 - silly: Using theme cache default.admin
+15 Apr 07:08:14 - silly: Generating menu for section admin
+15 Apr 07:08:14 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:14 - silly: Using theme cache default.menu
+15 Apr 07:08:14 - silly: Using theme cache default.header
+15 Apr 07:08:14 - silly: Using theme cache default.body
+15 Apr 07:08:14 - silly: Using theme cache default.right
+15 Apr 07:08:14 - silly: Using theme cache default.footer
+15 Apr 07:08:15 - silly: Using theme cache admin.admin
+15 Apr 07:08:15 - silly: Using the default section theme cache.
+15 Apr 07:08:15 - silly: Generating menu for section admin
+15 Apr 07:08:15 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:15 - silly: Using theme cache admin.menu
+15 Apr 07:08:15 - silly: Using the default section theme cache.
+15 Apr 07:08:15 - silly: Using theme cache admin.header
+15 Apr 07:08:15 - silly: Using the default section theme cache.
+15 Apr 07:08:15 - silly: Using theme cache admin.body
+15 Apr 07:08:15 - silly: Using theme cache admin.right
+15 Apr 07:08:15 - silly: Using the default section theme cache.
+15 Apr 07:08:15 - silly: Using theme cache admin.footer
+15 Apr 07:08:15 - silly: Using the default section theme cache.
+15 Apr 07:08:16 - silly: Using theme cache default.admin
+15 Apr 07:08:16 - silly: Generating menu for section admin
+15 Apr 07:08:16 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:16 - silly: Using theme cache default.menu
+15 Apr 07:08:16 - silly: Using theme cache default.header
+15 Apr 07:08:16 - silly: Using theme cache default.body
+15 Apr 07:08:16 - silly: Using theme cache default.right
+15 Apr 07:08:16 - silly: Using theme cache default.footer
+15 Apr 07:08:17 - silly: Using theme cache admin.admin
+15 Apr 07:08:17 - silly: Using the default section theme cache.
+15 Apr 07:08:17 - silly: Generating menu for section admin
+15 Apr 07:08:17 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:17 - silly: Using theme cache admin.menu
+15 Apr 07:08:17 - silly: Using the default section theme cache.
+15 Apr 07:08:17 - silly: Using theme cache admin.header
+15 Apr 07:08:17 - silly: Using the default section theme cache.
+15 Apr 07:08:17 - silly: Using theme cache admin.body
+15 Apr 07:08:17 - silly: Using theme cache admin.right
+15 Apr 07:08:17 - silly: Using the default section theme cache.
+15 Apr 07:08:17 - silly: Using theme cache admin.footer
+15 Apr 07:08:17 - silly: Using the default section theme cache.
+15 Apr 07:08:20 - silly: Using theme cache default.admin
+15 Apr 07:08:20 - silly: Generating menu for section admin
+15 Apr 07:08:20 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:20 - silly: Using theme cache default.menu
+15 Apr 07:08:20 - silly: Using theme cache default.header
+15 Apr 07:08:20 - silly: Using theme cache default.body
+15 Apr 07:08:20 - silly: Using theme cache default.right
+15 Apr 07:08:20 - silly: Using theme cache default.footer
+15 Apr 07:08:22 - silly: Using theme cache default.admin
+15 Apr 07:08:22 - silly: Generating menu for section admin
+15 Apr 07:08:22 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:22 - silly: Using theme cache default.menu
+15 Apr 07:08:22 - silly: Using theme cache default.header
+15 Apr 07:08:22 - silly: Using theme cache default.body
+15 Apr 07:08:22 - silly: Using theme cache default.right
+15 Apr 07:08:22 - silly: Using theme cache default.footer
+15 Apr 07:08:22 - silly: Using theme cache default.admin
+15 Apr 07:08:22 - silly: Generating menu for section admin
+15 Apr 07:08:22 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:22 - silly: Using theme cache default.menu
+15 Apr 07:08:22 - silly: Using theme cache default.header
+15 Apr 07:08:22 - silly: Using theme cache default.body
+15 Apr 07:08:22 - silly: Using theme cache default.right
+15 Apr 07:08:22 - silly: Using theme cache default.footer
+15 Apr 07:08:27 - silly: Using theme cache default.admin
+15 Apr 07:08:27 - silly: Generating menu for section admin
+15 Apr 07:08:27 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item-selected' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:27 - silly: Using theme cache default.menu
+15 Apr 07:08:27 - silly: Using theme cache default.header
+15 Apr 07:08:27 - silly: Using theme cache default.body
+15 Apr 07:08:27 - silly: Using theme cache default.right
+15 Apr 07:08:27 - silly: Using theme cache default.footer
+15 Apr 07:08:32 - silly: Using theme cache default.admin
+15 Apr 07:08:32 - silly: Generating menu for section admin
+15 Apr 07:08:32 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:32 - silly: Using theme cache default.menu
+15 Apr 07:08:32 - silly: Using theme cache default.header
+15 Apr 07:08:32 - silly: Using theme cache default.body
+15 Apr 07:08:32 - silly: Using theme cache default.right
+15 Apr 07:08:32 - silly: Using theme cache default.footer
+15 Apr 07:08:34 - silly: Using theme cache default.admin
+15 Apr 07:08:34 - silly: Generating menu for section admin
+15 Apr 07:08:34 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:34 - silly: Using theme cache default.menu
+15 Apr 07:08:34 - silly: Using theme cache default.header
+15 Apr 07:08:34 - silly: Using theme cache default.body
+15 Apr 07:08:34 - silly: Using theme cache default.right
+15 Apr 07:08:34 - silly: Using theme cache default.footer
+15 Apr 07:08:35 - silly: Using theme cache default.admin
+15 Apr 07:08:35 - silly: Generating menu for section admin
+15 Apr 07:08:35 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item-selected' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:35 - silly: Using theme cache default.menu
+15 Apr 07:08:35 - silly: Using theme cache default.header
+15 Apr 07:08:35 - silly: Using theme cache default.body
+15 Apr 07:08:35 - silly: Using theme cache default.right
+15 Apr 07:08:35 - silly: Using theme cache default.footer
+15 Apr 07:08:36 - silly: Using theme cache default.admin
+15 Apr 07:08:36 - silly: Generating menu for section admin
+15 Apr 07:08:36 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item-selected' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:08:36 - silly: Using theme cache default.menu
+15 Apr 07:08:36 - silly: Using theme cache default.header
+15 Apr 07:08:36 - silly: Using theme cache default.body
+15 Apr 07:08:36 - silly: Using theme cache default.right
+15 Apr 07:08:36 - silly: Using theme cache default.footer
+15 Apr 07:09:05 - silly: Caching template default from templates/default.html
+15 Apr 07:09:05 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:09:05 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:09:05 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:09:05 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:09:05 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:09:05 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:09:05 - silly: Caching template admin from templates/admin.html
+15 Apr 07:09:05 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:09:05 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:09:05 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:09:05 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:09:05 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:09:05 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:09:05 - silly: Caching template blog from templates/default.html
+15 Apr 07:09:05 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:09:05 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:09:05 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:09:05 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:09:05 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:09:05 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:09:07 - silly: Using theme cache default.admin
+15 Apr 07:09:07 - silly: Generating menu for section admin
+15 Apr 07:09:07 - silly:                
+15 Apr 07:09:07 - silly: Using theme cache default.menu
+15 Apr 07:09:07 - silly: Using theme cache default.header
+15 Apr 07:09:07 - silly: Using theme cache default.body
+15 Apr 07:09:07 - silly: Using theme cache default.right
+15 Apr 07:09:07 - silly: Using theme cache default.footer
+15 Apr 07:09:08 - silly: Using theme cache default.admin
+15 Apr 07:09:08 - silly: Generating menu for section admin
+15 Apr 07:09:08 - silly:                
+15 Apr 07:09:08 - silly: Using theme cache default.menu
+15 Apr 07:09:08 - silly: Using theme cache default.header
+15 Apr 07:09:08 - silly: Using theme cache default.body
+15 Apr 07:09:08 - silly: Using theme cache default.right
+15 Apr 07:09:08 - silly: Using theme cache default.footer
+15 Apr 07:09:11 - silly: Using theme cache default.admin
+15 Apr 07:09:11 - silly: Generating menu for section admin
+15 Apr 07:09:11 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:09:11 - silly: Using theme cache default.menu
+15 Apr 07:09:11 - silly: Using theme cache default.header
+15 Apr 07:09:11 - silly: Using theme cache default.body
+15 Apr 07:09:11 - silly: Using theme cache default.right
+15 Apr 07:09:11 - silly: Using theme cache default.footer
+15 Apr 07:09:14 - silly: Using theme cache admin.admin
+15 Apr 07:09:14 - silly: Using the default section theme cache.
+15 Apr 07:09:14 - silly: Generating menu for section admin
+15 Apr 07:09:14 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:09:14 - silly: Using theme cache admin.menu
+15 Apr 07:09:14 - silly: Using the default section theme cache.
+15 Apr 07:09:14 - silly: Using theme cache admin.header
+15 Apr 07:09:14 - silly: Using the default section theme cache.
+15 Apr 07:09:14 - silly: Using theme cache admin.body
+15 Apr 07:09:14 - silly: Using theme cache admin.right
+15 Apr 07:09:14 - silly: Using the default section theme cache.
+15 Apr 07:09:14 - silly: Using theme cache admin.footer
+15 Apr 07:09:14 - silly: Using the default section theme cache.
+15 Apr 07:09:16 - silly: Using theme cache default.admin
+15 Apr 07:09:16 - silly: Generating menu for section admin
+15 Apr 07:09:16 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:09:16 - silly: Using theme cache default.menu
+15 Apr 07:09:16 - silly: Using theme cache default.header
+15 Apr 07:09:16 - silly: Using theme cache default.body
+15 Apr 07:09:16 - silly: Using theme cache default.right
+15 Apr 07:09:16 - silly: Using theme cache default.footer
+15 Apr 07:09:17 - silly: Using theme cache default.admin
+15 Apr 07:09:17 - silly: Generating menu for section admin
+15 Apr 07:09:17 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:09:17 - silly: Using theme cache default.menu
+15 Apr 07:09:17 - silly: Using theme cache default.header
+15 Apr 07:09:17 - silly: Using theme cache default.body
+15 Apr 07:09:17 - silly: Using theme cache default.right
+15 Apr 07:09:17 - silly: Using theme cache default.footer
+15 Apr 07:09:18 - silly: Using theme cache default.admin
+15 Apr 07:09:18 - silly: Generating menu for section admin
+15 Apr 07:09:18 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item-selected' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:09:18 - silly: Using theme cache default.menu
+15 Apr 07:09:18 - silly: Using theme cache default.header
+15 Apr 07:09:18 - silly: Using theme cache default.body
+15 Apr 07:09:18 - silly: Using theme cache default.right
+15 Apr 07:09:18 - silly: Using theme cache default.footer
+15 Apr 07:09:19 - silly: Using theme cache default.admin
+15 Apr 07:09:19 - silly: Generating menu for section admin
+15 Apr 07:09:19 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:09:19 - silly: Using theme cache default.menu
+15 Apr 07:09:19 - silly: Using theme cache default.header
+15 Apr 07:09:19 - silly: Using theme cache default.body
+15 Apr 07:09:19 - silly: Using theme cache default.right
+15 Apr 07:09:19 - silly: Using theme cache default.footer
+15 Apr 07:09:21 - silly: Using theme cache default.admin
+15 Apr 07:09:21 - silly: Generating menu for section admin
+15 Apr 07:09:21 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:09:21 - silly: Using theme cache default.menu
+15 Apr 07:09:21 - silly: Using theme cache default.header
+15 Apr 07:09:21 - silly: Using theme cache default.body
+15 Apr 07:09:21 - silly: Using theme cache default.right
+15 Apr 07:09:21 - silly: Using theme cache default.footer
+15 Apr 07:10:12 - silly: Using theme cache admin.admin
+15 Apr 07:10:12 - silly: Using the default section theme cache.
+15 Apr 07:10:12 - silly: Generating menu for section admin
+15 Apr 07:10:12 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:10:12 - silly: Using theme cache admin.menu
+15 Apr 07:10:12 - silly: Using the default section theme cache.
+15 Apr 07:10:12 - silly: Using theme cache admin.header
+15 Apr 07:10:12 - silly: Using the default section theme cache.
+15 Apr 07:10:12 - silly: Using theme cache admin.body
+15 Apr 07:10:12 - silly: Using theme cache admin.right
+15 Apr 07:10:12 - silly: Using the default section theme cache.
+15 Apr 07:10:12 - silly: Using theme cache admin.footer
+15 Apr 07:10:12 - silly: Using the default section theme cache.
+15 Apr 07:11:24 - silly: Caching template default from templates/default.html
+15 Apr 07:11:24 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:11:24 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:11:24 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:11:24 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:11:24 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:11:24 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:11:24 - silly: Caching template admin from templates/admin.html
+15 Apr 07:11:24 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:11:24 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:11:24 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:11:24 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:11:24 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:11:24 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:11:24 - silly: Caching template blog from templates/default.html
+15 Apr 07:11:24 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:11:24 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:11:24 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:11:24 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:11:24 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:11:24 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:11:25 - silly: Generating menu for section admin
+15 Apr 07:11:25 - silly:                
+15 Apr 07:11:33 - silly: Generating menu for section admin
+15 Apr 07:11:33 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:11:38 - silly: Using the default section theme cache for admin
+15 Apr 07:11:38 - silly: Generating menu for section admin
+15 Apr 07:11:38 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:11:38 - silly: Using the default section theme cache for menu
+15 Apr 07:11:38 - silly: Using the default section theme cache for header
+15 Apr 07:11:38 - silly: Using the default section theme cache for right
+15 Apr 07:11:38 - silly: Using the default section theme cache for footer
+15 Apr 07:12:05 - silly: Caching template default from templates/default.html
+15 Apr 07:12:05 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:12:05 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:12:05 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:12:05 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:12:05 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:12:05 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:12:05 - silly: Caching template admin from templates/admin.html
+15 Apr 07:12:05 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:12:05 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:12:05 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:12:05 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:12:05 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:12:05 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:12:05 - silly: Caching template blog from templates/default.html
+15 Apr 07:12:05 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:12:05 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:12:05 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:12:05 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:12:05 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:12:05 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:12:07 - silly: Checking menu for section admin
+15 Apr 07:12:07 - silly: Generating menu for section admin
+15 Apr 07:12:07 - silly:                
+15 Apr 07:12:07 - silly: Checking menu for section menu
+15 Apr 07:12:10 - silly: Checking menu for section admin
+15 Apr 07:12:10 - silly: Generating menu for section admin
+15 Apr 07:12:10 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:12:10 - silly: Checking menu for section menu
+15 Apr 07:12:14 - silly: Using the default section theme cache for admin
+15 Apr 07:12:14 - silly: Checking menu for section admin
+15 Apr 07:12:14 - silly: Generating menu for section admin
+15 Apr 07:12:14 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:12:14 - silly: Using the default section theme cache for menu
+15 Apr 07:12:14 - silly: Checking menu for section menu
+15 Apr 07:12:14 - silly: Using the default section theme cache for header
+15 Apr 07:12:14 - silly: Using the default section theme cache for right
+15 Apr 07:12:14 - silly: Using the default section theme cache for footer
+15 Apr 07:12:49 - silly: Checking menu for section admin
+15 Apr 07:12:49 - silly: Generating menu for section admin
+15 Apr 07:12:49 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:12:49 - silly: Checking menu for section menu
+15 Apr 07:12:51 - silly: Using the default section theme cache for admin
+15 Apr 07:12:51 - silly: Checking menu for section admin
+15 Apr 07:12:51 - silly: Generating menu for section admin
+15 Apr 07:12:51 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:12:51 - silly: Using the default section theme cache for menu
+15 Apr 07:12:51 - silly: Checking menu for section menu
+15 Apr 07:12:51 - silly: Using the default section theme cache for header
+15 Apr 07:12:51 - silly: Using the default section theme cache for right
+15 Apr 07:12:51 - silly: Using the default section theme cache for footer
+15 Apr 07:13:21 - silly: Caching template default from templates/default.html
+15 Apr 07:13:21 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:13:21 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:13:21 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:13:21 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:13:21 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:13:21 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:13:21 - silly: Caching template admin from templates/admin.html
+15 Apr 07:13:21 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:13:21 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:13:21 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:13:21 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:13:21 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:13:21 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:13:21 - silly: Caching template blog from templates/default.html
+15 Apr 07:13:21 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:13:21 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:13:21 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:13:21 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:13:21 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:13:21 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:13:23 - silly: Checking menu for section admin
+15 Apr 07:13:23 - silly: Generating menu for section admin
+15 Apr 07:13:23 - silly:                
+15 Apr 07:13:23 - silly: Checking menu for section menu
+15 Apr 07:13:25 - silly: Checking menu for section admin
+15 Apr 07:13:25 - silly: Generating menu for section admin
+15 Apr 07:13:25 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:25 - silly: Checking menu for section menu
+15 Apr 07:13:27 - silly: Using the default section theme cache for admin
+15 Apr 07:13:27 - silly: Checking menu for section admin
+15 Apr 07:13:27 - silly: Generating menu for section admin
+15 Apr 07:13:27 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:27 - silly: Using the default section theme cache for menu
+15 Apr 07:13:27 - silly: Checking menu for section menu
+15 Apr 07:13:27 - silly: Using the default section theme cache for header
+15 Apr 07:13:27 - silly: Using the default section theme cache for right
+15 Apr 07:13:27 - silly: Using the default section theme cache for footer
+15 Apr 07:13:29 - silly: Checking menu for section admin
+15 Apr 07:13:29 - silly: Generating menu for section admin
+15 Apr 07:13:29 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:29 - silly: Checking menu for section menu
+15 Apr 07:13:30 - silly: Checking menu for section admin
+15 Apr 07:13:30 - silly: Generating menu for section admin
+15 Apr 07:13:30 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item-selected' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:30 - silly: Checking menu for section menu
+15 Apr 07:13:31 - silly: Checking menu for section admin
+15 Apr 07:13:31 - silly: Generating menu for section admin
+15 Apr 07:13:31 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item-selected' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:31 - silly: Checking menu for section menu
+15 Apr 07:13:32 - silly: Checking menu for section admin
+15 Apr 07:13:32 - silly: Generating menu for section admin
+15 Apr 07:13:32 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item-selected' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:32 - silly: Checking menu for section menu
+15 Apr 07:13:32 - silly: Using the default section theme cache for admin
+15 Apr 07:13:32 - silly: Checking menu for section admin
+15 Apr 07:13:32 - silly: Generating menu for section admin
+15 Apr 07:13:32 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:32 - silly: Using the default section theme cache for menu
+15 Apr 07:13:32 - silly: Checking menu for section menu
+15 Apr 07:13:32 - silly: Using the default section theme cache for header
+15 Apr 07:13:32 - silly: Using the default section theme cache for right
+15 Apr 07:13:32 - silly: Using the default section theme cache for footer
+15 Apr 07:13:33 - silly: Checking menu for section admin
+15 Apr 07:13:33 - silly: Generating menu for section admin
+15 Apr 07:13:33 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:33 - silly: Checking menu for section menu
+15 Apr 07:13:36 - silly: Using the default section theme cache for admin
+15 Apr 07:13:36 - silly: Checking menu for section admin
+15 Apr 07:13:36 - silly: Generating menu for section admin
+15 Apr 07:13:36 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+  
+    <a class='admin-menu-item' href="/content/edit/4da72d130354344e47000027">Edit Content</a>
+  
+    <a class='admin-menu-item' href="/content/delete/4da72d130354344e47000027">Delete Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:13:36 - silly: Using the default section theme cache for menu
+15 Apr 07:13:36 - silly: Checking menu for section menu
+15 Apr 07:13:36 - silly: Using the default section theme cache for header
+15 Apr 07:13:36 - silly: Using the default section theme cache for right
+15 Apr 07:13:36 - silly: Using the default section theme cache for footer
+15 Apr 07:14:13 - silly: Using the default section theme cache for admin
+15 Apr 07:14:13 - silly: Checking menu for section admin
+15 Apr 07:14:13 - silly: Generating menu for section admin
+15 Apr 07:14:13 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+  
+    <a class='admin-menu-item' href="/content/edit/4da72d130354344e47000027">Edit Content</a>
+  
+    <a class='admin-menu-item' href="/content/delete/4da72d130354344e47000027">Delete Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:14:13 - silly: Using the default section theme cache for menu
+15 Apr 07:14:13 - silly: Checking menu for section menu
+15 Apr 07:14:13 - silly: Using the default section theme cache for header
+15 Apr 07:14:13 - silly: Using the default section theme cache for right
+15 Apr 07:14:13 - silly: Using the default section theme cache for footer
+15 Apr 07:14:15 - silly: Checking menu for section admin
+15 Apr 07:14:15 - silly: Generating menu for section admin
+15 Apr 07:14:15 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:14:15 - silly: Checking menu for section menu
+15 Apr 07:14:16 - silly: Checking menu for section admin
+15 Apr 07:14:16 - silly: Generating menu for section admin
+15 Apr 07:14:16 - silly:                
+15 Apr 07:14:16 - silly: Checking menu for section menu
+15 Apr 07:14:17 - silly: Checking menu for section admin
+15 Apr 07:14:17 - silly: Generating menu for section admin
+15 Apr 07:14:17 - silly:                
+15 Apr 07:14:17 - silly: Checking menu for section menu
+15 Apr 07:14:18 - silly: Checking menu for section admin
+15 Apr 07:14:18 - silly: Generating menu for section admin
+15 Apr 07:14:18 - silly:                
+15 Apr 07:14:18 - silly: Checking menu for section menu
+15 Apr 07:14:20 - silly: Checking menu for section admin
+15 Apr 07:14:20 - silly: Generating menu for section admin
+15 Apr 07:14:20 - silly:                
+15 Apr 07:14:20 - silly: Checking menu for section menu
+15 Apr 07:14:20 - silly: Using the default section theme cache for admin
+15 Apr 07:14:20 - silly: Checking menu for section admin
+15 Apr 07:14:20 - silly: Generating menu for section admin
+15 Apr 07:14:20 - silly:                
+15 Apr 07:14:20 - silly: Using the default section theme cache for menu
+15 Apr 07:14:20 - silly: Checking menu for section menu
+15 Apr 07:14:20 - silly: Using the default section theme cache for header
+15 Apr 07:14:20 - silly: Using the default section theme cache for right
+15 Apr 07:14:20 - silly: Using the default section theme cache for footer
+15 Apr 07:14:21 - silly: Checking menu for section admin
+15 Apr 07:14:21 - silly: Generating menu for section admin
+15 Apr 07:14:21 - silly:                
+15 Apr 07:14:21 - silly: Checking menu for section menu
+15 Apr 07:14:22 - silly: Checking menu for section admin
+15 Apr 07:14:22 - silly: Generating menu for section admin
+15 Apr 07:14:22 - silly:                
+15 Apr 07:14:22 - silly: Checking menu for section menu
+15 Apr 07:14:23 - silly: Checking menu for section admin
+15 Apr 07:14:23 - silly: Generating menu for section admin
+15 Apr 07:14:23 - silly:                
+15 Apr 07:14:23 - silly: Checking menu for section menu
+15 Apr 07:14:24 - silly: Checking menu for section admin
+15 Apr 07:14:24 - silly: Generating menu for section admin
+15 Apr 07:14:24 - silly:                
+15 Apr 07:14:24 - silly: Checking menu for section menu
+15 Apr 07:14:25 - silly: Checking menu for section admin
+15 Apr 07:14:25 - silly: Generating menu for section admin
+15 Apr 07:14:25 - silly:                
+15 Apr 07:14:25 - silly: Checking menu for section menu
+15 Apr 07:14:26 - silly: Checking menu for section admin
+15 Apr 07:14:26 - silly: Generating menu for section admin
+15 Apr 07:14:26 - silly:                
+15 Apr 07:14:26 - silly: Checking menu for section menu
+15 Apr 07:14:29 - silly: Checking menu for section admin
+15 Apr 07:14:29 - silly: Generating menu for section admin
+15 Apr 07:14:29 - silly:                
+15 Apr 07:14:29 - silly: Checking menu for section menu
+15 Apr 07:14:31 - silly: Checking menu for section admin
+15 Apr 07:14:31 - silly: Generating menu for section admin
+15 Apr 07:14:31 - silly:                
+15 Apr 07:14:31 - silly: Checking menu for section menu
+15 Apr 07:14:35 - silly: Using the default section theme cache for admin
+15 Apr 07:14:35 - silly: Checking menu for section admin
+15 Apr 07:14:35 - silly: Generating menu for section admin
+15 Apr 07:14:35 - silly:                
+15 Apr 07:14:35 - silly: Using the default section theme cache for menu
+15 Apr 07:14:35 - silly: Checking menu for section menu
+15 Apr 07:14:35 - silly: Using the default section theme cache for header
+15 Apr 07:14:35 - silly: Using the default section theme cache for right
+15 Apr 07:14:35 - silly: Using the default section theme cache for footer
+15 Apr 07:14:37 - silly: Checking menu for section admin
+15 Apr 07:14:37 - silly: Generating menu for section admin
+15 Apr 07:14:37 - silly:                
+15 Apr 07:14:37 - silly: Checking menu for section menu
+15 Apr 07:14:38 - silly: Checking menu for section admin
+15 Apr 07:14:38 - silly: Generating menu for section admin
+15 Apr 07:14:38 - silly:                
+15 Apr 07:14:38 - silly: Checking menu for section menu
+15 Apr 07:16:20 - silly: Caching template default from templates/default.html
+15 Apr 07:16:20 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:16:20 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:16:20 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:16:20 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:16:20 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:16:20 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:16:20 - silly: Caching template admin from templates/admin.html
+15 Apr 07:16:20 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:16:20 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:16:20 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:16:20 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:16:20 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:16:20 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:16:20 - silly: Caching template blog from templates/default.html
+15 Apr 07:16:20 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:16:20 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:16:20 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:16:20 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:16:20 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:16:20 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:16:21 - silly: Checking menu for section admin
+15 Apr 07:16:21 - silly: Generating menu for section admin
+15 Apr 07:16:21 - silly:                
+15 Apr 07:16:21 - silly: Checking menu for section menu
+15 Apr 07:16:24 - silly: Checking menu for section admin
+15 Apr 07:16:24 - silly: Generating menu for section admin
+15 Apr 07:16:24 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:16:24 - silly: Checking menu for section menu
+15 Apr 07:16:26 - silly: Using the default section theme cache for admin
+15 Apr 07:16:26 - silly: Checking menu for section admin
+15 Apr 07:16:26 - silly: Generating menu for section admin
+15 Apr 07:16:26 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:16:26 - silly: Using the default section theme cache for menu
+15 Apr 07:16:26 - silly: Checking menu for section menu
+15 Apr 07:16:26 - silly: Using the default section theme cache for header
+15 Apr 07:16:26 - silly: Using the default section theme cache for right
+15 Apr 07:16:26 - silly: Using the default section theme cache for footer
+15 Apr 07:16:28 - silly: Caching template default from templates/default.html
+15 Apr 07:16:28 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:16:28 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:16:28 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:16:28 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:16:28 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:16:28 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:16:28 - silly: Caching template admin from templates/admin.html
+15 Apr 07:16:28 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:16:28 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:16:28 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:16:28 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:16:28 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:16:28 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:16:28 - silly: Caching template blog from templates/default.html
+15 Apr 07:16:28 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:16:28 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:16:28 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:16:28 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:16:28 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:16:28 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:16:28 - silly: Checking menu for section admin
+15 Apr 07:16:28 - silly: Generating menu for section admin
+15 Apr 07:16:28 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:16:28 - silly: Checking menu for section menu
+15 Apr 07:16:30 - silly: Using the default section theme cache for admin
+15 Apr 07:16:30 - silly: Checking menu for section admin
+15 Apr 07:16:30 - silly: Generating menu for section admin
+15 Apr 07:16:30 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:16:30 - silly: Using the default section theme cache for menu
+15 Apr 07:16:30 - silly: Checking menu for section menu
+15 Apr 07:16:30 - silly: Using the default section theme cache for header
+15 Apr 07:16:30 - silly: Using the default section theme cache for right
+15 Apr 07:16:30 - silly: Using the default section theme cache for footer
+15 Apr 07:16:31 - silly: Checking menu for section admin
+15 Apr 07:16:31 - silly: Generating menu for section admin
+15 Apr 07:16:31 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:16:31 - silly: Checking menu for section menu
+15 Apr 07:16:37 - silly: Checking menu for section admin
+15 Apr 07:16:37 - silly: Generating menu for section admin
+15 Apr 07:16:37 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:16:37 - silly: Checking menu for section menu
+15 Apr 07:17:37 - silly: Caching template default from templates/default.html
+15 Apr 07:17:37 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:17:37 - silly: Caching template default.menu from templates/default/menu.html
+15 Apr 07:17:37 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:17:37 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:17:37 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:17:37 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:17:37 - silly: Caching template admin from templates/admin.html
+15 Apr 07:17:37 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:17:37 - silly: Caching template admin.menu from templates/admin/menu.html
+15 Apr 07:17:37 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:17:37 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:17:37 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:17:37 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:17:37 - silly: Caching template blog from templates/default.html
+15 Apr 07:17:37 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:17:37 - silly: Caching template blog.menu from templates/blog/menu.html
+15 Apr 07:17:37 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:17:37 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:17:37 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:17:37 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:17:39 - silly: Checking menu for section admin
+15 Apr 07:17:39 - silly: Generating menu for section admin
+15 Apr 07:17:39 - silly:                
+15 Apr 07:17:39 - silly: Checking menu for section menu
+15 Apr 07:17:40 - silly: Checking menu for section admin
+15 Apr 07:17:40 - silly: Generating menu for section admin
+15 Apr 07:17:40 - silly:                
+15 Apr 07:17:40 - silly: Checking menu for section menu
+15 Apr 07:17:40 - silly: Checking menu for section admin
+15 Apr 07:17:40 - silly: Generating menu for section admin
+15 Apr 07:17:40 - silly:                
+15 Apr 07:17:40 - silly: Checking menu for section menu
+15 Apr 07:17:40 - silly: Checking menu for section admin
+15 Apr 07:17:40 - silly: Generating menu for section admin
+15 Apr 07:17:40 - silly:                
+15 Apr 07:17:40 - silly: Checking menu for section menu
+15 Apr 07:17:40 - silly: Checking menu for section admin
+15 Apr 07:17:40 - silly: Generating menu for section admin
+15 Apr 07:17:40 - silly:                
+15 Apr 07:17:40 - silly: Checking menu for section menu
+15 Apr 07:17:40 - silly: Checking menu for section admin
+15 Apr 07:17:40 - silly: Generating menu for section admin
+15 Apr 07:17:40 - silly:                
+15 Apr 07:17:40 - silly: Checking menu for section menu
+15 Apr 07:17:41 - silly: Checking menu for section admin
+15 Apr 07:17:41 - silly: Generating menu for section admin
+15 Apr 07:17:41 - silly:                
+15 Apr 07:17:41 - silly: Checking menu for section menu
+15 Apr 07:17:41 - silly: Checking menu for section admin
+15 Apr 07:17:41 - silly: Generating menu for section admin
+15 Apr 07:17:41 - silly:                
+15 Apr 07:17:41 - silly: Checking menu for section menu
+15 Apr 07:18:28 - silly: Caching template default from templates/default.html
+15 Apr 07:18:28 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:18:28 - silly: Caching template default.primary from templates/default/primaryMenu.html
+15 Apr 07:18:28 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:18:28 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:18:28 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:18:28 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:18:28 - silly: Caching template admin from templates/admin.html
+15 Apr 07:18:28 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:18:28 - silly: Caching template admin.primary from templates/admin/primaryMenu.html
+15 Apr 07:18:28 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:18:28 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:18:28 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:18:28 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:18:28 - silly: Caching template blog from templates/default.html
+15 Apr 07:18:28 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:18:28 - silly: Caching template blog.primary from templates/blog/primaryMenu.html
+15 Apr 07:18:28 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:18:28 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:18:28 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:18:28 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:18:30 - silly: Checking menu for section admin
+15 Apr 07:18:53 - silly: Caching template default from templates/default.html
+15 Apr 07:18:53 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:18:53 - silly: Caching template default.primary from templates/default/primaryMenu.html
+15 Apr 07:18:53 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:18:53 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:18:53 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:18:53 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:18:53 - silly: Caching template admin from templates/admin.html
+15 Apr 07:18:53 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:18:53 - silly: Caching template admin.primary from templates/admin/primaryMenu.html
+15 Apr 07:18:53 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:18:53 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:18:53 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:18:53 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:18:53 - silly: Caching template blog from templates/default.html
+15 Apr 07:18:53 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:18:53 - silly: Caching template blog.primary from templates/blog/primaryMenu.html
+15 Apr 07:18:53 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:18:53 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:18:53 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:18:53 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:18:54 - silly: Checking menu for section admin
+15 Apr 07:18:54 - silly: Generating menu for section admin
+15 Apr 07:18:54 - silly:                
+15 Apr 07:18:54 - silly: Checking menu for section primary
+15 Apr 07:18:54 - silly: Generating menu for section primary
+15 Apr 07:18:54 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:20:07 - silly: Caching template default from templates/default.html
+15 Apr 07:20:07 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:20:07 - silly: Caching template default.primary from templates/default/primaryMenu.html
+15 Apr 07:20:07 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:20:07 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:20:07 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:20:07 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:20:07 - silly: Caching template admin from templates/admin.html
+15 Apr 07:20:07 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:20:07 - silly: Caching template admin.primary from templates/admin/primaryMenu.html
+15 Apr 07:20:07 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:20:07 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:20:07 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:20:07 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:20:07 - silly: Caching template blog from templates/default.html
+15 Apr 07:20:07 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:20:07 - silly: Caching template blog.primary from templates/blog/primaryMenu.html
+15 Apr 07:20:07 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:20:07 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:20:07 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:20:07 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:20:09 - silly: Checking menu for section admin
+15 Apr 07:20:09 - silly: Generating menu for section admin
+15 Apr 07:20:09 - silly:                
+15 Apr 07:20:09 - silly: Checking menu for section primary
+15 Apr 07:20:09 - silly: Generating menu for section primary
+15 Apr 07:20:09 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:20:35 - silly: Checking menu for section admin
+15 Apr 07:20:35 - silly: Generating menu for section admin
+15 Apr 07:20:35 - silly:                
+15 Apr 07:20:35 - silly: Checking menu for section primary
+15 Apr 07:20:35 - silly: Generating menu for section primary
+15 Apr 07:20:35 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:21:42 - silly: Caching template default from templates/default.html
+15 Apr 07:21:42 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:21:42 - silly: Caching template default.primary from templates/default/primaryMenu.html
+15 Apr 07:21:42 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:21:42 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:21:42 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:21:42 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:21:42 - silly: Caching template admin from templates/admin.html
+15 Apr 07:21:42 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:21:42 - silly: Caching template admin.primary from templates/admin/primaryMenu.html
+15 Apr 07:21:42 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:21:42 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:21:42 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:21:42 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:21:42 - silly: Caching template blog from templates/default.html
+15 Apr 07:21:42 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:21:42 - silly: Caching template blog.primary from templates/blog/primaryMenu.html
+15 Apr 07:21:42 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:21:42 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:21:42 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:21:42 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:21:43 - silly: Checking menu for section admin
+15 Apr 07:21:43 - silly: Generating menu for section admin
+15 Apr 07:21:43 - silly:                
+15 Apr 07:21:43 - silly: Checking menu for section primary
+15 Apr 07:21:43 - silly: Generating menu for section primary
+15 Apr 07:21:43 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:21:45 - silly: Checking menu for section admin
+15 Apr 07:21:45 - silly: Generating menu for section admin
+15 Apr 07:21:45 - silly:                
+15 Apr 07:21:45 - silly: Checking menu for section primary
+15 Apr 07:21:45 - silly: Generating menu for section primary
+15 Apr 07:21:45 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:21:48 - silly: Checking menu for section admin
+15 Apr 07:21:48 - silly: Generating menu for section admin
+15 Apr 07:21:48 - silly:                
+15 Apr 07:21:48 - silly: Checking menu for section primary
+15 Apr 07:21:48 - silly: Generating menu for section primary
+15 Apr 07:21:48 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:21:53 - silly: Checking menu for section admin
+15 Apr 07:21:53 - silly: Generating menu for section admin
+15 Apr 07:21:53 - silly:                
+15 Apr 07:21:53 - silly: Checking menu for section primary
+15 Apr 07:21:53 - silly: Generating menu for section primary
+15 Apr 07:21:53 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:21:54 - silly: Checking menu for section admin
+15 Apr 07:21:54 - silly: Generating menu for section admin
+15 Apr 07:21:54 - silly:                
+15 Apr 07:21:54 - silly: Checking menu for section primary
+15 Apr 07:21:54 - silly: Generating menu for section primary
+15 Apr 07:21:54 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:14 - silly: Using the default section theme cache for admin
+15 Apr 07:22:14 - silly: Checking menu for section admin
+15 Apr 07:22:14 - silly: Generating menu for section admin
+15 Apr 07:22:14 - silly:                
+15 Apr 07:22:14 - silly: Using the default section theme cache for primary
+15 Apr 07:22:14 - silly: Checking menu for section primary
+15 Apr 07:22:14 - silly: Generating menu for section primary
+15 Apr 07:22:14 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:14 - silly: Using the default section theme cache for header
+15 Apr 07:22:14 - silly: Using the default section theme cache for right
+15 Apr 07:22:14 - silly: Using the default section theme cache for footer
+15 Apr 07:22:16 - silly: Checking menu for section admin
+15 Apr 07:22:16 - silly: Generating menu for section admin
+15 Apr 07:22:16 - silly:                
+15 Apr 07:22:16 - silly: Checking menu for section primary
+15 Apr 07:22:16 - silly: Generating menu for section primary
+15 Apr 07:22:16 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:17 - silly: Checking menu for section admin
+15 Apr 07:22:17 - silly: Generating menu for section admin
+15 Apr 07:22:17 - silly:                
+15 Apr 07:22:17 - silly: Checking menu for section primary
+15 Apr 07:22:17 - silly: Generating menu for section primary
+15 Apr 07:22:17 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:18 - silly: Checking menu for section admin
+15 Apr 07:22:18 - silly: Generating menu for section admin
+15 Apr 07:22:18 - silly:                
+15 Apr 07:22:18 - silly: Checking menu for section primary
+15 Apr 07:22:18 - silly: Generating menu for section primary
+15 Apr 07:22:18 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:19 - silly: Checking menu for section admin
+15 Apr 07:22:19 - silly: Generating menu for section admin
+15 Apr 07:22:19 - silly:                
+15 Apr 07:22:19 - silly: Checking menu for section primary
+15 Apr 07:22:19 - silly: Generating menu for section primary
+15 Apr 07:22:19 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:20 - silly: Checking menu for section admin
+15 Apr 07:22:20 - silly: Generating menu for section admin
+15 Apr 07:22:20 - silly:                
+15 Apr 07:22:20 - silly: Checking menu for section primary
+15 Apr 07:22:20 - silly: Generating menu for section primary
+15 Apr 07:22:20 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:21 - silly: Checking menu for section admin
+15 Apr 07:22:21 - silly: Generating menu for section admin
+15 Apr 07:22:21 - silly:                
+15 Apr 07:22:21 - silly: Checking menu for section primary
+15 Apr 07:22:21 - silly: Generating menu for section primary
+15 Apr 07:22:21 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:35 - silly: Using the default section theme cache for admin
+15 Apr 07:22:35 - silly: Checking menu for section admin
+15 Apr 07:22:35 - silly: Generating menu for section admin
+15 Apr 07:22:35 - silly:                
+15 Apr 07:22:35 - silly: Using the default section theme cache for primary
+15 Apr 07:22:35 - silly: Checking menu for section primary
+15 Apr 07:22:35 - silly: Generating menu for section primary
+15 Apr 07:22:35 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:35 - silly: Using the default section theme cache for header
+15 Apr 07:22:35 - silly: Using the default section theme cache for right
+15 Apr 07:22:35 - silly: Using the default section theme cache for footer
+15 Apr 07:22:39 - silly: Checking menu for section admin
+15 Apr 07:22:39 - silly: Generating menu for section admin
+15 Apr 07:22:39 - silly:                
+15 Apr 07:22:39 - silly: Checking menu for section primary
+15 Apr 07:22:39 - silly: Generating menu for section primary
+15 Apr 07:22:39 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:40 - silly: Using the default section theme cache for admin
+15 Apr 07:22:40 - silly: Checking menu for section admin
+15 Apr 07:22:40 - silly: Generating menu for section admin
+15 Apr 07:22:40 - silly:                
+15 Apr 07:22:40 - silly: Using the default section theme cache for primary
+15 Apr 07:22:40 - silly: Checking menu for section primary
+15 Apr 07:22:40 - silly: Generating menu for section primary
+15 Apr 07:22:40 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:40 - silly: Using the default section theme cache for header
+15 Apr 07:22:40 - silly: Using the default section theme cache for right
+15 Apr 07:22:40 - silly: Using the default section theme cache for footer
+15 Apr 07:22:43 - silly: Checking menu for section admin
+15 Apr 07:22:43 - silly: Generating menu for section admin
+15 Apr 07:22:43 - silly:                
+15 Apr 07:22:43 - silly: Checking menu for section primary
+15 Apr 07:22:43 - silly: Generating menu for section primary
+15 Apr 07:22:43 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:47 - silly: Using the default section theme cache for admin
+15 Apr 07:22:47 - silly: Checking menu for section admin
+15 Apr 07:22:47 - silly: Generating menu for section admin
+15 Apr 07:22:47 - silly:                
+15 Apr 07:22:47 - silly: Using the default section theme cache for primary
+15 Apr 07:22:47 - silly: Checking menu for section primary
+15 Apr 07:22:47 - silly: Generating menu for section primary
+15 Apr 07:22:47 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:22:47 - silly: Using the default section theme cache for header
+15 Apr 07:22:47 - silly: Using the default section theme cache for right
+15 Apr 07:22:47 - silly: Using the default section theme cache for footer
+15 Apr 07:23:01 - silly: Checking menu for section admin
+15 Apr 07:23:01 - silly: Generating menu for section admin
+15 Apr 07:23:01 - silly:                
+15 Apr 07:23:01 - silly: Checking menu for section primary
+15 Apr 07:23:01 - silly: Generating menu for section primary
+15 Apr 07:23:01 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:01 - silly: Checking menu for section admin
+15 Apr 07:23:01 - silly: Generating menu for section admin
+15 Apr 07:23:01 - silly:                
+15 Apr 07:23:01 - silly: Checking menu for section primary
+15 Apr 07:23:01 - silly: Generating menu for section primary
+15 Apr 07:23:01 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:03 - silly: Checking menu for section admin
+15 Apr 07:23:03 - silly: Generating menu for section admin
+15 Apr 07:23:03 - silly:                
+15 Apr 07:23:03 - silly: Checking menu for section primary
+15 Apr 07:23:03 - silly: Generating menu for section primary
+15 Apr 07:23:03 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:05 - silly: Checking menu for section admin
+15 Apr 07:23:05 - silly: Generating menu for section admin
+15 Apr 07:23:05 - silly:                
+15 Apr 07:23:05 - silly: Checking menu for section primary
+15 Apr 07:23:05 - silly: Generating menu for section primary
+15 Apr 07:23:05 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:10 - silly: Checking menu for section admin
+15 Apr 07:23:10 - silly: Generating menu for section admin
+15 Apr 07:23:10 - silly:                
+15 Apr 07:23:10 - silly: Checking menu for section primary
+15 Apr 07:23:10 - silly: Generating menu for section primary
+15 Apr 07:23:10 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:12 - silly: Checking menu for section admin
+15 Apr 07:23:12 - silly: Generating menu for section admin
+15 Apr 07:23:12 - silly:                
+15 Apr 07:23:12 - silly: Checking menu for section primary
+15 Apr 07:23:12 - silly: Generating menu for section primary
+15 Apr 07:23:12 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:13 - silly: Using the default section theme cache for admin
+15 Apr 07:23:13 - silly: Checking menu for section admin
+15 Apr 07:23:13 - silly: Generating menu for section admin
+15 Apr 07:23:13 - silly:                
+15 Apr 07:23:13 - silly: Using the default section theme cache for primary
+15 Apr 07:23:13 - silly: Checking menu for section primary
+15 Apr 07:23:13 - silly: Generating menu for section primary
+15 Apr 07:23:13 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:13 - silly: Using the default section theme cache for header
+15 Apr 07:23:13 - silly: Using the default section theme cache for right
+15 Apr 07:23:13 - silly: Using the default section theme cache for footer
+15 Apr 07:23:15 - silly: Checking menu for section admin
+15 Apr 07:23:15 - silly: Generating menu for section admin
+15 Apr 07:23:15 - silly:                
+15 Apr 07:23:15 - silly: Checking menu for section primary
+15 Apr 07:23:15 - silly: Generating menu for section primary
+15 Apr 07:23:15 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:18 - silly: Checking menu for section admin
+15 Apr 07:23:18 - silly: Generating menu for section admin
+15 Apr 07:23:18 - silly:                
+15 Apr 07:23:18 - silly: Checking menu for section primary
+15 Apr 07:23:18 - silly: Generating menu for section primary
+15 Apr 07:23:18 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:20 - silly: Checking menu for section admin
+15 Apr 07:23:20 - silly: Generating menu for section admin
+15 Apr 07:23:20 - silly:                
+15 Apr 07:23:20 - silly: Checking menu for section primary
+15 Apr 07:23:20 - silly: Generating menu for section primary
+15 Apr 07:23:20 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:22 - silly: Checking menu for section admin
+15 Apr 07:23:22 - silly: Generating menu for section admin
+15 Apr 07:23:22 - silly:                
+15 Apr 07:23:22 - silly: Checking menu for section primary
+15 Apr 07:23:22 - silly: Generating menu for section primary
+15 Apr 07:23:22 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:28 - silly: Checking menu for section admin
+15 Apr 07:23:28 - silly: Generating menu for section admin
+15 Apr 07:23:28 - silly:                
+15 Apr 07:23:28 - silly: Checking menu for section primary
+15 Apr 07:23:28 - silly: Generating menu for section primary
+15 Apr 07:23:28 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:32 - silly: Checking menu for section admin
+15 Apr 07:23:32 - silly: Generating menu for section admin
+15 Apr 07:23:32 - silly:                
+15 Apr 07:23:32 - silly: Checking menu for section primary
+15 Apr 07:23:32 - silly: Generating menu for section primary
+15 Apr 07:23:32 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:33 - silly: Checking menu for section admin
+15 Apr 07:23:33 - silly: Generating menu for section admin
+15 Apr 07:23:33 - silly:                
+15 Apr 07:23:33 - silly: Checking menu for section primary
+15 Apr 07:23:33 - silly: Generating menu for section primary
+15 Apr 07:23:33 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:35 - silly: Checking menu for section admin
+15 Apr 07:23:35 - silly: Generating menu for section admin
+15 Apr 07:23:35 - silly:                
+15 Apr 07:23:35 - silly: Checking menu for section primary
+15 Apr 07:23:35 - silly: Generating menu for section primary
+15 Apr 07:23:35 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:23:37 - silly: Checking menu for section admin
+15 Apr 07:23:37 - silly: Generating menu for section admin
+15 Apr 07:23:37 - silly:                
+15 Apr 07:23:37 - silly: Checking menu for section primary
+15 Apr 07:23:37 - silly: Generating menu for section primary
+15 Apr 07:23:37 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:24:04 - silly: Checking menu for section admin
+15 Apr 07:24:04 - silly: Generating menu for section admin
+15 Apr 07:24:04 - silly:                
+15 Apr 07:24:04 - silly: Checking menu for section primary
+15 Apr 07:24:04 - silly: Generating menu for section primary
+15 Apr 07:24:04 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:24:06 - silly: Using the default section theme cache for admin
+15 Apr 07:24:06 - silly: Checking menu for section admin
+15 Apr 07:24:06 - silly: Generating menu for section admin
+15 Apr 07:24:06 - silly:                
+15 Apr 07:24:06 - silly: Using the default section theme cache for primary
+15 Apr 07:24:06 - silly: Checking menu for section primary
+15 Apr 07:24:06 - silly: Generating menu for section primary
+15 Apr 07:24:06 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:24:06 - silly: Using the default section theme cache for header
+15 Apr 07:24:06 - silly: Using the default section theme cache for right
+15 Apr 07:24:06 - silly: Using the default section theme cache for footer
+15 Apr 07:24:08 - silly: Checking menu for section admin
+15 Apr 07:24:08 - silly: Generating menu for section admin
+15 Apr 07:24:08 - silly:                
+15 Apr 07:24:08 - silly: Checking menu for section primary
+15 Apr 07:24:08 - silly: Generating menu for section primary
+15 Apr 07:24:08 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:24:09 - silly: Checking menu for section admin
+15 Apr 07:24:09 - silly: Generating menu for section admin
+15 Apr 07:24:09 - silly:                
+15 Apr 07:24:09 - silly: Checking menu for section primary
+15 Apr 07:24:09 - silly: Generating menu for section primary
+15 Apr 07:24:09 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:24:11 - silly: Checking menu for section admin
+15 Apr 07:24:11 - silly: Generating menu for section admin
+15 Apr 07:24:11 - silly:                
+15 Apr 07:24:11 - silly: Checking menu for section primary
+15 Apr 07:24:11 - silly: Generating menu for section primary
+15 Apr 07:24:11 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:25:24 - silly: Using the default section theme cache for admin
+15 Apr 07:25:24 - silly: Checking menu for section admin
+15 Apr 07:25:24 - silly: Generating menu for section admin
+15 Apr 07:25:24 - silly:                
+15 Apr 07:25:24 - silly: Using the default section theme cache for primary
+15 Apr 07:25:24 - silly: Checking menu for section primary
+15 Apr 07:25:24 - silly: Generating menu for section primary
+15 Apr 07:25:24 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:25:24 - silly: Using the default section theme cache for header
+15 Apr 07:25:24 - silly: Using the default section theme cache for right
+15 Apr 07:25:24 - silly: Using the default section theme cache for footer
+15 Apr 07:25:25 - silly: Checking menu for section admin
+15 Apr 07:25:25 - silly: Generating menu for section admin
+15 Apr 07:25:25 - silly:                
+15 Apr 07:25:25 - silly: Checking menu for section primary
+15 Apr 07:25:25 - silly: Generating menu for section primary
+15 Apr 07:25:25 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:42 - silly: Checking menu for section admin
+15 Apr 07:27:42 - silly: Generating menu for section admin
+15 Apr 07:27:42 - silly:                
+15 Apr 07:27:42 - silly: Checking menu for section primary
+15 Apr 07:27:42 - silly: Generating menu for section primary
+15 Apr 07:27:42 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:43 - silly: Checking menu for section admin
+15 Apr 07:27:43 - silly: Generating menu for section admin
+15 Apr 07:27:43 - silly:                
+15 Apr 07:27:43 - silly: Checking menu for section primary
+15 Apr 07:27:43 - silly: Generating menu for section primary
+15 Apr 07:27:43 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:52 - silly: Checking menu for section admin
+15 Apr 07:27:52 - silly: Generating menu for section admin
+15 Apr 07:27:52 - silly:                
+15 Apr 07:27:52 - silly: Checking menu for section primary
+15 Apr 07:27:52 - silly: Generating menu for section primary
+15 Apr 07:27:52 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:53 - silly: Checking menu for section admin
+15 Apr 07:27:53 - silly: Generating menu for section admin
+15 Apr 07:27:53 - silly:                
+15 Apr 07:27:53 - silly: Checking menu for section primary
+15 Apr 07:27:53 - silly: Generating menu for section primary
+15 Apr 07:27:53 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:53 - silly: Checking menu for section admin
+15 Apr 07:27:53 - silly: Generating menu for section admin
+15 Apr 07:27:53 - silly:                
+15 Apr 07:27:53 - silly: Checking menu for section primary
+15 Apr 07:27:53 - silly: Generating menu for section primary
+15 Apr 07:27:53 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:54 - silly: Checking menu for section admin
+15 Apr 07:27:54 - silly: Generating menu for section admin
+15 Apr 07:27:54 - silly:                
+15 Apr 07:27:54 - silly: Checking menu for section primary
+15 Apr 07:27:54 - silly: Generating menu for section primary
+15 Apr 07:27:54 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:55 - silly: Checking menu for section admin
+15 Apr 07:27:55 - silly: Generating menu for section admin
+15 Apr 07:27:55 - silly:                
+15 Apr 07:27:55 - silly: Checking menu for section primary
+15 Apr 07:27:55 - silly: Generating menu for section primary
+15 Apr 07:27:55 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:58 - silly: Using the default section theme cache for admin
+15 Apr 07:27:58 - silly: Checking menu for section admin
+15 Apr 07:27:58 - silly: Generating menu for section admin
+15 Apr 07:27:58 - silly:                
+15 Apr 07:27:58 - silly: Using the default section theme cache for primary
+15 Apr 07:27:58 - silly: Checking menu for section primary
+15 Apr 07:27:58 - silly: Generating menu for section primary
+15 Apr 07:27:58 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:27:58 - silly: Using the default section theme cache for header
+15 Apr 07:27:58 - silly: Using the default section theme cache for right
+15 Apr 07:27:58 - silly: Using the default section theme cache for footer
+15 Apr 07:28:00 - silly: Checking menu for section admin
+15 Apr 07:28:00 - silly: Generating menu for section admin
+15 Apr 07:28:00 - silly:                
+15 Apr 07:28:00 - silly: Checking menu for section primary
+15 Apr 07:28:00 - silly: Generating menu for section primary
+15 Apr 07:28:00 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:28:01 - silly: Checking menu for section admin
+15 Apr 07:28:01 - silly: Generating menu for section admin
+15 Apr 07:28:01 - silly:                
+15 Apr 07:28:01 - silly: Checking menu for section primary
+15 Apr 07:28:01 - silly: Generating menu for section primary
+15 Apr 07:28:01 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:28:02 - silly: Checking menu for section admin
+15 Apr 07:28:02 - silly: Generating menu for section admin
+15 Apr 07:28:02 - silly:                
+15 Apr 07:28:02 - silly: Checking menu for section primary
+15 Apr 07:28:02 - silly: Generating menu for section primary
+15 Apr 07:28:02 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:28:04 - silly: Checking menu for section admin
+15 Apr 07:28:04 - silly: Generating menu for section admin
+15 Apr 07:28:04 - silly:                
+15 Apr 07:28:04 - silly: Checking menu for section primary
+15 Apr 07:28:04 - silly: Generating menu for section primary
+15 Apr 07:28:04 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:31:24 - silly: Caching template default from templates/default.html
+15 Apr 07:31:24 - silly: Caching template default.admin from templates/default/adminMenu.html
+15 Apr 07:31:24 - silly: Caching template default.primary from templates/default/primaryMenu.html
+15 Apr 07:31:24 - silly: Caching template default.header from templates/default/header.html
+15 Apr 07:31:24 - silly: Caching template default.body from templates/default/body.html
+15 Apr 07:31:24 - silly: Caching template default.right from templates/default/right.html
+15 Apr 07:31:24 - silly: Caching template default.footer from templates/default/footer.html
+15 Apr 07:31:24 - silly: Caching template admin from templates/admin.html
+15 Apr 07:31:24 - silly: Caching template admin.admin from templates/admin/adminMenu.html
+15 Apr 07:31:24 - silly: Caching template admin.primary from templates/admin/primaryMenu.html
+15 Apr 07:31:24 - silly: Caching template admin.header from templates/admin/header.html
+15 Apr 07:31:24 - silly: Caching template admin.body from templates/admin/body.html
+15 Apr 07:31:24 - silly: Caching template admin.right from templates/admin/right.html
+15 Apr 07:31:24 - silly: Caching template admin.footer from templates/admin/footer.html
+15 Apr 07:31:24 - silly: Caching template blog from templates/default.html
+15 Apr 07:31:24 - silly: Caching template blog.admin from templates/blog/adminMenu.html
+15 Apr 07:31:24 - silly: Caching template blog.primary from templates/blog/primaryMenu.html
+15 Apr 07:31:24 - silly: Caching template blog.header from templates/blog/header.html
+15 Apr 07:31:24 - silly: Caching template blog.body from templates/blog/body.html
+15 Apr 07:31:24 - silly: Caching template blog.right from templates/blog/right.html
+15 Apr 07:31:24 - silly: Caching template blog.footer from templates/blog/footer.html
+15 Apr 07:31:32 - silly: Checking menu for section admin
+15 Apr 07:31:32 - silly: Generating menu for section admin
+15 Apr 07:31:32 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+  
+    <a class='admin-menu-item' href="/content/edit/4da6e82afae9862e32000034">Edit Content</a>
+  
+    <a class='admin-menu-item' href="/content/delete/4da6e82afae9862e32000034">Delete Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:31:32 - silly: Checking menu for section primary
+15 Apr 07:31:32 - silly: Generating menu for section primary
+15 Apr 07:31:32 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:31:34 - silly: Checking menu for section admin
+15 Apr 07:31:34 - silly: Generating menu for section admin
+15 Apr 07:31:34 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+  
+    <a class='admin-menu-item' href="/content/edit/4da6e82afae9862e32000034">Edit Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:31:34 - silly: Checking menu for section primary
+15 Apr 07:31:34 - silly: Generating menu for section primary
+15 Apr 07:31:34 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:31:38 - silly: Layout article is not defined within the current theme, using default.
+15 Apr 07:31:38 - silly: Checking menu for section admin
+15 Apr 07:31:38 - silly: Generating menu for section admin
+15 Apr 07:31:38 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item-selected' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+  
+    <a class='admin-menu-item' href="/content/new">New Content</a>
+  
+    <a class='admin-menu-item' href="/content/edit/4da6e82afae9862e32000034">Edit Content</a>
+  
+    <a class='admin-menu-item' href="/content/delete/4da6e82afae9862e32000034">Delete Content</a>
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:31:38 - silly: Checking menu for section primary
+15 Apr 07:31:38 - silly: Generating menu for section primary
+15 Apr 07:31:38 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item-selected' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:31:52 - silly: Using the default section theme cache for admin
+15 Apr 07:31:52 - silly: Checking menu for section admin
+15 Apr 07:31:52 - silly: Generating menu for section admin
+15 Apr 07:31:52 - silly: 
+<br/>
+<div class='admin-menu-separator'></div>               
+<div class="admin-primary-menu">      
+  
+    <a class='admin-menu-item' href="/template">Template</a>
+  
+    <a class='admin-menu-item-selected' href="/admin">Admin</a>
+  
+    <a class='admin-menu-item' href="/content">Content</a>
+  
+    <a class='admin-menu-item' href="/user">User</a>
+  
+</div>
+<div class="admin-secondary-menu" style="float: left;">     
+   
+</div>
+<div class='admin-menu-separator'></div>
+               
+15 Apr 07:31:52 - silly: Using the default section theme cache for primary
+15 Apr 07:31:52 - silly: Checking menu for section primary
+15 Apr 07:31:52 - silly: Generating menu for section primary
+15 Apr 07:31:52 - silly: <div class='menu-separator'></div>               
+<div class="primary-menu">      
+  
+    <a class='primary-menu-item' href="/content">Content</a>
+  
+</div>
+<div class='menu-separator'></div>
+15 Apr 07:31:52 - silly: Using the default section theme cache for header
+15 Apr 07:31:52 - silly: Using the default section theme cache for right
+15 Apr 07:31:52 - silly: Using the default section theme cache for footer
+15 Apr 07:33:08 - debug: SAVED
+15 Apr 07:34:17 - debug: SAVED
+15 Apr 07:35:15 - debug: SAVED
+15 Apr 08:05:38 - debug: SAVED
+15 Apr 08:05:47 - debug: SAVED
+15 Apr 08:06:49 - debug: TAXONOMY MR

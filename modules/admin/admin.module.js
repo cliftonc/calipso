@@ -16,7 +16,7 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */      
-      res.menu.primary.push({name:'Admin',url:'/admin',regexp:/admin/});
+      res.menu.admin.primary.push({name:'Admin',url:'/admin',regexp:/admin/});
         
       /**
        * Routing and Route Handler

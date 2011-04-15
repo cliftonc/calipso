@@ -15,7 +15,7 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */
-      res.menu.primary.push({name:'Content',url:'/content',regexp:/content/});
+      res.menu.admin.primary.push({name:'Content',url:'/content',regexp:/content/});
         
       /**
        * Routing and Route Handler
@@ -28,22 +28,33 @@ function init(module,app,next) {
   
   calipso.lib.step(
       function defineRoutes() {
-        module.router.addRoute(/html$/,showAliasedContent,{template:'show',block:'content'},this.parallel());
+                
+        // Default route
         module.router.addRoute('GET /',listContent,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /:from,:to',listContent,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /content',listContent,{template:'list',block:'content'},this.parallel());        
-        module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());    
+        
+        // Enable view by content type        
+        //module.router.addRoute('GET /:type',listContent,{template:'list',block:'content'},this.parallel());
+        //module.router.addRoute('GET /:type/:from,:to',listContent,{template:'list',block:'content'},this.parallel());
+                
+        // Alias for SEO friendly pages
+        module.router.addRoute(/\.html$/,showAliasedContent,{template:'show',block:'content'},this.parallel());
+        
+        // Crud operations        
+        module.router.addRoute('GET /content',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());
         module.router.addRoute('GET /content/new',createContentForm,{admin:true,template:'form',block:'content'},this.parallel());  
         module.router.addRoute('GET /content/show/:id',showContentByID,{template:'show',block:'content'},this.parallel());
         module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,template:'form',block:'content'},this.parallel());
         module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true},this.parallel());
-        module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());        
+        module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());
+        
       },
       function done() {
         
         var Content = new calipso.lib.mongoose.Schema({
           // Single default property
-          type:{type: String, required: true, default:'content'},
+          contentType:{type: String, required: true, default:'default'},
           title:{type: String, required: true, default: ''},
           teaser:{type: String, required: true, default: ''},
           taxonomy:{type: String, required: true, default:'pages'},
@@ -108,12 +119,14 @@ function titleAlias(title) {
 
 function createContentForm(req,res,template,block,next) {
   
-  res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});         
+  res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});         
   
   var item = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content',fields:[                                                                                                         
-                 {label:'Title',name:'content[title]',type:'text',value:''},
+                 {label:'Title',name:'content[title]',type:'text',value:''},                 
                  {label:'Teaser',name:'content[teaser]',type:'text',value:''},
                  {label:'Content',name:'content[content]',type:'textarea',value:''},
+                 {label:'Type',name:'content[contentType]',type:'select',value:'',options:["article","blog"]},                 
+                 {label:'Taxonomy',name:'content[taxonomy]',type:'text',value:''},
                  {label:'Tags',name:'content[tags]',type:'text',value:''},
                  {label:'Status',name:'content[status]',type:'select',value:'',options:["draft","published"]}
               ]}
@@ -132,8 +145,8 @@ function editContentForm(req,res,template,block,next) {
   var id = req.moduleParams.id;          
   var item;
   
-  res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
-  res.menu.secondary.push({name:'Edit Content',parentUrl:'/content/' + id,url:'/content/edit/' + id});
+  res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
+  res.menu.admin.secondary.push({name:'Edit Content',parentUrl:'/content/' + id,url:'/content/edit/' + id});
    
   Content.findById(id, function(err, c) {
     
@@ -145,6 +158,8 @@ function editContentForm(req,res,template,block,next) {
            {label:'Title',name:'content[title]',type:'text',value:c.title},
            {label:'Teaser',name:'content[teaser]',type:'text',value:c.teaser},
            {label:'Content',name:'content[content]',type:'textarea',value:c.content},
+           {label:'Type',name:'content[contentType]',type:'select',value:c.contentType,options:["article","blog"]},                 
+           {label:'Taxonomy',name:'content[taxonomy]',type:'text',value:c.taxonomy},
            {label:'Tags',name:'content[tags]',type:'text',value:c.tags.join(",")},
            {label:'Status',name:'content[status]',type:'select',value:c.status,options:["draft","published"]}
            ]};
@@ -171,6 +186,8 @@ function updateContent(req,res,template,block,next) {
         c.content = req.body.content.content;
         c.teaser = req.body.content.teaser;
         c.status = req.body.content.status;
+        c.contentType = req.body.content.contentType;
+        c.taxonomy = req.body.content.taxonomy;
         c.updated = new Date();    
         c.author = req.session.user.username;
         c.alias = titleAlias(c.title);
@@ -219,18 +236,19 @@ function showAliasedContent(req,res,template,block,next) {
 function showContent(req,res,template,block,next,err,content) {
     
   var item;
+ 
   if(err || content === null) {
     item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content!"}};    
   } else {      
-    res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
-    res.menu.secondary.push({name:'Edit Content',parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
-    res.menu.secondary.push({name:'Delete Content',parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
+    res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
+    res.menu.admin.secondary.push({name:'Edit Content',parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
+    res.menu.admin.secondary.push({name:'Delete Content',parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
     
     item = {id:content._id,type:'content',meta:content.toObject()};                
   }           
-  
-  // Set the page type to the content type
-  res.layout = item.type;  
+
+  // Set the page layout to the content type
+  res.layout = content.contentType;  
   
   calipso.theme.renderItem(req,res,template,block,{item:item});
   
@@ -254,7 +272,7 @@ function listContent(req,res,template,block,next) {
       // Re-retrieve our object
       var Content = calipso.lib.mongoose.model('Content');      
       
-      res.menu.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
+      res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
             
       var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
       var to = req.moduleParams.to ? parseInt(req.moduleParams.to) : 10;

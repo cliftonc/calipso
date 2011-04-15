@@ -1,0 +1,14 @@
+<div class='menu-separator'></div>               
+<div class="primary-menu">      
+  <% menu.forEach(function(menuItem){ 
+  
+        var menuSelected = '';
+        if(menuItem.regexp.test(request.url)) {
+             menuSelected = '-selected';
+        }
+        
+  %>
+    <a class='primary-menu-item<%- menuSelected %>' href="<%- menuItem.url %>"><%- menuItem.name %></a>
+  <% }) %>
+</div>
+<div class='menu-separator'></div>

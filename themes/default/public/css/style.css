@@ -342,7 +342,7 @@ input[type=text],input[type=password], textarea {
 }
 
 /** -- Menus **/
-.primary-menu {    
+.admin-primary-menu {    
     background-color: #343434;
     color: white;
     position: absolute;
@@ -356,20 +356,20 @@ input[type=text],input[type=password], textarea {
     box-shadow: 2px 2px 12px rgba(0,0,0,.35);        
 }
 
-.primary-menu .menu-item {    
+.admin-primary-menu .admin-menu-item {    
     color: white;
     padding: 3px;
     margin-right: 10px;    
 }
 
-.primary-menu .menu-item-selected {    
+.admin-primary-menu .admin-menu-item-selected {    
     color: white;
     font-weight: bold;    
     padding: 3px;
     margin-right: 10px;        
 }
 
-.secondary-menu {    
+.admin-secondary-menu {    
     padding-left: 5px;
     font-size: 0.8em;
     position: absolute;
@@ -383,23 +383,34 @@ input[type=text],input[type=password], textarea {
     box-shadow: 2px 2px 12px rgba(0,0,0,.35);    
 }
 
-.secondary-menu .menu-item {    
+.admin-secondary-menu .admin-menu-item {    
     color: white;
     padding: 3px;
     margin-right: 10px;        
 }
 
-.debug-menu {    	  
-    position: relative;    
-	margin-right: 20; 
-	font-size: 0.8em;
-	z-index: 20;
-	float: right;        
+.primary-menu {        
+
+    position: relative;
+    width: 100%;
+    font-size: 1.1em;    
+    margin-bottom: 10px;    
 }
 
-.debug-menu a {
-	color: white;
+.primary-menu .primary-menu-item {    
+    color:  #343434;
+    padding: 3px;
+    margin-right: 10px;    
 }
+
+.primary-menu .primary-menu-item-selected {    
+    color: blue;
+    font-weight: bold;    
+    padding: 3px;
+    margin-right: 10px;        
+}
+
+
 .user-logout {
 	position: relative;    
     margin-right: 10; 

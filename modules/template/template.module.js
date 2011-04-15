@@ -16,8 +16,8 @@ function route(req,res,module,app,next) {
       /** 
        * Menu items
        */
-      res.menu.primary.push({name:'Template',url:'/template',regexp:/template/});
-      // res.menu.secondary.push({name:'Blah',parentUrl:'/template',url:'/template/blah'});         
+      res.menu.admin.primary.push({name:'Template',url:'/template',regexp:/template/});
+      // res.menu.admin.secondary.push({name:'Blah',parentUrl:'/template',url:'/template/blah'});         
   
       /**
        * Routes
