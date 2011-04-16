@@ -22,6 +22,11 @@ function route(req,res,module,app,next) {
 
 function init(module,app,next) {      
   
+  if(!calipso.modules.content.initialised) {
+    process.nextTick(function() { init(module,app,next); });
+    return;
+  }
+  
     // Any pre-route config  
   calipso.lib.step(
       function defineRoutes() {
