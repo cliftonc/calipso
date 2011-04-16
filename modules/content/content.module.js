@@ -26,25 +26,32 @@ function route(req,res,module,app,next) {
 
 function init(module,app,next) {    
   
+  module.initialised = false;
+  
   calipso.lib.step(
       function defineRoutes() {
                 
         // Default route
         module.router.addRoute('GET /',listContent,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /:from,:to',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /tag/:tag',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /section/:taxonomy',listContent,{template:'list',block:'content'},this.parallel());        
         
         // Enable view by content type        
         //module.router.addRoute('GET /:type',listContent,{template:'list',block:'content'},this.parallel());
         //module.router.addRoute('GET /:type/:from,:to',listContent,{template:'list',block:'content'},this.parallel());
                 
-        // Alias for SEO friendly pages
-        module.router.addRoute(/\.html$/,showAliasedContent,{template:'show',block:'content'},this.parallel());
+        // Alias for SEO friendly pages, match to prefix excluding content pages
+        module.router.addRoute(/^((?!content).*)html$/,showAliasedContent,{template:'show',block:'content'},this.parallel());
+        module.router.addRoute(/^((?!content).*)json$/,showAliasedContent,{template:'show',block:'content'},this.parallel());
         
         // Crud operations        
         module.router.addRoute('GET /content',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /content/list.:format?',listContent,{template:'list',block:'content'},this.parallel());
+        
         module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());
         module.router.addRoute('GET /content/new',createContentForm,{admin:true,template:'form',block:'content'},this.parallel());  
-        module.router.addRoute('GET /content/show/:id',showContentByID,{template:'show',block:'content'},this.parallel());
+        module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{template:'show',block:'content'},this.parallel());
         module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,template:'form',block:'content'},this.parallel());
         module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true},this.parallel());
         module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());
@@ -68,6 +75,8 @@ function init(module,app,next) {
         });
 
         calipso.lib.mongoose.model('Content', Content);    
+        
+        module.initialised = true;
         
         next();
       }        
@@ -219,38 +228,49 @@ function showAliasedContent(req,res,template,block,next) {
   
   var Content = calipso.lib.mongoose.model('Content');
 
+  var format = req.url.match(/\.json$/) ? "json" : "html";
+  
   var alias = req.url
                   .replace(/^\//, "")
-                  .replace(/.html$/, "")     
+                  .replace(/\.html$/, "")
+                  .replace(/\.json$/, "")
 
   
   Content.findOne({alias:alias},function (err, content) {
             
-      showContent(req,res,template,block,next,err,content);     
+      showContent(req,res,template,block,next,err,content,format);     
       next();
       
   });
   
 }
 
-function showContent(req,res,template,block,next,err,content) {
+function showContent(req,res,template,block,next,err,content,format) {
     
   var item;
  
   if(err || content === null) {
     item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content!"}};    
   } else {      
+    
     res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
     res.menu.admin.secondary.push({name:'Edit Content',parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
     res.menu.admin.secondary.push({name:'Delete Content',parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
     
-    item = {id:content._id,type:'content',meta:content.toObject()};                
+    item = {id:content._id,type:'content',meta:content.toObject()};
+    
   }           
 
   // Set the page layout to the content type
-  res.layout = content.contentType;  
+  if(format === "html") {
+    res.layout = content.contentType;     
+    calipso.theme.renderItem(req,res,template,block,{item:item});      
+  }
   
-  calipso.theme.renderItem(req,res,template,block,{item:item});
+  if(format === "json") {
+    res.format = format;
+    res.send(content.toObject());
+  }
   
   next();
   
@@ -259,10 +279,11 @@ function showContent(req,res,template,block,next,err,content) {
 function showContentByID(req,res,template,block,next) {
 
   var Content = calipso.lib.mongoose.model('Content');
-  var id = req.moduleParams.id;          
+  var id = req.moduleParams.id;       
+  var format = req.moduleParams.format ? req.moduleParams.format : 'html';             
   
   Content.findById(id, function(err, content) {   
-    showContent(req,res,template,block,next,err,content);    
+    showContent(req,res,template,block,next,err,content,format);    
   });
 
 }
@@ -276,6 +297,8 @@ function listContent(req,res,template,block,next) {
             
       var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
       var to = req.moduleParams.to ? parseInt(req.moduleParams.to) : 10;
+      var tag = req.moduleParams.tag ? req.moduleParams.tag : ''; 
+      var format = req.moduleParams.format ? req.moduleParams.format : 'html'; 
             
       var query = {};
       
@@ -286,8 +309,12 @@ function listContent(req,res,template,block,next) {
         query.status = 'published';
       }
       
-      // Initialise the block based on our content
+      if(tag) {
+        query.tags = tag;
+      }
       
+      
+      // Initialise the block based on our content      
       Content.count(query, function (err, count) {
         
         var total = count;  
@@ -297,17 +324,29 @@ function listContent(req,res,template,block,next) {
           .sort('created', -1)
           .skip(from).limit(to)          
           .find(function (err, contents) {               
-                contents.forEach(function(c) {                  
+                contents.forEach(function(c) {             
+                  
                   var item = {id:c._id,type:'content',meta:c.toObject()};                                                    
                 
                   // Render the item into the response
-                  calipso.theme.renderItem(req,res,template,block,{item:item});
+                  if(format === 'html') {
+                    calipso.theme.renderItem(req,res,template,block,{item:item});  
+                  }                  
                                   
-                });                   
+                });
                 
-                calipso.theme.renderItem(req,res,pagerHtml,block);
+                if(format === 'json') {
+                  res.format = format;
+                  res.send(contents.map(function(u) {
+                    return u.toObject();
+                  }));
+                }
                 
-                next();
+               if(format === 'html') {
+                 calipso.theme.renderItem(req,res,pagerHtml,block);
+               }
+                
+               next();
         });
         
         

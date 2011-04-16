@@ -5,7 +5,7 @@
 exports = module.exports = {
    render: function(skip,limit,total,path){
   
-    var totalPages = Math.ceil(total/limit) + 1;
+    var totalPages = Math.ceil(total/limit) + 1;    
   	var currentPage = skip/limit + 1;
   	var result = "", resultStart = "<div class='pager'>", start, finish;
   	var selectedClass = 'page-selected';
@@ -43,7 +43,12 @@ exports = module.exports = {
   	result += "&nbsp;Go To: <input id='pagerGoto' type='text' name='skip' value='' class='pager-page' title='Go to a specific start point, type and enter ...' />";  	
   	result += "<span style='float: right'>" + (skip + 1) + " to " + (skip + limit) + " of " + (total) + "</span></div>";		
   	
-  	return resultStart + result
+  	if(totalPages > 2) {
+  	  return resultStart + result;  
+  	} else {
+  	  return "";
+  	}
+  	
   	
   }
 }

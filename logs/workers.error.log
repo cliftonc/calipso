@@ -1,0 +1,297 @@
+15 Apr 16:55:28 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:55:28 GMT+0100 (BST)
+15 Apr 16:55:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:55:30 GMT+0100 (BST)
+15 Apr 16:55:30 - [34mdebug[39m: Job GuardianEnvironment completed in 230 ms
+15 Apr 16:55:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:55:40 GMT+0100 (BST)
+15 Apr 16:55:40 - [34mdebug[39m: Job GuardianEnvironment completed in 115 ms
+15 Apr 16:55:49 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:55:49 GMT+0100 (BST)
+15 Apr 16:55:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:55:50 GMT+0100 (BST)
+15 Apr 16:55:50 - [34mdebug[39m: Job GuardianEnvironment completed in 131 ms
+15 Apr 16:56:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:56:00 GMT+0100 (BST)
+15 Apr 16:56:00 - [34mdebug[39m: Job GuardianEnvironment completed in 115 ms
+15 Apr 16:56:07 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:56:07 GMT+0100 (BST)
+15 Apr 16:56:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:56:10 GMT+0100 (BST)
+15 Apr 16:56:10 - [34mdebug[39m: Job GuardianEnvironment completed in 147 ms
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+15 Apr 16:56:28 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:56:28 GMT+0100 (BST)
+15 Apr 16:56:28 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:56:28 GMT+0100 (BST)
+15 Apr 16:56:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:56:30 GMT+0100 (BST)
+15 Apr 16:56:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:56:30 GMT+0100 (BST)
+15 Apr 16:56:30 - [34mdebug[39m: Job GuardianEnvironment completed in 428 ms
+15 Apr 16:56:30 - [34mdebug[39m: Job GuardianEnvironment completed in 855 ms
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+15 Apr 16:56:42 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:56:42 GMT+0100 (BST)
+15 Apr 16:56:43 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:56:42 GMT+0100 (BST)
+15 Apr 16:56:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:56:50 GMT+0100 (BST)
+15 Apr 16:56:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:56:50 GMT+0100 (BST)
+15 Apr 16:56:50 - [34mdebug[39m: Job GuardianEnvironment completed in 200 ms
+15 Apr 16:56:50 - [34mdebug[39m: Job GuardianEnvironment completed in 162 ms
+15 Apr 16:57:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:00 GMT+0100 (BST)
+15 Apr 16:57:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:00 GMT+0100 (BST)
+15 Apr 16:57:00 - [34mdebug[39m: Job GuardianEnvironment completed in 199 ms
+15 Apr 16:57:00 - [34mdebug[39m: Job GuardianEnvironment completed in 196 ms
+15 Apr 16:57:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:10 GMT+0100 (BST)
+15 Apr 16:57:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:10 GMT+0100 (BST)
+15 Apr 16:57:10 - [34mdebug[39m: Job GuardianEnvironment completed in 192 ms
+15 Apr 16:57:10 - [34mdebug[39m: Job GuardianEnvironment completed in 326 ms
+15 Apr 16:57:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:20 GMT+0100 (BST)
+15 Apr 16:57:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:20 GMT+0100 (BST)
+15 Apr 16:57:20 - [34mdebug[39m: Job GuardianEnvironment completed in 242 ms
+15 Apr 16:57:20 - [34mdebug[39m: Job GuardianEnvironment completed in 838 ms
+15 Apr 16:57:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:30 GMT+0100 (BST)
+15 Apr 16:57:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:30 GMT+0100 (BST)
+15 Apr 16:57:30 - [34mdebug[39m: Job GuardianEnvironment completed in 145 ms
+15 Apr 16:57:30 - [34mdebug[39m: Job GuardianEnvironment completed in 194 ms
+15 Apr 16:57:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:40 GMT+0100 (BST)
+15 Apr 16:57:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:40 GMT+0100 (BST)
+15 Apr 16:57:40 - [34mdebug[39m: Job GuardianEnvironment completed in 132 ms
+15 Apr 16:57:40 - [34mdebug[39m: Job GuardianEnvironment completed in 144 ms
+15 Apr 16:57:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:50 GMT+0100 (BST)
+15 Apr 16:57:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:57:50 GMT+0100 (BST)
+15 Apr 16:57:50 - [34mdebug[39m: Job GuardianEnvironment completed in 198 ms
+15 Apr 16:57:50 - [34mdebug[39m: Job GuardianEnvironment completed in 228 ms
+15 Apr 16:58:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:00 GMT+0100 (BST)
+15 Apr 16:58:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:00 GMT+0100 (BST)
+15 Apr 16:58:00 - [34mdebug[39m: Job GuardianEnvironment completed in 172 ms
+15 Apr 16:58:00 - [34mdebug[39m: Job GuardianEnvironment completed in 142 ms
+15 Apr 16:58:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:10 GMT+0100 (BST)
+15 Apr 16:58:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:10 GMT+0100 (BST)
+15 Apr 16:58:10 - [34mdebug[39m: Job GuardianEnvironment completed in 140 ms
+15 Apr 16:58:10 - [34mdebug[39m: Job GuardianEnvironment completed in 243 ms
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:20 GMT+0100 (BST)
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:20 GMT+0100 (BST)
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:20 GMT+0100 (BST)
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:20 GMT+0100 (BST)
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment completed in 259 ms
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment completed in 291 ms
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment completed in 368 ms
+15 Apr 16:58:20 - [34mdebug[39m: Job GuardianEnvironment completed in 428 ms
+15 Apr 16:58:21 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:58:21 GMT+0100 (BST)
+15 Apr 16:58:21 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:58:21 GMT+0100 (BST)
+15 Apr 16:58:21 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:58:21 GMT+0100 (BST)
+15 Apr 16:58:21 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 16:58:21 GMT+0100 (BST)
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:30 GMT+0100 (BST)
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:30 GMT+0100 (BST)
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:30 GMT+0100 (BST)
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:30 GMT+0100 (BST)
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment completed in 205 ms
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment completed in 223 ms
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment completed in 230 ms
+15 Apr 16:58:30 - [34mdebug[39m: Job GuardianEnvironment completed in 692 ms
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:40 GMT+0100 (BST)
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:40 GMT+0100 (BST)
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:40 GMT+0100 (BST)
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:40 GMT+0100 (BST)
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment completed in 237 ms
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment completed in 221 ms
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment completed in 229 ms
+15 Apr 16:58:40 - [34mdebug[39m: Job GuardianEnvironment completed in 293 ms
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:50 GMT+0100 (BST)
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:50 GMT+0100 (BST)
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:50 GMT+0100 (BST)
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:58:50 GMT+0100 (BST)
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment completed in 171 ms
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment completed in 219 ms
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment completed in 596 ms
+15 Apr 16:58:50 - [34mdebug[39m: Job GuardianEnvironment completed in 588 ms
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:00 GMT+0100 (BST)
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:00 GMT+0100 (BST)
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:00 GMT+0100 (BST)
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:00 GMT+0100 (BST)
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment completed in 243 ms
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment completed in 251 ms
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment completed in 608 ms
+15 Apr 16:59:00 - [34mdebug[39m: Job GuardianEnvironment completed in 657 ms
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:10 GMT+0100 (BST)
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:10 GMT+0100 (BST)
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:10 GMT+0100 (BST)
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:10 GMT+0100 (BST)
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment completed in 180 ms
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment completed in 224 ms
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment completed in 227 ms
+15 Apr 16:59:10 - [34mdebug[39m: Job GuardianEnvironment completed in 573 ms
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:20 GMT+0100 (BST)
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:20 GMT+0100 (BST)
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:20 GMT+0100 (BST)
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:20 GMT+0100 (BST)
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment completed in 182 ms
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment completed in 239 ms
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment completed in 345 ms
+15 Apr 16:59:20 - [34mdebug[39m: Job GuardianEnvironment completed in 466 ms
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:30 GMT+0100 (BST)
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:30 GMT+0100 (BST)
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:30 GMT+0100 (BST)
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:30 GMT+0100 (BST)
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment completed in 244 ms
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment completed in 294 ms
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment completed in 690 ms
+15 Apr 16:59:30 - [34mdebug[39m: Job GuardianEnvironment completed in 694 ms
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:40 GMT+0100 (BST)
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:40 GMT+0100 (BST)
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:40 GMT+0100 (BST)
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:40 GMT+0100 (BST)
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment completed in 200 ms
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment completed in 305 ms
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment completed in 289 ms
+15 Apr 16:59:40 - [34mdebug[39m: Job GuardianEnvironment completed in 238 ms
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:50 GMT+0100 (BST)
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:50 GMT+0100 (BST)
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:50 GMT+0100 (BST)
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 16:59:50 GMT+0100 (BST)
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment completed in 262 ms
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment completed in 257 ms
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment completed in 242 ms
+15 Apr 16:59:50 - [34mdebug[39m: Job GuardianEnvironment completed in 211 ms
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:00 GMT+0100 (BST)
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:00 GMT+0100 (BST)
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:00 GMT+0100 (BST)
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:00 GMT+0100 (BST)
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment completed in 248 ms
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment completed in 252 ms
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment completed in 288 ms
+15 Apr 17:00:00 - [34mdebug[39m: Job GuardianEnvironment completed in 586 ms
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:10 GMT+0100 (BST)
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:10 GMT+0100 (BST)
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:10 GMT+0100 (BST)
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:10 GMT+0100 (BST)
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment completed in 143 ms
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment completed in 209 ms
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment completed in 212 ms
+15 Apr 17:00:10 - [34mdebug[39m: Job GuardianEnvironment completed in 288 ms
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:20 GMT+0100 (BST)
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:20 GMT+0100 (BST)
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:20 GMT+0100 (BST)
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:20 GMT+0100 (BST)
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment completed in 174 ms
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment completed in 236 ms
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment completed in 241 ms
+15 Apr 17:00:20 - [34mdebug[39m: Job GuardianEnvironment completed in 615 ms
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:30 GMT+0100 (BST)
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:30 GMT+0100 (BST)
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:30 GMT+0100 (BST)
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:30 GMT+0100 (BST)
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment completed in 252 ms
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment completed in 395 ms
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment completed in 383 ms
+15 Apr 17:00:30 - [34mdebug[39m: Job GuardianEnvironment completed in 340 ms
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:40 GMT+0100 (BST)
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:40 GMT+0100 (BST)
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:40 GMT+0100 (BST)
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:40 GMT+0100 (BST)
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment completed in 295 ms
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment completed in 349 ms
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment completed in 405 ms
+15 Apr 17:00:40 - [34mdebug[39m: Job GuardianEnvironment completed in 428 ms
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:50 GMT+0100 (BST)
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:50 GMT+0100 (BST)
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:50 GMT+0100 (BST)
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:00:50 GMT+0100 (BST)
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment completed in 294 ms
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment completed in 304 ms
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment completed in 335 ms
+15 Apr 17:00:50 - [34mdebug[39m: Job GuardianEnvironment completed in 598 ms
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:00 GMT+0100 (BST)
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:00 GMT+0100 (BST)
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:00 GMT+0100 (BST)
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:00 GMT+0100 (BST)
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment completed in 154 ms
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment completed in 220 ms
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment completed in 581 ms
+15 Apr 17:01:00 - [34mdebug[39m: Job GuardianEnvironment completed in 609 ms
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:10 GMT+0100 (BST)
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:10 GMT+0100 (BST)
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:10 GMT+0100 (BST)
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:10 GMT+0100 (BST)
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment completed in 267 ms
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment completed in 314 ms
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment completed in 314 ms
+15 Apr 17:01:10 - [34mdebug[39m: Job GuardianEnvironment completed in 330 ms
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:20 GMT+0100 (BST)
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:20 GMT+0100 (BST)
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:20 GMT+0100 (BST)
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:20 GMT+0100 (BST)
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment completed in 172 ms
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment completed in 254 ms
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment completed in 270 ms
+15 Apr 17:01:20 - [34mdebug[39m: Job GuardianEnvironment completed in 607 ms
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:30 GMT+0100 (BST)
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:30 GMT+0100 (BST)
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:30 GMT+0100 (BST)
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:30 GMT+0100 (BST)
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment completed in 251 ms
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment completed in 325 ms
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment completed in 691 ms
+15 Apr 17:01:30 - [34mdebug[39m: Job GuardianEnvironment completed in 718 ms
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:40 GMT+0100 (BST)
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:40 GMT+0100 (BST)
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:40 GMT+0100 (BST)
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:40 GMT+0100 (BST)
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment completed in 301 ms
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment completed in 430 ms
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment completed in 361 ms
+15 Apr 17:01:40 - [34mdebug[39m: Job GuardianEnvironment completed in 721 ms
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+Error: EINVAL, Invalid argument
+    at IOWatcher.callback (net.js:878:24)
+15 Apr 17:01:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:50 GMT+0100 (BST)
+15 Apr 17:01:50 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:01:50 GMT+0100 (BST)
+15 Apr 17:01:50 - [34mdebug[39m: Job GuardianEnvironment completed in 205 ms
+15 Apr 17:01:50 - [34mdebug[39m: Job GuardianEnvironment completed in 225 ms
+15 Apr 17:01:56 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 17:01:56 GMT+0100 (BST)
+15 Apr 17:01:56 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 17:01:56 GMT+0100 (BST)
+15 Apr 17:01:56 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 17:01:56 GMT+0100 (BST)
+15 Apr 17:01:56 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 17:01:56 GMT+0100 (BST)
+TypeError: Object [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object] has no method 'toObject'
+    at /var/www/calipso/modules/content/content.module.js:324:37
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/query.js:578:22
+    at model.<anonymous> (/usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/document.js:143:5)
+    at model.init (/usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/document.js:617:33)
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/query.js:576:16
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:122:15
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:167:11
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:467:28
+    at [object Object].close (/usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:625:17)
+    at [object Object].nextObject (/usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:467:10)
+TypeError: Object [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object] has no method 'toObject'
+    at /var/www/calipso/modules/content/content.module.js:324:37
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/query.js:578:22
+    at model.<anonymous> (/usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/document.js:143:5)
+    at model.init (/usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/document.js:617:33)
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/query.js:576:16
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:122:15
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:167:11
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:467:28
+    at [object Object].close (/usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:625:17)
+    at [object Object].nextObject (/usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:467:10)
+TypeError: Object [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object] has no method 'toObject'
+    at /var/www/calipso/modules/content/content.module.js:324:37
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/query.js:578:22
+    at model.<anonymous> (/usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/document.js:143:5)
+    at model.init (/usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/document.js:617:33)
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/lib/mongoose/query.js:576:16
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:122:15
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:167:11
+    at /usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:467:28
+    at [object Object].close (/usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:625:17)
+    at [object Object].nextObject (/usr/lib/node/.npm/mongoose/1.2.0/package/support/node-mongodb-native/lib/mongodb/cursor.js:467:10)
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:02:00 GMT+0100 (BST)
+15 Apr 17:02:00 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 17:02:00 GMT+0100 (BST)
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:02:00 GMT+0100 (BST)
+15 Apr 17:02:00 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 17:02:00 GMT+0100 (BST)
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:02:00 GMT+0100 (BST)
+15 Apr 17:02:00 - [34mdebug[39m: Job AtomTester started @ Fri Apr 15 2011 17:02:00 GMT+0100 (BST)
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment started @ Fri Apr 15 2011 17:02:00 GMT+0100 (BST)
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment completed in 223 ms
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment completed in 260 ms
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment completed in 624 ms
+15 Apr 17:02:00 - [34mdebug[39m: Job GuardianEnvironment completed in 629 ms

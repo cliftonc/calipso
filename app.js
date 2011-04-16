@@ -3,7 +3,9 @@
  */
 var fs = require('fs'),express = require('express'),
 	 mongoose = require('mongoose'), sys = require('sys'), nodepath = require('path'),
-	 calipso = require('./lib/calipso'), profiler = require('v8-profiler');
+	 calipso = require('./lib/calipso'),
+	 mongoStore = require('./lib/connect-mongodb'), 
+	 profiler = require('v8-profiler');
 
 /** 
  * Global variables
@@ -53,7 +55,8 @@ function bootApplication(app) {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'helloworld' }));
+  app.use(express.responseTime());
+  app.use(express.session({ secret: 'calipso', store: mongoStore({reapInterval: 5000, url:app.set('db-uri')}) }));
   app.use(express.static(path + '/themes/' + theme + '/public'));  // Before router to enable dynamic routing
   app.use(calipso.calipsoRouter(app,app.set('config')));
 

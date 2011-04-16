@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 0.5em 0 0.5em 0;
 }
 h1 { font-size: 1.6em; }
-h2, h5 { font-size: 1.3em; color: #666; }
+h2, h5 { font-size: 1.3em; color: #669; }
 h3, h6 { font-size: 1.2em; color: #888; }
 h4 { font-size: 1.1em; }
 h5 { font-size: 1.1em; }
@@ -482,4 +482,77 @@ input[type=text],input[type=password], textarea {
 .job-crontime-label {
     width: 60px !important;
     display: inline !important;
+}
+
+
+/** Tag Cloud **/
+.tag {
+    display: inline;
+    float: left;
+    padding: 1px;
+}
+
+.tag-10 {
+    font-size: 1.5em;    
+}
+.tag-9 {
+    font-size: 1.4em;    
+}
+.tag-8 {
+    font-size: 1.3em;    
+}
+.tag-7 {
+    font-size: 1.2em;    
+}
+.tag-6 {
+    font-size: 1.1em;    
+}
+.tag-5 {
+    font-size: 1em;    
+}
+.tag-4 {
+    font-size: 0.9em;    
+}
+.tag-3 {
+    font-size: 0.8em;    
+}
+.tag-2 {
+    font-size: 0.7em;    
+}
+.tag-1 {
+    font-size: 0.6em;    
+}
+
+
+/** Twitter **/
+.tweet {
+	padding: 5px;
+	margin: 10px;
+	background: #EFEFEF;
+	font-size: 0.8em;
+	 -moz-box-shadow: 2px 2px 5px rgba(0,0,0,.35);
+    -webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.35);
+    box-shadow: 2px 2px 5px rgba(0,0,0,.35);
+    float: left;
+    width: 20%;
+    height: 160px;    
+}
+
+.tweet .tweet-image {    
+    position:relative;
+    left: -15;
+    top: -15;	
+}
+
+.tweet .tweet-image img {         
+    height: 30px; 
+     -moz-box-shadow: 2px 2px 5px rgba(0,0,0,.35);
+    -webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.35);
+    box-shadow: 2px 2px 5px rgba(0,0,0,.35);    
+}
+
+.tweet .tweet-content {
+	position: relative;
+	top: -10;
+	margin-left: 10;
 }

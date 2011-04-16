@@ -29,11 +29,21 @@ function init(module,app,next) {
       },
       function done() {
         
-        // Add a post save hook to content
-        var Content = calipso.lib.mongoose.model('Content');
+        // Define our taxonomy
+        var TaxonomyMenu = new calipso.lib.mongoose.Schema({
+          // Tag name is in _ID from MR 
+          "_id":{type:String},
+          "value":{type: Number}
+        });
+
+        calipso.lib.mongoose.model('TaxonomyMenu', TaxonomyMenu);  
         
+        
+        // Add a post save hook to content
+        
+        var Content = calipso.lib.mongoose.model('Content');                
         Content.schema.post('save',function() { 
-            mrTaxonomy();
+          mapReduceTaxonomy();
         });
         
         next();        
@@ -42,15 +52,91 @@ function init(module,app,next) {
     
 };
 
-function mrTaxonomy() {
-  calipso.debug("TAXONOMY MR");
+
+function mapReduceTaxonomy() {
+
+  // We need to check if we are already map reducing ...
+  if(calipso.mr.taxonomy) {
+    // TODO : CHECK IF THIS MISSES THINGS ...    
+    return;
+  } 
+  calipso.mr.taxonomy = true;
+  
+  var mongoose = calipso.lib.mongoose;
+  
+  var taxMap = function() { 
+    if (!(this.taxonomy && this.taxonomy.split("/"))) { 
+      return; 
+    } 
+   var taxArr = this.taxonomy.split("/");
+   for (index in taxArr) {          
+     var currentTax = "";
+     for(i=0;i<=index;i++) {
+       if(i>0) {
+         currentTax += "/";
+       }
+       currentTax += taxArr[i];
+     }
+     emit(currentTax,  parseInt(index)); 
+   } 
+  }
+  
+  var taxReduce = function(previous, current) { 
+    var count = 0; 
+    for (index in current) { 
+      count = current[index]; 
+    } 
+    return count; 
+  }; 
+   
+  var command = { 
+      mapreduce: "contents", // what are we acting on 
+      map: taxMap.toString(), //must be a string 
+      reduce: taxReduce.toString(), // must be a string 
+      out: 'taxonomymenus' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions 
+  };
+
+  mongoose.connection.db.executeDbCommand(command, function(err, dbres) 
+  { 
+    // Reset
+    calipso.mr.taxonomy = false;
+    if (err) { 
+      // Do Something!!
+      calipso.error(err);
+    }        
+  });
+  
 };
 
 function taxonomy(req,res,template,block,next) {     
   
   // Generate the menu from the taxonomy  
-  res.menu.primary.push({name:'Content',url:'/content',regexp:/content/});
-  
-  next();      
+  var TaxonomyMenu = calipso.lib.mongoose.model('TaxonomyMenu');      
+
+  TaxonomyMenu.find({})
+   .find(function (err, tax) {       
+      // Render the item into the response
+      // calipso.theme.renderItem(req,res,template,block,{tags:tags});
+     
+      tax.forEach(function(item) {
+                
+            res.menu.primary.push({name:item._id,url:'/section/' + item._id,regexp:/content/});  
+                        
+      });
+      next();      
+   });
   
 };
+
+//Disable - same as reload
+function disable() {
+  reload();
+}
+
+// Reload
+function reload() {
+
+  var Content = calipso.lib.mongoose.model('Content');                
+  calipso.log(sys.inspect(Content.schema,true,10,true));
+    
+}

@@ -1,0 +1,91 @@
+[Fri, 15 Apr 2011 15:53:42 GMT] INFO master started
+[Fri, 15 Apr 2011 15:53:42 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:53:52 GMT] INFO master started
+[Fri, 15 Apr 2011 15:53:52 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:55:06 GMT] INFO master started
+[Fri, 15 Apr 2011 15:55:06 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:55:06 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 15:56:01 GMT] WARNING shutting down master
+[Fri, 15 Apr 2011 15:56:01 GMT] WARNING sent kill(SIGKILL) to all workers
+[Fri, 15 Apr 2011 15:56:03 GMT] INFO master started
+[Fri, 15 Apr 2011 15:56:03 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:56:04 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 15:56:12 GMT] WARNING shutting down master
+[Fri, 15 Apr 2011 15:56:12 GMT] WARNING sent kill(SIGKILL) to all workers
+[Fri, 15 Apr 2011 15:56:12 GMT] INFO shutdown complete
+[Fri, 15 Apr 2011 15:56:22 GMT] INFO master started
+[Fri, 15 Apr 2011 15:56:22 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:56:22 GMT] INFO spawned worker 1
+[Fri, 15 Apr 2011 15:56:23 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 15:56:23 GMT] ERROR worker 0 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 15:56:23 GMT] ERROR worker 0 died
+[Fri, 15 Apr 2011 15:56:23 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:56:23 GMT] DEBUG worker 1 connected
+[Fri, 15 Apr 2011 15:56:23 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 15:56:39 GMT] WARNING shutting down master
+[Fri, 15 Apr 2011 15:56:39 GMT] WARNING sent kill(SIGKILL) to all workers
+[Fri, 15 Apr 2011 15:56:41 GMT] INFO master started
+[Fri, 15 Apr 2011 15:56:41 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:56:41 GMT] INFO spawned worker 1
+[Fri, 15 Apr 2011 15:56:41 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 15:56:41 GMT] ERROR worker 0 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 15:56:41 GMT] ERROR worker 0 died
+[Fri, 15 Apr 2011 15:56:41 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:56:41 GMT] DEBUG worker 1 connected
+[Fri, 15 Apr 2011 15:56:41 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 15:58:16 GMT] WARNING shutting down master
+[Fri, 15 Apr 2011 15:58:16 GMT] WARNING sent kill(SIGKILL) to all workers
+[Fri, 15 Apr 2011 15:58:18 GMT] INFO master started
+[Fri, 15 Apr 2011 15:58:18 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:58:18 GMT] INFO spawned worker 1
+[Fri, 15 Apr 2011 15:58:18 GMT] INFO spawned worker 2
+[Fri, 15 Apr 2011 15:58:18 GMT] INFO spawned worker 3
+[Fri, 15 Apr 2011 15:58:19 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 15:58:19 GMT] ERROR worker 0 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 15:58:19 GMT] DEBUG worker 2 connected
+[Fri, 15 Apr 2011 15:58:19 GMT] ERROR worker 0 died
+[Fri, 15 Apr 2011 15:58:19 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 15:58:19 GMT] ERROR worker 2 died
+[Fri, 15 Apr 2011 15:58:19 GMT] INFO spawned worker 2
+[Fri, 15 Apr 2011 15:58:19 GMT] ERROR worker 2 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 15:58:19 GMT] DEBUG worker 3 connected
+[Fri, 15 Apr 2011 15:58:19 GMT] ERROR worker 3 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 15:58:19 GMT] DEBUG worker 1 connected
+[Fri, 15 Apr 2011 15:58:19 GMT] ERROR worker 3 died
+[Fri, 15 Apr 2011 15:58:19 GMT] INFO spawned worker 3
+[Fri, 15 Apr 2011 15:58:19 GMT] DEBUG worker 3 connected
+[Fri, 15 Apr 2011 15:58:19 GMT] DEBUG worker 2 connected
+[Fri, 15 Apr 2011 15:58:19 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 16:01:47 GMT] WARNING shutting down master
+[Fri, 15 Apr 2011 16:01:48 GMT] INFO master started
+[Fri, 15 Apr 2011 16:01:48 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 16:01:48 GMT] INFO spawned worker 1
+[Fri, 15 Apr 2011 16:01:48 GMT] INFO spawned worker 2
+[Fri, 15 Apr 2011 16:01:48 GMT] INFO spawned worker 3
+[Fri, 15 Apr 2011 16:01:48 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 16:01:48 GMT] ERROR worker 0 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 16:01:48 GMT] ERROR worker 0 died
+[Fri, 15 Apr 2011 16:01:48 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 16:01:49 GMT] DEBUG worker 1 connected
+[Fri, 15 Apr 2011 16:01:49 GMT] ERROR worker 1 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 16:01:49 GMT] ERROR worker 1 died
+[Fri, 15 Apr 2011 16:01:49 GMT] INFO spawned worker 1
+[Fri, 15 Apr 2011 16:01:49 GMT] DEBUG worker 3 connected
+[Fri, 15 Apr 2011 16:01:49 GMT] ERROR worker 3 uncaught exception EINVAL, Invalid argument
+[Fri, 15 Apr 2011 16:01:49 GMT] DEBUG worker 2 connected
+[Fri, 15 Apr 2011 16:01:49 GMT] ERROR worker 3 died
+[Fri, 15 Apr 2011 16:01:49 GMT] INFO spawned worker 3
+[Fri, 15 Apr 2011 16:01:49 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 16:01:50 GMT] DEBUG worker 3 connected
+[Fri, 15 Apr 2011 16:01:50 GMT] DEBUG worker 1 connected
+[Fri, 15 Apr 2011 16:01:56 GMT] ERROR worker 1 died
+[Fri, 15 Apr 2011 16:01:56 GMT] INFO spawned worker 1
+[Fri, 15 Apr 2011 16:01:56 GMT] ERROR worker 3 died
+[Fri, 15 Apr 2011 16:01:56 GMT] INFO spawned worker 3
+[Fri, 15 Apr 2011 16:01:56 GMT] ERROR worker 0 died
+[Fri, 15 Apr 2011 16:01:56 GMT] INFO spawned worker 0
+[Fri, 15 Apr 2011 16:01:57 GMT] DEBUG worker 1 connected
+[Fri, 15 Apr 2011 16:01:57 GMT] DEBUG worker 3 connected
+[Fri, 15 Apr 2011 16:01:57 GMT] DEBUG worker 0 connected
+[Fri, 15 Apr 2011 16:02:02 GMT] WARNING shutting down master
+[Fri, 15 Apr 2011 16:02:02 GMT] WARNING sent kill(SIGKILL) to all workers

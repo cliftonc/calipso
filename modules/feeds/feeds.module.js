@@ -196,43 +196,44 @@ function processRssItem(item, next) {
   Content.findOne({alias:alias},function (err, c) {
     
     if(!c) {
-      var c = new Content();    
-    }
+      var c = new Content();        
     
-    c.title=item.title.text;
-    c.teaser=item.title.text;
-    c.content=item.description.text;  
-    c.status='published';
-    
-    // TODO: How do you cleanly update an array in Mongoosejs???
-    if(c.tags) {
-      var tags = c.tags;
-      tags.forEach(function(v,k) {          
-        c.tags.remove(v);
-      });      
-    } else {
-      c.tags = [];  
-    }  
-    
-    if(item.category) {
-      //item.category.forEach(function(category) {
-      //  c.tags.push(category.text);
-      //});        
-    }
-    
-    c.alias = alias;                    
-    c.author = "feeds";       
-        
-    // Asynch save
-    c.save(function(err) {
-      if(err) {
-        next(err);
+      c.title=item.title.text;
+      c.teaser=item.title.text;
+      c.content=item.description.text;  
+      c.status='published';
+      c.taxonomy='feeds/guardian'; // TODO : Pass through
+      
+      // TODO: How do you cleanly update an array in Mongoosejs???
+      if(c.tags) {
+        var tags = c.tags;
+        tags.forEach(function(v,k) {          
+          c.tags.remove(v);
+        });      
       } else {
-        next();
+        c.tags = [];  
+      }  
+      
+      if(item.category) {
+        item.category.forEach(function(category) {
+          c.tags.push(category.text);
+        });        
       }
-    });
+      
+      c.alias = alias;                    
+      c.author = "feeds";       
+          
+      // Asynch save
+      c.save(function(err) {
+        if(err) {
+          next(err);
+        } else {
+          next();
+        }
+      });
+   }
     
-  });
+});
 
  
 };

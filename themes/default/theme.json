@@ -7,18 +7,20 @@
         "default":{
             "layout":{"template":"default.html",
                       "sections":{                
+                        "scripts":{"template":"scripts.html","blocks":["scripts"]},
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html"},                
+                        "header":{"template":"header.html","blocks":["scripts"]},                
                         "body":{"template":"body.html","blocks":["messages","content","admin"]},
-                        "right":{"template":"right.html","blocks":["user.login","news.breaking","right"]},
+                        "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
                         "footer":{"template":"footer.html"}
                      }
             }
         },
         "admin":{
             "layout":{"template":"admin.html",
-                      "sections":{                
+                      "sections":{
+                        "scripts":{"template":"scripts.html","blocks":["scripts"]},                
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
                         "header":{"template":"header.html"},                
@@ -30,12 +32,13 @@
         },
         "blog":{
             "layout":{"template":"default.html",
-                      "sections":{                
+                      "sections":{
+                        "scripts":{"template":"scripts.html","blocks":["scripts"]},                
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
                         "header":{"template":"header.html"},                
                         "body":{"template":"body.html","blocks":["messages","content","admin"]},
-                        "right":{"template":"right.html","blocks":["user.login","news.breaking","right"]},
+                        "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
                         "footer":{"template":"footer.html"}
                      }
             }

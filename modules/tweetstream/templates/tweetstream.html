@@ -1,0 +1,22 @@
+<!-- Tweet Stream - DEPENDS ON PUSHER -->
+<script>
+ socket.on('message', function(data){
+         
+   var p = $("<div class='tweet' style='display:none'><div class='tweet-image'><img src=" + data.user.profile_image_url + "></div><div class='tweet-content'><a class='main-screenname' href='http://www.twitter.com/" + data.user.screen_name + "/status/" + data.id + "' target='_blank'>" + data.user.screen_name + "</a> " + data.text + "</div></div>");
+   if($('#tweets div.tweet').size() > 11) {
+     $('#tweets div.tweet:last').fadeOut(100, function() {
+       $(this).remove();
+     });
+   }
+   $('#tweets').prepend(p);
+   p.fadeIn(100);
+   
+ }); 
+</script> 
+<div class="content-tweets">
+    <h2>Tweet Stream for <%-keyword%></h2>
+    <div id="tweets">
+    </div>
+    <br style='clear:both'/>
+    <small>Add your keyword to the url to view other streams ... e.g. <a href='/tweets/iphone'>/tweets/iphone</a></small>
+</div>
