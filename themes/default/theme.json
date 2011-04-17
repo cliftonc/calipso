@@ -22,8 +22,7 @@
                       "sections":{
                         "scripts":{"template":"scripts.html","blocks":["scripts"]},                
                         "admin":{"menu":"admin","template":"adminMenu.html"},
-                        "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html"},                
+                        "header":{"template":"header.html","blocks":["scripts"]},                   
                         "body":{"template":"body.html","blocks":["messages","admin"]},
                         "right":{"template":"right.html","blocks":["user.login"]},
                         "footer":{"template":"footer.html"}
@@ -36,7 +35,7 @@
                         "scripts":{"template":"scripts.html","blocks":["scripts"]},                
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html"},                
+                        "header":{"template":"header.html","blocks":["scripts"]},   
                         "body":{"template":"body.html","blocks":["messages","content","admin"]},
                         "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
                         "footer":{"template":"footer.html"}

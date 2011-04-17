@@ -36,7 +36,9 @@ function getFeed(args,next) {
      next(new Error("Invalid url: " + url));
      return;
   }
-    
+  
+  var taxonomy = args.taxonomy ? args.taxonomy : "feeds";  
+  
   // Allow this only to have local scope
   var feed = require('./lib/feed-expat');  
   
@@ -51,10 +53,10 @@ function getFeed(args,next) {
       
       switch (feedType) {
         case "feed":
-          processAtom(data,next);
+          processAtom(data,taxonomy,next);
           break;
         case "rss":
-          processRss(data,next);
+          processRss(data,taxonomy,next);
           break;
         default:           
            next(new Error("Unidentified feed type: " + feedType));
@@ -72,7 +74,7 @@ function getFeed(args,next) {
 function AtomParser() {  
   
   var parser = this;  
-  this.parse = function(data) {        
+  this.parse = function(data,taxonomy) {        
     calipso.lib.step(
         function processItems() {
           var group = this.group();
@@ -88,19 +90,19 @@ function AtomParser() {
   
 };
 
-function processAtom(data,next) {
+function processAtom(data,taxonomy,next) {
   
   var parser = new AtomParser();
   
-  parser.on('item', function(item,next) {
-      processAtomItem(item,next);
+  parser.on('item', function(item,taxonomy,next) {
+      processAtomItem(item,taxonomy,next);
   });      
 
   parser.on('done', function(err) {
     next(err);
   });
   
-  parser.parse(data);
+  parser.parse(data,taxonomy);
   
 };
 
@@ -109,7 +111,7 @@ function processAtom(data,next) {
  * Process a single atom feed item
  * @param item
  */
-function processAtomItem(item,next) {
+function processAtomItem(item,taxonomy,next) {
   
   var Content = calipso.lib.mongoose.model('Content');
   
@@ -127,7 +129,8 @@ function processAtomItem(item,next) {
     c.tags=[]; 
     c.status='published';
     c.alias = alias;                    
-    c.author = "feeds";            
+    c.author = "feeds";    
+    c.taxonomy = taxonomy;
   
     // Asynch save
     c.save(function(err) {
@@ -151,14 +154,14 @@ var RssParser = function() {
   
   var parser = this;  
   
-  this.parse = function(data) {        
+  this.parse = function(data,taxonomy) {        
 
     if(data.channel.item) {
       calipso.lib.step(
           function processItems() {
             var group = this.group();
             data.channel.item.forEach(function(item) {        
-              parser.emit("item", item, group);    
+              parser.emit("item", item, taxonomy, group);    
             });
           },
           function processItemsDone() {
@@ -171,24 +174,24 @@ var RssParser = function() {
   
 };
 
-function processRss(data,next) {
+function processRss(data,taxonomy,next) {
   
   var parser = new RssParser();
   
-  parser.on('item', function(item,next) {
-      processRssItem(item,next);
+  parser.on('item', function(item,taxonomy,next) {
+      processRssItem(item,taxonomy,next);
   });
 
   parser.on('done', function(err) {
     next();
   });
   
-  parser.parse(data);
+  parser.parse(data,taxonomy);
   
 };
 
 
-function processRssItem(item, next) {
+function processRssItem(item,taxonomy, next) {
     
   var Content = calipso.lib.mongoose.model('Content');  
   var alias = calipso.modules['content'].fn.titleAlias(item.title.text);
@@ -202,7 +205,7 @@ function processRssItem(item, next) {
       c.teaser=item.title.text;
       c.content=item.description.text;  
       c.status='published';
-      c.taxonomy='feeds/guardian'; // TODO : Pass through
+      c.taxonomy=taxonomy; // TODO : Pass through
       
       // TODO: How do you cleanly update an array in Mongoosejs???
       if(c.tags) {

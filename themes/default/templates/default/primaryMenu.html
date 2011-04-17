@@ -1,5 +1,6 @@
-<div class='menu-separator'></div>               
-<div class="primary-menu">      
+<h2>Navigation</h2>               
+<div class="primary-menu">
+<ul>      
   <% menu.forEach(function(menuItem){ 
   
         var menuSelected = '';
@@ -8,7 +9,8 @@
         }
         
   %>
-    <a class='primary-menu-item<%- menuSelected %>' href="<%- menuItem.url %>"><%- menuItem.name %></a>
+    <li class='primary-menu-item<%- menuSelected %>'><a href="<%- menuItem.url %>"><%- menuItem.name %></a></li>
   <% }) %>
+  </ul>
 </div>
 <div class='menu-separator'></div>

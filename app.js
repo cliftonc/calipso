@@ -1,11 +1,13 @@
 /**
  * Module dependencies.
  */
-var fs = require('fs'),express = require('express'),
-	 mongoose = require('mongoose'), sys = require('sys'), nodepath = require('path'),
-	 calipso = require('./lib/calipso'),
-	 mongoStore = require('./lib/connect-mongodb'), 
-	 profiler = require('v8-profiler');
+var fs = require('fs'),
+    express = require('express'),
+    mongoose = require('mongoose'), 
+    sys = require('sys'), 
+    nodepath = require('path'),
+    calipso = require('./lib/calipso'),
+    mongoStore = require('./support/connect-mongodb');
 
 /** 
  * Global variables

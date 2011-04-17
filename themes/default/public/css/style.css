@@ -1,15 +1,17 @@
 /*--- Reset ---*/
 * { margin: 0; padding: 0; }
 
-html, body { height: 100%; min-height: 100%; background-color: #ffffff; }
+html, body {    
+    min-height: 100%;       
+}
 
 /*--- Layout ---*/
-body {
+body {	
 	font-family: Helvetica, Arial, sans-serif;
-	font-size: 14px;
-	line-height: 1.5em;
-	color: #0d0d0d;
-	background-color: #fff;
+	font-size: 12px;
+	line-height: 1.2em;
+	color: #ffffff;		
+	background: #444444 url(/images/background.jpg) repeat;
 }
 
 #container {
@@ -32,33 +34,57 @@ body {
 
 #right {
   float: right; 
-  width: 16%;
+  width: 150;
 }
 
-#footer {
-	border-top: solid 1px silver;
-	margin-top: 20px;	
+#right div {
+  margin-bottom: 25px;
 }
+
+
 
 /*--- Basics ---*/
 h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
-	color:#111;
+	color:#FFF;
 	line-height: 1;
 	margin: 0.5em 0 0.5em 0;
 }
-h1 { font-size: 1.6em; }
-h2, h5 { font-size: 1.3em; color: #669; }
-h3, h6 { font-size: 1.2em; color: #888; }
+
+#header h1 {
+	font-family: 'Oswald', arial, serif;
+    font-size: 57px !important;    
+    font-weight: 400;
+    text-shadow: 2px 2px 2px #000;
+    letter-spacing: 0.1em;
+    word-spacing: 0em;
+    line-height: 1.2;
+}
+    
+h1 { 		
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 1px #000;
+    font-weight: bold;
+}
+h2, h5 {
+	font-family: 'Oswald', arial, serif !important;
+	font-size: 1.3em; color: #DD9;
+    text-shadow: 1px 1px 1px #000;
+    letter-spacing: 0.05em;
+    font-weight: bold;
+}
+h3, h6 { font-family: 'Oswald', arial, serif !important;
+    font-size: 1.2em; color: #DDA; }
 h4 { font-size: 1.1em; }
 h5 { font-size: 1.1em; }
 h6 { font-size: 1em; }
 p { margin-bottom: 1em; }
 strong { font-weight: bold; }
 em { font-style: italic; }
-a { text-decoration: none; color: #333; }
+a { text-decoration: none; color: #FFFFDF; }
 a, h1 a, h2 a { text-decoration: none; }
-a:hover { text-decoration: underline; color: #6F6F6F; }
+a:hover { text-decoration: underline; color: #DFDFAF; }
 a img { border: none; }
 
 /*--- Lists ---*/
@@ -82,7 +108,7 @@ dd {
 #header h2 {
 	width: 70%;
 	margin: .5em .5em 2em 0;
-	color: #666;
+	color: #F3F3F3;
 	font-size: 1.3em;
 	line-height: 22px;
 }
@@ -93,26 +119,27 @@ table {
 	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
-	border: 1px solid #e6e6e6;
+	border: 1px solid #161606;
 	background: #eaeafa;
 	margin: 12px 0;
 }
 td, th {
 	padding: .25em 1em;
-	border: 1px solid #a6a6c6;
 	vertical-align: middle;
 	text-align: left;
+	border: 1px solid #161606;
 	font-weight: normal;
-	color: #333;
+	color: #ffffff;
 	font-size: 0.85em;
+	background: #333;
 }
 
 table tr {
-	background: #fff;
+	
 }
 
 table.tabular tr:nth-child(even) {
-	background: #eaeafa;
+    background: #553;
 }
 
 tfoot td {
@@ -124,7 +151,8 @@ tfoot td {
 }
 
 th {
-	background: #d3d3f3;
+	border: 1px solid #161606;
+	background: #A3a383;
 	color: #333;
 	text-align: left;
 	font-weight: bold;
@@ -133,8 +161,7 @@ th {
 /*--- Forms ---*/
 form {
 	display: block;
-	clear: both;	
-	
+	clear: both;		
 }
 fieldset {
 	padding: 2em;
@@ -150,7 +177,7 @@ legend {
 }
 label {
 	padding: 0 1em 0 0;
-	color: #454545;
+	color: #D5D5D5;
 	font-weight: normal;
 	font-size: 0.9em;
 }
@@ -184,7 +211,6 @@ div.checkbox {
 .checkbox label {
 	display: inline;
 }
-
 input[type=text]:focus, input[type=password]:focus, textarea:focus, select:focus {
 	border-color: #00a8e6;
 	outline: none;
@@ -237,7 +263,7 @@ span.pager-page {
 	font-family: Helvetica, Arial, sans-serif;
 	padding: 3px 3px;
 	margin: 3px 3px 3px 3px;
-	color: #454545;	
+	color: #F5F5D5;	
 	line-height: 1.25em;	
 }
 
@@ -247,7 +273,7 @@ input.pager-page {
 	font-family: Helvetica, Arial, sans-serif;
 	padding: 2px 2px;
 	margin: 3px 3px 3px 3px;
-	color: #454545;	
+	color: #F5F5D5;	
 	line-height: 1.25em;	
 	clear: none;
 }
@@ -257,9 +283,8 @@ a.pager-page {
 	padding: 3px 3px;
 	margin: 3px 3px 3px 3px;	
 	border: 1px solid #a6a6c6;
-	color: #454545;	
-	line-height: 1.25em;
-	background-color: #efefef;
+	color: #D5D5D5;	
+	line-height: 1.25em;	
 }
 
 blockquote:after {
@@ -309,6 +334,8 @@ input[type=text],input[type=password], textarea {
 	box-shadow: inset 0 0 5px rgba(0,0,0,.2);
 }
 
+
+/** --- Block **/
 .pager {
 	clear:both;
 	display: block;
@@ -316,21 +343,14 @@ input[type=text],input[type=password], textarea {
 
 /* -- Content --*/
 .content-list-item {
-    width: 100%;
-    
+    width: 100%;    
     padding: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
-    border: solid 1px silver;	
-    background: #EEF;
-    -moz-box-shadow: 2px 2px 6px rgba(0,0,0,.15);
-    -webkit-box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
-    box-shadow: 2px 2px 6px rgba(0,0,0,.15);  
-    font-size: 0.8em;
 }
 
 .content-list-item-draft {
-    background: #FED;    
+    border-left: solid 2px orange;    
 }
 
 .content-list-item h1 {
@@ -343,17 +363,15 @@ input[type=text],input[type=password], textarea {
 
 /** -- Menus **/
 .admin-primary-menu {    
-    background-color: #343434;
-    color: white;
+    background-color: #7474C4;
+    color: black;
     position: absolute;
     left: 10;
     top: 0;
+    line-height: 1.5em;    
     width: 98%;
-    font-size: 0.9em;
+    font-size: 1em;    
     padding-left: 5px;    
-     -moz-box-shadow: 2px 2px 12px rgba(0,0,0,.35);
-    -webkit-box-shadow: 2px 2px 12px rgba(0,0,0,0.35);
-    box-shadow: 2px 2px 12px rgba(0,0,0,.35);        
 }
 
 .admin-primary-menu .admin-menu-item {    
@@ -371,12 +389,13 @@ input[type=text],input[type=password], textarea {
 
 .admin-secondary-menu {    
     padding-left: 5px;
-    font-size: 0.8em;
+    font-size: 1em;
     position: absolute;
     left: 10;
-    top: 21;
+    line-height: 1.5em;
+    top: 19;
     width: 98%;
-    background-color: #646474;
+    background-color: #A4A4A4;
     color: white;
     -moz-box-shadow: 2px 2px 12px rgba(0,0,0,.35);
     -webkit-box-shadow: 2px 2px 12px rgba(0,0,0,0.35);
@@ -389,10 +408,19 @@ input[type=text],input[type=password], textarea {
     margin-right: 10px;        
 }
 
-.primary-menu {        
+.primary-menu ul {
+    margin-left: 0;
+    padding-left: 0;
+    font-size: 0.8em;
+}
 
+.primary-menu li {
+    margin-left: 0;
+    list-style: none;    
+}
+
+.primary-menu {        
     position: relative;
-    width: 100%;
     font-size: 1.1em;    
     margin-bottom: 10px;    
 }
@@ -429,6 +457,7 @@ input[type=text],input[type=password], textarea {
 /** - Content -- **/
 
 .content-item {
+    	
 }
 
 .content-item .by {
@@ -445,7 +474,8 @@ input[type=text],input[type=password], textarea {
 
 .content-item .tags {
     font-size: 0.8em;
-    float: right;
+    float: left;
+    width: 100%;
 }
 
 .content-item .created {
@@ -493,34 +523,34 @@ input[type=text],input[type=password], textarea {
 }
 
 .tag-10 {
-    font-size: 1.5em;    
+    font-size: 1.8em;    
 }
 .tag-9 {
-    font-size: 1.4em;    
+    font-size: 1.7em;    
 }
 .tag-8 {
-    font-size: 1.3em;    
+    font-size: 1.5em;    
 }
 .tag-7 {
-    font-size: 1.2em;    
+    font-size: 1.4em;    
 }
 .tag-6 {
-    font-size: 1.1em;    
+    font-size: 1.3em;    
 }
 .tag-5 {
-    font-size: 1em;    
+    font-size: 1.1em;    
 }
 .tag-4 {
-    font-size: 0.9em;    
+    font-size: 1em;    
 }
 .tag-3 {
-    font-size: 0.8em;    
+    font-size: 0.9em;    
 }
 .tag-2 {
-    font-size: 0.7em;    
+    font-size: 0.8em;    
 }
 .tag-1 {
-    font-size: 0.6em;    
+    font-size: 0.7em;    
 }
 
 
@@ -528,14 +558,11 @@ input[type=text],input[type=password], textarea {
 .tweet {
 	padding: 5px;
 	margin: 10px;
-	background: #EFEFEF;
-	font-size: 0.8em;
-	 -moz-box-shadow: 2px 2px 5px rgba(0,0,0,.35);
-    -webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.35);
-    box-shadow: 2px 2px 5px rgba(0,0,0,.35);
+	background: #1F1F1F;
+	font-size: 0.9em;
     float: left;
     width: 20%;
-    height: 160px;    
+    height: 120px;    
 }
 
 .tweet .tweet-image {    
@@ -555,4 +582,45 @@ input[type=text],input[type=password], textarea {
 	position: relative;
 	top: -10;
 	margin-left: 10;
+}
+
+
+/** -- Footer -- **/
+
+
+#footer {
+	width: 100%;
+    border-top: solid 1px silver;
+    margin-top: 20px;
+    font-size: 0.9em;   
+}
+
+#footer li {
+	margin-left: 0;
+    list-style: none;    
+}
+
+#footer ul {
+    margin-left: 0;
+    padding-left: 0;    
+}   
+
+#footer div.col1 {
+    width: 31%;
+    float: left;
+    padding: 10px;    
+}
+
+#footer div.col2 {
+    width: 31%;
+    float: left;
+    padding: 10px;
+    text-align: center;
+}
+
+#footer div.col3 {
+    width: 31%;
+    float: right;
+    padding: 10px;
+    text-align: right;
 }

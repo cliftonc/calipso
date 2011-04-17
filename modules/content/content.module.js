@@ -1,4 +1,4 @@
-var  calipso = require("../../lib/calipso"), pager = "../../utils/pager.js";      
+var  calipso = require("../../lib/calipso"), Query = require("mongoose").Query, pager = "../../utils/pager.js";      
 
 exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jobs:{scheduledPublish:scheduledPublish}};
 
@@ -35,7 +35,7 @@ function init(module,app,next) {
         module.router.addRoute('GET /',listContent,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /:from,:to',listContent,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /tag/:tag',listContent,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /section/:taxonomy',listContent,{template:'list',block:'content'},this.parallel());        
+        module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?',listContent,{template:'list',block:'content'},this.parallel());        
         
         // Enable view by content type        
         //module.router.addRoute('GET /:type',listContent,{template:'list',block:'content'},this.parallel());
@@ -299,20 +299,45 @@ function listContent(req,res,template,block,next) {
       var to = req.moduleParams.to ? parseInt(req.moduleParams.to) : 10;
       var tag = req.moduleParams.tag ? req.moduleParams.tag : ''; 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html'; 
-            
-      var query = {};
+      
+      // TODO : Make this more flexible ...
+      var t1 = req.moduleParams.t1 ? req.moduleParams.t1 : '';
+      var t2 = req.moduleParams.t2 ? req.moduleParams.t2 : '';
+      var t3 = req.moduleParams.t3 ? req.moduleParams.t3 : '';
+      var t4 = req.moduleParams.t4 ? req.moduleParams.t4 : '';
+      
+                  
+      var query = new Query();
       
       if(req.session.user && req.session.user.isAdmin) {
         // Show all
       } else {
         // Published only if not admin
-        query.status = 'published';
+        query.where('status','published');
       }
       
       if(tag) {
-        query.tags = tag;
+        query.where('tags',tag);        
+      }
+
+      // Taxonomy tags
+      var taxonomy = "";
+      if(t1) {
+        taxonomy += t1;
+        if(t2) {
+          taxonomy += "/" + t2;
+          if(t3) {
+            taxonomy += "/" + t3;
+            if(t4) {
+              taxonomy += "/" + t4;  
+            }
+          }
+        }
       }
       
+      if(taxonomy) {        
+        query.where('taxonomy',new RegExp(taxonomy));
+      }
       
       // Initialise the block based on our content      
       Content.count(query, function (err, count) {

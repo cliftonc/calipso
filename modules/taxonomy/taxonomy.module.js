@@ -43,9 +43,7 @@ function init(module,app,next) {
 
         calipso.lib.mongoose.model('TaxonomyMenu', TaxonomyMenu);  
         
-        
-        // Add a post save hook to content
-        
+        // Add a post save hook to content        
         var Content = calipso.lib.mongoose.model('Content');                
         Content.schema.post('save',function() { 
           mapReduceTaxonomy();
@@ -123,10 +121,8 @@ function taxonomy(req,res,template,block,next) {
       // Render the item into the response
       // calipso.theme.renderItem(req,res,template,block,{tags:tags});
      
-      tax.forEach(function(item) {
-                
-            res.menu.primary.push({name:item._id,url:'/section/' + item._id,regexp:/content/});  
-                        
+      tax.forEach(function(item) {                
+            res.menu.primary.push({name:item._id,url:'/section/' + item._id,regexp:new RegExp(item._id)});                          
       });
       next();      
    });
