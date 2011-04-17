@@ -79,7 +79,7 @@ function AtomParser() {
         function processItems() {
           var group = this.group();
           data.entry.forEach(function(item) {        
-            parser.emit("item", item, group);    
+            parser.emit("item", item, taxonomy, group);    
           });
         },
         function processItemsDone() {
