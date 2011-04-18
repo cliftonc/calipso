@@ -121,26 +121,30 @@ function processAtomItem(item,taxonomy,next) {
     
     if(!c) {
       var c = new Content();    
+    
+      c.title=item.title.text;
+      c.teaser=item.title.text;
+      c.content=item.content.text;
+      c.tags=[]; 
+      c.status='published';
+      c.alias = alias;                    
+      c.author = "feeds";    
+      c.taxonomy = taxonomy;
+    
+      if(item.updated.text) {
+        c.updated=new Date(item.updated.text);
+        c.created=new Date(item.updated.text);        
+      }     
+      
+      // Asynch save
+      c.save(function(err) {
+        if(err) {
+          next(err);        
+        } else {
+          next();
+        }
+      });
     }
-    
-    c.title=item.title.text;
-    c.teaser=item.title.text;
-    c.content=item.content.text;
-    c.tags=[]; 
-    c.status='published';
-    c.alias = alias;                    
-    c.author = "feeds";    
-    c.taxonomy = taxonomy;
-  
-    // Asynch save
-    c.save(function(err) {
-      if(err) {
-        next(err);        
-      } else {
-        next();
-      }
-    });
-    
   });
   
 };
@@ -200,22 +204,12 @@ function processRssItem(item,taxonomy, next) {
     
     if(!c) {
       var c = new Content();        
-    
+      
       c.title=item.title.text;
       c.teaser=item.title.text;
       c.content=item.description.text;  
       c.status='published';
-      c.taxonomy=taxonomy; // TODO : Pass through
-      
-      // TODO: How do you cleanly update an array in Mongoosejs???
-      if(c.tags) {
-        var tags = c.tags;
-        tags.forEach(function(v,k) {          
-          c.tags.remove(v);
-        });      
-      } else {
-        c.tags = [];  
-      }  
+      c.taxonomy=taxonomy; // TODO : Pass through    
       
       if(item.category) {
         item.category.forEach(function(category) {
@@ -225,7 +219,12 @@ function processRssItem(item,taxonomy, next) {
       
       c.alias = alias;                    
       c.author = "feeds";       
-          
+    
+      if(item.pubDate.text) {
+        c.updated=new Date(item.pubDate.text);
+        c.created=new Date(item.pubDate.text);        
+      }         
+      
       // Asynch save
       c.save(function(err) {
         if(err) {
