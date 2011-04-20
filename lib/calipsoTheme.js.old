@@ -57,12 +57,10 @@ module.exports.Theme = function(themeName,next) {
         },
         render: function(req, res, next) {
           
-            var cache = this.cache;
-            var theme = this;
+            var cache = this.cache;                        
             
             // Scan through each layout
-            var layout = res.layout ? res.layout : "default";
-            
+            var layout = res.layout ? res.layout : "default";            
             if(!theme.config.layouts[layout]) {
               calipso.silly("Layout " + layout + " is not defined within the current theme, using default.");
               layout = "default";                  
@@ -73,14 +71,10 @@ module.exports.Theme = function(themeName,next) {
               }
             }    
             
-            processTheme(req,res,layout,theme,function() {              
-               var content = cache[layout].call({},res.output);                              
-               next(content);              
-            });
-                          
+            var options = createOptions(req,res,processTheme(req,res,layout,this));                        
+            res.send(cache[layout].call({},options));
             
         }
-        
       } 
       
       next(theme);
@@ -92,106 +86,89 @@ module.exports.Theme = function(themeName,next) {
   
 }
 
-function processSection(req,res,section,themeName,layoutConfig,theme,next) {
-    
-  var themeOptions,
-      themeCache = theme.cache[themeName];
-  
-  if(!themeCache) {
-    // Use the default
-    calipso.silly("Using the default section theme cache for " + section);
-    themeName = "default." + section;
-    themeCache = theme.cache[themeName];
-  }
-
-  var themeCacheFn = theme.cache[themeName + "_fn"];
-   
-  res.output[section] = "";
-  
-  if(!layoutConfig.sections[section].menu) {
-    
-    if(layoutConfig.sections[section].blocks) {
-      
-      var blockData = "";
-      layoutConfig.sections[section].blocks.forEach(function(block) {                       
-            if(res.renderedBlocks[block]) {                          
-              res.renderedBlocks[block].forEach(function(renderedContent) {
-                  blockData += renderedContent;
-              });                           
-            }                                              
-      });
-      
-      // Get the basic theme options
-      themeOptions = createOptions(req,res,{blockData:blockData});
-      
-      // Add any custom functions                  
-      if(themeCacheFn) {
-        
-        themeCacheFn(themeOptions,function(fnOptions) {
-            themeOptions = merge(themeOptions,fnOptions);
-            res.output[section] += themeCache.call({},themeOptions);
-            next();
-        });    
-        
-      } else {
-        
-        res.output[section] += themeCache.call({},themeOptions);  
-        next();
-        
-      }                  
-      
-    } else {                  
-      
-      res.output[section] += themeCache.call({},{});      
-      next();
-      
-    }
-    
-  } else {
-              
-      // Pass the menu over - TODO : Deal with menu types            
-      if(res.menu[section]) {                    
-        themeOptions = createOptions(req,res,{menu:res.menu[section]});  
-        var menu =  themeCache.call({},themeOptions);                    
-        res.output[section] +=  menu;                    
-      }
-      next();
-      
-  }
-  
-}
-
 /**
  * Copy the current block data over to options to render
  * @param res
  * @param config
  */
-function processTheme(req,res,layout,theme,next) {
+function processTheme(req,res,layout,theme) {
         
-  res.output = {};
+  var options = {};
   
   // Scan through each layout
   var layoutConfig = theme.config.layouts[layout].layout;    
-         
-  calipso.lib.step(      
-      function processSections() {                    
-            var group = this.group();
+        
+ 
+    for(var section in layoutConfig.sections) {
+      
+      
+        var themeName = layout + "." + section;        
+        var themeCache = theme.cache[themeName];       
+        
+        if(!themeCache) {
+          // Use the default
+          calipso.silly("Using the default section theme cache for " + section);
+          themeCache = theme.cache["default." + section];
+        }
+        
+        options[section] = "";
+        
+        if(!layoutConfig.sections[section].menu) {
+          
+          if(layoutConfig.sections[section].blocks) {
             
-            for(var section in layoutConfig.sections) {
-                var themeName = layout + "." + section;
-                try {
-                  processSection(req,res,section,themeName,layoutConfig,theme,group());  
-                } catch(ex) {
-                  calipso.error(ex);
-                  group()();
+            var blockData = "";
+            layoutConfig.sections[section].blocks.forEach(function(block) {
+                 
+                if(typeof block === 'function') {
+                  
+                  // Do nothing
+                  
+                } else {
+                  
+                  if(res.renderedBlocks[block]) {
+                    
+                    res.renderedBlocks[block].forEach(function(renderedContent) {
+                        blockData += renderedContent;
+                    }); 
+                    
+                  }
+                  
                 }
                 
+            });
+            
+            themeOptions = createOptions(req,res,{blockData:blockData});
+            options[section] += themeCache.call({},themeOptions);
+            
+          } else {
+              
+            options[section] += themeCache.call({},{});
+            
+          }
+          
+        } else {
+            
+          
+            calipso.silly("Checking menu for section " + section);
+          
+          
+            // Pass the menu over - TODO : Deal with menu types            
+            if(res.menu[section]) {
+              
+              calipso.silly("Generating menu for section " + section);
+              themeOptions = createOptions(req,res,{menu:res.menu[section]});  
+              var menu =  themeCache.call({},themeOptions);
+              calipso.silly(menu);
+              options[section] +=  menu;
+              
             }            
-      }, 
-      function done() {
-        next();
-      }    
-  )
+          
+        }
+        
+  }           
+  
+  return options;
   
 }
 
@@ -253,6 +230,7 @@ function cacheTheme(theme,themePath,next) {
       function loadTemplates() {
         var group = this.group();
         templates.forEach(function(template) {
+            calipso.silly("Caching template " + template.name + " from " + template.templatePath);
             loadTemplate(template,templateCache,themePath, group());
         });         
       },
@@ -276,22 +254,15 @@ function cacheTheme(theme,themePath,next) {
  */
 function loadTemplate(template, templateCache, themePath, next) {    
   
-  // Template paths and functions
   var templatePath = themePath + template.templatePath;
-  var templateFnPath = themePath + template.templatePath.replace(".html",".js");
     
   path.exists(templatePath,function(exists) {
     if(exists) {
       fs.readFile(templatePath, 'utf8', function(err,data) {
            if(!err) {
              // Precompile the view into our cache
-             templateCache[template.name] = calipso.lib.ejs.compile(data);
-             path.exists(templateFnPath,function(exists) {
-               if(exists) {                                  
-                 templateCache[template.name + "_fn"] = require(templateFnPath);                 
-               }
-               next();
-             });
+             templateCache[template.name] = calipso.lib.ejs.compile(data);                  
+             next();
            } else {             
              next(err);
            }
@@ -304,13 +275,44 @@ function loadTemplate(template, templateCache, themePath, next) {
   
 }
 
-
 function createOptions(req,res,options) {        
-          
-    // Merge options with helpers
-    var options = merge(options,calipso.getDynamicHelpers(req,res));
+       
+    function request(req){        
+      return req;        
+    }
     
-    // Merge options with application data
+    function user(req){        
+        var user;      
+        if(req.session && req.session.user) {
+          user = req.session.user;            
+        } else {
+          user = {username:'',anonymous:true};
+        }
+        return user;        
+    }
+    
+    function hasMessages(req) {
+       return Object.keys(req.session.flash || {}).length;
+    }
+
+    function messages(req){
+       return function() {
+         var msgs = req.flash();
+         return Object.keys(msgs).reduce(function(arr, type){
+           return arr.concat(msgs[type]);
+         }, []);        
+       }
+     }
+
+    // apply 
+    var options = merge(options, 
+          {request:request(req),
+           user:user(req),
+           hasMessages:hasMessages(req),
+           messages:messages(req)
+           });
+    
+    // Check to see if we have any data
     if(calipso.data) {
       options = merge(options,calipso.data);
     }

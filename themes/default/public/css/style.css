@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header h1 {
-	font-family: 'Oswald', arial, serif;
+	font-family: 'Oswald',arial, serif;
     font-size: 57px !important;    
     font-weight: 400;
     text-shadow: 2px 2px 2px #000;
@@ -68,13 +68,13 @@ h1 {
     font-weight: bold;
 }
 h2, h5 {
-	font-family: 'Oswald', arial, serif !important;
+	font-family: 'Oswald',arial, serif !important;
 	font-size: 1.3em; color: #DD9;
     text-shadow: 1px 1px 1px #000;
     letter-spacing: 0.05em;
     font-weight: bold;
 }
-h3, h6 { font-family: 'Oswald', arial, serif !important;
+h3, h6 { font-family: 'Oswald',arial, serif !important;
     font-size: 1.2em; color: #DDA; }
 h4 { font-size: 1.1em; }
 h5 { font-size: 1.1em; }

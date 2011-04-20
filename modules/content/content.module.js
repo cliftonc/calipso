@@ -59,6 +59,25 @@ function init(module,app,next) {
       },
       function done() {
         
+        // Add dynamic helpers
+        calipso.dynamicHelpers.getContent = function() {
+          return function(alias,next) { 
+           
+            var Content = calipso.lib.mongoose.model('Content');
+            
+            Content.findOne({alias:alias},function (err, content) {
+                if(err || !content) {
+                  // Don't throw error, just pass back failure.
+                  next(null,{teaser:alias + ' not found!',content:"Unable to locate the content referenced by " + alias});
+                } else {                  
+                  next(null,content);  
+                }
+            });           
+            
+          }
+        }        
+        
+        // Schemea
         var Content = new calipso.lib.mongoose.Schema({
           // Single default property
           contentType:{type: String, required: true, default:'default'},
@@ -226,7 +245,6 @@ function updateContent(req,res,template,block,next) {
 
 function showAliasedContent(req,res,template,block,next) {  
   
-  var Content = calipso.lib.mongoose.model('Content');
 
   var format = req.url.match(/\.json$/) ? "json" : "html";
   
@@ -235,6 +253,7 @@ function showAliasedContent(req,res,template,block,next) {
                   .replace(/\.html$/, "")
                   .replace(/\.json$/, "")
 
+  var Content = calipso.lib.mongoose.model('Content');
   
   Content.findOne({alias:alias},function (err, content) {
             
