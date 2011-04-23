@@ -632,7 +632,7 @@ input[type=text],input[type=password], textarea {
     line-height: 1.2em;
 }
 
-.home-about {    
+.home-col1 {    
     float: left;
     width: 30%;
     padding: 1%;
@@ -643,16 +643,8 @@ input[type=text],input[type=password], textarea {
     height: 200px;
 }
 
-.home-spacer {    
-	position: relative;
-	top: -20px;
-    background: url(/images/background-border.png) no-repeat;    
-    background-position-x: 50%;
-    height: 28px;
-    width: 100%;
-}
 
-.home-quickstart {    
+.home-col2 {    
     float: left;
     width: 30%;
     padding: 1%;
@@ -663,7 +655,7 @@ input[type=text],input[type=password], textarea {
     height: 200px;
 }
 
-.home-guide {    
+.home-col3 {    
     float: left;
     width: 30%;   
     padding: 1%; 
@@ -671,4 +663,14 @@ input[type=text],input[type=password], textarea {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     height: 200px;
+}
+
+.home-spacer {    
+    clear:both;
+    position: relative;
+    top: -12px;
+    background: url(/images/background-border.png) no-repeat;    
+    background-position-x: 50%;
+    height: 28px;
+    width: 100%;
 }
