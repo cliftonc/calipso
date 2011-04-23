@@ -10,8 +10,8 @@ module.exports = function(app,express,next) {
   var defaultConfig = {
     cache:false,
     theme:'default',
-    logs:{level:'info',console:{enabled:true},file:{enabled:true,filepath:'logs/calipso.log'}},
-    modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'user',enabled:true}]
+    logs:{level:'info',console:{enabled:true},file:{enabled:false,filepath:'logs/calipso.log'}},
+    modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'contentType',enabled:true},{name:'user',enabled:true},{name:'taxonomy',enabled:true}]
   };  
   
   // All environments

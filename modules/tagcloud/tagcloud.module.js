@@ -69,7 +69,7 @@ function mapReduceTagCloud() {
   var mongoose = calipso.lib.mongoose;
   
   var tagMap = function() { 
-    if (!this.tags) { 
+    if (!this.tags || !this.meta.ispublic || this.status === "draft") { 
       return; 
     } 
    for (index in this.tags) { 

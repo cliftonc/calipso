@@ -1,0 +1,25 @@
+<div class="template-module">
+    <h2>Content Types</h2>
+    <table>
+    <tr>
+        <th>Type</th><th>Description</th><th>Layout</th><th>Public</th>
+    </tr>
+        
+    <%                
+        items.forEach(function(item) {                        
+         %>
+	         <tr>
+	        <td><a href='/content/type/show/<%- item._id %>'><%- item.contentType %></a></td>
+	        <td> <%- item.description %></td>	        
+	        <td> <%- item.layout %></td>
+	        <td> <%- item.ispublic ? "Yes" : "No" %></td>
+	        </tr>                                
+	        <%
+	    });
+        
+        if(!items) {
+            %><td colspan='4'>No content types defined.</td><%
+        }
+    %>
+    </table>      
+</div>

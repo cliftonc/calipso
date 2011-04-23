@@ -37,7 +37,8 @@ function getFeed(args,next) {
      return;
   }
   
-  var taxonomy = args.taxonomy ? args.taxonomy : "feeds";  
+  var taxonomy = args.taxonomy ? args.taxonomy : "feeds";
+  var contentType = args.contentType ? args.contentType : "Article";
   
   // Allow this only to have local scope
   var feed = require('./lib/feed-expat');  
@@ -53,10 +54,10 @@ function getFeed(args,next) {
       
       switch (feedType) {
         case "feed":
-          processAtom(data,taxonomy,next);
+          processAtom(data,taxonomy,contentType,next);
           break;
         case "rss":
-          processRss(data,taxonomy,next);
+          processRss(data,taxonomy,contentType,next);
           break;
         default:           
            next(new Error("Unidentified feed type: " + feedType));
@@ -74,12 +75,12 @@ function getFeed(args,next) {
 function AtomParser() {  
   
   var parser = this;  
-  this.parse = function(data,taxonomy) {        
+  this.parse = function(data,taxonomy,contentType) {        
     calipso.lib.step(
         function processItems() {
           var group = this.group();
           data.entry.forEach(function(item) {        
-            parser.emit("item", item, taxonomy, group);    
+            parser.emit("item", item, taxonomy, contentType, group);    
           });
         },
         function processItemsDone() {
@@ -90,19 +91,19 @@ function AtomParser() {
   
 };
 
-function processAtom(data,taxonomy,next) {
+function processAtom(data,taxonomy,contentType, next) {
   
   var parser = new AtomParser();
   
-  parser.on('item', function(item,taxonomy,next) {
-      processAtomItem(item,taxonomy,next);
+  parser.on('item', function(item,taxonomy,contentType, next) {
+      processAtomItem(item,taxonomy,contentType, next);
   });      
 
   parser.on('done', function(err) {
     next(err);
   });
   
-  parser.parse(data,taxonomy);
+  parser.parse(data,taxonomy, contentType);
   
 };
 
@@ -111,9 +112,10 @@ function processAtom(data,taxonomy,next) {
  * Process a single atom feed item
  * @param item
  */
-function processAtomItem(item,taxonomy,next) {
+function processAtomItem(item,taxonomy,contentType, next) {
   
   var Content = calipso.lib.mongoose.model('Content');
+  var ContentType = calipso.lib.mongoose.model('ContentType');
   
   var alias = calipso.modules['content'].fn.titleAlias(item.title.text);
     
@@ -130,20 +132,38 @@ function processAtomItem(item,taxonomy,next) {
       c.alias = alias;                    
       c.author = "feeds";    
       c.taxonomy = taxonomy;
-    
+      
       if(item.updated.text) {
         c.updated=new Date(item.updated.text);
         c.created=new Date(item.updated.text);        
       }     
       
-      // Asynch save
-      c.save(function(err) {
-        if(err) {
-          next(err);        
-        } else {
-          next();
-        }
+      // Get content type        
+      ContentType.findOne({contentType:contentType}, function(err, contentType) {
+                
+          if(err || !contentType) {        
+
+            next(err);             
+            
+          } else {
+            
+            // Copy over content type data            
+            c.meta.contentType = contentType.contentType;
+            c.meta.layout = contentType.layout;
+            c.meta.ispublic = contentType.ispublic;            
+                          
+            // Asynch save
+            c.save(function(err) {
+              if(err) {
+                next(err);
+              } else {
+                next();
+              }
+            });
+         }
+          
       });
+      
     }
   });
   
@@ -158,14 +178,14 @@ var RssParser = function() {
   
   var parser = this;  
   
-  this.parse = function(data,taxonomy) {        
+  this.parse = function(data,taxonomy,contentType) {        
 
     if(data.channel.item) {
       calipso.lib.step(
           function processItems() {
             var group = this.group();
             data.channel.item.forEach(function(item) {        
-              parser.emit("item", item, taxonomy, group);    
+              parser.emit("item", item, taxonomy,contentType, group);    
             });
           },
           function processItemsDone() {
@@ -178,39 +198,41 @@ var RssParser = function() {
   
 };
 
-function processRss(data,taxonomy,next) {
+function processRss(data,taxonomy,contentType,next) {
   
   var parser = new RssParser();
   
-  parser.on('item', function(item,taxonomy,next) {
-      processRssItem(item,taxonomy,next);
+  parser.on('item', function(item,taxonomy,contentType,next) {
+      processRssItem(item,taxonomy,contentType,next);
   });
 
   parser.on('done', function(err) {
     next();
   });
   
-  parser.parse(data,taxonomy);
+  parser.parse(data,taxonomy,contentType);
   
 };
 
 
-function processRssItem(item,taxonomy, next) {
+function processRssItem(item,taxonomy,contentType, next) {
     
-  var Content = calipso.lib.mongoose.model('Content');  
+  var Content = calipso.lib.mongoose.model('Content');
+  var ContentType = calipso.lib.mongoose.model('ContentType');
+
   var alias = calipso.modules['content'].fn.titleAlias(item.title.text);
       
   Content.findOne({alias:alias},function (err, c) {
     
     if(!c) {
+    
       var c = new Content();        
       
       c.title=item.title.text;
       c.teaser=item.title.text;
       c.content=item.description.text;  
       c.status='published';
-      c.taxonomy=taxonomy; // TODO : Pass through    
-      
+      c.taxonomy=taxonomy; // TODO : Pass through  
       if(item.category) {
         item.category.forEach(function(category) {
           c.tags.push(category.text);
@@ -223,19 +245,36 @@ function processRssItem(item,taxonomy, next) {
       if(item.pubDate.text) {
         c.updated=new Date(item.pubDate.text);
         c.created=new Date(item.pubDate.text);        
-      }         
-      
-      // Asynch save
-      c.save(function(err) {
-        if(err) {
-          next(err);
-        } else {
-          next();
-        }
+      }           
+
+      // Get content type        
+      ContentType.findOne({contentType:contentType}, function(err, contentType) {
+                
+          if(err || !contentType) {        
+
+            next(err);             
+            
+          } else {
+            
+            // Copy over content type data            
+            c.meta.contentType = contentType.contentType;
+            c.meta.layout = contentType.layout;
+            c.meta.ispublic = contentType.ispublic;            
+                          
+            // Asynch save
+            c.save(function(err) {
+              if(err) {
+                next(err);
+              } else {
+                next();
+              }
+            });
+         }
       });
-   }
+      
+    }
     
-});
+  });
 
  
 };

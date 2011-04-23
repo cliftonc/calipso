@@ -63,7 +63,14 @@ function init(module,app,next) {
 
 function install(req,res,template,block,next) {      
     
-    calipso.theme.renderItem(req,res,template,block);
+    // If not in install mode, do not show this form
+    if(!calipso.app.doingInstall) {
+      res.redirect("/");
+      next();
+      return;
+    }
+    
+    calipso.theme.renderItem(req,res,template,block,{});                         
     next();
                       
 };
@@ -75,11 +82,18 @@ function installSave(req,res,template,block,next) {
   req.body.user.isAdmin = 'yes';
   
   var user = require("../user/user.module");
-  user.registerUser(req,res,function() { 
-      req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');
-      next();
-    },template);
-                      
+  user.registerUser(req,res,template,block,function() { 
+      req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');      
+  });
+    
+  // RUn the module install scripts
+  for(var module in calipso.modules) {        
+    // Check to see if the module is currently enabled, if so install it
+    if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {     
+      calipso.modules[module].fn.install();
+    }    
+  }
+  
 };
 
 function showAdmin(req,res,template,block,next) {      

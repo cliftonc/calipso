@@ -2,7 +2,14 @@
   "name": "default",
   "description": "Default Drupal Theme",
   "version": "0.0.2",
-  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",  
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
+  "contentTypes":{
+    "Block Content":{"layout":"default","show":false},
+    "Article":{"layout":"default","show":true},
+    "Feed":{"layout":"feed","show":true},
+    "Guide":{"layout":"guide","show":true},
+    "Blog":{"layout":"blog","show":true}
+  },  
   "layouts":{
         "default":{
             "layout":{"template":"default.html",
@@ -17,6 +24,19 @@
                      }
             }
         },
+         "home":{
+            "layout":{"template":"default.html",
+                      "sections":{                
+                        "scripts":{"template":"scripts.html","blocks":["scripts"]},
+                        "admin":{"menu":"admin","template":"adminMenu.html"},
+                        "primary":{"menu":"primary","template":"primaryMenu.html"},         
+                        "header":{"template":"header.html","blocks":["scripts"]},                
+                        "body":{"template":"body.html","blocks":["messages","content","admin"]},
+                        "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
+                        "footer":{"template":"footer.html","blocks":[]}
+                     }
+            }
+        },       
         "admin":{
             "layout":{"template":"admin.html",
                       "sections":{
@@ -28,19 +48,6 @@
                         "footer":{"template":"footer.html","blocks":[]}
                      }
             }
-        },
-        "blog":{
-            "layout":{"template":"default.html",
-                      "sections":{
-                        "scripts":{"template":"scripts.html","blocks":["scripts"]},                
-                        "admin":{"menu":"admin","template":"adminMenu.html"},
-                        "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html","blocks":["scripts"]},   
-                        "body":{"template":"body.html","blocks":["messages","content","admin"]},
-                        "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
-                        "footer":{"template":"footer.html","blocks":[]}
-                     }
-            }
-        }                        
+        }                 
   }  
 }

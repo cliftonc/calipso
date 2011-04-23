@@ -1,3 +1,21 @@
+<title>Calipso - A Node CMS</title>        
+<link type="text/css" href="/css/Aristo/jquery-ui-1.8.7.custom.css" rel="stylesheet" /> 
+<link rel="stylesheet" href="/css/style.css" />
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>        
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/js/jquery-ui-1.8.10.custom.min.js"></script>
+<script>
+
+$(document).ready(function() {
+    
+  $('.content-block').dblclick(function() {
+    if(this.id) {
+      window.location.href = "/content/edit/" + this.id + "?returnTo=<%= request.url %>";  
+    } 
+  });  
+  
+});
+    
+    
+</script>
 <%- blockData %>

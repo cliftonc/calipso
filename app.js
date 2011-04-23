@@ -59,10 +59,10 @@ function bootApplication(app) {
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.responseTime());
-  app.use(express.session({ secret: 'calipso' }));  
-  app.use(express.static(path + '/themes/' + theme + '/public'));  // Before router to enable dynamic routing
+  app.use(express.session({ secret: 'calipso',store: mongoStore({ url: app.set('db-uri') }) }));  
+  app.use(express.static(path + '/themes/' + theme + '/public'));  // Before router to enable dynamic routing  
   app.use(calipso.calipsoRouter(app,app.set('config')));
-  
+  // app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));  
 
 }
 

@@ -72,9 +72,13 @@ function registerUserForm(req,res,template,block,next) {
   
   var item = {id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',fields:[                                                                                                         
                  {label:'Username',name:'user[username]',type:'text',value:''},
-                 {label:'Password',name:'user[password]',type:'password',value:''},
-                 {label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['yes','no']} // CLEARLY DISABLE THIS IN THE REAL WORLD!!!
+                 {label:'Password',name:'user[password]',type:'password',value:''}                 
               ]}
+
+  // Allow admins to register other admins
+  if(req.session.user && req.session.user.isAdmin) {
+    item.fields.push({label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['yes','no']});
+  }
   
   calipso.theme.renderItem(req,res,template,block,{item:item});          
   

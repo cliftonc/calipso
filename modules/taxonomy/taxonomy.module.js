@@ -68,9 +68,14 @@ function mapReduceTaxonomy() {
   var mongoose = calipso.lib.mongoose;
   
   var taxMap = function() { 
-    if (!(this.taxonomy && this.taxonomy.split("/"))) { 
+   
+   if (!(this.taxonomy && this.taxonomy.split("/"))) { 
       return; 
-    } 
+   } 
+    
+   // Not public or draft
+   if(!this.meta.ispublic || this.status === "draft") return;
+     
    var taxArr = this.taxonomy.split("/");
    for (index in taxArr) {          
      var currentTax = "";

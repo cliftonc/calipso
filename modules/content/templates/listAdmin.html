@@ -1,0 +1,16 @@
+<table class='tabular'>
+<tr>
+<th>Title</th>
+<th>Type</th>
+<th>Author</th>
+<th>Updated</th>
+</tr>
+<% contents.forEach(function(item) { %>
+<tr class='content-list-item content-list-item-<%- item.meta.status %> content-type-<%- item.meta.contentType %>'>
+    <td><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></td>    
+    <td><%- item.meta.meta.contentType %></td>
+    <td><%- item.meta.author %></td>
+    <td><%- prettyDate(item.meta.updated) %></td>
+</tr>
+<% });  %>
+</table>

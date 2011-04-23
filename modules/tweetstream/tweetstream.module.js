@@ -16,8 +16,8 @@ function route(req,res,module,app,next,counter) {
       if(!calipso.socket) {
         
         counter = (counter ? counter : 0) + 1; 
-        console.log(counter);
-        if(counter < 10) {
+        
+        if(counter < 1000) {
           process.nextTick(function() { route(req,res,module,app,next,counter); });  
           return;
         } else {
