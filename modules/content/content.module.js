@@ -155,9 +155,7 @@ function createContent(req,res,template,block,next) {
       c.author = req.session.user.username; 
       
       var returnTo = req.body.content.returnTo ? req.body.content.returnTo : "";
-      
-      console.log("RETURN " + returnTo);
-      
+            
       // Get content type        
       ContentType.findOne({contentType:req.body.content.contentType}, function(err, contentType) {
         
@@ -366,7 +364,14 @@ function showAliasedContent(req,res,template,block,next) {
   
   Content.findOne({alias:alias},function (err, content) {
             
-      showContent(req,res,template,block,next,err,content,format);     
+      if(err || !content) {
+        if(req.session.user.isAdmin) {
+          res.redirect("/content/new?title=" + alias + 
+                       "&type=Article")
+        }    
+      } else {
+        showContent(req,res,template,block,next,err,content,format);             
+      }
       next();
       
   });
@@ -377,8 +382,10 @@ function showContent(req,res,template,block,next,err,content,format) {
     
   var item;
  
-  if(err || content === null) {
-    item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content!"}};    
+  if(err || !content) {
+    
+    item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content!"}};
+    
   } else {      
     
     res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
@@ -391,7 +398,9 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   // Set the page layout to the content type
   if(format === "html") {
-    res.layout = content.meta.layout ? content.meta.layout : "default";  
+    if(content) {
+      res.layout = content.meta.layout ? content.meta.layout : "default";  
+    }      
     calipso.theme.renderItem(req,res,template,block,{item:item});      
   }
   
