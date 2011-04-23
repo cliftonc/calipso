@@ -74,7 +74,7 @@ function mapReduceTaxonomy() {
    } 
     
    // Not public or draft
-   if(!this.meta.ispublic || this.status === "draft") return;
+   if(!(this.meta && this.meta.ispublic) || this.status === "draft") return;
      
    var taxArr = this.taxonomy.split("/");
    for (index in taxArr) {          
