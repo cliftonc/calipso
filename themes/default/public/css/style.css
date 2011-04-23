@@ -34,7 +34,7 @@ body {
 
 #right {
   float: right; 
-  width: 150;
+  width: 17%;
 }
 
 #right div {
@@ -634,9 +634,10 @@ input[type=text],input[type=password], textarea {
 
 .home-col1 {    
     float: left;
-    width: 30%;
+    width: 29%;
     padding: 1%;
-    margin-right: 1em;
+    margin-left: 2%;
+    margin-right: 2%;
     background: url(/images/background-dark.jpg) repeat;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -646,9 +647,9 @@ input[type=text],input[type=password], textarea {
 
 .home-col2 {    
     float: left;
-    width: 30%;
+    width: 29%;
     padding: 1%;
-    margin-right: 1em;
+    margin-right: 2%;
     background: url(/images/background-dark.jpg) repeat;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -657,7 +658,7 @@ input[type=text],input[type=password], textarea {
 
 .home-col3 {    
     float: left;
-    width: 30%;   
+    width: 29%;   
     padding: 1%; 
     background: url(/images/background-dark.jpg) repeat;
     -moz-border-radius: 4px;
