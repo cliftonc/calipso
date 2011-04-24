@@ -2,6 +2,8 @@
 // Not sure why, but this if you uncomment, and then hold down the refresh
 // Button in a browser, it crashes the server!
 
+var sys = require("sys");
+
 /*
 Copyright (c) 2011 Tim Caswell <tim@creationix.com>
 
@@ -40,7 +42,7 @@ function Step() {
       // Throw uncaught errors
       if (arguments[0]) {
         // throw arguments[0];
-        console.log("Uncaught error: " + arguments[0].message);
+        console.log("Uncaught error: " + sys.inspect(arguments[0],true,10,true));
       }
       return;
     }

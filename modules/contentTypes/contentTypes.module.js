@@ -216,7 +216,6 @@ function updateContentType(req,res,template,block,next) {
         c.save(function(err) {
           if(err) {
             req.flash('error','Could not update content type: ' + err.message);
-            console.log(err.message);
             if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
               res.redirect('/content/type/edit/' + req.moduleParams.id);
             }
