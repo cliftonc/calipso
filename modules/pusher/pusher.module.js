@@ -74,8 +74,10 @@ function init(module,app,next) {
 };
 
 function pusher(req,res,template,block,next) {     
-    
-  calipso.theme.renderItem(req,res,template,block,{});                     
+  
+  var port = req.app.address().port;
+  
+  calipso.theme.renderItem(req,res,template,block,{port:port});                     
   next();
   
 };

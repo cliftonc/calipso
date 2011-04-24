@@ -1,6 +1,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script> 
- var socket = new io.Socket(); 
+ // Always connect to same host, but on actual port (allows proxying via nginx)
+ var socket = new io.Socket('',{'port':<%- port %>}); 
  socket.connect();
  socket.on('connect', function(client){ 
    
