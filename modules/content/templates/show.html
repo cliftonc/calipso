@@ -1,8 +1,8 @@
- <div class='content-item'>
+ <div class='content-item'>    
     <h2><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></h2>
     <p class='by'>By <a href='/user/profile/<%- item.meta.author %>'><%- item.meta.author %></a></small>
     <p class='status'><%- item.meta.status %></p>
     <p class='created'>Created: <%- prettyDate(item.meta.created) %> / Last Updated: <%- prettyDate(item.meta.updated) %></p>
-    <p class='tags'><%- item.meta.tags %></p>
-    <p class='content'><%- item.meta.content %></p>        
+    <p class='tags'><%- item.meta.tags %></p>        
+    <p class='content'><%- item.meta.content %></p>            
 </div>
