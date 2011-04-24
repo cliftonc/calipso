@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema;
+
 /**
  * Default configuration manager
  * Inject app and express reference
