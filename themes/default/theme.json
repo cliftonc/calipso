@@ -9,7 +9,7 @@
     "Feed":{"layout":"feed","show":true},
     "Guide":{"layout":"guide","show":true},
     "Blog":{"layout":"blog","show":true}
-  },  
+  },
   "layouts":{
         "default":{
             "layout":{"template":"default.html",
@@ -18,7 +18,8 @@
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
                         "header":{"template":"header.html","blocks":["scripts"]},                
-                        "body":{"template":"body.html","blocks":["messages","content","admin"]},
+                        "messages":{"template":"messages.html","blocks":[]},
+                        "body":{"template":"body.html","blocks":["content","admin"]},
                         "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
                         "footer":{"template":"footer.html","blocks":[]}
                      }
@@ -31,6 +32,7 @@
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
                         "header":{"template":"header.html","blocks":["scripts"]},                
+                        "messages":{"template":"messages.html","blocks":[]},
                         "body":{"template":"body.html","blocks":["messages","content","admin"]},
                         "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
                         "footer":{"template":"footer.html","blocks":[]}
@@ -42,7 +44,8 @@
                       "sections":{
                         "scripts":{"template":"scripts.html","blocks":["scripts"]},                
                         "admin":{"menu":"admin","template":"adminMenu.html"},
-                        "header":{"template":"header.html","blocks":["scripts"]},                   
+                        "header":{"template":"header.html","blocks":["scripts"]},
+                        "messages":{"template":"messages.html","blocks":[]},                   
                         "body":{"template":"body.html","blocks":["messages","admin"]},
                         "right":{"template":"right.html","blocks":["user.login"]},
                         "footer":{"template":"footer.html","blocks":[]}

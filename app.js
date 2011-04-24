@@ -9,6 +9,10 @@ var fs = require('fs'),
     calipso = require('./lib/calipso'),
     mongoStore = require('./support/connect-mongodb');
 
+// Profiler
+require('v8-profiler');
+
+
 /** 
  * Global variables
  */
@@ -50,20 +54,26 @@ exports.boot = function(next) {
  *  Any of these can be added into the by environment configuration files to 
  *  enable modification by env.
  */
-
 function bootApplication(app) {	 
    
-   // launch
+  // launch
   //app.use(express.profiler());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.responseTime());
   app.use(express.session({ secret: 'calipso',store: mongoStore({ url: app.set('db-uri') }) }));  
-  app.use(express.static(path + '/themes/' + theme + '/public'));  // Before router to enable dynamic routing  
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));     
+  
+  // Media paths
+  app.use(express.static(path + '/media'));
+  
+  // Theme assets
+  app.use(express.static(path + '/themes/' + theme + '/public'));
+  
+  // Core calipso router
   app.use(calipso.calipsoRouter(app,app.set('config')));
-  // app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));  
-
+    
 }
 
 // allow normal node loading if appropriate

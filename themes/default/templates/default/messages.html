@@ -1,5 +1,5 @@
-<% if (hasMessages) { %>
-  <div style="margin-bottom: 20px; padding: 10px; width: 100%;" class="ui-state-highlight ui-corner-all">  	
+<% if (hasMessages) { %>    
+  <div class="flash-message">  	
     <% messages().forEach(function(msg){ %>
       <span class="ui-icon ui-icon-info" style="float: left; margin-right: .7em;"></span><%- msg %><br/>
     <% }) %>

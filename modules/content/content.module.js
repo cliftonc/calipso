@@ -77,7 +77,7 @@ function init(module,app,next) {
                 } else {    
                   
                   var text;
-                  if(req.session.user && req.session.user.isAdmin) {
+                  if(req.session && req.session.user && req.session.user.isAdmin) {
                     text = "<span title='Double click to edit content block ...' class='content-block' id='" + content._id + "'>" +
                       content.content + "</span>"           
                   } else {
@@ -186,6 +186,7 @@ function createContent(req,res,template,block,next) {
                   }
                 }                          
               } else {
+                req.flash('info','Content saved successfully!');
                 if(returnTo) {
                   res.redirect(returnTo);
                 } else {
@@ -326,6 +327,7 @@ function updateContent(req,res,template,block,next) {
                     }
                   }
                 } else {
+                  req.flash('info','Content saved successfully!');
                   if(returnTo) {
                     res.redirect(returnTo);
                   } else {                    
@@ -365,12 +367,18 @@ function showAliasedContent(req,res,template,block,next) {
   Content.findOne({alias:alias},function (err, content) {
             
       if(err || !content) {
-        if(req.session.user.isAdmin) {
+        
+        if(req.session.user && req.session.user.isAdmin) {
           res.redirect("/content/new?title=" + alias + 
                        "&type=Article")
-        }    
+        } else {
+          res.statusCode = 404;
+        }
+        
       } else {
-        showContent(req,res,template,block,next,err,content,format);             
+        
+        showContent(req,res,template,block,next,err,content,format);
+        
       }
       next();
       

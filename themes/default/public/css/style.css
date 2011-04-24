@@ -281,23 +281,15 @@ blockquote:after {
 	content: '\201D';
 }
 
-pre.code {
-	padding: 10px;
-	color: black;
-	font-size: 0.8em;
-	font-family: courier;
-	background-color: #F5F5F5;        
-    margin: 20px;		
-}
-
-/*--- Shadows ---*/
-pre.code {
-	-moz-box-shadow: 0 0 3px rgba(0,0,0,.4);
-	-webkit-box-shadow: 0 0 3px rgba(0,0,0,.4);
-	box-shadow: 0 0 3px rgba(0,0,0,.4);	
-}
 
 pre {
+	 
+ width: 98%;
+ padding: 1%;
+ margin-bottom: 10px;
+ background: url(/images/background-dark.jpg) repeat;
+ -moz-border-radius: 4px;
+ -webkit-border-radius: 4px;    
  white-space: pre-wrap;       /* css-3 */
  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
  white-space: -pre-wrap;      /* Opera 4-6 */
@@ -309,10 +301,10 @@ table, form {
 	margin-top: 0px;
 	margin-bottom: 12px;
 }
-table, pre > code, .shadow {
-	-moz-box-shadow: 2px 2px 12px rgba(0,0,0,.15);
-	-webkit-box-shadow: 2px 2px 12px rgba(0,0,0,0.15);
-	box-shadow: 2px 2px 12px rgba(0,0,0,.15);
+table, pre, .shadow {
+	-moz-box-shadow: 4px 4px 12px rgba(0,0,0,.35);
+	-webkit-box-shadow: 4px 4px 12px rgba(0,0,0,0.35);
+	box-shadow: 4px 4px 12px rgba(0,0,0,.35);
 }
 img.shadow {
 	border: 1px solid rgba(255,255,255,.15);
@@ -644,7 +636,6 @@ input[type=text],input[type=password], textarea {
     height: 200px;
 }
 
-
 .home-col2 {    
     float: left;
     width: 29%;
@@ -674,4 +665,16 @@ input[type=text],input[type=password], textarea {
     background-position-x: 50%;
     height: 28px;
     width: 100%;
+}
+
+/** Flash Messages **/
+
+.flash-message {    
+    float: left;
+    width: 98%;
+    padding: 1%;
+    margin-bottom: 10px;
+    background: url(/images/background-dark.jpg) repeat;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;    
 }

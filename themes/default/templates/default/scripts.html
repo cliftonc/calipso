@@ -4,10 +4,16 @@
 <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>        
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/js/jquery-ui-1.8.10.custom.min.js"></script>
+<!--  Prettify -->
+<link href="/js/prettify/dessert.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/js/prettify/prettify.js"></script>
 <script>
 
 $(document).ready(function() {
     
+  // Pretty printing
+  prettyPrint();
+  
   $('.content-block').dblclick(function() {
     if(this.id) {
       window.location.href = "/content/edit/" + this.id + "?returnTo=<%= request.url %>";  
