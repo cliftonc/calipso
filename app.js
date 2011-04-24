@@ -64,17 +64,15 @@ function bootApplication(app) {
   app.use(express.cookieParser());
   app.use(express.responseTime());
   app.use(express.session({ secret: 'calipso',store: mongoStore({ url: app.set('db-uri') }) }));
-  
-  // app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));     
-
-  // Core calipso router
-  app.use(calipso.calipsoRouter(app,app.set('config')));
-  
+    
   // Media paths
   app.use(express.static(path + '/media'));
   
   // Theme assets
   app.use(express.static(path + '/themes/' + theme + '/public'));
+
+  // Core calipso router
+  app.use(calipso.calipsoRouter(app,app.set('config')));
     
   
 }
