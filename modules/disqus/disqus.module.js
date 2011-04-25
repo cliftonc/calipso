@@ -25,10 +25,8 @@ function init(module,app,next) {
   calipso.lib.step(
       function defineRoutes() {
         
-        // These are the routes that pusher is enabled on re. sending / receiving messages.
-        
-        // Pusher enabled on every page
-        module.router.addRoute(/.*/,disqus,{end:false,template:'disqus',block:'scripts.disqus'},this.parallel());
+        // Disqus on content pages
+        module.router.addRoute(/^((?!content).*)html$/,disqus,{end:false,template:'disqus',block:'scripts.disqus'},this.parallel());
         
       },
       function done() {
