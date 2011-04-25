@@ -4,4 +4,7 @@
     
 </div>
 
-<%- getBlock('scripts.disqus') %>
+<!-- DISQUS -->
+<% if(request.url.match(/\.html$/)) { %>
+    <%- getBlock('scripts.disqus') %>
+<% } %>
