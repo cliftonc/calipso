@@ -12,7 +12,7 @@ module.exports = function(app,express,next) {
     cache:false,
     theme:'default',
     logs:{level:'info',console:{enabled:true},file:{enabled:false,filepath:'logs/calipso.log'}},
-    modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'contentType',enabled:true},{name:'user',enabled:true},{name:'taxonomy',enabled:true}]
+    modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'contentTypes',enabled:true},{name:'user',enabled:true},{name:'taxonomy',enabled:true}]
   };  
   
   // All environments

@@ -10,8 +10,8 @@ body {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 12px;
 	line-height: 1.2em;
-	color: black;		
-	background: #FFFFFF;
+	color: #ffffff;		
+	background: #444444 url(/images/background.jpg) repeat;
 }
 
 #container {
@@ -22,8 +22,9 @@ body {
 
 #header {
     position: relative;
-    padding-bottom: 5px;    
-    margin-bottom: 5px;    
+    padding-bottom: 10px;    
+    border-bottom: solid 1px silver;
+    margin-bottom: 20px;    
 }
 
 #content {
@@ -31,20 +32,21 @@ body {
   width: 80%;
 }
 
-#left {
-  float: left; 
+#right {
+  float: right; 
   width: 17%;
-  margin-right: 1%;
 }
 
-#left div {
+#right div {
   margin-bottom: 25px;
 }
+
+
 
 /*--- Basics ---*/
 h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
-	color:#554;
+	color:#FFF;
 	line-height: 1;
 	margin: 0.5em 0 0.5em 0;
 }
@@ -53,7 +55,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Oswald',arial, serif;
     font-size: 57px !important;    
     font-weight: 400;
-    text-shadow: 2px 2px 2px #777;
+    text-shadow: 2px 2px 2px #000;
     letter-spacing: 0.1em;
     word-spacing: 0em;
     line-height: 1.2;
@@ -62,31 +64,27 @@ h1, h2, h3, h4, h5, h6 {
 h1 { 		
     padding-bottom: 10px;
     margin-bottom: 10px;
-    text-shadow: 1px 1px 1px #777;
+    text-shadow: 1px 1px 1px #000;
     font-weight: bold;
 }
 h2, h5 {
-	font-family: arial, serif !important;
-	font-size: 1.3em; color: #554;
-    text-shadow: 1px 1px 1px #999;
+	font-family: 'Oswald',arial, serif !important;
+	font-size: 1.3em; color: #DD9;
+    text-shadow: 1px 1px 1px #000;
     letter-spacing: 0.05em;
     font-weight: bold;
 }
-h3, h6 { font-family: arial, serif !important;
-    font-size: 1.2em; color: #442; 
-      text-shadow: 1px 1px 1px #999;
-    }
+h3, h6 { font-family: 'Oswald',arial, serif !important;
+    font-size: 1.2em; color: #DDA; }
 h4 { font-size: 1.1em; }
 h5 { font-size: 1.1em; }
 h6 { font-size: 1em; }
 p { margin-bottom: 1em; }
 strong { font-weight: bold; }
 em { font-style: italic; }
-a { text-decoration: none; color: #101010; }
-a, h1 a, h1 a:hover { color:  #554;text-decoration: none; } 
-
-h2 a { color:  #554; text-decoration: none; }
-a:hover { text-decoration: underline; color: #2F222F; }
+a { text-decoration: none; color: #FFFFDF; }
+a, h1 a, h2 a { text-decoration: none; }
+a:hover { text-decoration: underline; color: #DFDFAF; }
 a img { border: none; }
 
 /*--- Lists ---*/
@@ -122,7 +120,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	border: 1px solid #161606;
-	background: #eaeaea;
+	background: #eaeafa;
 	margin: 12px 0;
 	font-size: 0.9em;
 }
@@ -133,18 +131,18 @@ td, th {
 	text-align: left;
 	border: 1px solid #161606;
 	font-weight: normal;
-	color: black;	
-	background: #FFFFEF;	
+	color: #ffffff;	
+	background: #333;	
 }
 
 table.tabular tr:nth-child(even) {
-    background: #FEE;
+    background: #553;
 }
 
 th {
 	border: 1px solid #161606;
-	background: #DADD88;
-	color: black;
+	background: #A3a383;
+	color: #333;
 	text-align: left;
 	font-weight: bold;
 	padding: .5em .75em;
@@ -169,7 +167,7 @@ legend {
 }
 label {
 	padding: 0 1em 0 0;
-	color: #151515;
+	color: #D5D5D5;
 	font-weight: normal;
 	font-size: 0.9em;
 }
@@ -255,7 +253,7 @@ span.pager-page {
 	font-family: Helvetica, Arial, sans-serif;
 	padding: 3px 3px;
 	margin: 3px 3px 3px 3px;
-	color: #151515;	
+	color: #F5F5D5;	
 	line-height: 1.25em;	
 }
 
@@ -265,7 +263,7 @@ input.pager-page {
 	font-family: Helvetica, Arial, sans-serif;
 	padding: 2px 2px;
 	margin: 3px 3px 3px 3px;
-	color: #151515;	
+	color: #F5F5D5;	
 	line-height: 1.25em;	
 	clear: none;
 }
@@ -274,8 +272,8 @@ a.pager-page {
 	font-family: Helvetica, Arial, sans-serif;
 	padding: 3px 3px;
 	margin: 3px 3px 3px 3px;	
-	border: 1px solid #363636;
-	color: #151515;	
+	border: 1px solid #a6a6c6;
+	color: #D5D5D5;	
 	line-height: 1.25em;	
 }
 
@@ -289,7 +287,7 @@ pre {
  width: 98%;
  padding: 1%;
  margin-bottom: 10px;
- background: #FFC;
+ background: url(/images/background-dark.jpg) repeat;
  -moz-border-radius: 4px;
  -webkit-border-radius: 4px;    
  white-space: pre-wrap;       /* css-3 */
@@ -557,6 +555,7 @@ input[type=text],input[type=password], textarea {
 /** -- Footer -- **/
 #footer {
 	width: 100%;
+    border-top: solid 1px silver;
     margin-top: 20px;
     font-size: 0.9em;   
 }
@@ -599,16 +598,8 @@ input[type=text],input[type=password], textarea {
 .home-welcome {
     display:block;
     width: 100%;
-    font-size: 1.3em;
+    font-size: 1.5em;
     line-height: 1.2em;
-    margin-bottom: 15px;
-}
-
-.home-column {
-    background: #EFEFCF;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    height: 250px;
 }
 
 .home-col1 {    
@@ -617,6 +608,10 @@ input[type=text],input[type=password], textarea {
     padding: 1%;
     margin-left: 2%;
     margin-right: 2%;
+    background: url(/images/background-dark.jpg) repeat;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    height: 200px;
 }
 
 .home-col2 {    
@@ -624,18 +619,27 @@ input[type=text],input[type=password], textarea {
     width: 29%;
     padding: 1%;
     margin-right: 2%;
+    background: url(/images/background-dark.jpg) repeat;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    height: 200px;
 }
 
 .home-col3 {    
     float: left;
     width: 29%;   
     padding: 1%; 
+    background: url(/images/background-dark.jpg) repeat;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    height: 200px;
 }
 
 .home-spacer {    
     clear:both;
     position: relative;
-    top: -12px;       
+    top: -12px;
+    background: url(/images/background-border.png) no-repeat;    
     background-position-x: 50%;
     height: 28px;
     width: 100%;

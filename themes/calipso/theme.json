@@ -1,6 +1,6 @@
 {
-  "name": "default",
-  "description": "Default Theme",
+  "name": "calipso",
+  "description": "Theme used on Calip.so",
   "version": "0.0.2",
   "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",  
   "layouts":{

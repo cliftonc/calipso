@@ -11,8 +11,8 @@ exports = module.exports = function(req,options,callback) {
        */  
       calipso.lib.step(
         function getContent() {
-          options.getContent(req,"footer-left",this.parallel());       
-          options.getContent(req,"footer-center",this.parallel());       
+          options.getContent(req,"footer-about-calipso",this.parallel());       
+          options.getContent(req,"footer-links",this.parallel());       
           options.getContent(req,"footer-right",this.parallel());       
         },
         function done(err,left,center,right) {            

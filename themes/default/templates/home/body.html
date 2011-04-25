@@ -1,27 +1,15 @@
 <div class="home-content">   
     <div class="home-welcome">
-       <%- welcome %>
+       This is some static text, included in the page template.  The sections below are dynamically loaded by searching for content blocks with the correct alias.  
+       If you login you can click on the links to create those blocks.   You will also see that the default footer also is searching for some blocks that you haven't created yet, so don't forget those!
     </div>    
-    <div class="home-col1">
-        <%- about %>
+    <div class="home-column home-col1">
+        <%- col1 %>
     </div>
-    <div class="home-col2">
-        <%- quickstart %>
+    <div class="home-column home-col2">
+        <%- col2 %>
     </div>
-    <div class="home-col3">
-        <%- guide %>
-    </div>
-    
-    <div class="home-spacer"></div>
-    
-    <div class="home-col1">
-        <%- featurea %>
-    </div>
-    <div class="home-col2">
-        <%- featureb %>
-    </div>
-    <div class="home-col3">
-        <%- featurec %>
-    </div>
-        
+    <div class="home-column home-col3">
+        <%- col3 %>
+    </div>               
 </div>

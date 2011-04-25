@@ -1,7 +1,7 @@
 <html>
   <head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-        <title>Your Calipso Site!</title>
+        <title>Calipso - A NodeJS CMS</title>
         <meta http-equiv="Content-Language" content="en">
         <meta name="description" content="Calipso is a NodeJS Content Management System (CMS) based on Express and Mongoose.  Fast, asynchronous, dynamic and social.">
         <meta name="keywords" content="calipso nodejs cms content management system asynchronous express mongoose dynamic social">
@@ -17,16 +17,16 @@
 		</div>	      
 		<div id="messages">
             <%- messages %>                        
-        </div>    
-        <div id="left">                      
-            <div id="menu">
-                <%- primary %>
-            </div>          
-            <%- right %>
-        </div>                   	
+        </div>                	
 		<div id="content">    		    		
     		<%- body %>
-    	</div>    	 
+    	</div>
+    	<div id="right">    	                 
+	        <div id="menu">
+	            <%- primary %>
+	        </div>	        
+            <%- right %>
+        </div>        
         <div style="clear:both"></div>
     	<div id="footer">
     	    <%- footer %>
