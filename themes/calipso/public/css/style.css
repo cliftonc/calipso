@@ -20,7 +20,7 @@ body {
 	top: 25px;
 }
 
-#header {
+#header {		
     position: relative;
     padding-bottom: 5px;        
     margin-bottom: 10px;    
@@ -51,6 +51,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header h1 {
+	background: url(/images/calipso.png) no-repeat;
+	background-position-y: 10px;	
 	font-family: 'Oswald',arial, serif;
     font-size: 57px !important;    
     font-weight: 400;
@@ -58,6 +60,7 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 0.1em;
     word-spacing: 0em;
     line-height: 1.2;
+    padding-left: 70px;
 }
     
 h1 { 		

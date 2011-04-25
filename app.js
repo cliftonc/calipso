@@ -58,7 +58,6 @@ function bootApplication(app) {
    
   // launch
   //app.use(express.profiler());s
-  app.use(express.favicon())
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
