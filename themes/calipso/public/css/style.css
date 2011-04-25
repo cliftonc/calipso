@@ -22,9 +22,8 @@ body {
 
 #header {
     position: relative;
-    padding-bottom: 10px;    
-    border-bottom: solid 1px silver;
-    margin-bottom: 20px;    
+    padding-bottom: 5px;        
+    margin-bottom: 10px;    
 }
 
 #content {
@@ -598,7 +597,7 @@ input[type=text],input[type=password], textarea {
 .home-welcome {
     display:block;
     width: 100%;
-    font-size: 1.5em;
+    font-size: 1.4em;
     line-height: 1.2em;
     margin-bottom: 20px;
 }
@@ -627,8 +626,9 @@ input[type=text],input[type=password], textarea {
 .home-column {
 	background: url(/images/background-dark.jpg) repeat;
     -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    height: 240px;
+    -webkit-border-radius: 4px;    
+    min-height:240px;
+    height:auto !important;
 }
 
 .home-column ul {    
