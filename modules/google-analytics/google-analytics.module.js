@@ -28,7 +28,7 @@ function init(module,app,next) {
         // These are the routes that pusher is enabled on re. sending / receiving messages.
         
         // Pusher enabled on every page
-        module.router.addRoute(/.*/,ga,{end:false,template:'ga',block:'scripts'},this.parallel());
+        module.router.addRoute(/.*/,ga,{end:false,template:'ga',block:'scripts.ga'},this.parallel());
         
       },
       function done() {
@@ -43,7 +43,7 @@ function init(module,app,next) {
 
 function ga(req,res,template,block,next) {     
     
-  var key = req.app.set('google-analytics-key');
+  var key = req.app.set('google-analytics-key'); 
   calipso.theme.renderItem(req,res,template,block,{key:key});                     
   next();
   

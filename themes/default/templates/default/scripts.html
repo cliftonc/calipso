@@ -1,16 +1,37 @@
-<title>Calipso - A Node CMS</title>        
+<title>Calipso - A Node CMS</title>
+        
+<!--  Styles -->
 <link type="text/css" href="/css/Aristo/jquery-ui-1.8.7.custom.css" rel="stylesheet" /> 
 <link rel="stylesheet" href="/css/style.css" />
+
+<!--  Google Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>        
+
+<!--  JQuery -->
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/js/jquery-ui-1.8.10.custom.min.js"></script>
+
 <!--  Prettify -->
 <link href="/js/prettify/dessert.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="/js/prettify/prettify.js"></script>
+
+<!--  jsTree menu -->
+<script type="text/javascript" src="/js/jsTree/jquery.jstree.js"></script>
+
 <script>
 
 $(document).ready(function() {
-    
+
+  // Navigation
+  $('.primary-menu').jstree({
+    "themes" : {
+      "theme" : "default",
+      "dots" : false,
+      "icons" : false
+    },
+    "plugins" : [ "themes", "html_data" ]
+  });
+	  
   // Pretty printing
   prettyPrint();
   
@@ -21,7 +42,10 @@ $(document).ready(function() {
   });  
   
 });
-    
-    
 </script>
-<%- blockData %>
+<!--  START OF DYNAMIC INSERTION -->
+
+<%- getBlock('scripts.pusher') %>
+<%- getBlock('scripts.ga') %>
+
+<!--  END OF DYNAMIC INSERTION -->

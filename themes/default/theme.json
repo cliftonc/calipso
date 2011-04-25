@@ -1,23 +1,16 @@
 {
   "name": "default",
-  "description": "Default Drupal Theme",
+  "description": "Default Calipso Theme",
   "version": "0.0.2",
-  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
-  "contentTypes":{
-    "Block Content":{"layout":"default","show":false},
-    "Article":{"layout":"default","show":true},
-    "Feed":{"layout":"feed","show":true},
-    "Guide":{"layout":"guide","show":true},
-    "Blog":{"layout":"blog","show":true}
-  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",  
   "layouts":{
         "default":{
             "layout":{"template":"default.html",
                       "sections":{                
-                        "scripts":{"template":"scripts.html","blocks":["scripts"]},
+                        "scripts":{"template":"scripts.html"},
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html","blocks":["scripts"]},                
+                        "header":{"template":"header.html"},                
                         "messages":{"template":"messages.html","blocks":[]},
                         "body":{"template":"body.html","blocks":["content","admin"]},
                         "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
@@ -28,10 +21,10 @@
          "home":{
             "layout":{"template":"default.html",
                       "sections":{                
-                        "scripts":{"template":"scripts.html","blocks":["scripts"]},
+                        "scripts":{"template":"scripts.html"},
                         "admin":{"menu":"admin","template":"adminMenu.html"},
                         "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html","blocks":["scripts"]},                
+                        "header":{"template":"header.html"},                
                         "messages":{"template":"messages.html","blocks":[]},
                         "body":{"template":"body.html","blocks":["messages","content","admin"]},
                         "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
@@ -42,9 +35,9 @@
         "admin":{
             "layout":{"template":"admin.html",
                       "sections":{
-                        "scripts":{"template":"scripts.html","blocks":["scripts"]},                
+                        "scripts":{"template":"scripts.html"},                
                         "admin":{"menu":"admin","template":"adminMenu.html"},
-                        "header":{"template":"header.html","blocks":["scripts"]},
+                        "header":{"template":"header.html"},
                         "messages":{"template":"messages.html","blocks":[]},                   
                         "body":{"template":"body.html","blocks":["messages","admin"]},
                         "right":{"template":"right.html","blocks":["user.login"]},

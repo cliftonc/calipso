@@ -33,7 +33,7 @@ function init(module,app,next) {
         // These are the routes that pusher is enabled on re. sending / receiving messages.
         
         // Pusher enabled on every page
-        module.router.addRoute(/.*/,pusher,{end:false,template:'pusher',block:'scripts'},this.parallel());
+        module.router.addRoute(/.*/,pusher,{end:false,template:'pusher',block:'scripts.pusher'},this.parallel());
         
       },
       function done() {

@@ -390,36 +390,18 @@ input[type=text],input[type=password], textarea {
     margin-right: 10px;        
 }
 
-.primary-menu ul {
-    margin-left: 0;
-    padding-left: 0;
-    font-size: 0.8em;
-}
-
-.primary-menu li {
-    margin-left: 0;
-    list-style: none;    
-}
-
 .primary-menu {        
+    color: white;
     position: relative;
-    font-size: 1.1em;    
-    margin-bottom: 10px;    
-}
-
-.primary-menu .primary-menu-item {    
-    color:  #343434;
-    padding: 3px;
-    margin-right: 10px;    
+    font-size: 1em;    
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: -5px;    
 }
 
 .primary-menu .primary-menu-item-selected {    
-    color: blue;
-    font-weight: bold;    
-    padding: 3px;
-    margin-right: 10px;        
+    font-weight: bold;            
 }
-
 
 .user-logout {
 	position: relative;    

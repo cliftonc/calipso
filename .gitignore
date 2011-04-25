@@ -1,4 +1,4 @@
-pids
-logs
+pids/*
+logs/*
 *.log
 *.sock
