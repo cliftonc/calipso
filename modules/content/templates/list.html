@@ -1,6 +1,6 @@
 <% contents.forEach(function(item) { %>
 <div class='content-list-item content-list-item-<%- item.meta.status %> content-type-<%- item.meta.contentType %>'>
     <h2><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></h2>
-    <p><%- item.meta.content %></p>
+    <p><%- item.meta.teaser %> ... <a href='/<%= item.meta.alias %>.html'>more</a></p>
 </div>
 <% });  %>
