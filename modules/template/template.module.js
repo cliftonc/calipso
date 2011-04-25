@@ -1,42 +1,59 @@
+/**
+ * Calipso is included in every module
+ */
 var calipso = require("../../lib/calipso");      
 
-exports = module.exports = {init: init, route: route};
-
+/**
+ * Exports
+ * Note that any hooks must be exposed here to be seen by Calipso
+ */
+exports = module.exports = {init: init, route: route, install: install, reload: reload, disable: disable, jobs: {templateJob:templateJob}};
 
 /**
- * Base news module
- * 
- * @param req      request object
- * @param menu     menu response object
- * @param blocks   blocks response object
- * @param db       database reference
+ * Template module
  */
 function route(req,res,module,app,next) {      
 
       /** 
        * Menu items
        */
-      res.menu.admin.primary.push({name:'Template',url:'/template',regexp:/template/});
-      // res.menu.admin.secondary.push({name:'Blah',parentUrl:'/template',url:'/template/blah'});         
+      res.menu.primary.push({name:'Template',url:'/template',regexp:/template/});
   
       /**
        * Routes
-       */      
-      
-      // var router = calipso.moduleRouter.Router();
+       */            
       module.router.route(req,res,next);
       
 };
 
 function init(module,app,next) {      
   
+  /**
+   *  If dependent on another module (e.g. content):
+  
+  if(!calipso.modules.content.initialised) {
+    process.nextTick(function() { init(module,app,next); });
+    return;
+  }
+  
+  */
+  
     // Any pre-route config  
   calipso.lib.step(
       function defineRoutes() {
+        
+        // Add a route to every page, notice the 'end:false' to ensure block further routing
         module.router.addRoute(/.*/,allPages,{end:false, template:'template-all',block:'right'},this.parallel());
-        module.router.addRoute('GET /template',templatePage,{template:'template',block:'content'},this.parallel());        
+        
+        // Page
+        module.router.addRoute('GET /template',templatePage,{template:'template',block:'content'},this.parallel());
+        
       },
       function done() {
+        
+        
+        
+        // Any schema configuration goes here
         next();
       }        
   );
@@ -44,25 +61,62 @@ function init(module,app,next) {
     
 };
 
+/**
+ * Simple template page function
+ */
 function templatePage(req,res,template,block,next) {      
   
+    // Set any variables
     var myVariable = "Hello World";
     
-    // Render json to blocks
-    var item = {id:"NA",type:'content',meta:{variable:myVariable}};                
-    calipso.theme.renderItem(req,res,template,block,{item:item});                     
-
-    next();      
+    // Create a content item
+    var item = {id:"NA",type:'content',meta:{variable:myVariable}};
+    
+    // Render the item via the template provided above
+    calipso.theme.renderItem(req,res,template,block,{item:item});
+        
+    next();
+    
 };
 
+/**
+ * Every page block function
+ */
 function allPages(req,res,template,block,next) {      
   
-  var myVariable = "I will be on every page!";
-  
-  // Render json to blocks
-  var item = {id:"NA",type:'content',meta:{variable:myVariable}};                
-  
-  calipso.theme.renderItem(req,res,template,block,{item:item});                     
-  
+  var myVariable = "Hello World on every page!";  
+  var item = {id:"NA",type:'content',meta:{variable:myVariable}};                  
+  calipso.theme.renderItem(req,res,template,block,{item:item});                       
   next();      
+  
 };
+
+/**
+ * Template installation hook
+ * @returns
+ */
+function install() {
+    calipso.log("Template module installed");
+}
+
+/**
+ * hook for disabling
+ */
+function disable() {
+    calipso.log("Template module disabled");
+}
+
+/**
+ * Admin hook for reloading
+ */
+function reload() {
+  calipso.log("Template module reloaded");
+}
+
+/**
+ * Template Job
+ */
+function templateJob(args,next) {
+  calipso.log("Template job function called with args: " + args);
+  next();
+}
