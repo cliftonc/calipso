@@ -7,9 +7,9 @@ html, body {
 
 /*--- Layout ---*/
 body {	
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 12px;
-	line-height: 1.2em;
+	font-family: Verdana, arial, sans-serif;
+	font-size: 0.8em;
+	line-height: 1.3em;
 	color: #ffffff;		
 	background: #444444 url(/images/background.jpg) repeat;
 }
@@ -600,6 +600,7 @@ input[type=text],input[type=password], textarea {
     width: 100%;
     font-size: 1.5em;
     line-height: 1.2em;
+    margin-bottom: 20px;
 }
 
 .home-col1 {    
@@ -608,32 +609,32 @@ input[type=text],input[type=password], textarea {
     padding: 1%;
     margin-left: 2%;
     margin-right: 2%;
-    background: url(/images/background-dark.jpg) repeat;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    height: 200px;
 }
 
 .home-col2 {    
     float: left;
     width: 29%;
     padding: 1%;
-    margin-right: 2%;
-    background: url(/images/background-dark.jpg) repeat;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    height: 200px;
+    margin-right: 2%;    
 }
 
 .home-col3 {    
     float: left;
     width: 29%;   
-    padding: 1%; 
-    background: url(/images/background-dark.jpg) repeat;
+    padding: 1%;     
+}
+
+.home-column {
+	background: url(/images/background-dark.jpg) repeat;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    height: 200px;
+    height: 240px;
 }
+
+.home-column ul {    
+    margin-left: 20;    
+}
+
 
 .home-spacer {    
     clear:both;
