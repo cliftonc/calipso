@@ -9,10 +9,6 @@ var fs = require('fs'),
     calipso = require('./lib/calipso'),
     mongoStore = require('./support/connect-mongodb');
 
-// Profiler
-require('v8-profiler');
-
-
 /** 
  * Global variables
  */
