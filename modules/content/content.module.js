@@ -66,7 +66,7 @@ function init(module,app,next) {
                   var text = "Click to create: " +
                   "<a title='Click to create ...' href='/content/new?" +
                   "type=Block%20Content" + 
-                  "&title=" + alias +
+                  "&alias=" + alias +
                   "&teaser=Content%20for%20" + alias +
                   "&returnTo=" + req.url +
                   "'>" + alias +"</a>";
@@ -93,7 +93,7 @@ function init(module,app,next) {
           
         }        
                         
-        // Schemea
+        // Schema
         var Content = new calipso.lib.mongoose.Schema({
           title:{type: String, required: true, default: ''},
           teaser:{type: String, required: true, default: ''},
@@ -137,6 +137,23 @@ function homePage(req,res,template,block,next) {
 }
 
 /**
+ * Local default for the content form
+ */
+var contentForm = {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',fields:[                                                                                                         
+               {label:'Title',name:'content[title]',type:'text',instruct:'Title to appear for this piece of content.'},
+               {label:'Permanent URL / Alias',name:'content[alias]',type:'text',instruct:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
+               {label:'Type',name:'content[contentType]',type:'select',options:function() { return calipso.data.contentTypes },instruct:'Select the type, this impacts custom fields and page display.'},
+               {label:'Teaser',name:'content[teaser]',type:'textarea',instruct:'Enter some short text that describes the content, appears in lists.'},
+               {label:'Content',name:'content[content]',type:'textarea',instruct:'Enter the full content text.'},                                  
+               {label:'Taxonomy',name:'content[taxonomy]',type:'text',instruct:'Enter the menu heirarchy, e.g. "welcome/about"'},
+               {label:'Tags',name:'content[tags]',type:'text',value:'',instruct:'Enter comma delimited tags to help manage this content.'},
+               {label:'Status',name:'content[status]',type:'select',options:["draft","published"],instruct:'Select the status (published is visible to all public).'},
+               {label:'',name:'content[returnTo]',type:'hidden'}                 
+            ],buttons:[
+               {name:'submit',type:'submit',value:'Save Content'}
+            ]};
+
+/**
  * Module specific functions
  * 
  * @param req
@@ -150,7 +167,7 @@ function createContent(req,res,template,block,next) {
       
       var c = new Content(req.body.content);
       
-      c.alias = titleAlias(c.title);      
+      c.alias = c.alias ? c.alias : titleAlias(c.title);      
       c.tags = req.body.content.tags ? req.body.content.tags.split(",") : [];      
       c.author = req.session.user.username; 
       
@@ -220,27 +237,32 @@ function createContentForm(req,res,template,block,next) {
   res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});             
   
   // Allow defaults to be passed in
-  var title = req.moduleParams.title ? req.moduleParams.title : "";
+  var alias = req.moduleParams.alias ? req.moduleParams.alias : "";
   var teaser = req.moduleParams.teaser ? req.moduleParams.teaser : "";
   var taxonomy = req.moduleParams.taxonomy ? req.moduleParams.taxonomy : "";
   var type = req.moduleParams.type ? req.moduleParams.type : "";
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
   
   // Create the form
-  var item = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content',fields:[                                                                                                         
-                 {label:'Title',name:'content[title]',type:'text',value:title},                 
-                 {label:'Teaser',name:'content[teaser]',type:'textarea',value:teaser},
-                 {label:'Content',name:'content[content]',type:'textarea',value:''},
-                 {label:'Type',name:'content[contentType]',type:'select',value:type,options:calipso.data.contentTypes},                 
-                 {label:'Taxonomy',name:'content[taxonomy]',type:'text',value:taxonomy},
-                 {label:'Tags',name:'content[tags]',type:'text',value:''},
-                 {label:'Status',name:'content[status]',type:'select',value:'',options:["draft","published"]},
-                 {label:'',name:'content[returnTo]',type:'hidden',value:returnTo}
-              ]}
+  var form = contentForm;
   
-  calipso.theme.renderItem(req,res,template,block,{item:item});                     
+  // Default values
+  var values = {
+      content: {
+        alias:alias,
+        teaser:teaser,
+        contentType:type,
+        taxonomy:taxonomy,
+        returnTo: returnTo
+      }
+  }
   
-  next();
+  // Test!
+  calipso.form.render(form,values,function(form) {
+    calipso.theme.renderItem(req,res,template,block,{form:form});                         
+    next();
+  });
+  
 }
 
 function editContentForm(req,res,template,block,next) {
@@ -249,7 +271,7 @@ function editContentForm(req,res,template,block,next) {
   var id = req.moduleParams.id;          
   var item;
   
-  var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
+  var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";  
   
   res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});      
   res.menu.admin.secondary.push({name:'Edit Content',parentUrl:'/content/' + id,url:'/content/edit/' + id});
@@ -257,25 +279,34 @@ function editContentForm(req,res,template,block,next) {
   Content.findById(id, function(err, c) {
     
     if(err || c === null) {
-      item = {id:'ERROR',title:"Not Found!",type:'content',content:"Sorry, I couldn't find that content!"};      
-    } else {      
       
-      item = {id:c._id,title:c.title,type:'form',method:'POST',action:'/content/' + id,fields:[                                                                         
-           {label:'Title',name:'content[title]',type:'text',value:c.title},
-           {label:'Teaser',name:'content[teaser]',type:'textarea',value:c.teaser},
-           {label:'Content',name:'content[content]',type:'textarea',value:c.content},
-           {label:'Type',name:'content[contentType]',type:'select',value:c.meta.contentType,options:calipso.data.contentTypes},                 
-           {label:'Taxonomy',name:'content[taxonomy]',type:'text',value:c.taxonomy},
-           {label:'Tags',name:'content[tags]',type:'text',value:c.tags.join(",")},
-           {label:'Status',name:'content[status]',type:'select',value:c.status,options:["draft","published"]},
-           {label:'',name:'content[returnTo]',type:'hidden',value:returnTo}
-           ]};
-        
+      // TODO : REDIRECT TO 404
+      res.statusCode = 404;
+      next();
+    
+    } else {          
+          
+      // Create the form
+      var form = contentForm;
+      form.title = "Edit Content ...";
+      form.action = "/content/" + id;
+      
+      // Default values
+      var values = {content: c};
+      
+      // Fix for content type being held in meta field
+      values.content.contentType = values.content.meta.contentType;
+      values.content.returnTo = returnTo;
+      
+      // Test!
+      calipso.form.render(form,values,function(form) {
+        calipso.theme.renderItem(req,res,template,block,{form:form});                         
+        next();
+      });    
+      
     }           
     
-    calipso.theme.renderItem(req,res,template,block,{item:item});                     
-    next();   
-    
+            
   });
   
 }
@@ -299,7 +330,7 @@ function updateContent(req,res,template,block,next) {
         c.taxonomy = req.body.content.taxonomy;
         c.updated = new Date();    
         c.author = req.session.user.username;
-        c.alias = titleAlias(c.title);
+        c.alias = req.body.content.alias ? req.body.content.alias : titleAlias(c.title);
         c.tags = req.body.content.tags ? req.body.content.tags.replace(/[\s]+/g, "").split(",") : [];        
         
         // Get content type        
@@ -369,7 +400,7 @@ function showAliasedContent(req,res,template,block,next) {
       if(err || !content) {
         
         if(req.session.user && req.session.user.isAdmin) {
-          res.redirect("/content/new?title=" + alias + 
+          res.redirect("/content/new?alias=" + alias + 
                        "&type=Article")
         } else {
           res.statusCode = 404;
