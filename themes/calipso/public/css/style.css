@@ -7,8 +7,8 @@ html, body {
 
 /*--- Layout ---*/
 body {	
-	font-family: Verdana, arial, sans-serif;
-	font-size: 0.8em;
+    font-family: 'Quattrocento Sans', serif;
+	font-size: 0.9em;
 	line-height: 1.3em;
 	color: #ffffff;		
 	background: #444444 url(/images/background.jpg) repeat;
@@ -529,7 +529,7 @@ img.shadow {
 
 /** HOME PAGE **/
 .home-content {
-    
+    font-size: 0.9em;
 }
 
 .home-welcome {
@@ -565,7 +565,7 @@ img.shadow {
 	background: url(/images/background-dark.jpg) repeat;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;    
-    min-height:240px;
+    min-height:260px;
     height:auto !important;
 }
 

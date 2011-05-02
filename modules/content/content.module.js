@@ -613,6 +613,7 @@ function listContent(req,res,template,block,next) {
         var pagerHtml = calipso.lib.pager.render(from,limit,total,"");
               
         Content.find(query)
+          .sort('published', -1)
           .sort('updated', -1)
           .skip(from).limit(limit)          
           .find(function (err, contents) {            

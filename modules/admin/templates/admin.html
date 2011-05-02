@@ -1,12 +1,12 @@
 <div class='admin-page'>
 	<h2>Administration</h2>
 	<form action='/admin/save' method='POST'>
-		<ul>
-			<li class='section'>
+		<ul class='form-fields'>
+			<div class='section'>
 			     <section>
 				<h3>Core Configuration</h3>
 				</section>
-				<li>
+				<li class='form-field'>
 					<div>
 						<label>Theme</label> <select name="config[theme]"> <%
 							themes.forEach(function(theme) { %>
@@ -17,12 +17,12 @@
 				    %>    
 				    </select>
 					</div></li>				
-			</li>
-			 <li class='section'>
+			</div>
+			 <div class='section'>
                  <section>
                 <h3>Logging</h3>
                 </section>
-                    <li>
+                    <li class='form-field'>
                     <div>
                     <label>Log Level</label> <select
                             name="config[logslevel]"> <% for(var level in loglevels)
@@ -35,36 +35,35 @@
                         </select>
                     </div>
                     </li>
-                    <li>
+                    <li class='form-field'>
                     <div>
     					<label>Console Logging Enabled</label>
 						<input type='checkbox' name='config[logsconsoleenabled]'<%=
 						item.meta.logs.console.enabled ? "checked" : "unchecked" %>/>Enabled						
 	                </div>
                        </li>
-	                <li>   
+	                <li class='form-field'>   
                     <div>
     					<label>File Logging Enabled</label>
 						<input type='checkbox' name='config[logsfileenabled]'<%=
 						item.meta.logs.file.enabled ? "checked" : "unchecked" %>/>Enabled						
 	                   </div>
 	                   </li>
-	                <li>
+	                <li class='form-field'>
                     <div>
-    
-    
+       
 						<label>File Log Path</label>
 						<input type='text' name='config[logsfilefilepath]'
 							style='width: 80% !important;'
 							value='<%= item.meta.logs.file.filepath%>' />
                         </div>
                      </li>
-               </li>
-             <li class='section'>
+               </div>
+             <div class='section'>
              <section>
                 <h3>Modules</h3>
                 </section>
-                <li>
+                <li class='form-field'>
                     <div>
 					<label>Modules</label>
 					<br /> <% for(var module in modules) { %>
@@ -73,7 +72,7 @@
 					<br /> <% } %>
 				    </div>
 				</li>
-		      </li>
+		      </div>
 		      <li class="buttons">
 		      <div>
 		          <input type='submit'  /> 

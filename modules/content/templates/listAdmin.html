@@ -3,6 +3,7 @@
 <th>Title</th>
 <th>Type</th>
 <th>Author</th>
+<th>Published</th>
 <th>Updated</th>
 </tr>
 <% contents.forEach(function(item) { %>
@@ -10,7 +11,8 @@
     <td><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></td>    
     <td><%- item.meta.meta.contentType %></td>
     <td><%- item.meta.author %></td>
-    <td><%- prettyDate(item.meta.updated) %></td>
+    <td><%- prettyDate(item.meta.published) %></td>
+    <td><%- prettyDate(item.meta.updated) %></td>    
 </tr>
 <% });  %>
 </table>

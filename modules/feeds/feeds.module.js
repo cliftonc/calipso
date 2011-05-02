@@ -229,14 +229,26 @@ function processRssItem(item,taxonomy,contentType, next) {
       var c = new Content();        
       
       c.title=item.title.text;
-      c.teaser=item.title.text;
-      c.content=item.description.text;  
+      
+      if(item['content:encoded']) {        
+        c.teaser=item.description.text;
+        c.content=item['content:encoded'].text;
+      } else {
+        c.teaser=item.title.text;
+        c.content=item.description.text;  
+      }      
+      
       c.status='published';
-      c.taxonomy=taxonomy; // TODO : Pass through  
-      if(item.category) {
-        item.category.forEach(function(category) {
-          c.tags.push(category.text);
-        });        
+      c.taxonomy=taxonomy; // TODO : Pass through
+      
+      if(item.category) {                
+        try { 
+          item.category.forEach(function(category) {
+            c.tags.push(category.text);
+          });  
+        } catch(e) {
+          calipso.error("Error parsing RSS Feed: " + e.message);
+        }                
       }
       
       c.alias = alias;                    
@@ -244,7 +256,8 @@ function processRssItem(item,taxonomy,contentType, next) {
     
       if(item.pubDate.text) {
         c.updated=new Date(item.pubDate.text);
-        c.created=new Date(item.pubDate.text);        
+        c.created=new Date(item.pubDate.text);
+        c.published=new Date(item.pubDate.text);
       }           
 
       // Get content type        
