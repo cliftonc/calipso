@@ -596,23 +596,23 @@ img.shadow {
 }
 
 /** FORMS **/
-form ul{
+form ul.form-fields {
     margin:0;
     padding:0;
     list-style-type:none;
 }
 
 form { /* IE6 Margin Percent Bug for Halves/Thirds */
+    width:95%;
+    zoom:1;
+}
+
+* html form ul.form-fields { /* IE6 Margin Percent Bug for Halves/Thirds */
     width:99%;
     zoom:1;
 }
 
-* html form ul{ /* IE6 Margin Percent Bug for Halves/Thirds */
-    width:99%;
-    zoom:1;
-}
-
-form li{
+form li.form-field  {
     margin:0;
     padding:5px 0% 3px 0%;
     clear:both;
@@ -620,7 +620,7 @@ form li{
     position:relative; /* Makes Instructs z-index stay on top in IE. */ 
 }
 
-form ul:after,form li:after, form li div:after{
+form ul.form-fields:after,form li.form-field:after, form li.form-field div:after{
     content:"."; 
     display:block;
     height:0; 
@@ -628,18 +628,18 @@ form ul:after,form li:after, form li div:after{
     visibility:hidden;
 }
 
-* html form li{height: 1%;margin-bottom:-3px;}
-*+html form li{height: 1%;margin-bottom:-3px;}
-* html form li div{display:inline-block;}
-*+html form ul, *+html form li div{display:inline-block;}
+* html form li.form-field {height: 1%;margin-bottom:-3px;}
+*+html form li.form-field {height: 1%;margin-bottom:-3px;}
+* html form li.form-field  div{display:inline-block;}
+*+html form ul.form-fields, *+html form li.form-field div{display:inline-block;}
 
-form li div{
+form li.form-field div{
     margin:0;
     padding:0;
     color:white;
 }
 
-form li div label {
+form li.form-field div label {
     margin:0;
     padding-top:3px;
     clear:both;
@@ -649,7 +649,7 @@ form li div label {
     display:block;
 }
 
-form.login li div {
+form.login li.form-field div {
     margin-bottom:5px !important;
 }
 
@@ -710,7 +710,7 @@ form .instruct{
     color: 9f9f9f;    
 }
 
-form li.section h3 {
+ul.form-fields div.section h3 {
 	font-weight: normal;
 	font-size: 110%;
 	line-height: 135%;

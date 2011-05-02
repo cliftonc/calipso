@@ -137,8 +137,9 @@ function init(module,app,next) {
 /**
  * Local default for the content create / edit form
  */
-var contentForm = {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',
+var contentForm = {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',tabs:false,
           sections:[{
+            id:'form-section-content',
             label:'Content',            
             fields:[                                                                                                         
                     {label:'Title',name:'content[title]',type:'text',instruct:'Title to appear for this piece of content.'},
@@ -148,12 +149,14 @@ var contentForm = {id:'content-form',title:'Create Content ...',type:'form',meth
                     {label:'Content',name:'content[content]',type:'textarea',instruct:'Enter the full content text.'},                                  
                    ]  
           },{
+            id:'form-section-category',
             label:'Categorisation',            
             fields:[                                                                                                         
                     {label:'Taxonomy',name:'content[taxonomy]',type:'text',instruct:'Enter the menu heirarchy, e.g. "welcome/about"'},
                     {label:'Tags',name:'content[tags]',type:'text',value:'',instruct:'Enter comma delimited tags to help manage this content.'},
                    ]  
           },{
+            id:'form-section-status',
             label:'Status',            
             fields:[                                                                                                         
                     {label:'Status',name:'content[status]',type:'select',options:["draft","scheduled","published"],instruct:'Select the status (published is visible to all public).'},
@@ -301,6 +304,7 @@ function createContentForm(req,res,template,block,next) {
   // Default values
   var values = {
       content: {
+        title:alias,  // Default the title to the alias
         alias:alias,
         teaser:teaser,
         contentType:type,
