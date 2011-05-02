@@ -109,8 +109,8 @@ function init(module,app,next) {
           alias:{type: String, required: true, unique: true},
           author:{type: String, required: true},
           tags:[String],
-          published: { type: Date, default: Date.now },
-          scheduled: { type: Date, default: Date.now },
+          published: { type: Date },
+          scheduled: { type: Date },
           created: { type: Date, default: Date.now },
           updated: { type: Date, default: Date.now },
           meta:{
@@ -157,8 +157,8 @@ var contentForm = {id:'content-form',title:'Create Content ...',type:'form',meth
             label:'Status',            
             fields:[                                                                                                         
                     {label:'Status',name:'content[status]',type:'select',options:["draft","scheduled","published"],instruct:'Select the status (published is visible to all public).'},
-                    {label:'Published',name:'content[published]',type:'text',instruct:'TODO: Date to appear as published.'},
-                    {label:'Scheduled',name:'content[scheduled]',type:'text',instruct:'TODO: Date to be published (if scheduled).'},
+                    {label:'Published',name:'content[published]',type:'datetime',instruct:'TODO: Date to appear as published.'},
+                    {label:'Scheduled',name:'content[scheduled]',type:'datetime',instruct:'TODO: Date to be published (if scheduled).'},
                    ]  
           }
           ],
@@ -192,6 +192,26 @@ function createContent(req,res,template,block,next) {
       c.alias = c.alias ? c.alias : titleAlias(c.title);      
       c.tags = req.body.content.tags ? req.body.content.tags.split(",") : [];      
       c.author = req.session.user.username; 
+
+      // Published date
+      if(c.status === 'published') {
+        p = req.body.content.published;
+        if(p.year === "1900") {
+          c.published = new Date();
+        } else {
+          c.published = new Date(p.year,p.month,p.day,p.hours,p.minutes);  
+        }          
+      } else {
+        c.published = null;
+      }
+      
+      // Scheduled date
+      if(c.status === 'scheduled') {
+        s = req.body.content.scheduled;
+        c.scheduled = new Date(s.year,s.month,s.day,s.hours,s.minutes);                
+      } else {
+        c.scheduled = null;
+      }
       
       var returnTo = req.body.content.returnTo ? req.body.content.returnTo : "";
             
@@ -357,7 +377,7 @@ function updateContent(req,res,template,block,next) {
   var returnTo = req.body.content.returnTo ? req.body.content.returnTo : "";
   
   var id = req.moduleParams.id;          
-  
+    
   Content.findById(id, function(err, c) {    
     if (c) {      
         
@@ -370,7 +390,28 @@ function updateContent(req,res,template,block,next) {
         c.updated = new Date();    
         c.author = req.session.user.username;
         c.alias = req.body.content.alias ? req.body.content.alias : titleAlias(c.title);
-        c.tags = req.body.content.tags ? req.body.content.tags.replace(/[\s]+/g, "").split(",") : [];        
+        c.tags = req.body.content.tags ? req.body.content.tags.replace(/[\s]+/g, "").split(",") : [];
+        
+        // Published date
+        if(c.status === 'published') {
+          p = req.body.content.published;          
+          if(p.year === "1900") {
+            c.published = new Date();
+          } else {
+            c.published = new Date(p.year,p.month,p.day,p.hours,p.minutes);  
+          }          
+          
+        } else {
+          c.published = null;
+        }
+        
+        // Scheduled date
+        if(c.status === 'scheduled') {
+          s = req.body.content.scheduled;
+          c.scheduled = new Date(s.year,s.month,s.day,s.hours,s.minutes);                
+        } else {
+          c.scheduled = null;
+        }   
         
         // Get content type        
         ContentType.findOne({contentType:req.body.content.contentType}, function(err, contentType) {
