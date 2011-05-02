@@ -1,4 +1,4 @@
-var calipso = require("../../lib/calipso"), Query = require("mongoose").Query;   
+var calipso = require("../../lib/calipso"), Query = require("mongoose").Query, utils = require('connect').utils, merge = utils.merge;   
 
 exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jobs:{scheduledPublish:scheduledPublish}};
 
@@ -146,14 +146,14 @@ var contentForm = {id:'content-form',title:'Create Content ...',type:'form',meth
                     {label:'Permanent URL / Alias',name:'content[alias]',type:'text',instruct:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
                     {label:'Type',name:'content[contentType]',type:'select',options:function() { return calipso.data.contentTypes },instruct:'Select the type, this impacts custom fields and page display.'},
                     {label:'Teaser',name:'content[teaser]',type:'textarea',instruct:'Enter some short text that describes the content, appears in lists.'},
-                    {label:'Content',name:'content[content]',type:'textarea',instruct:'Enter the full content text.'},                                  
+                    {label:'Content',name:'content[content]',type:'textarea',instruct:'Enter the full content text.'}                                  
                    ]  
           },{
             id:'form-section-category',
             label:'Categorisation',            
             fields:[                                                                                                         
                     {label:'Taxonomy',name:'content[taxonomy]',type:'text',instruct:'Enter the menu heirarchy, e.g. "welcome/about"'},
-                    {label:'Tags',name:'content[tags]',type:'text',value:'',instruct:'Enter comma delimited tags to help manage this content.'},
+                    {label:'Tags',name:'content[tags]',type:'text',instruct:'Enter comma delimited tags to help manage this content.'},
                    ]  
           },{
             id:'form-section-status',
@@ -166,7 +166,7 @@ var contentForm = {id:'content-form',title:'Create Content ...',type:'form',meth
           }
           ],
           fields:[
-            {label:'',name:'content[returnTo]',type:'hidden'}
+            {label:'',name:'returnTo',type:'hidden'}
           ],
           buttons:[
                {name:'submit',type:'submit',value:'Save Content'}
@@ -186,80 +186,95 @@ function homePage(req,res,template,block,next) {
  * Create content - processed after create form submission.
  */
 function createContent(req,res,template,block,next) {
-                  
-      var Content = calipso.lib.mongoose.model('Content');
-      var ContentType = calipso.lib.mongoose.model('ContentType');
-      
-      var c = new Content(req.body.content);
-      
-      c.alias = c.alias ? c.alias : titleAlias(c.title);      
-      c.tags = req.body.content.tags ? req.body.content.tags.split(",") : [];      
-      c.author = req.session.user.username; 
-
-      // Published date
-      if(c.status === 'published') {
-        p = req.body.content.published;
-        if(p.year === "1900") {
-          c.published = new Date();
-        } else {
-          c.published = new Date(p.year,p.month,p.day,p.hours,p.minutes);  
-        }          
-      } else {
-        c.published = null;
-      }
-      
-      // Scheduled date
-      if(c.status === 'scheduled') {
-        s = req.body.content.scheduled;
-        c.scheduled = new Date(s.year,s.month,s.day,s.hours,s.minutes);                
-      } else {
-        c.scheduled = null;
-      }
-      
-      var returnTo = req.body.content.returnTo ? req.body.content.returnTo : "";
+    
+  calipso.form.process(req,function(form) {
+    
+    if(form) {        
+    
+          var Content = calipso.lib.mongoose.model('Content');
+          var ContentType = calipso.lib.mongoose.model('ContentType');
+          
+          var c = new Content(form.content);          
+          c.alias = c.alias ? c.alias : titleAlias(c.title);      
+          c.tags = form.content.tags ? form.content.tags.split(",") : [];      
+          c.author = req.session.user.username; 
+    
+          /* Published date */
+          if(c.status === 'published') {   
             
-      // Get content type        
-      ContentType.findOne({contentType:req.body.content.contentType}, function(err, contentType) {
-        
-        
-          if(err || !contentType) {        
+            var p = form.content.published;
             
-            calipso.debug(err);            
-            req.flash('error','Could not locate content type: ' + req.body.content.contentType);
-            res.redirect('/content');
-            next();     
-            
+            if(p.year === "1900") {
+              c.published = new Date();
+            } else {
+              c.published = new Date(p.year,
+                                      p.month,
+                                      p.day,
+                                      p.hours,
+                                      p.minutes);  
+            }                          
           } else {
-            
-            // Copy over content type data - in meta as this is 
-            // not mastered here
-            c.meta.contentType = contentType.contentType;
-            c.meta.layout = contentType.layout;
-            c.meta.ispublic = contentType.ispublic;            
-            
-            c.save(function(err) {    
-              if(err) {
-                calipso.debug(err);
-                req.flash('error','Could not save content: ' + err.message);
-                if(res.statusCode != 302) {
-                    res.redirect('/content/new');                  
-                }                          
-              } else {
-                req.flash('info','Content saved successfully!');
-                if(returnTo) {
-                  res.redirect(returnTo);
-                } else {
-                  res.redirect('/content/show/' + c._id);  
-                }                
-              }
-              // If not already redirecting, then redirect
-              next();
-            });
-              
+            c.published = null;
           }
+          
+          /* Scheduled date */
+          if(c.status === 'scheduled') {                
+            var s = form.content.scheduled;
+            c.scheduled = new Date(s.year,
+                s.month,
+                s.day,
+                s.hours,
+                s.minutes);                  
+          } else {
+            c.scheduled = null;
+          }
+      
+          var returnTo = form.returnTo ? form.returnTo : "";
                 
-      });
+          // Get content type        
+          ContentType.findOne({contentType:form.content.contentType}, function(err, contentType) {
+            
+            
+              if(err || !contentType) {        
                 
+                calipso.debug(err);            
+                req.flash('error','Could not locate content type: ' + form.content.contentType);
+                res.redirect('/content');
+                next();     
+                
+              } else {
+                
+                // Copy over content type data - in meta as this is 
+                // not mastered here
+                c.meta.contentType = contentType.contentType;
+                c.meta.layout = contentType.layout;
+                c.meta.ispublic = contentType.ispublic;            
+                
+                c.save(function(err) {    
+                  if(err) {
+                    calipso.debug(err);
+                    req.flash('error','Could not save content: ' + err.message);
+                    if(res.statusCode != 302) {
+                        res.redirect('/content/new');                  
+                    }                          
+                  } else {
+                    req.flash('info','Content saved successfully!');
+                    if(returnTo) {
+                      res.redirect(returnTo);
+                    } else {
+                      res.redirect('/content/show/' + c._id);  
+                    }                
+                  }
+                  // If not already redirecting, then redirect
+                  next();
+                });
+                  
+              }
+                    
+          });
+      }
+    
+  });        
   
 }
 
@@ -302,15 +317,13 @@ function createContentForm(req,res,template,block,next) {
   form.title = "Create Content ...";
   
   // Default values
-  var values = {
-      content: {
+  var values = {      
         title:alias,  // Default the title to the alias
         alias:alias,
         teaser:teaser,
         contentType:type,
         taxonomy:taxonomy,
-        returnTo: returnTo
-      }
+        returnTo: returnTo      
   }
   
   // Test!
@@ -356,7 +369,7 @@ function editContentForm(req,res,template,block,next) {
       
       // Fix for content type being held in meta field
       values.content.contentType = values.content.meta.contentType;
-      values.content.returnTo = returnTo;
+      values.returnTo = returnTo;
       
       // Test!
       calipso.form.render(form,values,function(form) {
@@ -374,92 +387,106 @@ function editContentForm(req,res,template,block,next) {
  * Update Content - from form submission
  */
 function updateContent(req,res,template,block,next) {
-      
-  var Content = calipso.lib.mongoose.model('Content');
-  var ContentType = calipso.lib.mongoose.model('ContentType');
-
-  var returnTo = req.body.content.returnTo ? req.body.content.returnTo : "";
-  
-  var id = req.moduleParams.id;          
-    
-  Content.findById(id, function(err, c) {    
-    if (c) {      
         
-        // TODO : Find a better mapper
-        c.title = req.body.content.title;
-        c.content = req.body.content.content;
-        c.teaser = req.body.content.teaser;
-        c.status = req.body.content.status;
-        c.taxonomy = req.body.content.taxonomy;
-        c.updated = new Date();    
-        c.author = req.session.user.username;
-        c.alias = req.body.content.alias ? req.body.content.alias : titleAlias(c.title);
-        c.tags = req.body.content.tags ? req.body.content.tags.replace(/[\s]+/g, "").split(",") : [];
-        
-        // Published date
-        if(c.status === 'published') {
-          p = req.body.content.published;          
-          if(p.year === "1900") {
-            c.published = new Date();
-          } else {
-            c.published = new Date(p.year,p.month,p.day,p.hours,p.minutes);  
-          }          
+   calipso.form.process(req,function(form) {
+         
+      if(form) {        
           
-        } else {
-          c.published = null;
-        }
-        
-        // Scheduled date
-        if(c.status === 'scheduled') {
-          s = req.body.content.scheduled;
-          c.scheduled = new Date(s.year,s.month,s.day,s.hours,s.minutes);                
-        } else {
-          c.scheduled = null;
-        }   
-        
-        // Get content type        
-        ContentType.findOne({contentType:req.body.content.contentType}, function(err, contentType) {
-              
-            if(err || !contentType) {
-              req.flash('error','Could not locate content type: ' + req.body.content.contentType);
-              res.redirect('/content');
-              next();              
-            } else {
+        var Content = calipso.lib.mongoose.model('Content');
+        var ContentType = calipso.lib.mongoose.model('ContentType');
 
-              // Copy over content type data              
-              c.meta.contentType = contentType.contentType;
-              c.meta.layout = contentType.layout;
-              c.meta.ispublic = contentType.ispublic;
-                      
-              c.save(function(err) {
-                if(err) {
-                  req.flash('error','Could not update content: ' + err.message);
-                  if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-                    res.redirect('/content/edit/' + req.moduleParams.id);
-                  }
+        var returnTo = form.returnTo ? form.returnTo : "";        
+        var id = req.moduleParams.id;          
+          
+        Content.findById(id, function(err, c) {    
+          if (c) {      
+              
+              // TODO : Find a better mapper              
+              c.title = form.content.title;
+              c.teaser = form.content.teaser;
+              c.content = form.content.content;
+              c.status = form.content.status;
+              c.taxonomy = form.content.taxonomy;
+              c.updated = new Date();    
+              c.author = req.session.user.username;
+              c.alias = form.content.alias ? form.content.alias : titleAlias(c.title);
+              c.tags = form.content.tags ? form.content.tags.replace(/[\s]+/g, "").split(",") : [];
+              
+              /* Published date */
+              if(c.status === 'published') {      
+                var p = form.content.published;
+                if(p.year === "1900") {
+                  c.published = new Date();
                 } else {
-                  req.flash('info','Content saved successfully!');
-                  if(returnTo) {
-                    res.redirect(returnTo);
-                  } else {                    
-                    res.redirect('/content/show/' + req.moduleParams.id);
+                  c.published = new Date(p.year,
+                                          p.month,
+                                          p.day,
+                                          p.hours,
+                                          p.minutes);  
+                }                          
+              } else {
+                c.published = null;
+              }
+              
+              /* Scheduled date */
+              if(c.status === 'scheduled') {
+                var s = fields.scheduled;
+                c.scheduled = new Date(s.year,
+                    s.month,
+                    s.day,
+                    s.hours,
+                    s.minutes);                  
+              } else {
+                c.scheduled = null;
+              }
+              
+              // Get content type        
+              ContentType.findOne({contentType:form.content.contentType}, function(err, contentType) {
+                    
+                  if(err || !contentType) {
+                    req.flash('error','Could not locate content type: ' + form.content.contentType);
+                    res.redirect('/content');
+                    next();              
+                  } else {
+
+                    // Copy over content type data              
+                    c.meta.contentType = contentType.contentType;
+                    c.meta.layout = contentType.layout;
+                    c.meta.ispublic = contentType.ispublic;
+                            
+                    c.save(function(err) {
+                      if(err) {
+                        req.flash('error','Could not update content: ' + err.message);
+                        if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                          res.redirect('/content/edit/' + req.moduleParams.id);
+                        }
+                      } else {
+                        req.flash('info','Content saved successfully!');
+                        if(returnTo) {
+                          res.redirect(returnTo);
+                        } else {                    
+                          res.redirect('/content/show/' + req.moduleParams.id);
+                        }
+                      }
+                      next();
+                               
+                    });
+                      
                   }
-                }
-                next();
-                         
+                        
               });
-                
-            }
-                  
+              
+          } else {
+            req.flash('error','Could not locate content!');
+            res.redirect('/content');
+            next();
+          }
         });
-        
-    } else {
-      req.flash('error','Could not locate content!');
-      res.redirect('/content');
-      next();
-    }
-  });
-  
+     
+      }
+      
+    });    
+    
 }
 
 /**

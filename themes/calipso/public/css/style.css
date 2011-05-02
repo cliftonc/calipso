@@ -26,7 +26,7 @@ body {
     margin-bottom: 10px;    
 }
 
-#content {
+#body {
   float: left; 
   width: 80%;
 }
@@ -603,7 +603,7 @@ form ul.form-fields {
 }
 
 form { /* IE6 Margin Percent Bug for Halves/Thirds */
-    width:95%;
+    width:98%;
     zoom:1;
 }
 
@@ -710,8 +710,9 @@ form .instruct{
     color: 9f9f9f;    
 }
 
-ul.form-fields div.section h3 {
-	font-weight: normal;
+div.section h3 {
+clear:both;
+		font-weight: normal;
 	font-size: 110%;
 	line-height: 135%;
 	margin: 0 0 3px 0;

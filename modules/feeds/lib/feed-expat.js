@@ -26,9 +26,10 @@ var Parser = function() {
   this.EXPLICIT_CHARKEY = false; // always use the '#' key, even if there are no subkeys  
   this.CHARKEY = 'text';
   this.ATTRKEY = '@';
+  this.cleaner = /[^\x20-\x7E]/
   
   // Create an expat parser
-  this.parser = new expat.Parser("UTF-8");
+  this.parser = new expat.Parser();
   
   this.parser.addListener('startElement', function(name, attrs) {          
     var obj = {};
@@ -84,6 +85,8 @@ var Parser = function() {
   this.parser.addListener('text', function(t) {      
     var s = stack[stack.length-1];
     if(s) { 
+        // Clean the text of any invalid characters
+        t = t.replace(that.cleaner,"");
         s[that.CHARKEY] += t;
     }
   });
@@ -116,20 +119,19 @@ exports.parseURL = function(url, cb) {
         
         client.get({ host: parts.hostname, port: parts.port, path: parts.pathname }, function(res) {
           
-          var data = '';
-          
-          res.on('data', function(d) {
+          var data = '';                    
+          res.setEncoding('utf8');
+
+          res.on('data', function(d) {           
             data += d;
           });
           
-          res.on('end', function(d) {
-            
+          res.on('end', function() {                        
             var parser = new Parser();
             parser.addListener('end', function(data) {
                 cb(null,data);
             });
-            parser.parse(data);
-            
+            parser.parse(data);            
           });
           
         }).on('error', function(err) {

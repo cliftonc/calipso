@@ -33,7 +33,7 @@ function init(module,app,next) {
         module.router.addRoute(/.*/,loginForm,{end:false,template:'login',block:'user.login'},this.parallel());              
         module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
         module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
-        module.router.addRoute('GET /user/register',registerUserForm,{template:'register',block:'content'},this.parallel());
+        module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
         module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
         module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
         module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
@@ -85,49 +85,51 @@ function registerUserForm(req,res,template,block,next) {
   // Allow admins to register other admins
   if(req.session.user && req.session.user.isAdmin) {
     form.fields.push({label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['yes','no']});
-  }
-  
+  }  
             
   calipso.form.render(form,null,function(form) {      
     calipso.theme.renderItem(req,res,form,block);          
     next();
   });
-  
-  next();
     
 };
 
 function loginUser(req,res,template,block,next) {
-
-  var User = calipso.lib.mongoose.model('User');
   
-  var username = req.body.user.username;
-  var password = req.body.user.password;
-  
-  var found = false;
-  
-  User.findOne({username:username, password:password},function (err, user) {                
-        if(user) {
-          found = true;         
-          req.session.user = {username: user.username, isAdmin: user.isAdmin, id: user._id};
-          req.session.save(function(err) {
-            if(err) {
-              calipso.error("Error saving session: " + err);  
-            }            
-          });
-        }
-        if(!found) {
-          req.flash('error','You may have entered an incorrect username or password!');         
-        }
+ calipso.form.process(req,function(form) {
+    
+    if(form) {             
+       
+        var User = calipso.lib.mongoose.model('User');
         
-        if(res.statusCode != 302) {
-          res.redirect('back');
-        }
-        next();
-        return;
+        var username = form.user.username;
+        var password = form.user.password;
         
-  });
-  
+        var found = false;
+        
+        User.findOne({username:username, password:password},function (err, user) {                
+              if(user) {
+                found = true;         
+                req.session.user = {username: user.username, isAdmin: user.isAdmin, id: user._id};
+                req.session.save(function(err) {
+                  if(err) {
+                    calipso.error("Error saving session: " + err);  
+                  }            
+                });
+              }
+              if(!found) {
+                req.flash('error','You may have entered an incorrect username or password!');         
+              }
+              
+              if(res.statusCode != 302) {
+                res.redirect('back');
+              }
+              next();
+              return;
+              
+        });
+      }
+    });   
   
 }
 
@@ -146,27 +148,37 @@ function logoutUser(req,res,template,block,next) {
 
 function registerUser(req,res,template,block,next) {
   
-  var User = calipso.lib.mongoose.model('User');                  
-  var u = new User(req.body.user);
+ 
+ calipso.form.process(req,function(form) {
+    
+    if(form) {             
+   
+            var User = calipso.lib.mongoose.model('User');                  
+            var u = new User(form.user);
+            
+            // Over ride admin
+            u.isAdmin = form.user.isAdmin === 'yes' ? true : false
+            
+            // Check to see if passed through 
+            if(req.registerAdmin) u.isAdmin = true;        
+            var saved;      
+                 
+            u.save(function(err) {    
+              if(err) {
+                req.flash('error','Could not save user: ' + err.message);
+                if(res.statusCode != 302) {
+                  res.redirect('/');  
+                }                          
+              } else {
+                res.redirect('/user/profile/' + u.username);
+              }
+              // If not already redirecting, then redirect
+              next();
+            });       
   
-  // Over ride admin
-  u.isAdmin = req.body.user.isAdmin === 'yes' ? true : false     
-  
-  var saved;      
-       
-  u.save(function(err) {    
-    if(err) {
-      req.flash('error','Could not save user: ' + err.message);
-      if(res.statusCode != 302) {
-        res.redirect('/');  
-      }                          
-    } else {
-      res.redirect('/user/profile/' + u.username);
-    }
-    // If not already redirecting, then redirect
-    next();
-  });       
-
+        }
+      });       
+      
 }
 
 

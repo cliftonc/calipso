@@ -77,23 +77,23 @@ function install(req,res,template,block,next) {
 
 
 function installSave(req,res,template,block,next) {      
-    
-  // Fix to an admin
-  req.body.user.isAdmin = 'yes';
+      
+    // Temporary fix to admin
+    req.registerAdmin = true;
   
-  var user = require("../user/user.module");
-  user.registerUser(req,res,template,block,function() { 
-      req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');      
-  });
-    
-  // RUn the module install scripts
-  for(var module in calipso.modules) {        
-    // Check to see if the module is currently enabled, if so install it
-    if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {     
-      calipso.modules[module].fn.install();
-    }    
-  }
-  
+    var user = require("../user/user.module");
+    user.registerUser(req,res,template,block,function() { 
+        req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');      
+    });
+      
+    // RUn the module install scripts
+    for(var module in calipso.modules) {        
+      // Check to see if the module is currently enabled, if so install it
+      if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {     
+        calipso.modules[module].fn.install();
+      }    
+    }
+
 };
 
 function showAdmin(req,res,template,block,next) {      
@@ -103,12 +103,10 @@ function showAdmin(req,res,template,block,next) {
   
   var AppConfig = calipso.lib.mongoose.model('AppConfig');    
   
-  AppConfig.findOne({}, function(err,config) {    
-                
+  AppConfig.findOne({}, function(err,config) {                    
           var item = {id:config._id,type:'config',meta:config.toObject()};                
           calipso.theme.renderItem(req,res,template,block,{item:item});
-          next();
-          
+          next();          
   });
                       
 };
@@ -128,49 +126,59 @@ function reloadAdmin(req,res,template,block,next) {
 
 function saveAdmin(req,res,template,block,next) {
                         
-  // Re-retrieve our object
-  var AppConfig = calipso.lib.mongoose.model('AppConfig');    
-  
-  AppConfig.findOne({}, function(err,c) {    
-      
-    
-    
-    if (!err && c) {
-    
-        if(c.theme != req.body.config.theme) {
-          req.flash('info','You need to restart calipso to see the theme changes (live restart todo!).')
-        }
-        
-        c.theme = req.body.config.theme;
-        c.cache = req.body.config.cache;        
-        c.logs.level = req.body.config.logslevel;
-        c.logs.file.enabled = req.body.config.logsfileenabled === 'on' ? true : false;        
-        c.logs.file.filepath = req.body.config.logsfilefilepath;
-        c.logs.console.enabled = req.body.config.logsconsoleenabled  === 'on' ? true : false;
-        
-        c.modules = moduleFormatToArray(res,req.body.config.modules);        
-      
-        c.save(function(err) {                              
-          if(err) {
-            req.flash('error','Could not update config: ' + err.message);
-            if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+      calipso.form.process(req,function(form) {
+         
+         if(form) {                 
+           
+           // Re-retrieve our object
+           var AppConfig = calipso.lib.mongoose.model('AppConfig');    
+           
+           AppConfig.findOne({}, function(err,c) {    
+                       
+             if (!err && c) {                        
+           
+                if(c.theme != form.config.theme) {
+                  req.flash('info','You need to restart calipso to see the theme changes (live restart todo!).')
+                }
+                
+                c.theme = form.config.theme;
+                c.cache = form.config.cache;        
+                c.logs.level = form.config.logslevel;
+                c.logs.file.enabled = form.config.logsfileenabled === 'on' ? true : false;        
+                c.logs.file.filepath = form.config.logsfilefilepath;
+                c.logs.console.enabled = form.config.logsconsoleenabled  === 'on' ? true : false;
+                                                
+                c.modules = moduleFormatToArray(res,form.config.modules);        
+                
+                c.save(function(err) {                              
+                  if(err) {
+                    req.flash('error','Could not update config: ' + err.message);
+                    if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                      res.redirect('/admin');
+                    }
+                  } else {
+                    calipso.log(c);
+                    calipso.config = c; // TODO : This wont work on multiple edits
+                    res.redirect('/admin/reload');
+                  }                  
+                  next();         
+                });
+                        
+            } else {
+              req.flash('error','Could not locate configuration!');
               res.redirect('/admin');
+              next();
+              
+               
             }
-          } else {
-            calipso.log(c);
-            calipso.config = c; // TODO : This wont work on multiple edits
-            res.redirect('/admin/reload');
-          }
-          
-          next();         
-        });
-        
+      });      
+       
     } else {
-      
-      req.flash('error','Could not locate configuration!');
+     
+      req.flash('error','Could not process form data!');
       res.redirect('/admin');
       next();
-      
+           
     }
     
   });
@@ -182,8 +190,8 @@ function moduleFormatToArray(res,modules) {
   var arrayModules = [];
   
   for(var module in calipso.modules) {                     
-      var enabled = modules[module] === 'on' ? true : false;
-      arrayModules.push({name:module,enabled:enabled});           
+     var enabled = modules[module] === 'on' ? true : false;
+     arrayModules.push({name:module,enabled:enabled});    
   }
   
   return arrayModules;

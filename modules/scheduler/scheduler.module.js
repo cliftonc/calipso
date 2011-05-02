@@ -230,9 +230,14 @@ function createJobForm(req,res,template,block,next) {
 
 function createJob(req,res,template,block,next) {
                   
+  
+  calipso.form.process(req,function(form) {
+    
+    if(form) {       
+          
       var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');                        
       
-      var job = new ScheduledJob(processForm(req.body.job));
+      var job = new ScheduledJob(processForm(form.job));
       
       job.save(function(err) {    
         if(err) {
@@ -265,7 +270,8 @@ function createJob(req,res,template,block,next) {
         // If not already redirecting, then redirect
         next();
       });       
-  
+    }
+  });
 }
 
 function processForm(formObject) {
@@ -350,74 +356,80 @@ function editJobForm(req,res,template,block,next) {
 }
 
 function updateJob(req,res,template,block,next) {
+ 
+ calipso.form.process(req,function(form) {
+    
+    if(form) {       
+ 
+      var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');        
+      var jobName = req.moduleParams.jobName;          
       
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');        
-  var jobName = req.moduleParams.jobName;          
-  
-  ScheduledJob.findOne({name:jobName}, function(err, job) {
-    
-    if(err) {
-      calipso.error(err);
-    }
-    
-    if (job) {      
+      ScheduledJob.findOne({name:jobName}, function(err, job) {
         
-      var formData = processForm(req.body.job);
-      
-      job.name = formData.name;
-      job.enabled = formData.enabled;
-      job.cronTime = formData.cronTime;
-      job.args = formData.args;
-      job.module = formData.module;
-      job.method = formData.method;
-      
-      job.save(function(err) {
-               
-          if(err) {
+        if(err) {
+          calipso.error(err);
+        }
+        
+        if (job) {      
             
-            req.flash('error','Could not update job: ' + err.message);
-            if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-              res.redirect('/scheduler/edit/' + job.name);
-            }
-            
-          } else {
-            
-            if(jobName != job.name) {
-              calipso.jobs[job.name] = calipso.jobs[jobName];   // Copy it
-              delete calipso.jobs[jobName];                  // 'Delete' it - GC will get it later ???
-            }
-            
-            if(calipso.modules[job.module] && calipso.modules[job.module].fn.jobs[job.method]) {
-
-              var options = {
-                  jobName: job.name,
-                  cronTime: job.cronTime, 
-                  enabled: job.enabled, 
-                  module: job.module, 
-                  method: job.method, 
-                  fn: calipso.modules[job.module].fn.jobs[job.method],
-                  args: job.args
+          var formData = processForm(form.job);
+          
+          job.name = formData.name;
+          job.enabled = formData.enabled;
+          job.cronTime = formData.cronTime;
+          job.args = formData.args;
+          job.module = formData.module;
+          job.method = formData.method;
+          
+          job.save(function(err) {
+                   
+              if(err) {
+                
+                req.flash('error','Could not update job: ' + err.message);
+                if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                  res.redirect('/scheduler/edit/' + job.name);
+                }
+                
+              } else {
+                
+                if(jobName != job.name) {
+                  calipso.jobs[job.name] = calipso.jobs[jobName];   // Copy it
+                  delete calipso.jobs[jobName];                  // 'Delete' it - GC will get it later ???
+                }
+                
+                if(calipso.modules[job.module] && calipso.modules[job.module].fn.jobs[job.method]) {
+    
+                  var options = {
+                      jobName: job.name,
+                      cronTime: job.cronTime, 
+                      enabled: job.enabled, 
+                      module: job.module, 
+                      method: job.method, 
+                      fn: calipso.modules[job.module].fn.jobs[job.method],
+                      args: job.args
+                  }
+                  
+                  calipso.jobs[job.name].configure(options);
+                  
+                } else {
+                  req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job modified but not initialised.");
+                }
+                
+                res.redirect('/scheduler/show/' + job.name);
+                
               }
-              
-              calipso.jobs[job.name].configure(options);
-              
-            } else {
-              req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job modified but not initialised.");
-            }
+              next();         
+            });
             
-            res.redirect('/scheduler/show/' + job.name);
-            
-          }
-          next();         
-        });
-        
-    } else {
-      req.flash('error','Could not locate job!');
-      res.redirect('/scheduler');
-      next();
+        } else {
+          req.flash('error','Could not locate job!');
+          res.redirect('/scheduler');
+          next();
+        }
+      });
     }
-  });
-  
+ });
+ 
 }
 
 
