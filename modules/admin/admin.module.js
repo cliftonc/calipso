@@ -127,14 +127,16 @@ function reloadAdmin(req,res,template,block,next) {
 }
 
 function saveAdmin(req,res,template,block,next) {
-                      
+                        
   // Re-retrieve our object
   var AppConfig = calipso.lib.mongoose.model('AppConfig');    
   
   AppConfig.findOne({}, function(err,c) {    
       
+    
+    
     if (!err && c) {
-      
+    
         if(c.theme != req.body.config.theme) {
           req.flash('info','You need to restart calipso to see the theme changes (live restart todo!).')
         }
@@ -155,9 +157,11 @@ function saveAdmin(req,res,template,block,next) {
               res.redirect('/admin');
             }
           } else {
+            calipso.log(c);
             calipso.config = c; // TODO : This wont work on multiple edits
             res.redirect('/admin/reload');
           }
+          
           next();         
         });
         

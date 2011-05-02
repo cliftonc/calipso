@@ -10,14 +10,13 @@ module.exports = function(app,express,next) {
 		
   var defaultConfig = {
     cache:false,
-    theme:'default',
+    theme:'calipso',
     logs:{level:'info',console:{enabled:true},file:{enabled:false,filepath:'logs/calipso.log'}},
     modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'contentTypes',enabled:true},{name:'user',enabled:true},{name:'taxonomy',enabled:true}]
   };  
   
   // All environments
-  var AppConfigSchema = new Schema({
-    cache:{type: Boolean, required: true, default:false},
+  var AppConfigSchema = new Schema({    
     theme:{type: String, required: true, default:'default'},
     logs:{
         level:{type: String, required: true, default:'info'},

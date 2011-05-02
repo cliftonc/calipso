@@ -4,11 +4,12 @@ exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jo
 
 /**
  * Base content module
- * 
- * @param req      request object
- * @param menu     menu response object
- * @param blocks   blocks response object
- * @param db       database reference
+ * This is the core module that provides the basic content management
+ * functions. 
+ */
+
+/**
+ * Standard module route function.
  */
 function route(req,res,module,app,next) {      
             
@@ -24,8 +25,13 @@ function route(req,res,module,app,next) {
                                                                 
 }
 
+
+/**
+ * Module initiation
+ */
 function init(module,app,next) {    
    
+  // There are dependencies, so we need to track if this is initialised
   module.initialised = false;
   
   calipso.lib.step(
@@ -44,9 +50,9 @@ function init(module,app,next) {
         module.router.addRoute('GET /content',listContent,{admin:true,template:'listAdmin',block:'content'},this.parallel());
         module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,template:'listAdmin',block:'content'},this.parallel());       
         module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/new',createContentForm,{admin:true,template:'form',block:'content'},this.parallel());  
+        module.router.addRoute('GET /content/new',createContentForm,{admin:true,block:'content'},this.parallel());  
         module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{admin:true,template:'show',block:'content'},this.parallel());
-        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,template:'form',block:'content'},this.parallel());
+        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,block:'content'},this.parallel());
         module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true},this.parallel());
         module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());
         
@@ -93,7 +99,7 @@ function init(module,app,next) {
           
         }        
                         
-        // Schema
+        // Default Content Schema
         var Content = new calipso.lib.mongoose.Schema({
           title:{type: String, required: true, default: ''},
           teaser:{type: String, required: true, default: ''},
@@ -103,6 +109,8 @@ function init(module,app,next) {
           alias:{type: String, required: true, unique: true},
           author:{type: String, required: true},
           tags:[String],
+          published: { type: Date, default: Date.now },
+          scheduled: { type: Date, default: Date.now },
           created: { type: Date, default: Date.now },
           updated: { type: Date, default: Date.now },
           meta:{
@@ -123,11 +131,46 @@ function init(module,app,next) {
 }
 
 /**
- * Module specific functions
- * 
- * @param req
- * @param res
- * @param next
+ * Module specific functions follow from this point
+ */
+
+/**
+ * Local default for the content create / edit form
+ */
+var contentForm = {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',
+          sections:[{
+            label:'Content',            
+            fields:[                                                                                                         
+                    {label:'Title',name:'content[title]',type:'text',instruct:'Title to appear for this piece of content.'},
+                    {label:'Permanent URL / Alias',name:'content[alias]',type:'text',instruct:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
+                    {label:'Type',name:'content[contentType]',type:'select',options:function() { return calipso.data.contentTypes },instruct:'Select the type, this impacts custom fields and page display.'},
+                    {label:'Teaser',name:'content[teaser]',type:'textarea',instruct:'Enter some short text that describes the content, appears in lists.'},
+                    {label:'Content',name:'content[content]',type:'textarea',instruct:'Enter the full content text.'},                                  
+                   ]  
+          },{
+            label:'Categorisation',            
+            fields:[                                                                                                         
+                    {label:'Taxonomy',name:'content[taxonomy]',type:'text',instruct:'Enter the menu heirarchy, e.g. "welcome/about"'},
+                    {label:'Tags',name:'content[tags]',type:'text',value:'',instruct:'Enter comma delimited tags to help manage this content.'},
+                   ]  
+          },{
+            label:'Status',            
+            fields:[                                                                                                         
+                    {label:'Status',name:'content[status]',type:'select',options:["draft","scheduled","published"],instruct:'Select the status (published is visible to all public).'},
+                    {label:'Published',name:'content[published]',type:'text',instruct:'TODO: Date to appear as published.'},
+                    {label:'Scheduled',name:'content[scheduled]',type:'text',instruct:'TODO: Date to be published (if scheduled).'},
+                   ]  
+          }
+          ],
+          fields:[
+            {label:'',name:'content[returnTo]',type:'hidden'}
+          ],
+          buttons:[
+               {name:'submit',type:'submit',value:'Save Content'}
+          ]};
+
+/**
+ * Default home page, only specify the layout.
  */
 function homePage(req,res,template,block,next) {
     
@@ -137,28 +180,7 @@ function homePage(req,res,template,block,next) {
 }
 
 /**
- * Local default for the content form
- */
-var contentForm = {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',fields:[                                                                                                         
-               {label:'Title',name:'content[title]',type:'text',instruct:'Title to appear for this piece of content.'},
-               {label:'Permanent URL / Alias',name:'content[alias]',type:'text',instruct:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
-               {label:'Type',name:'content[contentType]',type:'select',options:function() { return calipso.data.contentTypes },instruct:'Select the type, this impacts custom fields and page display.'},
-               {label:'Teaser',name:'content[teaser]',type:'textarea',instruct:'Enter some short text that describes the content, appears in lists.'},
-               {label:'Content',name:'content[content]',type:'textarea',instruct:'Enter the full content text.'},                                  
-               {label:'Taxonomy',name:'content[taxonomy]',type:'text',instruct:'Enter the menu heirarchy, e.g. "welcome/about"'},
-               {label:'Tags',name:'content[tags]',type:'text',value:'',instruct:'Enter comma delimited tags to help manage this content.'},
-               {label:'Status',name:'content[status]',type:'select',options:["draft","published"],instruct:'Select the status (published is visible to all public).'},
-               {label:'',name:'content[returnTo]',type:'hidden'}                 
-            ],buttons:[
-               {name:'submit',type:'submit',value:'Save Content'}
-            ]};
-
-/**
- * Module specific functions
- * 
- * @param req
- * @param res
- * @param next
+ * Create content - processed after create form submission.
  */
 function createContent(req,res,template,block,next) {
                   
@@ -186,7 +208,8 @@ function createContent(req,res,template,block,next) {
             
           } else {
             
-            // Copy over content type data            
+            // Copy over content type data - in meta as this is 
+            // not mastered here
             c.meta.contentType = contentType.contentType;
             c.meta.layout = contentType.layout;
             c.meta.ispublic = contentType.ispublic;            
@@ -196,11 +219,7 @@ function createContent(req,res,template,block,next) {
                 calipso.debug(err);
                 req.flash('error','Could not save content: ' + err.message);
                 if(res.statusCode != 302) {
-                  if(returnTo) {
-                    res.redirect(returnTo);
-                  } else {                  
-                    res.redirect('/content/new');
-                  }
+                    res.redirect('/content/new');                  
                 }                          
               } else {
                 req.flash('info','Content saved successfully!');
@@ -221,6 +240,12 @@ function createContent(req,res,template,block,next) {
   
 }
 
+/**
+ * Enable creation of the title alias based on the title.
+ * TODO : Turn into a setter??
+ * @param title
+ * @returns
+ */
 function titleAlias(title) {
   return title
     .toLowerCase() // change everything to lowercase
@@ -232,6 +257,11 @@ function titleAlias(title) {
     .replace(/[-]+/g, "-")  
 }
 
+/**
+ * Create Content Form
+ * Create and render the 'New Content' page. 
+ * This allows some defaults to be passed through (e.g. from missing blocks).
+ */
 function createContentForm(req,res,template,block,next) {
   
   res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});             
@@ -245,6 +275,8 @@ function createContentForm(req,res,template,block,next) {
   
   // Create the form
   var form = contentForm;
+  form.action = "/content";
+  form.title = "Create Content ...";
   
   // Default values
   var values = {
@@ -259,12 +291,16 @@ function createContentForm(req,res,template,block,next) {
   
   // Test!
   calipso.form.render(form,values,function(form) {
-    calipso.theme.renderItem(req,res,template,block,{form:form});                         
+    calipso.theme.renderItem(req,res,form,block);                         
     next();
   });
   
 }
 
+/**
+ * Edit Content Form
+ * Edit an existing piece of content.
+ */
 function editContentForm(req,res,template,block,next) {
   
   var Content = calipso.lib.mongoose.model('Content');
@@ -300,17 +336,19 @@ function editContentForm(req,res,template,block,next) {
       
       // Test!
       calipso.form.render(form,values,function(form) {
-        calipso.theme.renderItem(req,res,template,block,{form:form});                         
+        calipso.theme.renderItem(req,res,form,block);                     
         next();
       });    
       
     }           
-    
-            
+                
   });
   
 }
 
+/**
+ * Update Content - from form submission
+ */
 function updateContent(req,res,template,block,next) {
       
   var Content = calipso.lib.mongoose.model('Content');
@@ -323,6 +361,7 @@ function updateContent(req,res,template,block,next) {
   Content.findById(id, function(err, c) {    
     if (c) {      
         
+        // TODO : Find a better mapper
         c.title = req.body.content.title;
         c.content = req.body.content.content;
         c.teaser = req.body.content.teaser;
@@ -351,11 +390,7 @@ function updateContent(req,res,template,block,next) {
                 if(err) {
                   req.flash('error','Could not update content: ' + err.message);
                   if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-                    if(returnTo) {
-                      res.redirect(returnTo);
-                    } else {                                        
-                      res.redirect('/content/edit/' + req.moduleParams.id);
-                    }
+                    res.redirect('/content/edit/' + req.moduleParams.id);
                   }
                 } else {
                   req.flash('info','Content saved successfully!');
@@ -382,7 +417,9 @@ function updateContent(req,res,template,block,next) {
   
 }
 
-
+/**
+ * Locate content based on its alias
+ */
 function showAliasedContent(req,res,template,block,next) {  
   
 
@@ -417,6 +454,24 @@ function showAliasedContent(req,res,template,block,next) {
   
 }
 
+/**
+ * Show content based on its ID
+ */
+function showContentByID(req,res,template,block,next) {
+
+  var Content = calipso.lib.mongoose.model('Content');
+  var id = req.moduleParams.id;       
+  var format = req.moduleParams.format ? req.moduleParams.format : 'html';             
+  
+  Content.findById(id, function(err, content) {   
+    showContent(req,res,template,block,next,err,content,format);    
+  });
+
+}
+
+/***
+ * Show content - called by ID or Alias functions preceeding 
+ */
 function showContent(req,res,template,block,next,err,content,format) {
     
   var item;
@@ -452,18 +507,9 @@ function showContent(req,res,template,block,next,err,content,format) {
   
 }
 
-function showContentByID(req,res,template,block,next) {
-
-  var Content = calipso.lib.mongoose.model('Content');
-  var id = req.moduleParams.id;       
-  var format = req.moduleParams.format ? req.moduleParams.format : 'html';             
-  
-  Content.findById(id, function(err, content) {   
-    showContent(req,res,template,block,next,err,content,format);    
-  });
-
-}
-
+/**
+ * Show a list of content - admin
+ */
 function listContent(req,res,template,block,next) {      
   
       // Re-retrieve our object
@@ -550,7 +596,9 @@ function listContent(req,res,template,block,next) {
 };
 
 
-
+/**
+ * Delete content
+ */
 function deleteContent(req,res,template,block,next) {
   
   var Content = calipso.lib.mongoose.model('Content');        
@@ -569,7 +617,9 @@ function deleteContent(req,res,template,block,next) {
    
 }
 
-// Example job
+/**
+ * Job to publish content that is scheduled
+ */
 function scheduledPublish(args) {
   calipso.info("Scheduled publish: " + args);
 }

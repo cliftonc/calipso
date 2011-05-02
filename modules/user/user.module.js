@@ -56,31 +56,42 @@ function init(module,app,next) {
 function loginForm(req,res,template,block,next) {      
        
       
-    var item = {id:'FORM',title:'Login',type:'form',method:'POST',action:'/user/login',fields:[                                                                                                         
+    var form = {id:'login-form',cls:'login',title:'Login',type:'form',method:'POST',action:'/user/login',fields:[                                                                                                         
                    {label:'Username',name:'user[username]',type:'text',value:''},
                    {label:'Password',name:'user[password]',type:'password',value:''}                   
-                ]}
-           
-    calipso.theme.renderItem(req,res,template,block,{item:item});
-
-    next();
+                ],
+                buttons:[
+                         {name:'submit',type:'submit',value:'Login'}
+                ]};
+    
+    calipso.form.render(form,null,function(form) {      
+      calipso.theme.renderItem(req,res,template,block,{form:form});          
+      next();
+    });    
       
 };
 
 
 function registerUserForm(req,res,template,block,next) {      
   
-  var item = {id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',fields:[                                                                                                         
+  var form = {id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',fields:[                                                                                                         
                  {label:'Username',name:'user[username]',type:'text',value:''},
                  {label:'Password',name:'user[password]',type:'password',value:''}                 
+              ],
+              buttons:[
+                       {name:'submit',type:'submit',value:'Register'}
               ]}
 
   // Allow admins to register other admins
   if(req.session.user && req.session.user.isAdmin) {
-    item.fields.push({label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['yes','no']});
+    form.fields.push({label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['yes','no']});
   }
   
-  calipso.theme.renderItem(req,res,template,block,{item:item});          
+            
+  calipso.form.render(form,null,function(form) {      
+    calipso.theme.renderItem(req,res,form,block);          
+    next();
+  });
   
   next();
     

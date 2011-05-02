@@ -41,9 +41,9 @@ function init(module,app,next) {
         module.router.addRoute('GET /content/type',listContentType,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /content/type/list.:format?',listContentType,{template:'list',block:'content'},this.parallel());       
         module.router.addRoute('POST /content/type/create',createContentType,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,template:'form',block:'content'},this.parallel());  
+        module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,block:'content'},this.parallel());  
         module.router.addRoute('GET /content/type/show/:id.:format?',showContentType,{template:'show',block:'content'},this.parallel());
-        module.router.addRoute('GET /content/type/edit/:id',editContentTypeForm,{admin:true,template:'form',block:'content'},this.parallel());
+        module.router.addRoute('GET /content/type/edit/:id',editContentTypeForm,{admin:true,block:'content'},this.parallel());
         module.router.addRoute('GET /content/type/delete/:id',deleteContentType,{admin:true},this.parallel());
         module.router.addRoute('POST /content/type/update/:id',updateContentType,{admin:true},this.parallel());
         
@@ -146,24 +146,29 @@ function createContentType(req,res,template,block,next) {
   
 }
 
+
+var contentTypeForm = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content/type',fields:[                                                                                                         
+        {label:'ContentType',name:'contentType[contentType]',type:'text'},
+        {label:'Description',name:'contentType[description]',type:'text'},                 
+        {label:'Layout',name:'contentType[layout]',type:'select',options:function() { return calipso.theme.getLayoutsArray() }},
+        {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"]}
+     ],
+     buttons:[
+              {name:'submit',type:'submit',value:'Save Content Type'}
+     ]};
+
 function createContentTypeForm(req,res,template,block,next) {
   
   res.menu.admin.secondary.push({name:'New Content Type',parentUrl:'/content/type',url:'/content/type/new'});         
+    
+  contentTypeForm.title = "Create Content Type";
+  contentTypeForm.action = "/content/type/create";
   
-  // Create the form
-  var item = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content/type/create',fields:[                                                                                                         
-                 {label:'ContentType',name:'contentType[contentType]',type:'text',value:''},
-                 {label:'Description',name:'contentType[description]',type:'text',value:''},                 
-                 {label:'Layout',name:'contentType[layout]',type:'select',value:'',options:calipso.theme.getLayoutsArray()},
-                 {label:'Is Public',name:'contentType[ispublic]',type:'select',value:'',options:["Yes","No"]}
-              ]}
-  
-  calipso.theme.renderItem(req,res,template,block,{item:item});                     
-  
-  // res.blocks.html = [];
-  // res.blocks.html.push(res.partial('pages/_form',{item:form}))
-  
-  next();
+  calipso.form.render(contentTypeForm,null,function(form) {      
+    calipso.theme.renderItem(req,res,form,block);          
+    next();
+  });    
+    
 }
 
 function editContentTypeForm(req,res,template,block,next) {
@@ -178,22 +183,26 @@ function editContentTypeForm(req,res,template,block,next) {
   ContentType.findById(id, function(err, c) {
     
     if(err || c === null) {
-      item = {id:'ERROR',title:"Not Found!",type:'content',content:"Sorry, I couldn't find that content type!"};      
-    } else {      
-      
-      var item = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content/type/update/' + id,fields:[                                                                                                         
-              {label:'ContentType',name:'contentType[contentType]',type:'text',value:c.contentType},
-              {label:'Description',name:'contentType[description]',type:'text',value:c.description},                 
-              {label:'Layout',name:'contentType[layout]',type:'select',value:c.layout,options:calipso.theme.getLayoutsArray()},
-              {label:'Is Public',name:'contentType[ispublic]',type:'select',value:c.ispublic ? "Yes" : "No", options:["Yes","No"]}
-           ]};
-      
-        // res.blocks.body.push({id:c._id,title:c.title,type:'content',content:c.content});
         
+      res.statusCode = 404;
+      next();
+      
+    } else {      
+            
+      contentTypeForm.title = "Edit Content Type";
+      contentTypeForm.action = "/content/type/update/" + id;
+      
+      var values = {
+          contentType: c
+      }      
+      values.contentType.ispublic = c.ispublic ? "Yes" : "No";
+      
+      calipso.form.render(contentTypeForm,values,function(form) {      
+        calipso.theme.renderItem(req,res,form,block);          
+        next();
+      });  
+      
     }           
-    
-    calipso.theme.renderItem(req,res,template,block,{item:item});                     
-    next();   
     
   });
   
@@ -206,7 +215,8 @@ function updateContentType(req,res,template,block,next) {
   
   ContentType.findById(id, function(err, c) {    
     if (c) {      
-                
+        calipso.log(calipso.lib.sys.inspect(c));
+              
         c.contentType = req.body.contentType.contentType;
         c.description = req.body.contentType.description;
         c.layout = req.body.contentType.layout;
@@ -215,6 +225,8 @@ function updateContentType(req,res,template,block,next) {
         
         c.save(function(err) {
           if(err) {
+            
+            
             req.flash('error','Could not update content type: ' + err.message);
             if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
               res.redirect('/content/type/edit/' + req.moduleParams.id);

@@ -601,6 +601,7 @@ form ul{
     padding:0;
     list-style-type:none;
 }
+
 form { /* IE6 Margin Percent Bug for Halves/Thirds */
     width:99%;
     zoom:1;
@@ -618,6 +619,7 @@ form li{
     background-color:transparent;
     position:relative; /* Makes Instructs z-index stay on top in IE. */ 
 }
+
 form ul:after,form li:after, form li div:after{
     content:"."; 
     display:block;
@@ -625,6 +627,7 @@ form ul:after,form li:after, form li div:after{
     clear:both; 
     visibility:hidden;
 }
+
 * html form li{height: 1%;margin-bottom:-3px;}
 *+html form li{height: 1%;margin-bottom:-3px;}
 * html form li div{display:inline-block;}
@@ -646,6 +649,10 @@ form li div label {
     display:block;
 }
 
+form.login li div {
+    margin-bottom:5px !important;
+}
+
 input.text, input.file, textarea.textarea, select.select {
 	font-family: Verdana, arial, sans-serif;
 	font-size:100%;
@@ -660,6 +667,16 @@ input.text, textarea.textarea {
     border-right:1px solid #c3c3c3;
     border-bottom:1px solid #ddd;
     width: 100%;    
+}
+
+input.crontime {
+	width: 45px !important;
+	text-align: center;
+	padding-right: 3px;
+}
+
+input.date, input.time {
+    width: 50px;
 }
 
 select.select{
@@ -691,4 +708,14 @@ form li.buttons input {
 form .instruct{        
     font-size:0.7em;
     color: 9f9f9f;    
+}
+
+form li.section h3 {
+	font-weight: normal;
+	font-size: 110%;
+	line-height: 135%;
+	margin: 0 0 3px 0;
+	width: auto;
+	padding: 12px 1% 0 0;
+	border-top: 1px dotted #CCC;
 }

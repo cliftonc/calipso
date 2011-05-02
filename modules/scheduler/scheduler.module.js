@@ -2,12 +2,8 @@ var calipso = require("../../lib/calipso"), cron = require('./scheduler.cron');
 
 exports = module.exports = {init: init, route: route, reload: reload, disable: disable};
 /**
- * Base news module
- * 
- * @param req      request object
- * @param menu     menu response object
- * @param blocks   blocks response object
- * @param db       database reference
+ * Job scheduler - enables create, update, delete and execution of jobs on
+ * cron schedules.
  */
 function route(req,res,module,app,next) {      
       
@@ -29,11 +25,11 @@ function init(module,app,next) {
       function defineRoutes() {
         module.router.addRoute('GET /scheduler',schedulerAdmin,{template:'admin',block:'admin',admin:true},this.parallel());  
         module.router.addRoute('POST /scheduler',createJob,{admin:true},this.parallel());    
-        module.router.addRoute('GET /scheduler/new',createJobForm,{admin:true,template:'form',block:'admin'},this.parallel());
+        module.router.addRoute('GET /scheduler/new',createJobForm,{admin:true,block:'admin'},this.parallel());
         module.router.addRoute('GET /scheduler/switch/:onoff.:format?',enableScheduler,{admin:true},this.parallel());
         module.router.addRoute('GET /scheduler/switch/:onoff/:jobName.:format?',enableScheduler,{admin:true},this.parallel());
         module.router.addRoute('GET /scheduler/show/:jobName',showJob,{admin:true,template:'show',block:'admin'},this.parallel());
-        module.router.addRoute('GET /scheduler/edit/:jobName',editJobForm,{admin:true,template:'form',block:'content'},this.parallel());
+        module.router.addRoute('GET /scheduler/edit/:jobName',editJobForm,{admin:true,block:'content'},this.parallel());
         module.router.addRoute('GET /scheduler/delete/:jobName',deleteJob,{admin:true},this.parallel());
         module.router.addRoute('POST /scheduler/:jobName',updateJob,{admin:true},this.parallel());
       },
@@ -46,20 +42,21 @@ function init(module,app,next) {
           enabled:{type: Boolean, default:false, required: true},
           module:{type: String, default:'', required: true},
           method:{type: String, default:'', required: true},
-          args:{type: String, default:'', required: false},
-          created: { type: Date, default: Date.now }          
+          args:{type: String, default:'', required: false}
         });
         calipso.lib.mongoose.model('ScheduledJob', ScheduledJob);  
                 
-        loadJobs(next);
-        
-        calipso.data.jobFunctions = [];
-        
+        // Load the exposed job functions into a job function array
+        // This scans all the other modules
+        calipso.data.jobFunctions = [];        
         for(var module in calipso.modules) {                    
           for(var job in calipso.modules[module].fn.jobs) {
               calipso.data.jobFunctions.push(module + "." + job);
           }          
-        }                                
+        }       
+        
+        // Load the current jobs into Calipso 
+        loadJobs(next);        
         
       }        
   );
@@ -187,35 +184,55 @@ function schedulerAdmin(req,res,template,block,next) {
     
 };
 
+/**
+ * The form used to create/update jobs
+ */
+
+var jobCronTimeInstruction = "Examples:<br/>"
+                              +"00 * * * * * : When seconds are zero exactly.<br/>"
+                              +"*/5 * * * * * : Every five seconds.<br/>"
+                              +"10-20 * * * * * : Every second from 10 through 20.<br/>"
+                              +"00 00 02 * * * : 2AM every day.<br/>"
+                              +"23 12 02 * jan mon-fri : @ 2:12:23 Monday to Friday in January.<br/>";                                    
+                          
+
+var jobForm = {id:'job-form',title:'',type:'form',method:'POST',action:'/scheduler',fields:[                                                                                                         
+                  {label:'Name',name:'job[name]',instruct:'Enter a unique name for the job',type:'text'},                 
+                  {label:'CRON Time',name:'job[cronTime]',instruct:jobCronTimeInstruction,type:'cronTime'},                 
+                  {label:'Enabled',name:'job[enabled]',type:'select',instruct:'Enable or disable the job',options:["Yes","No"]},
+                  {label:'Job Function',name:'job[moduleMethod]',instruct:'Select the job function to run as per this schedule',type:'select',options:function() { return calipso.data.jobFunctions }},
+                  {label:'Arguments',name:'job[args]',instruct:'Enter the arguments (as per the job function)',type:'textarea'}
+               ],
+               buttons:[
+                        {name:'submit',type:'submit',value:'Save Job'}
+               ]}
 
 function createJobForm(req,res,template,block,next) {
  
-  res.menu.admin.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
-
-  var item = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/scheduler',fields:[                                                                                                         
-                 {label:'Name',name:'job[name]',type:'text',value:''},                 
-                 {label:'CRON Time',type:'cronTime',value:''},                 
-                 {label:'Enabled',name:'job[enabled]',type:'select',value:'no',options:["yes","no"]},
-                 {label:'Job Function',name:'job[moduleMethod]',type:'select',value:'',options:calipso.data.jobFunctions},
-                 {label:'Arguments',name:'job[args]',type:'textarea',value:""}
-              ]}
+  res.menu.admin.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'}); 
   
-  calipso.theme.renderItem(req,res,template,block,{item:item});                     
+  jobForm.title = "Create New Job";
+  jobForm.action = "/scheduler";
   
-  next();
+  var values = {
+      job: {
+        enabled: "No",
+        cronTime: "* * * * * *"
+      }
+  };
+  
+  calipso.form.render(jobForm,values,function(form) {      
+    calipso.theme.renderItem(req,res,form,block);          
+    next();
+  });
+    
 }
 
-/**
- * Module specific functions
- * 
- * @param req
- * @param res
- * @param next
- */
 function createJob(req,res,template,block,next) {
                   
       var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');                        
-      var job = processForm(req.body.job,new ScheduledJob(req.body.job));      
+      
+      var job = new ScheduledJob(processForm(req.body.job));
       
       job.save(function(err) {    
         if(err) {
@@ -251,32 +268,40 @@ function createJob(req,res,template,block,next) {
   
 }
 
-function processForm(formObject,job) {
+function processForm(formObject) {
 
   //Name - strip out any spaces
-  job.name = formObject.name.replace(/\s/,"");
-  job.args = formObject.args;
+  formObject.name = formObject.name.replace(/\s/,"");
+  formObject.args = formObject.args;
   
   // Enabled
-  if(formObject.enabled === 'yes') {
-    job.enabled = true;
+  if(formObject.enabled === 'Yes') {
+    formObject.enabled = true;
   } else {
-    job.enabled = false;
+    formObject.enabled = false;
   }
   
   // Module method splitter
-  job.module = formObject.moduleMethod.split(".")[0];
-  job.method = formObject.moduleMethod.split(".")[1];
-  
+  formObject.module = formObject.moduleMethod.split(".")[0];
+  formObject.method = formObject.moduleMethod.split(".")[1];
+  delete formObject.moduleMethod;
+    
   // Cron time builder
-  job.cronTime = formObject.cronTime0 + " "
+  formObject.cronTime = formObject.cronTime0 + " "
                  + formObject.cronTime1 + " "
                  + formObject.cronTime2 + " "
                  + formObject.cronTime3 + " "
                  + formObject.cronTime4 + " "
                  + formObject.cronTime5
-   
-  return job;
+                                  
+  delete formObject.cronTime0;
+  delete formObject.cronTime1;
+  delete formObject.cronTime2;
+  delete formObject.cronTime3;
+  delete formObject.cronTime4;
+  delete formObject.cronTime5;
+  
+  return formObject;
                  
 }
 
@@ -293,22 +318,32 @@ function editJobForm(req,res,template,block,next) {
   ScheduledJob.findOne({name:jobName}, function(err, job) {
     
     if(err || job === null) {
-      item = {id:'ERROR',title:"Not Found!",type:'job',content:"Sorry, I couldn't find that job!"};      
-    } else {      
-      
-      item = {id:job._id,title:"Job: " + job.name,type:'form',method:'POST',action:'/scheduler/' + job.name,fields:[                                                                         
-                 {label:'Name',name:'job[name]',type:'text',value:job.name},                 
-                 {label:'CRON Time',type:'cronTime',value:job.cronTime},                 
-                 {label:'Enabled',name:'job[enabled]',type:'select',value: job.enabled ? "yes" : "no",options:["yes","no"]},
-                 {label:'Job Function',name:'job[moduleMethod]',type:'select',value:job.module + "." + job.method,options:calipso.data.jobFunctions},
-                 {label:'Arguments',name:'job[args]',type:'textarea',value:job.args}                
-           ]};
         
-    }           
-    
-    calipso.theme.renderItem(req,res,template,block,{item:item});                     
-                
-    next();   
+      res.statusCode = 404;
+      next();
+      
+    } else {            
+      
+      // Setup form
+      jobForm.action = '/scheduler/' + job.name;
+      jobForm.title = "Job: " + job.name;
+      
+      // Assign value object
+      var values = {
+          job: job          
+      };
+      
+      // Concatenate method
+      values.job.moduleMethod = job.module + "." + job.method;
+      values.job.enabled = job.enabled ? "Yes" : "No";
+      
+      // Render form
+      calipso.form.render(jobForm,values,function(form) {      
+        calipso.theme.renderItem(req,res,form,block);          
+        next();
+      });      
+        
+    }     
     
   });
   
@@ -320,16 +355,31 @@ function updateJob(req,res,template,block,next) {
   var jobName = req.moduleParams.jobName;          
   
   ScheduledJob.findOne({name:jobName}, function(err, job) {
+    
+    if(err) {
+      calipso.error(err);
+    }
+    
     if (job) {      
         
-      var job = processForm(req.body.job,job);
+      var formData = processForm(req.body.job);
+      
+      job.name = formData.name;
+      job.enabled = formData.enabled;
+      job.cronTime = formData.cronTime;
+      job.args = formData.args;
+      job.module = formData.module;
+      job.method = formData.method;
       
       job.save(function(err) {
+               
           if(err) {
+            
             req.flash('error','Could not update job: ' + err.message);
             if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
               res.redirect('/scheduler/edit/' + job.name);
             }
+            
           } else {
             
             if(jobName != job.name) {
