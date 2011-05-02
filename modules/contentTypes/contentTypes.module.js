@@ -120,11 +120,17 @@ function install() {
  * @param next
  */
 function createContentType(req,res,template,block,next) {
-                  
+      
+  
+
+  calipso.form.process(req,function(form) {
+     
+     if(form) {                 
+     
       var ContentType = calipso.lib.mongoose.model('ContentType');                  
       
-      var c = new ContentType(req.body.contentType);      
-      c.ispublic = req.body.contentType.ispublic === "Yes" ? true : false;
+      var c = new ContentType(form.contentType);      
+      c.ispublic = form.contentType.contentType.ispublic === "Yes" ? true : false;
       
       var saved;
            
@@ -144,6 +150,9 @@ function createContentType(req,res,template,block,next) {
         
       });       
   
+     }
+  });
+      
 }
 
 
@@ -210,40 +219,44 @@ function editContentTypeForm(req,res,template,block,next) {
 
 function updateContentType(req,res,template,block,next) {
       
-  var ContentType = calipso.lib.mongoose.model('ContentType');
-  var id = req.moduleParams.id;          
   
-  ContentType.findById(id, function(err, c) {    
-    if (c) {      
-        calipso.log(calipso.lib.sys.inspect(c));
+  calipso.form.process(req,function(form) {
+    
+    if(form) {   
+      
+        var ContentType = calipso.lib.mongoose.model('ContentType');
+        var id = req.moduleParams.id;          
+        
+        ContentType.findById(id, function(err, c) {    
+          if (c) {      
+            
+              c.contentType = form.contentType.contentType;
+              c.description = form.contentType.description;
+              c.layout = form.contentType.layout;
+              c.ispublic = form.contentType.ispublic === "Yes" ? true : false;
+              c.updated = new Date();    
               
-        c.contentType = req.body.contentType.contentType;
-        c.description = req.body.contentType.description;
-        c.layout = req.body.contentType.layout;
-        c.ispublic = req.body.contentType.ispublic === "Yes" ? true : false;
-        c.updated = new Date();    
-        
-        c.save(function(err) {
-          if(err) {
-            
-            
-            req.flash('error','Could not update content type: ' + err.message);
-            if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-              res.redirect('/content/type/edit/' + req.moduleParams.id);
-            }
-          } else {            
-            res.redirect('/content/type/show/' + req.moduleParams.id);
+              c.save(function(err) {
+                if(err) {
+                  req.flash('error','Could not update content type: ' + err.message);
+                  if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                    res.redirect('/content/type/edit/' + req.moduleParams.id);
+                  }
+                } else {            
+                  res.redirect('/content/type/show/' + req.moduleParams.id);
+                }
+                next();         
+              });
+              
+          } else {
+            req.flash('error','Could not locate content type!');
+            res.redirect('/content/type');
+            next();
           }
-          next();         
         });
-        
-    } else {
-      req.flash('error','Could not locate content type!');
-      res.redirect('/content/type');
-      next();
     }
+    
   });
-  
 }
 
 function showContentType(req,res,template,block,next,err,content,format) {
