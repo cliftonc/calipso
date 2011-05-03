@@ -317,13 +317,15 @@ function createContentForm(req,res,template,block,next) {
   form.title = "Create Content ...";
   
   // Default values
-  var values = {      
+  var values = {
+      content: {
         title:alias,  // Default the title to the alias
         alias:alias,
         teaser:teaser,
         contentType:type,
         taxonomy:taxonomy,
-        returnTo: returnTo      
+        returnTo: returnTo
+      }
   }
   
   // Test!
