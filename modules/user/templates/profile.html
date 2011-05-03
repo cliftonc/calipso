@@ -1,4 +1,13 @@
- <div class='content-item'>
+<div class='content-item'>
     <h1><a href='/user/profile/<%= item.meta.username %>'><%- item.meta.username %></a></h1>
-    <p>Admin: <%- item.meta.isAdmin %></p>       
+    <p><%- item.meta.email %></p>
+    <p><%- item.meta.about %></p>
+    <p><% 
+        if(user.isAdmin || user.username === item.meta.username) {            
+        %>
+            <small><a href="/user/profile/<%= item.meta.username %>/edit">Edit Profile</a></small>
+        <%
+        }
+    %>  
+    </p>       
 </div>

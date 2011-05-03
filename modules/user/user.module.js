@@ -37,6 +37,8 @@ function init(module,app,next) {
         module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
         module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
         module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
+        module.router.addRoute('GET /user/profile/:username/edit',updateUserForm,{block:'content'},this.parallel());
+        module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
       },
       function done() {
                 
@@ -44,6 +46,8 @@ function init(module,app,next) {
           // Single default property
           username:{type: String, required: true, unique:true},
           password:{type: String, required: true},
+          email:{type: String, required: true, unique:true},
+          about:{type: String},
           isAdmin:{type: Boolean, required: true, default: true}
         });
         calipso.lib.mongoose.model('User', User);    
@@ -54,14 +58,14 @@ function init(module,app,next) {
  }
 
 function loginForm(req,res,template,block,next) {      
-       
-      
+             
     var form = {id:'login-form',cls:'login',title:'Login',type:'form',method:'POST',action:'/user/login',fields:[                                                                                                         
                    {label:'Username',name:'user[username]',type:'text',value:''},
                    {label:'Password',name:'user[password]',type:'password',value:''}                   
                 ],
                 buttons:[
-                         {name:'submit',type:'submit',value:'Login'}
+                         {name:'submit',type:'submit',value:'Login'},
+                         {name:'register',type:'button',link:'/user/register',value:'Register'}
                 ]};
     
     calipso.form.render(form,null,function(form) {      
@@ -71,28 +75,118 @@ function loginForm(req,res,template,block,next) {
       
 };
 
-
 function registerUserForm(req,res,template,block,next) {      
-  
-  var form = {id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',fields:[                                                                                                         
+         
+  var userForm = {id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',fields:[                                                                                                         
                  {label:'Username',name:'user[username]',type:'text',value:''},
-                 {label:'Password',name:'user[password]',type:'password',value:''}                 
+                 {label:'Password',name:'user[password]',type:'password',value:''},
+                 {label:'Email',name:'user[email]',type:'text',value:''},
+                 {label:'About You',name:'user[about]',type:'textarea',value:''}
               ],
               buttons:[
                        {name:'submit',type:'submit',value:'Register'}
-              ]}
-
+              ]};
+  
   // Allow admins to register other admins
   if(req.session.user && req.session.user.isAdmin) {
-    form.fields.push({label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['yes','no']});
+    userForm.fields.push({label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['Yes','No']});
   }  
             
-  calipso.form.render(form,null,function(form) {      
+  calipso.form.render(userForm,null,function(form) {      
     calipso.theme.renderItem(req,res,form,block);          
     next();
   });
     
 };
+
+function updateUserProfile(req,res,template,block,next) {      
+  
+    calipso.form.process(req,function(form) {
+    
+    if(form) {             
+      
+            var username = req.moduleParams.username;                 
+            var User = calipso.lib.mongoose.model('User');                              
+            
+            User.findOne({username:username}, function(err, u) {
+            
+              u.email = form.user.email;
+              u.about = form.user.about;
+              u.password = form.user.password;
+              
+              if(err) {
+                req.flash('error','Could not find user: ' + err.message);
+                if(res.statusCode != 302) {
+                  res.redirect('/');  
+                }
+                next();
+                return;
+              }
+              
+              // Over ride admin
+              u.isAdmin = form.user.isAdmin === 'Yes' ? true : false                                 
+              u.save(function(err) {    
+                if(err) {
+                  req.flash('error','Could not save user: ' + err.message);
+                  if(res.statusCode != 302) {
+                    res.redirect('/');  
+                  }                          
+                } else {
+                  res.redirect('/user/profile/' + u.username);
+                }
+                // If not already redirecting, then redirect
+                next();
+              });
+              
+            });
+        }
+      });       
+    
+};
+
+function updateUserForm(req,res,template,block,next) {      
+    
+  var User = calipso.lib.mongoose.model('User');
+  var username = req.moduleParams.username;          
+  
+  var userForm = {id:'FORM',title:'Update Profile',type:'form',method:'POST',action:'/user/profile/' + username,fields:[                                                                                                         
+                 {label:'Username',name:'user[username]',type:'text',readonly:true,value:''},
+                 {label:'Password',name:'user[password]',type:'password',value:''},
+                 {label:'Email',name:'user[email]',type:'text',value:''},
+                 {label:'About You',name:'user[about]',type:'textarea',value:''}
+              ],
+              buttons:[
+                       {name:'submit',type:'submit',value:'Save Profile'}
+              ]};
+  
+  // Quickly check that the user is an admin or it is their account
+  if((req.session.user && req.session.user.isAdmin) || (req.session.user && req.session.user.username === username)) {
+    // We're ok
+  } else {    
+    res.statusCode = 404;
+    next();
+    return
+  } 
+  
+  User.findOne({username:username}, function(err, u) {
+
+    // Allow admins to register other admins
+    if(req.session.user && req.session.user.isAdmin) {
+      userForm.fields.push({label:'Admin',name:'user[isAdmin]',type:'select',value:'',options:['Yes','No']});
+    }  
+              
+    var values = {user:u};
+    values.user.isAdmin = values.user.isAdmin ? "Yes" : "No"
+    
+    calipso.form.render(userForm,values,function(form) {      
+      calipso.theme.renderItem(req,res,form,block);          
+      next();
+    });
+    
+  });
+  
+};
+
 
 function loginUser(req,res,template,block,next) {
   
@@ -146,8 +240,7 @@ function logoutUser(req,res,template,block,next) {
   
 }
 
-function registerUser(req,res,template,block,next) {
-  
+function registerUser(req,res,template,block,next) {  
  
  calipso.form.process(req,function(form) {
     
@@ -157,7 +250,7 @@ function registerUser(req,res,template,block,next) {
             var u = new User(form.user);
             
             // Over ride admin
-            u.isAdmin = form.user.isAdmin === 'yes' ? true : false
+            u.isAdmin = form.user.isAdmin === 'Yes' ? true : false
             
             // Check to see if passed through 
             if(req.registerAdmin) u.isAdmin = true;        
