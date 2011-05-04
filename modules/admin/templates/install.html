@@ -1,25 +1,34 @@
-<div class='admin-page'>
-	<h2>First things first ...</h2>
-	<p>You need to create an administrative user before using calipso,
-		please enter a username and password in the form below:</p>
-	<form action='/admin/install' method='POST'>
-		<ul>
-			<li>
-				<div>
-					<label>Username</label><input type="text" name="username"
-						value="admin" />
-				</div></li>
-			<li>
-				<div>
-					<label>Password</label><input type="password" name="password"
-						value="" />
-				</div></li>
-			<li class='buttons' style='text-align: left;'>
-				<div>
-					<input type='submit' />
-				</div>
-		  </li>
-	</form>
-	<p>After you have created the username password, login using the
-		login form on the right of the page.</p>
+<div class="admin-page">
+  <h2>First things first ...</h2>
+  <p>You need to create an administrative user before using calipso,
+    please enter a username and password in the form below:</p>
+  <form action="/admin/install" method="POST">
+    <ul>
+      <li>
+        <div>
+          <label>Username</label>
+          <input type="text" name="username" value="admin" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Password</label>
+          <input type="password" name="password" value="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Email</label>
+          <input type="text" name="email" value="" />
+        </div>
+      </li>
+      <li class="buttons" style="text-align: left;">
+        <div>
+          <input type="submit" />
+        </div>
+      </li>
+    </ul>
+  </form>
+  <p>After you have created the username password, login using the
+    login form on the right of the page.</p>
 </div>
