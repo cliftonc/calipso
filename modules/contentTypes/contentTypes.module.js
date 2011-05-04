@@ -25,8 +25,7 @@ function route(req,res,module,app,next) {
 }
 
 function init(module,app,next) {    
-  
-  
+    
   if(!calipso.modules.content.initialised) {
     process.nextTick(function() { init(module,app,next); });
     return;
@@ -268,7 +267,6 @@ function showContentType(req,res,template,block,next,err,content,format) {
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';             
   
   ContentType.findById(id, function(err, content) {   
-
     
     if(err || content === null) {
       item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content type!"}};    
@@ -385,6 +383,5 @@ function updateContentAfterChange() {
   // TODO  
   // Referential integrity update
   
-  
-  
+    
 } 

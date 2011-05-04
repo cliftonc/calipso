@@ -35,7 +35,7 @@ function init(module,app,next) {
         // Page
         module.router.addRoute('GET /media',mediaList,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /media/gallery',galleryList,{template:'gallery',block:'content'},this.parallel());
-        module.router.addRoute('GET /user/profile/:username',galleryList,{template:'gallery',block:'content'},this.parallel());
+        module.router.addRoute('GET /user/profile/:username',galleryList,{template:'gallery',block:'user.gallery'},this.parallel());
         
       },
       function done() {
