@@ -31,19 +31,6 @@
                         "footer":{"template":"footer.html","blocks":[]}
                      }
             }
-        },       
-        "admin":{
-            "layout":{"template":"admin.html",
-                      "sections":{
-                        "scripts":{"template":"scripts.html"},                
-                        "admin":{"menu":"admin","template":"adminMenu.html"},
-                        "header":{"template":"header.html"},
-                        "messages":{"template":"messages.html","blocks":[]},                   
-                        "body":{"template":"body.html","blocks":["messages","admin"]},
-                        "right":{"template":"right.html","blocks":["user.login"]},
-                        "footer":{"template":"footer.html","blocks":[]}
-                     }
-            }
-        }                 
+        }          
   }  
 }

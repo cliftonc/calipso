@@ -35,7 +35,8 @@
      "cluster" : ">=0.6.0",
      "connect-form" : ">=0.2.1",     
      "twitter-node" : ">=0.0.2",
-     "qs" :">=0.1.0"                           
+     "qs" :">=0.1.0",
+     "stylus": ">=0.12.2"                           
   },
   "devDependencies" : {
     "expresso" : ">=0.7.3",

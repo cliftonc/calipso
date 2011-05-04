@@ -7,6 +7,7 @@ var fs = require('fs'),
     sys = require('sys'), 
     nodepath = require('path'),
     form = require('connect-form'),
+    stylus = require('stylus'),
     calipso = require('./lib/calipso'),
     mongoStore = require('./support/connect-mongodb');
 
@@ -61,7 +62,23 @@ function bootApplication(app) {
   app.use(express.cookieParser());
   app.use(express.responseTime()); 
   app.use(express.session({ secret: 'calipso',store: mongoStore({ url: app.set('db-uri') }) }));
-    
+
+  // Stylus
+  var stylusMiddleware = stylus.middleware({
+      src: __dirname + '/themes/' + theme + '/stylus' // .styl files are located in `views/stylesheets`
+    , dest: __dirname + '/themes/' + theme + '/public' // .styl resources are compiled `/stylesheets/*.css`
+    , debug: false
+    , compile: function(str, path) { // optional, but recommended
+      return stylus(str)
+        .set('filename', path)
+        .set('warn', true)
+        .set('compress', true);
+    }
+  });
+  
+  app.use(stylusMiddleware);
+
+  
   // connect-form
   app.use(form({ keepExtensions: true }));
   
@@ -70,11 +87,10 @@ function bootApplication(app) {
   
   // Theme assets
   app.use(express.static(path + '/themes/' + theme + '/public'));
-
+  
   // Core calipso router
   app.use(calipso.calipsoRouter(app,app.set('config')));
-    
-  
+      
 }
 
 // allow normal node loading if appropriate
