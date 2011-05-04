@@ -1,22 +1,21 @@
 <% if(user.isAdmin) { %>
-<br/>
-<div class='admin-menu-separator'></div>               
-<div class="admin-primary-menu">      
-  <% menu.primary.forEach(function(menuItem){ 
-  
-        var menuSelected = '';
-        if(menuItem.regexp.test(request.url)) {
-             menuSelected = '-selected';
-        }
-        
-  %>
-    <a class='admin-menu-item<%- menuSelected %>' href="<%- menuItem.url %>"><%- menuItem.name %></a>
-  <% }) %>
+<div class="admin-menu">
+	<div class="admin-primary-menu">      
+	  <% menu.primary.forEach(function(menuItem){ 
+	  
+	        var menuSelected = '';
+	        if(menuItem.regexp.test(request.url)) {
+	             menuSelected = '-selected';
+	        }
+	        
+	  %>
+	    <a class='admin-menu-item<%- menuSelected %>' href="<%- menuItem.url %>"><%- menuItem.name %></a>
+	  <% }) %>
+	</div>
+	<div class="admin-secondary-menu" style="float: left;">     
+	  <% menu.secondary.forEach(function(menuItem){ %>
+	    <a class='admin-menu-item' href="<%- menuItem.url %>"><%- menuItem.name %></a>
+	  <% }) %> 
+	</div>
+	<% } %>               
 </div>
-<div class="admin-secondary-menu" style="float: left;">     
-  <% menu.secondary.forEach(function(menuItem){ %>
-    <a class='admin-menu-item' href="<%- menuItem.url %>"><%- menuItem.name %></a>
-  <% }) %> 
-</div>
-<div class='admin-menu-separator'></div>
-<% } %>               

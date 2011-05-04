@@ -194,41 +194,13 @@ function createContent(req,res,template,block,next) {
           var Content = calipso.lib.mongoose.model('Content');
           var ContentType = calipso.lib.mongoose.model('ContentType');
           
-          var c = new Content(form.content);          
+          
+          var c = new Content(form.content);
+          
           c.alias = c.alias ? c.alias : titleAlias(c.title);      
           c.tags = form.content.tags ? form.content.tags.split(",") : [];      
           c.author = req.session.user.username; 
-    
-          /* Published date */
-          if(c.status === 'published') {   
-            
-            var p = form.content.published;
-            
-            if(p.year === "1900") {
-              c.published = new Date();
-            } else {
-              c.published = new Date(p.year,
-                                      p.month,
-                                      p.day,
-                                      p.hours,
-                                      p.minutes);  
-            }                          
-          } else {
-            c.published = null;
-          }
-          
-          /* Scheduled date */
-          if(c.status === 'scheduled') {                
-            var s = form.content.scheduled;
-            c.scheduled = new Date(s.year,
-                s.month,
-                s.day,
-                s.hours,
-                s.minutes);                  
-          } else {
-            c.scheduled = null;
-          }
-      
+              
           var returnTo = form.returnTo ? form.returnTo : "";
                 
           // Get content type        
@@ -413,34 +385,9 @@ function updateContent(req,res,template,block,next) {
               c.author = req.session.user.username;
               c.alias = form.content.alias ? form.content.alias : titleAlias(c.title);
               c.tags = form.content.tags ? form.content.tags.replace(/[\s]+/g, "").split(",") : [];
-              
-              /* Published date */
-              if(c.status === 'published') {      
-                var p = form.content.published;
-                if(p.year === "1900") {
-                  c.published = new Date();
-                } else {
-                  c.published = new Date(p.year,
-                                          p.month,
-                                          p.day,
-                                          p.hours,
-                                          p.minutes);  
-                }                          
-              } else {
-                c.published = null;
-              }
-              
-              /* Scheduled date */
-              if(c.status === 'scheduled') {
-                var s = fields.scheduled;
-                c.scheduled = new Date(s.year,
-                    s.month,
-                    s.day,
-                    s.hours,
-                    s.minutes);                  
-              } else {
-                c.scheduled = null;
-              }
+                            
+              c.published = form.content.published;
+              c.scheduled = form.content.scheduled;
               
               // Get content type        
               ContentType.findOne({contentType:form.content.contentType}, function(err, contentType) {
