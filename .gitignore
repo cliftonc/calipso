@@ -1,3 +1,4 @@
+node_modules/*
 pids/*
 logs/*
 *.log
