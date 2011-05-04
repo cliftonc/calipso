@@ -4,22 +4,22 @@
     please enter a username and password in the form below:</p>
   <form action="/admin/install" method="POST">
     <ul>
-      <li>
+      <li class="form-field">
         <div>
           <label>Username</label>
-          <input type="text" name="username" value="admin" />
+          <input class="text" type="text" name="user[username]" value="admin" />
         </div>
       </li>
-      <li>
+      <li class="form-field">
         <div>
           <label>Password</label>
-          <input type="password" name="password" value="" />
+          <input class="text" type="password" name="user[password]" value="" />
         </div>
       </li>
-      <li>
+      <li class="form-field">
         <div>
           <label>Email</label>
-          <input type="text" name="email" value="" />
+          <input class="text" type="text" name="user[email]" value="" />
         </div>
       </li>
       <li class="buttons" style="text-align: left;">
