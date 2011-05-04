@@ -1,5 +1,4 @@
 node_modules/*
-pids/*
-logs/*
+*.pid
 *.log
 *.sock
