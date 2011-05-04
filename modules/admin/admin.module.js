@@ -64,15 +64,16 @@ function init(module,app,next) {
 function install(req,res,template,block,next) {      
     
     // If not in install mode, do not show this form
-    if(!calipso.app.doingInstall) {
+    if(!calipso.app.set('config').install) {
       res.redirect("/");
       next();
       return;
     }
-    
-    calipso.theme.renderItem(req,res,template,block,{});                         
+        
+    calipso.theme.renderItem(req,res,template,block,{});    
     next();
-                      
+    
+    
 };
 
 
@@ -80,19 +81,58 @@ function installSave(req,res,template,block,next) {
       
     // Temporary fix to admin
     req.registerAdmin = true;
-  
+          
     var user = require("../user/user.module");
-    user.registerUser(req,res,template,block,function() { 
-        req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');      
+    
+    // Flag to make sure that our register user function just returns 
+    req.noRedirect = true;
+    
+    user.registerUser(req,res,template,block,function(err) {            
+        
+        if(err) {
+          if(res.statusCode != 302) {
+            res.redirect("/admin/install");
+          }
+          next();
+          return;
+        }
+      
+        // Save our config out of install mode while we're at  it.
+        // Re-retrieve our object
+        var AppConfig = calipso.lib.mongoose.model('AppConfig');            
+        AppConfig.findOne({}, function(err,c) {
+          
+          calipso.app.set('config').install = false;
+          c.install = false;
+          c.save(function(err) {
+              if(err) {
+                
+                req.flash("error","I was unable to take calipso out of install mode, this is a catastrophic failure, please report on github!");
+                
+              } else {
+                
+                req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');
+                
+                // RUn the module install scripts
+                for(var module in calipso.modules) {        
+                  // Check to see if the module is currently enabled, if so install it
+                  if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {     
+                    calipso.modules[module].fn.install();
+                  }    
+                }
+                
+                if(res.statusCode != 302) {
+                  res.redirect("/");
+                }
+                
+                next();
+                
+              }
+          });
+        });
+        
     });
       
-    // RUn the module install scripts
-    for(var module in calipso.modules) {        
-      // Check to see if the module is currently enabled, if so install it
-      if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {     
-        calipso.modules[module].fn.install();
-      }    
-    }
 
 };
 

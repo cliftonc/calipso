@@ -11,6 +11,7 @@ module.exports = function(app,express,next) {
   var defaultConfig = {
     cache:false,
     theme:'calipso',
+    install:true,
     logs:{level:'info',console:{enabled:true},file:{enabled:false,filepath:'logs/calipso.log'}},
     modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'contentTypes',enabled:true},{name:'user',enabled:true},{name:'taxonomy',enabled:true}]
   };  
@@ -18,6 +19,7 @@ module.exports = function(app,express,next) {
   // All environments
   var AppConfigSchema = new Schema({    
     theme:{type: String, required: true, default:'default'},
+    install:{type: Boolean, default:false},
     logs:{
         level:{type: String, required: true, default:'info'},
         console:{enabled:{type:Boolean, default:true}},
@@ -88,13 +90,12 @@ function loadConfig(app,defaultConfig,next) {
             
           } else {
               
-            var newConfig = new AppConfig(defaultConfig);  
-            
-            newConfig.save(function(err) {
-                app.install = true;
+            var newConfig = new AppConfig(defaultConfig);              
+            newConfig.save(function(err) {                
                 next(null,newConfig);
                 return;
-            });                           
+            });
+            
           }
         }                
         

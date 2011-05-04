@@ -3,22 +3,28 @@
 	<p>You need to create an administrative user before using calipso,
 		please enter a username and password in the form below:</p>
 	<form action='/admin/install' method='POST'>
-		<ul>
-			<li>
+        <ul class='form-fields'>
+			<li class='form-field'>
 				<div>
-					<label>Username</label><input type="text" name="username"
+					<label>Username</label><input type="text" class="text" name="user[username]"
 						value="admin" />
 				</div></li>
-			<li>
+			<li class='form-field'>
 				<div>
-					<label>Password</label><input type="password" name="password"
+					<label>Password</label><input type="password" class="text" name="user[password]"
 						value="" />
 				</div></li>
+            <li class='form-field'>
+                <div>
+                    <label>Email</label><input type="email" class="text" name="user[email]"
+                        value="" />
+                </div></li>				
 			<li class='buttons' style='text-align: left;'>
 				<div>
 					<input type='submit' />
 				</div>
 		  </li>
+		</ul>
 	</form>
 	<p>After you have created the username password, login using the
 		login form on the right of the page.</p>

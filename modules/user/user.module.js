@@ -257,16 +257,20 @@ function registerUser(req,res,template,block,next) {
             var saved;      
                  
             u.save(function(err) {    
+              
               if(err) {
-                req.flash('error','Could not save user: ' + err.message);
-                if(res.statusCode != 302) {
+                req.flash('error','Could not save user: ' + err.message);                             
+                if(res.statusCode != 302 && !res.noRedirect) {
                   res.redirect('/');  
-                }                          
+                }                
               } else {
-                res.redirect('/user/profile/' + u.username);
-              }
+                if(!res.noRedirect) {
+                  res.redirect('/user/profile/' + u.username);
+                }
+              }           
+              
               // If not already redirecting, then redirect
-              next();
+              next(err);
             });       
   
         }
