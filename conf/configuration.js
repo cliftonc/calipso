@@ -1,13 +1,18 @@
-var mongoose = require('mongoose'), Schema = mongoose.Schema;
-
 /**
- * Default configuration manager
- * Inject app and express reference
+ * Default configuration manager This file controls the loading, and initial
+ * configuration of Calipso. Configuration is stored in Mongodb, in the
+ * AppConfigs collection, it will always contain a single item (though could
+ * contain more for a future multisite type configuration).
  */
 
-// Placeholder!
+var mongoose = require('mongoose'), 
+    Schema = mongoose.Schema;
+
 module.exports = function(app,express,next) {
-		
+
+  /**
+   * Default configuration
+   */
   var defaultConfig = {
     cache:false,
     theme:'calipso',
@@ -16,7 +21,9 @@ module.exports = function(app,express,next) {
     modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'contentTypes',enabled:true},{name:'user',enabled:true},{name:'taxonomy',enabled:true}]
   };  
   
-  // All environments
+  /**
+   * Mongoose schema for configuration storage
+   */
   var AppConfigSchema = new Schema({    
     theme:{type: String, required: true, default:'default'},
     install:{type: Boolean, default:false},
@@ -31,6 +38,9 @@ module.exports = function(app,express,next) {
    modules:[AppModule]      
   });
 
+  /**
+   * Embedded mongoose schema to hold module status within the configuration
+   */
   var AppModule = new Schema({
     name:{type: String, required: true},
     enabled:{type: Boolean, required: true, default:false}         
@@ -38,7 +48,10 @@ module.exports = function(app,express,next) {
   
   mongoose.model('AppConfig', AppConfigSchema);    
   
-	// DEVELOPMENT
+	/**
+	 * Load the development configuration
+	 * This is the default if you just run node app.
+	 */
 	app.configure('development', function() {
 	  require("./development.js")(app,express);
 	  loadConfig(app,defaultConfig,function(err,config) {	      
@@ -47,7 +60,10 @@ module.exports = function(app,express,next) {
 	  });
 	});
 
-	// TEST
+	/**
+   * Load the test configuration
+   * Launch with NODE_ENV=test node app
+   */  
 	app.configure('test', function() {
 		require("./test.js")(app,express);
 		loadConfig(app,defaultConfig,function(err,config) {       
@@ -56,7 +72,12 @@ module.exports = function(app,express,next) {
 		});
 	});
 	
-	// PRODUCTION
+	/**
+   * Load the production configuration
+   * Launch with NODE_ENV=production node app
+   * This is a 'special' node mode that will also reduce debugging and
+   * error reporting and increase speed.
+   */  
 	app.configure('production', function() {
 		require("./production.js")(app,express);
 		loadConfig(app,defaultConfig,function(err,config) {       
@@ -68,38 +89,40 @@ module.exports = function(app,express,next) {
 		 
 }
 
+/**
+ * Load the configuration from the datbase, creating based on the default
+ * and setting Calipso into install mode if it doesn't exist.
+ * 
+ * @param app
+ * @param defaultConfig
+ * @param next
+ */
 function loadConfig(app,defaultConfig,next) {
  
-  // Connect to mongoose
-  mongoose.connect(app.set('db-uri'));  
-  
-  // Load the configuration from the database
+  /**
+   * Connect to mongoose and get configuration schema
+   */
+  mongoose.connect(app.set('db-uri'));   
   var AppConfig = mongoose.model('AppConfig');    
   
-  AppConfig.findOne({}, function(err,config) {    
-                  
-        if(err) {          
-          
-          next(err);
-          
-        } else {
-          
-          if(config) {
-            
-            next(null,config);
-            
-          } else {
-              
+  /**
+   * Locate the configuration, if it doesn't exist create one based on
+   * defaults.
+   */
+  AppConfig.findOne({}, function(err,config) {                      
+        if(err) {                    
+          next(err);          
+        } else {          
+          if(config) {            
+            next(null,config);            
+          } else {              
             var newConfig = new AppConfig(defaultConfig);              
             newConfig.save(function(err) {                
                 next(null,newConfig);
                 return;
-            });
-            
+            });            
           }
-        }                
-        
-              
+        }                                      
   }); 
   
 }
