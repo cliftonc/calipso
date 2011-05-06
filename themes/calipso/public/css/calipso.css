@@ -2,11 +2,11 @@ html{min-height:100%;background-color:#444}
 body{font:14px "Quattrocento Sans",serif;font-size:.9em;line-height:1.3em;color:#fff;background:url("/images/background.jpg") repeat}
 #header{position:relative;padding-bottom:5px;margin-bottom:10px;}
 #header h1{background:url("/images/calipso.png") no-repeat;background-position-y:10px;font-size:57px !important;font-weight:400;text-shadow:2px 2px 2px #000;letter-spacing:.1em;word-spacing:0;color:#dd9 !important;line-height:1.2;padding-left:70px}
-#container{position:relative;padding:10px 10%;top:25px}
+#container{position:relative;padding:0 10% 10px;top:37px}
 #body{float:left;width:80%}
 #right{float:right;width:17%}
 #right div{margin-bottom:25px}
-h1,h2,h3,h4,h5,h6{font-family:"Oswald",arial,serif;font-weight:normal;line-height:1;margin:.5em 0 .5em 0}
+h1,h2,h3,h4,h5,h6{font-family:"Oswald",arial,sans-serif;font-weight:normal;line-height:1;margin:.5em 0}
 h1{padding-bottom:10px;margin-bottom:10px;text-shadow:1px 1px 1px #000;font-weight:bold;color:#dd9}
 h2,h5{font-size:1.3em;color:#dd9;text-shadow:1px 1px 1px #000;letter-spacing:.05em;font-weight:bold}
 h3{font-size:1.2em;color:#dda}
@@ -29,18 +29,18 @@ td{padding:.25em 1em;vertical-align:middle;text-align:left;border:1px solid #161
 th{border:1px solid #161606;background:#a3a383;color:#333;text-align:left;font-weight:bold;padding:.5em .75em}
 hr{border:none;height:0;border-bottom:1px solid #e6e6e6;margin:1em 0}
 .pager{clear:both;display:block}
-span.pager-page{padding:3px 3px;margin:3px 3px 3px 3px;color:#f5f5d5;line-height:1.25em}
+span.pager-page{padding:3px;margin:3px;color:#f5f5d5;line-height:1.25em}
 input.pager-page{display:inline !important;width:30px;padding:2px 2px;margin:3px 3px 3px 3px;color:#f5f5d5;line-height:1.25em;clear:none}
 a.pager-page{padding:3px 3px;margin:3px 3px 3px 3px;border:1px solid #a6a6c6;color:#d5d5d5;line-height:1.25em}
 pre{background:url("/images/background-dark.jpg") repeat;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;width:98%;padding:1%;margin-bottom:10px;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}
-.admin-primary-menu{background-color:#343414;color:#000;position:absolute;left:10;top:0;line-height:1.5em;width:98%;font-size:1em;padding-left:5px}
-.admin-primary-menu .admin-menu-item{color:#fff;padding:3px;margin-right:10px}
-.admin-primary-menu .admin-menu-item-selected{color:#fff;font-weight:bold;padding:3px;margin-right:10px}
-.admin-secondary-menu{padding-left:5px;font-size:1em;position:absolute;left:10;line-height:1.5em;top:19;width:98%;background-color:#545434;color:#fff;-webkit-box-shadow:2px 2px 12px rgba(0,0,0,0.35);-moz-box-shadow:2px 2px 12px rgba(0,0,0,0.35);box-shadow:2px 2px 12px rgba(0,0,0,0.35)}
-.admin-secondary-menu .admin-menu-item{color:#fff;padding:3px;margin-right:10px}
+.admin-primary-menu,
+.admin-secondary-menu{position:absolute;left:1%;top:0;width:98%;font-size:1em;line-height:1.5em;background:#343414;color:#fff;}
+.admin-secondary-menu{top:21px;background:#545434;-webkit-box-shadow:2px 2px 12px rgba(0,0,0,0.35);-moz-box-shadow:2px 2px 12px rgba(0,0,0,0.35);box-shadow:2px 2px 12px rgba(0,0,0,0.35)}
+.admin-menu-item{color:#fff;padding:3px;margin-left:10px}
+.admin-menu-item-selected{font-weight:bold;}
 .primary-menu{color:#fff;position:relative;font-size:1em;margin-top:10px;margin-bottom:10px;margin-left:-5px}
 .primary-menu .primary-menu-item-selected{font-weight:bold}
-.user-logout{position:relative;margin-right:10;font-size:.9em;z-index:20;float:right}
+.user-logout{position:relative;margin-right:10px;font-size:.9em;z-index:20;float:right}
 .user-logout a{color:#fff}
 .menu-separator{clear:both}
 .content-list-item{width:100%;padding:10px;margin-right:10px;margin-bottom:10px}
@@ -72,7 +72,7 @@ pre{background:url("/images/background-dark.jpg") repeat;-webkit-border-radius:4
 .tweet .tweet-image{position:relative;left:-15;top:-15}
 .tweet .tweet-image img{-webkit-box-shadow:2px 2px 5px rgba(0,0,0,0.35);-webkit-box-shadow:2px 2px 5px rgba(0,0,0,0.35);-moz-box-shadow:2px 2px 5px rgba(0,0,0,0.35);box-shadow:2px 2px 5px rgba(0,0,0,0.35)}
 .tweet .tweet-image img height 30px{-moz-box-shadow:2px 2px 5px rgba(0,0,0,0.35)}
-.tweet .tweet-content{position:relative;top:-10;margin-left:10}
+.tweet .tweet-content{position:relative;top:-10px;margin-left:10px}
 #footer{width:100%;border-top:solid 1px #c0c0c0;margin-top:20px;font-size:.9em}
 #footer li{margin-left:0;list-style:none}
 #footer ul{margin-left:0;padding-left:0}
