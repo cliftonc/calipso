@@ -81,7 +81,7 @@ function init(module,app,next) {
  * Installation process - asynch
  * @returns
  */
-function install() {
+function install(next) {
   
   // Create the default content types
   var ContentType = calipso.lib.mongoose.model('ContentType');                  
@@ -103,9 +103,11 @@ function install() {
       },
       function allDone(err) {
           if(err) {
-            calipso.error(err);
-          }   
-          calipso.log("Content types module installed ... ")
+            next(err)
+          } else {
+            calipso.log("Content types module installed ... ");
+            next();  
+          }                       
       }
   )   
       

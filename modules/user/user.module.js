@@ -1,6 +1,6 @@
 var calipso = require("../../lib/calipso");      
 
-exports = module.exports = {init: init, route: route, registerUser: registerUser};
+exports = module.exports = {init: init, route: route, install:install, registerUser: registerUser};
 
 /**
  * Base news module
@@ -41,16 +41,23 @@ function init(module,app,next) {
         module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
       },
       function done() {
-                
+               
+        var Role = new calipso.lib.mongoose.Schema({
+          name:{type: String, required: true, unique:true},
+          isAdmin:{type: Boolean, required: true, default: false}
+        });
+        calipso.lib.mongoose.model('Role', Role);
+        
         var User = new calipso.lib.mongoose.Schema({
           // Single default property
           username:{type: String, required: true, unique:true},
           password:{type: String, required: true},
           email:{type: String, required: true, unique:true},
           about:{type: String},
-          isAdmin:{type: Boolean, required: true, default: true}
+          role:[Role],
+          isAdmin:{type: Boolean, required: true, default: true} // Convert to getter
         });
-        calipso.lib.mongoose.model('User', User);    
+        calipso.lib.mongoose.model('User', User);                       
         next();
       }           
   )
@@ -330,3 +337,63 @@ function listUsers(req,res,template,block,next) {
   });
             
 };
+
+
+/**
+ * Installation process - asynch
+ * @returns
+ */
+function install(next) {
+  
+  // Create the default content types
+  var Role = calipso.lib.mongoose.model('Role');          
+  var User = calipso.lib.mongoose.model('User');          
+  
+  calipso.lib.step(
+      
+      function createDefaults() {
+                    
+          /**
+           * Default roles
+           */
+          var r = new Role({
+            name:'Guest',
+            isAdmin:false
+          });               
+          r.save(this.parallel());
+          
+          var r = new Role({
+            name:'Contributor',
+            isAdmin:false
+          });               
+          r.save(this.parallel());
+      
+          var r = new Role({
+            name:'Administrator',
+            isAdmin:true
+          });               
+          r.save(this.parallel());
+      },
+      function createUser() {
+        /**
+         * Default user
+         */
+        var admin = new User({
+          username:'admin',
+          password:'password',
+          email:'admin@example.com'            
+        });               
+        admin.role.push(r);
+        admin.save(this);          
+      },
+      function allDone(err) {
+          if(err) {
+            next(err)
+          } else {
+            calipso.log("User module installed ... ");
+            next();  
+          }             
+      }
+  )   
+      
+}

@@ -87,6 +87,7 @@ function installSave(req,res,template,block,next) {
     // Flag to make sure that our register user function just returns 
     req.noRedirect = true;
     
+   /**
     user.registerUser(req,res,template,block,function(err) {            
         
         if(err) {
@@ -96,7 +97,7 @@ function installSave(req,res,template,block,next) {
           next();
           return;
         }
-      
+    */  
         // Save our config out of install mode while we're at  it.
         // Re-retrieve our object
         var AppConfig = calipso.lib.mongoose.model('AppConfig');            
@@ -111,27 +112,35 @@ function installSave(req,res,template,block,next) {
                 
               } else {
                 
-                req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');
+                // req.flash('info','New administrative user created, you can now login as this user and begin using calipso!');
                 
                 // RUn the module install scripts
-                for(var module in calipso.modules) {        
+                
+                console.log("DO THIS");
+                
                   // Check to see if the module is currently enabled, if so install it
-                  if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {     
-                    calipso.modules[module].fn.install();
-                  }    
-                }
-                
-                if(res.statusCode != 302) {
-                  res.redirect("/");
-                }
-                
-                next();
+                calipso.lib.step(
+                    function installModules() {
+                      var group = this.group();                   
+                      for(var module in calipso.modules) {
+                        if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {     
+                          calipso.modules[module].fn.install(group());
+                        }
+                      }
+                    },
+                    function done() {
+                      if(res.statusCode != 302) {
+                        res.redirect("/");
+                      }                
+                      next();
+                    }                    
+                )                      
                 
               }
           });
         });
         
-    });
+    //});
       
 
 };
