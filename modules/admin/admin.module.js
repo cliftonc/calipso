@@ -3,12 +3,7 @@ var calipso = require("../../lib/calipso");
 exports = module.exports = {init: init, route: route};
 
 /**
- * Base content module
- *
- * @param req      request object
- * @param menu     menu response object
- * @param blocks   blocks response object
- * @param db       database reference
+ * Base administration module
  */
 function route(req, res, module, app, next) {
   
@@ -32,12 +27,12 @@ function init(module, app, next) {
       module.router.addRoute('GET /admin', showAdmin, {template:'admin', block:'admin', admin:true}, this.parallel());
       module.router.addRoute('GET /admin/reload', reloadAdmin, {template:'reload', block:'admin', admin:true}, this.parallel());
       module.router.addRoute('POST /admin/save', saveAdmin, {admin:true}, this.parallel());
-      
-      // TODO: Disable these routes once you have installed      
       module.router.addRoute('GET /admin/install', install, null, this.parallel());
     },
     function done() {
-      
+
+      // Load the available themes into the calipso data object
+      // Used when rendering the edit form
       calipso.data.themes = [];
       calipso.lib.fs.readdir(app.path + '/themes',function(err,folders) {
         
@@ -54,11 +49,15 @@ function init(module, app, next) {
     }
   );
   
-  // Admin schemas are defined in Configuration.js
-  
+  // NOTE: Configuration schemas are defined in Configuration.js  
   
 }
 
+/**
+ * Installation routine, this is triggered by the install flag being set
+ * in the configuration, which is detected in the core routing function
+ * in calipso.js and redirected here.
+ */
 function install(req, res, template, block, next) {
 
     // If not in install mode, do not install
@@ -66,46 +65,61 @@ function install(req, res, template, block, next) {
       res.redirect("/");
       next();
       return;
-    }
-  
-    // Save our config out of install mode while we're at  it.
-    // Re-retrieve our object
-    var AppConfig = calipso.lib.mongoose.model('AppConfig');
-    AppConfig.findOne({}, function(err, c) {
-      
-      calipso.app.set('config').install = false;
-      c.install = false;
-      c.save(function(err) {
-        if(err) {
-          
-          req.flash("error", "Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.");
-          
-        } else {
-          
-          // req.flash("info", "New administrative user created. You can now login as this user and begin using calipso.");
-          req.flash("info", "Calipso has been installed with default user: admin, password: password.  Please login and change this!");
-          
-          // RUn the module install scripts
-          for(var module in calipso.modules) {
+    }  
+
+    // Run the module install scripts
+    calipso.lib.step(
+        function installModules() {
+          var group = this.group();
+          for(var module in calipso.modules) {            
             // Check to see if the module is currently enabled, if so install it
-            if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {
-              calipso.modules[module].fn.install(function(done) {
-                 // Do nothing
-              });              
+            if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {              
+              calipso.modules[module].fn.install(group());              
+            } else {
+              // Just call the group function to enable step to continue
+              group()();
             }
-          }
+          }          
+        },
+        function done(err) {
           
-          if(res.statusCode != 302) {
-            res.redirect("/");
-          }
-          
-          next();
-          return;
-          
+            // If we encounter any issues it must be catastrophic.
+            if(err) {
+              res.statusCode = 500;
+              res.errorMessage = err.message;
+              req.flash("error", "Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.");
+              next()
+              return;
+            }
+            
+            // Retrieve the configuration from the database 
+            var AppConfig = calipso.lib.mongoose.model('AppConfig');
+            AppConfig.findOne({}, function(err, c) {
+              
+              calipso.app.set('config').install = false;
+              c.install = false;              
+              c.save(function(err) {
+                if(err) {                  
+                  res.statusCode = 500;
+                  res.errorMessage = err.message;
+                  req.flash("error", "Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.");                  
+                } else {                  
+                  // req.flash("info", "New administrative user created. You can now login as this user and begin using calipso.");
+                  req.flash("info", "Calipso has been installed with default user: admin, password: password.  Please login and change this!");                  
+                  if(res.statusCode != 302) {
+                    res.redirect("/");
+                  }                                    
+                }
+                
+                next();
+                return;
+                
+              });    
+          });
+      
         }
-      });    
-  });
-  
+    )
+      
 }
 
 function showAdmin(req, res, template, block, next) {
