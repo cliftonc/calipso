@@ -2,35 +2,37 @@
   "name": "calipso",
   "description": "Theme used on Calip.so",
   "version": "0.0.2",
-  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",  
-  "layouts":{
-        "default":{
-            "layout":{"template":"default.html",
-                      "sections":{                
-                        "scripts":{"template":"scripts.html"},
-                        "admin":{"menu":"admin","template":"adminMenu.html"},
-                        "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html"},                
-                        "messages":{"template":"messages.html","blocks":[]},
-                        "body":{"template":"body.html","blocks":["content","admin"]},
-                        "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
-                        "footer":{"template":"footer.html","blocks":[]}
-                     }
-            }
-        },
-         "home":{
-            "layout":{"template":"default.html",
-                      "sections":{                
-                        "scripts":{"template":"scripts.html"},
-                        "admin":{"menu":"admin","template":"adminMenu.html"},
-                        "primary":{"menu":"primary","template":"primaryMenu.html"},         
-                        "header":{"template":"header.html"},                
-                        "messages":{"template":"messages.html","blocks":[]},
-                        "body":{"template":"body.html","blocks":["messages","content","admin"]},
-                        "right":{"template":"right.html","blocks":["user.login","news.breaking","tagcloud","right"]},
-                        "footer":{"template":"footer.html","blocks":[]}
-                     }
-            }
-        }          
-  }  
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
+  "layouts": {
+    "default": {
+      "layout": {
+        "template": "default.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "admin": {"menu": "admin", "template": "adminMenu.html"},
+          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "header": {"template": "header.html"},
+          "messages": {"template": "messages.html", "blocks": []},
+          "body": {"template": "body.html", "blocks": ["content", "admin"]},
+          "right": {"template": "right.html", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
+          "footer": {"template": "footer.html", "blocks": []}
+        }
+      }
+    },
+    "home": {
+      "layout": {
+        "template": "default.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "admin": {"menu": "admin", "template": "adminMenu.html"},
+          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "header": {"template": "header.html"},
+          "messages": {"template": "messages.html", "blocks": []},
+          "body": {"template": "body.html", "blocks": ["messages", "content", "admin"]},
+          "right": {"template": "right.html", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
+          "footer": {"template": "footer.html", "blocks": []}
+        }
+      }
+    }
+  }
 }

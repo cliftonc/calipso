@@ -1,7 +1,7 @@
 /**
  * Calipso is included in every module
  */
-var calipso = require("../../lib/calipso");      
+var calipso = require("../../lib/calipso");
 
 /**
  * Exports
@@ -12,25 +12,25 @@ exports = module.exports = {init: init, route: route, install: install, reload: 
 /**
  * Template module
  */
-function route(req,res,module,app,next) {      
+function route(req, res, module, app, next) {
 
-      /** 
-       * Menu items
-       */
-      res.menu.primary.push({name:'Template',url:'/template',regexp:/template/});
+  /**
+   * Menu items
+   */
+  res.menu.primary.push({name:'Template', url:'/template', regexp:/template/});
+
+  /**
+   * Routes
+   */
+  module.router.route(req, res, next);
   
-      /**
-       * Routes
-       */            
-      module.router.route(req,res,next);
-      
 };
 
-function init(module,app,next) {      
+function init(module, app, next) {
   
   /**
    *  If dependent on another module (e.g. content):
-  
+   
   if(!calipso.modules.content.initialised) {
     process.nextTick(function() { init(module,app,next); });
     return;
@@ -38,56 +38,56 @@ function init(module,app,next) {
   
   */
   
-    // Any pre-route config  
+  // Any pre-route config
   calipso.lib.step(
-      function defineRoutes() {
-        
-        // Add a route to every page, notice the 'end:false' to ensure block further routing
-        module.router.addRoute(/.*/,allPages,{end:false, template:'template-all',block:'right'},this.parallel());
-        
-        // Page
-        module.router.addRoute('GET /template',templatePage,{template:'template',block:'content'},this.parallel());
-        
-      },
-      function done() {
-        
-        
-        
-        // Any schema configuration goes here
-        next();
-      }        
+    function defineRoutes() {
+    
+      // Add a route to every page, notice the 'end:false' to ensure block further routing
+      module.router.addRoute(/.*/, allPages, {end:false, template:'template-all', block:'right'}, this.parallel());
+      
+      // Page
+      module.router.addRoute('GET /template', templatePage, {template:'template', block:'content'}, this.parallel());
+      
+    },
+    function done() {
+    
+    
+    
+      // Any schema configuration goes here
+      next();
+    }
   );
-    
-    
+  
+  
 };
 
 /**
  * Simple template page function
  */
-function templatePage(req,res,template,block,next) {      
+function templatePage(req, res, template, block, next) {
   
-    // Set any variables
-    var myVariable = "Hello World";
-    
-    // Create a content item
-    var item = {id:"NA",type:'content',meta:{variable:myVariable}};
-    
-    // Render the item via the template provided above
-    calipso.theme.renderItem(req,res,template,block,{item:item});
-        
-    next();
-    
+  // Set any variables
+  var myVariable = "Hello World";
+  
+  // Create a content item
+  var item = {id:"NA", type:'content', meta:{variable:myVariable}};
+  
+  // Render the item via the template provided above
+  calipso.theme.renderItem(req, res, template, block, {item:item});
+  
+  next();
+  
 };
 
 /**
  * Every page block function
  */
-function allPages(req,res,template,block,next) {      
+function allPages(req, res, template, block, next) {
   
-  var myVariable = "Hello World on every page!";  
-  var item = {id:"NA",type:'content',meta:{variable:myVariable}};                  
-  calipso.theme.renderItem(req,res,template,block,{item:item});                       
-  next();      
+  var myVariable = "Hello World on every page!";
+  var item = {id:"NA", type:'content', meta:{variable:myVariable}};
+  calipso.theme.renderItem(req, res, template, block, {item:item});
+  next();
   
 };
 
@@ -96,14 +96,14 @@ function allPages(req,res,template,block,next) {
  * @returns
  */
 function install() {
-    calipso.log("Template module installed");
+  calipso.log("Template module installed");
 }
 
 /**
  * hook for disabling
  */
 function disable() {
-    calipso.log("Template module disabled");
+  calipso.log("Template module disabled");
 }
 
 /**
