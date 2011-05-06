@@ -1,25 +1,31 @@
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
+
 /**
  * Default configuration manager This file controls the loading, and initial
  * configuration of Calipso. Configuration is stored in Mongodb, in the
  * AppConfigs collection, it will always contain a single item (though could
  * contain more for a future multisite type configuration).
  */
-
-var mongoose = require('mongoose'), 
-    Schema = mongoose.Schema;
-
-module.exports = function(app,express,next) {
-
-  /**
-   * Default configuration
-   */
+module.exports = function(app, express, next) {
+  
   var defaultConfig = {
-    cache:false,
-    theme:'calipso',
-    install:true,
-    logs:{level:'info',console:{enabled:true},file:{enabled:false,filepath:'logs/calipso.log'}},
-    modules:[{name:'admin',enabled:true},{name:'content',enabled:true},{name:'contentTypes',enabled:true},{name:'user',enabled:true},{name:'taxonomy',enabled:true}]
-  };  
+    cache: false,
+    theme: 'calipso',
+    install: true,
+    logs: {
+      level: 'info',
+      console: { enabled: true },
+      file: { enabled: false, filepath: 'logs/calipso.log' }
+    },
+    modules: [
+      { name: 'admin', enabled: true },
+      { name: 'content', enabled: true },
+      { name: 'contentTypes', enabled: true },
+      { name: 'user', enabled: true },
+      { name: 'taxonomy', enabled: true }
+    ]
+  };
   
   /**
    * Mongoose schema for configuration storage
@@ -42,13 +48,13 @@ module.exports = function(app,express,next) {
    * Embedded mongoose schema to hold module status within the configuration
    */
   var AppModule = new Schema({
-    name:{type: String, required: true},
-    enabled:{type: Boolean, required: true, default:false}         
+    name: { type: String, required: true },
+    enabled: { type: Boolean, required: true, default: false }
   });
   
-  mongoose.model('AppConfig', AppConfigSchema);    
-  
-	/**
+  mongoose.model('AppConfig', AppConfigSchema);
+
+  /**
 	 * Load the development configuration
 	 * This is the default if you just run node app.
 	 */
@@ -83,11 +89,10 @@ module.exports = function(app,express,next) {
 		loadConfig(app,defaultConfig,function(err,config) {       
       app.set('config',config);
       next(err);
-		});
-	});		
-	
-		 
-}
+    });
+  });
+  
+};
 
 /**
  * Load the configuration from the datbase, creating based on the default
@@ -110,19 +115,19 @@ function loadConfig(app,defaultConfig,next) {
    * defaults.
    */
   AppConfig.findOne({}, function(err,config) {                      
-        if(err) {                    
-          next(err);          
-        } else {          
-          if(config) {            
-            next(null,config);            
-          } else {              
-            var newConfig = new AppConfig(defaultConfig);              
-            newConfig.save(function(err) {                
-                next(null,newConfig);
-                return;
-            });            
-          }
-        }                                      
+    if(err) {                    
+      next(err);          
+    } else {          
+      if(config) {            
+        next(null,config);            
+      } else {              
+        var newConfig = new AppConfig(defaultConfig);              
+        newConfig.save(function(err) {                
+          next(null,newConfig);
+          return;
+        });            
+      }
+    }                                      
   }); 
   
 }

@@ -1,85 +1,87 @@
-<h2>Navigation</h2>               
+<h2>Navigation</h2>
 <div class="primary-menu">
-<% 
+<%
   
-    // Track if we are the head flag
-    var head = false;        
-    var currentLevel = 0;
-    var endTag = "";
-    var menuName = "";
-    var menuUrl = "";
-    var startTag = "";
-        
-    menu.forEach(function(menuItem){ 
+  // Track if we are the head flag
+  var head = false;
+  var currentLevel = 0;
+  var endTag = "";
+  var menuName = "";
+  var menuUrl = "";
+  var startTag = "";
+  
+  menu.forEach(function(menuItem){
     
+    endTag = "";
+    startTag = "";
+    
+    var split = menuItem.name.split("/");
+    
+    if(split.length > 0) {
+      
+      if(currentLevel < split.length) {
+        
+        currentLevel = split.length;
+        menuName = split[split.length - 1];
+        menuUrl = menuItem.url;
         endTag = "";
-        startTag = "";
-    
-        var split = menuItem.name.split("/");
+        startTag = "<ul>";
         
-        if(split.length > 0) {            
-            
-            if(currentLevel < split.length) {
-                                            
-                currentLevel = split.length;                
-                menuName = split[split.length - 1];
-                menuUrl = menuItem.url;                                    
-                endTag = "";
-    	        startTag = "<ul>";	          	
-	          		          	                   
-	        } else {
-	         	        
-		        if(currentLevel === split.length) {	           	           
-	               
-	               menuName = split[split.length - 1];
-	               menuUrl = menuItem.url;     
-		           startTag = "</li>";
-	               endTag = "";
-	               
-		        } else {
-		                   		        
-			        if(currentLevel > split.length) {
-                       
-                       endTag = "";                               
-                       startTag = "";
-                       for(i=0; i < currentLevel - split.length; i++) {
-                          startTag += "</li></ul>";                         
-                       }		                
-                       startTag += "</li>";                                               
-		               currentLevel = split.length;        
-		               menuName = split[split.length - 1];
-		               menuUrl = menuItem.url;     
-		               
-		               
-		            }           
-                }            
-                 
-             }
-                              
+      } else {
+          
+        if(currentLevel === split.length) {
+          
+          menuName = split[split.length - 1];
+          menuUrl = menuItem.url;
+          startTag = "</li>";
+          endTag = "";
+          
         } else {
+          
+          if(currentLevel > split.length) {
             
-            startTag = "<ul>";
-            endTag = "";  
-            currentMenu = menuItem.name;
+            endTag = "";
+            startTag = "";
+            for(i=0; i < currentLevel - split.length; i++) {
+              startTag += "</li></ul>";
+            }
+            startTag += "</li>";
+            currentLevel = split.length;
+            menuName = split[split.length - 1];
             menuUrl = menuItem.url;
-                        
+            
+          }
+          
         }
-                                 
-        var menuSelected = '';
-        if(menuItem.regexp.test(request.url)) {
-             menuSelected = '-selected';
-        }        
-  
+        
+      }
+       
+    } else {
+    
+      startTag = "<ul>";
+      endTag = "";
+      currentMenu = menuItem.name;
+      menuUrl = menuItem.url;
+      
+    }
+    
+    var menuSelected = '';
+    if(menuItem.regexp.test(request.url)) {
+      menuSelected = '-selected';
+    }
+    
   %>
-    <%- startTag %><li id='<%- menuItem.name%>' class='primary-menu-item<%- menuSelected %>'><a href="<%- menuUrl %>"><%- menuName %></a><%- endTag%>    
-  <% }); 
+    <%- startTag %><li id='<%- menuItem.name%>' class='primary-menu-item<%- menuSelected %>'><a href="<%- menuUrl %>"><%- menuName %></a><%- endTag%>
+  <%
+  
+  });
   
   // Close the loop
-    endTag = "";
-   for(i=0; i < currentLevel; i++) {               
-      endTag += "</li></ul>";     
-   }  
+  endTag = "";
+  for(i=0; i < currentLevel; i++) {
+    endTag += "</li></ul>";
+  }
   %>
-  <%- endTag %>  
+  <%- endTag %>
 </div>
 <div class='menu-separator'></div>

@@ -2,7 +2,7 @@ html{min-height:100%;background-color:#444}
 body{font:14px "Quattrocento Sans",serif;font-size:.9em;line-height:1.3em;color:#fff;background:url("/images/background.jpg") repeat}
 #header{position:relative;padding-bottom:5px;margin-bottom:10px;}
 #header h1{background:url("/images/calipso.png") no-repeat;background-position-y:10px;font-size:57px !important;font-weight:400;text-shadow:2px 2px 2px #000;letter-spacing:.1em;word-spacing:0;color:#dd9 !important;line-height:1.2;padding-left:70px}
-#container{position:relative;padding:10px 10%;top:25px}
+#container{position:relative;padding:0 10% 10px;top:37px}
 #body{float:left;width:80%}
 #right{float:right;width:17%}
 #right div{margin-bottom:25px}
@@ -33,11 +33,10 @@ span.pager-page{padding:3px 3px;margin:3px 3px 3px 3px;color:#f5f5d5;line-height
 input.pager-page{display:inline !important;width:30px;padding:2px 2px;margin:3px 3px 3px 3px;color:#f5f5d5;line-height:1.25em;clear:none}
 a.pager-page{padding:3px 3px;margin:3px 3px 3px 3px;border:1px solid #a6a6c6;color:#d5d5d5;line-height:1.25em}
 pre{background:url("/images/background-dark.jpg") repeat;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;width:98%;padding:1%;margin-bottom:10px;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}
-.admin-primary-menu{background-color:#343414;color:#000;position:absolute;left:10;top:0;line-height:1.5em;width:98%;font-size:1em;padding-left:5px}
-.admin-primary-menu .admin-menu-item{color:#fff;padding:3px;margin-right:10px}
-.admin-primary-menu .admin-menu-item-selected{color:#fff;font-weight:bold;padding:3px;margin-right:10px}
-.admin-secondary-menu{padding-left:5px;font-size:1em;position:absolute;left:10;line-height:1.5em;top:19;width:98%;background-color:#545434;color:#fff;-webkit-box-shadow:2px 2px 12px rgba(0,0,0,0.35);-moz-box-shadow:2px 2px 12px rgba(0,0,0,0.35);box-shadow:2px 2px 12px rgba(0,0,0,0.35)}
-.admin-secondary-menu .admin-menu-item{color:#fff;padding:3px;margin-right:10px}
+.admin-primary-menu{background:#343414;color:#000;position:absolute;left:1%;top:0;line-height:1.5em;width:98%;font-size:1em}
+.admin-menu-item{color:#fff;padding:3px;margin-left:10px}
+.admin-menu-item-selected{font-weight:bold;color:#fff;padding:3px;margin-left:10px}
+.admin-secondary-menu{font-size:1em;position:absolute;left:1%;line-height:1.5em;top:21px;width:98%;background-color:#545434;color:#fff;-webkit-box-shadow:2px 2px 12px rgba(0,0,0,0.35);-moz-box-shadow:2px 2px 12px rgba(0,0,0,0.35);box-shadow:2px 2px 12px rgba(0,0,0,0.35)}
 .primary-menu{color:#fff;position:relative;font-size:1em;margin-top:10px;margin-bottom:10px;margin-left:-5px}
 .primary-menu .primary-menu-item-selected{font-weight:bold}
 .user-logout{position:relative;margin-right:10;font-size:.9em;z-index:20;float:right}

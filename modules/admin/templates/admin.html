@@ -1,83 +1,68 @@
-<div class='admin-page'>
-	<h2>Administration</h2>
-	<form action='/admin/save' method='POST' enctype="multipart/form-data">
-		<ul class='form-fields'>
-			<div class='section'>
-			     <section>
-				<h3>Core Configuration</h3>
-				</section>
-				<li class='form-field'>
-					<div>
-						<label>Theme</label> <select name="config[theme]"> <%
-							themes.forEach(function(theme) { %>
-							<option value='<%-theme.name %>'
-								<%= theme.selected ? "SELECTED" : "" %>/><%-theme.name%><br/>                 
-				    <%
-				        });
-				    %>    
-				    </select>
-					</div></li>				
-			</div>
-			 <div class='section'>
-                 <section>
-                <h3>Logging</h3>
-                </section>
-                    <li class='form-field'>
-                    <div>
-                    <label>Log Level</label> <select
-                            name="config[logslevel]"> <% for(var level in loglevels)
-                            { %>
-                            <option value='<%-level %>'
-                                <%= item.meta.logs.level === level ? "SELECTED" : "" %>/><%- level %><br/>                 
-                        <%
-                            }
-                        %>    
-                        </select>
-                    </div>
-                    </li>
-                    <li class='form-field'>
-                    <div>
-    					<label>Console Logging Enabled</label>
-						<input type='checkbox' name='config[logsconsoleenabled]'<%=
-						item.meta.logs.console.enabled ? "checked" : "unchecked" %>/>Enabled						
-	                </div>
-                       </li>
-	                <li class='form-field'>   
-                    <div>
-    					<label>File Logging Enabled</label>
-						<input type='checkbox' name='config[logsfileenabled]'<%=
-						item.meta.logs.file.enabled ? "checked" : "unchecked" %>/>Enabled						
-	                   </div>
-	                   </li>
-	                <li class='form-field'>
-                    <div>
-       
-						<label>File Log Path</label>
-						<input type='text' name='config[logsfilefilepath]'
-							style='width: 80% !important;'
-							value='<%= item.meta.logs.file.filepath%>' />
-                        </div>
-                     </li>
-               </div>
-             <div class='section'>
-             <section>
-                <h3>Modules</h3>
-                </section>
-                <li class='form-field'>
-                    <div>
-					<label>Modules</label>
-					<br /> <% for(var module in modules) { %>
-					<input type='checkbox' name='config[modules][<%-module%>]'<%=
-					modules[module].enabled ? "checked" : "unchecked" %>/><%-module%>
-					<br /> <% } %>
-				    </div>
-				</li>
-		      </div>
-		      <li class="buttons">
-		      <div>
-		          <input type='submit'  /> 
-		      </div>
-			</li>
-		</ul>
-	</form>
+<div class="admin-page">
+  <h2>Administration</h2>
+  <form action="/admin/save" method="POST" enctype="multipart/form-data">
+    <ul class="form-fields">
+      <li class="form-field">
+        <h3>Core Configuration</h3>
+        <div>
+          <label>Theme</label>
+          <select name="config[theme]">
+            <% themes.forEach(function(theme) { %>
+              <option value="<%-theme.name %>" <%= theme.selected ? "selected" : "" %>> <%-theme.name%>
+            <% }); %>
+          </select>
+        </div>
+      </li>
+      <li class="form-field">
+        <h3>Logging</h3>
+        <div>
+          <label>Log Level</label>
+          <select name="config[logslevel]">
+            <% for(var level in loglevels) { %>
+              <option value="<%-level %>" <%= item.meta.logs.level === level ? "selected" : "" %>> <%- level %>
+            <% } %>
+          </select>
+        </div>
+      </li>
+      <li class="form-field">
+        <div>
+          <label>Console Logging Enabled</label>
+          <input type="checkbox" name="config[logsconsoleenabled]"<%=
+          item.meta.logs.console.enabled ? "checked" : "" %>> Enabled
+        </div>
+      </li>
+      <li class="form-field">
+        <div>
+          <label>File Logging Enabled</label>
+          <input type="checkbox" name="config[logsfileenabled]"<%=
+          item.meta.logs.file.enabled ? "checked" : "" %>> Enabled
+        </div>
+      </li>
+      <li class="form-field">
+        <div>
+          <label>File Log Path</label>
+          <input type="text" name="config[logsfilefilepath]"
+            style="width: 80% !important;"
+            value="<%= item.meta.logs.file.filepath%>">
+        </div>
+      </li>
+      <li class="form-field">
+        <h3>Modules</h3>
+        <div>
+          <label>Modules</label>
+          <br />
+          <% for(var module in modules) { %>
+            <input type="checkbox" name="config[modules][<%-module%>]"<%=
+            modules[module].enabled ? "checked" : "" %>> <%-module%>
+            <br />
+          <% } %>
+        </div>
+      </li>
+      <li class="buttons">
+        <div>
+          <input type="submit">
+        </div>
+      </li>
+    </ul>
+  </form>
 </div>

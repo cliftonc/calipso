@@ -1,28 +1,38 @@
+
+<!--
+  TODO: separate this out ..
+  "scripts.html" is not a good name for title, stylesheets, and scripts.
+  TODO: make the title dynamic.
+-->
+
 <title>Calipso - A Node CMS</title>
-        
-<!--  Styles -->
-<link type="text/css" href="/css/Aristo/jquery-ui-1.8.7.custom.css" rel="stylesheet" /> 
-<link rel="stylesheet" href="/css/calipso.css" />
+
+<!--  STYLES -->
+<link href="/css/Aristo/jquery-ui-1.8.7.custom.css" rel="stylesheet">
+<link href="/css/calipso.css" rel="stylesheet">
 
 <!--  Google Fonts -->
-<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-<link  href="http://fonts.googleapis.com/css?family=Quattrocento+Sans:regular" rel="stylesheet" type="text/css" >        
-
-<!--  JQuery -->
-<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui-1.8.10.custom.min.js"></script>
+<link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Quattrocento+Sans:regular" rel="stylesheet">
 
 <!--  Prettify -->
-<link href="/js/prettify/dessert.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="/js/prettify/prettify.js"></script>
+<link href="/js/prettify/dessert.css" rel="stylesheet">
+
+<!--  SCRIPTS -->
+
+<!--  JQuery -->
+<script src="/js/jquery-1.4.4.min.js"></script>
+<script src="/js/jquery-ui-1.8.10.custom.min.js"></script>
+
+<!--  Prettify -->
+<script src="/js/prettify/prettify.js"></script>
 
 <!--  jsTree menu -->
-<script type="text/javascript" src="/js/jsTree/jquery.jstree.js"></script>
+<script src="/js/jsTree/jquery.jstree.js"></script>
 
 <script>
-
-$(document).ready(function() {
-
+$(function() {
+  
   // Navigation
   $('.primary-menu').jstree({
     "themes" : {
@@ -32,18 +42,19 @@ $(document).ready(function() {
     },
     "plugins" : [ "themes", "html_data" ]
   });
-	  
+  
   // Pretty printing
   prettyPrint();
   
   $('.content-block').dblclick(function() {
     if(this.id) {
-      window.location.href = "/content/edit/" + this.id + "?returnTo=<%= request.url %>";  
-    } 
-  });  
+      location.href = "/content/edit/" + this.id + "?returnTo=<%= request.url %>";
+    }
+  });
   
 });
 </script>
+
 <!--  START OF DYNAMIC INSERTION -->
 
 <%- getBlock('scripts.pusher') %>
