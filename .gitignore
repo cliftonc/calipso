@@ -2,3 +2,4 @@ node_modules/*
 *.pid
 *.log
 *.sock
+themes/calipso/public/css/calipso.css
