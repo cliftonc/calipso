@@ -42,7 +42,7 @@ function init(module, app, next) {
   calipso.lib.step(
     function defineRoutes() {
     
-      // Add a route to every page, notice the 'end:false' to ensure block further routing
+      // Add a route to every page, notice the 'end:false' to ensure block further routing      
       module.router.addRoute(/.*/, allPages, {end:false, template:'template-all', block:'right'}, this.parallel());
       
       // Page
@@ -50,8 +50,6 @@ function init(module, app, next) {
       
     },
     function done() {
-    
-    
     
       // Any schema configuration goes here
       next();

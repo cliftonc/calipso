@@ -14,7 +14,7 @@
           "header": {"template": "header.html"},
           "messages": {"template": "messages.html", "blocks": []},
           "body": {"template": "body.html", "blocks": ["content", "admin"]},
-          "right": {"template": "right.html", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
+          "right": {"template": "right.jade", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
           "footer": {"template": "footer.html", "blocks": []}
         }
       }
@@ -29,7 +29,7 @@
           "header": {"template": "header.html"},
           "messages": {"template": "messages.html", "blocks": []},
           "body": {"template": "body.html", "blocks": ["messages", "content", "admin"]},
-          "right": {"template": "right.html", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
+          "right": {"template": "right.jade", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
           "footer": {"template": "footer.html", "blocks": []}
         }
       }
