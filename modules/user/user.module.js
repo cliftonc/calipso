@@ -29,38 +29,38 @@ function route(req, res, module, app, next) {
 function init(module, app, next) {
   
   calipso.lib.step(
-
-      function defineRoutes() {
-        module.router.addRoute(/.*/,loginForm,{end:false,template:'login',block:'user.login'},this.parallel());              
-        module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
-        module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
-        module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
-        module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
-        module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
-        module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
-        module.router.addRoute('GET /user/profile/:username/edit',updateUserForm,{block:'content'},this.parallel());
-        module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
-      },
-      function done() {
-               
-        var Role = new calipso.lib.mongoose.Schema({
-          name:{type: String, required: true, unique:true},
-          isAdmin:{type: Boolean, required: true, default: false}
-        });
-        calipso.lib.mongoose.model('Role', Role);
-        
-        var User = new calipso.lib.mongoose.Schema({
-          // Single default property
-          username:{type: String, required: true, unique:true},
-          password:{type: String, required: true},
-          email:{type: String, required: true, unique:true},
-          about:{type: String},
-          roles:[String],
-          isAdmin:{type: Boolean, required: true, default: true} // Convert to getter
-        });
-        calipso.lib.mongoose.model('User', User);                       
-        next();
-      }           
+    
+    function defineRoutes() {
+      module.router.addRoute(/.*/,loginForm,{end:false,template:'login',block:'user.login'},this.parallel());
+      module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
+      module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
+      module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
+      module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
+      module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
+      module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
+      module.router.addRoute('GET /user/profile/:username/edit',updateUserForm,{block:'content'},this.parallel());
+      module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
+    },
+    function done() {
+      
+      var Role = new calipso.lib.mongoose.Schema({
+        name:{type: String, required: true, unique:true},
+        isAdmin:{type: Boolean, required: true, default: false}
+      });
+      calipso.lib.mongoose.model('Role', Role);
+      
+      var User = new calipso.lib.mongoose.Schema({
+        // Single default property
+        username:{type: String, required: true, unique:true},
+        password:{type: String, required: true},
+        email:{type: String, required: true, unique:true},
+        about:{type: String},
+        roles:[String],
+        isAdmin:{type: Boolean, required: true, default: true} // Convert to getter
+      });
+      calipso.lib.mongoose.model('User', User);
+      next();
+    }
   )
   
 }
@@ -70,8 +70,8 @@ function loginForm(req, res, template, block, next) {
   var form = {
     id:'login-form',cls:'login',title:'Login',type:'form',method:'POST',action:'/user/login',
     fields:[
-      {label:'Username', name:'user[username]', type:'text', value:''},
-      {label:'Password', name:'user[password]', type:'password', value:''}
+      {label:'Username', name:'user[username]', type:'text'},
+      {label:'Password', name:'user[password]', type:'password'}
     ],
     buttons:[
       {name:'submit', type:'submit', value:'Login'},
@@ -91,10 +91,10 @@ function registerUserForm(req, res, template, block, next) {
   var userForm = {
     id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',
     fields: [
-      {label:'Username', name:'user[username]', type:'text', value:''},
-      {label:'Password', name:'user[password]', type:'password', value:''},
-      {label:'Email', name:'user[email]', type:'text', value:''},
-      {label:'About You', name:'user[about]', type:'textarea', value:''}
+      {label:'Username', name:'user[username]', type:'text'},
+      {label:'Password', name:'user[password]', type:'password'},
+      {label:'Email', name:'user[email]', type:'text'},
+      {label:'About You', name:'user[about]', type:'textarea'}
     ],
     buttons:[
       {name:'submit', type:'submit', value:'Register'}
@@ -104,11 +104,11 @@ function registerUserForm(req, res, template, block, next) {
   // Allow admins to register other admins
   if(req.session.user && req.session.user.isAdmin) {
     userForm.fields.push(
-      {label:'Admin', name:'user[isAdmin]', type:'select', value:'', options:['Yes','No']}
+      {label:'Admin', name:'user[isAdmin]', type:'select', options:['Yes','No']}
     );
   }
   
-  calipso.form.render(userForm,null,function(form) {
+  calipso.form.render(userForm, null, function(form) {
     calipso.theme.renderItem(req, res, form, block);
     next();
   });
@@ -159,7 +159,7 @@ function updateUserProfile(req, res, template, block, next) {
   
 };
 
-function updateUserForm(req,res,template,block,next) {
+function updateUserForm(req, res, template, block, next) {
   
   var User = calipso.lib.mongoose.model('User');
   var username = req.moduleParams.username;
@@ -167,10 +167,10 @@ function updateUserForm(req,res,template,block,next) {
   var userForm = {
     id:'FORM',title:'Update Profile',type:'form',method:'POST',action:'/user/profile/' + username,
     fields:[
-      {label:'Username', name:'user[username]', type:'text', readonly:true, value:''},
-      {label:'Password', name:'user[password]', type:'password', value:''},
-      {label:'Email', name:'user[email]', type:'text', value:''},
-      {label:'About You', name:'user[about]', type:'textarea', value:''}
+      {label:'Username', name:'user[username]', type:'text', readonly:true},
+      {label:'Password', name:'user[password]', type:'password'},
+      {label:'Email', name:'user[email]', type:'text'},
+      {label:'About You', name:'user[about]', type:'textarea'}
     ],
     buttons:[
       {name:'submit', type:'submit', value:'Save Profile'}
@@ -187,11 +187,11 @@ function updateUserForm(req,res,template,block,next) {
   }
   
   User.findOne({username:username}, function(err, u) {
-  
+    
     // Allow admins to register other admins
     if(req.session.user && req.session.user.isAdmin) {
       userForm.fields.push(
-        {label:'Admin', name:'user[isAdmin]', type:'select', value:'', options:['Yes','No']}
+        {label:'Admin', name:'user[isAdmin]', type:'select', options:['Yes','No']}
       );
     }
     
@@ -212,7 +212,7 @@ function loginUser(req, res, template, block, next) {
   
   calipso.form.process(req, function(form) {
     if(form) {
-    
+      
       var User = calipso.lib.mongoose.model('User');
       var username = form.user.username;
       var password = form.user.password;
@@ -259,7 +259,7 @@ function logoutUser(req, res, template, block, next) {
 
 function registerUser(req, res, template, block, next) {
   
-  calipso.form.process(req,function(form) {
+  calipso.form.process(req, function(form) {
     
     if(form) {
       
@@ -346,8 +346,8 @@ function listUsers(req, res, template, block, next) {
     });
     next();
   });
-            
-};
+  
+}
 
 /**
  * Installation process - asynch
@@ -356,51 +356,51 @@ function listUsers(req, res, template, block, next) {
 function install(next) {
   
   // Create the default content types
-  var Role = calipso.lib.mongoose.model('Role');          
-  var User = calipso.lib.mongoose.model('User');          
+  var Role = calipso.lib.mongoose.model('Role');
+  var User = calipso.lib.mongoose.model('User');
   
   calipso.lib.step(
+    
+    function createDefaults() {
+      /**
+       * Default roles
+       */
+      var r = new Role({
+        name:'Guest',
+        isAdmin:false
+      });
+      r.save(this.parallel());
       
-      function createDefaults() {                    
-          /**
-           * Default roles
-           */
-          var r = new Role({
-            name:'Guest',
-            isAdmin:false
-          });               
-          r.save(this.parallel());
-          
-          var r = new Role({
-            name:'Contributor',
-            isAdmin:false
-          });               
-          r.save(this.parallel());
+      var r = new Role({
+        name:'Contributor',
+        isAdmin:false
+      });
+      r.save(this.parallel());
       
-          var r = new Role({
-            name:'Administrator',
-            isAdmin:true
-          });               
-          r.save(this.parallel());
-          
-          var admin = new User({
-            username:'admin',
-            password:'password',
-            email:'admin@example.com',
-            roles:['Administrator']
-          });
-          admin.save(this.parallel());
-                    
-      },
-      function allDone(err) {
-          if(err) {
-            calipso.log(err);
-            next(err)
-          } else {
-            calipso.log("User module installed ... ");
-            next();  
-          }             
+      var r = new Role({
+        name:'Administrator',
+        isAdmin:true
+      });
+      r.save(this.parallel());
+      
+      var admin = new User({
+        username:'admin',
+        password:'password',
+        email:'admin@example.com',
+        roles:['Administrator']
+      });
+      admin.save(this.parallel());
+      
+    },
+    function allDone(err) {
+      if(err) {
+        calipso.log(err);
+        next(err)
+      } else {
+        calipso.log("User module installed ... ");
+        next();
       }
-  )   
-      
+    }
+  )
+  
 }
