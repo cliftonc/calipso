@@ -1,0 +1,14 @@
+// Iterate through datepicker elements and set values
+// TODO : Use date format for users locale!
+
+$( ".jquery-ui-datepicker" ).each(function(k,dp) {
+  
+  var date = $.datepicker.formatDate( 'dd/mm/yy',new Date(dp.value));
+  var altField = '#' + dp.id + '-value';
+  
+  $(dp).datepicker({ defaultDate: date, dateFormat: 'dd/mm/yy', altField:altField, altFormat: "MM, dd yy"});
+  $(dp).val(date);  
+    
+});
+
+// Add the 
