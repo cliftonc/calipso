@@ -31,8 +31,10 @@ function init(module, app, next) {
       // Add a route to every page, ideally just do it on form pages, but can't tell atm      
       module.router.addRoute(/.*/, allPages, {end:false, template:'datepicker.script', block:'scripts.richforms.datepicker'}, this.parallel());
       module.router.addRoute(/.*/, allPages, {end:false, template:'markitup.script', block:'scripts.richforms.markitup'}, this.parallel());
-      // module.router.addRoute(/^(\/richforms\/).*/, staticRender, {}, this.parallel());
+      
       app.use(calipso.lib.express.static(__dirname + '/static'));
+      
+      module.router.addRoute('GET /richforms/preview',showPreview,{},this.parallel());
               
     },
     function done() {
@@ -80,30 +82,15 @@ function allPages(req, res, template, block, next) {
 };
 
 /**
- * Every page block function
+ * Show a blank page to enable the rich form preview
+ * This requires that you have a layout called preview, that basically has no header, footer, navigation
+ * etc. or you wont get desired results.
  */
-function staticRender(req, res, template, block, next) {
+function showPreview(req, res, template, block, next) {
   
-  /**
-  var relativePath = req.url.replace(/^(\/richforms\/)/,'');  
-  
-  calipso.lib.path.exists(__dirname + "/" + relativePath, function(exists) {      
-      if(exists) {        
-        calipso.lib.fs.readFile(__dirname + "/" + relativePath, function (err, data) {                   
-            if(err) {
-              res.send("<!-- Module searching for " + relativePath + " but could not read file : " + err.message + "--->");
-            } else {
-              
-              res.send(data);  
-            }            
-        });        
-      } else {
-        res.send("<!-- Module searching for " + relativePath + " but not found --->");   
-      }
-              
-  });  
-  **/
-    
+  res.layout = "preview";
+  next();
+      
 };
 
 

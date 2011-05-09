@@ -54,7 +54,7 @@ myHtmlSettings = {
         {name:'Li', openWith:'<li>', closeWith:'</li>' },
         {separator:'---------------' },
         {name:'Picture', key:'P', replaceWith:'<img src="[![Source:!:http://]!]" alt="[![Alternative text]!]" />' },
-        {name:'Link', key:'L', openWith:'<a href="[![Link:!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' },
+        {name:'Link', key:'L', openWith:'<a target="_new" href="[![Link:!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' },
         {separator:'---------------' },
         {name:'Clean', replaceWith:function(h) { return h.selection.replace(/<(.*?)>/g, "") } },
         {name:'Preview', call:'preview', className:'preview' }

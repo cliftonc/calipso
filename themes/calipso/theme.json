@@ -33,6 +33,15 @@
           "footer": {"template": "footer.html", "blocks": []}
         }
       }
+    },
+    "preview": {
+      "layout": {
+        "template": "preview.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "body": {"template": "body.html", "blocks": []}
+        }
+      }
     }
   }
 }
