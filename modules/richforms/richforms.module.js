@@ -7,7 +7,7 @@ var calipso = require("../../lib/calipso");
  * Turns form date elements into jQUery UI Datepickers
  * REQUIRES jQuery & jQuery UI to be included in the theme ...
  */
-exports = module.exports = {init: init, route: route};
+exports = module.exports = {init: init, route: route, disable:disable, reload:reload};
 
 /**
  * Template module
@@ -38,7 +38,10 @@ function init(module, app, next) {
               
     },
     function done() {
-            
+                        
+      // Set the old function so it can be reset later
+      calipso.form.render_tag_date_default = calipso.form.render_tag_date;
+        
       // Test over-riding a form element
       calipso.form.render_tag_date = function(field,value) {      
         
@@ -94,3 +97,15 @@ function showPreview(req, res, template, block, next) {
 };
 
 
+// Disable - same as reload
+function disable() {
+  reload();
+}
+
+// Reload
+function reload() {
+
+  // Reset the Form methods to their defaults
+  // TODO!
+    
+}

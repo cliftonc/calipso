@@ -1,4 +1,3 @@
-
 TESTS = test/*.js
 
 test:

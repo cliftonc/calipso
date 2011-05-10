@@ -17,9 +17,7 @@ var fs = require('fs'),
     calipso = require('./lib/calipso'),
     mongoStore = require('./support/connect-mongodb');
 
-/**
- * Global variables
- */
+// Global Variables
 var path = __dirname;
 var theme = 'default';
 var port = 3000;
