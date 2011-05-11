@@ -14,6 +14,14 @@
         </div>
       </li>
       <li class="form-field">
+        <div>
+          <label>Watch Template Files</label>
+          <input type="checkbox" name="config[watchFiles]"<%=
+          item.meta.watchFiles ? "checked" : "" %>>
+          <label for="config[watchFiles]">Enabled</label>
+        </div>
+      </li>      
+      <li class="form-field">
         <h3>Logging</h3>
         <div>
           <label>Log Level</label>
