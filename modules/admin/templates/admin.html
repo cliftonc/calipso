@@ -28,14 +28,16 @@
         <div>
           <label>Console Logging Enabled</label>
           <input type="checkbox" name="config[logsconsoleenabled]"<%=
-          item.meta.logs.console.enabled ? "checked" : "" %>> Enabled
+          item.meta.logs.console.enabled ? "checked" : "" %>>
+          <label for="config[logsconsoleenabled]">Enabled</label>
         </div>
       </li>
       <li class="form-field">
         <div>
-          <label>File Logging Enabled</label>
+          <label>File Logging</label>
           <input type="checkbox" name="config[logsfileenabled]"<%=
-          item.meta.logs.file.enabled ? "checked" : "" %>> Enabled
+          item.meta.logs.file.enabled ? "checked" : "" %>>
+          <label for="config[logsfileenabled]">Enabled</label>
         </div>
       </li>
       <li class="form-field">
@@ -53,7 +55,8 @@
           <br />
           <% for(var module in modules) { %>
             <input type="checkbox" name="config[modules][<%-module%>]"<%=
-            modules[module].enabled ? "checked" : "" %>> <%-module%>
+            modules[module].enabled ? "checked" : "" %>>
+            <label for="config[modules][<%-module%>]"><%-module%></label>
             <br />
           <% } %>
         </div>
