@@ -19,6 +19,7 @@ module.exports = function(app, express, next) {
     cache: false,
     theme: 'calipso',
     install: true,
+    watchFiles: true,
     logs: {
       level: 'info',
       console: { enabled: true },
@@ -39,6 +40,7 @@ module.exports = function(app, express, next) {
   var AppConfigSchema = new Schema({    
     theme:{type: String, required: true, default:'default'},
     install:{type: Boolean, default:false},
+    watchFiles:{type: Boolean, default:true},
     logs:{
         level:{type: String, required: true, default:'info'},
         console:{enabled:{type:Boolean, default:true}},
@@ -94,7 +96,7 @@ module.exports = function(app, express, next) {
 		require("./production.js")(app,express);
 		loadConfig(app,defaultConfig,function(err,config) {       
       app.set('config',config);
-      next(err);
+      next(err);9
     });
   });
   
