@@ -7,6 +7,9 @@
  * Usage:  node app, or NODE_ENV=production node app
  *  
  */
+
+require.paths.unshift(__dirname); //make local paths accessible
+
 var fs = require('fs'),
     express = require('express'),
     mongoose = require('mongoose'),
@@ -14,8 +17,8 @@ var fs = require('fs'),
     nodepath = require('path'),
     form = require('connect-form'),
     stylus = require('stylus'),
-    calipso = require('./lib/calipso'),
-    mongoStore = require('./support/connect-mongodb');
+    calipso = require('lib/calipso'),
+    mongoStore = require('support/connect-mongodb');
 
 // Global Variables
 var path = __dirname;
