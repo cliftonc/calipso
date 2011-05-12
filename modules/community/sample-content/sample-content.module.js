@@ -41,9 +41,7 @@ function init(module, app, next) {
   // Any pre-route config
   calipso.lib.step(
     function defineRoutes() {
-      
-      app.use(calipso.lib.express.static(__dirname + '/static'));
-      
+            
       // Add a route to every page, notice the 'end:false' to ensure block further routing
       //module.router.addRoute(/.*/, allPages, {end:false, template:'template-all', block:'right'}, this.parallel());
       
@@ -54,6 +52,8 @@ function init(module, app, next) {
     },
     function done() {
       
+      app.use(calipso.lib.express.static(__dirname + '/static'));      
+
       // Any schema configuration goes here
       next();
     }
