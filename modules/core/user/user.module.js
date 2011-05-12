@@ -67,7 +67,7 @@ function init(module, app, next) {
 
 function loginForm(req, res, template, block, next) {
   
-  var form = {
+  var userForm = {
     id:'login-form',cls:'login',title:'Login',type:'form',method:'POST',action:'/user/login',
     fields:[
       {label:'Username', name:'user[username]', type:'text'},
@@ -79,7 +79,7 @@ function loginForm(req, res, template, block, next) {
     ]
   };
   
-  calipso.form.render(form, null, function(form) {
+  calipso.form.render(userForm, null, function(form) {
     calipso.theme.renderItem(req, res, template, block, {form:form});
     next();
   });

@@ -23,7 +23,6 @@ function init(module, app, next) {
   
   calipso.lib.step(
     function defineRoutes() {
-      
       module.router.addRoute('GET /admin', showAdmin, {template:'admin', block:'admin', admin:true}, this.parallel());
       module.router.addRoute('GET /admin/reload', reloadAdmin, {template:'reload', block:'admin', admin:true}, this.parallel());
       module.router.addRoute('POST /admin/save', saveAdmin, {admin:true}, this.parallel());
