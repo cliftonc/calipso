@@ -44,7 +44,8 @@ function init(module, app, next) {
             
       // Add a route to every page, notice the 'end:false' to ensure block further routing
       //module.router.addRoute(/.*/, allPages, {end:false, template:'template-all', block:'right'}, this.parallel());
-      
+      app.use(calipso.lib.express.static(__dirname + '/static'));      
+
       // Page
       module.router.addRoute('GET /sample-content', renderSampleContentPage, {template:'sample-content', block:'content'}, this.parallel());
       module.router.addRoute('POST /sample-content', renderSampleContentPage, {template:'sample-content', block:'content'}, this.parallel());
@@ -52,7 +53,6 @@ function init(module, app, next) {
     },
     function done() {
       
-      app.use(calipso.lib.express.static(__dirname + '/static'));      
 
       // Any schema configuration goes here
       next();
