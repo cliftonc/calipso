@@ -46,9 +46,9 @@ exports.boot = function(next) {
     theme = app.set('config').theme;
     
     // Bootstrap application
-    bootApplication(app);
-    
-    next(app);
+    bootApplication(app, function() {
+      next(app);  
+    });    
     
   });
   
@@ -59,7 +59,7 @@ exports.boot = function(next) {
  *  Any of these can be added into the by environment configuration files to
  *  enable modification by env.
  */
-function bootApplication(app) {
+function bootApplication(app, next) {
   
   // launch
   // app.use(express.profiler());s
@@ -68,7 +68,7 @@ function bootApplication(app) {
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.responseTime());
-  app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));
+  app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));  
   
   // Stylus
   var stylusMiddleware = stylus.middleware({
@@ -97,7 +97,12 @@ function bootApplication(app) {
   app.use(express.static(path + '/themes/' + theme + '/public'));
 
   // Core calipso router
-  app.use(calipso.calipsoRouter(app, app.set('config')));
+  app.use(calipso.calipsoRouter(app, app.set('config'), function() {
+    next();  
+  }));
+  
+  
+  
 }
 
 // allow normal node loading if appropriate
@@ -119,4 +124,8 @@ if (!module.parent) {
     
   });
   
+} else {
+  
+    console.log("\x1b[36mCalipso server initialised.\x1b[0m\r\n")
+    
 }

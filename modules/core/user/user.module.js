@@ -230,10 +230,12 @@ function loginUser(req, res, template, block, next) {
         }
         if(!found) {
           req.flash('error','You may have entered an incorrect username or password!');
+          calipso.log("Failed login");
         }
         if(res.statusCode != 302) {
           res.redirect('back');
         }
+        calipso.log("Here");
         next();
         return;
       });
