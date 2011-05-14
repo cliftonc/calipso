@@ -14,8 +14,8 @@ exports = module.exports = function(req,options,callback) {
 
       // Create a query and retrieve the content, has pager support, using req.moduleParams
       // But you can override on an individual query by setting in the options (second param)
-      var query = new Query();
-      options.getContentList(query,{req:req,from:0,limit:3, pager:false},this.parallel());
+      var query = new Query({'meta.contentType':'Blog'});
+      options.getContentList(query,{req:req,pager:false},this.parallel());
 
     },
     function done(err, output) {

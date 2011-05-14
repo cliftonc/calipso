@@ -27,6 +27,7 @@ background-highlight()
   padding  0
 
 html
+  background-color #444444
   min-height  100%
 
 body
@@ -305,7 +306,11 @@ pre
     clear  both
 
 .blog-list-item
-  width  15%
+  background-highlight()
+  border-radius 5px
+  box-shadow 5px
+  width  14%
+  height  120px
   padding  10px
   margin-right  10px
   margin-bottom  10px
@@ -520,13 +525,13 @@ pre
 form
   width  98%
   zoom  1
-  ul.form-fields
+  div.form-fields
     margin  0
     padding  0
     list-style-type  none
     width  99%
     zoom  1
-  li.buttons
+  div.actions
     width  auto !important
     position  relative
     text-align  right
@@ -536,12 +541,14 @@ form
       font-size  100%
       margin-right  5px
       padding  5px
-  li.form-field
+  div.form-field
     margin  0
     padding  5px 0 3px
     clear  both
     background-color  transparent
     position  relative
+    label
+      padding-right 10px
     div
       margin  0
       padding  0
@@ -555,8 +562,12 @@ form
         color  white
         display  block
 
-form.login li.form-field div
+#user-login div.form-item div
   margin-bottom  5px !important
+
+#user-login div.form-item
+  margin-bottom  5px !important
+
 
 input.text, input.file, textarea.textarea, select.select
   font-family  Verdana, arial, sans-serif

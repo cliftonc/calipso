@@ -601,7 +601,7 @@ function getContentList(query,out,next) {
 
       var Content = calipso.lib.mongoose.model('Content');
 
-      var pager = out.pager ? out.pager : true;
+      var pager = out.hasOwnProperty('pager') ? out.pager : true;
 
       // If pager is enabled, ignore any override in from
       var from;
