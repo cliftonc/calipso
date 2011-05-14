@@ -569,7 +569,7 @@ function listContent(req,res,template,block,next) {
       // Taxonomy tags
       var taxonomy = "";
       if(t1) {
-        res.layout = t1;
+        res.layout = t1 + "Landing" // Enable landing page layout to be created for this t1 level;
         taxonomy += t1;
         if(t2) {
           taxonomy += "/" + t2;

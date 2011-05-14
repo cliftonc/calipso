@@ -21,25 +21,22 @@
     },
     "home": {
       "layout": {
-        "template": "default.html",
         "copyFrom":"default",
         "sections": {
           "body": {"template": "body.html", "blocks": []}
         }
       }
     },
-    "blog": {
+    "blogLanding": {
       "layout": {
-        "template": "default.html",
         "copyFrom":"default",
         "sections": {
           "body": {"template": "body.html", "blocks": []}
         }
       }
     },
-    "github": {
+    "githubLanding": {
       "layout": {
-        "template": "default.html",
         "copyFrom":"default",
         "sections": {
           "body": {"template": "body.html", "blocks": []}
