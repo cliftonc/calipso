@@ -15,7 +15,7 @@ var assert = require('assert'),
 var adminCookie;
 
 /**
- * Initialise server, use delayed export to test.
+ * Initialise server
  */
 require('../app').boot(function(server) {
 
@@ -156,6 +156,20 @@ require('../app').boot(function(server) {
             res.body.should.include.string('Article'); // Default content type
             done();
         });
+    };
+
+    // Ok, now lets test the modules
+    calipso = require('lib/calipso');
+
+    // Login as some modules may require admin access
+    for(var module in calipso.modules) {
+
+        var moduleName = calipso.modules[module].name;
+        var modulePath = __dirname + "/../" + calipso.modules[module].path;
+        var moduleTests = modulePath + "/test";
+
+        // TODO ... launch or run, or integrate?
+
     };
 
     exports.tearDown = function(done) {

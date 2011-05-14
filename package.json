@@ -1,13 +1,12 @@
 {
   "name": "calipso",
-  "description": "Drupal Like NodeJS CMS",
+  "description": "A NodeJS CMS",
   "version": "0.0.2",
   "homepage": "http://calip.so",
   "repository": {
     "type": "git",
     "url": "git://github.com/cliftonc/calipso.git"
   },
-  "main": "bootstrap",
   "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
   "directories": {
     "lib": "./lib",
