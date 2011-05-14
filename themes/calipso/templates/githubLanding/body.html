@@ -1,8 +1,9 @@
-<div class="blog-content">
+<div class="github-content">
+    <%- header%>
+
     <% contents.forEach(function(item) { %>
-    <div class='blog-list-item'>
-        <h3><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></h3>
-        <p><%- item.meta.teaser %> ... <a href='/<%= item.meta.alias %>.html'>more</a></p>
+    <div class='github-list-item'>
+        <a href='/<%= item.alias %>.html'><%- item.title %></a>
     </div>
     <% });  %>
     <%- pager %>

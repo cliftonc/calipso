@@ -601,7 +601,7 @@ function getContentList(query,out,next) {
 
       var Content = calipso.lib.mongoose.model('Content');
 
-      var pager = out.pager === true;
+      var pager = out.pager ? out.pager : true;
 
       // If pager is enabled, ignore any override in from
       var from;
@@ -611,7 +611,7 @@ function getContentList(query,out,next) {
         var from = out.from ? out.from - 1 : 0;
       }
 
-      var limit = out.limit ? out.limit : (out.req.moduleParams.limit ? parseInt(out.req.moduleParams.limit) : 30);
+      var limit = out.limit ? out.limit : (out.req.moduleParams.limit ? parseInt(out.req.moduleParams.limit) : 20);
 
       // Initialise the block based on our content
       Content.count(query, function (err, count) {
