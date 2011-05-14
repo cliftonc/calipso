@@ -22,30 +22,27 @@
     "home": {
       "layout": {
         "template": "default.html",
+        "copyFrom":"default",
         "sections": {
-          "scripts": {"template": "scripts.html"},
-          "admin": {"menu": "admin", "template": "adminMenu.html"},
-          "primary": {"menu": "primary", "template": "primaryMenu.html"},
-          "header": {"template": "header.html"},
-          "messages": {"template": "messages.html", "blocks": []},
-          "body": {"template": "body.html", "blocks": ["messages", "content", "admin"]},
-          "right": {"template": "right.jade", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
-          "footer": {"template": "footer.html", "blocks": []}
+          "body": {"template": "body.html", "blocks": []}
         }
       }
     },
     "blog": {
       "layout": {
         "template": "default.html",
+        "copyFrom":"default",
         "sections": {
-          "scripts": {"template": "scripts.html"},
-          "admin": {"menu": "admin", "template": "adminMenu.html"},
-          "primary": {"menu": "primary", "template": "primaryMenu.html"},
-          "header": {"template": "header.html"},
-          "messages": {"template": "messages.html", "blocks": []},
-          "body": {"template": "body.html", "blocks": ["messages", "content", "admin"]},
-          "right": {"template": "right.jade", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
-          "footer": {"template": "footer.html", "blocks": []}
+          "body": {"template": "body.html", "blocks": []}
+        }
+      }
+    },
+    "github": {
+      "layout": {
+        "template": "default.html",
+        "copyFrom":"default",
+        "sections": {
+          "body": {"template": "body.html", "blocks": []}
         }
       }
     },
