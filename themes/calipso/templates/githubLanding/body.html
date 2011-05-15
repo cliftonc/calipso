@@ -1,9 +1,13 @@
 <div class="github-content">
     <%- header%>
 
-    <% contents.forEach(function(item) { %>
+    <% contents.forEach(function(item) {
+    %>
     <div class='github-list-item'>
-        <a href='/<%= item.alias %>.html'><h6><%- prettyDate(item.meta.updated) %></h6><%- item.title %></a>
+          <a class='<%- hotDate(item.meta.updated) %>' href='<%= item.alias %>.html'>
+            <h6><%- prettyDate(item.meta.updated) %></h6>
+            <%- item.title %>
+          </a>
     </div>
     <% });  %>
     <%- pager %>

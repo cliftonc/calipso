@@ -8,16 +8,16 @@
 // long ago the date represents.
 
 exports = module.exports = {
-  
+
   prettyDate: function(stringDate) {
-    
+
     var date = new Date(stringDate),
         diff = (((new Date()).getTime() - date.getTime()) / 1000),
         day_diff = Math.floor(diff / 86400);
-    
-    if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+
+    if ( isNaN(day_diff) || day_diff < 0 )
       return;
-    
+
     return day_diff == 0 && (
         diff < 60 && "just now" ||
         diff < 120 && "1 minute ago" ||
@@ -27,8 +27,29 @@ exports = module.exports = {
       ) ||
       day_diff == 1 && "Yesterday" ||
       day_diff < 7 && day_diff + " days ago" ||
-      day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+      day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago"  ||
+      day_diff >=31 && "A long time ago";
+  },
+  // Splits the date into 7 'hot' categories based on recency
+  hotDate: function(stringDate) {
+
+    var date = new Date(stringDate),
+        diff = (((new Date()).getTime() - date.getTime()) / 1000),
+        day_diff = Math.floor(diff / 86400);
+
+    if ( isNaN(day_diff) || day_diff < 0 )
+      return;
+
+    return day_diff == 0 && (
+        diff < 7200 && "h1" ||
+        diff < 86400 && "h2"
+      ) ||
+      day_diff == 1 && "h3" ||
+      day_diff < 3 && "h4" ||
+      day_diff < 5 && "h5" ||
+      day_diff <= 7 && "h6" ||
+      day_diff > 7 && "h7";
   }
 
-}
 
+}
