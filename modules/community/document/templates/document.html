@@ -1,25 +1,41 @@
 <div class="document-content">
 
   <% if(type === "module" || type === "template") { %>
-  <h2><a href="/dox/<%- module.name %>"><%- module.name %> [<%- module.type %>]</a></h2>
+  <h1><a href="/dox/<%- module.name %>"><%- module.name %> [<%- module.type %>]</a></h1>
   <% } else { %>
-  <h2><%- path %></h2>
+  <h1><%- path %></h1>
   <% } %>
   <a href="/dox"><< All Modules</a>
 
   <p><small>This documentation is generated automatically by the document module, supported by the excellent dox library. Any absence of text, comments, or issues with layout are due to inconsistent commenting / coding, and will be repaired asap [cliftonc].</small></p>
 
-  <% output.forEach(function(item) { %>
+  <%
+
+  var counter = 0;
+  output.forEach(function(item) {
+    counter = counter + 1;
+    %>
 
   <% if(item.ctx) { %>
 
-  <h3><%- item.ctx.name %></h3><% } %>
+  <h2><%- item.ctx.name %></h2>
 
-  <p><%- item.description.full %></p><% if (item.code) { %>
+  <% } %>
 
+<pre class='dox-comment'>
+<%- item.description.full %>
+</pre>
+<% if(counter > 1) { %>
+  <div class="calloutDown">
+      <div class="calloutDown2">
+      </div>
+  </div>
+<% } %>
+<% if (item.code) { %>
 <pre class='prettyprint'>
 <%- item.code %>
 </pre>
+<br/>
 
 <% } });%>
 </div>

@@ -114,12 +114,12 @@ exports.parseComment = function(str) {
   }
 
   // markdown
-  description.full = markdown(escape(description.full));
-  description.summary = markdown(escape(description.summary));
-  description.body = markdown(escape(description.body));
+  description.mdfull = markdown(escape(description.full));
+  description.mdsummary = markdown(escape(description.summary));
+  description.mdbody = markdown(escape(description.body));
 
   // NO markdown
-  description.plainfull = escape(description.full);
+  description.full = escape(description.full);
 
   return comment;
 }
