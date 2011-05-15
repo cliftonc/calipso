@@ -262,7 +262,7 @@ function document(req, res, template, block, next) {
 function linkTemplates(module, output) {
 
   var templateRegex = /template:?.'(\w+)'/g;
-  var replaceString = "template: <a href=\"/document/" + module + "?template=$1\">$1</a>"
+  var replaceString = "template: <a href=\"/dox/" + module + "?template=$1\">$1</a>"
   var templates = [];
 
   output.forEach(function(item) {
@@ -292,7 +292,7 @@ function linkRequired(module, output) {
 
   // var requireRegex = /require\(\'(\w+.*)\'\)/;
   var requireLocalRegex = /require\(\'\.\/(\w+.*)\'\)/g;
-  var replaceString = "require(\'./<a href=\"/document/" + module + "?include=$1\">$1</a>')";
+  var replaceString = "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
   var requires = [];
 
   output.forEach(function(item) {
