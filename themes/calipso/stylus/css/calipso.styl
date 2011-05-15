@@ -211,6 +211,27 @@ pre
   white-space  -pre-wrap
   white-space  -o-pre-wrap
   word-wrap  break-word
+  a
+    .pln
+      text-decoration underline
+      color  #5599FF !important
+      font-weight bold
+    .str
+      text-decoration underline
+      color  #5599FF !important
+      font-weight bold
+    &:visited
+      .pln
+        color  #5599FF !important
+      .str
+        color  #5599FF !important
+    &:hover
+      .pln
+        color  yellow !important
+      .str
+        color  #5599FF !important
+  .tag
+    float none !important
 
 
 /* -- Admin Menus -- */

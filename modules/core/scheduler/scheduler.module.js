@@ -3,7 +3,7 @@
  * cron schedules.
  */
 
-var calipso = require("lib/calipso"), cron = require('./scheduler.cron');
+var calipso = require('lib/calipso'), cron = require('./scheduler.cron');
 
 exports = module.exports = {init: init, route: route, reload: reload, disable: disable};
 

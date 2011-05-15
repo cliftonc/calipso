@@ -48,6 +48,9 @@ function init(module, app, next) {
  */
 function document(req, res, template, block, next) {
 
+
+  var fs = calipso.lib.fs;
+
   // Get the module name
   var module = req.moduleParams.module;
 
@@ -58,37 +61,146 @@ function document(req, res, template, block, next) {
   }
 
   // See if we are looking for a sub-file
+  var templateFile = req.moduleParams.template;
   var include = req.moduleParams.include;
+
 
   // Get the file
   var filePath;
-  if(!include) {
+  var fileType = "js"; // Default
+
+  if(!include && !templateFile) {
     // We are getting the module itself
-    filePath = calipso.app.path + "/" + calipso.modules[module].path + "/" + module + ".module.js";
-  } else {
-    filePath =  calipso.app.path + "/" + calipso.modules[module].path + "/" + include;
+    filePath = calipso.modules[module].path + "/" + module + ".module.js";
+
   }
 
-  // Read the file from disk
-  var fs = calipso.lib.fs;
-  var source = fs.readFileSync(filePath, 'utf8');
+  if(include) {
+
+    // By default the include file will be part of the module
+    filePath =  calipso.modules[module].path + "/" + include + ".js";
+
+  }
+
+  if(templateFile) {
+
+    // Locate it (as we are uncertain of the path)
+    fs.readdirSync(calipso.app.path + "/" + calipso.modules[module].path + "/templates/").forEach(function(actualTemplate){
+        if(actualTemplate.split(".")[0] === templateFile) {
+          filePath = calipso.modules[module].path + "/templates/" + actualTemplate;
+        }
+    });
+    fileType = "html";
+
+  }
+
+  // Attempt to read the file from disk
+  var source;
+  source = fs.readFileSync(calipso.app.path + "/" + filePath, 'utf8');
 
   // Run it through dox
   var output = [];
+  var templates = [];
+  var requires = [];
+
   try {
-    var dox = require("support/dox");
-    output = dox.parseComments(source);
+
+    if(fileType === "js") {
+      var dox = require("support/dox");
+      output = dox.parseComments(source);
+
+      templates = linkTemplates(module, output);
+      requires = linkRequired(module, output);
+
+
+    } else {
+
+      output = [{description:{full:'Template file: ' + filePath},code:escape(source)}]
+
+    }
+
   } catch(ex) {
+
     calipso.error(ex.message);
+
   }
 
-  // TODO Update the links to templates
-
-  // TODO Update the local requires
-
   // Render the item via the template provided above
-  calipso.theme.renderItem(req, res, template, block, {output:output,module:calipso.modules[module]});
+  calipso.theme.renderItem(req, res, template, block, {output:output, module:calipso.modules[module],templates:templates, requires:requires, type: fileType});
 
   next();
 
+};
+
+
+
+
+/**
+ *  Replace any template('name') occurrences with links to the template.
+ *  Return a 'template' array that can be printed at the top to show all templates used
+ *  by this module
+ **/
+function linkTemplates(module, output) {
+
+  var templateRegex = /template:?.'(\w+)'/g;
+  var replaceString = "template: <a href=\"/document/" + module + "?template=$1\">$1</a>"
+  var templates = [];
+
+  output.forEach(function(item) {
+    if(item.code) {
+
+      // Add to array
+      var match = true;
+      while (match != null) {
+          match = templateRegex.exec(item.code)
+          if(match != null) templates.push(match[1]);
+      }
+
+      item.code = item.code.replace(templateRegex, replaceString);
+
+    }
+  })
+
+  return templates;
+
+}
+
+/**
+ *  Replace any require('module') with a link, ad add to requires array
+ **/
+function linkRequired(module, output) {
+
+  // var requireRegex = /require\(\'(\w+.*)\'\)/;
+  var requireLocalRegex = /require\(\'\.\/(\w+.*)\'\)/g;
+  var replaceString = "require(\'./<a href=\"/document/" + module + "?include=$1\">$1</a>')";
+  var requires = [];
+
+  output.forEach(function(item) {
+    if(item.code) {
+
+      // Add to array
+      var match = true;
+      while (match != null) {
+          match = requireLocalRegex.exec(item.code)
+          if(match != null) requires.push(match[1]);
+      }
+
+      // Replace
+      item.code = item.code.replace(requireLocalRegex, replaceString);
+
+    }
+  })
+
+  return requires;
+
+}
+
+/**
+ *Escape
+ */
+function escape(html) {
+  return String(html)
+    .replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 };

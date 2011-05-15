@@ -43,7 +43,7 @@ exports.parseComments = function(js){
       // code following previous comment
       if (buf.trim().length && comments.length > 0) {
         comment = comments[comments.length - 1];
-        comment.code = code = buf.trim();
+        comment.code = code = escape(buf.trim());
         comment.ctx = exports.parseCodeContext(code);
         buf = '';
       }
@@ -69,7 +69,7 @@ exports.parseComments = function(js){
   if (buf.trim().length) {
     comment = comments[comments.length - 1];
     code = buf.trim();
-    comment.code = code;
+    comment.code = escape(code);
     comment.ctx = exports.parseCodeContext(code);
   }
 
