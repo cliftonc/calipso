@@ -1,15 +1,25 @@
 <div class="document-content">
-  <h2><a href="/document/<%- module.name %>"><%- module.name %> [<%- module.type %>]</a></h2>
-  <p><small>This documentation is generated automatically by the document module, supported by the excellent dox library.  Any absence of text, comments, or issues with layout are due to inconsistent commenting / coding, and will be repaired asap [cliftonc].</small></p>
-  <% output.forEach(function(item) { %>
-  <% if(item.ctx) { %>
-    <h3><%- item.ctx.name %></h3>
-  <% } %>
-  <p><%- item.description.full %></p>
-  <% if (item.code) { %>
-    <pre class='prettyprint'>
-<%- item.code %>
-    </pre>
-  <% } });%>
 
+  <% if(type === "module" || type === "template") { %>
+  <h2><a href="/dox/<%- module.name %>"><%- module.name %> [<%- module.type %>]</a></h2>
+  <% } else { %>
+  <h2><%- path %></h2>
+  <% } %>
+  <a href="/dox"><< All Modules</a>
+
+  <p><small>This documentation is generated automatically by the document module, supported by the excellent dox library. Any absence of text, comments, or issues with layout are due to inconsistent commenting / coding, and will be repaired asap [cliftonc].</small></p>
+
+  <% output.forEach(function(item) { %>
+
+  <% if(item.ctx) { %>
+
+  <h3><%- item.ctx.name %></h3><% } %>
+
+  <p><%- item.description.full %></p><% if (item.code) { %>
+
+<pre class='prettyprint'>
+<%- item.code %>
+</pre>
+
+<% } });%>
 </div>

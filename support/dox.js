@@ -118,6 +118,9 @@ exports.parseComment = function(str) {
   description.summary = markdown(escape(description.summary));
   description.body = markdown(escape(description.body));
 
+  // NO markdown
+  description.plainfull = escape(description.full);
+
   return comment;
 }
 

@@ -7,11 +7,21 @@
  * Note that any hooks must be exposed here to be seen by Calipso
  */
 var calipso = require("lib/calipso");
-exports = module.exports = {init: init, route: route};
+exports = module.exports = {
+  init: init,
+  route: route,
+  about: {
+    description: 'Module that provides automated documentation, based on source code, for the modules currently deployed into a Calipso instance.',
+    author: 'clifton.cunningham@gmail.com',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }
+};
 
 /**
  * Routes
  */
+
 function route(req, res, module, app, next) {
 
   // Routes
@@ -22,30 +32,108 @@ function route(req, res, module, app, next) {
 /**
  * Initialisation
  */
+
 function init(module, app, next) {
 
   // Any pre-route config
   calipso.lib.step(
-    function defineRoutes() {
 
-      // Page
-      module.router.addRoute('GET /document/:module', document, {template:'document', block:'content'}, this.parallel());
-      module.router.addRoute('GET /document/:module/:include', document, {template:'document', block:'content'}, this.parallel());
+  function defineRoutes() {
 
-    },
-    function done() {
+    // Page
+    module.router.addRoute('GET /dox', list, {
+      template: 'list',
+      block: 'content'
+    }, this.parallel());
 
-      // Any schema configuration goes here
-      next();
-    }
-  );
+    module.router.addRoute('GET /dox/:module', document, {
+      template: 'document',
+      block: 'content'
+    }, this.parallel());
+
+    module.router.addRoute('GET /dox/library/:library', document, {
+      template: 'document',
+      block: 'content'
+    }, this.parallel());
+
+
+  }, function done() {
+
+    // Any schema configuration goes here
+    next();
+  });
 
 
 };
 
 /**
+ *List all modules
+ */
+function list(req, res, template, block, next) {
+
+  var libraries = [
+    {
+      name:'calipso',
+      about: {
+        description:'Core calipso library (connect middleware) that controls the overall function of Calipso',
+        author:'clifton.cunningham@gmail.com',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'calipsoDate',
+      about: {
+        description:'Core calipso library that wraps the jQuery Datepicker date functions for use across the framework.',
+        author:'clifton.cunningham@gmail.com',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'calipsoForm',
+      about: {
+        description:'Core calipso form handling library, forms are created from json objects and rendered consistently',
+        author:'clifton.cunningham@gmail.com',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'calipsoHelpers',
+      about: {
+        description:'Helper functions that can be used from within the view engines (jade or ejs).',
+        author:'clifton.cunningham@gmail.com',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'calipsoRouter',
+      about: {
+        description:'Router object that allows modules to route requests internally.',
+        author:'clifton.cunningham@gmail.com',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'calipsoTheme',
+      about: {
+        description:'Theme management library, responsible for all rendering.',
+        author:'clifton.cunningham@gmail.com',
+        version:calipso.app.version
+      }
+    }
+  ];
+
+  // Render the item via the template provided above
+  calipso.theme.renderItem(req, res, template, block, {
+    modules: calipso.modules, libraries:libraries
+  });
+  next();
+
+}
+
+/**
  * Simple template page function
  */
+
 function document(req, res, template, block, next) {
 
 
@@ -53,8 +141,9 @@ function document(req, res, template, block, next) {
 
   // Get the module name
   var module = req.moduleParams.module;
+  var library = req.moduleParams.library;
 
-  if(!module || !calipso.modules[module]) {
+  if ((!module || !calipso.modules[module]) && !library) {
     res.statusCode = 404;
     next();
     return;
@@ -67,30 +156,37 @@ function document(req, res, template, block, next) {
 
   // Get the file
   var filePath;
-  var fileType = "js"; // Default
-
-  if(!include && !templateFile) {
+  var fileType = "module"; // Default
+  if (!include && !templateFile && !library) {
     // We are getting the module itself
     filePath = calipso.modules[module].path + "/" + module + ".module.js";
-
   }
 
-  if(include) {
+  if (include && !library) {
 
     // By default the include file will be part of the module
-    filePath =  calipso.modules[module].path + "/" + include + ".js";
+    filePath = calipso.modules[module].path + "/" + include + ".js";
 
   }
 
-  if(templateFile) {
+  if (templateFile && !library) {
 
     // Locate it (as we are uncertain of the path)
-    fs.readdirSync(calipso.app.path + "/" + calipso.modules[module].path + "/templates/").forEach(function(actualTemplate){
-        if(actualTemplate.split(".")[0] === templateFile) {
-          filePath = calipso.modules[module].path + "/templates/" + actualTemplate;
-        }
+    fs.readdirSync(calipso.app.path + "/" + calipso.modules[module].path + "/templates/").forEach(function(actualTemplate) {
+      if (actualTemplate.split(".")[0] === templateFile) {
+        filePath = calipso.modules[module].path + "/templates/" + actualTemplate;
+      }
     });
     fileType = "html";
+
+  }
+
+
+  if (library) {
+
+    // Include a core library
+    filePath = "lib/" + library + ".js";
+    fileType = "library";
 
   }
 
@@ -105,28 +201,50 @@ function document(req, res, template, block, next) {
 
   try {
 
-    if(fileType === "js") {
-      var dox = require("support/dox");
-      output = dox.parseComments(source);
+    switch (fileType) {
 
-      templates = linkTemplates(module, output);
-      requires = linkRequired(module, output);
+        case "module":
 
+          var dox = require("support/dox");
+          output = dox.parseComments(source);
 
-    } else {
+          templates = linkTemplates(module, output);
+          requires = linkRequired(module, output);
+          break;
 
-      output = [{description:{full:'Template file: ' + filePath},code:escape(source)}]
+        case "library":
+
+          var dox = require("support/dox");
+          output = dox.parseComments(source);
+          break;
+
+        default:
+
+          output = [{
+                 description: {
+                   full: 'Displaying file: ' + filePath
+                 },
+                 code: escape(source)
+               }]
 
     }
 
-  } catch(ex) {
+
+  } catch (ex) {
 
     calipso.error(ex.message);
 
   }
 
   // Render the item via the template provided above
-  calipso.theme.renderItem(req, res, template, block, {output:output, module:calipso.modules[module],templates:templates, requires:requires, type: fileType});
+  calipso.theme.renderItem(req, res, template, block, {
+    output: output,
+    module: calipso.modules[module],
+    templates: templates,
+    requires: requires,
+    type: fileType,
+    path: filePath
+  });
 
   next();
 
@@ -140,6 +258,7 @@ function document(req, res, template, block, next) {
  *  Return a 'template' array that can be printed at the top to show all templates used
  *  by this module
  **/
+
 function linkTemplates(module, output) {
 
   var templateRegex = /template:?.'(\w+)'/g;
@@ -147,13 +266,13 @@ function linkTemplates(module, output) {
   var templates = [];
 
   output.forEach(function(item) {
-    if(item.code) {
+    if (item.code) {
 
       // Add to array
       var match = true;
       while (match != null) {
-          match = templateRegex.exec(item.code)
-          if(match != null) templates.push(match[1]);
+        match = templateRegex.exec(item.code)
+        if (match != null) templates.push(match[1]);
       }
 
       item.code = item.code.replace(templateRegex, replaceString);
@@ -168,6 +287,7 @@ function linkTemplates(module, output) {
 /**
  *  Replace any require('module') with a link, ad add to requires array
  **/
+
 function linkRequired(module, output) {
 
   // var requireRegex = /require\(\'(\w+.*)\'\)/;
@@ -176,13 +296,13 @@ function linkRequired(module, output) {
   var requires = [];
 
   output.forEach(function(item) {
-    if(item.code) {
+    if (item.code) {
 
       // Add to array
       var match = true;
       while (match != null) {
-          match = requireLocalRegex.exec(item.code)
-          if(match != null) requires.push(match[1]);
+        match = requireLocalRegex.exec(item.code)
+        if (match != null) requires.push(match[1]);
       }
 
       // Replace
@@ -198,9 +318,7 @@ function linkRequired(module, output) {
 /**
  *Escape
  */
+
 function escape(html) {
-  return String(html)
-    .replace(/&(?!\w+;)/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return String(html).replace(/&(?!\w+;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 };

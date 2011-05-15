@@ -25,6 +25,7 @@ var path = __dirname;
 var theme = 'default';
 var port = 3000;
 var app;
+var version = "0.2.0";
 
 /**
  * Initial bootstrapping
@@ -34,6 +35,7 @@ exports.boot = function(next) {
   //Create our express instance
   app = express.createServer();
   app.path = path;
+  app.version = version;
 
   // Import configuration
   require(path + '/conf/configuration.js')(app, express, function(err){
