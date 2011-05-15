@@ -1,12 +1,12 @@
-var calipso = require("lib/calipso"), Query = require("mongoose").Query, utils = require('connect').utils, merge = utils.merge;
-
-exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jobs:{scheduledPublish:scheduledPublish}};
-
 /**
  * Base content module
  * This is the core module that provides the basic content management
  * functions.
  */
+
+var calipso = require("lib/calipso"), Query = require("mongoose").Query, utils = require('connect').utils, merge = utils.merge;
+
+exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jobs:{scheduledPublish:scheduledPublish}};
 
 /**
  * Standard module route function.
