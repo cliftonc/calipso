@@ -3,7 +3,7 @@
 
     <% contents.forEach(function(item) { %>
     <div class='github-list-item'>
-        <a href='/<%= item.alias %>.html'><%- item.title %></a>
+        <a href='/<%= item.alias %>.html'><h6><%- prettyDate(item.meta.updated) %></h6><%- item.title %></a>
     </div>
     <% });  %>
     <%- pager %>

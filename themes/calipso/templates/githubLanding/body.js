@@ -23,7 +23,7 @@ exports = module.exports = function(req, options, callback) {
     });
     options.getContentList(query, {
       req: req,
-      limit: 0
+      limit: 30
     }, this.parallel());
 
 
