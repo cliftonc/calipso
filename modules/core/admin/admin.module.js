@@ -7,7 +7,7 @@ exports = module.exports = {
   route: route,
    about: {
     description: 'Forms and functions to provide administration of configuration, installation and reloading of Calipso.',
-    author: 'clifton.cunningham@gmail.com',
+    author: 'cliftonc',
     version: '0.2.0',
     home:'http://github.com/cliftonc/calipso'
   }

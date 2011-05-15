@@ -1,4 +1,4 @@
-<div class="document-content">
+<div class="document-content content">
 
   <% if(type === "module" || type === "template") { %>
   <h1><a href="/dox/<%- module.name %>"><%- module.name %> [<%- module.type %>]</a></h1>
@@ -21,9 +21,8 @@
   <h2><%- item.ctx.name %></h2>
 
   <% } %>
-
-<pre class='dox-comment'>
-<%- item.description.full %>
+<pre class='dox-comment <%- item.description.body ? '' : 'no-dox-comment' %>'>
+<%- item.description.body ? item.description.body : 'No comments for this function ...'%>
 </pre>
 <% if(counter > 1) { %>
   <div class="calloutDown">

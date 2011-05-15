@@ -99,7 +99,7 @@ exports.parseComment = function(str) {
     , description = {};
 
   // parse comment body
-  description.full = str.split('\n@')[0].replace(/^([\w ]+):/gm, '## $1');
+  description.full = str.split('\n@')[0]; //.replace(/^([\w ]+):/gm, '## $1');
   description.summary = description.full.split('\n\n')[0];
   description.body = description.full.split('\n\n').slice(1).join('\n\n');
   comment.description = description;
@@ -118,8 +118,8 @@ exports.parseComment = function(str) {
   description.mdsummary = markdown(escape(description.summary));
   description.mdbody = markdown(escape(description.body));
 
-  // NO markdown
-  description.full = escape(description.full);
+  // No markdown
+  description.body = escape(description.body);
 
   return comment;
 }

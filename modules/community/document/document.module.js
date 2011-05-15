@@ -12,7 +12,7 @@ exports = module.exports = {
   route: route,
   about: {
     description: 'Module that provides automated documentation, based on source code, for the modules currently deployed into a Calipso instance.',
-    author: 'clifton.cunningham@gmail.com',
+    author: 'cliftonc',
     version: '0.2.0',
     home:'http://github.com/cliftonc/calipso'
   }
@@ -76,23 +76,23 @@ function list(req, res, template, block, next) {
       name:'calipso',
       about: {
         description:'Core calipso library (connect middleware) that controls the overall function of Calipso',
-        author:'clifton.cunningham@gmail.com',
+        author:'cliftonc',
         version:calipso.app.version
       }
     },
     {
       name:'calipsoDate',
       about: {
-        description:'Core calipso library that wraps the jQuery Datepicker date functions for use across the framework.',
-        author:'clifton.cunningham@gmail.com',
+        description:'Core calipso library that wraps the jQuery UI Datepicker date functions for use across the framework.',
+        author:'cliftonc',
         version:calipso.app.version
       }
     },
     {
       name:'calipsoForm',
       about: {
-        description:'Core calipso form handling library, forms are created from json objects and rendered consistently',
-        author:'clifton.cunningham@gmail.com',
+        description:'Core calipso form handling library, forms are created from json objects and rendered consistently. Contributors: dennishall.',
+        author:'cliftonc',
         version:calipso.app.version
       }
     },
@@ -100,7 +100,7 @@ function list(req, res, template, block, next) {
       name:'calipsoHelpers',
       about: {
         description:'Helper functions that can be used from within the view engines (jade or ejs).',
-        author:'clifton.cunningham@gmail.com',
+        author:'cliftonc',
         version:calipso.app.version
       }
     },
@@ -108,7 +108,7 @@ function list(req, res, template, block, next) {
       name:'calipsoRouter',
       about: {
         description:'Router object that allows modules to route requests internally.',
-        author:'clifton.cunningham@gmail.com',
+        author:'cliftonc',
         version:calipso.app.version
       }
     },
@@ -116,7 +116,7 @@ function list(req, res, template, block, next) {
       name:'calipsoTheme',
       about: {
         description:'Theme management library, responsible for all rendering.',
-        author:'clifton.cunningham@gmail.com',
+        author:'cliftonc',
         version:calipso.app.version
       }
     }
