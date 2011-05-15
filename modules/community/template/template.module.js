@@ -43,10 +43,10 @@ function init(module, app, next) {
     function defineRoutes() {
 
       // Add a route to every page, notice the 'end:false' to ensure block further routing
-      module.router.addRoute(/.*/, allPages, {end:false, template:'template-all', block:'right'}, this.parallel());
+      module.router.addRoute(/.*/, allPages, {end:false, template:'templateAll', block:'right'}, this.parallel());
 
       // Page
-      module.router.addRoute('GET /template', templatePage, {template:'template', block:'content'}, this.parallel());
+      module.router.addRoute('GET /template', templatePage, {template:'templateShow', block:'content'}, this.parallel());
 
     },
     function done() {
