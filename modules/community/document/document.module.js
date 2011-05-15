@@ -177,7 +177,7 @@ function document(req, res, template, block, next) {
         filePath = calipso.modules[module].path + "/templates/" + actualTemplate;
       }
     });
-    fileType = "html";
+    fileType = "template";
 
   }
 
