@@ -23,6 +23,7 @@ function init(module,app,next) {
 
         // Disqus on content pages
         module.router.addRoute(/^((?!content).*)html$/,disqus,{end:false,template:'disqus',block:'scripts.disqus'},this.parallel());
+        module.router.addRoute(/^(\/document\/).*)$/,disqus,{end:false,template:'disqus',block:'scripts.disqus'},this.parallel());
 
       },
       function done() {
