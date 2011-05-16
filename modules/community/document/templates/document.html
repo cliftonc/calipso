@@ -21,8 +21,8 @@
   <h2><%- item.ctx.name %></h2>
 
   <% } %>
-<pre class='dox-comment <%- item.description.body ? '' : 'no-dox-comment' %>'>
-<%- item.description.body ? item.description.body : 'No comments for this function ...'%>
+<pre class='dox-comment <%- item.description.full ? '' : 'no-dox-comment' %>'>
+<%- item.description.full ? item.description.full : 'No comments ...'%>
 </pre>
 <% if(counter > 1) { %>
   <div class="calloutDown">

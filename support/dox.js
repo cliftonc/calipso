@@ -102,7 +102,6 @@ exports.parseComment = function(str) {
   description.full = str.split('\n@')[0]; //.replace(/^([\w ]+):/gm, '## $1');
   description.summary = description.full.split('\n\n')[0];
   description.body = description.full.split('\n\n').slice(1).join('\n\n');
-  comment.description = description;
 
   // parse tags
   if (~str.indexOf('\n@')) {
@@ -120,6 +119,9 @@ exports.parseComment = function(str) {
 
   // No markdown
   description.body = escape(description.body);
+  description.full = escape(description.full);
+
+  comment.description = description;
 
   return comment;
 }
