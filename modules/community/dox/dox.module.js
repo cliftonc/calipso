@@ -7,7 +7,7 @@
  * Exports
  * Note that any hooks must be exposed here to be seen by Calipso
  */
-var calipso = require("lib/calipso");
+var calipso = require('lib/calipso');
 
 exports = module.exports = {
   init: init,
@@ -207,7 +207,7 @@ function document(req, res, template, block, next) {
 
         case "module":
 
-          var dox = require("./dox");
+          var dox = require('./dox');
           output = dox.parseComments(source);
 
           templates = linkTemplates(module, output);
@@ -216,7 +216,7 @@ function document(req, res, template, block, next) {
 
         case "library":
 
-          var dox = require("./dox");
+          var dox = require('./dox');
           output = dox.parseComments(source);
 
           requires = linkRequired(module, output, true);
@@ -297,7 +297,11 @@ function linkRequired(module, output, library) {
 
   // var requireRegex = /require\(\'(\w+.*)\'\)/;
   var requireLocalRegex = /require\(\'\.\/(\w+.*)\'\)/g;
-  var replaceString = library ? "require(\'./<a href=\"/dox/library/$1\">$1</a>')" : "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
+  var requireLibRegex = /require\(\'lib\/(\w+.*)\'\)/g;
+  var libString = "require(\'lib/<a href=\"/dox/library/$1\">$1</a>')";
+  var localString = "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
+
+  var replaceAllString = library ?  libString : localString;
   var requires = [];
 
   output.forEach(function(item) {
@@ -311,7 +315,8 @@ function linkRequired(module, output, library) {
       }
 
       // Replace
-      item.code = item.code.replace(requireLocalRegex, replaceString);
+      item.code = item.code.replace(requireLocalRegex, replaceAllString);
+      item.code = item.code.replace(requireLibRegex, libString);
 
     }
   })
