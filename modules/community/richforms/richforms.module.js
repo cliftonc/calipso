@@ -1,75 +1,85 @@
 /**
  * Enable rich forms (jQuery UI and editor)
  */
-var calipso = require("lib/calipso");
+var calipso = require('lib/calipso');
 
 /**
  * Turns form date elements into jQUery UI Datepickers
  * REQUIRES jQuery & jQuery UI to be included in the theme ...
  */
-exports = module.exports = {init: init, route: route, disable:disable, reload:reload};
+exports = module.exports = {
+  init: init,
+  route: route,
+  disable: disable,
+  reload: reload,
+  about: {
+    description: 'Enables the jQuery UI Datepicker, and MarkitUp Rich Text Editor for date / text area controls respectively.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home: 'http://github.com/cliftonc/calipso'
+  }
+};
 
 /**
- * Template module
+ * ROute
  */
 function route(req, res, module, app, next) {
 
-  /**
-   * Routes
-   */
   module.router.route(req, res, next);
 
 };
 
+/**
+ *Init
+ */
 function init(module, app, next) {
-
 
   // Any pre-route config
   calipso.lib.step(
-    function defineRoutes() {
 
-      // Add a route to every page, ideally just do it on form pages, but can't tell atm
-      module.router.addRoute(/.*/, allPages, {end:false, template:'datepicker.script', block:'scripts.richforms.datepicker'}, this.parallel());
-      module.router.addRoute(/.*/, allPages, {end:false, template:'markitup.script', block:'scripts.richforms.markitup'}, this.parallel());
+  function defineRoutes() {
 
-      app.use(calipso.lib.express.static(__dirname + '/static'));
+    // Add a route to every page, ideally just do it on form pages, but can't tell atm
+    module.router.addRoute(/.*/, allPages, {
+      end: false,
+      template: 'datepicker.script',
+      block: 'scripts.richforms.datepicker'
+    }, this.parallel());
+    module.router.addRoute(/.*/, allPages, {
+      end: false,
+      template: 'markitup.script',
+      block: 'scripts.richforms.markitup'
+    }, this.parallel());
 
-      module.router.addRoute('GET /richforms/preview',showPreview,{},this.parallel());
+    app.use(calipso.lib.express.static(__dirname + '/static'));
 
-    },
-    function done() {
+    module.router.addRoute('GET /richforms/preview', showPreview, {}, this.parallel());
 
-      // Set the old function so it can be reset later
-      calipso.form.render_tag_date_default = calipso.form.render_tag_date;
+  }, function done() {
 
-      // Test over-riding a form element
-      calipso.form.render_tag_date = function(field,value) {
+    // Set the old function so it can be reset later
+    calipso.form.render_tag_date_default = calipso.form.render_tag_date;
 
-        // Default value to current date
-        var dateValue = value ? value : new Date();
+    // Test over-riding a form element
+    calipso.form.render_tag_date = function(field, value) {
 
-        // The actual date field that is visible
-        var tagOutput = '<input class="jquery-ui-datepicker"'
-                     + ' id="date-' + field.name.replace('[','_').replace(']','') + '"'
-                     + ' value="' + calipso.date.formatDate( 'MM, dd yy',dateValue) + '"'
-                     + ' />';
+      // Default value to current date
+      var dateValue = value ? value : new Date();
 
-        tagOutput += '<input type="hidden" name="' + field.name + '[date]"'
-                     + ' id="date-' + field.name.replace('[','_').replace(']','') + '-value"'
-                     + ' value="' + calipso.date.formatDate( 'MM, dd yy',dateValue) + '"'
-                     + ' />';
+      // The actual date field that is visible
+      var tagOutput = '<input class="jquery-ui-datepicker"' + ' id="date-' + field.name.replace('[', '_').replace(']', '') + '"' + ' value="' + calipso.date.formatDate('MM, dd yy', dateValue) + '"' + ' />';
 
-        return tagOutput;
+      tagOutput += '<input type="hidden" name="' + field.name + '[date]"' + ' id="date-' + field.name.replace('[', '_').replace(']', '') + '-value"' + ' value="' + calipso.date.formatDate('MM, dd yy', dateValue) + '"' + ' />';
 
-      }
-
-      // TODO : ADD TIME PICKER
-
-      // Any schema configuration goes here
-      next();
+      return tagOutput;
 
     }
-  );
+
+    // TODO : ADD TIME PICKER
+    // Any schema configuration goes here
+    next();
+
+  });
 
 
 };
@@ -97,15 +107,18 @@ function showPreview(req, res, template, block, next) {
 };
 
 
-// Disable - same as reload
+/*
+ * Disable - same as reload
+ */
 function disable() {
   reload();
 }
 
-// Reload
+/**
+ * Reload
+ */
 function reload() {
 
   // Reset the Form methods to their defaults
   // TODO!
-
 }

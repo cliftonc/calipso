@@ -1,7 +1,7 @@
 /**
  * Template module
  */
-var calipso = require("lib/calipso");
+var calipso = require('lib/calipso');
 
 /**
  * Exports
