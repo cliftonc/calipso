@@ -8,6 +8,7 @@
  * Note that any hooks must be exposed here to be seen by Calipso
  */
 var calipso = require("lib/calipso");
+
 exports = module.exports = {
   init: init,
   route: route,
@@ -206,7 +207,7 @@ function document(req, res, template, block, next) {
 
         case "module":
 
-          var dox = require("support/dox");
+          var dox = require("./dox");
           output = dox.parseComments(source);
 
           templates = linkTemplates(module, output);
@@ -215,7 +216,7 @@ function document(req, res, template, block, next) {
 
         case "library":
 
-          var dox = require("support/dox");
+          var dox = require("./dox");
           output = dox.parseComments(source);
 
           requires = linkRequired(module, output, true);
