@@ -216,6 +216,9 @@ function document(req, res, template, block, next) {
 
           var dox = require("support/dox");
           output = dox.parseComments(source);
+
+          requires = linkRequired(module, output, true);
+
           break;
 
         default:
@@ -288,11 +291,11 @@ function linkTemplates(module, output) {
  *  Replace any require('module') with a link, ad add to requires array
  **/
 
-function linkRequired(module, output) {
+function linkRequired(module, output, library) {
 
   // var requireRegex = /require\(\'(\w+.*)\'\)/;
   var requireLocalRegex = /require\(\'\.\/(\w+.*)\'\)/g;
-  var replaceString = "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
+  var replaceString = library ? "require(\'./<a href=\"/dox/library/$1\">$1</a>')" : "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
   var requires = [];
 
   output.forEach(function(item) {

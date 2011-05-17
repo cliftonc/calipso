@@ -113,13 +113,13 @@ exports.parseComment = function(str) {
   }
 
   // markdown
-  description.mdfull = markdown(escape(description.full));
-  description.mdsummary = markdown(escape(description.summary));
-  description.mdbody = markdown(escape(description.body));
+  description.full = markdown(escape(description.full));
+  description.summary = markdown(escape(description.summary));
+  description.body = markdown(escape(description.body));
 
   // No markdown
-  description.body = escape(description.body);
-  description.full = escape(description.full);
+  description.plainbody = escape(description.body);
+  description.plainfull = escape(description.full);
 
   comment.description = description;
 
