@@ -14,29 +14,22 @@ exports = module.exports = {init: init, route: route, install: install, reload: 
  */
 function route(req, res, module, app, next) {
 
-  /**
-   * Menu items
-   */
+   // Menu items
   res.menu.primary.push({name:'Template', url:'/template', regexp:/template/});
 
-  /**
-   * Routes
-   */
+  // Router
   module.router.route(req, res, next);
 
 };
 
 function init(module, app, next) {
 
-  /**
-   *  If dependent on another module (e.g. content):
 
-  if(!calipso.modules.content.initialised) {
-    process.nextTick(function() { init(module,app,next); });
-    return;
-  }
-
-  */
+  // If dependent on another module (e.g. content):
+  // if(!calipso.modules.content.initialised) {
+  //   process.nextTick(function() { init(module,app,next); });
+  //   return;
+  // }
 
   // Any pre-route config
   calipso.lib.step(
