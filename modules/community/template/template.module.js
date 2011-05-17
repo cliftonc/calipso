@@ -25,9 +25,8 @@ exports = module.exports = {
 };
 
 /**
- * Template module
+ * Routing function, this is executed by Calipso in response to a http request (if enabled)
  */
-
 function route(req, res, module, app, next) {
 
   // Menu items
@@ -42,6 +41,10 @@ function route(req, res, module, app, next) {
 
 };
 
+
+/**
+ * Initialisation function, this is executed by calipso as the application boots up
+ */
 function init(module, app, next) {
 
 
@@ -80,7 +83,6 @@ function init(module, app, next) {
 /**
  * Simple template page function
  */
-
 function templatePage(req, res, template, block, next) {
 
   // Set any variables
@@ -107,7 +109,6 @@ function templatePage(req, res, template, block, next) {
 /**
  * Every page block function
  */
-
 function allPages(req, res, template, block, next) {
 
   var myVariable = "Hello World on every page!";
@@ -127,9 +128,7 @@ function allPages(req, res, template, block, next) {
 
 /**
  * Template installation hook
- * @returns
  */
-
 function install() {
   calipso.log("Template module installed");
 }
@@ -137,7 +136,6 @@ function install() {
 /**
  * hook for disabling
  */
-
 function disable() {
   calipso.log("Template module disabled");
 }
@@ -145,7 +143,6 @@ function disable() {
 /**
  * Admin hook for reloading
  */
-
 function reload() {
   calipso.log("Template module reloaded");
 }
@@ -153,7 +150,6 @@ function reload() {
 /**
  * Template Job
  */
-
 function templateJob(args, next) {
   calipso.log("Template job function called with args: " + args);
   next();
