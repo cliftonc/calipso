@@ -1,60 +1,81 @@
 /**
  * Template module
  */
-var calipso = require("lib/calipso");
+var calipso = require('lib/calipso');
 
 /**
  * Exports
  * Note that any hooks must be exposed here to be seen by Calipso
  */
-exports = module.exports = {init: init, route: route, install: install, reload: reload, disable: disable, jobs: {templateJob:templateJob}};
+exports = module.exports = {
+  init: init,
+  route: route,
+  about: {
+    description: 'Example module to enable creation of new modules.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home: 'http://github.com/cliftonc/calipso'
+  },
+  install: install,
+  reload: reload,
+  disable: disable,
+  jobs: {
+    templateJob: templateJob
+  }
+};
 
 /**
- * Template module
+ * Routing function, this is executed by Calipso in response to a http request (if enabled)
  */
 function route(req, res, module, app, next) {
 
-  /**
-   * Menu items
-   */
-  res.menu.primary.push({name:'Template', url:'/template', regexp:/template/});
+  // Menu items
+  res.menu.primary.push({
+    name: 'Template',
+    url: '/template',
+    regexp: /template/
+  });
 
-  /**
-   * Routes
-   */
+  // Router
   module.router.route(req, res, next);
 
 };
 
+
+/**
+ * Initialisation function, this is executed by calipso as the application boots up
+ */
 function init(module, app, next) {
 
-  /**
-   *  If dependent on another module (e.g. content):
 
-  if(!calipso.modules.content.initialised) {
-    process.nextTick(function() { init(module,app,next); });
-    return;
-  }
-
-  */
-
+  // If dependent on another module (e.g. content):
+  // if(!calipso.modules.content.initialised) {
+  //   process.nextTick(function() { init(module,app,next); });
+  //   return;
+  // }
   // Any pre-route config
   calipso.lib.step(
-    function defineRoutes() {
 
-      // Add a route to every page, notice the 'end:false' to ensure block further routing
-      module.router.addRoute(/.*/, allPages, {end:false, template:'templateAll', block:'right'}, this.parallel());
+  function defineRoutes() {
 
-      // Page
-      module.router.addRoute('GET /template', templatePage, {template:'templateShow', block:'content'}, this.parallel());
+    // Add a route to every page, notice the 'end:false' to ensure block further routing
+    module.router.addRoute(/.*/, allPages, {
+      end: false,
+      template: 'templateAll',
+      block: 'right'
+    }, this.parallel());
 
-    },
-    function done() {
+    // Page
+    module.router.addRoute('GET /template', templatePage, {
+      template: 'templateShow',
+      block: 'content'
+    }, this.parallel());
 
-      // Any schema configuration goes here
-      next();
-    }
-  );
+  }, function done() {
+
+    // Any schema configuration goes here
+    next();
+  });
 
 
 };
@@ -68,10 +89,18 @@ function templatePage(req, res, template, block, next) {
   var myVariable = "Hello World";
 
   // Create a content item
-  var item = {id:"NA", type:'content', meta:{variable:myVariable}};
+  var item = {
+    id: "NA",
+    type: 'content',
+    meta: {
+      variable: myVariable
+    }
+  };
 
   // Render the item via the template provided above
-  calipso.theme.renderItem(req, res, template, block, {item:item});
+  calipso.theme.renderItem(req, res, template, block, {
+    item: item
+  });
 
   next();
 
@@ -83,15 +112,22 @@ function templatePage(req, res, template, block, next) {
 function allPages(req, res, template, block, next) {
 
   var myVariable = "Hello World on every page!";
-  var item = {id:"NA", type:'content', meta:{variable:myVariable}};
-  calipso.theme.renderItem(req, res, template, block, {item:item});
+  var item = {
+    id: "NA",
+    type: 'content',
+    meta: {
+      variable: myVariable
+    }
+  };
+  calipso.theme.renderItem(req, res, template, block, {
+    item: item
+  });
   next();
 
 };
 
 /**
  * Template installation hook
- * @returns
  */
 function install() {
   calipso.log("Template module installed");
@@ -114,7 +150,7 @@ function reload() {
 /**
  * Template Job
  */
-function templateJob(args,next) {
+function templateJob(args, next) {
   calipso.log("Template job function called with args: " + args);
   next();
 }

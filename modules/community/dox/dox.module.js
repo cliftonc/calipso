@@ -1,12 +1,14 @@
 /*!
- * Module auto-documentation module
+ * Module auto-documentation module based on the Dox library
+ * http://visionmedia.github.com/dox/
  */
 
 /**
  * Exports
  * Note that any hooks must be exposed here to be seen by Calipso
  */
-var calipso = require("lib/calipso");
+var calipso = require('lib/calipso');
+
 exports = module.exports = {
   init: init,
   route: route,
@@ -205,7 +207,7 @@ function document(req, res, template, block, next) {
 
         case "module":
 
-          var dox = require("support/dox");
+          var dox = require('./dox');
           output = dox.parseComments(source);
 
           templates = linkTemplates(module, output);
@@ -214,8 +216,11 @@ function document(req, res, template, block, next) {
 
         case "library":
 
-          var dox = require("support/dox");
+          var dox = require('./dox');
           output = dox.parseComments(source);
+
+          requires = linkRequired(module, output, true);
+
           break;
 
         default:
@@ -288,11 +293,15 @@ function linkTemplates(module, output) {
  *  Replace any require('module') with a link, ad add to requires array
  **/
 
-function linkRequired(module, output) {
+function linkRequired(module, output, library) {
 
   // var requireRegex = /require\(\'(\w+.*)\'\)/;
   var requireLocalRegex = /require\(\'\.\/(\w+.*)\'\)/g;
-  var replaceString = "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
+  var requireLibRegex = /require\(\'lib\/(\w+.*)\'\)/g;
+  var libString = "require(\'lib/<a href=\"/dox/library/$1\">$1</a>')";
+  var localString = "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
+
+  var replaceAllString = library ?  libString : localString;
   var requires = [];
 
   output.forEach(function(item) {
@@ -306,7 +315,8 @@ function linkRequired(module, output) {
       }
 
       // Replace
-      item.code = item.code.replace(requireLocalRegex, replaceString);
+      item.code = item.code.replace(requireLocalRegex, replaceAllString);
+      item.code = item.code.replace(requireLibRegex, libString);
 
     }
   })

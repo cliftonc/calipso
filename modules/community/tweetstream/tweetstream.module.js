@@ -1,79 +1,113 @@
 /**
  * Example tweet streaming via socket.io (pusher module)
  */
-var calipso = require("lib/calipso"), http=require("http");
+var calipso = require("lib/calipso"),
+    http = require("http");
 
-exports = module.exports = {init: init, route: route, depends: ['content']};
+exports = module.exports = {
+  init: init,
+  route: route,
+  about: {
+    description: 'Uses pusher module and twitter-node nodejs module to demonstrate a live websocket stream of tweets. ',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home: 'http://github.com/cliftonc/calipso'
+  }
+};
 
 
-function route(req,res,module,app,next,counter) {
+/**
+ *Route
+ */
+function route(req, res, module, app, next, counter) {
 
-      // Wait for the dependencies to be met
-      if(!calipso.socket) {
+  // Wait for the dependencies to be met
+  if (!calipso.socket) {
 
-        counter = (counter ? counter : 0) + 1;
+    counter = (counter ? counter : 0) + 1;
 
-        if(counter < 1000) {
-          process.nextTick(function() { route(req,res,module,app,next,counter); });
-          return;
-        } else {
-          calipso.error("Tweetstream couldn't route as dependencies not met.")
-          next();
-          return;
-        }
-      }
+    if (counter < 1000) {
+      process.nextTick(function() {
+        route(req, res, module, app, next, counter);
+      });
+      return;
+    } else {
+      calipso.error("Tweetstream couldn't route as dependencies not met.")
+      next();
+      return;
+    }
+  }
 
-      res.menu.primary.push({name:'Tweets',url:'/tweets',regexp:/tweets/});
+  // Menu
+  res.menu.primary.push({
+    name: 'Tweets',
+    url: '/tweets',
+    regexp: /tweets/
+  });
 
-      /**
-       * Routes
-       */
-      module.router.route(req,res,next);
+  // ROute
+  module.router.route(req, res, next);
 
 };
 
-function init(module,app,next,counter) {
+/**
+ *Init
+ */
+function init(module, app, next, counter) {
 
-  if(!calipso.modules.content.initialised) {
+  if (!calipso.modules.content.initialised) {
     // Wait for the dependencies to be met
-    process.nextTick(function() { init(module,app,next); });
+    process.nextTick(function() {
+      init(module, app, next);
+    });
     return;
   }
 
   // Any pre-route config
   calipso.lib.step(
-      function defineRoutes() {
-        module.router.addRoute("GET /tweets",tweetStream,{template:'tweetstream',block:'content'},this.parallel());
-        module.router.addRoute("GET /tweets/:keyword",tweetStream,{template:'tweetstream',block:'content'},this.parallel());
-      },
-      function done() {
 
-        next();
-      }
-  );
+  function defineRoutes() {
+    module.router.addRoute("GET /tweets", tweetStream, {
+      template: 'tweetstream',
+      block: 'content'
+    }, this.parallel());
+    module.router.addRoute("GET /tweets/:keyword", tweetStream, {
+      template: 'tweetstream',
+      block: 'content'
+    }, this.parallel());
+  }, function done() {
+
+    next();
+  });
 
 };
 
-function tweetStream(req,res,template,block,next) {
+/**
+ *Tweet stream function, connect to twitter
+ */
+function tweetStream(req, res, template, block, next) {
 
-  // Define our tag clouds
-  var USERNAME = "clifcunn";
-  var PASSWORD = "Fri3nd123";
-  var KEYWORD  = req.moduleParams.keyword ? req.moduleParams.keyword : "calipso";
+  // TODO
+  // Replace username password with configuration ...
+  var USERNAME = "xxxx";
+  var PASSWORD = "xxxx";
+  var KEYWORD = req.moduleParams.keyword ? req.moduleParams.keyword : "calipso";
 
-  var twitter = new (require("twitter-node").TwitterNode)({
+  var twitter = new(require("twitter-node").TwitterNode)({
     user: USERNAME,
     password: PASSWORD,
-    track: [ KEYWORD ]
+    track: [KEYWORD]
   });
 
   //Set up the tweet stream
-  twitter.addListener('tweet', function (tweet) {
+  twitter.addListener('tweet', function(tweet) {
     calipso.socket.broadcast(tweet);
   });
   twitter.stream();
 
-  calipso.theme.renderItem(req,res,template,block,{keyword:KEYWORD});
+  calipso.theme.renderItem(req, res, template, block, {
+    keyword: KEYWORD
+  });
 
   next();
 

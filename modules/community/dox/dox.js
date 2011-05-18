@@ -3,6 +3,10 @@
  * Dox
  * Copyright (c) 2010 TJ Holowaychuk <tj@vision-media.ca>
  * MIT Licensed
+ *
+ * Note: This has been modified to suit the slightly more specific requirements of Calipso.  Modified lines are
+ * highlighted (to allow upgrading).
+ *
  */
 
 /*!
@@ -38,6 +42,7 @@ exports.parseComments = function(js){
   for (var i = 0, len = js.length; i < len; ++i) {
     // start comment
     if (!within && '/' == js[i] && '*' == js[i+1]) {
+      // MODIFIED FOR CALIPSO
       // Note that a comment must be the first thing
       // In a file for this to work
       // code following previous comment
@@ -99,6 +104,7 @@ exports.parseComment = function(str) {
     , description = {};
 
   // parse comment body
+  // MODIFIED FOR CALIPSO - removed the : > ## replace
   description.full = str.split('\n@')[0]; //.replace(/^([\w ]+):/gm, '## $1');
   description.summary = description.full.split('\n\n')[0];
   description.body = description.full.split('\n\n').slice(1).join('\n\n');
@@ -113,13 +119,13 @@ exports.parseComment = function(str) {
   }
 
   // markdown
-  description.mdfull = markdown(escape(description.full));
-  description.mdsummary = markdown(escape(description.summary));
-  description.mdbody = markdown(escape(description.body));
+  description.full = markdown(escape(description.full));
+  description.summary = markdown(escape(description.summary));
+  description.body = markdown(escape(description.body));
 
-  // No markdown
-  description.body = escape(description.body);
-  description.full = escape(description.full);
+  // MODIFIED FOR CALIPSO No markdown
+  description.plainbody = escape(description.body);
+  description.plainfull = escape(description.full);
 
   comment.description = description;
 

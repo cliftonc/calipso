@@ -21,9 +21,9 @@
   <h2><%- item.ctx.name %></h2>
 
   <% } %>
-<pre class='dox-comment <%- item.description.full ? '' : 'no-dox-comment' %>'>
+<div class='dox-comment <%- item.description.full ? '' : 'no-dox-comment' %>'>
 <%- item.description.full ? item.description.full : 'No comments ...'%>
-</pre>
+</div>
 <% if(counter > 1) { %>
   <div class="calloutDown">
       <div class="calloutDown2">
