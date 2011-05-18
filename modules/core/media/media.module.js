@@ -1,12 +1,6 @@
 /**
  * Media management module
  */
-
-
-/**
- * Exports
- * Note that any hooks must be exposed here to be seen by Calipso
- */
 var calipso = require("lib/calipso");
 
 exports = module.exports = {init: init, route: route,
@@ -22,14 +16,10 @@ exports = module.exports = {init: init, route: route,
  */
 function route(req,res,module,app,next) {
 
-      /**
-       * Menu items
-       */
+      // Menu
       res.menu.primary.push({name:'Media',url:'/media',regexp:/media/});
 
-      /**
-       * Routes
-       */
+      // Routes
       module.router.route(req,res,next);
 
 };
