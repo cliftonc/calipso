@@ -12,15 +12,19 @@ exports = module.exports = {init: init, route: route,
     home:'http://github.com/cliftonc/calipso'
   }};
 
+/**
+ *Router
+ */
 function route(req,res,module,app,next) {
 
-      /**
-       * Routes
-       */
+      // Route
       module.router.route(req,res,next);
 
 };
 
+/**
+ *Init
+ */
 function init(module,app,next) {
 
   if(!calipso.modules.content.initialised) {
@@ -56,6 +60,9 @@ function init(module,app,next) {
 
 };
 
+/**
+ * Map reduce that creates a tag cloud in mongo
+ */
 function mapReduceTagCloud() {
 
 
@@ -107,6 +114,9 @@ function mapReduceTagCloud() {
 
  };
 
+/**
+ * Render the tag cloud
+ */
 function tagCloud(req,res,template,block,next) {
 
   var Tag = calipso.lib.mongoose.model('Tag');

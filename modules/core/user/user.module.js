@@ -3,24 +3,34 @@
  */
 var calipso = require("lib/calipso");
 
-exports = module.exports = {init: init, route: route, install:install, registerUser: registerUser};
+exports = module.exports = {
+  init: init,
+  route: route,
+  install:install,
+  about: {
+    description: 'User management module.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }
+};
 
+/**
+ * Router
+ */
 function route(req, res, module, app, next) {
 
-  /**
-   * Menu items
-   */
+  // Menu
   res.menu.admin.primary.push({name:'User', url:'/user', regexp:/user/});
 
-  /**
-   * Routes
-   */
-  // var router = calipso.moduleRouter.Router();
+  // Router
   module.router.route(req, res, next);
 
 }
 
-
+/**
+ * Init
+ */
 function init(module, app, next) {
 
   calipso.lib.step(
@@ -60,6 +70,9 @@ function init(module, app, next) {
 
 }
 
+/**
+ * Loginm form
+ */
 function loginForm(req, res, template, block, next) {
 
   var userForm = {
@@ -81,6 +94,10 @@ function loginForm(req, res, template, block, next) {
 
 };
 
+
+/**
+ * Register form
+ */
 function registerUserForm(req, res, template, block, next) {
 
   var userForm = {
@@ -110,6 +127,9 @@ function registerUserForm(req, res, template, block, next) {
 
 };
 
+/**
+ * Update user
+ */
 function updateUserProfile(req, res, template, block, next) {
 
   calipso.form.process(req,function(form) {
@@ -154,6 +174,10 @@ function updateUserProfile(req, res, template, block, next) {
 
 };
 
+
+/**
+ * Update user form
+ */
 function updateUserForm(req, res, template, block, next) {
 
   var User = calipso.lib.mongoose.model('User');
@@ -202,7 +226,9 @@ function updateUserForm(req, res, template, block, next) {
 
 };
 
-
+/**
+ * Login
+ */
 function loginUser(req, res, template, block, next) {
 
   calipso.form.process(req, function(form) {
@@ -238,6 +264,9 @@ function loginUser(req, res, template, block, next) {
 
 }
 
+/**
+ * Logout
+ */
 function logoutUser(req, res, template, block, next) {
 
   req.session.user = null;
@@ -251,7 +280,9 @@ function logoutUser(req, res, template, block, next) {
 
 }
 
-
+/**
+ * Register
+ */
 function registerUser(req, res, template, block, next) {
 
   calipso.form.process(req, function(form) {
@@ -292,7 +323,9 @@ function registerUser(req, res, template, block, next) {
 
 }
 
-
+/**
+ * My profile (shortcut to profile)
+ */
 function myProfile(req, res, template, block, next) {
   if(req.session.user) {
     req.moduleParams.username = req.session.user.username;
@@ -303,6 +336,9 @@ function myProfile(req, res, template, block, next) {
   }
 }
 
+/**
+ * View user profile
+ */
 function userProfile(req, res, template, block, next) {
 
   var User = calipso.lib.mongoose.model('User');
@@ -326,27 +362,8 @@ function userProfile(req, res, template, block, next) {
 
 }
 
-function listUsers(req, res, template, block, next) {
-
-  // Re-retrieve our object
-  var User = calipso.lib.mongoose.model('User');
-
-  User.find({}).find(function (err, contents) { //.find({}).find(function(){}) ? maybe .find({}, function(){}) ?
-    contents.forEach(function(u) {
-      var item = {id:u._id, type:'user', meta:c.toObject()};
-      res.blocks.body.push(item);
-      if(template) {
-        calipso.theme.renderItem(req, res, template, block, {item:item});
-      }
-    });
-    next();
-  });
-
-}
-
 /**
  * Installation process - asynch
- * @returns
  */
 function install(next) {
 
@@ -357,9 +374,8 @@ function install(next) {
   calipso.lib.step(
 
     function createDefaults() {
-      /**
-       * Default roles
-       */
+      
+      // Create default roles
       var r = new Role({
         name:'Guest',
         isAdmin:false
@@ -378,6 +394,7 @@ function install(next) {
       });
       r.save(this.parallel());
 
+      // Create administrative user
       var admin = new User({
         username:'admin',
         password:'password',
