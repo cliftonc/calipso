@@ -55,9 +55,9 @@
         }
         
       }
-       
+      
     } else {
-    
+      
       startTag = "<ul>";
       endTag = "";
       currentMenu = menuItem.name;
@@ -70,15 +70,20 @@
       menuSelected = '-selected';
     }
     
+    var menuItemTagId = menuItem.name.replace('/', '_').replace(' ', '-');
+    
   %>
-    <%- startTag %><li id='<%- menuItem.name%>' class='primary-menu-item<%- menuSelected %>'><a href="<%- menuUrl %>"><%- menuName %></a><%- endTag%>
+    <%- startTag %>
+    <li id="<%= menuItemTagId %>" class="primary-menu-item<%- menuSelected %>">
+    <a href="<%- menuUrl %>"><%- menuName %></a>
+    <%- endTag%>
   <%
   
   });
   
   // Close the loop
   endTag = "";
-  for(i=0; i < currentLevel; i++) {
+  for(var i=0; i < currentLevel; i++) {
     endTag += "</li></ul>";
   }
   %>
