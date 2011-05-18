@@ -4,12 +4,13 @@
   <%- form %>
   
 <% }  else { %>
-    
-    <h2>User Profile</h2>
-    <% if(user) { %>
-      <a href="/user"><%- user.username %></a>&nbsp;|&nbsp;
-      <a href="/user/logout">Logout</a>
-    <% } %>
-    
+  
+  <h2>User Profile</h2>
+  <% if(user) { %>
+    <a href="/user"><%- user.username %></a>
+    <span class="link-divider">|</span>
+    <a href="/user/logout">Logout</a>
+  <% } %>
+  
 <% } %>
 </div>
