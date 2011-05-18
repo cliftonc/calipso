@@ -6,7 +6,17 @@
 
 var calipso = require("lib/calipso"), Query = require("mongoose").Query, utils = require('connect').utils, merge = utils.merge;
 
-exports = module.exports = {init: init, route: route, titleAlias: titleAlias, jobs:{scheduledPublish:scheduledPublish}};
+exports = module.exports = {
+  init: init,
+  route: route,
+  titleAlias: titleAlias,
+  jobs:{scheduledPublish:scheduledPublish},
+  about: {
+    description: 'Core content management functions.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }};
 
 /**
  * Standard module route function.
@@ -136,10 +146,6 @@ function init(module,app,next) {
 }
 
 /**
- * Module specific functions follow from this point
- */
-
-/**
  * Local default for the content create / edit form
  */
 var contentForm = {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',tabs:false,
@@ -181,10 +187,8 @@ var contentForm = {id:'content-form',title:'Create Content ...',type:'form',meth
  * Default home page, only specify the layout.
  */
 function homePage(req,res,template,block,next) {
-
     res.layout = "home";
     next();
-
 }
 
 /**

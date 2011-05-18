@@ -4,17 +4,27 @@
 
 var calipso = require("lib/calipso");
 
-exports = module.exports = {init: init, route: route, depends: ['content']};
+exports = module.exports = {init: init, route: route,
+   about: {
+    description: 'Module that controls the creation of a tag cloud, based on an internal map reduce function, in response to the change of any content.  Controls both the display and the MR.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }};
 
+/**
+ *Router
+ */
 function route(req,res,module,app,next) {
 
-      /**
-       * Routes
-       */
+      // Route
       module.router.route(req,res,next);
 
 };
 
+/**
+ *Init
+ */
 function init(module,app,next) {
 
   if(!calipso.modules.content.initialised) {
@@ -50,6 +60,9 @@ function init(module,app,next) {
 
 };
 
+/**
+ * Map reduce that creates a tag cloud in mongo
+ */
 function mapReduceTagCloud() {
 
 
@@ -101,6 +114,9 @@ function mapReduceTagCloud() {
 
  };
 
+/**
+ * Render the tag cloud
+ */
 function tagCloud(req,res,template,block,next) {
 
   var Tag = calipso.lib.mongoose.model('Tag');

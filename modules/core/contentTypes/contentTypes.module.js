@@ -1,12 +1,25 @@
 
 /**
+ * Module that allows management of content types
  * Base content type sub-module [Depends on Content]
  */
 
 var calipso = require("lib/calipso"), Query = require("mongoose").Query;
 
-exports = module.exports = {init: init, route: route, install: install};
+exports = module.exports = {
+  init: init,
+route: route,
+install: install,
+  about: {
+    description: 'Core content management functions.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }};
 
+/**
+ * Router
+ */
 function route(req,res,module,app,next) {
 
       /**
@@ -21,6 +34,9 @@ function route(req,res,module,app,next) {
 
 }
 
+/**
+ *Init
+ */
 function init(module,app,next) {
 
   if(!calipso.modules.content.initialised) {
@@ -110,12 +126,23 @@ function install(next) {
 
 }
 
+
 /**
- * Module specific functions
- *
- * @param req
- * @param res
- * @param next
+ * Content type create / edit form
+ */
+var contentTypeForm = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content/type',fields:[
+        {label:'ContentType',name:'contentType[contentType]',type:'text'},
+        {label:'Description',name:'contentType[description]',type:'text'},
+        {label:'Layout',name:'contentType[layout]',type:'select',options:function() { return calipso.theme.getLayoutsArray() }},
+        {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"]}
+     ],
+     buttons:[
+              {name:'submit',type:'submit',value:'Save Content Type'}
+     ]};
+
+
+/**
+ * Create new content type
  */
 function createContentType(req,res,template,block,next) {
 
@@ -154,16 +181,9 @@ function createContentType(req,res,template,block,next) {
 }
 
 
-var contentTypeForm = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content/type',fields:[
-        {label:'ContentType',name:'contentType[contentType]',type:'text'},
-        {label:'Description',name:'contentType[description]',type:'text'},
-        {label:'Layout',name:'contentType[layout]',type:'select',options:function() { return calipso.theme.getLayoutsArray() }},
-        {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"]}
-     ],
-     buttons:[
-              {name:'submit',type:'submit',value:'Save Content Type'}
-     ]};
-
+/**
+ * Create new content type
+ */
 function createContentTypeForm(req,res,template,block,next) {
 
   res.menu.admin.secondary.push({name:'New Content Type',parentUrl:'/content/type',url:'/content/type/new'});
@@ -178,6 +198,9 @@ function createContentTypeForm(req,res,template,block,next) {
 
 }
 
+/**
+ * Edit content type
+ */
 function editContentTypeForm(req,res,template,block,next) {
 
   var ContentType = calipso.lib.mongoose.model('ContentType');
@@ -215,6 +238,9 @@ function editContentTypeForm(req,res,template,block,next) {
 
 }
 
+/**
+ * Update a content type
+ */
 function updateContentType(req,res,template,block,next) {
 
 
@@ -257,6 +283,9 @@ function updateContentType(req,res,template,block,next) {
   });
 }
 
+/**
+ * Show content type
+ */
 function showContentType(req,res,template,block,next,err,content,format) {
 
   var item;
@@ -297,6 +326,9 @@ function showContentType(req,res,template,block,next,err,content,format) {
 
 }
 
+/**
+ * List all content types
+ */
 function listContentType(req,res,template,block,next) {
 
       // Re-retrieve our object
@@ -336,6 +368,10 @@ function listContentType(req,res,template,block,next) {
     });
 };
 
+/**
+ * Delete a content type
+ * TODO - deal with referential integrity
+ */
 function deleteContentType(req,res,template,block,next) {
 
   var ContentType = calipso.lib.mongoose.model('ContentType');
@@ -354,9 +390,9 @@ function deleteContentType(req,res,template,block,next) {
 
 }
 
-
-
-// Add dynamic helpers
+/**
+ * Store content types in calipso.data cache
+ */
 function storeContentTypes() {
 
     var ContentType = calipso.lib.mongoose.model('ContentType');
@@ -376,7 +412,10 @@ function storeContentTypes() {
 
 }
 
-
+/**
+ * Hook to update content after change
+ * TODO
+ */
 function updateContentAfterChange() {
 
   // TODO

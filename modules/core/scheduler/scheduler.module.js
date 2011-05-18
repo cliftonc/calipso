@@ -2,11 +2,23 @@
  * Job scheduler - enables create, update, delete and execution of jobs on
  * cron schedules.
  */
-
 var calipso = require('lib/calipso'), cron = require('./scheduler.cron');
 
-exports = module.exports = {init: init, route: route, reload: reload, disable: disable};
+exports = module.exports = {
+  init: init,
+  route: route,
+  reload: reload,
+  disable: disable,
+  about: {
+    description: 'Scheduler module that enables execution of job functions exposed by other modules on cron schedules.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }};
 
+/**
+ * Router
+ */
 function route(req,res,module,app,next) {
 
       /**
@@ -21,6 +33,9 @@ function route(req,res,module,app,next) {
 
 };
 
+/**
+ *Init
+ */
 function init(module,app,next) {
 
   calipso.lib.step(
@@ -65,6 +80,10 @@ function init(module,app,next) {
 
 };
 
+/**
+ * Load all currently configured jobs
+ * This is called on module initiation, and later stopped if the module is disabled
+ */
 function loadJobs(next) {
 
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
@@ -116,11 +135,6 @@ function loadJobs(next) {
 
 /**
  * Quick API to turn jobs on and off.
- *
- * @param req
- * @param res
- * @param next
- * @param template
  */
 function enableScheduler(req,res,template,block,next) {
 
@@ -169,6 +183,12 @@ function enableScheduler(req,res,template,block,next) {
 
 };
 
+/**
+ * Admin interface to job list
+ * This uses the currently loaded job list from the calipso cache, not the MongoDB list
+ * If any external processes are creating jobs they will not appear without the module
+ * being reloaded
+ */
 function schedulerAdmin(req,res,template,block,next) {
 
 
@@ -189,7 +209,6 @@ function schedulerAdmin(req,res,template,block,next) {
 /**
  * The form used to create/update jobs
  */
-
 var jobCronTimeInstruction = "Examples:<br/>"
                               +"00 * * * * * : When seconds are zero exactly.<br/>"
                               +"*/5 * * * * * : Every five seconds.<br/>"
@@ -209,6 +228,9 @@ var jobForm = {id:'job-form',title:'',type:'form',method:'POST',action:'/schedul
                         {name:'submit',type:'submit',value:'Save Job'}
                ]}
 
+/**
+ * Create a new job form
+ */
 function createJobForm(req,res,template,block,next) {
 
   res.menu.admin.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
@@ -230,6 +252,9 @@ function createJobForm(req,res,template,block,next) {
 
 }
 
+/**
+ * Create a new job
+ */
 function createJob(req,res,template,block,next) {
 
 
@@ -276,6 +301,10 @@ function createJob(req,res,template,block,next) {
   });
 }
 
+/**
+ * Process form variables and convert to form suitable for storing against mongoose object
+ * Extracted out due to the common conversion of crontime form elements to cron time field
+ */
 function processForm(formObject) {
 
   //Name - strip out any spaces
@@ -313,6 +342,9 @@ function processForm(formObject) {
 
 }
 
+/**
+ * Edit job form
+ */
 function editJobForm(req,res,template,block,next) {
 
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
@@ -357,6 +389,9 @@ function editJobForm(req,res,template,block,next) {
 
 }
 
+/**
+ * Save job after update
+ */
 function updateJob(req,res,template,block,next) {
 
  calipso.form.process(req,function(form) {
@@ -435,6 +470,9 @@ function updateJob(req,res,template,block,next) {
 }
 
 
+/**
+ * Display a job
+ */
 function showJob(req,res,template,block,next,err) {
 
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
@@ -464,6 +502,9 @@ function showJob(req,res,template,block,next,err) {
 
 }
 
+/**
+ * Delete a job
+ */
 function deleteJob(req,res,template,block,next,err) {
 
   var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
@@ -484,7 +525,10 @@ function deleteJob(req,res,template,block,next,err) {
 
 }
 
-// Disable - same as reload
+/**
+ * Disable - same as reload
+ * TODO - review these hooks
+ */
 function disable() {
   reload();
 }

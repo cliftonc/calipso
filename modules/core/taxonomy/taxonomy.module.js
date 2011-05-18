@@ -2,20 +2,32 @@
 /**
  * Base taxonomy module to create menus
  */
-
 var calipso = require("lib/calipso");
 
-exports = module.exports = {init: init, route: route};
+exports = module.exports = {
+  init: init,
+  route: route,
+  about: {
+    description: 'Simple taxonomy (menus based on categories) module, uses map reduce functions to create menu trees.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }
+};
 
+/**
+ * Routes
+ */
 function route(req,res,module,app,next) {
 
-      /**
-       * Routes
-       */
-      module.router.route(req,res,next);
+  // Routes
+  module.router.route(req,res,next);
 
 };
 
+/**
+ *Init
+ */
 function init(module,app,next) {
 
   if(!calipso.modules.content.initialised) {
@@ -51,7 +63,9 @@ function init(module,app,next) {
 
 };
 
-
+/**
+ * Map reduce function
+ */
 function mapReduceTaxonomy() {
 
   // We need to check if we are already map reducing ...
@@ -112,6 +126,9 @@ function mapReduceTaxonomy() {
 
 };
 
+/**
+ *Render menu
+ */
 function taxonomy(req,res,template,block,next) {
 
   // Generate the menu from the taxonomy
@@ -129,16 +146,3 @@ function taxonomy(req,res,template,block,next) {
    });
 
 };
-
-//Disable - same as reload
-function disable() {
-  reload();
-}
-
-// Reload
-function reload() {
-
-  var Content = calipso.lib.mongoose.model('Content');
-  calipso.log(sys.inspect(Content.schema,true,10,true));
-
-}
