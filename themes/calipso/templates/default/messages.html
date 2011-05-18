@@ -1,8 +1,13 @@
-<% /* todo: get rid of inline style, br tag */ %>
-<% if (hasMessages) { %>
-  <div class="flash-message">
-    <% messages().forEach(function(msg){  %>
-      <span class="ui-icon ui-icon-info" style="float: left; margin-right: .7em;"></span><%- msg %><br/>
-    <% }); %>
-  </div>
+
+<% var msgs = messages(); %>
+
+<% for (var type in msgs) {  %>
+  <ul class="<%- type %>">
+    <% var msgSet = msgs[type]; %>
+    <% for (var i=0,l=msgSet.length; i<l; i++) { %>
+      <li>
+        <%- msgSet[i] %>
+      </li>
+    <% } %>
+  </ul>
 <% } %>
