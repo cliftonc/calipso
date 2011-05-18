@@ -1,23 +1,47 @@
 /**
  * Base feeds module
  */
-
 var calipso = require("lib/calipso"), sys = require('sys'), events = require('events');
 
-exports = module.exports = {init: init, route: route, jobs: {getFeed:getFeed}};
+exports = module.exports = {
+  init: init,
+  route: route,
+  jobs: {getFeed:getFeed},
+  about: {
+    description: 'Module that exposes job functions to enable processing of RSS and Atom feeds.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }
+};
 
+/**
+ * Router
+ */
 function route(req,res,module,app,next) {
-
   next();
-
 };
 
+/**
+ * Initialisation
+ */
 function init(module,app,next) {
-
   next();
-
 };
 
+/**
+ * Feeds job function
+ * Expects argument of a json object, of the structure:
+ *
+ *     {"url":"url","taxonomy":"taxonomy","contentType":"contentType"}
+ *
+ * These arguments cover:
+ *
+ *   - url : the url to retrieve the feed from
+ *   - taxonomy : the taxonomy to create any new content items against (e.g. news/local)
+ *   - contentType : the content type to create the content as
+ *
+ */
 function getFeed(args,next) {
 
   try {
@@ -65,8 +89,6 @@ function getFeed(args,next) {
 
 /**
  * AtomParser
- * @param data
- * @returns
  */
 function AtomParser() {
 
@@ -87,6 +109,9 @@ function AtomParser() {
 
 };
 
+/**
+ * Register event handler for AtomParser
+ */
 function processAtom(data,taxonomy,contentType, next) {
 
   var parser = new AtomParser();
@@ -106,7 +131,6 @@ function processAtom(data,taxonomy,contentType, next) {
 
 /**
  * Process a single atom feed item
- * @param item
  */
 function processAtomItem(item,taxonomy,contentType, next) {
 
@@ -120,6 +144,9 @@ function processAtomItem(item,taxonomy,contentType, next) {
     if(!c) {
       var c = new Content();
 
+      // This is a fixed mapping
+      // TODO : Make this configurable so you can map a feed
+      // to dynamic properties of a content item
       c.title=item.title.text;
       c.teaser=item.title.text;
       c.content=item.content.text;
@@ -167,8 +194,6 @@ function processAtomItem(item,taxonomy,contentType, next) {
 
 /**
  * RSS Parser
- * @param data
- * @returns
  */
 var RssParser = function() {
 
@@ -194,6 +219,9 @@ var RssParser = function() {
 
 };
 
+/**
+ * Event handler for rss processing
+ */
 function processRss(data,taxonomy,contentType,next) {
 
   var parser = new RssParser();
@@ -211,6 +239,9 @@ function processRss(data,taxonomy,contentType,next) {
 };
 
 
+/**
+ * Process single RSS item
+ */
 function processRssItem(item,taxonomy,contentType, next) {
 
   var Content = calipso.lib.mongoose.model('Content');
@@ -276,7 +307,7 @@ function processRssItem(item,taxonomy,contentType, next) {
                 next(err);
               } else {
                 next();
-              }
+        t      }
             });
          }
       });
@@ -288,5 +319,8 @@ function processRssItem(item,taxonomy,contentType, next) {
 
 };
 
+/**
+ * Parsers are event emitters
+ */
 sys.inherits(AtomParser, events.EventEmitter);
 sys.inherits(RssParser, events.EventEmitter);

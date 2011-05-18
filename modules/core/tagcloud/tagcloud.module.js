@@ -4,7 +4,13 @@
 
 var calipso = require("lib/calipso");
 
-exports = module.exports = {init: init, route: route, depends: ['content']};
+exports = module.exports = {init: init, route: route,
+   about: {
+    description: 'Module that controls the creation of a tag cloud, based on an internal map reduce function, in response to the change of any content.  Controls both the display and the MR.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home:'http://github.com/cliftonc/calipso'
+  }};
 
 function route(req,res,module,app,next) {
 
