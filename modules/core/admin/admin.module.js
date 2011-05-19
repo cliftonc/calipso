@@ -18,7 +18,6 @@ exports = module.exports = {
  */
 function route(req, res, module, app, next) {
 
-
   // Menu items
   res.menu.admin.primary.push({ name: 'Admin',url: '/admin',regexp: /admin/});
 

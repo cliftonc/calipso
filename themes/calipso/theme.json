@@ -16,6 +16,12 @@
           "body": {"template": "body.html", "blocks": ["content", "admin"]},
           "right": {"template": "right.jade", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
           "footer": {"template": "footer.html", "blocks": []}
+        },
+        // Allow overrides
+        "module":{
+          "user":{
+            "login":"user/login.html"
+          }
         }
       }
     },
