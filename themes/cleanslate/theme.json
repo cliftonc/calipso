@@ -1,0 +1,40 @@
+{
+  "name": "cleanslate",
+  "description": "Not intended to be used directly, but as a starting point for other themes",
+  "version": "0.2.0",
+  "author": "Dennis Hall <dennishall@github.com>",
+  "layouts": {
+    "default": {
+      "layout": {
+        "template": "default.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "styles": {"template": "styles.html"},
+          "admin": {"menu": "admin", "template": "adminMenu.html"},
+          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "secondary": {"template": "secondaryMenu.html", "blocks": ["user.login"]},
+          "messages": {"template": "messages.html", "blocks": []},
+          "body": {"template": "body.html", "blocks": ["content", "admin"]},
+          "right": {"template": "right.jade", "blocks": ["news.breaking", "tagcloud", "right"]},
+          "footer": {"template": "footer.html", "blocks": []}
+        }
+      }
+    },
+    "home": {
+      "layout": {
+        "copyFrom": "default",
+        "sections": {
+          "body": {"template": "body.html", "blocks": []}
+        }
+      }
+    },
+    "blogLanding": {
+      "layout": {
+        "copyFrom": "default",
+        "sections": {
+          "body": {"template": "body.html", "blocks": []}
+        }
+      }
+    }
+  }
+}
