@@ -20,11 +20,7 @@ function route(req, res, module, app, next) {
 
 
   // Menu items
-  res.menu.admin.primary.push({
-    name: 'Admin',
-    url: '/admin',
-    regexp: /admin/
-  });
+  res.menu.admin.primary.push({ name: 'Admin',url: '/admin',regexp: /admin/});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -55,13 +51,8 @@ function init(module, app, next) {
     module.router.addRoute('POST /admin/save', saveAdmin, {
       admin: true
     }, this.parallel());
-    module.router.addRoute('GET /admin/install', install, null, this.parallel());
 
-    module.router.addRoute('GET /admin/theme', reloadTheme, {
-      template: 'admin',
-      block: 'admin',
-      admin: true
-    }, this.parallel());
+    module.router.addRoute('GET /admin/install', install, null, this.parallel());
 
 
   }, function done() {
@@ -87,24 +78,6 @@ function init(module, app, next) {
   });
 
   // NOTE: Configuration schemas are defined in Configuration.js
-}
-
-/**
- * Test function to reload a theme
- */
-function reloadTheme(req, res, template, block, next) {
-
-  var app = calipso.app;
-
-  try {
-    app.useThemeStatic('calipso');
-  } catch(ex) {
-    console.dir(ex);
-  }
-
-  console.dir(app.stack);
-
-  next();
 }
 
 /**
