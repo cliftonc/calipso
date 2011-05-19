@@ -17,7 +17,7 @@ module.exports = function(app, express, next) {
    */
   var defaultConfig = {
     cache: false,
-    theme: 'calipso',
+    theme: 'cleanslate',
     install: true,
     watchFiles: true,
     logs: {
