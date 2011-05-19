@@ -39,20 +39,31 @@ function init(module, app, next) {
   calipso.lib.step(
 
   function defineRoutes() {
+
     module.router.addRoute('GET /admin', showAdmin, {
       template: 'admin',
       block: 'admin',
       admin: true
     }, this.parallel());
+
     module.router.addRoute('GET /admin/reload', reloadAdmin, {
       template: 'reload',
       block: 'admin',
       admin: true
     }, this.parallel());
+
     module.router.addRoute('POST /admin/save', saveAdmin, {
       admin: true
     }, this.parallel());
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
+
+    module.router.addRoute('GET /admin/theme', reloadTheme, {
+      template: 'admin',
+      block: 'admin',
+      admin: true
+    }, this.parallel());
+
+
   }, function done() {
 
     // Load the available themes into the calipso data object
@@ -76,6 +87,24 @@ function init(module, app, next) {
   });
 
   // NOTE: Configuration schemas are defined in Configuration.js
+}
+
+/**
+ * Test function to reload a theme
+ */
+function reloadTheme(req, res, template, block, next) {
+
+  var app = calipso.app;
+
+  try {
+    app.useThemeStatic('calipso');
+  } catch(ex) {
+    console.dir(ex);
+  }
+
+  console.dir(app.stack);
+
+  next();
 }
 
 /**
@@ -209,10 +238,6 @@ function saveAdmin(req, res, template, block, next) {
       AppConfig.findOne({}, function(err, c) {
 
         if (!err && c) {
-
-          if (c.theme != form.config.theme) {
-            req.flash('info', 'You need to restart calipso to see the theme changes (live restart todo!).');
-          }
 
           c.theme = form.config.theme;
           c.cache = form.config.cache;

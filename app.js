@@ -92,11 +92,13 @@ function bootApplication(app, next) {
     keepExtensions: true
   }));
 
+  // Static - tag it so we can replace later
+  var themeStatic = express.static(path + '/themes/' + theme + '/public');
+  themeStatic.tag = 'themeStatic';
+  app.use(themeStatic);
+
   // Media paths
   app.use(express.static(path + '/media'));
-
-  // Theme assets
-  app.use(express.static(path + '/themes/' + theme + '/public'));
 
   // Core calipso router
   app.use(calipso.calipsoRouter(app, app.set('config'), function() {
