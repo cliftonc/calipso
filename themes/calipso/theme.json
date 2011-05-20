@@ -17,10 +17,9 @@
           "right": {"template": "right.jade", "blocks": ["user.login", "news.breaking", "tagcloud", "right"]},
           "footer": {"template": "footer.html", "blocks": []}
         },
-        // Allow overrides
-        "module":{
+        "modules":{
           "user":{
-            "login":"user/login.html"
+            "login":"modules/user/login.html"
           }
         }
       }
