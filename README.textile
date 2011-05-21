@@ -2,28 +2,4 @@ Calipso is a simple NodeJS content management system, built along similar themes
 
 For additional detail, please visit the home page: "http://calip.so/":http://calip.so/?utm_source=github&utm_medium=calipso&utm_campaign=github
 
-Current roadmap for version 0.3:
-
- * Tests to be written for all existing core libraries.
- * Test framework to be created that allows modules to create tests and be tested.
- * Form library to deal gracefully with errors, and provide usable validation.
- * User registration 'complete':
-    * Login via OAuth with Facebook & Twitter to create account.
-    * Link to gravatar for image.
-    * Edit of user profile.
-    * Role and permissions completed, copy Drupal unless otherwise required?
- * Theming library 'complete':
-    * All helper functions documented: getContent, getBlock, getScript, getStyle.
-    * Theming approach documented.
-    * Default theme created.
-    
-Roadmap for version 0.4:
-
- * Event driven content workflow.
- * Locked down content api (rest based).
- 
-Roadmap for version 0.5:
-
- * Internal commenting and chat engine <Ideally a contrib module!>
- 
-... ???
+If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc) or dennis (dennishall) and we can suggest some palces for you to start.
