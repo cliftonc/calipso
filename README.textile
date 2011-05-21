@@ -73,4 +73,3 @@ Calipso server listening on port:  3000
 <p>You should see the home screen, along with a message that the site has been configured with a default Administrative user and password.  You should login with this, and then change it immediately (you can do this from the Admin users profile page).<p>
 <h3>What next?</h3>
 <p>Ok - you're now up and running, you should be able to login, and once logged in begin to navigate the content creation and administration screens.</p>
-<p>Next: <a href="/quickstart-managing-content.html">Managing Content</a></p>
