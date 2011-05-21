@@ -27,6 +27,35 @@ var port = 3000;
 var app;
 var version = "0.2.0";
 
+
+/**
+ * Test the db connection.  db.open is async, so we get the CALIPSO ascii art
+ * before we get the error message, but I left it this way to reduce overhead.
+ */
+(function(){
+  
+  var mongodb = require('mongodb'),
+    Db = mongodb.Db,
+    Connection = mongodb.Connection,
+    Server = mongodb.Server;
+  
+  var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
+  var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
+  
+  //sys.puts(">> Connecting to " + host + ":" + port);
+  var db = new Db('node-mongo-examples', new Server(host, port, {}), {native_parser:true});
+  db.open(function(err, db) {
+    if(err){
+      console.log("Error connecting to mongodb - maybe it's not running?");
+    } else {
+      //console.log("Connected to mongodb.");
+      db.close();
+    }
+  });
+  
+})();
+
+
 /**
  * Initial bootstrapping
  */
@@ -124,7 +153,8 @@ if (!module.parent) {
   exports.boot(function(app) {
 
     app.listen(port);
-    console.log("\x1b[36mCalipso server listening on port: \x1b[0m %d\r\n", app.address().port)
+    console.log("\x1b[36mCalipso server listening on port: \x1b[0m %d", app.address().port);
+    console.log("\x1b[36mCalipso configured for\x1b[0m %s \x1b[36menvironment\x1b[0m\r\n", global.process.env.NODE_ENV || 'development');
 
   });
 
