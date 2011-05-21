@@ -11,11 +11,12 @@
 module.exports.translate = function(configLanguage) {
 
     // Default to english
-    var language = configLanguage || "en";
     var languages = ['en']; // Always contains english
     var languageCache = cacheLanguages([], languages);
 
     return function(req, res, next){
+
+        var language = configLanguage || "en";
 
         // add our loaded languages to the request object
         req.languages = languages;
