@@ -250,7 +250,7 @@ function loginUser(req, res, template, block, next) {
           });
         }
         if(!found) {
-          req.flash('error','You may have entered an incorrect username or password!');
+          req.flash('error','You may have entered an incorrect username or password, please try again.');
         }
         if(res.statusCode != 302) {
           res.redirect('back');
@@ -331,7 +331,7 @@ function myProfile(req, res, template, block, next) {
     req.moduleParams.username = req.session.user.username;
     userProfile(req, res, template, block, next);
   } else {
-    req.flash('error','You need to login to view your created profile!');
+    req.flash('error','You need to login to view your created profile.');
     res.redirect('/');
   }
 }
@@ -374,7 +374,7 @@ function install(next) {
   calipso.lib.step(
 
     function createDefaults() {
-      
+
       // Create default roles
       var r = new Role({
         name:'Guest',

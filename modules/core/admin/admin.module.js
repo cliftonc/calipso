@@ -131,7 +131,7 @@ function install(req, res, template, block, next) {
           req.flash("error", "Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.");
         } else {
           // req.flash("info", "New administrative user created. You can now login as this user and begin using calipso.");
-          req.flash("info", "Calipso has been installed with default user: admin, password: password.  Please login and change this!");
+          req.flash("info", "Calipso has been installed with default user: admin, password: password.  It is a good idea to login and change this via the user profile page.");
           if (res.statusCode != 302) {
             res.redirect("/");
           }
@@ -236,7 +236,7 @@ function saveAdmin(req, res, template, block, next) {
           });
 
         } else {
-          req.flash('error', 'Could not locate configuration!');
+          req.flash('error', 'Could not locate configuration.');
           res.redirect('/admin');
           next();
 
@@ -245,7 +245,7 @@ function saveAdmin(req, res, template, block, next) {
 
     } else {
 
-      req.flash('error', 'Could not process form data!');
+      req.flash('error', 'Could not process form data, this is a fatal error that should be reported.');
       res.redirect('/admin');
       next();
 

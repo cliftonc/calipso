@@ -239,7 +239,7 @@ function createContent(req,res,template,block,next) {
                         res.redirect('/content/new');
                     }
                   } else {
-                    req.flash('info','Content saved successfully!');
+                    req.flash('info','Content saved.');
                     if(returnTo) {
                       res.redirect(returnTo);
                     } else {
@@ -435,7 +435,7 @@ function updateContent(req,res,template,block,next) {
               });
 
           } else {
-            req.flash('error','Could not locate content!');
+            req.flash('error','Could not locate content, it may have been deleted by another user or there has been an error.');
             res.redirect('/content');
             next();
           }

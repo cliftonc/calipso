@@ -459,7 +459,7 @@ function updateJob(req,res,template,block,next) {
             });
 
         } else {
-          req.flash('error','Could not locate job!');
+          req.flash('error','Could not locate job.');
           res.redirect('/scheduler');
           next();
         }
