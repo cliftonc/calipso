@@ -79,8 +79,8 @@ function init(module,app,next) {
             Content.findOne({alias:alias},function (err, content) {
                 if(err || !content) {
 
-                  var text = "Click to create: " +
-                  "<a title='Click to create ...' href='/content/new?" +
+                  var text = req.t("Click to create") + ": " +
+                  " <a title='" + req.t("Click to create") + " ...' href='/content/new?" +
                   "type=Block%20Content" +
                   "&alias=" + alias +
                   "&teaser=Content%20for%20" + alias +

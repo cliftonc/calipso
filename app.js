@@ -17,31 +17,31 @@ var fs = require('fs'),
     nodepath = require('path'),
     form = require('connect-form'),
     stylus = require('stylus'),
+    translate = require('i8n/translate'),
     calipso = require('lib/calipso'),
     mongoStore = require('support/connect-mongodb');
 
-// Global Variables
+// Local App Variables
 var path = __dirname;
 var theme = 'default';
 var port = 3000;
 var app;
 var version = "0.2.0";
 
-
 /**
  * Test the db connection.  db.open is async, so we get the CALIPSO ascii art
  * before we get the error message, but I left it this way to reduce overhead.
  */
 (function(){
-  
+
   var mongodb = require('mongodb'),
     Db = mongodb.Db,
     Connection = mongodb.Connection,
     Server = mongodb.Server;
-  
+
   var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
   var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
-  
+
   //sys.puts(">> Connecting to " + host + ":" + port);
   var db = new Db('node-mongo-examples', new Server(host, port, {}), {native_parser:true});
   db.open(function(err, db) {
@@ -52,7 +52,7 @@ var version = "0.2.0";
       db.close();
     }
   });
-  
+
 })();
 
 
@@ -92,10 +92,6 @@ exports.boot = function(next) {
  */
 function bootApplication(app, next) {
 
-  // launch
-  // app.use(express.profiler());s
-  // app.use(express.bodyParser());
-
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.responseTime());
@@ -128,6 +124,9 @@ function bootApplication(app, next) {
 
   // Media paths
   app.use(express.static(path + '/media'));
+
+  // Translation - after static
+  app.use(translate.translate(app.set('config').language));
 
   // Core calipso router
   app.use(calipso.calipsoRouter(app, app.set('config'), function() {

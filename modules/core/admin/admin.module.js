@@ -213,6 +213,7 @@ function saveAdmin(req, res, template, block, next) {
 
           c.theme = form.config.theme;
           c.cache = form.config.cache;
+          c.language = form.config.language;
           c.watchFiles = form.config.watchFiles === 'on';
           c.logs.level = form.config.logslevel;
           c.logs.file.enabled = form.config.logsfileenabled === 'on';

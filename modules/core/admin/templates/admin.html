@@ -13,6 +13,14 @@
           item.meta.watchFiles ? "checked" : "" %>>
           <label for="config[watchFiles]">Enabled</label>
     </div>
+    <div class="form-field">
+          <label>Default Language</label>
+          <select name="config[language]">
+            <% request.languages.forEach(function(language) { %>
+              <option value="<%-language %>" <%= item.meta.language === language ? "selected" : "" %>> <%-language %> </option>
+            <% }); %>
+      </select>
+    </div>
 
     <h4>Theme</h4>
     <div class="form-field">

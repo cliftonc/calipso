@@ -60,6 +60,7 @@ function init(module, app, next) {
         password:{type: String, required: true},
         email:{type: String, required: true, unique:true},
         about:{type: String},
+        language:{type: String, default:'en'},
         roles:[String],
         isAdmin:{type: Boolean, required: true, default: true} // Convert to getter
       });
@@ -76,7 +77,7 @@ function init(module, app, next) {
 function loginForm(req, res, template, block, next) {
 
   var userForm = {
-    id:'login-form',cls:'login',title:'Login',type:'form',method:'POST',action:'/user/login',
+    id:'login-form',cls:'login',title:req.t('Log In'),type:'form',method:'POST',action:'/user/login',
     fields:[
       {label:'Username', name:'user[username]', type:'text'},
       {label:'Password', name:'user[password]', type:'password'}
@@ -101,11 +102,12 @@ function loginForm(req, res, template, block, next) {
 function registerUserForm(req, res, template, block, next) {
 
   var userForm = {
-    id:'FORM',title:'Register',type:'form',method:'POST',action:'/user/register',
+    id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/user/register',
     fields: [
       {label:'Username', name:'user[username]', type:'text'},
       {label:'Password', name:'user[password]', type:'password'},
       {label:'Email', name:'user[email]', type:'text'},
+      {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
       {label:'About You', name:'user[about]', type:'textarea'}
     ],
     buttons:[
@@ -141,6 +143,7 @@ function updateUserProfile(req, res, template, block, next) {
       User.findOne({username:username}, function(err, u) {
 
         u.email = form.user.email;
+        u.language = form.user.language;
         u.about = form.user.about;
         u.password = form.user.password;
 
@@ -162,7 +165,16 @@ function updateUserProfile(req, res, template, block, next) {
               res.redirect('/');
             }
           } else {
+
+            // Update session details
+            req.session.user = {username:u.username, isAdmin:u.isAdmin, id:u._id, language:u.language};
+            req.session.save(function(err) {
+              if(err) {
+                calipso.error("Error saving session: " + err);
+              }
+            });
             res.redirect('/user/profile/' + u.username);
+
           }
           // If not already redirecting, then redirect
           next();
@@ -189,6 +201,7 @@ function updateUserForm(req, res, template, block, next) {
       {label:'Username', name:'user[username]', type:'text', readonly:true},
       {label:'Password', name:'user[password]', type:'password'},
       {label:'Email', name:'user[email]', type:'text'},
+      {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
       {label:'About You', name:'user[about]', type:'textarea'}
     ],
     buttons:[
@@ -242,7 +255,7 @@ function loginUser(req, res, template, block, next) {
       User.findOne({username:username, password:password},function (err, user) {
         if(user) {
           found = true;
-          req.session.user = {username:user.username, isAdmin:user.isAdmin, id:user._id};
+          req.session.user = {username:user.username, isAdmin:user.isAdmin, id:user._id, language:user.language};
           req.session.save(function(err) {
             if(err) {
               calipso.error("Error saving session: " + err);

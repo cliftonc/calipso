@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-  
+
 /**
  * Default configuration manager This file controls the loading, and initial
  * configuration of Calipso. Configuration is stored in Mongodb, in the
@@ -19,6 +19,7 @@ module.exports = function(app, express, next) {
   var defaultConfig = {
     cache: false,
     theme: 'cleanslate',
+    language: 'en',
     install: true,
     watchFiles: true,
     logs: {
@@ -61,6 +62,11 @@ module.exports = function(app, express, next) {
     install: {
       type: Boolean,
       'default': false
+    },
+    language: {
+      type: String,
+      required: true,
+      'default': 'en'
     },
     watchFiles: {
       type: Boolean,
@@ -109,7 +115,7 @@ module.exports = function(app, express, next) {
   });
 
   mongoose.model('AppConfig', AppConfigSchema);
-  
+
   /**
    * Load the environment configurations
    * Launch with "NODE_ENV=test node app" for test environment
@@ -125,8 +131,8 @@ module.exports = function(app, express, next) {
       next(err);
     });
   });
-  
-  
+
+
 };
 
 /**

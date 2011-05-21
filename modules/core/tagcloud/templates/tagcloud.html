@@ -1,25 +1,25 @@
 <div class="tagcloud">
-    <h2>Tag Cloud</h2>
-    <% 
+    <h2><%- t("Tag Cloud") %></h2>
+    <%
         var maxValue = 0;
-        var ratio = 10;  
-        var minimum = 0;      
-        
-        tags.forEach(function(tag) {             
+        var ratio = 10;
+        var minimum = 0;
+
+        tags.forEach(function(tag) {
             if(maxValue <  tag.value) {
                 maxValue = tag.value;
             }
         });
-        
-        tags.forEach(function(tag) {             
-            
+
+        tags.forEach(function(tag) {
+
             tag.value = Math.floor((tag.value / maxValue) * ratio);
-                
-            if(tag.value > minimum) {    
+
+            if(tag.value > minimum) {
 	    %>
-	        <span class='tag tag-<%- tag.value %>'><a href='/tag/<%- tag._id %>'><%- tag._id %></a></span>	        
-	    <% 
+	        <span class='tag tag-<%- tag.value %>'><a href='/tag/<%- tag._id %>'><%- tag._id %></a></span>
+	    <%
 	       }
-	       
+
 	    }); %>
 </div>
