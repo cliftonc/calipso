@@ -31,8 +31,8 @@ html
   min-height  100%
 
 body
-  font Helvetica, Arial, sans-serif
-  font-size  1em
+  font 13px/1.231 sans-serif
+  *font-size small
   line-height  1.3em
   color  white
   background-main()
@@ -555,7 +555,7 @@ div.no-dox-comment
 
 /** HOME PAGE **/
 .home-content
-  font-size  .9em
+  font-size  1em
 
 .home-welcome
   display  block
@@ -609,14 +609,21 @@ div.no-dox-comment
   width  100%
 
 /** Flash Messages **/
-.flash-message
-  float  left
-  width  98%
-  padding  1%
-  margin-bottom  10px
-  background-highlight()
-  border-radius  4px
-  *display  inline
+#messages
+  clear both
+  width 98%
+
+#messages
+  ul
+    width 98%
+    background-highlight()
+    border-radius 5px
+    margin 0 0px 20px
+    padding 15px 10px 15px 10px
+    list-style none
+    li
+      margin  0 !important
+      padding  0 !important
 
 /** FORMS **/
 form
@@ -667,7 +674,6 @@ form
 
 
 input.text, input.file, textarea.textarea, select.select
-  font-family  Verdana, arial, sans-serif
   font-size  100%
   color  #333
   margin  0
