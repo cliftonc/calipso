@@ -53,8 +53,8 @@ function init(module,app,next) {
         module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?',listContent,{template:'list',block:'content'},this.parallel());
 
         // Alias for SEO friendly pages, match to prefix excluding content pages
-        module.router.addRoute(/^((?!content).*)html$/,showAliasedContent,{template:'show',block:'content'},this.parallel());
-        module.router.addRoute(/^((?!content).*)json$/,showAliasedContent,{template:'show',block:'content'},this.parallel());
+        module.router.addRoute(/^((?!content).*)\.html/,showAliasedContent,{template:'show',block:'content'},this.parallel());
+        module.router.addRoute(/^((?!content).*)\.json/,showAliasedContent,{template:'show',block:'content'},this.parallel());
 
         // Admin operations
         module.router.addRoute('GET /content',listContent,{admin:true,template:'listAdmin',block:'content'},this.parallel());
@@ -453,12 +453,13 @@ function updateContent(req,res,template,block,next) {
 function showAliasedContent(req,res,template,block,next) {
 
 
-  var format = req.url.match(/\.json$/) ? "json" : "html";
+  var format = req.url.match(/\.json/g) ? "json" : "html";
 
   var alias = req.url
                   .replace(/^\//, "")
-                  .replace(/\.html$/, "")
-                  .replace(/\.json$/, "")
+                  .replace(/\.html/, "")
+                  .replace(/\.json/, "")
+                  .replace(/(\?.*)$/, "")
 
   var Content = calipso.lib.mongoose.model('Content');
 
