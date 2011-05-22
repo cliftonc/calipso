@@ -687,6 +687,7 @@ function deleteContent(req,res,template,block,next) {
 /**
  * Job to publish content that is scheduled
  */
-function scheduledPublish(args) {
+function scheduledPublish(args, next) {
   calipso.info("Scheduled publish: " + args);
+  next();
 }

@@ -67,8 +67,10 @@ function init(module,app,next) {
         // This scans all the other modules
         calipso.data.jobFunctions = [];
         for(var module in calipso.modules) {
-          for(var job in calipso.modules[module].fn.jobs) {
-              calipso.data.jobFunctions.push(module + "." + job);
+          if(calipso.modules[module].enabled) {
+            for(var job in calipso.modules[module].fn.jobs) {
+                calipso.data.jobFunctions.push(module + "." + job);
+            }
           }
         }
 
@@ -95,9 +97,9 @@ function loadJobs(next) {
   ScheduledJob.find({}, function(err, jobs) {
 
         jobs.forEach(function(job) {
-          // '* * * * * *'
-          if(calipso.modules[job.module] && calipso.modules[job.module].fn.jobs[job.method]) {
 
+          // '* * * * * *'
+          if(calipso.modules[job.module] && calipso.modules[job.module].enabled && calipso.modules[job.module].fn.jobs[job.method]) {
 
             var options = {
                 jobName: job.name,

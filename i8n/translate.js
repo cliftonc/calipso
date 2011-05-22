@@ -16,7 +16,8 @@ module.exports.translate = function(configLanguage,addMode) {
 
     return function(req, res, next) {
 
-        var language = configLanguage || "en";
+        // Set the request language
+        req.language = configLanguage || "en";
 
         // add our loaded languages to the request object
         req.languages = languages;
@@ -27,20 +28,20 @@ module.exports.translate = function(configLanguage,addMode) {
             // Check the user session
             if(req.session && req.session.user) {
               // Set the language to the user configuration if it exists;
-              language = req.session.user.language || language;
+              req.language = req.session.user.language || req.language;
             }
 
             // Check the query string parameters
-            language = req.moduleParams ? req.moduleParams.language || language : language;
+            req.language = req.moduleParams ? req.moduleParams.language || req.language : req.language;
 
             // Translate
-            if(languageCache[language]) {
-              return doTranslation(englishString, languageCache[language], values, addMode);
+            if(languageCache[req.language]) {
+              return doTranslation(englishString, languageCache[req.language], values, addMode);
             } else {
               if(addMode) {
                 // Add the language
-                languageCache[language] = {};
-                return doTranslation(englishString, languageCache[language], values, addMode);
+                languageCache[req.language] = {};
+                return doTranslation(englishString, languageCache[req.language], values, addMode);
               } else {
                 return replaceValues(englishString, values);
               }
