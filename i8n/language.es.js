@@ -7,5 +7,5 @@ exports.language = {
   "Log In":"Entrar",
   "Register":"Regístrate",
   "Tag Cloud":"Nube de etiquetas",
-  "User Profile":"Perfil del usuario"
+  "{name} Profile":"{name} Perfil"
 }

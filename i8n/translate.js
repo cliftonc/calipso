@@ -14,7 +14,7 @@ module.exports.translate = function(configLanguage) {
     var languages = ['en']; // Always contains english
     var languageCache = cacheLanguages([], languages);
 
-    return function(req, res, next){
+    return function(req, res, next) {
 
         var language = configLanguage || "en";
 
@@ -22,7 +22,7 @@ module.exports.translate = function(configLanguage) {
         req.languages = languages;
 
         // Add the translate function to the request object
-        req.t = req.translate = function(englishString) {
+        req.t = req.translate = function(englishString, values) {
 
             // Check the user session
             if(req.session && req.session.user) {
@@ -35,9 +35,9 @@ module.exports.translate = function(configLanguage) {
 
             // Translate
             if(languageCache[language]) {
-              return doTranslation(englishString,languageCache[language]);
+              return doTranslation(englishString, languageCache[language], values);
             } else {
-              return englishString;
+              return replaceValues(englishString, values);
             }
 
         }
@@ -73,8 +73,28 @@ function cacheLanguages(languages, loadedLanguages) {
 /**
  * Look up and perform the translation, by default, return the english string if not found.
  */
-function doTranslation(englishString, languageCache) {
+function doTranslation(englishString, languageCache, values) {
 
-  return languageCache[englishString] || englishString;
+  return replaceValues(languageCache[englishString] || englishString, values);
+
+}
+
+/**
+ * Replace any tokens with values
+ * Expected values:
+ *
+ *     {"msg":"Clifton"}
+ *
+ * String:
+ *     "Hello {msg}"
+ *
+ * Output:
+ *     "Hello Clifton"
+ */
+function replaceValues(string,values) {
+
+  return string.replace(/{[^{}]+}/g, function(key) {
+      return values[key.replace(/[{}]+/g, "")] || "";
+  });
 
 }
