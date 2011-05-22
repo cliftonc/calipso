@@ -87,14 +87,64 @@ function init(module, app, next) {
 
 
 /**
- * Show languages as json object
+ * Show languages stored in memory,
+ * optionally enable translation of these by google translate.
  */
 function showLanguages(req, res, template, block, next) {
 
-  calipso.theme.renderItem(req, res, template, block, {
-    languageCache: req.languageCache
-  });
-  next();
+  // Check to see if we should google translate?!
+  // e.g. /admin/languages?translate=es
+  if(req.moduleParams.translate) {
+
+    var language = req.moduleParams.translate;
+    var languageCache = req.languageCache[language];
+
+    var gt = require('utils/googleTranslate');
+
+    if(languageCache) {
+      calipso.lib.step(
+        function translateAll() {
+          var group = this.group();
+          for(var item in languageCache) {
+            gt.googleTranslate(item,language,group());
+          }
+        },
+        function allTranslated(err,translations) {
+
+          if(err) {
+            req.flash('error',req.t('There was an error translating that language because {msg}',{msg:err.message}));
+          }
+
+          if(!err && translations) {
+            translations.forEach(function(translation) {
+                req.languageCache[language][translation.string] = translation.translation;
+            });
+          }
+
+          calipso.theme.renderItem(req, res, template, block, {
+            languageCache: req.languageCache
+          });
+          next();
+        }
+      )
+    } else {
+
+      req.flash('info',req.t('That language does not exist.'));
+      calipso.theme.renderItem(req, res, template, block, {
+        languageCache: req.languageCache
+      });
+      next();
+
+    }
+
+  } else {
+
+    calipso.theme.renderItem(req, res, template, block, {
+      languageCache: req.languageCache
+    });
+    next();
+
+  }
 
 }
 
