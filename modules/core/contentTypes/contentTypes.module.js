@@ -379,10 +379,10 @@ function deleteContentType(req,res,template,block,next) {
 
   ContentType.remove({_id:id}, function(err) {
     if(err) {
-      req.flash("info","Unable to delete the content type because " + err.message);
+      req.flash('info',req.t('Unable to delete the content type because {msg}.',{msg:err.message}));
       res.redirect("/content/type");
     } else {
-      req.flash("info","The content type has now been deleted.");
+      req.flash('info',req.t('The content type has now been deleted.'));
       res.redirect("/content/type");
     }
     next();

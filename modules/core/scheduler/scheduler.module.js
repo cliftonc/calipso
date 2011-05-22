@@ -512,12 +512,12 @@ function deleteJob(req,res,template,block,next,err) {
 
   ScheduledJob.remove({name:jobName}, function(err) {
     if(err) {
-      req.flash("info","Unable to delete the job: " + jobName + " because " + err.message);
+      req.flash('info',req.t('Unable to delete the job {job} because {msg}.', {job:jobName,msg:err.message}));
       res.redirect("/scheduler");
     } else {
       calipso.jobs[jobName].disable() // Disable it
       delete calipso.jobs[jobName];   // 'Delete' it - GC will get it later ???
-      req.flash("info","Job: " + jobName + " has now been deleted.");
+      req.flash('info',req.t('Job {job} has now been deleted.',{job:jobName}));
       res.redirect("/scheduler");
     }
     next();

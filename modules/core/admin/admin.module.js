@@ -113,7 +113,7 @@ function install(req, res, template, block, next) {
     if (err) {
       res.statusCode = 500;
       res.errorMessage = err.message;
-      req.flash("error", "Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.");
+      req.flash('error', req.t('Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.'));
       next()
       return;
     }
@@ -128,10 +128,10 @@ function install(req, res, template, block, next) {
         if (err) {
           res.statusCode = 500;
           res.errorMessage = err.message;
-          req.flash("error", "Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.");
+          req.flash('error', req.t('Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.'));
         } else {
-          // req.flash("info", "New administrative user created. You can now login as this user and begin using calipso.");
-          req.flash("info", "Calipso has been installed with default user: admin, password: password.  It is a good idea to login and change this via the user profile page.");
+          req.flash('info', req.t('Calipso has been installed with default user: {user}, password: {password}.  It is a good idea to login and change this via the user profile page.',
+                                  {user:'user',password:'password'}));
           if (res.statusCode != 302) {
             res.redirect("/");
           }

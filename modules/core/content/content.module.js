@@ -94,7 +94,7 @@ function init(module,app,next) {
 
                   var text;
                   if(req.session && req.session.user && req.session.user.isAdmin) {
-                    text = "<span title='Double click to edit content block ...' class='content-block' id='" + content._id + "'>" +
+                    text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + content._id + "'>" +
                       content.content + "</span>"
                   } else {
                     text = content.content;
@@ -672,10 +672,10 @@ function deleteContent(req,res,template,block,next) {
 
   Content.remove({_id:id}, function(err) {
     if(err) {
-      req.flash("info","Unable to delete the content because " + err.message);
+      req.flash('info',req.t('Unable to delete the content because {msg}',{msg:err.message}));
       res.redirect("/");
     } else {
-      req.flash("info","The content has now been deleted.");
+      req.flash('info',req.t('The content has now been deleted.'));
       res.redirect("/");
     }
     next();
