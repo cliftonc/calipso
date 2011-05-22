@@ -1,0 +1,29 @@
+<div class='admin-page'>
+    <% for(var language in languageCache) { %>
+          <h3><%- language %></h3>
+          <pre>
+exports.language = {
+<%
+      // First of all, put them into an array
+      var items = [];
+
+      for(var item in languageCache[language]) {
+        items.push(item);
+      }
+
+      // Sort the array
+      items = items.sort();
+
+      // Now, lets write out our object in a sorted fashion!
+      items.forEach(function(key,value) {
+%>  <%- JSON.stringify(key) %>:<%- JSON.stringify(languageCache[language][key]) %>,
+<%
+      });
+%>}          </pre>
+    <% } %>
+    <div>
+      <small>
+          These are the language arrays currently in memory on this server.  If you have added translation strings but not added them to the base language file, you can copy the objects from here to update those files.  This is particularly for forms where any titles, labels or instructions are translated dynamically.
+      </small>
+    </div>
+</div>
