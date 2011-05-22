@@ -24,7 +24,7 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */
-      res.menu.admin.primary.push({name:'Scheduler',url:'/scheduler',regexp:/scheduler/});
+      res.menu.admin.primary.push({name:req.t('Scheduler'),url:'/scheduler',regexp:/scheduler/});
 
       /**
        * Routes
@@ -192,9 +192,9 @@ function enableScheduler(req,res,template,block,next) {
 function schedulerAdmin(req,res,template,block,next) {
 
 
-    res.menu.admin.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
-    res.menu.admin.secondary.push({name:'Enable All',parentUrl:'/scheduler',url:'/scheduler/switch/on'});
-    res.menu.admin.secondary.push({name:'Disable All',parentUrl:'/scheduler',url:'/scheduler/switch/off'});
+    res.menu.admin.secondary.push({name:req.t('New Job'),parentUrl:'/scheduler',url:'/scheduler/new'});
+    res.menu.admin.secondary.push({name:req.t('Enable All'),parentUrl:'/scheduler',url:'/scheduler/switch/on'});
+    res.menu.admin.secondary.push({name:req.t('Disable All'),parentUrl:'/scheduler',url:'/scheduler/switch/off'});
 
 
     var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
@@ -233,7 +233,7 @@ var jobForm = {id:'job-form',title:'',type:'form',method:'POST',action:'/schedul
  */
 function createJobForm(req,res,template,block,next) {
 
-  res.menu.admin.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
+  res.menu.admin.secondary.push({name:req.t('New Job'),parentUrl:'/scheduler',url:'/scheduler/new'});
 
   jobForm.title = "Create New Job";
   jobForm.action = "/scheduler";
@@ -352,8 +352,8 @@ function editJobForm(req,res,template,block,next) {
   var jobName = req.moduleParams.jobName;
   var item;
 
-  res.menu.admin.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
-  res.menu.admin.secondary.push({name:'Edit Job',parentUrl:'/scheduler',url:'/scheduler/edit/' + jobName});
+  res.menu.admin.secondary.push({name:req.t('New Job'),parentUrl:'/scheduler',url:'/scheduler/new'});
+  res.menu.admin.secondary.push({name:req.t('Edit Job'),parentUrl:'/scheduler',url:'/scheduler/edit/' + jobName});
 
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 
@@ -480,9 +480,9 @@ function showJob(req,res,template,block,next,err) {
   var jobName = req.moduleParams.jobName;
   var item;
 
-  res.menu.admin.secondary.push({name:'New Job',parentUrl:'/scheduler',url:'/scheduler/new'});
-  res.menu.admin.secondary.push({name:'Edit Job',parentUrl:'/scheduler',url:'/scheduler/edit/' + jobName});
-  res.menu.admin.secondary.push({name:'Delete Job',parentUrl:'/scheduler',url:'/scheduler/delete/' + jobName});
+  res.menu.admin.secondary.push({name:req.t('New Job'),parentUrl:'/scheduler',url:'/scheduler/new'});
+  res.menu.admin.secondary.push({name:req.t('Edit Job'),parentUrl:'/scheduler',url:'/scheduler/edit/' + jobName});
+  res.menu.admin.secondary.push({name:req.t('Delete Job'),parentUrl:'/scheduler',url:'/scheduler/delete/' + jobName});
 
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 

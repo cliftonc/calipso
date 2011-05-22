@@ -21,7 +21,7 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu
-  res.menu.admin.primary.push({name:'User', url:'/user', regexp:/user/});
+  res.menu.admin.primary.push({name:req.t('User'), url:'/user', regexp:/user/});
 
   // Router
   module.router.route(req, res, next);

@@ -31,7 +31,7 @@ module.exports.translate = function(configLanguage,addMode) {
             }
 
             // Check the query string parameters
-            language = req.moduleParams.language || language;
+            language = req.moduleParams ? req.moduleParams.language || language : language;
 
             // Translate
             if(languageCache[language]) {

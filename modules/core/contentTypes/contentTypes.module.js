@@ -25,7 +25,7 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */
-      res.menu.admin.primary.push({name:'Content Type',url:'/content/type',regexp:/content\/type/});
+      res.menu.admin.primary.push({name:req.t('Content Type'),url:'/content/type',regexp:/content\/type/});
 
       /**
        * Routing and Route Handler
@@ -186,7 +186,7 @@ function createContentType(req,res,template,block,next) {
  */
 function createContentTypeForm(req,res,template,block,next) {
 
-  res.menu.admin.secondary.push({name:'New Content Type',parentUrl:'/content/type',url:'/content/type/new'});
+  res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
 
   contentTypeForm.title = "Create Content Type";
   contentTypeForm.action = "/content/type/create";
@@ -207,8 +207,8 @@ function editContentTypeForm(req,res,template,block,next) {
   var id = req.moduleParams.id;
   var item;
 
-  res.menu.admin.secondary.push({name:'New Content Type',parentUrl:'/content/type',url:'/content/type/new'});
-  res.menu.admin.secondary.push({name:'Edit Content Type',parentUrl:'/content/type' + id,url:'/content/type/edit/' + id});
+  res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
+  res.menu.admin.secondary.push({name:req.t('Edit Content Type'),parentUrl:'/content/type' + id,url:'/content/type/edit/' + id});
 
   ContentType.findById(id, function(err, c) {
 
@@ -300,9 +300,9 @@ function showContentType(req,res,template,block,next,err,content,format) {
       item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content type!"}};
     } else {
 
-      res.menu.admin.secondary.push({name:'New Content Type',parentUrl:'/content/type',url:'/content/type/new'});
-      res.menu.admin.secondary.push({name:'Edit Content Type',parentUrl:'/content/type' + content.id, url:'/content/type/edit/' + content.id});
-      res.menu.admin.secondary.push({name:'Delete Content Type',parentUrl:'/content/type' + content.id, url:'/content/type/delete/' + content.id});
+      res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
+      res.menu.admin.secondary.push({name:req.t('Edit Content Type'),parentUrl:'/content/type' + content.id, url:'/content/type/edit/' + content.id});
+      res.menu.admin.secondary.push({name:req.t('Delete Content Type'),parentUrl:'/content/type' + content.id, url:'/content/type/delete/' + content.id});
 
       item = {id:content._id,type:'content',meta:content.toObject()};
 
@@ -334,7 +334,7 @@ function listContentType(req,res,template,block,next) {
       // Re-retrieve our object
       var ContentType = calipso.lib.mongoose.model('ContentType');
 
-      res.menu.admin.secondary.push({name:'New Content Type',parentUrl:'/content/type',url:'/content/type/new'});
+      res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
