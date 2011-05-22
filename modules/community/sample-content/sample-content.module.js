@@ -201,7 +201,7 @@ function renderSampleContentPage(req, res, template, block, next) {
       }]
     };
 
-    calipso.form.render(sampleForm, incomingForm, function(form) {
+    calipso.form.render(sampleForm, incomingForm, req, function(form) {
       calipso.theme.renderItem(req, res, template, block, {
         form: form
       });

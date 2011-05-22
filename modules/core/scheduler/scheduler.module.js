@@ -245,7 +245,7 @@ function createJobForm(req,res,template,block,next) {
       }
   };
 
-  calipso.form.render(jobForm,values,function(form) {
+  calipso.form.render(jobForm,values,req,function(form) {
     calipso.theme.renderItem(req,res,form,block);
     next();
   });
@@ -378,7 +378,7 @@ function editJobForm(req,res,template,block,next) {
       values.job.enabled = job.enabled ? "Yes" : "No";
 
       // Render form
-      calipso.form.render(jobForm,values,function(form) {
+      calipso.form.render(jobForm,values,req,function(form) {
         calipso.theme.renderItem(req,res,form,block);
         next();
       });

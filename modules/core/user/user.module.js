@@ -77,7 +77,7 @@ function init(module, app, next) {
 function loginForm(req, res, template, block, next) {
 
   var userForm = {
-    id:'login-form',cls:'login',title:req.t('Log In'),type:'form',method:'POST',action:'/user/login',
+    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
     fields:[
       {label:'Username', name:'user[username]', type:'text'},
       {label:'Password', name:'user[password]', type:'password'}
@@ -88,7 +88,7 @@ function loginForm(req, res, template, block, next) {
     ]
   };
 
-  calipso.form.render(userForm, null, function(form) {
+  calipso.form.render(userForm, null, req, function(form) {
     calipso.theme.renderItem(req, res, template, block, {form:form});
     next();
   });
@@ -122,7 +122,7 @@ function registerUserForm(req, res, template, block, next) {
     );
   }
 
-  calipso.form.render(userForm, null, function(form) {
+  calipso.form.render(userForm, null, req, function(form) {
     calipso.theme.renderItem(req, res, form, block);
     next();
   });
@@ -230,7 +230,7 @@ function updateUserForm(req, res, template, block, next) {
     var values = {user:u};
     values.user.isAdmin = values.user.isAdmin ? "Yes" : "No";
 
-    calipso.form.render(userForm,values,function(form) {
+    calipso.form.render(userForm,values,req,function(form) {
       calipso.theme.renderItem(req, res, form, block);
       next();
     });

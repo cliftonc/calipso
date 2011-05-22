@@ -125,8 +125,8 @@ function bootApplication(app, next) {
   // Media paths
   app.use(express.static(path + '/media'));
 
-  // Translation - after static
-  app.use(translate.translate(app.set('config').language));
+  // Translation - after static, set to add mode if appropriate
+  app.use(translate.translate(app.set('config').language, app.set('language-add')));
 
   // Core calipso router
   app.use(calipso.calipsoRouter(app, app.set('config'), function() {

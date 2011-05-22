@@ -8,7 +8,7 @@
  * Query string parameters will always take precedent over user session
  *
  */
-module.exports.translate = function(configLanguage) {
+module.exports.translate = function(configLanguage,addMode) {
 
     // Default to english
     var languages = ['en']; // Always contains english
@@ -35,11 +35,21 @@ module.exports.translate = function(configLanguage) {
 
             // Translate
             if(languageCache[language]) {
-              return doTranslation(englishString, languageCache[language], values);
+              return doTranslation(englishString, languageCache[language], values, addMode);
             } else {
-              return replaceValues(englishString, values);
+              if(addMode) {
+                // Add the language
+                languageCache[language] = {};
+                return doTranslation(englishString, languageCache[language], values, addMode);
+              } else {
+                return replaceValues(englishString, values);
+              }
             }
 
+        }
+
+        if(addMode) {
+          req.languageCache = languageCache;
         }
 
         next();
@@ -73,9 +83,16 @@ function cacheLanguages(languages, loadedLanguages) {
 /**
  * Look up and perform the translation, by default, return the english string if not found.
  */
-function doTranslation(englishString, languageCache, values) {
+function doTranslation(englishString, languageCache, values, addMode) {
 
-  return replaceValues(languageCache[englishString] || englishString, values);
+  if(addMode) {
+    // Add the string if appropriate
+    languageCache[englishString] = languageCache[englishString] || englishString;
+    return replaceValues(languageCache[englishString], values);
+  } else {
+    // Just return it
+    return replaceValues(languageCache[englishString] || englishString, values);
+  }
 
 }
 

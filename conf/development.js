@@ -16,6 +16,9 @@ module.exports = function(app,express) {
   // App config
   app.set('server-url', 'http://localhost:3000');
 
+  // Language mode
+  app.set('language-add', true);
+
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
 }

@@ -310,7 +310,7 @@ function createContentForm(req,res,template,block,next) {
   }
 
   // Test!
-  calipso.form.render(form,values,function(form) {
+  calipso.form.render(form,values,req,function(form) {
     calipso.theme.renderItem(req,res,form,block);
     next();
   });
@@ -355,7 +355,7 @@ function editContentForm(req,res,template,block,next) {
       values.returnTo = returnTo;
 
       // Test!
-      calipso.form.render(form,values,function(form) {
+      calipso.form.render(form,values,req,function(form) {
         calipso.theme.renderItem(req,res,form,block);
         next();
       });

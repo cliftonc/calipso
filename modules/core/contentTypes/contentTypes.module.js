@@ -191,7 +191,7 @@ function createContentTypeForm(req,res,template,block,next) {
   contentTypeForm.title = "Create Content Type";
   contentTypeForm.action = "/content/type/create";
 
-  calipso.form.render(contentTypeForm,null,function(form) {
+  calipso.form.render(contentTypeForm,null,req,function(form) {
     calipso.theme.renderItem(req,res,form,block);
     next();
   });
@@ -227,7 +227,7 @@ function editContentTypeForm(req,res,template,block,next) {
       }
       values.contentType.ispublic = c.ispublic ? "Yes" : "No";
 
-      calipso.form.render(contentTypeForm,values,function(form) {
+      calipso.form.render(contentTypeForm,values,req,function(form) {
         calipso.theme.renderItem(req,res,form,block);
         next();
       });

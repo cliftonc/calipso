@@ -16,6 +16,9 @@ module.exports = function(app,express) {
   // App config
   app.set('server-url', 'http://calip.so');
 
+// Language mode
+  app.set('language-add', false);
+
   app.use(express.errorHandler({ dumpExceptions: true, showStack: false }));
 
 }

@@ -53,6 +53,12 @@ function init(module, app, next) {
 
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
 
+    // JSON
+    module.router.addRoute('GET /admin/languages', showLanguages, {
+          admin: true,
+          template:'languages',
+          block:'admin'
+        }, this.parallel());
 
   }, function done() {
 
@@ -77,6 +83,19 @@ function init(module, app, next) {
   });
 
   // NOTE: Configuration schemas are defined in Configuration.js
+}
+
+
+/**
+ * Show languages as json object
+ */
+function showLanguages(req, res, template, block, next) {
+
+  calipso.theme.renderItem(req, res, template, block, {
+    languageCache: req.languageCache
+  });
+  next();
+
 }
 
 /**
@@ -152,6 +171,8 @@ function install(req, res, template, block, next) {
  * TODO Refactor this to a proper form
  */
 function showAdmin(req, res, template, block, next) {
+
+  res.menu.admin.secondary.push({ name: 'Languages',url: '/admin/languages',regexp: /admin\/languages/});
 
   // Re-retrieve our object
   res.layout = "admin";
