@@ -162,7 +162,7 @@ function createContentType(req,res,template,block,next) {
       c.save(function(err) {
 
         if(err) {
-          req.flash('error','Could not save content: ' + err.message);
+          req.flash('error',req.t('Could not save content type because {msg}.',{msg:err.message}));
           if(res.statusCode != 302) {
             res.redirect('/content/type/new');
           }
@@ -262,7 +262,7 @@ function updateContentType(req,res,template,block,next) {
 
               c.save(function(err) {
                 if(err) {
-                  req.flash('error','Could not update content type: ' + err.message);
+                  req.flash('error',req.t('Could not update content type because {msg}.',{msg:err.message}));
                   if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
                     res.redirect('/content/type/edit/' + req.moduleParams.id);
                   }
@@ -273,7 +273,7 @@ function updateContentType(req,res,template,block,next) {
               });
 
           } else {
-            req.flash('error','Could not locate content type!');
+            req.flash('error',req.t('Could not locate that content type.'));
             res.redirect('/content/type');
             next();
           }

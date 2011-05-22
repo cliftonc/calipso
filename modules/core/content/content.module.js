@@ -171,8 +171,8 @@ var contentForm = {id:'content-form',title:'Create Content ...',type:'form',meth
             label:'Status',
             fields:[
                     {label:'Status',name:'content[status]',type:'select',options:["draft","scheduled","published"],instruct:'Select the status (published is visible to all public).'},
-                    {label:'Published',name:'content[published]',type:'datetime',instruct:'TODO: Date to appear as published.'},
-                    {label:'Scheduled',name:'content[scheduled]',type:'datetime',instruct:'TODO: Date to be published (if scheduled).'},
+                    {label:'Published',name:'content[published]',type:'datetime',instruct:'Date to appear as published.'},
+                    {label:'Scheduled',name:'content[scheduled]',type:'datetime',instruct:'Date to be published (if scheduled).'},
                    ]
           }
           ],
@@ -219,7 +219,7 @@ function createContent(req,res,template,block,next) {
               if(err || !contentType) {
 
                 calipso.debug(err);
-                req.flash('error','Could not locate content type: ' + form.content.contentType);
+                req.flash('error',req.t('Could not create content as I was unable to locate content type {type}.',{type:form.content.contentType}));
                 res.redirect('/content');
                 next();
 
@@ -234,12 +234,12 @@ function createContent(req,res,template,block,next) {
                 c.save(function(err) {
                   if(err) {
                     calipso.debug(err);
-                    req.flash('error','Could not save content: ' + err.message);
+                    req.flash('error',req.t('Could not save content because {msg}.',{msg:err.message}));
                     if(res.statusCode != 302) {
                         res.redirect('/content/new');
                     }
                   } else {
-                    req.flash('info','Content saved.');
+                    req.flash('info',req.t('Content saved.'));
                     if(returnTo) {
                       res.redirect(returnTo);
                     } else {
@@ -402,7 +402,7 @@ function updateContent(req,res,template,block,next) {
               ContentType.findOne({contentType:form.content.contentType}, function(err, contentType) {
 
                   if(err || !contentType) {
-                    req.flash('error','Could not locate content type: ' + form.content.contentType);
+                    req.flash('error',req.t('Could not save content as I was unable to locate content type {type}.',{type:form.content.contentType}));
                     res.redirect('/content');
                     next();
                   } else {
@@ -414,12 +414,12 @@ function updateContent(req,res,template,block,next) {
 
                     c.save(function(err) {
                       if(err) {
-                        req.flash('error','Could not update content: ' + err.message);
+                        req.flash('error',req.t('Could not update content because {msg}.',{msg:err.message}));
                         if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
                           res.redirect('/content/edit/' + req.moduleParams.id);
                         }
                       } else {
-                        req.flash('info','Content saved successfully!');
+                        req.flash('info',req.t('Content saved.'));
                         if(returnTo) {
                           res.redirect(returnTo);
                         } else {
@@ -435,7 +435,7 @@ function updateContent(req,res,template,block,next) {
               });
 
           } else {
-            req.flash('error','Could not locate content, it may have been deleted by another user or there has been an error.');
+            req.flash('error',req.t('Could not locate content, it may have been deleted by another user or there has been an error.'));
             res.redirect('/content');
             next();
           }

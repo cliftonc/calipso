@@ -148,7 +148,7 @@ function updateUserProfile(req, res, template, block, next) {
         u.password = form.user.password;
 
         if(err) {
-          req.flash('error','Could not find user: ' + err.message);
+          req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
           if(res.statusCode != 302) {
             res.redirect('/');
           }
@@ -160,7 +160,7 @@ function updateUserProfile(req, res, template, block, next) {
         u.isAdmin = form.user.isAdmin === 'Yes';
         u.save(function(err) {
           if(err) {
-            req.flash('error','Could not save user: ' + err.message);
+            req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
             if(res.statusCode != 302) {
               res.redirect('/');
             }
@@ -263,7 +263,7 @@ function loginUser(req, res, template, block, next) {
           });
         }
         if(!found) {
-          req.flash('error','You may have entered an incorrect username or password, please try again.');
+          req.flash('error',req.t('You may have entered an incorrect username or password, please try again.'));
         }
         if(res.statusCode != 302) {
           res.redirect('back');
@@ -315,7 +315,7 @@ function registerUser(req, res, template, block, next) {
       u.save(function(err) {
 
         if(err) {
-          req.flash('error','Could not save user: ' + err.message);
+          req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
           if(res.statusCode != 302 && !res.noRedirect) {
             res.redirect('/');
           }
@@ -344,7 +344,7 @@ function myProfile(req, res, template, block, next) {
     req.moduleParams.username = req.session.user.username;
     userProfile(req, res, template, block, next);
   } else {
-    req.flash('error','You need to login to view your created profile.');
+    req.flash('error',req.t('You need to login to view your created profile.'));
     res.redirect('/');
   }
 }

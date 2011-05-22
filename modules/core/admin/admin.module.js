@@ -224,7 +224,7 @@ function saveAdmin(req, res, template, block, next) {
 
           c.save(function(err) {
             if (err) {
-              req.flash('error', 'Could not update config: ' + err.message);
+              req.flash('error', req.t('Could not update the configuration because {msg}.',{msg:err.message}));
               if (res.statusCode != 302) { // Don't redirect if we already are, multiple errors
                 res.redirect('/admin');
               }
@@ -237,7 +237,7 @@ function saveAdmin(req, res, template, block, next) {
           });
 
         } else {
-          req.flash('error', 'Could not locate configuration.');
+          req.flash('error', req.t('Could not load the application configuration, please check your database.'));
           res.redirect('/admin');
           next();
 
@@ -246,7 +246,7 @@ function saveAdmin(req, res, template, block, next) {
 
     } else {
 
-      req.flash('error', 'Could not process form data, this is a fatal error that should be reported.');
+      req.flash('error', req.t('Could not process the updated configuration.'));
       res.redirect('/admin');
       next();
 

@@ -150,7 +150,7 @@ function enableScheduler(req,res,template,block,next) {
         if(format === 'json') {
           res.send({status:'error',msg:'Could not locate job: ' + jobName});
         } else {
-          req.flash('error','Could not locate job: ' + jobName);
+          req.flash('error',req.t('Could not locate job {job}.',{job:jobName}));
           res.redirect("/scheduler");
         }
         return;
@@ -268,7 +268,7 @@ function createJob(req,res,template,block,next) {
 
       job.save(function(err) {
         if(err) {
-          req.flash('error','Could not save content: ' + err.message);
+          req.flash('error',req.t('Could not save job because {msg}.',{msg:err.message}));
           if(res.statusCode != 302) {
             res.redirect('back');
           }
@@ -289,7 +289,7 @@ function createJob(req,res,template,block,next) {
             calipso.jobs[job.name] = new cron.CronJob(options);
 
           } else {
-            req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job not initialised.");
+            req.flash('error',req.t('Module {module}, method {method} does not exist, job not initialised.',{module:job.module,method:job.method}));
           }
 
           res.redirect('/scheduler');
@@ -422,7 +422,7 @@ function updateJob(req,res,template,block,next) {
 
               if(err) {
 
-                req.flash('error','Could not update job: ' + err.message);
+                req.flash('error',req.t('Could not update job because {msg}.',{msg:err.message}));
                 if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
                   res.redirect('/scheduler/edit/' + job.name);
                 }
@@ -449,7 +449,7 @@ function updateJob(req,res,template,block,next) {
                   calipso.jobs[job.name].configure(options);
 
                 } else {
-                  req.flash('error',"Module: " + job.module + ', Method: ' + job.method + " does not exist, job modified but not initialised.");
+                  req.flash('error',req.t('Module {module}, method {method} does not exist, job modified but not initialised.',{module:job.module,method:job.method}));
                 }
 
                 res.redirect('/scheduler/show/' + job.name);
@@ -459,7 +459,7 @@ function updateJob(req,res,template,block,next) {
             });
 
         } else {
-          req.flash('error','Could not locate job.');
+          req.flash('error',req.t('Could not locate job.'));
           res.redirect('/scheduler');
           next();
         }
