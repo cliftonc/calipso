@@ -4,7 +4,7 @@
   <p><%- item.meta.about %></p>
   <p>
   <% if(user.isAdmin || user.username === item.meta.username) { %>
-    <small><a href="/user/profile/<%= item.meta.username %>/edit">Edit Profile</a></small>
+    <small><a href="/user/profile/<%= item.meta.username %>/edit"><%- t('Edit Profile') %></a></small>
   <% } %>
   </p>
 </div>

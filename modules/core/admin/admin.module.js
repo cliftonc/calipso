@@ -19,7 +19,7 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu items
-  res.menu.admin.primary.push({ name: 'Admin',url: '/admin',regexp: /admin/});
+  res.menu.admin.primary.push({name: req.t('Admin'),url: '/admin',regexp: /admin/});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -222,7 +222,7 @@ function install(req, res, template, block, next) {
  */
 function showAdmin(req, res, template, block, next) {
 
-  res.menu.admin.secondary.push({ name: 'Languages',url: '/admin/languages',regexp: /admin\/languages/});
+  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/languages',regexp: /admin\/languages/});
 
   // Re-retrieve our object
   res.layout = "admin";

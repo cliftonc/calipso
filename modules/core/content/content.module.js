@@ -26,7 +26,7 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */
-      res.menu.admin.primary.push({name:'Content',url:'/content',regexp:/content/});
+      res.menu.admin.primary.push({name:req.t('Content'),url:'/content',regexp:/content/});
 
       /**
        * Routing and Route Handler
@@ -283,7 +283,7 @@ function titleAlias(title) {
  */
 function createContentForm(req,res,template,block,next) {
 
-  res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});
+  res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
 
   // Allow defaults to be passed in
   var alias = req.moduleParams.alias ? req.moduleParams.alias : "";
@@ -329,8 +329,8 @@ function editContentForm(req,res,template,block,next) {
 
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
-  res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});
-  res.menu.admin.secondary.push({name:'Edit Content',parentUrl:'/content/' + id,url:'/content/edit/' + id});
+  res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
+  res.menu.admin.secondary.push({name:req.t('Edit Content'),parentUrl:'/content/' + id,url:'/content/edit/' + id});
 
   Content.findById(id, function(err, c) {
 
@@ -513,9 +513,9 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   } else {
 
-    res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});
-    res.menu.admin.secondary.push({name:'Edit Content',parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
-    res.menu.admin.secondary.push({name:'Delete Content',parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
+    res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
+    res.menu.admin.secondary.push({name:req.t('Edit Content'),parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
+    res.menu.admin.secondary.push({name:req.t('Delete Content'),parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
 
     item = {id:content._id,type:'content',meta:content.toObject()};
 
@@ -546,7 +546,7 @@ function listContent(req,res,template,block,next) {
       // Re-retrieve our object
       var Content = calipso.lib.mongoose.model('Content');
 
-      res.menu.admin.secondary.push({name:'New Content',parentUrl:'/content',url:'/content/new'});
+      res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
 
       var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';

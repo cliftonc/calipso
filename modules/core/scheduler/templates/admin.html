@@ -1,12 +1,12 @@
 <div class="template-module">
-  <h2>Scheduled Jobs</h2>
+  <h2><%- t('Scheduled Jobs') %></h2>
   <table>
     <tr>
-      <th>Job</th>
-      <th>Schedule</th>
-      <th>Enabled</th>
-      <th>Module</th>
-      <th>Method</th>
+      <th><%- t('Job') %></th>
+      <th><%- t('Schedule') %></th>
+      <th><%- t('Enabled') %></th>
+      <th><%- t('Module') %></th>
+      <th><%- t('Method') %></th>
       <th>&nbsp;</th>
     </tr><%
             var jobs = false;
@@ -27,7 +27,7 @@
             if(!jobs) {
         %>
     <tr>
-      <td colspan='6'>No jobs defined</td><%
+      <td colspan='6'><%- t('No jobs defined') %></td><%
               }
       %>
     </tr>

@@ -2,27 +2,27 @@
   <h1><%- item.meta.name %></h1>
   <table>
     <tr>
-      <th>Name</th>
+      <th><%- t('Name') %></th>
       <td><%- item.meta.name %></td>
     </tr>
     <tr>
-      <th>CRON Time</th>
+      <th><%- t('CRON Time') %></th>
       <td><%- item.meta.cronTime %></td>
     </tr>
     <tr>
-      <th>Enabled</th>
+      <th><%- t('Enabled') %></th>
       <td><%- item.meta.enabled ? "Yes" : "No" %></td>
     </tr>
     <tr>
-      <th>Module</th>
+      <th><%- t('Module') %></th>
       <td><%- item.meta.module %></td>
     </tr>
     <tr>
-      <th>Method</th>
+      <th><%- t('Method') %></th>
       <td><%- item.meta.method %></td>
     </tr>
     <tr>
-      <th>Args</th>
+      <th><%- t('Args') %></th>
       <td><%- item.meta.args %></td>
     </tr>
   </table>

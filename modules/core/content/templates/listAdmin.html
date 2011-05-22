@@ -1,18 +1,18 @@
 <table class='tabular'>
 <tr>
-<th>Title</th>
-<th>Type</th>
-<th>Author</th>
-<th>Published</th>
-<th>Updated</th>
+<th><%- t('Title') %></th>
+<th><%- t('Type') %></th>
+<th><%- t('Author') %></th>
+<th><%- t('Published') %></th>
+<th><%- t('Updated') %></th>
 </tr>
 <% contents.forEach(function(item) { %>
 <tr class='content-list-item content-list-item-<%- item.meta.status %> content-type-<%- item.meta.contentType %>'>
-    <td><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></td>    
+    <td><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></td>
     <td><%- item.meta.meta.contentType %></td>
     <td><%- item.meta.author %></td>
     <td><%- prettyDate(item.meta.published) %></td>
-    <td><%- prettyDate(item.meta.updated) %></td>    
+    <td><%- prettyDate(item.meta.updated) %></td>
 </tr>
 <% });  %>
 </table>

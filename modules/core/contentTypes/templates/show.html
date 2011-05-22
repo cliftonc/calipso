@@ -2,17 +2,17 @@
     <h1><%- item.meta.contentType %></h1>
     <table>
         <tr>
-            <th>Content Type</th><td><%- item.meta.contentType %></td>
+            <th><%- t('Content Type') %></th><td><%- item.meta.contentType %></td>
         </tr>
         <tr>
-            <th>Description</th><td><%- item.meta.description %></td>
+            <th><%- t('Description') %></th><td><%- item.meta.description %></td>
         </tr>
         <tr>
-            <th>Layout</th><td><%- item.meta.layout %></td>
+            <th><%- t('Layout') %></th><td><%- item.meta.layout %></td>
         </tr>
-        
+
         <tr>
-            <th>Public</th><td><%- item.meta.ispublic ? "Yes" : "No" %></td>
+            <th><%- t('Public') %></th><td><%- item.meta.ispublic ? "Yes" : "No" %></td>
         </tr>
     </table>
 </div>

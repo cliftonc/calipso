@@ -1,11 +1,11 @@
 <div class="breaking-news">
-<h2>Breaking News</h2>
-  <ul>     
-  <% news.forEach(function(item){ %>          
-    <li><a href='/<%- item.meta.alias %>.html'><%- item.meta.title %></a></li>  
+<h2><%- t('Breaking News') %></h2>
+  <ul>
+  <% news.forEach(function(item){ %>
+    <li><a href='/<%- item.meta.alias %>.html'><%- item.meta.title %></a></li>
   <% });
   if(news.length == 0) { %>
-    <li><i>You need to add a 'breaking' tag to content to have it appear here.</i></li>
+    <li><i><%- t('You need to add a "breaking" tag to content to have it appear here.') %></i></li>
  <% }  %>
-  </ul>  
+  </ul>
 </div>

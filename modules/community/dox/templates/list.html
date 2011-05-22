@@ -1,12 +1,12 @@
 <div class="content">
   <a name="library"></a>
-  <h1>Core Libraries</h1>
+  <h1><%- t('Core Libraries') %></h1>
   <table class='tabular'>
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Author</th>
-      <th>Version</th>
+      <th><%- t('Name') %></th>
+      <th><%- t('Description') %></th>
+      <th><%- t('Author') %></th>
+      <th><%- t('Version') %></th>
     </tr>
   <%
 
@@ -38,14 +38,14 @@
     for(var segment in split) {
   %>
   <a name="<%- segment %>"></a>
-  <h1><%- segment %> Modules</h1>
+  <h1><%- segment %> <%- t('Modules') %></h1>
   <table class='tabular'>
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Author</th>
-      <th>Version</th>
-      <th>Enabled</th>
+      <th><%- t('Name') %></th>
+      <th><%- t('Description') %></th>
+      <th><%- t('Author') %></th>
+      <th><%- t('Version') %></th>
+      <th><%- t('Enabled') %></th>
     </tr>
   <%
 

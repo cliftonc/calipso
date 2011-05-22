@@ -131,7 +131,7 @@ function install(next) {
  * Content type create / edit form
  */
 var contentTypeForm = {id:'FORM',title:'Form',type:'form',method:'POST',action:'/content/type',fields:[
-        {label:'ContentType',name:'contentType[contentType]',type:'text'},
+        {label:'Content Type',name:'contentType[contentType]',type:'text'},
         {label:'Description',name:'contentType[description]',type:'text'},
         {label:'Layout',name:'contentType[layout]',type:'select',options:function() { return calipso.theme.getLayoutsArray() }},
         {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"]}
