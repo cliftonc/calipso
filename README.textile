@@ -17,7 +17,7 @@ If you would like to contribute, please take a look at the issues list as this w
 <h3>Grab the source ...</h3>
 <p>Go to where you want to run calipso from (e.g. /var/www).</p>
 <pre class='prettyprint'>
-cliftonc@clifton-laptop:/var/www/tmp$ git clone git@github.com:cliftonc/calipso.git
+$ git clone git@github.com:cliftonc/calipso.git
 
 Initialized empty Git repository in /var/www/tmp/calipso/.git/
 remote: Counting objects: 724, done.
@@ -26,9 +26,9 @@ remote: Total 724 (delta 298), reused 520 (delta 216)
 Receiving objects: 100% (724/724), 640.07 KiB | 476 KiB/s, done.
 Resolving deltas: 100% (298/298), done.
 
-cliftonc@clifton-laptop:/var/www/tmp$ cd calipso/
+$ cd calipso/
 
-cliftonc@clifton-laptop:/var/www/tmp/calipso$ ls
+$ ls
 app-cluster.js  conf       lib       media    package.json  README   test    utils
 app.js          docs.html  Makefile  modules  pids          support  themes
 
@@ -38,7 +38,7 @@ app.js          docs.html  Makefile  modules  pids          support  themes
 <h3>Ok, now grab all the dependencies via NPM</h3>
 <p>Calipso depends on a number of other libraries that are available through NPM (the Node Package Manager).  If all of these dependencies aren't installed, you will get lots of errors when attempting to run Calipso</p>
 <pre class="prettyprint">
-cliftonc@clifton-laptop:/var/www/tmp/calipso$ npm install
+$ npm install
 npm info it worked if it ends with ok
 npm info using npm@0.3.15
 npm info using node@v0.4.2
@@ -56,7 +56,7 @@ cliftonc@clifton-laptop:/var/www/tmp/calipso$
 <h3>Ok - lets run it!</h3>
 <p>Now the first test, try to run it!</p>
 <pre class="prettyprint">
-cliftonc@clifton-laptop:/var/www/tmp/calipso$ node app
+$ node app
 
             _ _
   ___  __ _| (_)_ __  ___  ___
