@@ -24,7 +24,17 @@ else
   exit
 fi
 
+# Checking that you have expat
+echo "Checking for libexpat ..."
+if ! locate libexpat.so 1> /dev/null; then
+  echo "You don't seem to have libexpat-dev installed!  Calipso relies on this library for the node-expat module used to parse XML.  Please install via apt-get (or from source)."
+  exit
+else
+  echo "Libexpat OK"
+fi
+
 # Lets try npm install
+echo "Installing dependencies via NPM ... please be patient this can take a few minutes ..."
 npmResult=`npm install`
 
 # Quick check of modules
