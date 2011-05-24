@@ -50,8 +50,6 @@ npm info link /var/www/tmp/calipso
 
 npm ok
 
-cliftonc@clifton-laptop:/var/www/tmp/calipso$
-
 </pre>
 <h3>Ok - lets run it!</h3>
 <p>Now the first test, try to run it!</p>
