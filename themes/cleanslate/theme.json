@@ -15,7 +15,7 @@
           "secondary": {"template": "secondaryMenu.html", "blocks": ["user.login"]},
           "messages": {"template": "messages.html", "blocks": []},
           "body": {"template": "body.html", "blocks": ["content", "admin"]},
-          "right": {"template": "right.jade", "blocks": ["news.breaking", "tagcloud", "right"]},
+          "right": {"template": "right.html", "blocks": ["news.breaking", "tagcloud", "right"]},
           "footer": {"template": "footer.html", "blocks": []}
         }
       }
