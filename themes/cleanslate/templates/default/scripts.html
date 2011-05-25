@@ -1,5 +1,25 @@
 <!--  SCRIPTS -->
 <% if(user.isAdmin) { %>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+  <script type="text/javascript"> 
+  
+	$(document).ready(function() {
+		
+		$(".tab_content").hide(); 
+		$("ul.tabs li:first").addClass("active").show(); 
+		$(".tab_content:first").show();
+		
+		$("ul.tabs li").click(function() {
+			$("ul.tabs li").removeClass("active"); 
+			$(this).addClass("active"); 
+			$(".tab_content").hide(); 
+			var activeTab = $(this).find("a").attr("href"); 
+			$(activeTab).fadeIn(); 
+			return false;
+		});
+	 
+	});
+	
+	</script> 
 <% } %>
 <!-- put your script includes and any SHORT inlines here -->
