@@ -1,73 +1,11 @@
 Calipso is a simple NodeJS content management system, built along similar themes to Drupal and Wordpress, that is designed to be fast, flexible and simple.
 
-For additional detail, please visit the home page: "http://calip.so/":http://calip.so/?utm_source=github&utm_medium=calipso&utm_campaign=github
+For additional detail, including installation instructions, please visit the home page: "http://calip.so/":http://calip.so/?utm_source=github&utm_medium=calipso&utm_campaign=github
 
-If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc) or dennis (dennishall) and we can suggest some palces for you to start.
+If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc) or dennis (dennishall) and we can suggest some places for you to start.
 
+CONTRIBUTORS
+============
 
-<h3>Pre-Requisites</h3>
-<p>First things first, you need to get your basic environment right, the pre-requisites are:</p>
-<ul>
-<li>NodeJS : <a href="https://github.com/joyent/node/wiki/Installation" target="_new">Installation Guide</a> [0.4.2 @ time of writing, but also tested on 0.4.7]</li>
-<li>NPM : <a href="http://npmjs.org/" target="_new">Installing NPM</a></li>
-<li>MongoDB : <a href="http://www.mongodb.org/downloads" target="_new">Download / Install</a></li>
-<li>A git client (to access the source code on Github).</li>
-</ul>
-<p>Ok - good to go?</p>
-<h3>Grab the source ...</h3>
-<p>Go to where you want to run calipso from (e.g. /var/www).</p>
-<pre class='prettyprint'>
-$ git clone git@github.com:cliftonc/calipso.git
-
-Initialized empty Git repository in /var/www/tmp/calipso/.git/
-remote: Counting objects: 724, done.
-remote: Compressing objects: 100% (440/440), done.
-remote: Total 724 (delta 298), reused 520 (delta 216)
-Receiving objects: 100% (724/724), 640.07 KiB | 476 KiB/s, done.
-Resolving deltas: 100% (298/298), done.
-
-$ cd calipso/
-
-$ ls
-app-cluster.js  conf       lib       media    package.json  README   test    utils
-app.js          docs.html  Makefile  modules  pids          support  themes
-
-
-</pre>
-
-<h3>Ok, now grab all the dependencies via NPM</h3>
-<p>Calipso depends on a number of other libraries that are available through NPM (the Node Package Manager).  If all of these dependencies aren't installed, you will get lots of errors when attempting to run Calipso</p>
-<pre class="prettyprint">
-$ npm install
-npm info it worked if it ends with ok
-npm info using npm@0.3.15
-npm info using node@v0.4.2
-npm info link /var/www/tmp/calipso
-
-...
-<<YOU WILL SEE LOTS OF DOWNLOADS DEPENDENDING ON WHAT YOU ALREADY HAVE INSTALLED>>
-...
-
-npm ok
-
-</pre>
-<h3>Ok - lets run it!</h3>
-<p>Now the first test, try to run it!</p>
-<pre class="prettyprint">
-$ node app
-
-            _ _
-  ___  __ _| (_)_ __  ___  ___
- / __|/ _` | | | '_ \/ __|/ _ \
-| (__| (_| | | | |_) \__ \ (_) |
- \___|\__,_|_|_| .__/|___/\___/
-               |_|
-
-Logging enabled: Console
-Calipso server listening on port:  3000
-</pre>
-<p>Now, if you browse to:<p>
-<p><a href="http://localhost:3000/" target="_new">http://localhost:3000</a></p>
-<p>You should see the home screen, along with a message that the site has been configured with a default Administrative user and password.  You should login with this, and then change it immediately (you can do this from the Admin users profile page).<p>
-<h3>What next?</h3>
-<p>Ok - you're now up and running, you should be able to login, and once logged in begin to navigate the content creation and administration screens.</p>
+Clifton Cunningham      <https://github.com/cliftonc>
+Dennis Hall             <https://github.com/dennishall>
