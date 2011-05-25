@@ -8,5 +8,5 @@ If you would like to contribute, please take a look at the issues list as this w
 
 h3. Contributors
 
-Clifton Cunningham      https://github.com/cliftonc
-Dennis Hall             https://github.com/dennishall
+ * "Clifton Cunningham":https://github.com/cliftonc
+ * "Dennis Hall":https://github.com/dennishall
