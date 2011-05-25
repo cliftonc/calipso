@@ -1,7 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-
 /**
  * Default configuration manager This file controls the loading, and initial
  * configuration of Calipso. Configuration is stored in Mongodb, in the
@@ -17,10 +16,12 @@ module.exports = function(app, express, next) {
    * - This should probably be on a per-environment basis.
    */
   var defaultConfig = {
+    version:1,  // Used to warn - e.g. structural changes require a config reset
     cache: false,
     theme: 'cleanslate',
     language: 'en',
     install: true,
+    cryptoKey: createRandomString(),
     watchFiles: true,
     logs: {
       level: 'info',
@@ -54,6 +55,11 @@ module.exports = function(app, express, next) {
    * Mongoose schema for configuration storage
    */
   var AppConfigSchema = new Schema({
+    version: {
+      type: Number,
+      required: true,
+      'default': 0
+    },
     theme: {
       type: String,
       required: true,
@@ -67,6 +73,11 @@ module.exports = function(app, express, next) {
       type: String,
       required: true,
       'default': 'en'
+    },
+    cryptoKey: {
+      type: String,
+      required: false,
+      'default': 'calipso'
     },
     watchFiles: {
       type: Boolean,
@@ -161,7 +172,26 @@ function loadConfig(app, defaultConfig, next) {
       next(err);
     } else {
       if (config) {
-        next(null, config);
+
+        var updateConfig = false;
+
+        // Check that our config object is up to date with any changes.
+        if(config.version != defaultConfig.version) {
+          console.log("WARNING: The current config is not the same version as the default config.");
+          console.log("It is strongly recommended to drop the current database for now (sorry - this needs to be improved!)");
+          updateConfig = true;
+        }
+
+        // Update our config if appropriate
+        if(updateConfig) {
+          // Attempt to save
+          config.save(function(err) {
+            next(err, config);
+          });
+        } else {
+          next(null,config);
+        }
+
       } else {
         console.log("Setting default config (install mode) no configuration found in '" + app.set('db-uri') + "' database.");
         console.log("If this is incorrect or unexpected, please terminate now and check your database configuration before viewing any pages!\r\n\r\n");
@@ -174,4 +204,19 @@ function loadConfig(app, defaultConfig, next) {
     }
   });
 
+}
+
+
+/**
+ *Random string for cryptoKey
+ */
+function createRandomString() {
+    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var string_length = 8;
+    var randomString = '';
+    for (var i=0; i<string_length; i++) {
+        var rnum = Math.floor(Math.random() * chars.length);
+        randomString += chars.substring(rnum,rnum+1);
+    }
+    return randomString;
 }

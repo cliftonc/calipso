@@ -10,7 +10,7 @@ exports = module.exports = {
   about: {
     description: 'User management module.',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.2.1',
     home:'http://github.com/cliftonc/calipso'
   }
 };
@@ -145,7 +145,7 @@ function updateUserProfile(req, res, template, block, next) {
         u.email = form.user.email;
         u.language = form.user.language;
         u.about = form.user.about;
-        u.password = form.user.password;
+        u.password = calipso.lib.crypto.encrypt(form.user.password,calipso.config.cryptoKey);
 
         if(err) {
           req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
@@ -228,6 +228,7 @@ function updateUserForm(req, res, template, block, next) {
     }
 
     var values = {user:u};
+    values.user.password = calipso.lib.crypto.decrypt(values.user.password,calipso.config.cryptoKey);
     values.user.isAdmin = values.user.isAdmin ? "Yes" : "No";
 
     calipso.form.render(userForm,values,req,function(form) {
@@ -249,7 +250,7 @@ function loginUser(req, res, template, block, next) {
 
       var User = calipso.lib.mongoose.model('User');
       var username = form.user.username;
-      var password = form.user.password;
+      var password = calipso.lib.crypto.encrypt(form.user.password,calipso.config.cryptoKey);
       var found = false;
 
       User.findOne({username:username, password:password},function (err, user) {
@@ -304,6 +305,7 @@ function registerUser(req, res, template, block, next) {
 
       var User = calipso.lib.mongoose.model('User');
       var u = new User(form.user);
+      u.password = calipso.lib.crypto.encrypt(u.password,calipso.config.cryptoKey);
 
       // Over ride admin
       u.isAdmin = form.user.isAdmin === 'Yes' ? true : false
@@ -410,7 +412,7 @@ function install(next) {
       // Create administrative user
       var admin = new User({
         username:'admin',
-        password:'password',
+        password:calipso.lib.crypto.encrypt('password',calipso.config.cryptoKey),
         email:'admin@example.com',
         roles:['Administrator']
       });
