@@ -223,7 +223,7 @@ form .section:first-child {border:0;}
 .admin-page h3 {margin:40px 0 20px;}
 .admin-page label {display:block;width:auto;text-align:left;margin:10px 0;font-size:14px;cursor:default;}
 .admin-page label[for] {display:inline-block;margin:0;font-size:inherit;font-weight:normal;cursor:pointer;}
-.admin-page input[type=submit] {margin:10px 0 0 0;}
+.admin-page input[type=submit] {margin:0;}
 
 #userFormToggleTrigger {float:right;}
 #user-login form {text-align:right;clear:both;padding:10px;background:rgb(255,128,47);}
