@@ -24,7 +24,7 @@ var fs = require('fs'),
 // Local App Variables
 var path = __dirname;
 var theme = 'default';
-var port = 3000;
+var port = 3001;
 var app;
 var version = "0.2.0";
 
