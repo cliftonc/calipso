@@ -200,7 +200,7 @@ function install(req, res, template, block, next) {
           req.flash('error', req.t('Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.'));
         } else {
           req.flash('info', req.t('Calipso has been installed with default user: {user}, password: {password}.  It is a good idea to login and change this via the user profile page.',
-                                  {user:'user',password:'password'}));
+                                  {user:'admin',password:'password'}));
           if (res.statusCode != 302) {
             res.redirect("/");
           }
