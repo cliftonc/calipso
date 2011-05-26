@@ -152,7 +152,7 @@ if (!module.parent) {
   exports.boot(function(app) {
 
     app.listen(port);
-    console.log("\x1b[36mCalipso version: \x1b[0m %d", app.version);
+    console.log("\x1b[36mCalipso version: \x1b[0m %s", app.version);
     console.log("\x1b[36mCalipso server listening on port: \x1b[0m %d", app.address().port);
     console.log("\x1b[36mCalipso configured for\x1b[0m %s \x1b[36menvironment\x1b[0m\r\n", global.process.env.NODE_ENV || 'development');
 
