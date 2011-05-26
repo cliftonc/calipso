@@ -10,7 +10,7 @@ exports = module.exports = {
   about: {
     description: 'Adds disqus as the default commenting engine, applies by default to any content page (html suffix), but can be ammended to apply to other pages.',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.1.0',
     home:'http://github.com/cliftonc/calipso'
   }
 };

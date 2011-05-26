@@ -8,7 +8,7 @@ exports = module.exports = {init: init, route: route,
    about: {
     description: 'Module that controls the creation of a tag cloud, based on an internal map reduce function, in response to the change of any content.  Controls both the display and the MR.',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.1.0',
     home:'http://github.com/cliftonc/calipso'
   }};
 

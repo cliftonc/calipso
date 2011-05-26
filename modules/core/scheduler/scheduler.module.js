@@ -12,7 +12,7 @@ exports = module.exports = {
   about: {
     description: 'Scheduler module that enables execution of job functions exposed by other modules on cron schedules.',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.1.0',
     home:'http://github.com/cliftonc/calipso'
   }};
 

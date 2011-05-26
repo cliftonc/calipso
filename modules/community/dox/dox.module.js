@@ -15,7 +15,7 @@ exports = module.exports = {
   about: {
     description: 'Module that provides automated documentation, based on source code, for the modules currently deployed into a Calipso instance.',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.1.0',
     home:'http://github.com/cliftonc/calipso'
   }
 };

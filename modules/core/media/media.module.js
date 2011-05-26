@@ -7,7 +7,7 @@ exports = module.exports = {init: init, route: route,
    about: {
     description: 'Media management (upload, insert, edit, delete, gallery) type functions for linking and using with content (in progress).',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.1.0',
     home:'http://github.com/cliftonc/calipso'
   }};
 

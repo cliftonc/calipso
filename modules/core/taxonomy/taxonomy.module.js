@@ -10,7 +10,7 @@ exports = module.exports = {
   about: {
     description: 'Simple taxonomy (menus based on categories) module, uses map reduce functions to create menu trees.',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.1.0',
     home:'http://github.com/cliftonc/calipso'
   }
 };

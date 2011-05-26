@@ -16,7 +16,7 @@ exports = module.exports = {
   about: {
     description: 'Sample content to test themes.',
     author: 'cliftonc',
-    version: '0.2.0',
+    version: '0.1.0',
     home: 'http://github.com/cliftonc/calipso'
   }
 };
