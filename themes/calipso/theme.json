@@ -14,7 +14,7 @@
           "header": {"template": "header.html"},
           "messages": {"template": "messages.html"},
           "body": {"template": "body.html"},
-          "right": {"template": "right.jade"},
+          "right": {"template": "right.html"},
           "footer": {"template": "footer.html"}
         },
         "modules":{

@@ -1,7 +1,7 @@
 {
   "name": "cleanslate",
   "description": "Not intended to be used directly, but as a starting point for other themes",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Dennis Hall <dennishall@github.com>",
   "layouts": {
     "default": {
@@ -12,11 +12,11 @@
           "styles": {"template": "styles.html"},
           "admin": {"menu": "admin", "template": "adminMenu.html"},
           "primary": {"menu": "primary", "template": "primaryMenu.html"},
-          "secondary": {"template": "secondaryMenu.html", "blocks": ["user.login"]},
-          "messages": {"template": "messages.html", "blocks": []},
-          "body": {"template": "body.html", "blocks": ["content", "admin"]},
-          "right": {"template": "right.html", "blocks": ["news.breaking", "tagcloud", "right"]},
-          "footer": {"template": "footer.html", "blocks": []}
+          "secondary": {"template": "secondaryMenu.html"},
+          "messages": {"template": "messages.html"},
+          "body": {"template": "body.html"},
+          "right": {"template": "right.html"},
+          "footer": {"template": "footer.html"}
         }
       }
     },
@@ -24,7 +24,7 @@
       "layout": {
         "copyFrom": "default",
         "sections": {
-          "body": {"template": "body.html", "blocks": []}
+          "body": {"template": "body.html"}
         }
       }
     },
@@ -32,7 +32,7 @@
       "layout": {
         "copyFrom": "default",
         "sections": {
-          "body": {"template": "body.html", "blocks": []}
+          "body": {"template": "body.html"}
         }
       }
     }
