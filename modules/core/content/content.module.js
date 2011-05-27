@@ -14,7 +14,7 @@ exports = module.exports = {
   about: {
     description: 'Core content management functions.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }};
 
@@ -309,10 +309,11 @@ function createContentForm(req,res,template,block,next) {
       }
   }
 
+
+
   // Test!
   calipso.form.render(form,values,req,function(form) {
-    calipso.theme.renderItem(req,res,form,block);
-    next();
+    calipso.theme.renderItem(req,res,form,block,{},next);
   });
 
 }
@@ -356,8 +357,7 @@ function editContentForm(req,res,template,block,next) {
 
       // Test!
       calipso.form.render(form,values,req,function(form) {
-        calipso.theme.renderItem(req,res,form,block);
-        next();
+        calipso.theme.renderItem(req,res,form,block,{},next);
       });
 
     }
@@ -466,20 +466,20 @@ function showAliasedContent(req,res,template,block,next) {
   Content.findOne({alias:alias},function (err, content) {
 
       if(err || !content) {
-
         if(req.session.user && req.session.user.isAdmin) {
           res.redirect("/content/new?alias=" + alias +
                        "&type=Article")
         } else {
           res.statusCode = 404;
         }
+        next();
 
       } else {
 
         showContent(req,res,template,block,next,err,content,format);
 
       }
-      next();
+
 
   });
 
@@ -526,15 +526,15 @@ function showContent(req,res,template,block,next,err,content,format) {
     if(content) {
       res.layout = content.meta.layout ? content.meta.layout : "default";
     }
-    calipso.theme.renderItem(req,res,template,block,{item:item});
+    calipso.theme.renderItem(req,res,template,block,{item:item},next);
   }
 
   if(format === "json") {
     res.format = format;
     res.send(content.toObject());
+    next();
   }
 
-  next();
 
 }
 
@@ -603,9 +603,7 @@ function listContent(req,res,template,block,next) {
  */
 function getContentList(query,out,next) {
 
-
       var Content = calipso.lib.mongoose.model('Content');
-
       var pager = out.hasOwnProperty('pager') ? out.pager : true;
 
       // If pager is enabled, ignore any override in from
@@ -635,10 +633,10 @@ function getContentList(query,out,next) {
           .find(function (err, contents) {
 
                 if(out && out.res) {
+
                   // Render the item into the response
                   if(out.format === 'html') {
-                    calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents});
-                    calipso.theme.renderItem(out.req,out.res,pagerHtml,out.block);
+                    calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
                   }
 
                   if(out.format === 'json') {
@@ -646,8 +644,9 @@ function getContentList(query,out,next) {
                     out.res.send(contents.map(function(u) {
                       return u.toObject();
                     }));
+                    next();
                   }
-                  next();
+
                } else {
                   // We are being called as a helper, hence return raw data & the pager.
                   var output = {

@@ -16,7 +16,7 @@ exports = module.exports = {
   about: {
     description: 'Sample content to test themes.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   }
 };
@@ -202,10 +202,7 @@ function renderSampleContentPage(req, res, template, block, next) {
     };
 
     calipso.form.render(sampleForm, incomingForm, req, function(form) {
-      calipso.theme.renderItem(req, res, template, block, {
-        form: form
-      });
-      next();
+      calipso.theme.renderItem(req, res, template, block, {form: form}, next);
     });
 
   });

@@ -10,7 +10,7 @@ exports = module.exports = {
   about: {
     description: 'Uses pusher module and twitter-node nodejs module to demonstrate a live websocket stream of tweets. ',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   }
 };
@@ -107,8 +107,6 @@ function tweetStream(req, res, template, block, next) {
 
   calipso.theme.renderItem(req, res, template, block, {
     keyword: KEYWORD
-  });
-
-  next();
+  }, next);
 
 };

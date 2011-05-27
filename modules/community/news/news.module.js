@@ -10,7 +10,7 @@ exports = module.exports = {
   about: {
     description: 'Simple breaking news module, uses a breaking tag to retrieve the last 5 content items tagged "breaking".',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   }
 };
@@ -65,9 +65,8 @@ function breakingNews(req, res, template, block, next) {
 
     calipso.theme.renderItem(req, res, template, block, {
       news: news
-    });
+    },next);
 
-    next();
   });
 
 };

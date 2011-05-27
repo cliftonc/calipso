@@ -8,7 +8,7 @@ exports = module.exports = {
    about: {
     description: 'Forms and functions to provide administration of configuration, installation and reloading of Calipso.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }
 };
@@ -123,8 +123,8 @@ function showLanguages(req, res, template, block, next) {
 
           calipso.theme.renderItem(req, res, template, block, {
             languageCache: req.languageCache
-          });
-          next();
+          },next);
+
         }
       )
     } else {
@@ -132,8 +132,8 @@ function showLanguages(req, res, template, block, next) {
       req.flash('info',req.t('That language does not exist.'));
       calipso.theme.renderItem(req, res, template, block, {
         languageCache: req.languageCache
-      });
-      next();
+      },next);
+
 
     }
 
@@ -141,8 +141,7 @@ function showLanguages(req, res, template, block, next) {
 
     calipso.theme.renderItem(req, res, template, block, {
       languageCache: req.languageCache
-    });
-    next();
+    },next);
 
   }
 
@@ -237,8 +236,8 @@ function showAdmin(req, res, template, block, next) {
     };
     calipso.theme.renderItem(req, res, template, block, {
       item: item
-    });
-    next();
+    },next);
+
   });
 
 }
@@ -260,9 +259,7 @@ function reloadAdmin(req, res, template, block, next) {
 
   calipso.theme.renderItem(req, res, template, block, {
     item: item
-  });
-
-  next();
+  },next);
 
 }
 

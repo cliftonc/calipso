@@ -12,7 +12,7 @@ exports = module.exports = {
   about: {
     description: 'Scheduler module that enables execution of job functions exposed by other modules on cron schedules.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }};
 
@@ -203,8 +203,7 @@ function schedulerAdmin(req,res,template,block,next) {
 
     // Render json to blocks
     var item = {id:"NA",type:'content',meta:{jobs:calipso.jobs}};
-    calipso.theme.renderItem(req,res,template,block,{item:item});
-    next();
+    calipso.theme.renderItem(req,res,template,block,{item:item},next);
 
 };
 
@@ -248,8 +247,7 @@ function createJobForm(req,res,template,block,next) {
   };
 
   calipso.form.render(jobForm,values,req,function(form) {
-    calipso.theme.renderItem(req,res,form,block);
-    next();
+    calipso.theme.renderItem(req,res,form,block,next);
   });
 
 }
@@ -381,8 +379,7 @@ function editJobForm(req,res,template,block,next) {
 
       // Render form
       calipso.form.render(jobForm,values,req,function(form) {
-        calipso.theme.renderItem(req,res,form,block);
-        next();
+        calipso.theme.renderItem(req,res,form,block,next);
       });
 
     }
@@ -496,9 +493,8 @@ function showJob(req,res,template,block,next,err) {
         item = {id:job._id,type:'job',meta:job.toObject()};
     }
 
-    calipso.theme.renderItem(req,res,template,block,{item:item});
+    calipso.theme.renderItem(req,res,template,block,{item:item},next);
 
-    next();
 
   });
 

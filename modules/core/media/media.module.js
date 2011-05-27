@@ -7,7 +7,7 @@ exports = module.exports = {init: init, route: route,
    about: {
     description: 'Media management (upload, insert, edit, delete, gallery) type functions for linking and using with content (in progress).',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }};
 
@@ -80,8 +80,7 @@ function init(module,app,next) {
 function mediaList(req,res,template,block,next) {
 
     // Render the item via the template provided above
-    calipso.theme.renderItem(req,res,template,block,{});
-    next();
+    calipso.theme.renderItem(req,res,template,block,{},next);
 
 };
 
@@ -91,7 +90,6 @@ function mediaList(req,res,template,block,next) {
 function galleryList(req,res,template,block,next) {
 
   // Render the item via the template provided above
-  calipso.theme.renderItem(req,res,template,block,{});
-  next();
+  calipso.theme.renderItem(req,res,template,block,{},next);
 
 };

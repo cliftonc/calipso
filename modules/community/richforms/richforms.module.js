@@ -15,7 +15,7 @@ exports = module.exports = {
   about: {
     description: 'Enables the jQuery UI Datepicker, and MarkitUp Rich Text Editor for date / text area controls respectively.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   }
 };
@@ -89,8 +89,7 @@ function init(module, app, next) {
  */
 function allPages(req, res, template, block, next) {
 
-  calipso.theme.renderItem(req, res, template, block, {});
-  next();
+  calipso.theme.renderItem(req, res, template, block, {}, next);
 
 };
 

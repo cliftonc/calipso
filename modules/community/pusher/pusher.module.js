@@ -12,7 +12,7 @@ exports = module.exports = {
   about: {
     description: 'Enables socket.io, adding the default socket.io scripts to each page request.  This moduile is intended to be used by other modules, and exposes no functionality on its own.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   }
 };
@@ -101,7 +101,6 @@ function pusher(req, res, template, block, next) {
 
   calipso.theme.renderItem(req, res, template, block, {
     port: port
-  });
-  next();
+  },next);
 
 };

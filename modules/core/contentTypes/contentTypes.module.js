@@ -13,7 +13,7 @@ install: install,
   about: {
     description: 'Core content management functions.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }};
 
@@ -192,8 +192,7 @@ function createContentTypeForm(req,res,template,block,next) {
   contentTypeForm.action = "/content/type/create";
 
   calipso.form.render(contentTypeForm,null,req,function(form) {
-    calipso.theme.renderItem(req,res,form,block);
-    next();
+    calipso.theme.renderItem(req,res,form,block,next);
   });
 
 }
@@ -228,8 +227,7 @@ function editContentTypeForm(req,res,template,block,next) {
       values.contentType.ispublic = c.ispublic ? "Yes" : "No";
 
       calipso.form.render(contentTypeForm,values,req,function(form) {
-        calipso.theme.renderItem(req,res,form,block);
-        next();
+        calipso.theme.renderItem(req,res,form,block,next);
       });
 
     }
@@ -310,15 +308,14 @@ function showContentType(req,res,template,block,next,err,content,format) {
 
     // Set the page layout to the content type
     if(format === "html") {
-      calipso.theme.renderItem(req,res,template,block,{item:item});
+      calipso.theme.renderItem(req,res,template,block,{item:item},next);
     }
 
     if(format === "json") {
       res.format = format;
       res.send(content.toObject());
+      next();
     }
-
-    next();
 
 
   });
@@ -351,7 +348,7 @@ function listContentType(req,res,template,block,next) {
 
                 // Render the item into the response
                 if(format === 'html') {
-                  calipso.theme.renderItem(req,res,template,block,{items:contents});
+                  calipso.theme.renderItem(req,res,template,block,{items:contents},next);
                 }
 
                 if(format === 'json') {
@@ -359,9 +356,9 @@ function listContentType(req,res,template,block,next) {
                   res.send(contents.map(function(u) {
                     return u.toObject();
                   }));
+                  next();
                 }
 
-               next();
         });
 
 

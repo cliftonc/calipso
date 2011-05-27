@@ -10,7 +10,7 @@ exports = module.exports = {
   about: {
     description: 'Adds google analytics tracking code to every page, uses a key defined in app configuration',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   }
 };
@@ -60,7 +60,7 @@ function ga(req, res, template, block, next) {
   var key = req.app.set('google-analytics-key');
   calipso.theme.renderItem(req, res, template, block, {
     key: key
-  });
-  next();
+  },next);
+  
 
 };

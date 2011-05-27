@@ -11,11 +11,12 @@ exports = module.exports = function(req, options, callback) {
    */
   calipso.lib.step(
     function getContent() {
-      options.getContent(req, 'about-me', this.parallel());
-      options.getBlock('user.login',this.parallel());
+      options.getBlock('content', this.parallel());
+      options.getBlock('admin',this.parallel());
+      options.getBlock('scripts.disqus',this.parallel());
     },
-    function done(err, about, userLogin) {
-      callback({about:about,userLogin:userLogin});
+    function done(err, content, admin, disqus) {
+      callback({content:content,admin:admin,disqus: disqus});
     }
   );
 

@@ -10,7 +10,7 @@ exports = module.exports = {
   about: {
     description: 'Simple taxonomy (menus based on categories) module, uses map reduce functions to create menu trees.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }
 };
@@ -137,7 +137,6 @@ function taxonomy(req,res,template,block,next) {
   TaxonomyMenu.find({})
    .find(function (err, tax) {
       // Render the item into the response
-      // calipso.theme.renderItem(req,res,template,block,{tags:tags});
 
       tax.forEach(function(item) {
             res.menu.primary.push({name:item._id,url:'/section/' + item._id,regexp:new RegExp(item._id)});

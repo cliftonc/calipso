@@ -8,7 +8,7 @@ exports = module.exports = {init: init, route: route,
    about: {
     description: 'Module that controls the creation of a tag cloud, based on an internal map reduce function, in response to the change of any content.  Controls both the display and the MR.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }};
 
@@ -124,8 +124,8 @@ function tagCloud(req,res,template,block,next) {
   Tag.find({})
    .find(function (err, tags) {
       // Render the item into the response
-      calipso.theme.renderItem(req,res,template,block,{tags:tags});
-      next();
+      calipso.theme.renderItem(req,res,template,block,{tags:tags},next);
+      
    });
 
 

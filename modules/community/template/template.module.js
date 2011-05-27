@@ -13,7 +13,7 @@ exports = module.exports = {
   about: {
     description: 'Example module to enable creation of new modules.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   },
   install: install,
@@ -100,9 +100,7 @@ function templatePage(req, res, template, block, next) {
   // Render the item via the template provided above
   calipso.theme.renderItem(req, res, template, block, {
     item: item
-  });
-
-  next();
+  },next);
 
 };
 
@@ -121,9 +119,8 @@ function allPages(req, res, template, block, next) {
   };
   calipso.theme.renderItem(req, res, template, block, {
     item: item
-  });
-  next();
-
+  },next);
+  
 };
 
 /**

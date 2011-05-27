@@ -89,8 +89,8 @@ function loginForm(req, res, template, block, next) {
   };
 
   calipso.form.render(userForm, null, req, function(form) {
-    calipso.theme.renderItem(req, res, template, block, {form:form});
-    next();
+    calipso.theme.renderItem(req, res, template, block, {form:form},next);
+    // next();
   });
 
 };
@@ -123,8 +123,7 @@ function registerUserForm(req, res, template, block, next) {
   }
 
   calipso.form.render(userForm, null, req, function(form) {
-    calipso.theme.renderItem(req, res, form, block);
-    next();
+    calipso.theme.renderItem(req, res, form, block, next);
   });
 
 };
@@ -232,8 +231,7 @@ function updateUserForm(req, res, template, block, next) {
     values.user.isAdmin = values.user.isAdmin ? "Yes" : "No";
 
     calipso.form.render(userForm,values,req,function(form) {
-      calipso.theme.renderItem(req, res, form, block);
-      next();
+      calipso.theme.renderItem(req, res, form, block, next);
     });
 
   });
@@ -369,9 +367,9 @@ function userProfile(req, res, template, block, next) {
       item = {id:u._id, type:'user', meta:u.toObject()};
     }
 
-    calipso.theme.renderItem(req, res, template, block, {item:item});
+    calipso.theme.renderItem(req, res, template, block, {item:item},next);
 
-    next();
+    //next();
 
   });
 

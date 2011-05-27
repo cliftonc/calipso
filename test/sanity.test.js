@@ -9,9 +9,7 @@ var assert = require('assert'),
 
 /**
  * Simple sanity tests to make sure that calipso will run.
- *
  */
-
 var adminCookie;
 
 /**

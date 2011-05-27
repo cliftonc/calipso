@@ -15,7 +15,7 @@ exports = module.exports = {
   about: {
     description: 'Module that provides automated documentation, based on source code, for the modules currently deployed into a Calipso instance.',
     author: 'cliftonc',
-    version: '0.1.0',
+    version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
   }
 };
@@ -125,10 +125,7 @@ function list(req, res, template, block, next) {
   ];
 
   // Render the item via the template provided above
-  calipso.theme.renderItem(req, res, template, block, {
-    modules: calipso.modules, libraries:libraries
-  });
-  next();
+  calipso.theme.renderItem(req, res, template, block, {modules: calipso.modules, libraries:libraries}, next);
 
 }
 
@@ -249,9 +246,7 @@ function document(req, res, template, block, next) {
     requires: requires,
     type: fileType,
     path: filePath
-  });
-
-  next();
+  }, next);
 
 };
 
