@@ -148,7 +148,8 @@ function init(module,app,next) {
 /**
  * Local default for the content create / edit form
  */
-var contentForm = {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',tabs:false,
+var contentForm = function() {
+      return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',tabs:false,
           sections:[{
             id:'form-section-content',
             label:'Content',
@@ -182,6 +183,7 @@ var contentForm = {id:'content-form',title:'Create Content ...',type:'form',meth
           buttons:[
                {name:'submit',type:'submit',value:'Save Content'}
           ]};
+}
 
 /**
  * Default home page, only specify the layout.
@@ -277,6 +279,45 @@ function titleAlias(title) {
 }
 
 /**
+ * Create the form based on the fields defined in the content type
+ * Enable switching of title etc. from create to edit
+ */
+function getForm(req,action,title,contentType,next) {
+
+  // Create the form
+  var form = contentForm();
+  form.action = action;
+  form.title = title;
+
+  // Get content type
+  var ContentType = calipso.lib.mongoose.model('ContentType');
+
+  ContentType.findOne({contentType:contentType}, function(err, contentType) {
+
+    // Add any fields
+    if(contentType.fields) {
+
+      var fields = [];
+
+      try {
+        var fields = JSON.parse(contentType.fields)
+      } catch(ex) {
+        // Issue with our fields
+        req.flash("error",req.t("The content type you are editing has invalid fields defined, please check the content type configuration."));
+      }
+
+      // Process any additional fields
+      form = calipso.form.processFields(form,fields);
+
+    }
+
+    next(form);
+
+  });
+
+}
+
+/**
  * Create Content Form
  * Create and render the 'New Content' page.
  * This allows some defaults to be passed through (e.g. from missing blocks).
@@ -289,31 +330,28 @@ function createContentForm(req,res,template,block,next) {
   var alias = req.moduleParams.alias ? req.moduleParams.alias : "";
   var teaser = req.moduleParams.teaser ? req.moduleParams.teaser : "";
   var taxonomy = req.moduleParams.taxonomy ? req.moduleParams.taxonomy : "";
-  var type = req.moduleParams.type ? req.moduleParams.type : "";
+  var type = req.moduleParams.type ? req.moduleParams.type : "Article"; // Hard coded default TODO fix
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
   // Create the form
-  var form = contentForm;
-  form.action = "/content";
-  form.title = "Create Content ...";
+  getForm(req,"/content",req.t("Create Content ..."),type,function(form) {
 
-  // Default values
-  var values = {
-      content: {
-        title:alias,  // Default the title to the alias
-        alias:alias,
-        teaser:teaser,
-        contentType:type,
-        taxonomy:taxonomy,
-        returnTo: returnTo
-      }
-  }
+    // Default values
+    var values = {
+        content: {
+          title:alias,  // Default the title to the alias
+          alias:alias,
+          teaser:teaser,
+          contentType:type,
+          taxonomy:taxonomy,
+          returnTo: returnTo
+        }
+    }
 
+    calipso.form.render(form,values,req,function(form) {
+      calipso.theme.renderItem(req,res,form,block,{},next);
+    });
 
-
-  // Test!
-  calipso.form.render(form,values,req,function(form) {
-    calipso.theme.renderItem(req,res,form,block,{},next);
   });
 
 }
@@ -344,20 +382,21 @@ function editContentForm(req,res,template,block,next) {
     } else {
 
       // Create the form
-      var form = contentForm;
-      form.title = "Edit Content ...";
-      form.action = "/content/" + id;
+      getForm(req,"/content/" + id,req.t("Edit Content ..."),c.meta.contentType,function(form) {
 
-      // Default values
-      var values = {content: c};
+        // Default values
+        var values = {content: c};
 
-      // Fix for content type being held in meta field
-      values.content.contentType = values.content.meta.contentType;
-      values.returnTo = returnTo;
+        // Fix for content type being held in meta field
+        // TODO this has a bad smell
+        values.content.contentType = values.content.meta.contentType;
+        values.returnTo = returnTo;
 
-      // Test!
-      calipso.form.render(form,values,req,function(form) {
-        calipso.theme.renderItem(req,res,form,block,{},next);
+        // Test!
+        calipso.form.render(form,values,req,function(form) {
+          calipso.theme.renderItem(req,res,form,block,{},next);
+        });
+
       });
 
     }
