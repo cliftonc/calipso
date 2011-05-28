@@ -36,7 +36,9 @@
     "qs": ">=0.1.0",
     "stylus": ">=0.12.2",
     "bcrypt": ">=0.2.3",
-    "github-flavored-markdown" : ">=1.0.0"
+    "github-flavored-markdown" : ">=1.0.0",
+    "request":">=1.9.5",
+    "pool":">=0.4.1"
   },
   "devDependencies": {
     "expresso": ">=0.7.3",
