@@ -231,7 +231,7 @@ function updateUserForm(req, res, template, block, next) {
     values.user.isAdmin = values.user.isAdmin ? "Yes" : "No";
 
     calipso.form.render(userForm,values,req,function(form) {
-      calipso.theme.renderItem(req, res, form, block, next);
+      calipso.theme.renderItem(req, res, form, block, {}, next);
     });
 
   });
@@ -306,10 +306,12 @@ function registerUser(req, res, template, block, next) {
       u.password = calipso.lib.crypto.encrypt(u.password,calipso.config.cryptoKey);
 
       // Over ride admin
-      u.isAdmin = form.user.isAdmin === 'Yes' ? true : false
+      if(req.session.user && req.session.user.isAdmin) {
+        u.isAdmin = form.user.isAdmin === 'Yes' ? true : false
+      } else {
+        u.isAdmin = false;
+      }
 
-      // Check to see if passed through
-      if(req.registerAdmin) u.isAdmin = true;
       var saved;
 
       u.save(function(err) {
@@ -367,7 +369,7 @@ function userProfile(req, res, template, block, next) {
       item = {id:u._id, type:'user', meta:u.toObject()};
     }
 
-    calipso.theme.renderItem(req, res, template, block, {item:item},next);
+    calipso.theme.renderItem(req, res, template, block, {item:item}, next);
 
     //next();
 
