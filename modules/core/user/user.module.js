@@ -139,6 +139,16 @@ function updateUserProfile(req, res, template, block, next) {
       var username = req.moduleParams.username;
       var User = calipso.lib.mongoose.model('User');
 
+      // Quickly check that the user is an admin or it is their account
+       if(req.session.user && (req.session.user.isAdmin || req.session.user.username === username)) {
+         // We're ok
+       } else {
+         req.flash('error',req.t('You are not authorised to perform that action.'));
+         res.redirect('/');
+         next();
+         return;
+       }
+
       User.findOne({username:username}, function(err, u) {
 
         u.email = form.user.email;
@@ -155,8 +165,11 @@ function updateUserProfile(req, res, template, block, next) {
           return;
         }
 
-        // Override admin
-        u.isAdmin = form.user.isAdmin === 'Yes';
+        // Set to admin (only if already an admin or logged in as one)
+        if(req.session.user && req.session.user.isAdmin) {
+          u.isAdmin = form.user.isAdmin === 'Yes';
+        }
+
         u.save(function(err) {
           if(err) {
             req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
@@ -212,9 +225,10 @@ function updateUserForm(req, res, template, block, next) {
   if(req.session.user && (req.session.user.isAdmin || req.session.user.username === username)) {
     // We're ok
   } else {
-    res.statusCode = 404;
+    req.flash('error',req.t('You are not authorised to perform that action.'));
+    res.redirect('/');
     next();
-    return
+    return;
   }
 
   User.findOne({username:username}, function(err, u) {
