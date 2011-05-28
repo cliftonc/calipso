@@ -499,7 +499,7 @@ function install(next) {
       // Create administrative user
       var admin = new User({
         username:'admin',
-        password:calipso.lib.crypto.encrypt('password',calipso.config.cryptoKey),
+        hash:calipso.lib.crypto.hash('password',calipso.config.cryptoKey),
         email:'admin@example.com',
         roles:['Administrator']
       });
