@@ -174,7 +174,7 @@ function updateUserProfile(req, res, template, block, next) {
         }
 
         // Check to see if new passwords are blank
-        if(form.user.new_password != '') {
+        if(form.user.new_password === '') {
             req.flash('error',req.t('Your password cannot be blank.'));
             res.redirect('back');
             return;
@@ -368,7 +368,7 @@ function registerUser(req, res, template, block, next) {
       }
 
       // Check to see if new passwords are blank
-      if(form.user.new_password != '') {
+      if(form.user.new_password === '') {
           req.flash('error',req.t('Your password cannot be blank.'));
           res.redirect('back');
           return;
