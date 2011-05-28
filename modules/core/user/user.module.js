@@ -300,7 +300,7 @@ function loginUser(req, res, template, block, next) {
 
         // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
         // TO BE REMOVED In later version
-        if(user && calipso.lib.crypto.check(form.user.password,user.hash) || user.hash === '') {
+        if(user && calipso.lib.crypto.check(form.user.password,user.hash) || (user && user.hash === '')) {
           found = true;
           req.session.user = {username:user.username, isAdmin:user.isAdmin, id:user._id, language:user.language};
           req.session.save(function(err) {
