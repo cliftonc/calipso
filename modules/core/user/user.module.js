@@ -123,7 +123,7 @@ function registerUserForm(req, res, template, block, next) {
   }
 
   calipso.form.render(userForm, null, req, function(form) {
-    calipso.theme.renderItem(req, res, form, block, next);
+    calipso.theme.renderItem(req, res, form, block, {}, next);
   });
 
 };
