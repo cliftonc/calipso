@@ -117,10 +117,10 @@ function init(module,app,next) {
         // Default Content Schema
         var Content = new calipso.lib.mongoose.Schema({
           title:{type: String, required: true, default: ''},
-          teaser:{type: String, required: true, default: ''},
-          taxonomy:{type: String, default:'pages'},
-          content:{type: String, required: true},
-          status:{type: String, required: true, default:'draft'},
+          teaser:{type: String, required: false, default: ''},
+          taxonomy:{type: String, default:''},
+          content:{type: String, required: false, default:''},
+          status:{type: String, required: false, default:'draft'},
           alias:{type: String, required: true, unique: true},
           author:{type: String, required: true},
           tags:[String],
