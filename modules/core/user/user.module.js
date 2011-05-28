@@ -151,6 +151,16 @@ function updateUserProfile(req, res, template, block, next) {
          return;
        }
 
+      // Get the password values and remove from form
+      // This ensures they are never stored
+      var new_password = form.user.new_password;
+      delete form.user.new_password;
+      var repeat_password = form.user.repeat_password;
+      delete form.user.repeat_password;
+      var old_password = form.user.old_password;
+      delete form.user.old_password;
+
+
       User.findOne({username:username}, function(err, u) {
 
         u.email = form.user.email;
@@ -161,7 +171,7 @@ function updateUserProfile(req, res, template, block, next) {
         if(form.user.old_password) {
 
           // Check to see if old password is valid
-          if(!calipso.lib.crypto.check(form.user.old_password,u.hash)) {
+          if(!calipso.lib.crypto.check(old_password,u.hash)) {
               if(u.hash != '') {
                 req.flash('error',req.t('Your old password was invalid.'));
                 res.redirect('back');
@@ -170,27 +180,22 @@ function updateUserProfile(req, res, template, block, next) {
           }
 
           // Check to see if new passwords match
-          if(form.user.new_password != form.user.repeat_password) {
+          if(new_password != repeat_password) {
               req.flash('error',req.t('Your passwords do not match.'));
               res.redirect('back');
               return;
           }
 
           // Check to see if new passwords are blank
-          if(form.user.new_password === '') {
+          if(new_password === '') {
               req.flash('error',req.t('Your password cannot be blank.'));
               res.redirect('back');
               return;
           }
 
           // Create the hash
-          u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
+          u.hash = calipso.lib.crypto.hash(new_password,calipso.config.cryptoKey);
           u.password = ''; // Temporary for migration to hash, remove later
-
-          // Delete all the form entries
-          delete u.old_password
-          delete u.new_password
-          delete u.repeat_password
 
 
         }
@@ -362,6 +367,14 @@ function registerUser(req, res, template, block, next) {
     if(form) {
 
       var User = calipso.lib.mongoose.model('User');
+
+      // Get the password values and remove from form
+      // This ensures they are never stored
+      var new_password = form.user.new_password;
+      delete form.user.new_password;
+      var repeat_password = form.user.repeat_password;
+      delete form.user.repeat_password;
+
       var u = new User(form.user);
 
       // Over ride admin
@@ -372,26 +385,22 @@ function registerUser(req, res, template, block, next) {
       }
 
       // Check to see if new passwords match
-      if(form.user.new_password != form.user.repeat_password) {
+      if(new_password != repeat_password) {
           req.flash('error',req.t('Your passwords do not match.'));
           res.redirect('back');
           return;
       }
 
       // Check to see if new passwords are blank
-      if(form.user.new_password === '') {
+      if(new_password === '') {
           req.flash('error',req.t('Your password cannot be blank.'));
           res.redirect('back');
           return;
       }
 
       // Create the hash
-      u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
+      u.hash = calipso.lib.crypto.hash(new_password,calipso.config.cryptoKey);
 
-      // Delete all the form entries
-      delete u.new_password
-      delete u.repeat_password
-      
       u.save(function(err) {
 
         if(err) {
