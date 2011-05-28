@@ -159,7 +159,7 @@ function updateUserProfile(req, res, template, block, next) {
 
         // Check to see if we are changing the password
         if(form.user.old_password) {
-          
+
           // Check to see if old password is valid
           if(!calipso.lib.crypto.check(form.user.old_password,u.hash)) {
               if(u.hash != '') {
@@ -186,6 +186,12 @@ function updateUserProfile(req, res, template, block, next) {
           // Create the hash
           u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
           u.password = ''; // Temporary for migration to hash, remove later
+
+          // Delete all the form entries
+          delete u.old_password
+          delete u.new_password
+          delete u.repeat_password
+
 
         }
 
@@ -382,8 +388,10 @@ function registerUser(req, res, template, block, next) {
       // Create the hash
       u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
 
-      var saved;
-
+      // Delete all the form entries
+      delete u.new_password
+      delete u.repeat_password
+      
       u.save(function(err) {
 
         if(err) {
