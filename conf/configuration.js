@@ -22,6 +22,7 @@ module.exports = function(app, express, next) {
     language: 'en',
     install: true,
     cryptoKey: createRandomString(),
+    livePassword: createRandomString(),
     watchFiles: true,
     logs: {
       level: 'info',
@@ -78,6 +79,11 @@ module.exports = function(app, express, next) {
       type: String,
       required: false,
       'default': 'calipso'
+    },
+    livePassword: {
+      type: String,
+      required: false,
+      'default': createRandomString()
     },
     watchFiles: {
       type: Boolean,
@@ -142,7 +148,6 @@ module.exports = function(app, express, next) {
       next(err);
     });
   });
-
 
 };
 
