@@ -106,11 +106,11 @@ function registerUserForm(req, res, template, block, next) {
     id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/user/register',
     fields: [
       {label:'Username', name:'user[username]', type:'text'},
-      {label:'New Password', name:'user[new_password]', type:'password'},
-      {label:'Repeat Password', name:'user[repeat_password]', type:'password'},
       {label:'Email', name:'user[email]', type:'text'},
       {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
-      {label:'About You', name:'user[about]', type:'textarea'}
+      {label:'About You', name:'user[about]', type:'textarea'},
+      {label:'New Password', name:'user[new_password]', type:'password'},
+      {label:'Repeat Password', name:'user[repeat_password]', type:'password'}
     ],
     buttons:[
       {name:'submit', type:'submit', value:'Register'}
@@ -157,32 +157,37 @@ function updateUserProfile(req, res, template, block, next) {
         u.language = form.user.language;
         u.about = form.user.about;
 
-        // Check to see if old password is valid
-        if(!calipso.lib.crypto.check(form.user.old_password,u.hash)) {
-            if(u.hash != '') {
-              req.flash('error',req.t('Your old password was invalid.'));
+        // Check to see if we are changing the password
+        if(form.user.old_password) {
+          
+          // Check to see if old password is valid
+          if(!calipso.lib.crypto.check(form.user.old_password,u.hash)) {
+              if(u.hash != '') {
+                req.flash('error',req.t('Your old password was invalid.'));
+                res.redirect('back');
+                return;
+              }
+          }
+
+          // Check to see if new passwords match
+          if(form.user.new_password != form.user.repeat_password) {
+              req.flash('error',req.t('Your passwords do not match.'));
               res.redirect('back');
               return;
-            }
-        }
+          }
 
-        // Check to see if new passwords match
-        if(form.user.new_password != form.user.repeat_password) {
-            req.flash('error',req.t('Your passwords do not match.'));
-            res.redirect('back');
-            return;
-        }
+          // Check to see if new passwords are blank
+          if(form.user.new_password === '') {
+              req.flash('error',req.t('Your password cannot be blank.'));
+              res.redirect('back');
+              return;
+          }
 
-        // Check to see if new passwords are blank
-        if(form.user.new_password === '') {
-            req.flash('error',req.t('Your password cannot be blank.'));
-            res.redirect('back');
-            return;
-        }
+          // Create the hash
+          u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
+          u.password = ''; // Temporary for migration to hash, remove later
 
-        // Create the hash
-        u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
-        u.password = ''; // Temporary for migration to hash, remove later
+        }
 
         if(err) {
           req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
@@ -239,12 +244,12 @@ function updateUserForm(req, res, template, block, next) {
     id:'FORM',title:'Update Profile',type:'form',method:'POST',action:'/user/profile/' + username,
     fields:[
       {label:'Username', name:'user[username]', type:'text', readonly:true},
-      {label:'Old Password', name:'user[old_password]', type:'password'},
-      {label:'New Password', name:'user[new_password]', type:'password'},
-      {label:'Repeat Password', name:'user[repeat_password]', type:'password'},
       {label:'Email', name:'user[email]', type:'text'},
       {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
-      {label:'About You', name:'user[about]', type:'textarea'}
+      {label:'About You', name:'user[about]', type:'textarea'},
+      {label:'Old Password', name:'user[old_password]', type:'password',instruct:req.t('Leave blank if not changing password.')},
+      {label:'New Password', name:'user[new_password]', type:'password'},
+      {label:'Repeat Password', name:'user[repeat_password]', type:'password'}
     ],
     buttons:[
       {name:'submit', type:'submit', value:'Save Profile'}
