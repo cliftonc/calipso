@@ -37,13 +37,13 @@ function init(module, app, next) {
 
     module.router.addRoute('GET /admin', showAdmin, {
       template: 'admin',
-      block: 'admin',
+      block: 'admin.show',
       admin: true
     }, this.parallel());
 
     module.router.addRoute('GET /admin/reload', reloadAdmin, {
       template: 'reload',
-      block: 'admin',
+      block: 'admin.reload',
       admin: true
     }, this.parallel());
 
@@ -53,11 +53,13 @@ function init(module, app, next) {
 
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
 
+    module.router.addRoute('GET /admin/cache', showCache, {admin:true,template:'cache',cache:false,block:'admin.cache'}, this.parallel());
+
     // JSON
     module.router.addRoute('GET /admin/languages', showLanguages, {
           admin: true,
           template:'languages',
-          block:'admin'
+          block:'admin.languages'
         }, this.parallel());
 
   }, function done() {
@@ -340,5 +342,17 @@ function moduleFormatToArray(res, modules) {
   }
 
   return arrayModules;
+
+}
+
+
+/**
+ * Display the cache
+ */
+function showCache(req,res,template,block,next) {
+
+  calipso.theme.renderItem(req, res, template, block, {
+    cache: JSON.stringify(calipso.cache.cache)
+  },next);
 
 }

@@ -32,7 +32,7 @@
 
 <script>
 $(function() {
-  
+
   // Navigation
   $('.primary-menu').jstree({
     "themes" : {
@@ -42,25 +42,24 @@ $(function() {
     },
     "plugins" : [ "themes", "html_data" ]
   });
-  
+
   // Pretty printing
   prettyPrint();
-  
+
   $('.content-block').dblclick(function() {
     if(this.id) {
       location.href = "/content/edit/" + this.id + "?returnTo=<%= request.url %>";
     }
   });
-  
-  <%- getBlock('scripts.richforms.datepicker') %>
-  
+
+  <%- datepicker %>
+
 });
 </script>
 
 <!--  START OF DYNAMIC INSERTION -->
-
-<%- getBlock('scripts.richforms.markitup') %>
-<%- getBlock('scripts.pusher') %>
-<%- getBlock('scripts.ga') %>
+<%- markitup %>
+<%- pusher %>
+<%- ga %>
 
 <!--  END OF DYNAMIC INSERTION -->
