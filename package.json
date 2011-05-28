@@ -35,6 +35,7 @@
     "twitter-node": ">=0.0.2",
     "qs": ">=0.1.0",
     "stylus": ">=0.12.2",
+    "bcrypt": ">=@0.2.3",
     "github-flavored-markdown" : ">=1.0.0"
   },
   "devDependencies": {

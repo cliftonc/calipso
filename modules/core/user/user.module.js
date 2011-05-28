@@ -57,7 +57,8 @@ function init(module, app, next) {
       var User = new calipso.lib.mongoose.Schema({
         // Single default property
         username:{type: String, required: true, unique:true},
-        password:{type: String, required: true},
+        password:{type: String, required: false},
+        hash:{type: String, required: true, default:''},
         email:{type: String, required: true, unique:true},
         about:{type: String},
         language:{type: String, default:'en'},
@@ -105,7 +106,8 @@ function registerUserForm(req, res, template, block, next) {
     id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/user/register',
     fields: [
       {label:'Username', name:'user[username]', type:'text'},
-      {label:'Password', name:'user[password]', type:'password'},
+      {label:'New Password', name:'user[new_password]', type:'password'},
+      {label:'Repeat Password', name:'user[repeat_password]', type:'password'},
       {label:'Email', name:'user[email]', type:'text'},
       {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
       {label:'About You', name:'user[about]', type:'textarea'}
@@ -154,7 +156,33 @@ function updateUserProfile(req, res, template, block, next) {
         u.email = form.user.email;
         u.language = form.user.language;
         u.about = form.user.about;
-        u.password = calipso.lib.crypto.encrypt(form.user.password,calipso.config.cryptoKey);
+
+        // Check to see if old password is valid
+        if(!calipso.lib.crypto.check(form.user.old_password,u.hash)) {
+            if(u.hash != '') {
+              req.flash('error',req.t('Your old password was invalid.'));
+              res.redirect('back');
+              return;
+            }
+        }
+
+        // Check to see if new passwords match
+        if(form.user.new_password != form.user.repeat_password) {
+            req.flash('error',req.t('Your passwords do not match.'));
+            res.redirect('back');
+            return;
+        }
+
+        // Check to see if new passwords are blank
+        if(form.user.new_password != '') {
+            req.flash('error',req.t('Your password cannot be blank.'));
+            res.redirect('back');
+            return;
+        }
+
+        // Create the hash
+        u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
+        u.password = ''; // Temporary for migration to hash, remove later
 
         if(err) {
           req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
@@ -211,7 +239,9 @@ function updateUserForm(req, res, template, block, next) {
     id:'FORM',title:'Update Profile',type:'form',method:'POST',action:'/user/profile/' + username,
     fields:[
       {label:'Username', name:'user[username]', type:'text', readonly:true},
-      {label:'Password', name:'user[password]', type:'password'},
+      {label:'Old Password', name:'user[old_password]', type:'password'},
+      {label:'New Password', name:'user[new_password]', type:'password'},
+      {label:'Repeat Password', name:'user[repeat_password]', type:'password'},
       {label:'Email', name:'user[email]', type:'text'},
       {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
       {label:'About You', name:'user[about]', type:'textarea'}
@@ -241,7 +271,9 @@ function updateUserForm(req, res, template, block, next) {
     }
 
     var values = {user:u};
-    values.user.password = calipso.lib.crypto.decrypt(values.user.password,calipso.config.cryptoKey);
+
+    // values.user.password = calipso.lib.crypto.decrypt(values.user.password,calipso.config.cryptoKey);
+
     values.user.isAdmin = values.user.isAdmin ? "Yes" : "No";
 
     calipso.form.render(userForm,values,req,function(form) {
@@ -262,11 +294,13 @@ function loginUser(req, res, template, block, next) {
 
       var User = calipso.lib.mongoose.model('User');
       var username = form.user.username;
-      var password = calipso.lib.crypto.encrypt(form.user.password,calipso.config.cryptoKey);
       var found = false;
 
-      User.findOne({username:username, password:password},function (err, user) {
-        if(user) {
+      User.findOne({username:username},function (err, user) {
+
+        // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
+        // TO BE REMOVED In later version
+        if(user && calipso.lib.crypto.check(form.user.password,user.hash) || user.hash === '') {
           found = true;
           req.session.user = {username:user.username, isAdmin:user.isAdmin, id:user._id, language:user.language};
           req.session.save(function(err) {
@@ -275,6 +309,7 @@ function loginUser(req, res, template, block, next) {
             }
           });
         }
+
         if(!found) {
           req.flash('error',req.t('You may have entered an incorrect username or password, please try again.'));
         }
@@ -317,7 +352,6 @@ function registerUser(req, res, template, block, next) {
 
       var User = calipso.lib.mongoose.model('User');
       var u = new User(form.user);
-      u.password = calipso.lib.crypto.encrypt(u.password,calipso.config.cryptoKey);
 
       // Over ride admin
       if(req.session.user && req.session.user.isAdmin) {
@@ -326,6 +360,23 @@ function registerUser(req, res, template, block, next) {
         u.isAdmin = false;
       }
 
+      // Check to see if new passwords match
+      if(form.user.new_password != form.user.repeat_password) {
+          req.flash('error',req.t('Your passwords do not match.'));
+          res.redirect('back');
+          return;
+      }
+
+      // Check to see if new passwords are blank
+      if(form.user.new_password != '') {
+          req.flash('error',req.t('Your password cannot be blank.'));
+          res.redirect('back');
+          return;
+      }
+
+      // Create the hash
+      u.hash = calipso.lib.crypto.hash(form.user.new_password,calipso.config.cryptoKey);
+
       var saved;
 
       u.save(function(err) {
@@ -333,7 +384,7 @@ function registerUser(req, res, template, block, next) {
         if(err) {
           req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
           if(res.statusCode != 302 && !res.noRedirect) {
-            res.redirect('/');
+            res.redirect('back');
           }
         } else {
           if(!res.noRedirect) {
