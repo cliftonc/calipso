@@ -38,7 +38,8 @@
     "bcrypt": ">=0.2.3",
     "github-flavored-markdown" : ">=1.0.0",
     "request":">=1.9.5",
-    "pool":">=0.4.1"
+    "pool":">=0.4.1",
+    "mime":">=1.2.2"
   },
   "devDependencies": {
     "expresso": ">=0.7.3",
