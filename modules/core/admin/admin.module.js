@@ -76,7 +76,7 @@ function init(module, app, next) {
 
       calipso.data.loglevels = calipso.lib.winston.config.npm.levels;
       calipso.data.modules = calipso.modules;
-			
+
       next();
     });
 
@@ -98,7 +98,7 @@ function showLanguages(req, res, template, block, next) {
 
     var language = req.moduleParams.translate;
     var languageCache = req.languageCache[language];
-		
+
     var gt = require('utils/googleTranslate');
 
     if(languageCache) {
@@ -220,47 +220,47 @@ function install(req, res, template, block, next) {
  * TODO Refactor this to a proper form
  */
 function showAdmin(req, res, template, block, next) {
-	
+
 	//set the languages array
 	calipso.data.languages = [];
 	calipso.data.loglevels = [];
-	
+
 	//console.log(calipso.modules);
-	
+
 	for(var language in req.languageCache) {
 		calipso.data.languages.push(language);
 	}
-	
+
 	for(var level in calipso.lib.winston.config.npm.levels){
 		calipso.data.loglevels.push(level);
 	}
 	//console.log(res);
 
   res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/languages',regexp: /admin\/languages/});
-  
+
   var AppConfig = calipso.lib.mongoose.model('AppConfig');
-  
+
   AppConfig.findOne({}, function(err, config) {
     var item = {
       id: config._id,
       type: 'config',
       meta: config.toObject()
     };
-    
+
 		var values = {
 			config: {
 				watchFiles:item.meta.watchFiles,
-				language: item.meta.language,	
+				language: item.meta.language,
 				theme: item.meta.theme,
 				logslevel: item.meta.logs.level,
 				logsconsoleenabled:	item.meta.logs.console.enabled,
 				logsfileenabled: item.meta.logs.file.enabled,
-				logsfilefilepath: item.meta.logs.file.filepath 		
+				logsfilefilepath: item.meta.logs.file.filepath
 			}
 		}
-		
-    
-    
+
+
+
     var adminForm = {
 		   id:'admin-form',
 		   title:'Administration',
@@ -277,7 +277,7 @@ function showAdmin(req, res, template, block, next) {
 		               label:'Watch Template Files',
 		               name:'config[watchFiles]',
 		               type:'checkbox',
-		               value: item.meta.watchFiles 
+		               value: item.meta.watchFiles
 		            },
 		            {
 		               label:'Default Language',
@@ -287,7 +287,7 @@ function showAdmin(req, res, template, block, next) {
 		               options:function(){
 		                  return calipso.data.languages
 		               },
-		               
+
 		            }
 		         ]
 		     },
@@ -303,10 +303,10 @@ function showAdmin(req, res, template, block, next) {
 	               options:function(){
 	                  return calipso.data.themes
 	               },
-	               
+
 	            }
 	         ]
-	      }, 
+	      },
 		    {
 	         id:'form-section-logging',
 	         label:'Logging',
@@ -319,33 +319,33 @@ function showAdmin(req, res, template, block, next) {
 	               options:function(){
 	                  return calipso.data.loglevels
 	               },
-	             }, 
+	             },
 	             {
 	               label:'Console Logging',
 	               name:'config[logsconsoleenabled]',
 	               type:'checkbox',
-	               value: item.meta.logs.console.enabled 
+	               value: item.meta.logs.console.enabled
 	             },
 	             {
 	               label:'File Logging',
 	               name:'config[logsfileenabled]',
 	               type:'checkbox',
-	               value: item.meta.logs.file.enabled 
-	             }, 
+	               value: item.meta.logs.file.enabled
+	             },
 	             {
 	               label:'File Log Path',
 	               name:'config[logsfilefilepath]',
 	               type:'text',
-	               value: item.meta.logs.file.filepath 
+	               value: item.meta.logs.file.filepath
 	             },
-	            
+
 	         ]
-	      }, 
+	      },
 	      {
 	         id:'form-section-modules',
 	         label:'Modules',
 	         fields:[]
-	      },   
+	      },
 		   ],
 		   fields:[
 		      {
@@ -362,46 +362,36 @@ function showAdmin(req, res, template, block, next) {
 		      }
 		   ]
 		}
-	
-		
+
+
 		var adminModuleFields = adminForm.sections[3].fields;
-		
+
 		for(var module in calipso.modules) {
 			var cM = {};
 			cM.label='['+ calipso.modules[module].type +'] '+ module +'';
 			cM.name='config[modules]['+ module +']';
 			cM.checked=calipso.modules[module].enabled;
 			cM.type='checkbox';
-			
+
 			adminModuleFields.push(cM);
-			
+
 		}
 		//console.log(values.config)
-		
+
 	  // Create the form
 	  var form = adminForm;
 	  form.action = "/admin/save";
 	  form.title = "Administration";
-	
-	  
-	
-	
-	
+
+    res.layout = 'admin';
+
 	  // Test!
 	  calipso.form.render(form,values,req,function(form) {
 	    calipso.theme.renderItem(req,res,form,block,{},next);
 	  });
-    
+
 		//console.log(item.meta.logs);
   });
-  
-  
-  
-  
-  
-
-
-  
 
 }
 
@@ -439,9 +429,9 @@ function saveAdmin(req, res, template, block, next) {
       var AppConfig = calipso.lib.mongoose.model('AppConfig');
 
       AppConfig.findOne({}, function(err, c) {
-				
+
         if (!err && c) {
-					
+
           c.theme = form.config.theme;
           c.cache = form.config.cache;
           c.language = form.config.language;
@@ -452,7 +442,7 @@ function saveAdmin(req, res, template, block, next) {
           c.logs.console.enabled = form.config.logsconsoleenabled;
 
           c.modules = moduleFormatToArray(res, form.config.modules);
-					console.log(c);
+
           c.save(function(err) {
             if (err) {
               req.flash('error', req.t('Could not update the configuration because {msg}.',{msg:err.message}));
@@ -492,10 +482,10 @@ function saveAdmin(req, res, template, block, next) {
  */
 function moduleFormatToArray(res, modules) {
   var arrayModules = [];
-	
+
   for (var module in calipso.modules) {
     var enabled = modules[module] === 'on';
-    
+
     arrayModules.push({
       name: module,
       enabled: enabled

@@ -8,8 +8,8 @@
 <title>Calipso - A Node CMS</title>
 
 <!--  STYLES -->
-<link href="/css/Aristo/jquery-ui-1.8.7.custom.css" rel="stylesheet">
 <link href="/css/calipso.css" rel="stylesheet">
+<link href="/css/tabs.css" rel="stylesheet">
 
 <!--  Google Fonts -->
 <link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
@@ -22,7 +22,6 @@
 
 <!--  JQuery -->
 <script src="/js/jquery-1.4.4.min.js"></script>
-<script src="/js/jquery-ui-1.8.10.custom.min.js"></script>
 
 <!--  Prettify -->
 <script src="/js/prettify/prettify.js"></script>
@@ -52,14 +51,12 @@ $(function() {
     }
   });
 
-  <%- datepicker %>
-
 });
 </script>
 
 <!--  START OF DYNAMIC INSERTION -->
+<%- datepicker %>
 <%- markitup %>
 <%- pusher %>
 <%- ga %>
-
 <!--  END OF DYNAMIC INSERTION -->

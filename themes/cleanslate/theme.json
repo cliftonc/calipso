@@ -35,6 +35,31 @@
           "body": {"template": "body.html"}
         }
       }
+    },
+    "admin": {
+      "layout": {
+        "template": "admin.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "styles": {"template": "styles.html"},
+          "admin": {"menu": "admin", "template": "adminMenu.html"},
+          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "secondary": {"template": "secondaryMenu.html"},
+          "messages": {"template": "messages.html"},
+          "body": {"template": "body.html"},
+          "footer": {"template": "footer.html"}
+        }
+      }
+    },
+    "preview": {
+      "layout": {
+        "template": "preview.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "styles": {"template": "styles.html"},
+          "body": {"template": "body.html"}
+        }
+      }
     }
   }
 }

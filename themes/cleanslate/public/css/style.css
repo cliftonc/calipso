@@ -10,7 +10,6 @@
  * - praegnanz.de/weblog/htmlcssjs-kickstart
  */
 
-
 /**
  * html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
  * v1.6.1 2010-09-17 | Authors: Eric Meyer & Richard Clark
@@ -69,10 +68,10 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
  * Minimal base styles.
  */
 
-/* 1) Always force a scrollbar in non-IE 
+/* 1) Always force a scrollbar in non-IE
    2) Remove iOS text size adjust without disabling user zoom: www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
 html { overflow-y: scroll; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
-  
+
 /* j.mp/webkit-tap-highlight-color */
 a:link { -webkit-tap-highlight-color: #FF5E99; }
 
@@ -104,12 +103,12 @@ pre {
   padding: 15px;
 }
 
-legend { *margin-left: -7px; } 
+legend { *margin-left: -7px; }
 
 /* 1) Make inputs and buttons play nice in IE: www.viget.com/inspire/styling-the-button-element-in-internet-explorer/
-   2) WebKit browsers add a 2px margin outside the chrome of form elements. 
-      Firefox adds a 1px margin above and below textareas 
-   3) Set font-size to match <body>'s, and font-family to sans-serif 
+   2) WebKit browsers add a 2px margin outside the chrome of form elements.
+      Firefox adds a 1px margin above and below textareas
+   3) Set font-size to match <body>'s, and font-family to sans-serif
    4) Align to baseline */
 button, input, select, textarea { width: auto; overflow: visible; margin: 0; font-size: 100%; font-family: sans-serif; vertical-align: baseline; }
 
@@ -211,7 +210,7 @@ p {margin:0 0 1em;}
 label {display:inline-block;width:80px;text-align:right;padding-right:10px;font-weight:bold;}
 #admin-form label{width: 80px;}
 select {padding:1px;}
-textarea {width:500px;height:200px;}
+textarea {width:820px;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
 .actions {padding:20px 0;border-top:1px solid #999;margin-top:10px;}
 .tab_container .actions{border-top:none;}
@@ -352,3 +351,78 @@ form .section:first-child {border:0;}
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3{ page-break-after: avoid; }
 }
+
+
+ul.tabs {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 32px;
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #999;
+	width: 100%;
+}
+ul.tabs li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 31px;
+	line-height: 31px;
+	border: 1px solid #999;
+	border-left: none;
+	margin-bottom: -1px;
+	background: #e0e0e0;
+	overflow: hidden;
+	position: relative;
+}
+ul.tabs li a {
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 1.2em;
+	padding: 0 20px;
+	border: 1px solid #fff;
+	outline: none;
+}
+ul.tabs li a:hover {
+	background: #ccc;
+}
+html ul.tabs li.active, html ul.tabs li.active a:hover  {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+}
+.tab_container {
+	border:1px solid #999;
+	border-top: none;
+	clear: both;
+	float: left;
+	width: 100%;
+	background: #fff;
+	-moz-border-radius-bottomright: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+.tab_content {
+
+	padding: 20px;
+	font-size: 12px;
+}
+.tab_content h2 {
+	font-weight: normal;
+	padding-bottom: 10px;
+
+	font-size: 1.8em;
+}
+.tab_content h3 a{
+	color: #254588;
+}
+.tab_content img {
+	float: left;
+	margin: 0 20px 20px 0;
+	padding: 5px;
+}
+

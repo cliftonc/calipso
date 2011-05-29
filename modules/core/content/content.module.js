@@ -149,7 +149,7 @@ function init(module,app,next) {
  * Local default for the content create / edit form
  */
 var contentForm = function() {
-      return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',tabs:false,
+      return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',tabs:true,
           sections:[{
             id:'form-section-content',
             label:'Content',
@@ -348,6 +348,8 @@ function createContentForm(req,res,template,block,next) {
         }
     }
 
+    res.layout = 'admin';
+
     calipso.form.render(form,values,req,function(form) {
       calipso.theme.renderItem(req,res,form,block,{},next);
     });
@@ -391,6 +393,8 @@ function editContentForm(req,res,template,block,next) {
         // TODO this has a bad smell
         values.content.contentType = values.content.meta.contentType;
         values.returnTo = returnTo;
+
+        res.layout = 'admin';
 
         // Test!
         calipso.form.render(form,values,req,function(form) {

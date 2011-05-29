@@ -12,10 +12,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +28,7 @@
 	$.fn.markItUp = function(settings, extraSettings) {
 		var options, ctrlKey, shiftKey, altKey;
 		ctrlKey = shiftKey = altKey = false;
-	
+
 		options = {	id:						'',
 					nameSpace:				'',
 					root:					'',
@@ -92,7 +92,7 @@
 				if (options.nameSpace) {
 					nameSpace = 'class="'+options.nameSpace+'"';
 				}
-				$$.wrap('<div '+nameSpace+'></div>');
+				// $$.wrap('<div '+nameSpace+'></div>');
 				$$.wrap('<div '+id+' class="markItUp"></div>');
 				$$.wrap('<div class="markItUpContainer"></div>');
 				$$.addClass("markItUpEditor");
@@ -125,7 +125,7 @@
 
 				// listen key events
 				$$.keydown(keyPressed).keyup(keyPressed);
-				
+
 				// bind an event to catch external calls
 				$$.bind("insertion", function(e, settings) {
 					if (settings.target !== false) {
@@ -185,7 +185,7 @@
 							$(li).addClass('markItUpDropMenu').append(dropMenus(button.dropMenu));
 						}
 					}
-				}); 
+				});
 				levels.pop();
 				return ul;
 			}
@@ -242,16 +242,16 @@
 				} else if (selection === '' && placeHolder !== '') {
 					block = openWith + placeHolder + closeWith;
 				} else {
-					string = string || selection;						
+					string = string || selection;
 					if (string.match(/ $/)) {
 						block = openWith + string.replace(/ $/, '') + closeWith + ' ';
 					} else {
 						block = openWith + string + closeWith;
 					}
 				}
-				return {	block:block, 
-							openWith:openWith, 
-							replaceWith:replaceWith, 
+				return {	block:block,
+							openWith:openWith,
+							replaceWith:replaceWith,
 							placeHolder:placeHolder,
 							closeWith:closeWith
 					};
@@ -263,13 +263,13 @@
 				hash = clicked = button;
 				get();
 
-				$.extend(hash, {	line:"", 
+				$.extend(hash, {	line:"",
 						 			root:options.root,
-									textarea:textarea, 
-									selection:(selection||''), 
+									textarea:textarea,
+									selection:(selection||''),
 									caretPosition:caretPosition,
-									ctrlKey:ctrlKey, 
-									shiftKey:shiftKey, 
+									ctrlKey:ctrlKey,
+									shiftKey:shiftKey,
 									altKey:altKey
 								}
 							);
@@ -278,9 +278,9 @@
 				prepare(clicked.beforeInsert);
 				if (ctrlKey === true && shiftKey === true) {
 					prepare(clicked.beforeMultiInsert);
-				}			
+				}
 				$.extend(hash, { line:1 });
-				
+
 				if (ctrlKey === true && shiftKey === true) {
 					lines = selection.split(/\r?\n/);
 					for (j = 0, n = lines.length, i = 0; i < n; i++) {
@@ -313,7 +313,7 @@
 				}
 				if ((selection === '' && string.replaceWith === '')) {
 					caretOffset += fixOperaBug(string.block);
-					
+
 					start = caretPosition + string.openWith.length;
 					len = string.block.length - string.openWith.length - string.closeWith.length;
 
@@ -341,9 +341,9 @@
 
 				// refresh preview if opened
 				if (previewWindow && options.previewAutoRefresh) {
-					refreshPreview(); 
+					refreshPreview();
 				}
-																									
+
 				// reinit keyevent
 				shiftKey = altKey = ctrlKey = abort = false;
 			}
@@ -362,9 +362,9 @@
 				}
 				return 0;
 			}
-				
+
 			// add markup
-			function insert(block) {	
+			function insert(block) {
 				if (document.selection) {
 					var newSelection = document.selection.createRange();
 					newSelection.text = block;
@@ -382,8 +382,8 @@
 					}
 					range = textarea.createTextRange();
 					range.collapse(true);
-					range.moveStart('character', start); 
-					range.moveEnd('character', len); 
+					range.moveStart('character', start);
+					range.moveEnd('character', len);
 					range.select();
 				} else if (textarea.setSelectionRange ){
 					textarea.setSelectionRange(start, start + len);
@@ -398,14 +398,14 @@
 
 				scrollPosition = textarea.scrollTop;
 				if (document.selection) {
-					selection = document.selection;	
-					if ($.browser.msie) { // ie	
+					selection = document.selection;
+					if ($.browser.msie) { // ie
 						var range = selection.createRange();
 						var stored_range = range.duplicate();
 						stored_range.moveToElementText(textarea);
 						stored_range.setEndPoint('EndToEnd', range);
 						var s = stored_range.text.length - range.text.length;
-	
+
 						caretPosition = s - (textarea.value.substr(0, s).length - textarea.value.substr(0, s).replace(/\r/g, '').length);
 						selection = range.text;
 					} else { // opera
@@ -414,7 +414,7 @@
 				} else { // gecko & webkit
 					caretPosition = textarea.selectionStart;
 					selection = textarea.value.substring(caretPosition, textarea.selectionEnd);
-				} 
+				}
 				return selection;
 			}
 
@@ -432,7 +432,7 @@
 							iFrame.insertAfter(footer);
 						} else {
 							iFrame.insertBefore(header);
-						}	
+						}
 						previewWindow = iFrame[iFrame.length - 1].contentWindow || frame[iFrame.length - 1];
 					}
 				} else if (altKey === true) {
@@ -444,7 +444,7 @@
 					previewWindow = iFrame = false;
 				}
 				if (!options.previewAutoRefresh) {
-					refreshPreview(); 
+					refreshPreview();
 				}
 				if (options.previewInWindow) {
 					previewWindow.focus();
@@ -456,7 +456,7 @@
  				renderPreview();
 			}
 
-			function renderPreview() {		
+			function renderPreview() {
 				var phtml;
 				if (options.previewParserPath !== '') {
 					$.ajax({
@@ -466,7 +466,7 @@
 						url: options.previewParserPath,
 						data: options.previewParserVar+'='+encodeURIComponent($$.val()),
 						success: function(data) {
-							writeInPreview( localize(data, 1) ); 
+							writeInPreview( localize(data, 1) );
 						}
 					});
 				} else {
@@ -483,23 +483,23 @@
 				}
 				return false;
 			}
-			
+
 			function writeInPreview(data) {
-				if (previewWindow.document) {			
+				if (previewWindow.document) {
 					try {
 						sp = previewWindow.document.documentElement.scrollTop
 					} catch(e) {
 						sp = 0;
-					}	
+					}
 					previewWindow.document.open();
 					previewWindow.document.write(data);
 					previewWindow.document.close();
 					previewWindow.document.documentElement.scrollTop = sp;
 				}
 			}
-			
+
 			// set keys pressed
-			function keyPressed(e) { 
+			function keyPressed(e) {
 				shiftKey = e.shiftKey;
 				altKey = e.altKey;
 				ctrlKey = (!(e.altKey && e.ctrlKey)) ? e.ctrlKey : false;
@@ -531,7 +531,7 @@
 					}
 					if (e.keyCode === 9) { // Tab key
 						if (shiftKey == true || ctrlKey == true || altKey == true) {
-							return false; 
+							return false;
 						}
 						if (caretOffset !== -1) {
 							get();
