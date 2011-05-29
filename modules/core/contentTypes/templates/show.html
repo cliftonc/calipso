@@ -10,9 +10,17 @@
         <tr>
             <th><%- t('Layout') %></th><td><%- item.meta.layout %></td>
         </tr>
-
         <tr>
             <th><%- t('Public') %></th><td><%- item.meta.ispublic ? "Yes" : "No" %></td>
+        </tr>
+        <tr>
+            <th><%- t('Fields') %></th><td>
+<pre>
+<%- item.meta.fields %>
+</pre></td>
+        </tr>
+        <tr>
+            <th><%- t('Fields Valid?') %></th><td><%- item.meta.fieldsValid %></td>
         </tr>
     </table>
 </div>

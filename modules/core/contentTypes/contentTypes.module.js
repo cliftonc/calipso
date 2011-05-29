@@ -53,7 +53,7 @@ function init(module,app,next) {
         module.router.addRoute('GET /content/type',listContentType,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /content/type/list.:format?',listContentType,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('POST /content/type/create',createContentType,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,block:'content'},this.parallel());
+        module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,block:'content',template:'form'},this.parallel());
         module.router.addRoute('GET /content/type/show/:id.:format?',showContentType,{template:'show',block:'content'},this.parallel());
         module.router.addRoute('GET /content/type/edit/:id',editContentTypeForm,{admin:true,block:'content'},this.parallel());
         module.router.addRoute('GET /content/type/delete/:id',deleteContentType,{admin:true},this.parallel());
@@ -62,6 +62,9 @@ function init(module,app,next) {
       },
       function done() {
 
+        // Statics
+        app.use(calipso.lib.express.static(__dirname + '/static'));
+
         // Schemea
         var ContentType = new calipso.lib.mongoose.Schema({
           contentType:{type: String, required: true, unique: true, default:'default'},
@@ -69,7 +72,8 @@ function init(module,app,next) {
           layout:{type: String, required: true, default: 'default'},
           ispublic:{type: Boolean, required: true, default: true},
           created: { type: Date, default: Date.now },
-          updated: { type: Date, default: Date.now }
+          updated: { type: Date, default: Date.now },
+          fields: {type: String}
         });
 
         calipso.lib.mongoose.model('ContentType', ContentType);
@@ -80,10 +84,23 @@ function init(module,app,next) {
           updateContentAfterChange(); // Store an array of their names in the theme
         });
 
+
+        // Create a new form taghandler for content type fields
+        calipso.form.render_tag_json = function(field, value) {
+            return '<textarea'
+              + ' class="json ' + (field.cls ? field.cls : "") + '"'
+              + ' rows="' + (field.rows ? field.rows : "30") + '"'
+              + ' name="' + field.name + '"'
+              + ' id="' + field.name + '"'
+              + '>'
+              + value
+              + '</textarea>';
+        }
+
+        // Cache the content types in the calipso.data object
         storeContentTypes();
 
         module.initialised = true;
-
         next();
 
       }
@@ -134,10 +151,11 @@ var contentTypeForm = {id:'FORM',title:'Form',type:'form',method:'POST',action:'
         {label:'Content Type',name:'contentType[contentType]',type:'text'},
         {label:'Description',name:'contentType[description]',type:'text'},
         {label:'Layout',name:'contentType[layout]',type:'select',options:function() { return calipso.theme.getLayoutsArray() }},
-        {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"]}
+        {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"]},
+        {label:'Custom Fields',name:'contentType[fields]',type:'json'}
      ],
      buttons:[
-              {name:'submit',type:'submit',value:'Save Content Type'}
+          {name:'submit',type:'submit',value:'Save Content Type'}
      ]};
 
 
@@ -145,8 +163,6 @@ var contentTypeForm = {id:'FORM',title:'Form',type:'form',method:'POST',action:'
  * Create new content type
  */
 function createContentType(req,res,template,block,next) {
-
-
 
   calipso.form.process(req,function(form) {
 
@@ -192,7 +208,7 @@ function createContentTypeForm(req,res,template,block,next) {
   contentTypeForm.action = "/content/type/create";
 
   calipso.form.render(contentTypeForm,null,req,function(form) {
-    calipso.theme.renderItem(req,res,form,block,{},next);
+    calipso.theme.renderItem(req,res,template,block,{form:form},next);
   });
 
 }
@@ -257,6 +273,7 @@ function updateContentType(req,res,template,block,next) {
               c.layout = form.contentType.layout;
               c.ispublic = form.contentType.ispublic === "Yes" ? true : false;
               c.updated = new Date();
+              c.fields = form.contentType.fields;
 
               c.save(function(err) {
                 if(err) {
@@ -304,6 +321,16 @@ function showContentType(req,res,template,block,next,err,content,format) {
 
       item = {id:content._id,type:'content',meta:content.toObject()};
 
+    }
+
+    // Check to see if fields are valid json
+    item.meta['fieldsValid'] = 'Yes';
+    try {
+      if(item.meta.fields) {
+        JSON.parse(item.meta.fields)
+      }
+    } catch(ex) {
+      item.meta['fieldsValid'] = 'No - ' + ex.message;
     }
 
     // Set the page layout to the content type
