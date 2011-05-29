@@ -26,8 +26,8 @@
     <div class="form-field">
       <label>Theme</label>
       <select name="config[theme]">
-        <% themes.forEach(function(theme) { %>
-          <option value="<%-theme.name %>" <%= theme.selected ? "selected" : "" %>> <%-theme.name%> </option>
+        <% themes.forEach(function(name) { %>
+          <option value="<%-name %>" <%= name.selected ? "selected" : "" %>> <%-name %> </option>
         <% }); %>
       </select>
     </div>

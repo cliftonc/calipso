@@ -207,7 +207,9 @@ p {margin:0 0 1em;}
 
 /* form elements */
 .form-item {clear:both;padding:0 0 10px;}
+
 label {display:inline-block;width:80px;text-align:right;padding-right:10px;font-weight:bold;}
+#admin-form label{width: 140px;}
 select {padding:1px;}
 textarea {width:500px;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
