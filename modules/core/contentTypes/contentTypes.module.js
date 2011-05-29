@@ -207,6 +207,8 @@ function createContentTypeForm(req,res,template,block,next) {
   contentTypeForm.title = "Create Content Type";
   contentTypeForm.action = "/content/type/create";
 
+  res.layout = 'admin';
+
   calipso.form.render(contentTypeForm,null,req,function(form) {
     calipso.theme.renderItem(req,res,template,block,{form:form},next);
   });
@@ -241,6 +243,8 @@ function editContentTypeForm(req,res,template,block,next) {
           contentType: c
       }
       values.contentType.ispublic = c.ispublic ? "Yes" : "No";
+
+      res.layout = 'admin';
 
       calipso.form.render(contentTypeForm,values,req,function(form) {
         calipso.theme.renderItem(req,res,form,block,{},next);
