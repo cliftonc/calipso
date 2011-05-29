@@ -70,7 +70,7 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 	border-bottom: 1px solid #fff;
 }
 .tab_container {
-	border: 1px solid #999;
+	
 	border-top: none;
 	clear: both;
 	float: left; 
@@ -84,13 +84,14 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 	-webkit-border-bottom-left-radius: 5px;
 }
 .tab_content {
+	
 	padding: 20px;
 	font-size: 12px;
 }
 .tab_content h2 {
 	font-weight: normal;
 	padding-bottom: 10px;
-	border-bottom: 1px dashed #ddd;
+	
 	font-size: 1.8em;
 }
 .tab_content h3 a{
@@ -99,6 +100,6 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 .tab_content img {
 	float: left;
 	margin: 0 20px 20px 0;
-	border: 1px solid #ddd;
+	
 	padding: 5px;
 }
