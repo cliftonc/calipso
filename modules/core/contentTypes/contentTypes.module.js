@@ -327,6 +327,8 @@ function showContentType(req,res,template,block,next,err,content,format) {
 
     }
 
+    res.layout = 'admin';
+
     // Check to see if fields are valid json
     item.meta['fieldsValid'] = 'Yes';
     try {

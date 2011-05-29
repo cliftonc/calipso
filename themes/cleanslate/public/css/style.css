@@ -207,7 +207,7 @@ p {margin:0 0 1em;}
 /* form elements */
 .form-item {clear:both;padding:0 0 10px;}
 
-label {display:inline-block;width:80px;text-align:right;padding-right:10px;font-weight:bold;}
+label {display:inline-block;width:120px;text-align:right;padding-right:10px;font-weight:bold;}
 #admin-form label{width: 80px;}
 select {padding:1px;}
 textarea {width:820px;height:200px;}
@@ -425,4 +425,3 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  {
 	margin: 0 20px 20px 0;
 	padding: 5px;
 }
-
