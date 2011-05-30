@@ -17,7 +17,7 @@ var fs = require('fs'),
     nodepath = require('path'),
     form = require('connect-form'),
     stylus = require('stylus'),
-    translate = require('i8n/translate'),
+    translate = require('i18n/translate'),
     calipso = require('lib/calipso'),
     mongoStore = require('support/connect-mongodb');
 

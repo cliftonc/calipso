@@ -5,9 +5,9 @@
  * @Params - cmd - server | script | params
  */
 
- /**
- * Dependencies on this script
- */
+/**
+* Dependencies on this script
+*/
 var fs = require('fs'), nodepath = require('path'), exec = require('child_process').exec;
 
 /**
@@ -23,18 +23,18 @@ var calipsoPath = __dirname + "/../";
  */
 var appLauncher = {
       command:'server',
-        server: { port:3000 },
-        script: {
-              name:'help',
-              params: []
-            }
-       };
+      server: { port:3000 },
+      script: {
+        name:'help',
+        params: []
+      }
+    };
 
 for(var i in process.argv) {
-	// Skip the first two - Node and app.js path
-	if(i>1) {
-		processParam(process.argv[i],i);
-	}
+  // Skip the first two - Node and app.js path
+  if(i>1) {
+    processParam(process.argv[i],i);
+  }
 }
 
 runLauncher(appLauncher);
@@ -45,36 +45,36 @@ runLauncher(appLauncher);
  */
 function runLauncher(appLauncher) {
 
-	// Always use current directory?
-	console.log('\r\n\x1b[36mLaunching calipso from: \x1b[0m ' + path);
-	console.log('\x1b[36mCalipso directory: \x1b[0m ' + calipsoPath);
+  // Always use current directory?
+  console.log('\r\n\x1b[36mLaunching calipso from: \x1b[0m ' + path);
+  console.log('\x1b[36mCalipso directory: \x1b[0m ' + calipsoPath);
 
-	// Check if this is a calipso src folder
-	if(isLibrary()) {
-		console.log('\x1b[1mDo not run this from the calipso library folder, please run from an empty directory or an installed calipso site\x1b[0m\r\n');
-		return;
-	}
+  // Check if this is a calipso src folder
+  if(isLibrary()) {
+    console.log('\x1b[1mDo not run this from the calipso library folder, please run from an empty directory or an installed calipso site\x1b[0m\r\n');
+    return;
+  }
 
-	// Check if this is a calipso site
-	if(!isCalipso() && appLauncher.command != 'create-site') {
-		console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso create-site\r\n');
-		return;
-	}
+  // Check if this is a calipso site
+  if(!isCalipso() && appLauncher.command != 'create-site') {
+    console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso create-site\r\n');
+    return;
+  }
 
-	switch(appLauncher.command) {
-		case 'test':
-			runTests(appLauncher.script);
-			break;
-		case 'server':
-			runServer(appLauncher.server.port);
-			break;
-		case 'create-site':
-			createApplication(path);
-			break;
-		default:
-			appLauncher.command = 'server';
-			runServer(appLauncher.server.port);
-	}
+  switch(appLauncher.command) {
+    case 'test':
+      runTests(appLauncher.script);
+      break;
+    case 'server':
+      runServer(appLauncher.server.port);
+      break;
+    case 'create-site':
+      createApplication(path);
+      break;
+    default:
+      appLauncher.command = 'server';
+      runServer(appLauncher.server.port);
+  }
 
 }
 
@@ -82,14 +82,14 @@ function runLauncher(appLauncher) {
  * Check if we are running from the library folder (or something cloned out of github)
  **/
 function isLibrary() {
-	return nodepath.existsSync(path + '/bin/calipso');
+  return nodepath.existsSync(path + '/bin/calipso');
 }
 
 /**
  * Check if .calipso exists
  **/
 function isCalipso() {
-	return nodepath.existsSync(path + '/.calipso');
+  return nodepath.existsSync(path + '/.calipso');
 }
 
 /**
@@ -98,8 +98,8 @@ function isCalipso() {
  * Runs by default from path where calipso runs via __dirname.
  */
 function runScript(scriptLauncher) {
-	var script = require(bootstrapPath + '/scripts/'+ scriptLauncher.name);
-	script.execute(scriptLauncher.params,path);
+  var script = require(bootstrapPath + '/scripts/'+ scriptLauncher.name);
+  script.execute(scriptLauncher.params,path);
 }
 
 /**
@@ -109,27 +109,27 @@ function runScript(scriptLauncher) {
  */
 function processParam(param,depth) {
 
-	var paramArray = param.split("=");
+  var paramArray = param.split("=");
 
-	// Run command - must always come after the app
-	if(i == 2) {
-		appLauncher.command = param;
-	}
+  // Run command - must always come after the app
+  if(i == 2) {
+    appLauncher.command = param;
+  }
 
-	// Server.port
-	if(paramArray[0] == "server.port" && paramArray[1] != undefined) {
-		appLauncher.server.port = paramArray[1];
-	}
+  // Server.port
+  if(paramArray[0] == "server.port" && paramArray[1] != undefined) {
+    appLauncher.server.port = paramArray[1];
+  }
 
-	//
-	if((appLauncher.command == "script" || appLauncher.command == "test") && i == 3) {
-		appLauncher.script.name = param;
-	}
+  //
+  if((appLauncher.command == "script" || appLauncher.command == "test") && i == 3) {
+    appLauncher.script.name = param;
+  }
 
-	// Script params
-	if(appLauncher.command == 'script' && i > 3) {
-		appLauncher.script.params.push(param);
-	}
+  // Script params
+  if(appLauncher.command == 'script' && i > 3) {
+    appLauncher.script.params.push(param);
+  }
 
 }
 
@@ -138,7 +138,7 @@ function processParam(param,depth) {
  */
 function runTests(appLauncher) {
 
-	// var test = appLauncher.name ? appLauncher.name : 'all';
+  // var test = appLauncher.name ? appLauncher.name : 'all';
   exec('expresso -I . -s tests/* ', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
       console.log(stdout);
       console.log(stderr);
@@ -162,9 +162,9 @@ function runServer(port) {
   console.log("\x1b[36m               |_|                 \x1b[0m");
   console.log("");
 
-	// Ensure we run in the local folder of the application
-	process.chdir(path);
-	require(path + '/app').boot(function(app) {
+  // Ensure we run in the local folder of the application
+  process.chdir(path);
+  require(path + '/app').boot(function(app) {
     app.listen(port);
     console.log("\x1b[36mCalipso server listening on port: \x1b[0m %d", app.address().port);
     console.log("\x1b[36mCalipso configured for\x1b[0m %s \x1b[36menvironment\x1b[0m\r\n", global.process.env.NODE_ENV || 'development');
@@ -181,51 +181,51 @@ function runServer(port) {
  */
 function createApplicationAt(path) {
 
-    mkdir(path + '/conf',function() {
-    	copy(calipsoPath + '/conf/*',path + '/conf');
-    });
+  mkdir(path + '/conf',function() {
+    copy(calipsoPath + '/conf/*',path + '/conf');
+  });
 
-    mkdir(path + '/i8n',function() {
-    	copy(calipsoPath + '/i8n/*',path + '/i8n');
-    });
+  mkdir(path + '/i18n',function() {
+    copy(calipsoPath + '/i18n/*',path + '/i18n');
+  });
 
-    mkdir(path + '/lib',function() {
-    	copy(calipsoPath + '/lib/*',path + '/lib');
-    });
+  mkdir(path + '/lib',function() {
+    copy(calipsoPath + '/lib/*',path + '/lib');
+  });
 
-    mkdir(path + '/node_modules',function() {
-      copy(calipsoPath + '/node_modules/*',path + '/node_modules');
-	  });
+  mkdir(path + '/node_modules',function() {
+    copy(calipsoPath + '/node_modules/*',path + '/node_modules');
+  });
 
-	  mkdir(path + '/modules',function() {
-      copy(calipsoPath + '/modules/*',path + '/modules');
-	  });
+  mkdir(path + '/modules',function() {
+    copy(calipsoPath + '/modules/*',path + '/modules');
+  });
 
-	  mkdir(path + '/support',function() {
-		  copy(calipsoPath + '/support/*',path + '/support');
-	  });
+  mkdir(path + '/support',function() {
+    copy(calipsoPath + '/support/*',path + '/support');
+  });
 
-    mkdir(path + '/test',function() {
-		  copy(calipsoPath + '/test/*',path + '/test');
-	  });
+  mkdir(path + '/test',function() {
+    copy(calipsoPath + '/test/*',path + '/test');
+  });
 
-	  mkdir(path + '/themes',function() {
-    	copy(calipsoPath + '/themes/*',path + '/themes');
-    });
+  mkdir(path + '/themes',function() {
+    copy(calipsoPath + '/themes/*',path + '/themes');
+  });
 
-	  mkdir(path + '/utils',function() {
-    	copy(calipsoPath + '/utils/*',path + '/utils');
-    });
+  mkdir(path + '/utils',function() {
+    copy(calipsoPath + '/utils/*',path + '/utils');
+  });
 
-  	mkdir(path + '/logs');
-	  mkdir(path + '/pids');
-    mkdir(path + '/media');
+  mkdir(path + '/logs');
+  mkdir(path + '/pids');
+  mkdir(path + '/media');
 
-	  copy(calipsoPath + '/app-cluster.js',path + '/');
-	  copy(calipsoPath + '/app.js',path + '/');
-    copy(calipsoPath + '/package.json',path + '/');
+  copy(calipsoPath + '/app-cluster.js',path + '/');
+  copy(calipsoPath + '/app.js',path + '/');
+  copy(calipsoPath + '/package.json',path + '/');
 
-	  write(path + '/.calipso','Created @ ' + new Date());
+  write(path + '/.calipso','Created @ ' + new Date());
 
 }
 
