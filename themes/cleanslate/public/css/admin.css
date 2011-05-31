@@ -30,3 +30,20 @@ a.admin-menu-item-selected {
 .admin-primary-menu .admin-menu-item-selected {
   font-weight: bold;
 }
+
+
+#form-section-modules .fieldset-fields {
+  -moz-column-count: 4;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 4;
+  -webkit-column-gap: 20px;
+  column-count: 4;
+  column-gap: 20px;
+}
+#form-section-modules legend {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+#form-section-modules .checkable {
+  margin-left:0;
+}
