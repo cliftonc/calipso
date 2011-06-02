@@ -39,7 +39,8 @@
     "github-flavored-markdown" : ">=1.0.0",
     "request":">=1.9.5",
     "pool":">=0.4.1",
-    "mime":">=1.2.2"
+    "mime":">=1.2.2",
+    "connect-gzip":">=0.1.0"
   },
   "devDependencies": {
     "expresso": ">=0.7.3",

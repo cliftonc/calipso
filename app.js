@@ -124,13 +124,17 @@ function bootApplication(app, next) {
     keepExtensions: true
   }));
 
+  // Use gzip middleware
+  var gzip = require('connect-gzip');
+  app.use(gzip.gzip());
+
   // Static - tag it so we can replace later
-  var themeStatic = express.static(path + '/themes/' + theme + '/public');
+  var themeStatic = gzip.staticGzip(path + '/themes/' + theme + '/public');
   themeStatic.tag = 'themeStatic';
   app.use(themeStatic);
 
   // Media paths
-  app.use(express.static(path + '/media'));
+  app.use(gzip.staticGzip(path + '/media'));
 
   // Translation - after static, set to add mode if appropriate
   app.use(translate.translate(app.set('config').language, app.set('language-add')));
