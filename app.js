@@ -55,6 +55,13 @@ var version = "0.1.1";
 
 })();
 
+/**
+ * Catch All exception handler
+ */
+process.on('uncaughtException', function (err) {
+ console.log('Uncaught exception: ' + err + err.stack);
+});
+
 
 /**
  * Initial bootstrapping
@@ -132,6 +139,7 @@ function bootApplication(app, next) {
   app.use(calipso.calipsoRouter(app, app.set('config'), function() {
     next();
   }));
+
 
 }
 

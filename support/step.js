@@ -41,8 +41,8 @@ function Step() {
     if (steps.length === 0) {
       // Throw uncaught errors
       if (arguments[0]) {
-        // throw arguments[0];
-        console.log("Uncaught error: " + sys.inspect(arguments[0],true,10,true));
+         // console.log("Error caught via step: " + arguments[0].message + ", " + arguments[0].stack);
+         throw arguments[0];
       }
       return;
     }

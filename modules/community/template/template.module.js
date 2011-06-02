@@ -76,7 +76,6 @@ function init(module, app, next) {
   }, function done() {
 
     // Any schema configuration goes here
-
     next();
 
   });
