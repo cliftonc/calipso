@@ -54,14 +54,19 @@ function init(module, app, next) {
 
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
 
-    module.router.addRoute('GET /admin/cache', showCache, {admin:true,template:'cache',cache:false,block:'admin.cache'}, this.parallel());
+    module.router.addRoute('GET /admin/cache', showCache, {
+      admin: true,
+      template:'cache',
+      cache: false,
+      block:'admin.cache'
+    }, this.parallel());
 
     // JSON
     module.router.addRoute('GET /admin/languages', showLanguages, {
-          admin: true,
-          template:'languages',
-          block:'admin.languages'
-        }, this.parallel());
+      admin: true,
+      template:'languages',
+      block:'admin.languages'
+    }, this.parallel());
 
   }, function done() {
 
@@ -106,24 +111,24 @@ function showLanguages(req, res, template, block, next) {
         function translateAll() {
           var group = this.group();
           for(var item in languageCache) {
-            gt.googleTranslate(item,language,group());
+            gt.googleTranslate(item, language, group());
           }
         },
-        function allTranslated(err,translations) {
+        function allTranslated(err, translations) {
 
           if(err) {
-            req.flash('error',req.t('There was an error translating that language because {msg}',{msg:err.message}));
+            req.flash('error',req.t('There was an error translating that language because {msg}', {msg: err.message}));
           }
 
           if(!err && translations) {
             translations.forEach(function(translation) {
-                req.languageCache[language][translation.string] = translation.translation;
+              req.languageCache[language][translation.string] = translation.translation;
             });
           }
 
           calipso.theme.renderItem(req, res, template, block, {
             languageCache: req.languageCache
-          },next);
+          }, next);
 
         }
       )
@@ -132,7 +137,7 @@ function showLanguages(req, res, template, block, next) {
       req.flash('info',req.t('That language does not exist.'));
       calipso.theme.renderItem(req, res, template, block, {
         languageCache: req.languageCache
-      },next);
+      }, next);
 
 
     }
@@ -141,7 +146,7 @@ function showLanguages(req, res, template, block, next) {
 
     calipso.theme.renderItem(req, res, template, block, {
       languageCache: req.languageCache
-    },next);
+    }, next);
 
   }
 
@@ -221,20 +226,20 @@ function install(req, res, template, block, next) {
  */
 function showAdmin(req, res, template, block, next) {
 
-	//set the languages array
-	calipso.data.languages = [];
-	calipso.data.loglevels = [];
+  //set the languages array
+  calipso.data.languages = [];
+  calipso.data.loglevels = [];
 
-	//console.log(calipso.modules);
+  //console.log(calipso.modules);
 
-	for(var language in req.languageCache) {
-		calipso.data.languages.push(language);
-	}
+  for(var language in req.languageCache) {
+    calipso.data.languages.push(language);
+  }
 
-	for(var level in calipso.lib.winston.config.npm.levels){
-		calipso.data.loglevels.push(level);
-	}
-	//console.log(res);
+  for(var level in calipso.lib.winston.config.npm.levels){
+    calipso.data.loglevels.push(level);
+  }
+  //console.log(res);
 
   res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/languages',regexp: /admin\/languages/});
 
@@ -247,150 +252,166 @@ function showAdmin(req, res, template, block, next) {
       meta: config.toObject()
     };
 
-		var values = {
-			config: {
-				watchFiles:item.meta.watchFiles,
-				language: item.meta.language,
-				theme: item.meta.theme,
-				logslevel: item.meta.logs.level,
-				logsconsoleenabled:	item.meta.logs.console.enabled,
-				logsfileenabled: item.meta.logs.file.enabled,
-				logsfilefilepath: item.meta.logs.file.filepath
-			}
-		}
-
-
+    var values = {
+      config: {
+        watchFiles: item.meta.watchFiles,
+        language: item.meta.language,
+        theme: item.meta.theme,
+        logslevel: item.meta.logs.level,
+        logsconsoleenabled:  item.meta.logs.console.enabled,
+        logsfileenabled: item.meta.logs.file.enabled,
+        logsfilefilepath: item.meta.logs.file.filepath
+      }
+    };
 
     var adminForm = {
-		   id:'admin-form',
-		   title:'Administration',
-		   type:'form',
-		   method:'POST',
-		   action:'/admin/save',
-		   tabs:true,
-		   sections:[
-		      {
-		         id:'form-section-development',
-		         label:'Development',
-		         fields:[
-		            {
-		               label:'Watch Template Files',
-		               name:'config[watchFiles]',
-		               type:'checkbox',
-		               value: item.meta.watchFiles
-		            },
-		            {
-		               label:'Default Language',
-		               name:'config[language]',
-		               type:'select',
-		               value:item.meta.language,
-		               options:function(){
-		                  return calipso.data.languages
-		               },
-
-		            }
-		         ]
-		     },
-	       {
-	         id:'form-section-theme',
-	         label:'Theme',
-	         fields:[
-	            {
-	               label:'Theme',
-	               name:'config[theme]',
-	               type:'select',
-	               value:item.meta.theme,
-	               options:function(){
-	                  return calipso.data.themes
-	               },
-
-	            }
-	         ]
-	      },
-		    {
-	         id:'form-section-logging',
-	         label:'Logging',
-	         fields:[
-	            {
-	               label:'Log Level',
-	               name:'config[logslevel]',
-	               type:'select',
-	               value:item.meta.logs.level,
-	               options:function(){
-	                  return calipso.data.loglevels
-	               },
-	             },
-	             {
-	               label:'Console Logging',
-	               name:'config[logsconsoleenabled]',
-	               type:'checkbox',
-	               value: item.meta.logs.console.enabled
-	             },
-	             {
-	               label:'File Logging',
-	               name:'config[logsfileenabled]',
-	               type:'checkbox',
-	               value: item.meta.logs.file.enabled
-	             },
-	             {
-	               label:'File Log Path',
-	               name:'config[logsfilefilepath]',
-	               type:'text',
-	               value: item.meta.logs.file.filepath
-	             },
-
-	         ]
-	      },
-	      {
-	         id:'form-section-modules',
-	         label:'Modules',
-	         fields:[]
-	      },
-		   ],
-		   fields:[
-		      {
-		         label:'',
-		         name:'returnTo',
-		         type:'hidden'
-		      }
-		   ],
-		   buttons:[
-		      {
-		         name:'submit',
-		         type:'submit',
-		         value:'Save Content'
-		      }
-		   ]
-		}
+      id:'admin-form',
+      title:'Administration',
+      type:'form',
+      method:'POST',
+      action:'/admin/save',
+      tabs:true,
+      sections:[
+        {
+          id:'form-section-development',
+          label:'Development',
+          fields:[
+            {
+              label:'Default Language',
+              name:'config[language]',
+              type:'select',
+              value:item.meta.language,
+              options: calipso.data.languages
+            },
+            {
+              label:'Watch Template Files',
+              name:'config[watchFiles]',
+              type:'checkbox',
+              value: item.meta.watchFiles,
+              labelFirst: true
+            }
+          ]
+        },
+        {
+          id:'form-section-theme',
+          label:'Theme',
+          fields:[
+            {
+              label:'Theme',
+              name:'config[theme]',
+              type:'select',
+              value:item.meta.theme,
+              options: calipso.data.themes
+            }
+          ]
+        },
+        {
+          id:'form-section-logging',
+          label:'Logging',
+          fields:[
+            {
+              label:'Log Level',
+              name:'config[logslevel]',
+              type:'select',
+              value:item.meta.logs.level,
+              options: calipso.data.loglevels
+            },
+            {
+              label:'Console Logging',
+              name:'config[logsconsoleenabled]',
+              type:'checkbox',
+              value: item.meta.logs.console.enabled,
+              labelFirst: true
+            },
+            {
+              label:'File Logging',
+              name:'config[logsfileenabled]',
+              type:'checkbox',
+              value: item.meta.logs.file.enabled,
+              labelFirst: true
+            },
+            {
+              label:'File Log Path',
+              name:'config[logsfilefilepath]',
+              type:'text',
+              value: item.meta.logs.file.filepath
+            }
+          ]
+        },
+        {
+          id:'form-section-modules',
+          label:'Modules',
+          fields:[] // populated in a loop just below
+        },
+      ],
+      fields:[
+        {
+          label:'',
+          name:'returnTo',
+          type:'hidden'
+        }
+      ],
+      buttons:[
+        {
+          name:'submit',
+          type:'submit',
+          value:'Save Content'
+        }
+      ]
+    };
 
 
-		var adminModuleFields = adminForm.sections[3].fields;
+    // populate the Modules form fields
+    var adminModuleFields = adminForm.sections[3].fields;
+    var tempModuleFields = {core:[],community:[],site:[]};
+    // load up the tempModuleFields (according to module category)
+    for(var moduleName in calipso.modules) {
+      var cM = {};
+      var module = calipso.modules[moduleName];
+      cM.label = moduleName;
+      cM.name = 'config[modules]['+ moduleName +']';
+      cM.checked = module.enabled;
+      cM.type = 'checkbox';
+      //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
+      tempModuleFields[module.type].push(cM);
+    }
+    // add only non-empty fieldsets for module categories
+    ['Core','Community','Site'].forEach(function(moduleType){
+      var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
+      // "Site" modules fieldset will only show up if there are any to show.
+      if(moduleTypeFields.length){
+        adminModuleFields.push({
+          type: 'fieldset',
+          name: moduleType + '_fieldset', // shouldn't need a name ...
+          legend: moduleType,
+          fields: moduleTypeFields
+        });
+      }
+    });
 
-		for(var module in calipso.modules) {
-			var cM = {};
-			cM.label='['+ calipso.modules[module].type +'] '+ module +'';
-			cM.name='config[modules]['+ module +']';
-			cM.checked=calipso.modules[module].enabled;
-			cM.type='checkbox';
-
-			adminModuleFields.push(cM);
-
-		}
-		//console.log(values.config)
-
-	  // Create the form
-	  var form = adminForm;
-	  form.action = "/admin/save";
-	  form.title = "Administration";
+    // sort modules
+    function moduleSort(a, b){
+      return a.name < b.name ? -1 : 1;
+    }
+    for(var i=0;i<adminModuleFields.length;i++){
+      if(adminModuleFields[i].fields.length){
+        adminModuleFields[i].fields.sort(moduleSort);
+      }
+    }
+    //console.log(values.config);
 
     res.layout = 'admin';
 
-	  // Test!
-	  calipso.form.render(form,values,req,function(form) {
-	    calipso.theme.renderItem(req,res,form,block,{},next);
-	  });
+    // Test!
+    calipso.form.render(adminForm, values, req, function(form) {
+      calipso.theme.renderItem(req, res, form, block, {}, next);
+    });
+    // if you want to use ./templates/admin.html (must contain <%- form %>):
+    //calipso.form.render(adminForm, incomingForm, req, function(form) {
+    //  calipso.theme.renderItem(req, res, template, block, {form: form}, next);
+    //});
 
-		//console.log(item.meta.logs);
+    //console.log(item.meta.logs);
   });
 
 }
