@@ -22,7 +22,7 @@ exports = module.exports = {
   jobs: {
     templateJob: templateJob
   },
-  depends:["content","contentTypes","invalidModule"]
+  depends:["content","contentTypes"]
 };
 
 /**
