@@ -17,7 +17,8 @@ exports = module.exports = {
     author: 'cliftonc',
     version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
-  }
+  },
+  depends:["content","contentTypes"]
 };
 
 /**

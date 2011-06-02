@@ -21,7 +21,8 @@ exports = module.exports = {
   disable: disable,
   jobs: {
     templateJob: templateJob
-  }
+  },
+  depends:["content","contentTypes","invalidModule"]
 };
 
 /**
@@ -54,6 +55,7 @@ function init(module, app, next) {
   //   return;
   // }
   // Any pre-route config
+
   calipso.lib.step(
 
   function defineRoutes() {
@@ -74,7 +76,9 @@ function init(module, app, next) {
   }, function done() {
 
     // Any schema configuration goes here
+
     next();
+
   });
 
 
@@ -117,10 +121,11 @@ function allPages(req, res, template, block, next) {
       variable: myVariable
     }
   };
+
   calipso.theme.renderItem(req, res, template, block, {
     item: item
   },next);
-  
+
 };
 
 /**

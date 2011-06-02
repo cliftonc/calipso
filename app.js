@@ -133,8 +133,6 @@ function bootApplication(app, next) {
     next();
   }));
 
-
-
 }
 
 // allow normal node loading if appropriate

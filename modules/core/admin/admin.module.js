@@ -400,19 +400,7 @@ function showAdmin(req, res, template, block, next) {
  */
 function reloadAdmin(req, res, template, block, next) {
 
-  res.reloadConfig = true;
-
-  var item = {
-    id: '0',
-    type: 'config',
-    meta: {
-      reload: true
-    }
-  };
-
-  calipso.theme.renderItem(req, res, template, block, {
-    item: item
-  },next);
+  calipso.theme.renderItem(req, res, template, block, {},next);
 
 }
 
@@ -440,7 +428,6 @@ function saveAdmin(req, res, template, block, next) {
           c.logs.file.enabled = form.config.logsfileenabled;
           c.logs.file.filepath = form.config.logsfilefilepath;
           c.logs.console.enabled = form.config.logsconsoleenabled;
-
           c.modules = moduleFormatToArray(res, form.config.modules);
 
           c.save(function(err) {
@@ -450,8 +437,8 @@ function saveAdmin(req, res, template, block, next) {
                 res.redirect('/admin');
               }
             } else {
-              calipso.log(c);
               calipso.config = c; // TODO : This wont work on multiple edits
+              res.reloadConfig = true;
               res.redirect('/admin/reload');
             }
             next();

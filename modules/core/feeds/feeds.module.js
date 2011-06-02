@@ -19,7 +19,8 @@ exports = module.exports = {
  * Router
  */
 function route(req,res,module,app,next) {
-  next();
+  // this module has no routes - this is pattern
+  next(null,module.name);
 };
 
 /**
