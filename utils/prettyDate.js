@@ -6,7 +6,7 @@
 
 // Takes an ISO time and returns a string representing how
 // long ago the date represents.
-var calipsoDate = require("../lib/calipsoDate").CalipsoDate;
+var calipsoDate = require("lib/Date").CalipsoDate;
 
 exports = module.exports = {
 
