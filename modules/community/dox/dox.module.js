@@ -83,7 +83,7 @@ function list(req, res, template, block, next) {
       }
     },
     {
-      name:'calipsoDate',
+      name:'Date',
       about: {
         description:'Core calipso library that wraps the jQuery UI Datepicker date functions for use across the framework.',
         author:'cliftonc',
@@ -91,7 +91,15 @@ function list(req, res, template, block, next) {
       }
     },
     {
-      name:'calipsoForm',
+      name:'Event',
+      about: {
+        description:'Module event handlers and events, used to drive initiation and routing of dependent modules.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Form',
       about: {
         description:'Core calipso form handling library, forms are created from json objects and rendered consistently. Contributors: dennishall.',
         author:'cliftonc',
@@ -99,7 +107,7 @@ function list(req, res, template, block, next) {
       }
     },
     {
-      name:'calipsoHelpers',
+      name:'Helpers',
       about: {
         description:'Helper functions that can be used from within the view engines (jade or ejs).',
         author:'cliftonc',
@@ -107,7 +115,7 @@ function list(req, res, template, block, next) {
       }
     },
     {
-      name:'calipsoRouter',
+      name:'Router',
       about: {
         description:'Router object that allows modules to route requests internally.',
         author:'cliftonc',
@@ -115,7 +123,7 @@ function list(req, res, template, block, next) {
       }
     },
     {
-      name:'calipsoTheme',
+      name:'Theme',
       about: {
         description:'Theme management library, responsible for all rendering.',
         author:'cliftonc',
