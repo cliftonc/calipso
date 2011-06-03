@@ -5,7 +5,7 @@
 var calipso = require("../../../../lib/calipso");
 
 exports = module.exports = function(req, options, callback) {
-  
+
   /**
    *  Get additional content for blocks in the template
    */
@@ -14,10 +14,11 @@ exports = module.exports = function(req, options, callback) {
       options.getContent(req, "footer-about-calipso", this.parallel());
       options.getContent(req, "footer-links", this.parallel());
       options.getContent(req, "footer-right", this.parallel());
+      options.getBlock("dev.tools", this.parallel());
     },
-    function done(err, left, center, right) {
-      callback({left:left, center:center, right:right});
+    function done(err, left, center, right, dev) {
+      callback({left:left, center:center, right:right, dev: dev});
     }
   );
-  
+
 };

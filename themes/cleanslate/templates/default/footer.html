@@ -8,15 +8,4 @@
 <div class="col3">
   <%- right %>
 </div>
-<div class="col1">
-  <%
-    var total = 0;
-    var duration = 0;
-    for(var module in request.event.modules) {
-        duration = request.event.modules[module].duration || 0;
-        total = total + duration;
-    }
-  %>
-  Module Time: <%- total %>
-  Total Time: <%- request.timeDuration %>
-</div>
+<%- dev %>
