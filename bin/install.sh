@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 # Simple bash installation script for Calipso
 
 # Make sure we have node and npm installed
