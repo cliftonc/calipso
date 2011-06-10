@@ -28,7 +28,7 @@ fi
 
 # Checking that you have expat
 echo 'Checking for libexpat ...'
-if [[ $(locate libexpat.so > /dev/null) ]]; then
+if locate libexpat.so > /dev/null; then
   echo 'Libexpat OK'
 else
   echo "You don't seem to have libexpat-dev installed!  Calipso relies on this library for the node-expat module used to parse XML.  Please install via apt-get (or from source)." >&2
