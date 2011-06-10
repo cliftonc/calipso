@@ -1,6 +1,7 @@
 node_modules/*
 *.pid
 *.log
+*.swp
 *.sock
 *.gz
 themes/calipso/public/css/calipso.css
