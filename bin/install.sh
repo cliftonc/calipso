@@ -2,8 +2,8 @@
 # Simple bash installation script for Calipso
 
 # Make sure we have node and npm installed
-node=`node --version`
-npm=`npm --version`
+node=$(node --version)
+npm=$(npm --version)
 
 echo "Using Node version: $node"
 echo "Using NPM version: $npm"
@@ -25,17 +25,14 @@ else
 fi
 
 # Checking that you have expat
-echo "Checking for libexpat ..."
-if ! locate libexpat.so 1> /dev/null; then
-  echo "You don't seem to have libexpat-dev installed!  Calipso relies on this library for the node-expat module used to parse XML.  Please install via apt-get (or from source)."
-  exit
+if [[ $(locate libexpat.so > /dev/null) ]]; then
 else
   echo "Libexpat OK"
 fi
 
 # Lets try npm install
 echo "Installing dependencies via NPM ... please be patient this can take a few minutes ..."
-npmResult=`npm install`
+npmResult=$(npm install)
 
 # Quick check of modules
 if [[ -r ./node_modules/express ]] ; then
@@ -56,8 +53,7 @@ else
 fi
 
 # Lets try our sanity test
-echo "Running sanity tests ..."
-sanityTest=`make`
+sanityTest=$(make)
 
 # Check to see if we got all 100%
 echo "If you can see 100% success on the sanity tests then you are probably good to go!"
