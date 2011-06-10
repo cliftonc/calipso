@@ -4,6 +4,7 @@
 # Make sure we have node and npm installed
 node=$(node --version)
 npm=$(npm --version)
+KEY_MODULES=(express mongodb node-expat)
 
 E_ERROR=1
 
@@ -28,7 +29,7 @@ fi
 
 # Checking that you have expat
 echo 'Checking for libexpat ...'
-if [[ $(locate libexpat.so > /dev/null) ]]; then
+if locate libexpat.so > /dev/null; then
   echo 'Libexpat OK'
 else
   echo "You don't seem to have libexpat-dev installed!  Calipso relies on this library for the node-expat module used to parse XML.  Please install via apt-get (or from source)." >&2
@@ -39,23 +40,24 @@ fi
 echo "Installing dependencies via NPM ... please be patient this can take a few minutes ..."
 npmResult=$(npm install)
 
-# Quick check of modules
-if [[ -r ./node_modules/express ]] ; then
-  if [[ -r ./node_modules/mongodb ]] ; then
-    if [[ -r ./node_modules/node-expat ]] ; then
-      echo "It appears that NPM has installed the key modules ..."
+# Quick check of key modules
+npm_local=$(npm root)
+npm_global=$(npm root -g)
+echo 'Checking that key modules are installed...'
+for module in "${KEY_MODULES[@]}"; do
+    echo -n "  $module module ... "
+    if [[ ! -r "$npm_local/$module" ]];then
+        if [[ ! -r "$npm_global/$module" ]];then
+            echo 'NOT found!'
+            echo "NPM failed to install '$module' module. Hint: Try \`npm install $module\`." >&2
+            exit $E_ERROR
+        else
+            echo ' found (in system install).'
+        fi
     else
-      echo 'NPM failed to install node-expat' >&2
-      exit $E_ERROR
+        echo ' found.'
     fi
-  else
-    echo 'NPM failed to install mongodb' >&2
-    exit $E_ERROR
-  fi
-else
-  echo 'NPM failed to install express' >&2
-  exit $E_ERROR
-fi
+done
 
 # Lets try our sanity test
 echo 'Running sanity tests ...'
