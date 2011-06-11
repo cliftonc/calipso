@@ -115,6 +115,14 @@ function list(req, res, template, block, next) {
       }
     },
     {
+      name:'Menu',
+      about: {
+        description:'Menu management and rendering class.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
       name:'Router',
       about: {
         description:'Router object that allows modules to route requests internally.',
