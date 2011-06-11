@@ -21,7 +21,7 @@ module.exports.translate = function(configLanguage,addMode) {
 
     // add our loaded languages to the request object
     req.languages = languages;
-
+    
     // Add the translate function to the request object
     req.t = req.translate = function(englishString, values) {
 

@@ -501,6 +501,7 @@ function install(next) {
         username:'admin',
         hash:calipso.lib.crypto.hash('password',calipso.config.cryptoKey),
         email:'admin@example.com',
+        about:'Default administrator.',
         roles:['Administrator']
       });
       admin.save(this.parallel());

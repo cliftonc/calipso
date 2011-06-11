@@ -269,19 +269,14 @@ function coreConfig(req, res, template, block, next) {
   
   
   //set the languages array
-  calipso.data.languages = [];
   calipso.data.loglevels = [];
 
   //console.log(calipso.modules);
 
-  for(var language in req.languageCache) {
-    calipso.data.languages.push(language);
-  }
 
   for(var level in calipso.lib.winston.config.npm.levels){
     calipso.data.loglevels.push(level);
-  }
-  //console.log(res);
+  }  
 
 
   var AppConfig = calipso.lib.mongoose.model('AppConfig');
@@ -322,7 +317,7 @@ function coreConfig(req, res, template, block, next) {
               name:'config[language]',
               type:'select',
               value:item.meta.language,
-              options: calipso.data.languages
+              options: req.languages
             },
             {
               label:'Watch Template Files',
