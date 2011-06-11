@@ -11,3 +11,5 @@ h3. Contributors
  * "Clifton Cunningham":https://github.com/cliftonc
  * "Dennis Hall":https://github.com/dennishall
  * "Cole Gillespie":https://github.com/coleGillespie
+ * "Jonathan Zacsh":https://github.com/jzacsh
+ * "Jerad Bitner":https://github.com/sirkitree
