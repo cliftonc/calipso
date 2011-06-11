@@ -25,7 +25,7 @@ function route(req,res,module,app,next) {
        * Menu items
        */
       //res.menu.admin.primary.push({name:req.t('Scheduler'),url:'/scheduler',regexp:/scheduler/});
-      res.menu.admin.addMenuItem({name:'Scheduled Jobs',path:'admin/scheduler',url:'/scheduler',description:'Manage scheduled jobs ...',security:[]});
+      res.menu.admin.addMenuItem({name:'Scheduled Jobs',path:'admin/core/scheduler',url:'/scheduler',description:'Manage scheduled jobs ...',security:[]});
 
       /**
        * Routes

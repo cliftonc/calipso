@@ -380,9 +380,7 @@ function editContentForm(req,res,template,block,next) {
 
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
-  //res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
-  //res.menu.admin.secondary.push({name:req.t('Edit Content'),parentUrl:'/content/' + id,url:'/content/edit/' + id});
-        
+  res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/',description:'List all ...',security:[]});        
   res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/show/' + id,description:'Show current ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/edit/' + id,description:'Edit content ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/delete/' + id,description:'Delete content ...',security:[]});
@@ -578,6 +576,7 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   } else {
 
+    res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/',description:'List all ...',security:[]});
     res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/show/' + content.id,description:'Show current ...',security:[]});
     res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
     res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});

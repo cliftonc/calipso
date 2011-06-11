@@ -1,7 +1,7 @@
 /* Main menu */
 /* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
 
-#admin-menu
+#primary-menu
 {
 	width: 100%;
 	margin: 0;
@@ -14,12 +14,12 @@
 	background: -o-linear-gradient(#444, #111);
 	background: -ms-linear-gradient(#444, #111);
 	background: linear-gradient(#444, #111);	
-	-moz-box-shadow: 0 2px 1px #9c9c9c;
-	-webkit-box-shadow: 0 2px 1px #9c9c9c;
-	box-shadow: 0 2px 1px #9c9c9c;
+	-moz-border-radius: 5px 5px 5px 5px;
+   border-radius: 5px 5px 5px 5px;
+	
 }
  
-#admin-menu li
+#primary-menu li
 {
 	float: left;
 	padding: 0 0 10px 0;
@@ -27,40 +27,41 @@
 	line-height: 0;
 }
  
-#admin-menu a 
+#primary-menu a 
 {
 	float: left;
 	height: 20px;
 	padding: 0 22px;
-	color: #999;
+	color: #CFCFCF;
 	text-transform: uppercase;
 	font: bold 12px/25px Arial, Helvetica;
 	text-decoration: none;
 	text-shadow: 0 1px 0 #000;
 }
  
-#admin-menu li:hover > a
+#primary-menu li:hover > a
 {
 	color: #fafafa;
 }
  
-*html #admin-menu li a:hover /* IE6 */
+*html #primary-menu li a:hover /* IE6 */
 {
 	color: #fafafa;
 }
  
-#admin-menu li:hover > ul
+#primary-menu li:hover > ul
 {
 	display: block;
 }
  
 /* Sub-menu */
  
-#admin-menu ul
+#primary-menu ul
 {
     list-style: none;
     margin: 0;
-    padding: 0;    
+    padding: 0;
+    margin-left: 10px;    
     display: none;
     position: absolute;
     top: 30px;
@@ -80,31 +81,31 @@
     border-radius: 5px;
 }
  
-#admin-menu ul ul
+#primary-menu ul ul
 {
   top: 0;
-  left: 150px;
+  left: 140px;  
 }
  
-#admin-menu ul li
+#primary-menu ul li
 {
     float: none;
     margin: 0;
-    padding: 0;
+    padding: 0;    
     display: block;  
     -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
     -webkit-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
     box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
 }
  
-#admin-menu ul li:last-child
+#primary-menu ul li:last-child
 {   
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;    
 }
  
-#admin-menu ul a
+#primary-menu ul a
 {    
     padding: 10px;
 	height: 10px;
@@ -117,17 +118,17 @@
 	text-transform: none;
 }
  
-*html #admin-menu ul a /* IE6 */
+*html #primary-menu ul a /* IE6 */
 {    
 	height: 10px;
 }
  
-*:first-child+html #admin-menu ul a /* IE7 */
+*:first-child+html #primary-menu ul a /* IE7 */
 {    
 	height: 10px;
 }
  
-#admin-menu ul a:hover
+#primary-menu ul a:hover
 {
     background: #0186ba;
 	background: -moz-linear-gradient(#04acec,  #0186ba);	
@@ -138,13 +139,13 @@
 	background: linear-gradient(#04acec,  #0186ba);
 }
  
-#admin-menu ul li:first-child > a
+#primary-menu ul li:first-child > a
 {
     -moz-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
 }
  
-#admin-menu ul li:first-child > a:after
+#primary-menu ul li:first-child > a:after
 {
     content: '';
     position: absolute;
@@ -157,7 +158,7 @@
     border-bottom: 8px solid #444;
 }
  
-#admin-menu ul ul li:first-child a:after
+#primary-menu ul ul li:first-child a:after
 {
     left: -8px;
     top: 12px;
@@ -169,26 +170,26 @@
     border-right: 8px solid #444;
 }
  
-#admin-menu ul li:first-child a:hover:after
+#primary-menu ul li:first-child a:hover:after
 {
     border-bottom-color: #04acec; 
 }
  
-#admin-menu ul ul li:first-child a:hover:after
+#primary-menu ul ul li:first-child a:hover:after
 {
     border-right-color: #04acec; 
     border-bottom-color: transparent; 	
 }
  
  
-#admin-menu ul li:last-child > a
+#primary-menu ul li:last-child > a
 {
     -moz-border-radius: 0 0 5px 5px;
     border-radius: 0 0 5px 5px;
 }
  
 /* Clear floated elements */
-#admin-menu:after 
+#primary-menu:after 
 {
 	visibility: hidden;
 	display: block;
@@ -198,13 +199,5 @@
 	height: 0;
 }
  
-* html #admin-menu             { zoom: 1; } /* IE6 */
-*:first-child+html #admin-menu { zoom: 1; } /* IE7 */
-
-#adminToolbar ul, #adminToolbar li { margin: 0; list-style:none; list-style-image: none; }
-#adminToolbar {width:100%;float:left;clear:both;background: #62555E;color: #ddd;margin:0 0 20px;}
-#adminToolbar a {display:block;padding:8px 16px;color:#fff;text-decoration:none;font-weight: bold;}
-#adminToolbar li li a {text-transform:capitalize;}
-#adminToolbar li:hover,
-#adminToolbar li {position:relative;float:left;}
-#adminToolbar li ul {display:none;float:left;clear:left;position:absolute;/*top:32px;left:0;*/ background:#1993A8;}
+* html #primary-menu             { zoom: 1; } /* IE6 */
+*:first-child+html #primary-menu { zoom: 1; } /* IE7 */

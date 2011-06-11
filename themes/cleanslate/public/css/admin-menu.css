@@ -14,9 +14,7 @@
 	background: -o-linear-gradient(#444, #111);
 	background: -ms-linear-gradient(#444, #111);
 	background: linear-gradient(#444, #111);	
-	-moz-box-shadow: 0 2px 1px #9c9c9c;
-	-webkit-box-shadow: 0 2px 1px #9c9c9c;
-	box-shadow: 0 2px 1px #9c9c9c;
+	
 }
  
 #admin-menu li
@@ -32,7 +30,7 @@
 	float: left;
 	height: 20px;
 	padding: 0 22px;
-	color: #999;
+	color: #CFCFCF;
 	text-transform: uppercase;
 	font: bold 12px/25px Arial, Helvetica;
 	text-decoration: none;
@@ -60,7 +58,8 @@
 {
     list-style: none;
     margin: 0;
-    padding: 0;    
+    padding: 0;
+    margin-left: 10px;    
     display: none;
     position: absolute;
     top: 30px;
@@ -83,14 +82,14 @@
 #admin-menu ul ul
 {
   top: 0;
-  left: 150px;
+  left: 140px;  
 }
  
 #admin-menu ul li
 {
     float: none;
     margin: 0;
-    padding: 0;
+    padding: 0;    
     display: block;  
     -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
     -webkit-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
@@ -201,38 +200,10 @@
 * html #admin-menu             { zoom: 1; } /* IE6 */
 *:first-child+html #admin-menu { zoom: 1; } /* IE7 */
 
- 
-#adminToolbar ul
-{
-    background: #444;
-        background: -moz-linear-gradient(#444, #111);
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
-    background: -webkit-linear-gradient(#444, #111);    
-    background: -o-linear-gradient(#444, #111);	
-    background: -ms-linear-gradient(#444, #111);	
-    background: linear-gradient(#444, #111);
-    -moz-box-shadow: 0 0 2px rgba(255,255,255,.5);
-    -webkit-box-shadow: 0 0 2px rgba(255,255,255,.5);
-    box-shadow: 0 0 2px rgba(255,255,255,.5);	
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-}
-
-#adminToolbar {font-size: 0.9em;width:120px;float:left;clear:both;background: #62555E;color: #ddd;margin:0 0 20px; position: absolute; left: 0;}
-#adminToolbar ul, #adminToolbar li { margin: 0; list-style:none; list-style-image: none; width: 120px; }
+#adminToolbar ul, #adminToolbar li { margin: 0; list-style:none; list-style-image: none; }
+#adminToolbar {width:100%;float:left;clear:both;background: #62555E;color: #ddd;margin:0 0 20px;}
 #adminToolbar a {display:block;padding:8px 16px;color:#fff;text-decoration:none;font-weight: bold;}
 #adminToolbar li li a {text-transform:capitalize;}
-
-#adminToolbar li:hover
-{
-    background: #0186ba;
-	background: -moz-linear-gradient(#04acec,  #0186ba);	
-	background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
-	background: -webkit-linear-gradient(#04acec,  #0186ba);
-	background: -o-linear-gradient(#04acec,  #0186ba);
-	background: -ms-linear-gradient(#04acec,  #0186ba);
-	background: linear-gradient(#04acec,  #0186ba);
-	-moz-border-radius: 5px;
-    border-radius: 5px;
-}
-
+#adminToolbar li:hover,
+#adminToolbar li {position:relative;float:left;}
+#adminToolbar li ul {display:none;float:left;clear:left;position:absolute;/*top:32px;left:0;*/ background:#1993A8;}

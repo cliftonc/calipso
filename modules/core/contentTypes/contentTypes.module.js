@@ -221,6 +221,8 @@ function editContentTypeForm(req,res,template,block,next) {
   var id = req.moduleParams.id;
   var item;
     
+
+  res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/type/',description:'List all ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',security:[]});
@@ -313,8 +315,10 @@ function showContentType(req,res,template,block,next,err,content,format) {
 
     if(err || content === null) {
       item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content type!"}};
-    } else {
 
+    } else {
+      
+      res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/type/',description:'List all ...',security:[]});
       res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',security:[]});
       res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',security:[]});
       res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',security:[]});
@@ -358,7 +362,7 @@ function listContentType(req,res,template,block,next) {
       // Re-retrieve our object
       var ContentType = calipso.lib.mongoose.model('ContentType');
 
-      res.menu.adminToolbar.addMenuItem({name:'New Content Type',path:'new',url:'/content/type/new',description:'Create content type ...',security:[]});
+      res.menu.adminToolbar.addMenuItem({name:'New Type',path:'new',url:'/content/type/new',description:'Create content type ...',security:[]});
 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 

@@ -184,15 +184,7 @@ _*/
   margin: 20px 0;
 }
 nav.secondary {position:absolute;top:22px;right:0;}
-nav.primary {width:100%;float:left;clear:both;background:#1993A8;margin:0 0 20px;}
-nav.primary a {display:block;padding:8px 16px;color:#fff;text-decoration:none;text-transform:uppercase;font-weight: bold;}
-nav.primary li li a {text-transform:capitalize;}
-nav.primary li:hover,
-nav.primary .primary-menu-item-selected a {background: #FF802F;}
-
-nav li {position:relative;float:left;}
-nav li ul {display:none;float:left;clear:left;position:absolute;/*top:32px;left:0;*/ background:#1993A8;}
-nav li:hover ul {display:block;}
+nav.primary {width:100%;float:left;clear:both;margin:0 0 10px;}
 
 table {width: 100%;}
 th,td {padding:4px;border:1px solid #ccc;text-align:left;}
