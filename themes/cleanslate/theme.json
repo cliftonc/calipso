@@ -60,6 +60,14 @@
           "body": {"template": "body.html"}
         }
       }
+    },
+    "rss": {
+      "layout": {
+        "template": "rss.html",
+        "sections": {          
+          "body": {"template": "body.html"}
+        }
+      }
     }
   }
 }

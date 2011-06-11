@@ -52,8 +52,8 @@ function init(module,app,next) {
 
         // Default routes
         module.router.addRoute('GET /',homePage,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /tag/:tag',listContent,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /tag/:tag.format:?',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?.:format?',listContent,{template:'list',block:'content'},this.parallel());
 
         // Alias for SEO friendly pages, match to prefix excluding content pages
         module.router.addRoute(/^((?!content).*)\.html/,showAliasedContent,{template:'show',block:'content'},this.parallel());
@@ -705,6 +705,20 @@ function getContentList(query,out,next) {
                       return u.toObject();
                     }));
                     next();
+                  }
+                  
+                  // This really needs to be pluggable
+                  // WIP!
+                  if(out.format === 'rss') {
+                    // Override the template
+                    out.res.layout = "rss";                    
+                    var newTemplate = calipso.modules["content"].templates["rss"];
+                    if(newTemplate) {                                          
+                      calipso.theme.renderItem(out.req,out.res,newTemplate,out.block,{contents:contents},next);
+                    } else {
+                      res.statusCode = 404;
+                      next();                     
+                    }
                   }
 
                } else {

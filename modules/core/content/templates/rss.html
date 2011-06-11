@@ -1,0 +1,16 @@
+<title>Scripting News</title>
+<link><%- request.url %></link>
+<description>Calipso News</description>
+<language>en-us</language>
+<lastBuildDate><%- new Date() %></lastBuildDate>
+<generator>Calipso</generator>
+<ttl>40</ttl>
+<% contents.forEach(function(content) { %>
+<item>
+  <description><%- content.teaser %></description>
+  <pubDate><%- content.published %></pubDate>
+  <guid><%- request.url %><%- content.alias %></guid>
+  </item>
+<item>
+<% }); %>
+
