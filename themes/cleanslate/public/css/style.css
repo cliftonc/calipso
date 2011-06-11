@@ -372,7 +372,18 @@ ul.tabs li.active a:hover {
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
-
+.tagcloud{height:180px;}
+.tag{float:left;padding:1px;display:inline}
+.tag-10{font-size:1.8em}
+.tag-9{font-size:1.7em}
+.tag-8{font-size:1.5em}
+.tag-7{font-size:1.4em}
+.tag-6{font-size:1.3em}
+.tag-5{font-size:1.1em}
+.tag-4{font-size:1em}
+.tag-3{font-size:.9em}
+.tag-2{font-size:.8em}
+.tag-1{font-size:.7em}
 
 /**
  * Placeholder media queries for responsive design. Modify as design requires.
