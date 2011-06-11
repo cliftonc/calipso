@@ -210,13 +210,13 @@ p {margin:0 0 1em;}
 
 /*
   label :: width = 150, padding-right = 10
-  .instruct :: padding-left
+  .description :: padding-left
   =
   input[type=submit] :: margin-left
   =
   .checkable :: margin-left
   = 150 + 10
-  
+
 */
 label {display:inline-block;width:150px;text-align:right;padding-right:10px;}
 label.for-checkable {width:auto;text-align:left;padding:0 0 0 10px;}
@@ -224,7 +224,7 @@ select {padding:1px;}
 textarea {width:820px;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
 .tab-container .actions {margin-top:0;}
-.instruct {padding:2px 0 5px 160px;font-size:11px;}
+.description {padding:2px 0 5px 160px;font-size:11px;}
 input[type=submit] {margin-left:160px;padding:8px 16px;font-size:14px;font-weight:bold;}
 input.date {width:3em;}
 input.date-day,
