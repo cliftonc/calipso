@@ -1,5 +1,5 @@
 /* desert scheme ported from vim to google prettify */
-pre { display: block; background-color: #333 }
+pre { display: block; background:#2a2c2a url("/images/simple_bg.gif") repeat;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px; }
 pre .nocode { background-color: none; color: #000 }
 pre .str { color: #ffa0a0 } /* string  - pink */
 pre .kwd { color: #f0e68c; font-weight: bold }

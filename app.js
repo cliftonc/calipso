@@ -104,6 +104,8 @@ function bootApplication(app, next) {
   app.use(express.responseTime());
   app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));
 
+  var publicDir = __dirname + '/themes/' + theme + '/public';
+  
   // Stylus
   var stylusMiddleware = stylus.middleware({
     src: __dirname + '/themes/' + theme + '/stylus', // .styl files are located in `views/stylesheets`
@@ -118,24 +120,20 @@ function bootApplication(app, next) {
   });
 
   app.use(stylusMiddleware);
-
+  
+  // Static - tag it so we can replace later
+  var themeStatic = express.static(path + '/themes/' + theme + '/public');  
+  themeStatic.tag = 'themeStatic';
+  app.use(themeStatic);
+  
+  // Media paths  
+  app.use(express.static(path + '/media'));      
+  
   // connect-form
   app.use(form({
     keepExtensions: true
   }));
-
-  // Use gzip middleware
-  var gzip = require('connect-gzip');
-  app.use(gzip.gzip());
-
-  // Static - tag it so we can replace later
-  var themeStatic = gzip.staticGzip(path + '/themes/' + theme + '/public');
-  themeStatic.tag = 'themeStatic';
-  app.use(themeStatic);
-
-  // Media paths
-  app.use(gzip.staticGzip(path + '/media'));
-
+  
   // Translation - after static, set to add mode if appropriate
   app.use(translate.translate(app.set('config').language, app.set('language-add')));
 
@@ -143,8 +141,7 @@ function bootApplication(app, next) {
   app.use(calipso.calipsoRouter(app, app.set('config'), function() {
     next();
   }));
-
-
+  
 }
 
 // allow normal node loading if appropriate
