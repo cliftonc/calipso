@@ -210,7 +210,7 @@ function schedulerAdmin(req,res,template,block,next) {
 /**
  * The form used to create/update jobs
  */
-var jobCronTimeInstruction = "Examples:<br/>"
+var jobCronTimeDescription = "Examples:<br/>"
                               +"00 * * * * * : When seconds are zero exactly.<br/>"
                               +"*/5 * * * * * : Every five seconds.<br/>"
                               +"10-20 * * * * * : Every second from 10 through 20.<br/>"
@@ -220,7 +220,7 @@ var jobCronTimeInstruction = "Examples:<br/>"
 
 var jobForm = {id:'job-form',title:'',type:'form',method:'POST',action:'/scheduler',fields:[
                   {label:'Name',name:'job[name]',description:'Enter a unique name for the job',type:'text'},
-                  {label:'CRON Time',name:'job[cronTime]',description:jobCronTimedescriptionion,type:'cronTime'},
+                  {label:'CRON Time',name:'job[cronTime]',description:jobCronTimeDescription,type:'cronTime'},
                   {label:'Enabled',name:'job[enabled]',type:'select',description:'Enable or disable the job',options:["Yes","No"]},
                   {label:'Job Function',name:'job[moduleMethod]',description:'Select the job function to run as per this schedule',type:'select',options:function() { return calipso.data.jobFunctions }},
                   {label:'Arguments',name:'job[args]',description:'Enter the arguments (as per the job function)',type:'textarea'}
