@@ -10,11 +10,11 @@ var assert = require('assert'),
     should = require('should'),
     menu = require('lib/Menu');
 
-var simpleMenuBasic = {name:'Basic Menu Item',path:'simplepath',url:'/menu'};
-var simpleMenuFull = {name:'Full Menu Item',path:'fullpath',url:'/menu',description:'This is a simple menu',security:["test"]}
-var childMenuShort = {name:'Short Menu Item',path:'simplepath/child',url:'/menu/child'};
-var childMenuDeep = {name:'Deep Menu Item',path:'simplepath/a/b',url:'/menu/a/b'};
-var childMenuDeepLater = {name:'Later Menu Item',path:'simplepath/a/b/c',url:'/menu/a/b/c'};
+var simpleMenuBasic = {name:'Basic Menu Item',path:'simplepath',url:'/bob'};
+var simpleMenuFull = {name:'Full Menu Item',path:'fullpath',url:'/bill',description:'This is a simple menu',security:["test"]}
+var childMenuShort = {name:'Short Menu Item',path:'simplepath/child',url:'/bob/child'};
+var childMenuDeep = {name:'Deep Menu Item',path:'simplepath/a/b',url:'/bob/a/b'};
+var childMenuDeepLater = {name:'Later Menu Item',path:'simplepath/a/b/c',url:'/bob/a/b/c'};
 
 /**
  * Tests
@@ -126,3 +126,60 @@ exports['Creating menus in the wrong order is ok, they get updated'] = function(
   tm.children.simplepath.url.should.equal(simpleMenuBasic.url);
   
 };
+
+exports['I can recursively scan the menu tree'] = function() {
+  
+  var tm = new menu.CalipsoMenu('MyMenu');    
+  tm.addMenuItem(simpleMenuBasic);
+  tm.addMenuItem(childMenuShort);
+  tm.addMenuItem(childMenuDeep);
+  tm.addMenuItem(childMenuDeepLater);
+  
+  var output = [];
+  var menuFn = function(menu) {
+      return menu.path;
+  }
+  tm.fnRecurse(tm,menuFn,output);
+
+  output.length.should.equal(5);
+  output[0].should.equal(simpleMenuBasic.path);  
+  
+};
+
+
+exports['I can highlight selected menu items in a tree based on current url matching'] = function() {
+  
+  var tm = new menu.CalipsoMenu('MyMenu');    
+  tm.addMenuItem(simpleMenuBasic);
+  tm.addMenuItem(childMenuShort);
+  tm.addMenuItem(childMenuDeep);
+  tm.addMenuItem(childMenuDeepLater);
+  
+  // Mock request object
+  var req = {url:'/bob/child', t: function(string) { return string }}
+  
+  var selected = tm.selected(req);
+  selected.length.should.equal(2);
+  selected[0].should.equal(simpleMenuBasic.path);
+  selected[1].should.equal(childMenuShort.path);    
+  
+};
+
+
+exports['I can render html'] = function() {
+  
+  var tm = new menu.CalipsoMenu('MyMenu');    
+  tm.addMenuItem(simpleMenuBasic);
+  tm.addMenuItem(childMenuShort);
+  tm.addMenuItem(childMenuDeep);
+  tm.addMenuItem(childMenuDeepLater);
+  tm.addMenuItem(simpleMenuFull);
+  
+  // Mock request object
+  var req = {url:'/bob/child', t: function(string) { return string }}  
+  var html = tm.render(req);  
+  
+  html.should.equal("<ul id='MyMenu'><li id='simplepath' class='MyMenu-menu-item-selected'><a href='/bob' title=''>Basic Menu Item</a><li id='simplepath-child' class='MyMenu-menu-item-selected'><a href='/bob/child' title=''>Short Menu Item</a></li><li id='simplepath-a-b' class='MyMenu-menu-item'><a href='/bob/a/b' title=''>Deep Menu Item</a><li id='simplepath-a-b' class='MyMenu-menu-item'><a href='/bob/a/b' title=''>Deep Menu Item</a><li id='simplepath-a-b-c' class='MyMenu-menu-item'><a href='/bob/a/b/c' title=''>Later Menu Item</a></li></li></li></li><li id='fullpath' class='MyMenu-menu-item'><a href='/bill' title='This is a simple menu'>Full Menu Item</a></li></ul>");
+  
+};
+
