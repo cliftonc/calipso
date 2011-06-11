@@ -440,20 +440,14 @@ function updateContent(req,res,template,block,next) {
         Content.findById(id, function(err, c) {
           if (c) {
 
-              // TODO : Find a better mapper
-              c.title = form.content.title;
-              c.teaser = form.content.teaser;
-              c.content = form.content.content;
-              c.status = form.content.status;
-              c.taxonomy = form.content.taxonomy;
+              // Default mapper
+              calipso.form.mapFields(form.content,c);
+                                       
+              // Fields that are mapped specifically
               c.updated = new Date();
-              c.author = req.session.user.username;
               c.alias = form.content.alias ? form.content.alias : titleAlias(c.title);
               c.tags = form.content.tags ? form.content.tags.replace(/[\s]+/g, "").split(",") : [];
-
-              c.published = form.content.published;
-              c.scheduled = form.content.scheduled;
-
+              
               // Get content type
               ContentType.findOne({contentType:form.content.contentType}, function(err, contentType) {
 
