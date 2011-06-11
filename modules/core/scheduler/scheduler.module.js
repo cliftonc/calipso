@@ -219,11 +219,11 @@ var jobCronTimeInstruction = "Examples:<br/>"
 
 
 var jobForm = {id:'job-form',title:'',type:'form',method:'POST',action:'/scheduler',fields:[
-                  {label:'Name',name:'job[name]',instruct:'Enter a unique name for the job',type:'text'},
-                  {label:'CRON Time',name:'job[cronTime]',instruct:jobCronTimeInstruction,type:'cronTime'},
-                  {label:'Enabled',name:'job[enabled]',type:'select',instruct:'Enable or disable the job',options:["Yes","No"]},
-                  {label:'Job Function',name:'job[moduleMethod]',instruct:'Select the job function to run as per this schedule',type:'select',options:function() { return calipso.data.jobFunctions }},
-                  {label:'Arguments',name:'job[args]',instruct:'Enter the arguments (as per the job function)',type:'textarea'}
+                  {label:'Name',name:'job[name]',description:'Enter a unique name for the job',type:'text'},
+                  {label:'CRON Time',name:'job[cronTime]',description:jobCronTimedescriptionion,type:'cronTime'},
+                  {label:'Enabled',name:'job[enabled]',type:'select',description:'Enable or disable the job',options:["Yes","No"]},
+                  {label:'Job Function',name:'job[moduleMethod]',description:'Select the job function to run as per this schedule',type:'select',options:function() { return calipso.data.jobFunctions }},
+                  {label:'Arguments',name:'job[args]',description:'Enter the arguments (as per the job function)',type:'textarea'}
                ],
                buttons:[
                         {name:'submit',type:'submit',value:'Save Job'}
