@@ -139,7 +139,8 @@ function taxonomy(req,res,template,block,next) {
       // Render the item into the response
 
       tax.forEach(function(item) {
-            res.menu.primary.push({name:item._id,url:'/section/' + item._id,regexp:new RegExp(item._id)});
+          //TODO: This needs to be improved!        
+          res.menu.primary.addMenuItem({name:item._id,path:item._id,url:'/section/' + item._id,description:'Link ...',security:[]});
       });
       next();
    });

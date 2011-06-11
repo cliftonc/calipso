@@ -19,10 +19,12 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu items
-  res.menu.admin.primary.push({name: req.t('Home'),url: '/',regexp: /NA/});
-  res.menu.admin.primary.push({name: req.t('Admin'),url: '/admin',regexp: /admin/});
+  res.menu.admin.addMenuItem({name:'Administration',path:'admin',url:'/admin',description:'Calipso administration ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Calipso Core',path:'admin/core',url:'/admin',description:'Manage core settings for Calipso ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Configuration Options',path:'admin/core/config',url:'/admin/core/config',description:'Core configuration ...',security:[]});
+  res.menu.admin.addMenuItem({name:'View Languages',path:'admin/core/languages',url:'/admin/core/languages',description:'Languages ...',security:[]});
+  res.menu.admin.addMenuItem({name:'View Cache',path:'admin/core/cache',url:'/admin/core/cache',description:'Cache ...',security:[]});
   
-
   // Routing and Route Handler
   module.router.route(req, res, next);
 
@@ -110,9 +112,9 @@ function showLanguages(req, res, template, block, next) {
 
   
   
-  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
-  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
-  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  //res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  //res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  //res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
   
   
   
@@ -246,9 +248,9 @@ function install(req, res, template, block, next) {
  */
 function showAdmin(req, res, template, block, next) {
   
-  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
-  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
-  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  //res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  //res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  //res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
   
   calipso.theme.renderItem(req, res, template, block, {},next);
 
@@ -261,9 +263,9 @@ function showAdmin(req, res, template, block, next) {
 function coreConfig(req, res, template, block, next) {
 
   
-  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
-  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
-  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  //res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  //res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  //res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
   
   
   //set the languages array
@@ -550,9 +552,9 @@ function moduleFormatToArray(res, modules) {
 function showCache(req,res,template,block,next) {
   
   
-  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
-  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
-  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  //res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  //res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  //res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
   
   
 

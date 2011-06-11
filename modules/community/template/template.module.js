@@ -32,11 +32,8 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu items
-  res.menu.primary.push({
-    name: 'Template',
-    url: '/template',
-    regexp: /template/
-  });
+  //res.menu.primary.push({ name: 'Template', url: '/template', regexp: /template/});
+  res.menu.primary.addMenuItem({name:'Template',path:'template',url:'/template',description:'Template module ...',security:[]});
 
   // Router
   module.router.route(req, res, next);

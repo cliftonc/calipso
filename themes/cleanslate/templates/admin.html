@@ -11,7 +11,7 @@
   <body>
     <div id="adminMenu">
       <%- admin %>
-    </div>
+    </div>            
     <div id="container">
       <div id="header">
         <h1><a href="/">Site Name</a></h1>
@@ -25,7 +25,12 @@
       <div id="messages">
         <%- messages %>
       </div>
-      <div id="admin-body">
+      <% if(user.isAdmin) { %>
+        <div id="adminToolbar">
+          <%- getMenu('adminToolbar') %>
+        </div>
+      <% } %>
+      <div id="admin-body">        
         <%- body %>
       </div>
       <div id="footer">

@@ -9,8 +9,8 @@
         "template": "default.html",
         "sections": {
           "scripts": {"template": "scripts.html"},
-          "admin": {"menu": "admin", "template": "adminMenu.html"},
-          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "admin": {"template": "adminMenu.html"},
+          "primary": {"template": "primaryMenu.html"},
           "header": {"template": "header.html"},
           "messages": {"template": "messages.html"},
           "body": {"template": "body.html"},

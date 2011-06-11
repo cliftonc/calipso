@@ -25,6 +25,11 @@
       <div id="messages">
         <%- messages %>
       </div>
+       <% if(user.isAdmin) { %>
+        <div id="adminToolbar">
+          <%- getMenu('adminToolbar') %>
+        </div>
+      <% } %>
       <div id="body">
         <%- body %>
       </div>

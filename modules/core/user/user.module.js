@@ -20,8 +20,8 @@ exports = module.exports = {
  */
 function route(req, res, module, app, next) {
 
-  // Menu
-  res.menu.admin.primary.push({name:req.t('User'), url:'/user', regexp:/user/});
+  // Menu  
+  // res.menu.admin.addMenuItem({name:'Profile',path:'user',url:'/user',description:'Your Profile ...',security:[]});
 
   // Router
   module.router.route(req, res, next);

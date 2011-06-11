@@ -1,14 +1,3 @@
 <% if(user.isAdmin) { %>
-<div class="admin-menu">
-  <div class="admin-primary-menu">
-    <% menu.primary.forEach(function(menuItem){ %>
-      <a class='admin-menu-item<%= request.url.indexOf(menuItem.url) == 0 ? ' admin-menu-item-selected' : '' %>' href="<%- menuItem.url %>"><%- menuItem.name %></a>
-    <% }); %>
-  </div>
-  <div class="admin-secondary-menu">
-    <% menu.secondary.forEach(function(menuItem){ %>
-      <a class='admin-menu-item' href="<%- menuItem.url %>"><%- menuItem.name %></a>
-    <% }); %>
-  </div>
-</div>
+  <%- getMenu('admin') %>
 <% } %>

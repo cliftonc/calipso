@@ -26,8 +26,11 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */
-      res.menu.admin.primary.push({name:req.t('Content'),url:'/content',regexp:/content/});
+      //res.menu.admin.primary.push({name:req.t('Content'),url:'/content',regexp:/content/});
 
+      res.menu.admin.addMenuItem({name:'Content Management',path:'cms',url:'/content',description:'Manage content ...',security:[]});
+      res.menu.admin.addMenuItem({name:'Content',path:'cms/content',url:'/content',description:'Manage content ...',security:[]});                  
+      
       /**
        * Routing and Route Handler
        */
@@ -331,15 +334,15 @@ function getForm(req,action,title,contentType,next) {
  */
 function createContentForm(req,res,template,block,next) {
 
-  res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
+  //res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
 
   // Allow defaults to be passed in
   var alias = req.moduleParams.alias ? req.moduleParams.alias : "";
   var teaser = req.moduleParams.teaser ? req.moduleParams.teaser : "";
   var taxonomy = req.moduleParams.taxonomy ? req.moduleParams.taxonomy : "";
   var type = req.moduleParams.type ? req.moduleParams.type : "Article"; // Hard coded default TODO fix
-  var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
-
+  var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";  
+  
   // Create the form
   getForm(req,"/content",req.t("Create Content ..."),type,function(form) {
 
@@ -377,8 +380,13 @@ function editContentForm(req,res,template,block,next) {
 
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
-  res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
-  res.menu.admin.secondary.push({name:req.t('Edit Content'),parentUrl:'/content/' + id,url:'/content/edit/' + id});
+  //res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
+  //res.menu.admin.secondary.push({name:req.t('Edit Content'),parentUrl:'/content/' + id,url:'/content/edit/' + id});
+        
+  res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/show/' + id,description:'Show current ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/edit/' + id,description:'Edit content ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/delete/' + id,description:'Delete content ...',security:[]});
+
 
   Content.findById(id, function(err, c) {
 
@@ -570,9 +578,10 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   } else {
 
-    res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
-    res.menu.admin.secondary.push({name:req.t('Edit Content'),parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
-    res.menu.admin.secondary.push({name:req.t('Delete Content'),parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
+    res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/show/' + content.id,description:'Show current ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});
+
     
     item = {id:content._id,type:'content',meta:content.toObject()};
 
@@ -603,8 +612,9 @@ function listContent(req,res,template,block,next) {
       // Re-retrieve our object
       var Content = calipso.lib.mongoose.model('Content');
 
-      res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
+      res.menu.adminToolbar.addMenuItem({name:'New Content',path:'new',url:'/content/new',description:'Create content ...',security:[]});
 
+      
       var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
@@ -717,7 +727,6 @@ function getContentList(query,out,next) {
 
     });
 };
-
 
 /**
  * Delete content

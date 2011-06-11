@@ -25,8 +25,9 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */
-      res.menu.admin.primary.push({name:req.t('Content Type'),url:'/content/type',regexp:/content\/type/});
-
+      res.menu.admin.addMenuItem({name:'Content Types',path:'cms/type',url:'/content/type',description:'Manage content types ...',security:[]});
+      res.menu.admin.addMenuItem({name:'List Content Types',path:'cms/type',url:'/content/type',description:'List content types ...',security:[]});
+      
       /**
        * Routing and Route Handler
        */
@@ -202,8 +203,6 @@ function createContentType(req,res,template,block,next) {
  */
 function createContentTypeForm(req,res,template,block,next) {
 
-  res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
-
   contentTypeForm.title = "Create Content Type";
   contentTypeForm.action = "/content/type/create";
 
@@ -221,9 +220,10 @@ function editContentTypeForm(req,res,template,block,next) {
   var ContentType = calipso.lib.mongoose.model('ContentType');
   var id = req.moduleParams.id;
   var item;
-
-  res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
-  res.menu.admin.secondary.push({name:req.t('Edit Content Type'),parentUrl:'/content/type' + id,url:'/content/type/edit/' + id});
+    
+  res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',security:[]});
 
   ContentType.findById(id, function(err, c) {
 
@@ -315,9 +315,9 @@ function showContentType(req,res,template,block,next,err,content,format) {
       item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content type!"}};
     } else {
 
-      res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
-      res.menu.admin.secondary.push({name:req.t('Edit Content Type'),parentUrl:'/content/type' + content.id, url:'/content/type/edit/' + content.id});
-      res.menu.admin.secondary.push({name:req.t('Delete Content Type'),parentUrl:'/content/type' + content.id, url:'/content/type/delete/' + content.id});
+      res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',security:[]});
+      res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',security:[]});
+      res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',security:[]});
 
       item = {id:content._id,type:'content',meta:content.toObject()};
     
@@ -358,7 +358,7 @@ function listContentType(req,res,template,block,next) {
       // Re-retrieve our object
       var ContentType = calipso.lib.mongoose.model('ContentType');
 
-      res.menu.admin.secondary.push({name:req.t('New Content Type'),parentUrl:'/content/type',url:'/content/type/new'});
+      res.menu.adminToolbar.addMenuItem({name:'New Content Type',path:'new',url:'/content/type/new',description:'Create content type ...',security:[]});
 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
