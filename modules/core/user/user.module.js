@@ -258,7 +258,7 @@ function updateUserForm(req, res, template, block, next) {
       {label:'Email', name:'user[email]', type:'text'},
       {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
       {label:'About You', name:'user[about]', type:'textarea'},
-      {label:'Old Password', name:'user[old_password]', type:'password',instruct:req.t('Leave blank if not changing password.')},
+      {label:'Old Password', name:'user[old_password]', type:'password',description:req.t('Leave blank if not changing password.')},
       {label:'New Password', name:'user[new_password]', type:'password'},
       {label:'Repeat Password', name:'user[repeat_password]', type:'password'}
     ],

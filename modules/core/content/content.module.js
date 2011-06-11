@@ -154,26 +154,26 @@ var contentForm = function() {
             id:'form-section-content',
             label:'Content',
             fields:[
-                    {label:'Title',name:'content[title]',type:'text',instruct:'Title to appear for this piece of content.'},
-                    {label:'Permanent URL / Alias',name:'content[alias]',type:'text',instruct:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
-                    {label:'Type',name:'content[contentType]',type:'select',options:function() { return calipso.data.contentTypes },instruct:'Select the type, this impacts custom fields and page display.'},
-                    {label:'Teaser',name:'content[teaser]',type:'textarea',instruct:'Enter some short text that describes the content, appears in lists.'},
-                    {label:'Content',name:'content[content]',type:'textarea',instruct:'Enter the full content text.'}
+                    {label:'Title',name:'content[title]',type:'text',description:'Title to appear for this piece of content.'},
+                    {label:'Permanent URL / Alias',name:'content[alias]',type:'text',description:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
+                    {label:'Type',name:'content[contentType]',type:'select',options:function() { return calipso.data.contentTypes },description:'Select the type, this impacts custom fields and page display.'},
+                    {label:'Teaser',name:'content[teaser]',type:'textarea',description:'Enter some short text that describes the content, appears in lists.'},
+                    {label:'Content',name:'content[content]',type:'textarea',description:'Enter the full content text.'}
                    ]
           },{
             id:'form-section-category',
             label:'Categorisation',
             fields:[
-                    {label:'Taxonomy',name:'content[taxonomy]',type:'text',instruct:'Enter the menu heirarchy, e.g. "welcome/about"'},
-                    {label:'Tags',name:'content[tags]',type:'text',instruct:'Enter comma delimited tags to help manage this content.'},
+                    {label:'Taxonomy',name:'content[taxonomy]',type:'text',description:'Enter the menu heirarchy, e.g. "welcome/about"'},
+                    {label:'Tags',name:'content[tags]',type:'text',description:'Enter comma delimited tags to help manage this content.'},
                    ]
           },{
             id:'form-section-status',
             label:'Status',
             fields:[
-                    {label:'Status',name:'content[status]',type:'select',options:["draft","scheduled","published"],instruct:'Select the status (published is visible to all public).'},
-                    {label:'Published',name:'content[published]',type:'datetime',instruct:'Date to appear as published.'},
-                    {label:'Scheduled',name:'content[scheduled]',type:'datetime',instruct:'Date to be published (if scheduled).'},
+                    {label:'Status',name:'content[status]',type:'select',options:["draft","scheduled","published"],description:'Select the status (published is visible to all public).'},
+                    {label:'Published',name:'content[published]',type:'datetime',description:'Date to appear as published.'},
+                    {label:'Scheduled',name:'content[scheduled]',type:'datetime',description:'Date to be published (if scheduled).'},
                    ]
           }
           ],
