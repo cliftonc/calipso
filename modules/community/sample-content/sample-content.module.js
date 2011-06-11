@@ -19,7 +19,7 @@ exports = module.exports = {
     version: '0.1.1',
     home: 'http://github.com/cliftonc/calipso'
   },
-  depends:["template"]
+  depends:["content","contentTypes"]
 };
 
 /**

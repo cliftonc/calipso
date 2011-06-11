@@ -7,7 +7,8 @@ module.exports = exports = {
   check: check,
   hash: hash,
   decrypt: decrypt,
-  encrypt: encrypt
+  encrypt: encrypt,
+  etag: etag
 }
 
 /**
@@ -50,4 +51,14 @@ function encrypt(string,key) {
   var crypted = cipher.update(string,'utf8','hex')
   crypted += cipher.final('hex')
   return crypted;
+}
+
+/**
+ * Create an simple hash etag based on a string of data
+ */
+function etag(string) {
+  var shasum = crypto.createHash('md5');
+  shasum.update(string);
+  var etag = shasum.digest('hex');
+  return etag;
 }

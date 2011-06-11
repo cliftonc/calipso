@@ -115,7 +115,7 @@ require('../app').boot(function(server) {
                 'Cookie': adminCookie
             }
         };
-        request.url = '/admin';
+        request.url = '/admin/core/config';
         assert.response(app, request, function(res) {
             res.statusCode.should.equal(200);
             res.body.should.include.string('Modules');

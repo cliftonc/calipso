@@ -47,3 +47,23 @@ a.admin-menu-item-selected {
 #form-section-modules .checkable {
   margin-left:0;
 }
+
+.admin-dashboard-col1 {
+  float: left;
+  width: 45%;
+  display: inline;
+  border: solid 1px silver;
+}
+
+.admin-dashboard-col2 {
+  display: inline;
+  float: right;
+  width:45%;
+  border: solid 1px silver;  
+}
+
+.admin-dashboard-clear {
+  clear: both;
+  height: 15px;
+}
+

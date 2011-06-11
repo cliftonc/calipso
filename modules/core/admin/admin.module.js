@@ -19,7 +19,9 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu items
+  res.menu.admin.primary.push({name: req.t('Home'),url: '/',regexp: /NA/});
   res.menu.admin.primary.push({name: req.t('Admin'),url: '/admin',regexp: /admin/});
+  
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -35,38 +37,47 @@ function init(module, app, next) {
   calipso.lib.step(
 
   function defineRoutes() {
-
+  
+    // Core Administration dashboard
     module.router.addRoute('GET /admin', showAdmin, {
       template: 'admin',
       block: 'admin.show',
       admin: true
     }, this.parallel());
+    
+    // Core configuration 
+    module.router.addRoute('GET /admin/core/config', coreConfig, {          
+      block: 'admin.show',
+      admin: true
+    }, this.parallel());
 
-    module.router.addRoute('GET /admin/reload', reloadAdmin, {
+    module.router.addRoute('GET /admin/core/config/reload', reloadAdmin, {
       template: 'reload',
       block: 'admin.reload',
       admin: true
     }, this.parallel());
 
-    module.router.addRoute('POST /admin/save', saveAdmin, {
+    module.router.addRoute('POST /admin/core/config/save', saveAdmin, {
       admin: true
     }, this.parallel());
-
-    module.router.addRoute('GET /admin/install', install, null, this.parallel());
-
-    module.router.addRoute('GET /admin/cache', showCache, {
+    
+    module.router.addRoute('GET /admin/core/cache', showCache, {
       admin: true,
       template:'cache',
       cache: false,
       block:'admin.cache'
     }, this.parallel());
 
-    // JSON
-    module.router.addRoute('GET /admin/languages', showLanguages, {
+    module.router.addRoute('GET /admin/core/languages', showLanguages, {
       admin: true,
       template:'languages',
       block:'admin.languages'
     }, this.parallel());
+    
+    
+    // Default installation router
+    module.router.addRoute('GET /admin/install', install, null, this.parallel());
+
 
   }, function done() {
 
@@ -97,6 +108,14 @@ function init(module, app, next) {
  */
 function showLanguages(req, res, template, block, next) {
 
+  
+  
+  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  
+  
+  
   // Check to see if we should google translate?!
   // e.g. /admin/languages?translate=es
   if(req.moduleParams.translate) {
@@ -220,12 +239,33 @@ function install(req, res, template, block, next) {
 
 }
 
+
 /**
  * Show the current configuration
  * TODO Refactor this to a proper form
  */
 function showAdmin(req, res, template, block, next) {
+  
+  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  
+  calipso.theme.renderItem(req, res, template, block, {},next);
 
+}
+
+/**
+ * Show the current configuration
+ * TODO Refactor this to a proper form
+ */
+function coreConfig(req, res, template, block, next) {
+
+  
+  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  
+  
   //set the languages array
   calipso.data.languages = [];
   calipso.data.loglevels = [];
@@ -241,7 +281,6 @@ function showAdmin(req, res, template, block, next) {
   }
   //console.log(res);
 
-  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/languages',regexp: /admin\/languages/});
 
   var AppConfig = calipso.lib.mongoose.model('AppConfig');
 
@@ -269,7 +308,7 @@ function showAdmin(req, res, template, block, next) {
       title:'Administration',
       type:'form',
       method:'POST',
-      action:'/admin/save',
+      action:'/admin/core/config/save',
       tabs:true,
       sections:[
         {
@@ -398,8 +437,8 @@ function showAdmin(req, res, template, block, next) {
         adminModuleFields[i].fields.sort(moduleSort);
       }
     }
+    
     //console.log(values.config);
-
     res.layout = 'admin';
 
     // Test!
@@ -455,12 +494,12 @@ function saveAdmin(req, res, template, block, next) {
             if (err) {
               req.flash('error', req.t('Could not update the configuration because {msg}.',{msg:err.message}));
               if (res.statusCode != 302) { // Don't redirect if we already are, multiple errors
-                res.redirect('/admin');
+                res.redirect('/admin/core/config');
               }
             } else {
               calipso.config = c; // TODO : This wont work on multiple edits
               res.reloadConfig = true;
-              res.redirect('/admin/reload');
+              res.redirect('/admin/core/config/reload');
             }
             next();
           });
@@ -476,7 +515,7 @@ function saveAdmin(req, res, template, block, next) {
     } else {
 
       req.flash('error', req.t('Could not process the updated configuration.'));
-      res.redirect('/admin');
+      res.redirect('/admin/core/config');
       next();
 
     }
@@ -509,6 +548,13 @@ function moduleFormatToArray(res, modules) {
  * Display the cache
  */
 function showCache(req,res,template,block,next) {
+  
+  
+  res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
+  res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
+  res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
+  
+  
 
   calipso.theme.renderItem(req, res, template, block, {
     cache: JSON.stringify(calipso.cache.cache)

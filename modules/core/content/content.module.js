@@ -123,6 +123,7 @@ function init(module,app,next) {
           status:{type: String, required: false, default:'draft'},
           alias:{type: String, required: true, unique: true},
           author:{type: String, required: true},
+          etag:{type: String, default:''},
           tags:[String],
           published: { type: Date },
           scheduled: { type: Date },
@@ -133,6 +134,12 @@ function init(module,app,next) {
             layout:{type: String},
             ispublic:{type: Boolean}
           }
+        });
+
+        // Set post hook to enable simple etag generation
+        Content.pre('save', function (next) {
+          this.etag = calipso.lib.crypto.etag(this.title + this.teaser + this.content);
+          next();
         });
 
         calipso.lib.mongoose.model('Content', Content);
@@ -457,9 +464,17 @@ function updateContent(req,res,template,block,next) {
 
                     c.save(function(err) {
                       if(err) {
-                        req.flash('error',req.t('Could not update content because {msg}.',{msg:err.message}));
+                        var errorMsg = '';
+                        if(err.errors) {
+                          for(var error in err.errors) {
+                            errorMessage = error + " " + err.errors[error] + '\r\n';
+                          }
+                        } else {
+                          errorMessage = err.message;
+                        }
+                        req.flash('error',req.t('Could not update content because {msg}',{msg:errorMessage}));
                         if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-                          res.redirect('/content/edit/' + req.moduleParams.id);
+                          res.redirect('back');
                         }
                       } else {
                         req.flash('info',req.t('Content saved.'));
@@ -494,7 +509,6 @@ function updateContent(req,res,template,block,next) {
  * Locate content based on its alias
  */
 function showAliasedContent(req,res,template,block,next) {
-
 
   var format = req.url.match(/\.json/g) ? "json" : "html";
 
@@ -559,7 +573,7 @@ function showContent(req,res,template,block,next,err,content,format) {
     res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
     res.menu.admin.secondary.push({name:req.t('Edit Content'),parentUrl:'/content/' + content.id, url:'/content/edit/' + content.id});
     res.menu.admin.secondary.push({name:req.t('Delete Content'),parentUrl:'/content/' + content.id, url:'/content/delete/' + content.id});
-
+    
     item = {id:content._id,type:'content',meta:content.toObject()};
 
   }

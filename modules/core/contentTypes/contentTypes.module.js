@@ -50,11 +50,11 @@ function init(module,app,next) {
       function defineRoutes() {
 
         // Crud operations
-        module.router.addRoute('GET /content/type',listContentType,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /content/type/list.:format?',listContentType,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /content/type',listContentType,{admin:true,template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /content/type/list.:format?',listContentType,{admin:true,template:'list',block:'content'},this.parallel());
         module.router.addRoute('POST /content/type/create',createContentType,{admin:true},this.parallel());
         module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,block:'content',template:'form'},this.parallel());
-        module.router.addRoute('GET /content/type/show/:id.:format?',showContentType,{template:'show',block:'content'},this.parallel());
+        module.router.addRoute('GET /content/type/show/:id.:format?',showContentType,{admin:true,template:'show',block:'content'},this.parallel());
         module.router.addRoute('GET /content/type/edit/:id',editContentTypeForm,{admin:true,block:'content'},this.parallel());
         module.router.addRoute('GET /content/type/delete/:id',deleteContentType,{admin:true},this.parallel());
         module.router.addRoute('POST /content/type/update/:id',updateContentType,{admin:true},this.parallel());
@@ -207,8 +207,6 @@ function createContentTypeForm(req,res,template,block,next) {
   contentTypeForm.title = "Create Content Type";
   contentTypeForm.action = "/content/type/create";
 
-  res.layout = 'admin';
-
   calipso.form.render(contentTypeForm,null,req,function(form) {
     calipso.theme.renderItem(req,res,template,block,{form:form},next);
   });
@@ -243,8 +241,6 @@ function editContentTypeForm(req,res,template,block,next) {
           contentType: c
       }
       values.contentType.ispublic = c.ispublic ? "Yes" : "No";
-
-      res.layout = 'admin';
 
       calipso.form.render(contentTypeForm,values,req,function(form) {
         calipso.theme.renderItem(req,res,form,block,{},next);
@@ -324,10 +320,8 @@ function showContentType(req,res,template,block,next,err,content,format) {
       res.menu.admin.secondary.push({name:req.t('Delete Content Type'),parentUrl:'/content/type' + content.id, url:'/content/type/delete/' + content.id});
 
       item = {id:content._id,type:'content',meta:content.toObject()};
-
+    
     }
-
-    res.layout = 'admin';
 
     // Check to see if fields are valid json
     item.meta['fieldsValid'] = 'Yes';

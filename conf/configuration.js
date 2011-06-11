@@ -141,6 +141,7 @@ module.exports = function(app, express, next) {
    *  - reduces debugging and error reporting and increases speed
    */
   var NODE_ENV = global.process.env.NODE_ENV || 'development';
+  app.set('environment',NODE_ENV);
   app.configure(NODE_ENV, function() {
     require("./"+NODE_ENV+".js")(app, express);
     loadConfig(app, defaultConfig, function(err, config) {
