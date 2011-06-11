@@ -408,9 +408,11 @@ function coreConfig(req, res, template, block, next) {
       cM.name = 'config[modules]['+ moduleName +']';
       cM.checked = module.enabled;
       cM.type = 'checkbox';
+      cM.description = module.fn.about.description;
       //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
       tempModuleFields[module.type].push(cM);
     }
+    
     // add only non-empty fieldsets for module categories
     ['Core','Community','Site'].forEach(function(moduleType){
       var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
