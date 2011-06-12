@@ -52,7 +52,7 @@ function init(module,app,next) {
 
         // Default routes
         module.router.addRoute('GET /',homePage,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /tag/:tag.format:?',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /tag/:tag.:format?',listContent,{template:'list',block:'content'},this.parallel());
         module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?.:format?',listContent,{template:'list',block:'content'},this.parallel());
 
         // Alias for SEO friendly pages, match to prefix excluding content pages
