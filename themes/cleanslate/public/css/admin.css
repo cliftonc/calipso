@@ -1,11 +1,18 @@
 #form-section-modules .fieldset-fields {
-  -moz-column-count: 4;
+  -moz-column-count: 2;
   -moz-column-gap: 20px;
-  -webkit-column-count: 4;
+  -webkit-column-count: 2;
   -webkit-column-gap: 20px;
-  column-count: 4;
+  column-count: 2;
   column-gap: 20px;
 }
+
+#form-section-modules .description {
+  padding-left: 20px;
+  color: grey;
+}
+
+
 #form-section-modules legend {
   font-size: 1.2em;
   margin-bottom: 10px;

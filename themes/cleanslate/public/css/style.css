@@ -216,7 +216,7 @@ select {padding:1px;}
 textarea {width:820px;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
 .tab-container .actions {margin-top:0;}
-.description {padding:2px 0 5px 160px;font-size:11px;}
+.description {padding:2px 0 5px 160px;font-size:11px;display}
 input[type=submit] {margin-left:160px;padding:8px 16px;font-size:14px;font-weight:bold;}
 input.date {width:3em;}
 input.date-day,
@@ -240,29 +240,44 @@ form .section:first-child {border:0;}
   clear: both;
 }
 #messages ul {
+  list-style:none;
+}
+.info {
   border: 1px solid;
   margin: 0 20px 20px;
   padding:15px 10px 15px 50px;
   background-repeat: no-repeat;
-  background-position: 10px 6px;
-  list-style:none;
-}
-.info {
+  background-position: 10px 6px;  
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url('images/icons/info.png');
 }
 .success {
+  border: 1px solid;
+  margin: 0 20px 20px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px 6px;  
   color: #4F8A10;
   background-color: #DFF2BF;
   background-image:url('images/icons/success.png');
 }
 .warning {
+  border: 1px solid;
+  margin: 0 20px 20px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px 6px;  
   color: #9F6000;
   background-color: #FEEFB3;
   background-image: url('images/icons/warning.png');
 }
 .error {
+  border: 1px solid;
+  margin: 0 20px 20px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px 6px;  
   color: #D8000C;
   background-color: #FFBABA;
   background-image: url('images/icons/error.png');

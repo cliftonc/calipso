@@ -11,12 +11,15 @@ exports = module.exports = function(req, options, callback) {
    */
   calipso.lib.step(
     function getContent() {
-      options.getContent(req, 'about-me', this.parallel());
-      options.getBlock('user.login',this.parallel());
+      options.getContent(req, 'about-me', this.parallel());      
       options.getBlock('tagcloud',this.parallel());
+      
+      // Demonstration of how to use getModuleFn
+      options.getModuleFn(req,'template.templatePage',{template:'templateShow'},this.parallel());
+      
     },
-    function done(err, about, userLogin, tagcloud) {
-      callback(err,{about:about,userLogin:userLogin, tagcloud:tagcloud});
+    function done(err, about, userLogin, tagcloud,fn) {
+      callback(err,{about:about,tagcloud:tagcloud, fn:fn});
     }
   );
 

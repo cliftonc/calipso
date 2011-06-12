@@ -23,7 +23,9 @@ exports = module.exports = {
     templateJob: templateJob
   },
   depends:["content","contentTypes"],
-  last: true
+  last: true,
+  // Exposed function for calling via getModuleFn
+  templatePage: templatePage
 };
 
 /**
