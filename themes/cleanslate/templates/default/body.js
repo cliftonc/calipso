@@ -16,7 +16,7 @@ exports = module.exports = function(req, options, callback) {
       options.getBlock('scripts.disqus',this.parallel());
     },
     function done(err, content, admin, disqus) {
-      callback({content:content,admin:admin,disqus: disqus});
+      callback(err,{content:content,admin:admin,disqus: disqus});
     }
   );
 

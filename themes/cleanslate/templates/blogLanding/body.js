@@ -25,7 +25,7 @@ exports = module.exports = function(req,options,callback) {
     },
     function done(err, output) {
 
-      callback({ contents:output.contents, pager:output.pager });
+      callback(err,{ contents:output.contents, pager:output.pager });
 
     }
   );

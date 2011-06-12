@@ -14,7 +14,7 @@ exports = module.exports = function(req, options, callback) {
   function getContent() {
     options.getBlock(/content.*/, this.parallel());
   }, function done(err, content) {
-    callback({
+    callback(err,{
 	content:content
     });
   });

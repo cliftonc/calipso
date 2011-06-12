@@ -17,7 +17,7 @@ exports = module.exports = function(req, options, callback) {
       options.getBlock("dev.tools", this.parallel());
     },
     function done(err, left, center, right, dev) {
-      callback({left:left, center:center, right:right, dev: dev});
+      callback(err,{left:left, center:center, right:right, dev: dev});
     }
   );
 

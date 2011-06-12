@@ -18,7 +18,7 @@ exports = module.exports = function(req, options, callback) {
 
     },
     function done(err, datepicker, markitup, pusher, ga) {
-      callback({datepicker:datepicker, markitup:markitup, pusher:pusher, ga:ga});
+      callback(err,{datepicker:datepicker, markitup:markitup, pusher:pusher, ga:ga});
     }
   );
 

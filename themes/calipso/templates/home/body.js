@@ -20,7 +20,7 @@ exports = module.exports = function(req, options, callback) {
     options.getContent(req, "home-feature-b", this.parallel());
     options.getContent(req, "home-feature-c", this.parallel());
   }, function done(err, welcome, about, quickstart, guide, fa, fb, fc) {
-    callback({
+    callback(err,{
       welcome: welcome,
       about: about,
       quickstart: quickstart,

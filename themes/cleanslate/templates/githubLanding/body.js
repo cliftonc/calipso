@@ -29,7 +29,7 @@ exports = module.exports = function(req, options, callback) {
 
   }, function done(err, header, output) {
 
-    callback({
+    callback(err,{
       header: header,
       contents: output.contents,
       pager: output.pager

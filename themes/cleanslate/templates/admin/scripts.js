@@ -14,7 +14,7 @@ exports = module.exports = function(req, options, callback) {
       options.getBlock(/^scripts.*/,this.parallel());
     },
     function done(err, scripts) {
-      callback({scripts:scripts});
+      callback(err,{scripts:scripts});
     }
   );
 

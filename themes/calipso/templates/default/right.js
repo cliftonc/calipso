@@ -16,7 +16,7 @@ exports = module.exports = function(req, options, callback) {
       options.getBlock('tagcloud',this.parallel());
     },
     function done(err, about, userLogin, tagcloud) {
-      callback({about:about,userLogin:userLogin, tagcloud:tagcloud});
+      callback(err,{about:about,userLogin:userLogin, tagcloud:tagcloud});
     }
   );
 

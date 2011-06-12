@@ -14,7 +14,7 @@ exports = module.exports = function(req, options, callback) {
       options.getBlock('user.login',this.parallel());
     },
     function done(err,userLogin) {
-      callback({userLogin:userLogin});
+      callback(err,{userLogin:userLogin});
     }
   );
 

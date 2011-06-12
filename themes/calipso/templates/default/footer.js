@@ -16,7 +16,7 @@ exports = module.exports = function(req, options, callback) {
       options.getContent(req, "footer-right", this.parallel());
     },
     function done(err, left, center, right) {
-      callback({left:left, center:center, right:right});
+      callback(err,{left:left, center:center, right:right});
     }
   );
   
