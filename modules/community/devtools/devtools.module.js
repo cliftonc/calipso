@@ -46,7 +46,7 @@ function init(module, app, next) {
     module.router.addRoute(/.*/, devTools, {
       end: false,
       template: 'devtools',
-      block: 'dev.tools'
+      block: 'footer.dev.tools'
     }, this.parallel());
 
 
