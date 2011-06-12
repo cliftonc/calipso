@@ -700,11 +700,11 @@ function getContentList(query,out,next) {
                   }
 
                   if(out.format === 'json') {
-                    out.res.format = format;
-                    out.res.send(contents.map(function(u) {
+                    out.res.format = out.format;
+                    out.res.end(contents.map(function(u) {
                       return u.toObject();
                     }));
-                    next();
+                    //next();
                   }
                   
                   // This really needs to be pluggable
