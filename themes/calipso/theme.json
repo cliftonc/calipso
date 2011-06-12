@@ -8,6 +8,7 @@
       "layout": {
         "template": "default.html",
         "sections": {
+          "styles": {"template": "styles.html"},
           "scripts": {"template": "scripts.html"},
           "admin": {"template": "adminMenu.html"},
           "primary": {"template": "primaryMenu.html"},
