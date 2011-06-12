@@ -11,14 +11,10 @@ exports = module.exports = function(req, options, callback) {
    */
   calipso.lib.step(
     function getContent() {
-      options.getBlock('scripts.richforms.datepicker',this.parallel());
-      options.getBlock('scripts.richforms.markitup',this.parallel());
-      options.getBlock('scripts.pusher',this.parallel());
-      options.getBlock('scripts.ga',this.parallel());
-
+      options.getBlock(/scripts.*/,this.parallel());
     },
-    function done(err, datepicker, markitup, pusher, ga) {
-      callback(err,{datepicker:datepicker, markitup:markitup, pusher:pusher, ga:ga});
+    function done(err, scripts) {
+      callback(err,{scripts:scripts});
     }
   );
 

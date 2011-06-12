@@ -8,7 +8,7 @@ require.paths.unshift(__dirname + "/../"); //make local application paths access
 var assert = require('assert'),
     sys = require('sys'),
     should = require('should'),
-    menu = require('lib/Menu');
+    menu = require('Menu');
 
 var simpleMenuBasic = {name:'Basic Menu Item',path:'simplepath',url:'/bob'};
 var simpleMenuFull = {name:'Full Menu Item',path:'fullpath',url:'/bill',description:'This is a simple menu',security:["test"]}

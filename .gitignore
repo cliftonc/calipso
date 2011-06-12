@@ -1,3 +1,4 @@
+lib-cov/*
 node_modules/*
 *.pid
 *.log

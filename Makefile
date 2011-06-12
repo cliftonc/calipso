@@ -6,6 +6,6 @@ test:
 		$(TESTS)
 
 test-cov:
-	@TESTFLAGS=--cov $(MAKE) test
+	@TESTFLAGS=-c $(MAKE) test
 
 .PHONY: test test-cov
