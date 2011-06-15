@@ -132,11 +132,9 @@ function init(module,app,next) {
           scheduled: { type: Date },
           created: { type: Date, default: Date.now },
           updated: { type: Date, default: Date.now },
-          meta:{
-            contentType:{type: String},
-            layout:{type: String},
-            ispublic:{type: Boolean}
-          }
+          contentType:{type: String},  // Copy from content type          
+          layout:{type: String},       // Copy from content type
+          ispublic:{type: Boolean}    // Copy from content type        
         });
 
         // Set post hook to enable simple etag generation
@@ -239,9 +237,9 @@ function createContent(req,res,template,block,next) {
 
                 // Copy over content type data - in meta as this is
                 // not mastered here
-                c.meta.contentType = contentType.contentType;
-                c.meta.layout = contentType.layout;
-                c.meta.ispublic = contentType.ispublic;
+                c.contentType = contentType.contentType;
+                c.layout = contentType.layout;
+                c.ispublic = contentType.ispublic;
 
                 c.save(function(err) {
                   if(err) {
@@ -397,14 +395,14 @@ function editContentForm(req,res,template,block,next) {
     } else {
 
       // Create the form
-      getForm(req,"/content/" + id,req.t("Edit Content ..."),c.meta.contentType,function(form) {
+      getForm(req,"/content/" + id,req.t("Edit Content ..."),c.contentType,function(form) {
 
         // Default values
         var values = {content: c};
 
         // Fix for content type being held in meta field
         // TODO this has a bad smell
-        values.content.contentType = values.content.meta.contentType;
+        values.contentType = values.content.contentType;
         values.returnTo = returnTo;
 
         res.layout = 'admin';
@@ -458,9 +456,9 @@ function updateContent(req,res,template,block,next) {
                   } else {
 
                     // Copy over content type data
-                    c.meta.contentType = contentType.contentType;
-                    c.meta.layout = contentType.layout;
-                    c.meta.ispublic = contentType.ispublic;
+                    c.contentType = contentType.contentType;
+                    c.layout = contentType.layout;
+                    c.ispublic = contentType.ispublic;
 
                     c.save(function(err) {
                       if(err) {
@@ -566,7 +564,7 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   if(err || !content) {
 
-    item = {id:'ERROR',type:'content',meta:{title:"Not Found!",content:"Sorry, I couldn't find that content!"}};
+    item = {title:"Not Found!",content:"Sorry, I couldn't find that content!"};
 
   } else {
 
@@ -576,14 +574,14 @@ function showContent(req,res,template,block,next,err,content,format) {
     res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});
 
     
-    item = {id:content._id,type:'content',meta:content.toObject()};
+    item = content.toObject();
 
   }
 
   // Set the page layout to the content type
   if(format === "html") {
     if(content) {
-      res.layout = content.meta.layout ? content.meta.layout : "default";
+      res.layout = content.layout ? content.layout : "default";
     }
     calipso.theme.renderItem(req,res,template,block,{item:item},next);
   }

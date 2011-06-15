@@ -7,12 +7,12 @@
 <th><%- t('Updated') %></th>
 </tr>
 <% contents.forEach(function(item) { %>
-<tr class='content-list-item content-list-item-<%- item.meta.status %> content-type-<%- item.meta.contentType %>'>
-    <td><a href='/<%= item.meta.alias %>.html'><%- item.meta.title %></a></td>
-    <td><%- item.meta.meta.contentType %></td>
-    <td><%- item.meta.author %></td>
-    <td><%- prettyDate(item.meta.published) %></td>
-    <td><%- prettyDate(item.meta.updated) %></td>
+<tr class='content-list-item content-list-item-<%- item.status %> content-type-<%- item.contentType %>'>
+    <td><a href='/<%= item.alias %>.html'><%- item.title %></a></td>
+    <td><%- item.contentType %></td>
+    <td><%- item.author %></td>
+    <td><%- prettyDate(item.published) %></td>
+    <td><%- prettyDate(item.updated) %></td>
 </tr>
 <% });  %>
 </table>
