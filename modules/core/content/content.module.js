@@ -3,7 +3,6 @@
  * This is the core module that provides the basic content management
  * functions.
  */
-
 var calipso = require("lib/calipso"), Query = require("mongoose").Query, utils = require('connect').utils, merge = utils.merge;
 
 exports = module.exports = {
@@ -26,8 +25,6 @@ function route(req,res,module,app,next) {
       /**
        * Menu items
        */
-      //res.menu.admin.primary.push({name:req.t('Content'),url:'/content',regexp:/content/});
-
       res.menu.admin.addMenuItem({name:'Content Management',path:'cms',url:'/content',description:'Manage content ...',security:[]});
       res.menu.admin.addMenuItem({name:'Content',path:'cms/content',url:'/content',description:'Manage content ...',security:[]});                  
       
@@ -332,13 +329,67 @@ function getForm(req,action,title,contentType,next) {
  */
 function createContentForm(req,res,template,block,next) {
 
-  //res.menu.admin.secondary.push({name:req.t('New Content'),parentUrl:'/content',url:'/content/new'});
+  // Allow defaults to be passed in
+  if(req.moduleParams.type) { 
+    
+    // we have had one passed in, use it and continue    
+    createContentFormByType(req,res,template,block,next);
+    
+  } else {    
+    
+    var alias = req.moduleParams.alias ? req.moduleParams.alias : "";
+    var teaser = req.moduleParams.teaser ? req.moduleParams.teaser : "";
+    var taxonomy = req.moduleParams.taxonomy ? req.moduleParams.taxonomy : "";  
+    var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";  
+    var type = "Article";         // Hard coded default TODO fix      
+    
+    // Create the form
+    var form = {id:'content-type-form',title:'Create Content ...',type:'form',method:'GET',action:'/content/new',tabs:true,
+          fields:[
+            {label:'Type',name:'type',type:'select',options:function() { return calipso.data.contentTypes },description:'Select the type of content you want to create ...'},
+            {label:'',name:'alias',type:'hidden'},
+            {label:'',name:'teaser',type:'hidden'},
+            {label:'',name:'taxonomy',type:'hidden'},            
+            {label:'',name:'returnTo',type:'hidden'}
+          ],
+          buttons:[
+               {name:'submit',type:'submit',value:'Next'}
+          ]};
 
+    
+    // Default values
+    var values = {
+        content: {
+          contentType:type,
+        },
+        alias:alias,
+        teaser:teaser,
+        taxonomy:taxonomy
+    }
+    
+    res.layout = 'admin';
+    
+    calipso.form.render(form,values,req,function(form) {
+      calipso.theme.renderItem(req,res,form,block,{},next);
+    });
+    
+  }
+  
+}
+
+/**
+ * Create Content Form
+ * Create and render the 'New Content' page.
+ * This allows some defaults to be passed through (e.g. from missing blocks).
+ */
+function createContentFormByType(req,res,template,block,next) {
+  
+  var type = req.moduleParams.type ? req.moduleParams.type : "Article";         // Hard coded default TODO fix
+  
   // Allow defaults to be passed in
   var alias = req.moduleParams.alias ? req.moduleParams.alias : "";
   var teaser = req.moduleParams.teaser ? req.moduleParams.teaser : "";
-  var taxonomy = req.moduleParams.taxonomy ? req.moduleParams.taxonomy : "";
-  var type = req.moduleParams.type ? req.moduleParams.type : "Article"; // Hard coded default TODO fix
+  var taxonomy = req.moduleParams.taxonomy ? req.moduleParams.taxonomy : "";  
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";  
   
   // Create the form
@@ -365,6 +416,7 @@ function createContentForm(req,res,template,block,next) {
   });
 
 }
+
 
 /**
  * Edit Content Form
