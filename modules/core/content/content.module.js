@@ -619,7 +619,8 @@ function showContent(req,res,template,block,next,err,content,format) {
     item = {title:"Not Found!",content:"Sorry, I couldn't find that content!"};
 
   } else {
-
+    
+    res.menu.adminToolbar.addMenuItem({name:'Create',path:'new',url:'/content/new',description:'Create content ...',security:[]});
     res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/',description:'List all ...',security:[]});
     res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/show/' + content.id,description:'Show current ...',security:[]});
     res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
