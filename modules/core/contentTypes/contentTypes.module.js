@@ -15,7 +15,9 @@ install: install,
     author: 'cliftonc',
     version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
-  }};
+  },
+  depends:["content"]
+};
 
 /**
  * Router
@@ -40,13 +42,6 @@ function route(req,res,module,app,next) {
  */
 function init(module,app,next) {
 
-  if(!calipso.modules.content.initialised) {
-    process.nextTick(function() { init(module,app,next); });
-    return;
-  }
-
-  module.initialised = false;
-
   calipso.lib.step(
       function defineRoutes() {
 
@@ -62,9 +57,6 @@ function init(module,app,next) {
 
       },
       function done() {
-
-        // Statics
-        app.use(calipso.lib.express.static(__dirname + '/static'));
 
         // Schemea
         var ContentType = new calipso.lib.mongoose.Schema({

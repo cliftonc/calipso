@@ -15,7 +15,9 @@ exports = module.exports = {
     author: 'cliftonc',
     version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
-  }};
+  },
+  contentForm:contentForm
+};
 
 /**
  * Standard module route function.
@@ -153,7 +155,7 @@ function init(module,app,next) {
 /**
  * Local default for the content create / edit form
  */
-var contentForm = function() {
+function contentForm() {
       return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/content',tabs:true,
           sections:[{
             id:'form-section-content',
@@ -290,7 +292,7 @@ function titleAlias(title) {
 function getForm(req,action,title,contentType,next) {
 
   // Create the form
-  var form = contentForm();
+  var form = exports.contentForm(); // Use exports as other modules may alter the form function
   form.action = action;
   form.title = title;
 
