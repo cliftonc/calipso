@@ -4,7 +4,9 @@
  * Base content type sub-module [Depends on Content]
  */
 
-var calipso = require("lib/calipso"), Query = require("mongoose").Query;
+var calipso = require('lib/calipso'), 
+    Query = require('mongoose').Query,
+    diff = require('utils/jsdiff');
 
 exports = module.exports = {
   init: init,
@@ -136,7 +138,32 @@ function showVersion(req,res,template,block,next) {
  */
 function diffVersion(req,res,template,block,next) {
 
-    res.send(req.moduleParams.a + " " + req.moduleParams.b);
+//    res.send(req.moduleParams.a + " " + req.moduleParams.b);
+
+    var a = req.moduleParams.a;
+    var b = req.moduleParams.b;
+
+      var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+
+    
+    ContentVersion.findById(a,function(err,versionA) {
+        
+        if(!err) {
+          ContentVersion.findById(b,function(err,versionB) {
+              if(!err) {              
+                res.send(diff.diffString(versionA.get("content"),versionB.get("content")));
+              } else {
+                calipso.error(err);
+                next();
+              }
+          });          
+        } else {
+          calipso.error(err);
+           next();
+        }
+        
+    });
+
 
 }
 
