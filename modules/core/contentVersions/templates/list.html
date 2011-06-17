@@ -1,25 +1,40 @@
-<div class="template-module">
-    <h2><%- t('Content Types') %></h2>
-    <table>
-    <tr>
-        <th><%- t('Type') %></th><th><%- t('Description') %></th><th><%- t('Layout') %></th><th><%- t('Public') %></th>
-    </tr>
-
-    <%
-        items.forEach(function(item) {
-         %>
-	         <tr>
-	        <td><a href='/content/type/show/<%- item._id %>'><%- item.contentType %></a></td>
-	        <td> <%- item.description %></td>
-	        <td> <%- item.layout %></td>
-	        <td> <%- item.ispublic ? "Yes" : "No" %></td>
-	        </tr>
-	        <%
-	    });
-
-        if(!items) {
-            %><td colspan='4'><%- t('No content types defined.') %></td><%
-        }
-    %>
-    </table>
-</div>
+<table class='tabular'>
+<tr>
+<th><%- t('Updated') %></th>
+<th><%- t('Title') %></th>
+<th><%- t('Status') %></th>
+<th><%- t('Author') %></th>
+<th><%- t('Comment') %></th>
+<th>A</th>
+<th>B</th>
+</tr>
+<% 
+var counter = 0;
+versions.forEach(function(item) { 
+%>
+<tr class='content-list-item'>
+    <td><%- item.get('updated') %></td>    
+    <td><%- item.get('title') %></a></td>
+    <td><%- item.get('status') %></a></td>       
+    <td><%- item.get('author') %></td>
+    <td><%- item.get('comment') %></td>
+    <td>
+    <% if(counter === 0) { %>
+      <input type="radio" name="a" checked></input></td>
+    <% } else { %>      
+      <input type="radio" name="a"></input></td>
+    <% } %>
+    <td>
+    <% if(counter === 1) { %>
+        <input type="radio" name="b" checked></input>        
+     <% } 
+     if(counter > 1) { %>
+        <input type="radio" name="b"></input>        
+     <% } 
+     
+     %></td> 
+</tr>
+<% 
+counter += 1;
+});  %>
+</table>
