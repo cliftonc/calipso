@@ -1,6 +1,9 @@
 <div class='admin-page'>
     <script>
-      // TODO : Wait and refresh the page when done
+	//TODO add flash notice to show update has taken place
+	//TODO add page names to admin form options, pass that here to redirect back to where we came from
+      $(document).ready(function() {	    
+		window.location.replace("/admin/core/config");
+	});
     </script>
-    <%- t('Reloaded configuration ...') %> <a href='/admin/core/config'><%- t('Return') %></a>
 </div>
