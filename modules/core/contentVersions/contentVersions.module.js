@@ -6,7 +6,7 @@
 
 var calipso = require('lib/calipso'), 
     Query = require('mongoose').Query,
-    diff = require('utils/jsdiff');
+    diff = require('./support/jsdiff');
 
 exports = module.exports = {
   init: init,
@@ -28,8 +28,7 @@ function route(req,res,module,app,next) {
       /**
        * Routing and Route Handler
        */
-      module.router.route(req,res,next);
-      
+      module.router.route(req,res,next);     
      
 }
 
@@ -43,11 +42,10 @@ function init(module,app,next) {
 
         // Crud operations
         module.router.addRoute('GET /content/show/:id',showContent,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());        
+        module.router.addRoute('GET /content/show/:id/versions/diff/:a',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/versions/diff/:a/:b',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
         module.router.addRoute('GET /content/show/:id/version/:version',showVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
-        module.router.addRoute('GET /content/show/:id/diff/:a',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
-        module.router.addRoute('GET /content/show/:id/diff/:a/:b',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
-
       },
       function done() {
         
@@ -85,7 +83,7 @@ var contentVersionFormSection = {
   id:'form-section-content-version',
   label:'Versioning',
   fields:[
-          {label:'Version?',name:'content[version]',type:'select',options:["No","Yes"],noValue:true,description:'This change creates a new version of the content.'},
+          {label:'New Version?',name:'content[version]',type:'select',options:["No","Yes"],noValue:true,description:'This change marks the content as a new version.'},
           {label:'Comment',name:'content[comment]',type:'textarea',noValue:true,description:'Describe the reason for this version.'},          
          ]
 }
@@ -102,11 +100,7 @@ function showContent(req,res,template,block,next) {
 /**
  * Save version
  */
-function saveVersion(content) {
-    
-    if(content.get("version") === "No")  {
-      return;
-    }    
+function saveVersion(content) {   
     
     var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
     
@@ -118,6 +112,9 @@ function saveVersion(content) {
     version.save(function(err) {
       if(err) {
         calipso.error(err);
+      }
+      if(version.version) {
+        // TODO - enable notification / event?
       }
     });
     
@@ -143,15 +140,16 @@ function diffVersion(req,res,template,block,next) {
     var a = req.moduleParams.a;
     var b = req.moduleParams.b;
 
-      var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
-
+    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
     
     ContentVersion.findById(a,function(err,versionA) {
         
         if(!err) {
           ContentVersion.findById(b,function(err,versionB) {
               if(!err) {              
-                res.send(diff.diffString(versionA.get("content"),versionB.get("content")));
+                // TODO : Use a proper HTML diff parser ... this only works for non-HTML
+                var diffOutput = diff.diffString(versionB.get("teaser"),versionA.get("teaser"));                
+                res.send(diffOutput);
               } else {
                 calipso.error(err);
                 next();

@@ -1,12 +1,34 @@
+<script type="text/javascript">
+$(document).ready(function()  {
+
+  // In line javascript
+  $('#diff-menu-item a').click(function(e) {
+      
+      var a = $('input[name=a]:checked').val();
+      var b = $('input[name=b]:checked').val();
+      
+      var diffUrl = window.location + "/diff/" + a + "/" + b;
+      
+      $.get(diffUrl, function(data) {
+        $('#diff-output').html(data);        
+      });
+      
+      return false;
+      
+  });
+
+});
+</script>
 <table class='tabular'>
 <tr>
-<th><%- t('Updated') %></th>
-<th><%- t('Title') %></th>
-<th><%- t('Status') %></th>
-<th><%- t('Author') %></th>
-<th><%- t('Comment') %></th>
-<th>A</th>
-<th>B</th>
+  <th><%- t('Updated') %></th>
+  <th><%- t('Title') %></th>
+  <th><%- t('Status') %></th>
+  <th><%- t('Author') %></th>
+  <th><%- t('New Version') %></th>
+  <th><%- t('Comment') %></th>
+  <th>A</th>
+  <th>B</th>
 </tr>
 <% 
 var counter = 0;
@@ -17,24 +39,26 @@ versions.forEach(function(item) {
     <td><%- item.get('title') %></a></td>
     <td><%- item.get('status') %></a></td>       
     <td><%- item.get('author') %></td>
+    <td><%- item.get('version') %></td>
     <td><%- item.get('comment') %></td>
     <td>
     <% if(counter === 0) { %>
-      <input type="radio" name="a" checked></input></td>
+      <input class="diff-select" type="radio" value="<%- item._id %>" name="a" checked></input></td>
     <% } else { %>      
-      <input type="radio" name="a"></input></td>
+      <input class="diff-select" type="radio" value="<%- item._id %>" name="a"></input></td>
     <% } %>
     <td>
     <% if(counter === 1) { %>
-        <input type="radio" name="b" checked></input>        
+        <input class="diff-select" type="radio" value="<%- item._id %>" name="b" checked></input>        
      <% } 
      if(counter > 1) { %>
-        <input type="radio" name="b"></input>        
-     <% } 
-     
+        <input class="diff-select" type="radio" value="<%- item._id %>" name="b"></input>        
+     <% }      
      %></td> 
 </tr>
 <% 
 counter += 1;
 });  %>
 </table>
+<div id="diff-output">
+</div>
