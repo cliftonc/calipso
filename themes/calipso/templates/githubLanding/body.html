@@ -4,8 +4,8 @@
     <% contents.forEach(function(item) {
     %>
     <div class='github-list-item'>
-          <a class='<%- hotDate(item.meta.updated) %>' href='/<%= item.alias %>.html'>
-            <h6><%- prettyDate(item.meta.updated) %></h6>
+          <a class='<%- hotDate(item.updated) %>' href='/<%= item.alias %>.html'>
+            <h6><%- prettyDate(item.updated) %></h6>
             <%- item.title %>
           </a>
     </div>
