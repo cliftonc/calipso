@@ -163,18 +163,18 @@ function processAtomItem(item,taxonomy,contentType, next) {
       }
 
       // Get content type
-      ContentType.findOne({contentType:contentType}, function(err, contentType) {
+      ContentType.findOne({contentType:contentType}, function(err, ct) {
 
-          if(err || !contentType) {
+          if(err || !ct) {
 
             next(err);
 
           } else {
 
             // Copy over content type data
-            c.meta.contentType = contentType.contentType;
-            c.meta.layout = contentType.layout;
-            c.meta.ispublic = contentType.ispublic;
+            c.contentType = ct.contentType;
+            c.layout = ct.layout;
+            c.ispublic = ct.ispublic;
 
             // Asynch save
             c.save(function(err) {
@@ -289,18 +289,18 @@ function processRssItem(item,taxonomy,contentType, next) {
       }
 
       // Get content type
-      ContentType.findOne({contentType:contentType}, function(err, contentType) {
+      ContentType.findOne({contentType:contentType}, function(err, ct) {
 
-          if(err || !contentType) {
+          if(err || !ct) {
 
             next(err);
 
           } else {
 
             // Copy over content type data
-            c.meta.contentType = contentType.contentType;
-            c.meta.layout = contentType.layout;
-            c.meta.ispublic = contentType.ispublic;
+            c.contentType = ct.contentType;
+            c.layout = ct.layout;
+            c.ispublic = ct.ispublic;
 
             // Asynch save
             c.save(function(err) {
