@@ -35,7 +35,7 @@ var counter = 0;
 versions.forEach(function(item) { 
 %>
 <tr class='content-list-item'>
-    <td><%- item.get('updated') %></td>    
+    <td><a href='/content/show/<%= item.contentId %>/version/<%= item._id %>'><%- item.get('updated') %></a></td>    
     <td><%- item.get('title') %></a></td>
     <td><%- item.get('status') %></a></td>       
     <td><%- item.get('author') %></td>

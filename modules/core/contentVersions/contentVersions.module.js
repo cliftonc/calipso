@@ -46,6 +46,8 @@ function init(module,app,next) {
         module.router.addRoute('GET /content/show/:id/versions/diff/:a',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
         module.router.addRoute('GET /content/show/:id/versions/diff/:a/:b',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
         module.router.addRoute('GET /content/show/:id/version/:version',showVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/version/:version/revert',revertVersion,{admin:true},this.parallel());
+
       },
       function done() {
         
@@ -113,7 +115,7 @@ function saveVersion(content) {
       if(err) {
         calipso.error(err);
       }
-      if(version.version) {
+      if(version.get("version")) {
         // TODO - enable notification / event?
       }
     });
@@ -121,12 +123,44 @@ function saveVersion(content) {
 }
 
 
+
+
 /**
  * Show version
  */
 function showVersion(req,res,template,block,next) {
 
-    res.send(req.moduleParams.version);
+    var contentId = req.moduleParams.id;  
+    var id = req.moduleParams.version;
+    var format = req.moduleParams.format || 'html';
+
+    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    
+    res.menu.adminToolbar.addMenuItem({name:'Return',path:'return',url:'/content/show/' + contentId + '/versions',description:'Show content ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Revert',path:'revert',url:'/content/show/' + contentId + '/version/' + id + '/revert',description:'Revert to this version of content ...',security:[]});    
+        
+    ContentVersion.findById(id,function(err,version) {
+        
+        if(err && !version) {
+          calipso.err(err);
+          next();
+          return;
+        }
+        
+        if(format === 'html') {
+          calipso.theme.renderItem(req,res,template,block,{version:version},next);
+        }
+
+        if(format === 'json') {
+          res.format = format;
+          res.send(version.map(function(u) {
+            return u.toObject();
+          }));
+          next();
+        }
+
+  
+    });
 
 }
 
@@ -204,3 +238,52 @@ function listVersions(req,res,template,block,next) {
 
       
 }
+
+/**
+ * Revert version
+ */
+function revertVersion(req,res,template,block,next) {
+
+    var contentId = req.moduleParams.id;  
+    var id = req.moduleParams.version;
+    var format = req.moduleParams.format || 'html';
+
+    
+    var Content = calipso.lib.mongoose.model('Content');    
+    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    
+    ContentVersion.findById(id,function(err,version) {
+        
+        if(err && !version) {
+          calipso.err(err);
+          next();
+          return;
+        }
+                
+        // Copy over
+        Content.findById(contentId,function(err,content) {
+            
+            if(err && !content) {
+              calipso.err(err)
+              next();
+              return;
+            }
+          
+           calipso.form.mapFields(version.doc,content);
+           content.author = req.session.user.username;
+           content.set("comment",'Reverted to version: ' + id);
+           content.updated = new Date();
+           content.set("version",'Yes');
+           
+           content.save(function(err) {
+             res.redirect('/content/show/' + contentId);
+             next();
+           });
+            
+        });
+        
+  
+    });
+
+}
+
