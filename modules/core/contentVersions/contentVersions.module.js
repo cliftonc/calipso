@@ -40,9 +40,12 @@ function init(module,app,next) {
   calipso.lib.step(
       function defineRoutes() {
 
-        // Crud operations
+        // Menus
         module.router.addRoute('GET /content/show/:id',showContent,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());                
+        
+        // Crud operations        
+        module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/versions/diff/:a',diffVersion,{admin:true,template:'diff',block:'content.diff'},this.parallel());
         module.router.addRoute('GET /content/show/:id/versions/diff/:a/:b',diffVersion,{admin:true,template:'diff',block:'content.diff'},this.parallel());
         module.router.addRoute('GET /content/show/:id/version/:version',showVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
         module.router.addRoute('GET /content/show/:id/version/:version/revert',revertVersion,{admin:true},this.parallel());
@@ -50,9 +53,10 @@ function init(module,app,next) {
       },
       function done() {
         
-        // Schemea
+        // Schema
         var ContentVersion = new calipso.lib.mongoose.Schema({
           contentId:{type: String}
+          // All other properties are dynamically mapped, hence use of .set / .get
         });
 
         calipso.lib.mongoose.model('ContentVersion', ContentVersion);
@@ -168,10 +172,6 @@ function showVersion(req,res,template,block,next) {
  */
 function diffVersion(req,res,template,block,next) {
 
-//    res.send(req.moduleParams.a + " " + req.moduleParams.b);
-
-    res.layout = 'preview';
-
     var a = req.moduleParams.a;
     var b = req.moduleParams.b;
 
@@ -179,9 +179,9 @@ function diffVersion(req,res,template,block,next) {
     
     ContentVersion.findById(a,function(err,versionA) {
         
-        if(!err) {
+        if(!err && versionA) {
           ContentVersion.findById(b,function(err,versionB) {
-              if(!err) {              
+              if(!err && versionB) {              
                 // TODO : Use a proper HTML diff parser ... this only works for non-HTML
                 
                 var aTeaser = htmlStrip(versionA.get("teaser"));
@@ -202,13 +202,11 @@ function diffVersion(req,res,template,block,next) {
                 });
                 
               } else {
-                calipso.error(err);
-                next();
+                res.send(req.t("There was an issue finding versions to diff"));
               }
           });          
         } else {
-          calipso.error(err);
-           next();
+          res.send(req.t("There was an issue finding versions to diff"));
         }
         
     });
@@ -216,13 +214,13 @@ function diffVersion(req,res,template,block,next) {
 
 }
 
+/** 
+ * Helper function to remove all html tags until we find a decent HTML diff
+ */
 function htmlStrip(string) {
 
-  var output = string.replace(/<\/p>/g,'\r\n')
-                      .replace(/<\/pre>/g,'\r\n')                   
-                      .replace(/<(.*?)>/g,'');
-  
- return output;
+  var output = string.replace(/<(.*?)>/g,'');  
+  return output;
   
 }
 
@@ -275,7 +273,6 @@ function revertVersion(req,res,template,block,next) {
     var contentId = req.moduleParams.id;  
     var id = req.moduleParams.version;
     var format = req.moduleParams.format || 'html';
-
     
     var Content = calipso.lib.mongoose.model('Content');    
     var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
@@ -299,7 +296,7 @@ function revertVersion(req,res,template,block,next) {
           
            calipso.form.mapFields(version.doc,content);
            content.author = req.session.user.username;
-           content.set("comment",'Reverted to version: ' + id);
+           content.set("comment",'Reverted to version: ' + content.updated);
            content.updated = new Date();
            content.set("version",'Yes');
            
