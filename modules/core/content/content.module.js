@@ -302,7 +302,7 @@ function getForm(req,action,title,contentType,next) {
   ContentType.findOne({contentType:contentType}, function(err, contentType) {
 
     // Add any fields
-    if(contentType.get("fields")) { // FIX as this added later, get is 'safer' if not existing in document
+    if(!err && contentType && contentType.get("fields")) { // FIX as this added later, get is 'safer' if not existing in document
 
       var fields = [];
 
