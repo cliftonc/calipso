@@ -83,9 +83,8 @@ function mapReduceTaxonomy() {
       return;
    }
 
-   // Not public or draft
-   var ispublic = this.ispublic || this.meta ? this.meta.ispublic : false;   
-   if(!ispublic || this.status === "draft") return;
+   // Not public or draft      
+   if(!this.ispublic || this.status === "draft") return;
 
    var taxArr = this.taxonomy.split("/");
    for (index in taxArr) {
