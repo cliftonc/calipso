@@ -42,9 +42,8 @@ function init(module,app,next) {
 
         // Crud operations
         module.router.addRoute('GET /content/show/:id',showContent,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());        
-        module.router.addRoute('GET /content/show/:id/versions/diff/:a',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
-        module.router.addRoute('GET /content/show/:id/versions/diff/:a/:b',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());                
+        module.router.addRoute('GET /content/show/:id/versions/diff/:a/:b',diffVersion,{admin:true,template:'diff',block:'content.diff'},this.parallel());
         module.router.addRoute('GET /content/show/:id/version/:version',showVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
         module.router.addRoute('GET /content/show/:id/version/:version/revert',revertVersion,{admin:true},this.parallel());
 
@@ -171,6 +170,8 @@ function diffVersion(req,res,template,block,next) {
 
 //    res.send(req.moduleParams.a + " " + req.moduleParams.b);
 
+    res.layout = 'preview';
+
     var a = req.moduleParams.a;
     var b = req.moduleParams.b;
 
@@ -182,8 +183,24 @@ function diffVersion(req,res,template,block,next) {
           ContentVersion.findById(b,function(err,versionB) {
               if(!err) {              
                 // TODO : Use a proper HTML diff parser ... this only works for non-HTML
-                var diffOutput = diff.diffString(versionB.get("teaser"),versionA.get("teaser"));                
-                res.send(diffOutput);
+                
+                var aTeaser = htmlStrip(versionA.get("teaser"));
+                var bTeaser = htmlStrip(versionB.get("teaser"));
+                                
+                var aContent = htmlStrip(versionA.get("content"));
+                var bContent = htmlStrip(versionB.get("content"));
+                
+
+                var diffTeaser = diff.diffString(bTeaser,aTeaser);
+                var diffContent = diff.diffString(bContent,aContent);
+                
+                // Render, but push out direct response
+                calipso.theme.renderItem(req,res,template,block,{diff:{teaser:diffTeaser,content:diffContent}},function() {
+                    res.renderedBlocks.get('content.diff',function(err,content) {
+                        res.send(content.join(""));
+                    });
+                });
+                
               } else {
                 calipso.error(err);
                 next();
@@ -198,6 +215,17 @@ function diffVersion(req,res,template,block,next) {
 
 
 }
+
+function htmlStrip(string) {
+
+  var output = string.replace(/<\/p>/g,'\r\n')
+                      .replace(/<\/pre>/g,'\r\n')                   
+                      .replace(/<(.*?)>/g,'');
+  
+ return output;
+  
+}
+
 
 /**
  * SHow list of versions
