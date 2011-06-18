@@ -19,7 +19,7 @@ exports = module.exports = function(req, options, callback) {
     // Create a query and retrieve the content, has pager support, using req.moduleParams
     // But you can override on an individual query by setting in the options (second param)
     var query = new Query({
-      'meta.contentType': 'Github Feed'
+      'contentType': 'Github Feed'
     });
     options.getContentList(query, {
       req: req,
