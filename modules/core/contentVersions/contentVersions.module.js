@@ -6,7 +6,7 @@
 
 var calipso = require('lib/calipso'), 
     Query = require('mongoose').Query,
-    diff = require('utils/jsdiff');
+    diff = require('./support/jsdiff');
 
 exports = module.exports = {
   init: init,
@@ -28,8 +28,7 @@ function route(req,res,module,app,next) {
       /**
        * Routing and Route Handler
        */
-      module.router.route(req,res,next);
-      
+      module.router.route(req,res,next);     
      
 }
 
@@ -41,19 +40,23 @@ function init(module,app,next) {
   calipso.lib.step(
       function defineRoutes() {
 
-        // Crud operations
+        // Menus
         module.router.addRoute('GET /content/show/:id',showContent,{admin:true},this.parallel());
+        
+        // Crud operations        
         module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/versions/diff/:a',diffVersion,{admin:true,template:'diff',block:'content.diff'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/versions/diff/:a/:b',diffVersion,{admin:true,template:'diff',block:'content.diff'},this.parallel());
         module.router.addRoute('GET /content/show/:id/version/:version',showVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
-        module.router.addRoute('GET /content/show/:id/diff/:a',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
-        module.router.addRoute('GET /content/show/:id/diff/:a/:b',diffVersion,{admin:true,template:'show',block:'content.version'},this.parallel());
+        module.router.addRoute('GET /content/show/:id/version/:version/revert',revertVersion,{admin:true},this.parallel());
 
       },
       function done() {
         
-        // Schemea
+        // Schema
         var ContentVersion = new calipso.lib.mongoose.Schema({
           contentId:{type: String}
+          // All other properties are dynamically mapped, hence use of .set / .get
         });
 
         calipso.lib.mongoose.model('ContentVersion', ContentVersion);
@@ -85,7 +88,7 @@ var contentVersionFormSection = {
   id:'form-section-content-version',
   label:'Versioning',
   fields:[
-          {label:'Version?',name:'content[version]',type:'select',options:["No","Yes"],noValue:true,description:'This change creates a new version of the content.'},
+          {label:'New Version?',name:'content[version]',type:'select',options:["No","Yes"],noValue:true,description:'This change marks the content as a new version.'},
           {label:'Comment',name:'content[comment]',type:'textarea',noValue:true,description:'Describe the reason for this version.'},          
          ]
 }
@@ -102,11 +105,7 @@ function showContent(req,res,template,block,next) {
 /**
  * Save version
  */
-function saveVersion(content) {
-    
-    if(content.get("version") === "No")  {
-      return;
-    }    
+function saveVersion(content) {   
     
     var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
     
@@ -119,9 +118,14 @@ function saveVersion(content) {
       if(err) {
         calipso.error(err);
       }
+      if(version.get("version")) {
+        // TODO - enable notification / event?
+      }
     });
     
 }
+
+
 
 
 /**
@@ -129,7 +133,37 @@ function saveVersion(content) {
  */
 function showVersion(req,res,template,block,next) {
 
-    res.send(req.moduleParams.version);
+    var contentId = req.moduleParams.id;  
+    var id = req.moduleParams.version;
+    var format = req.moduleParams.format || 'html';
+
+    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    
+    res.menu.adminToolbar.addMenuItem({name:'Return',path:'return',url:'/content/show/' + contentId + '/versions',description:'Show content ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Revert',path:'revert',url:'/content/show/' + contentId + '/version/' + id + '/revert',description:'Revert to this version of content ...',security:[]});    
+        
+    ContentVersion.findById(id,function(err,version) {
+        
+        if(err && !version) {
+          calipso.err(err);
+          next();
+          return;
+        }
+        
+        if(format === 'html') {
+          calipso.theme.renderItem(req,res,template,block,{version:version},next);
+        }
+
+        if(format === 'json') {
+          res.format = format;
+          res.send(version.map(function(u) {
+            return u.toObject();
+          }));
+          next();
+        }
+
+  
+    });
 
 }
 
@@ -138,34 +172,58 @@ function showVersion(req,res,template,block,next) {
  */
 function diffVersion(req,res,template,block,next) {
 
-//    res.send(req.moduleParams.a + " " + req.moduleParams.b);
-
     var a = req.moduleParams.a;
     var b = req.moduleParams.b;
 
-      var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
-
+    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
     
     ContentVersion.findById(a,function(err,versionA) {
         
-        if(!err) {
+        if(!err && versionA) {
           ContentVersion.findById(b,function(err,versionB) {
-              if(!err) {              
-                res.send(diff.diffString(versionA.get("content"),versionB.get("content")));
+              if(!err && versionB) {              
+                // TODO : Use a proper HTML diff parser ... this only works for non-HTML
+                
+                var aTeaser = htmlStrip(versionA.get("teaser"));
+                var bTeaser = htmlStrip(versionB.get("teaser"));
+                                
+                var aContent = htmlStrip(versionA.get("content"));
+                var bContent = htmlStrip(versionB.get("content"));
+                
+
+                var diffTeaser = diff.diffString(bTeaser,aTeaser);
+                var diffContent = diff.diffString(bContent,aContent);
+                
+                // Render, but push out direct response
+                calipso.theme.renderItem(req,res,template,block,{diff:{teaser:diffTeaser,content:diffContent}},function() {
+                    res.renderedBlocks.get('content.diff',function(err,content) {
+                        res.send(content.join(""));
+                    });
+                });
+                
               } else {
-                calipso.error(err);
-                next();
+                res.send(req.t("There was an issue finding versions to diff"));
               }
           });          
         } else {
-          calipso.error(err);
-           next();
+          res.send(req.t("There was an issue finding versions to diff"));
         }
         
     });
 
 
 }
+
+/** 
+ * Helper function to remove all html tags until we find a decent HTML diff
+ */
+function htmlStrip(string) {
+
+  var output = string.replace(/<(.*?)>/g,'');  
+  return output;
+  
+}
+
 
 /**
  * SHow list of versions
@@ -206,3 +264,51 @@ function listVersions(req,res,template,block,next) {
 
       
 }
+
+/**
+ * Revert version
+ */
+function revertVersion(req,res,template,block,next) {
+
+    var contentId = req.moduleParams.id;  
+    var id = req.moduleParams.version;
+    var format = req.moduleParams.format || 'html';
+    
+    var Content = calipso.lib.mongoose.model('Content');    
+    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    
+    ContentVersion.findById(id,function(err,version) {
+        
+        if(err && !version) {
+          calipso.err(err);
+          next();
+          return;
+        }
+                
+        // Copy over
+        Content.findById(contentId,function(err,content) {
+            
+            if(err && !content) {
+              calipso.err(err)
+              next();
+              return;
+            }
+          
+           calipso.form.mapFields(version.doc,content);
+           content.author = req.session.user.username;
+           content.set("comment",'Reverted to version: ' + content.updated);
+           content.updated = new Date();
+           content.set("version",'Yes');
+           
+           content.save(function(err) {
+             res.redirect('/content/show/' + contentId);
+             next();
+           });
+            
+        });
+        
+  
+    });
+
+}
+

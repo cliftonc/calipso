@@ -299,15 +299,15 @@ function getForm(req,action,title,contentType,next) {
   // Get content type
   var ContentType = calipso.lib.mongoose.model('ContentType');
 
-  ContentType.findOne({contentType:contentType}, function(err, contentType) {
+  ContentType.findOne({contentType:contentType}, function(err, ct) {
 
     // Add any fields
-    if(contentType.fields) {
+    if(!err && ct && ct.get("fields")) { // FIX as this added later, get is 'safer' if not existing in document
 
       var fields = [];
 
       try {
-        var fields = JSON.parse(contentType.fields)
+        var fields = JSON.parse(ct.fields)
       } catch(ex) {
         // Issue with our fields
         req.flash("error",req.t("The content type you are editing has invalid fields defined, please check the content type configuration."));

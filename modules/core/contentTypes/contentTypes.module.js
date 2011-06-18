@@ -15,8 +15,7 @@ install: install,
     author: 'cliftonc',
     version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
-  },
-  depends:["content"]
+  }
 };
 
 /**
@@ -251,7 +250,6 @@ function editContentTypeForm(req,res,template,block,next) {
  */
 function updateContentType(req,res,template,block,next) {
 
-
   calipso.form.process(req,function(form) {
 
     if(form) {
@@ -260,7 +258,7 @@ function updateContentType(req,res,template,block,next) {
         var id = req.moduleParams.id;
 
         ContentType.findById(id, function(err, c) {
-          if (c) {
+          if (!err && c) {
 
               c.contentType = form.contentType.contentType;
               c.description = form.contentType.description;

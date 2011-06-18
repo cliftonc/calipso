@@ -65,7 +65,7 @@ function getFeed(args,next) {
   var feed = require('./lib/feed-expat');
 
   var response = feed.parseURL(url, function(err,data) {
-
+      
       if(err) {
           next(err);
           return;
@@ -134,15 +134,16 @@ function processAtom(data,taxonomy,contentType, next) {
  * Process a single atom feed item
  */
 function processAtomItem(item,taxonomy,contentType, next) {
-
+  
   var Content = calipso.lib.mongoose.model('Content');
   var ContentType = calipso.lib.mongoose.model('ContentType');
 
   var alias = calipso.modules['content'].fn.titleAlias(item.title.text);
 
   Content.findOne({alias:alias},function (err, c) {
-
+      
     if(!c) {
+      
       var c = new Content();
 
       // This is a fixed mapping
@@ -154,33 +155,40 @@ function processAtomItem(item,taxonomy,contentType, next) {
       c.tags=[];
       c.status='published';
       c.alias = alias;
-      c.author = "feeds";
+      c.author = item.author.name.text || 'feeds';
       c.taxonomy = taxonomy;
+      
+      // Extension fields (hack for github) - to fix later
+      c.set('githubLink',item.link['@'].href);
+      c.set('githubImage',item['media:thumbnail']['@'].url);
+      c.set('githubAuthorLink',item.author.uri.text);
 
       if(item.updated.text) {
         c.updated=new Date(item.updated.text);
         c.created=new Date(item.updated.text);
+        c.published=new Date(item.updated.text);
       }
-
+      
       // Get content type
-      ContentType.findOne({contentType:contentType}, function(err, contentType) {
-
-          if(err || !contentType) {
+      ContentType.findOne({contentType:contentType}, function(err, ct) {
+          
+          if(err || !ct) {
 
             next(err);
 
           } else {
 
             // Copy over content type data
-            c.meta.contentType = contentType.contentType;
-            c.meta.layout = contentType.layout;
-            c.meta.ispublic = contentType.ispublic;
+            c.contentType = ct.contentType;
+            c.layout = ct.layout;
+            c.ispublic = ct.ispublic;
 
             // Asynch save
             c.save(function(err) {
               if(err) {
                 next(err);
               } else {
+                calipso.silly("Added ATOM record: " + c.title + " of type: " + c.contentType);
                 next();
               }
             });
@@ -289,26 +297,27 @@ function processRssItem(item,taxonomy,contentType, next) {
       }
 
       // Get content type
-      ContentType.findOne({contentType:contentType}, function(err, contentType) {
+      ContentType.findOne({contentType:contentType}, function(err, ct) {
 
-          if(err || !contentType) {
+          if(err || !ct) {
 
             next(err);
 
           } else {
 
             // Copy over content type data
-            c.meta.contentType = contentType.contentType;
-            c.meta.layout = contentType.layout;
-            c.meta.ispublic = contentType.ispublic;
+            c.contentType = ct.contentType;
+            c.layout = ct.layout;
+            c.ispublic = ct.ispublic;
 
             // Asynch save
             c.save(function(err) {
               if(err) {
                 next(err);
               } else {
+                calipso.silly("Added ATOM record: " + c.title + " of type: " + c.contentType);
                 next();
-        t      }
+              }
             });
          }
       });
