@@ -89,9 +89,10 @@ function init(module, app, next) {
     calipso.lib.fs.readdir(app.path + '/themes', function(err, folders) {
 
       folders.forEach(function(name) {
-        calipso.data.themes.push(name);
+        if (name !='.DS_Store'){
+            calipso.data.themes.push(name);
+        }
       });
-
       calipso.data.loglevels = calipso.lib.winston.config.npm.levels;
       calipso.data.modules = calipso.modules;
 
