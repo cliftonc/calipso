@@ -401,6 +401,8 @@ function coreConfig(req, res, template, block, next) {
     // populate the Modules form fields
     var adminModuleFields = adminForm.sections[3].fields;
     var tempModuleFields = {core:[],community:[],site:[]};
+    var readonlyModules = ["admin","user"]; // Modules that cant be disabled
+    
     // load up the tempModuleFields (according to module category)
     for(var moduleName in calipso.modules) {
       var cM = {};
@@ -409,6 +411,9 @@ function coreConfig(req, res, template, block, next) {
       cM.name = 'config[modules]['+ moduleName +']';
       cM.checked = module.enabled;
       cM.type = 'checkbox';
+      if(calipso.lib._.indexOf(readonlyModules,moduleName) != -1) {
+       cM.readonly = true;
+      }
       cM.description = module.fn.about.description;
       //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
       tempModuleFields[module.type].push(cM);
