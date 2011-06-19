@@ -536,8 +536,6 @@ function moduleFormatToArray(res, modules) {
   
   var arrayModules = [];
   
-  console.dir(modules);
-
   for (var module in calipso.modules) {
     var enabled = modules[module] === 'on';
     arrayModules.push({
@@ -560,8 +558,6 @@ function showCache(req,res,template,block,next) {
   //res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/}); 
   //res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
   //res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
-  
-  
 
   calipso.theme.renderItem(req, res, template, block, {
     cache: JSON.stringify(calipso.cache.cache)

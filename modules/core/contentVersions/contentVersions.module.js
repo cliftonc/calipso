@@ -42,6 +42,7 @@ function init(module,app,next) {
 
         // Menus
         module.router.addRoute('GET /content/show/:id',showContent,{admin:true},this.parallel());
+        module.router.addRoute('GET /content/show/:id',showContent,{admin:true},this.parallel());
         
         // Crud operations        
         module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,template:'list',block:'content.version'},this.parallel());

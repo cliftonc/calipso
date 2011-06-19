@@ -576,8 +576,7 @@ function showAliasedContent(req,res,template,block,next) {
 
       if(err || !content) {
         if(req.session.user && req.session.user.isAdmin) {
-          res.redirect("/content/new?alias=" + alias +
-                       "&type=Article")
+          res.redirect("/content/new?alias=" + alias + "&type=Article")
         } else {
           res.statusCode = 404;
         }
