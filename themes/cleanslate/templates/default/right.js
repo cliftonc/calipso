@@ -18,7 +18,7 @@ exports = module.exports = function(req, options, callback) {
       options.getModuleFn(req,'template.templatePage',{template:'templateShow'},this.parallel());
       
     },
-    function done(err, about, userLogin, tagcloud,fn) {
+    function done(err, about,tagcloud,fn) {
       callback(err,{about:about,tagcloud:tagcloud, fn:fn});
     }
   );
