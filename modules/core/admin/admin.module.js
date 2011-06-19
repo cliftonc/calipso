@@ -401,7 +401,7 @@ function coreConfig(req, res, template, block, next) {
     // populate the Modules form fields
     var adminModuleFields = adminForm.sections[3].fields;
     var tempModuleFields = {core:[],community:[],site:[]};
-    var readonlyModules = ["admin","user"]; // Modules that cant be disabled
+    var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
     
     // load up the tempModuleFields (according to module category)
     for(var moduleName in calipso.modules) {
