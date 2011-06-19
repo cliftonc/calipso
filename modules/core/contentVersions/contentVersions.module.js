@@ -68,6 +68,12 @@ function init(module,app,next) {
         });
 
         // Form alteration
+        if(calipso.modules.content.fn.originalContentForm) {
+          // We have already altered the form, so lets set it back before altering it
+          calipso.modules.content.fn.contentForm = calipso.modules.content.fn.originalContentForm;  
+        }
+        
+        // Now, lets alter the form
         calipso.modules.content.fn.originalContentForm = calipso.modules.content.fn.contentForm;
         calipso.modules.content.fn.contentForm = function() {            
           var form = calipso.modules.content.fn.originalContentForm();
