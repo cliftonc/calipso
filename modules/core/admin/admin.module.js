@@ -533,11 +533,13 @@ function saveAdmin(req, res, template, block, next) {
  *Convert the modules into an array to enable rendering to the form
  */
 function moduleFormatToArray(res, modules) {
+  
   var arrayModules = [];
+  
+  console.dir(modules);
 
   for (var module in calipso.modules) {
     var enabled = modules[module] === 'on';
-
     arrayModules.push({
       name: module,
       enabled: enabled
