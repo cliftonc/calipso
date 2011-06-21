@@ -201,9 +201,9 @@
 *:first-child+html #admin-menu { zoom: 1; } /* IE7 */
 
 #adminToolbar ul, #adminToolbar li { margin: 0; list-style:none; list-style-image: none; }
-#adminToolbar {width:100%;float:left;clear:both;background: #62555E;color: #ddd;margin:0 0 20px;}
+#adminToolbar {width:100%;float:left;background: #62555E;color: #ddd;margin:0 0 20px;}
 #adminToolbar a {display:block;padding:8px 16px;color:#fff;text-decoration:none;font-weight: bold;}
 #adminToolbar li li a {text-transform:capitalize;}
 #adminToolbar li:hover,
 #adminToolbar li {position:relative;float:left;}
-#adminToolbar li ul {display:none;float:left;clear:left;position:absolute;/*top:32px;left:0;*/ background:#1993A8;}
+#adminToolbar li ul {display:none;float:left;position:absolute;/*top:32px;left:0;*/ background:#1993A8;}

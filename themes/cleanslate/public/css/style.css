@@ -168,7 +168,7 @@ _*/
 #body {width:660px;float:left;margin:0 20px 20px 0;min-height:100px;_display:inline;}
 #admin-body {margin:0 0 20px;}
 #right {width:300px;float:left;margin:0 0 20px;}
-#footer {clear:both;padding:20px;}
+#footer {padding:20px;}
 
 /* non-layout */
 #header {float:left;width:100%;}
@@ -289,7 +289,10 @@ form .section:first-child {border:0;}
 #footer {
   background: #62555E;
   color: #ddd;
+  clear: both;
+  padding-top: 20px;
 }
+
 #footer a {
   color: #fff;
 }
@@ -331,7 +334,6 @@ ul.tabs li.active a:hover {
 .tab-container {
   border:1px solid #999;
   border-top: none;
-  clear: both;
 }
 .tab-content {
   padding: 20px 20px 10px;
