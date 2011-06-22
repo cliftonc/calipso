@@ -213,7 +213,7 @@ p {margin:0 0 1em;}
 label {display:inline-block;width:150px;text-align:right;padding-right:10px;}
 label.for-checkable {width:auto;text-align:left;padding:0 0 0 10px;}
 select {padding:1px;}
-textarea {width:820px;height:200px;}
+textarea {width:65%;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
 .tab-container .actions {margin-top:0;}
 .description {padding:2px 0 5px 160px;font-size:11px;display}
