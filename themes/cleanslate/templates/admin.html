@@ -6,14 +6,10 @@
     <meta name="keywords" content="put your site keywords here">
     <title>Clean Slate</title>
     <%- styles %>
-    <%- scripts %>
+    
   </head>
   <body>
-    <div id="adminMenu">
-      <%- admin %>
-    </div>            
-    <div id="container">
-      <div id="header">
+  	<div id="header">
         <h1><a href="/">Site Name</a></h1>
         <nav class="secondary">
           <%- secondary %>
@@ -22,7 +18,14 @@
           <%- primary %>
         </nav>
       </div>
-      <div id="messages">
+    <div id="jstree" style="float:left; width:250px; margin-left:10px; outline: 1px solid #333; position: relative; z-index:999;">
+      <%- admin %>
+    </div>      
+            
+    <div id="mainContainer" style="
+    padding:100px 20px 0 272px;">
+      
+      <div id="admin-messages">
         <%- messages %>
       </div>
       <% if(user.isAdmin) { %>
@@ -37,5 +40,6 @@
         <%- footer %>
       </div>
     </div>
+    <%- scripts %>
   </body>
 </html>
