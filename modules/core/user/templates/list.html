@@ -2,7 +2,11 @@
     <h2><%- t('Users') %></h2>
     <table>
     <tr>
-        <th><%- t('Name') %></th><th><%- t('Email') %></th><th><%- t('Roles') %></th><th><%- t('Is Admin') %></th>
+        <th><%- t('Name') %></th>
+        <th><%- t('Email') %></th>
+        <th><%- t('Roles') %></th>
+        <th><%- t('Is Admin') %></th>
+        <th><%- t('Locked') %></th>
     </tr>
 
     <%
@@ -12,7 +16,8 @@
 	        <td><a href='/user/profile/<%- item.username %>'><%- item.username %></a></td>
 	        <td> <%- item.email %></td>
 	        <td> <%- item.roles %></td>
-	        <td> <%- item.isAdmin ? "Yes" : "No" %></td>
+	        <td> <%- isUserAdmin(item) ? "Yes" : "No" %></td>
+	        <td> <%- item.locked ? "Yes" : "No" %></td>
 	        </tr>
 	        <%
 	    });

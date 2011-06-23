@@ -47,6 +47,8 @@ function init(module, app, next) {
       module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
       module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
       module.router.addRoute('GET /user/profile/:username/edit',updateUserForm,{block:'content'},this.parallel());
+      module.router.addRoute('GET /user/profile/:username/lock',lockUser,{admin:true},this.parallel());
+      module.router.addRoute('GET /user/profile/:username/unlock',unlockUser,{admin:true},this.parallel());
       module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
     },
     function done() {
@@ -304,6 +306,69 @@ function updateUserForm(req, res, template, block, next) {
 };
 
 /**
+ * Lock a user account
+ */
+function lockUser(req, res, template, block, next) {
+  
+  var User = calipso.lib.mongoose.model('User');
+  var username = req.moduleParams.username;
+  
+  User.findOne({username:username}, function(err, u) {
+      
+      if(err || !u) {        
+        req.flash('error',req.t('There was an error unlocking that user account.'));
+        res.redirect('/user/list');
+      }
+      
+      u.locked = true;
+      
+      u.save(function(err) {        
+          if(err) {
+            req.flash('error',req.t('There was an error unlocking that user account.'));
+          } else {
+            req.flash('info',req.t('Account locked.'));
+          }
+          res.redirect('/user/profile/' + username);    
+      });
+      
+  });
+      
+      
+}
+
+
+/**
+ * Unlock a user account
+ */
+function unlockUser(req, res, template, block, next) {
+ 
+  var User = calipso.lib.mongoose.model('User');
+  var username = req.moduleParams.username;
+  
+  User.findOne({username:username}, function(err, u) {
+      
+      if(err || !u) {        
+        req.flash('error',req.t('There was an error unlocking that user account.'));
+        res.redirect('/user/list');
+      }
+      
+      u.locked = false;
+      
+      u.save(function(err) {        
+          if(err) {
+            req.flash('error',req.t('There was an error unlocking that user account.'));
+          } else {
+            req.flash('info',req.t('Account unlocked.'));
+          }
+          res.redirect('/user/profile/' + username);    
+      });
+      
+  });
+      
+}
+
+
+/**
  * Update user
  */
 function updateUserProfile(req, res, template, block, next) {
@@ -407,7 +472,7 @@ function updateUserProfile(req, res, template, block, next) {
             // Update session details if your account
             if(req.session.user && (req.session.user.username === username)) { // Allows for name change
               createUserSession(req, u, function(err) {
-                 calipso.error("Error saving session: " + err);
+                  if(err) calipso.error("Error saving session: " + err);                 
               });
             }
             
@@ -447,7 +512,7 @@ function loginUser(req, res, template, block, next) {
           if(!user.locked) {            
             found = true;
             createUserSession(req, user, function(err) {
-                 calipso.error("Error saving session: " + err);
+                if(err) calipso.error("Error saving session: " + err);
             });             
           }
         }
@@ -469,16 +534,24 @@ function loginUser(req, res, template, block, next) {
 }
 
 /**
- * Create session object for logged in user
- */
-function createUserSession(req, user, next) {
-  
+ * Helper function to check if the user is an admin
+ */ 
+function isUserAdmin(user) {  
   // Set admin
   var isAdmin = false;  
   user.roles.forEach(function(role) {
       if(calipso.data.roles[role].isAdmin)
           isAdmin = true;
   })
+  return isAdmin;  
+}
+
+/**
+ * Create session object for logged in user
+ */
+function createUserSession(req, user, next) {
+    
+  var isAdmin = isUserAdmin(user);
   
   // Create session
   req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
@@ -538,8 +611,12 @@ function registerUser(req, res, template, block, next) {
         u.roles = newRoles;        
         
       } else {
-        u.isAdmin = false;
+        
+        u.roles = ['Guest']; // Todo - need to make sure guest role can't be deleted?
+        
       }
+      
+      //TODO : Add form validation and email confirmation
 
       // Check to see if new passwords match
       if(new_password != repeat_password) {
@@ -567,6 +644,7 @@ function registerUser(req, res, template, block, next) {
           }
         } else {
           if(!res.noRedirect) {
+            req.flash('info',req.t('Profile created, you can now login using this account.'));
             res.redirect('/user/profile/' + u.username);
           }
         }
@@ -615,8 +693,9 @@ function userProfile(req, res, template, block, next) {
         res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/user/list',description:'List users ...',security:[]});  
         res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/user/profile/' + username + '/edit',description:'Edit user details ...',security:[]});
         res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/user/profile/' + username + '/delete',description:'Delete account ...',security:[]});
-        res.menu.adminToolbar.addMenuItem({name:'Lock',path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
-        res.menu.adminToolbar.addMenuItem({name:'Unlock',path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
+        
+        if(!u.locked) res.menu.adminToolbar.addMenuItem({name:'Lock',path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
+        if(u.locked) res.menu.adminToolbar.addMenuItem({name:'Unlock',path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
     }
       
     var item;
@@ -666,7 +745,7 @@ function listUsers(req,res,template,block,next) {
 
                 // Render the item into the response
                 if(format === 'html') {
-                  calipso.theme.renderItem(req,res,template,block,{items:users,pager:pagerHtml},next);
+                  calipso.theme.renderItem(req,res,template,block,{items:users,pager:pagerHtml,isUserAdmin:isUserAdmin},next);
                 }
 
                 if(format === 'json') {
