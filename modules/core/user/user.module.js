@@ -12,7 +12,8 @@ exports = module.exports = {
     author: 'cliftonc',
     version: '0.2.1',
     home:'http://github.com/cliftonc/calipso'
-  }
+  },
+  userDisplay:userDisplay
 };
 
 /**
@@ -55,7 +56,9 @@ function init(module, app, next) {
 
       var Role = new calipso.lib.mongoose.Schema({
         name:{type: String, required: true, unique:true},
-        isAdmin:{type: Boolean, required: true, default: false}
+        description:{type: String,default:''},
+        isAdmin:{type: Boolean, required: true, default: false},
+        isDefault:{type: Boolean, required: true, default: false}
       });
       calipso.lib.mongoose.model('Role', Role);
 
@@ -78,7 +81,7 @@ function init(module, app, next) {
       next();
       
       // Load roles into calipso data
-      storeRoles();
+      storeRoles();      
       
     }
   )
@@ -93,6 +96,7 @@ function storeRoles() {
     var Role = calipso.lib.mongoose.model('Role');
 
     Role.find({}).sort('name',1).find(function (err, roles) {
+        
         if(err || !roles) {
           // Don't throw error, just pass back failure.
           calipso.error(err);
@@ -106,10 +110,55 @@ function storeRoles() {
         
         roles.forEach(function(role) {
             calipso.data.roleArray.push(role.name);       
-            calipso.data.roles[role.name] = {isAdmin:role.isAdmin};
+            calipso.data.roles[role.name] = {description:role.description, isAdmin:role.isAdmin};
         });        
-        
+       
     });
+
+}
+
+/**
+ * Helper function to get user details respecting their privacy selections
+ * Returns object of:
+ * {
+ *   displayName: - formatted name to show - either their full name + username, or just username.
+ *   displayEmail: - either their email address or empty.
+ * }
+ * This needs to be a synchronous call so it can be used in templates.
+ */
+function userDisplay(req,username,next) {
+  
+  var isAdmin = (req.session.user && req.session.user.isAdmin);
+  var isUser = (req.session.user);  
+  var User = calipso.lib.mongoose.model('User');
+  var responseData = {name:'',email:''};
+  
+  User.findOne({username:username}, function(err, u) {
+      
+    if(err || !u) {
+
+       // Fail gracefully
+       responseData.name = username + " [" + req.t("No longer active") + "]";       
+
+    } else {
+     
+      // Default display name
+      responseData.name = u.username;      
+      if(isAdmin || (u.showName === 'registered' && isUser) || u.showName === 'public') {
+        responseData.name = u.fullname;
+      }
+      
+      // Default display name
+      responseData.email = '';      
+      if(isAdmin || (u.showEmail === 'registered' && isUser) || u.showEmail === 'public') {
+        responseData.email = u.email;
+      }
+      
+    }
+        
+    next(null,responseData);
+    
+  });
 
 }
 
@@ -277,9 +326,9 @@ function updateUserForm(req, res, template, block, next) {
       
       // Role checkboxes
       var roleFields = [];      
-      calipso.data.roleArray.forEach(function(role) {
-        roleFields.push(
-          {label:role, name:'user[roles][' + role + ']', type:'checkbox', checked:calipso.lib._.contains(u.roles,role)}
+      calipso.data.roleArray.forEach(function(role) {          
+        roleFields.push(          
+          {label:role, name:'user[roles][' + role + ']', type:'checkbox', description:calipso.data.roles[role].description, checked:calipso.lib._.contains(u.roles,role)}
         );    
       });
       
@@ -400,10 +449,13 @@ function updateUserProfile(req, res, template, block, next) {
 
       User.findOne({username:username}, function(err, u) {
 
+        u.fullname = form.user.fullname;
         u.username = form.user.username;
         u.email = form.user.email;
         u.language = form.user.language;
         u.about = form.user.about;
+        u.showName = form.user.showName;
+        u.showEmail = form.user.showEmail;
         
         // Update user roles and admin flag
         if(req.session.user && req.session.user.isAdmin) {
@@ -697,19 +749,11 @@ function userProfile(req, res, template, block, next) {
         if(!u.locked) res.menu.adminToolbar.addMenuItem({name:'Lock',path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
         if(u.locked) res.menu.adminToolbar.addMenuItem({name:'Unlock',path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
     }
-      
-    var item;
-
-    if(err || u === null) {
-      item = {id:'ERROR', type:'content', meta: {title:"Not Found!", content:"Sorry, I couldn't find that user!"}};
-    } else {
-      item = {id:u._id, type:'user', meta:u.toObject()};
-    }
-
-    calipso.theme.renderItem(req, res, template, block, {item:item}, next);
-
-    //next();
-
+    
+    userDisplay(req,username,function(err,display) {        
+      calipso.theme.renderItem(req, res, template, block, {item:u,display:display}, next);    
+    });
+    
   });
 
 }
@@ -779,19 +823,25 @@ function install(next) {
       // Create default roles
       var r = new Role({
         name:'Guest',
-        isAdmin:false
+        description:'Guest account',
+        isAdmin:false,
+        isDefault:true
       });
       r.save(this.parallel());
 
       var r = new Role({
         name:'Contributor',
-        isAdmin:false
+        description:'Able to create and manage own content items linked to their own user profile area.',
+        isAdmin:false,
+        isDefault:false
       });
       r.save(this.parallel());
 
       var r = new Role({
         name:'Administrator',
-        isAdmin:true
+        description:'Able to manage the entire site.',
+        isAdmin:true,
+        isDefault:false
       });
       r.save(this.parallel());
 

@@ -583,11 +583,18 @@ function showAliasedContent(req,res,template,block,next) {
         next();
 
       } else {
-
-        showContent(req,res,template,block,next,err,content,format);
+       
+        calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {    
+          if(err) {
+            next(err);
+          } else {
+            // Add the user display details to content
+            content.set('displayAuthor',userDetails);
+            showContent(req,res,template,block,next,err,content,format);
+          }      
+        });        
 
       }
-
 
   });
 
@@ -603,7 +610,19 @@ function showContentByID(req,res,template,block,next) {
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
   Content.findById(id, function(err, content) {
-    showContent(req,res,template,block,next,err,content,format);
+      
+    calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {    
+        if(err) {
+          next(err);
+        } else {
+          // Add the user display details to content
+          content.set('displayAuthor',userDetails);
+          showContent(req,res,template,block,next,err,content,format);
+        }
+    
+    });
+    
+    
   });
 
 }

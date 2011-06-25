@@ -1,10 +1,12 @@
 <div class="content-item">
-  <h1><a href="/user/profile/<%= item.meta.username %>"><%- item.meta.username %></a></h1>
-  <p><%- item.meta.email %></p>
-  <p><%- item.meta.about %></p>
+  <h1><a href="/user/profile/<%= item.username %>"><%- display.name ? display.name : item.username %></a></h1>
+  <% if(display.email) { %>
+  <p><a href='mailto:<%- display.email %>'><%- display.email %></a></p>
+  <% } %>
+  <p><%- item.about %></p>
   <p>
-  <% if(user.isAdmin || user.username === item.meta.username) { %>
-    <small><a href="/user/profile/<%= item.meta.username %>/edit"><%- t('Edit Your Profile') %></a></small>
+  <% if(user.isAdmin || user.username === item.username) { %>
+    <small><a href="/user/profile/<%= item.username %>/edit"><%- t('Edit Your Profile') %></a></small>
   <% } %>
   </p>
 </div>
