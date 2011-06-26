@@ -12,9 +12,10 @@ exports = module.exports = function(req, options, callback) {
   calipso.lib.step(
     function getContent() {
       options.getBlock('user.login',this.parallel());
+      options.getBlock('search.form',this.parallel());
     },
-    function done(err,userLogin) {
-      callback(err,{userLogin:userLogin});
+    function done(err,userLogin,searchForm) {
+      callback(err,{userLogin:userLogin,searchForm:searchForm});
     }
   );
 

@@ -167,7 +167,7 @@ _*/
 #container {width:980px;margin:0 auto;position:relative;}
 #body {width:660px;float:left;margin:0 20px 20px 0;min-height:100px;_display:inline;}
 #admin-body {margin:0 0 20px;}
-#right {width:300px;float:left;margin:0 0 20px;}
+#sidePanel {width:300px;float:left;margin:0 0 20px;}
 #footer {clear:both;padding:20px;}
 
 /* non-layout */
@@ -226,8 +226,8 @@ form .section {margin:0 0 20px;}
 form .section:first-child {border:0;}
 .actions {clear:both;padding:20px 0;border-top:1px solid #ccc;margin:10px 20px 0;}
 
-
 #userFormToggleTrigger {float:right;}
+#user-login {text-align:right;}
 #user-login form {text-align:right;clear:both;padding:10px;background:rgb(255,128,47);}
 #user-welcome-or-login h2 {display:none;}
 #user-welcome-or-login label {padding-right:5px;}
@@ -284,7 +284,7 @@ form .section:first-child {border:0;}
 }
 
 
-.rightPanelItem {margin:0 0 10px;}
+.sidePanelItem {margin:0 0 10px;}
 
 #footer {
   background: #62555E;
@@ -391,6 +391,28 @@ ul.tabs li.active a:hover {
 .tag-3{font-size:.9em}
 .tag-2{font-size:.8em}
 .tag-1{font-size:.7em}
+
+/** Search **/
+.search {
+  float: right;
+  clear:both;
+}
+
+.search .actions {
+  border: none;
+  margin: 0px;
+  padding: 0px;  
+  float: right;
+}
+
+.search .actions input {
+  margin: 0px;
+  padding: 2px;
+  margin-left: 10px;
+  font-size: 0.9em;
+  
+}
+
 
 /**
  * Placeholder media queries for responsive design. Modify as design requires.

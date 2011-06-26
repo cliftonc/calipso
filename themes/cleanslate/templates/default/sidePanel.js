@@ -11,6 +11,7 @@ exports = module.exports = function(req, options, callback) {
    */
   calipso.lib.step(
     function getContent() {
+      
       options.getContent(req, 'about-me', this.parallel());      
       options.getBlock('tagcloud',this.parallel());
       

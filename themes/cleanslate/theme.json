@@ -15,7 +15,7 @@
           "secondary": {"template": "secondaryMenu.html"},
           "messages": {"template": "messages.html"},
           "body": {"template": "body.html"},
-          "right": {"template": "right.html"},
+          "sidePanel": {"template": "sidePanel.html"},
           "footer": {"template": "footer.html"}
         }
       }
