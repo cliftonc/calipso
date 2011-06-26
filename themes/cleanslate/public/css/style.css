@@ -405,14 +405,23 @@ ul.tabs li.active a:hover {
   float: right;
 }
 
+.search label {
+  width: 50px;
+}
+
 .search .actions input {
   margin: 0px;
   padding: 2px;
   margin-left: 10px;
-  font-size: 0.9em;
-  
+  font-size: 0.9em;  
 }
 
+.facets {
+  width: 150px;
+  float: left;
+  margin-right: 30px;  
+}
+  
 
 /**
  * Placeholder media queries for responsive design. Modify as design requires.
