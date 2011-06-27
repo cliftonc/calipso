@@ -54,7 +54,7 @@ exports = module.exports = {
 }
 
 function pageLink(path,skip,limit,page) {
-  return "<a class='pager-page' href='" + path + "?from=" + skip + "&limit=" + limit + "'>" + page + "</a>";
+  return "<a class='pager-page' href='" + (path ? path + "&" : "?") + "from=" + skip + "&limit=" + limit + "'>" + page + "</a>";
 }
 
 function pageSpan(page) {
