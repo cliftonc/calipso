@@ -33,6 +33,11 @@ var elasticSearchClient, serverOptions;
  */
 function route(req, res, module, app, next) {
 
+  
+  res.menu.admin.addMenuItem({name:'Search',path:'cms/search',url:'#',description:'Search ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Configure',path:'cms/search/configure',url:'/admin/search/configure',description:'Configure Search ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Reindex',path:'cms/search/reindex',url:'/admin/search/reindex',description:'Reindex content ...',security:[]});
+
   // Router
   module.router.route(req, res, next);
   
@@ -115,9 +120,43 @@ function indexContent(content) {
  * This kicks off and runs in the back ground
  */
 function reindex(req, res, template, block, next) {   
- 
-  // TODO
-  
+
+    var Content = calipso.lib.mongoose.model('Content');
+
+    // Clear down the existing index
+    var qryObj = {
+        "query" : { "query_string" : {"query" : "*"} },
+    }
+    
+    // Index
+    elasticSearchClient.deleteByQuery('calipso', 'content', qryObj)
+      .on('data', function(data) {
+          var result = JSON.parse(data);
+          if(result.ok) {
+                       
+           // Select all content                
+           Content.count({}, function (err, count) {
+    
+            var total = count;
+            calipso.log("Reindexing " + total + " documents ...");
+    
+            Content.find({},function (err, contents) {
+              
+                contents.forEach(function(item) {
+                   indexContent(item);
+                });                          
+                
+                req.flash('info',req.t('Re-indexing {msg} content items ... this may take some time!',{msg:total}));
+                next();
+                
+            });
+            
+          });
+           
+        }
+           
+      })
+      .exec()  
   
 };
 
@@ -155,9 +194,12 @@ function showForm(req, res, template, block, next) {
 function search(req, res, template, block, next) {
       
     var query = req.moduleParams.query || "*";    
-          
+    var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
+    var limit = req.moduleParams.from ? parseInt(req.moduleParams.limit) : 10;          
+        
     // Default query shows only public & published items
     var qryObj = {
+        "from" : from, "size" : limit,
         "query" : { "query_string" : {"query" : query} },
         "filter" : {
           "term" : {
@@ -167,10 +209,11 @@ function search(req, res, template, block, next) {
         },
         "facets" : {
           "Tags" : { "terms" : {"field" : "tags"} },
-          "Type" : { "terms" : {"field" : "contentType"} },          
+          "Type" : { "terms" : {"field" : "contentType"} },
+          "Status" : { "terms" : {"field" : "status"} },          
           "Created" : { "date_histogram" : {
                 "field" : "created",
-                "interval" : "day"
+                "interval" : "month"
             }
           }
         }
@@ -180,9 +223,11 @@ function search(req, res, template, block, next) {
     elasticSearchClient.search('calipso', 'content', qryObj)
         .on('data', function(data) {
             var results = JSON.parse(data);            
+            var total = results.hits.total;
             var hits = results.hits.hits ? results.hits.hits : [];
-            var facets = results.facets;
-            calipso.theme.renderItem(req, res, template, block, {query:query,hits:hits,facets:facets},next);
+            var facets = results.facets;            
+            var pagerHtml = calipso.lib.pager.render(from,limit,total,req.url);            
+            calipso.theme.renderItem(req, res, template, block, {query:query,hits:hits,facets:facets,pager:pagerHtml},next);
         })
         .on('error', function(error){              
             res.statusCode = 500;
