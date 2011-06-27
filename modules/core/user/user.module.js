@@ -861,6 +861,7 @@ function install(next) {
         calipso.log(err);
         next(err)
       } else {
+        storeRoles();        
         calipso.log("User module installed ... ");
         next();
       }
