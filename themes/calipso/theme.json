@@ -21,6 +21,9 @@
         "modules":{
           "user":{
             "login":"modules/user/login.html"
+          },
+          "elastic":{
+            "results":"modules/elastic/results.html"
           }
         }
       }
