@@ -445,10 +445,10 @@ function editContentForm(req,res,template,block,next) {
 
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
-  res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/',description:'List all ...',security:[]});        
-  res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/show/' + id,description:'Show current ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/edit/' + id,description:'Edit content ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/delete/' + id,description:'Delete content ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',security:[]});        
+  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/content/show/' + id,description:'Show current ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/content/edit/' + id,description:'Edit content ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/content/delete/' + id,description:'Delete content ...',security:[]});
 
 
   Content.findById(id, function(err, c) {
@@ -698,7 +698,7 @@ function listContent(req,res,template,block,next) {
       // Re-retrieve our object
       var Content = calipso.lib.mongoose.model('Content');
 
-      res.menu.adminToolbar.addMenuItem({name:'New Content',path:'new',url:'/content/new',description:'Create content ...',security:[]});
+      res.menu.adminToolbar.addMenuItem({name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',security:[]});
 
       
       var tag = req.moduleParams.tag ? req.moduleParams.tag : '';

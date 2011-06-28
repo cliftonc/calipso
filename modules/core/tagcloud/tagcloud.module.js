@@ -48,12 +48,11 @@ function init(module,app,next) {
 
         calipso.lib.mongoose.model('Tag', Tag);
 
-        // Add a post save hook to content
-        var Content = calipso.lib.mongoose.model('Content');
-        Content.schema.post('save',function() {
-          mapReduceTagCloud();
-        });
-
+        // Register for events  
+        calipso.e.post('CONTENT_CREATE',module.name,mapReduceTagCloud);
+        calipso.e.post('CONTENT_UPDATE',module.name,mapReduceTagCloud);
+        calipso.e.post('CONTENT_DELETE',module.name,mapReduceTagCloud);
+        
         next();
       }
   );

@@ -37,6 +37,9 @@ function route(req,res,module,app,next) {
  */
 function init(module,app,next) {
 
+  // Version events
+  calipso.e.addEvent('CONTENT_VERSION');
+  
   calipso.lib.step(
       function defineRoutes() {
 
@@ -62,11 +65,9 @@ function init(module,app,next) {
 
         calipso.lib.mongoose.model('ContentVersion', ContentVersion);
         
-        // Content post save hook to capture versions
-        var Content = calipso.lib.mongoose.model('Content');
-        Content.schema.post('save',function() {
-           saveVersion(this);
-        });
+        // Version event listeners        
+        calipso.e.post('CONTENT_CREATE',module.name,saveVersion);
+        calipso.e.post('CONTENT_UPDATE',module.name,saveVersion);
 
         // Form alteration
         if(calipso.modules.content.fn.originalContentForm) {
@@ -105,7 +106,7 @@ var contentVersionFormSection = {
  */
 function showContent(req,res,template,block,next) {
   var id = req.moduleParams.id;
-  res.menu.adminToolbar.addMenuItem({name:'Versions',path:'versions',url:'/content/show/' + id + '/versions',description:'Show versions ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Versions',weight:10,path:'versions',url:'/content/show/' + id + '/versions',description:'Show versions ...',security:[]});
   next();
 }
 
@@ -121,12 +122,17 @@ function saveVersion(content) {
     calipso.form.mapFields(content.doc,version);
     version.contentId = content._id;
     
+    if(version.get("version")) {
+      calipso.e.pre_emit('CONTENT_VERSION',version);
+    }
+    
     version.save(function(err) {
       if(err) {
         calipso.error(err);
       }
       if(version.get("version")) {
         // TODO - enable notification / event?
+         calipso.e.post_emit('CONTENT_VERSION',version);
       }
     });
     
@@ -242,7 +248,7 @@ function listVersions(req,res,template,block,next) {
       // Re-retrieve our object
       var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
       
-      res.menu.adminToolbar.addMenuItem({name:'Diff',path:'diff',description:'Diff versions ...',security:[]});
+      res.menu.adminToolbar.addMenuItem({name:'Diff',path:'diff',url:'',description:'Diff versions ...',security:[]});      
       res.menu.adminToolbar.addMenuItem({name:'Return',path:'return',url:'/content/show/' + id,description:'Show content ...',security:[]});
 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';

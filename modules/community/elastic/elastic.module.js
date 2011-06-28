@@ -54,6 +54,10 @@ function init(module, app, next) {
   calipso.e.post('CONTENT_UPDATE',module.name,indexContent);  
   calipso.e.post('CONTENT_DELETE',module.name,removeContent);
   
+  // Register events
+  calipso.e.addEvent('CONTENT_INDEX');
+  calipso.e.addEvent('CONTENT_REMOVE_INDEX');  
+  
   // Do the init
   calipso.lib.step(
 
@@ -93,18 +97,19 @@ function init(module, app, next) {
 function indexContent(content) {
     
   var toIndex = content.toObject();
-  
-  console.log("INDEXING CONTENT: " + content.title);
-  
+
   // Elastic expects all documents to have an id
   toIndex.id = toIndex._id;
   delete toIndex._id;
+  
+  calipso.e.pre_emit('CONTENT_INDEX',content);
   
   // Index, content, based on content type
   elasticSearchClient.index('calipso','content', toIndex)
     .on('data', function(data) {
         var result = JSON.parse(data);
         if(!result.ok) {
+          calipso.e.post_emit('CONTENT_INDEX',content);
           calipso.error("Error elastic search indexing: " + result); 
         }
     })
@@ -118,11 +123,13 @@ function indexContent(content) {
 function removeContent(content) {      
   
   // Remove
+  calipso.e.pre_emit('CONTENT_REMOVE_INDEX',content);
   elasticSearchClient.deleteDocument('calipso', 'content', content._id)
     .on('data',
     function(data) {
         var result = JSON.parse(data);
         if(!result.ok) {
+          calipso.e.post_emit('CONTENT_REMOVE_INDEX',content);
           calipso.error("Error elastic search removing: " + result); 
         }
     }).exec();

@@ -41,6 +41,20 @@ function route(req,res,module,app,next) {
  */
 function init(module,app,next) {
 
+  // Register events for the Content Module
+  calipso.e.addEvent('CONTENT_TYPE_CREATE');
+  calipso.e.addEvent('CONTENT_TYPE_UPDATE');
+  calipso.e.addEvent('CONTENT_TYPE_DELETE');
+  
+  // Register event listeners
+  calipso.e.post('CONTENT_TYPE_CREATE',module.name,storeContentTypes);
+  calipso.e.post('CONTENT_TYPE_UPDATE',module.name,storeContentTypes);
+  calipso.e.post('CONTENT_TYPE_DELETE',module.name,storeContentTypes);
+  
+  calipso.e.post('CONTENT_TYPE_CREATE',module.name,updateContentAfterChange);
+  calipso.e.post('CONTENT_TYPE_UPDATE',module.name,updateContentAfterChange);      
+
+  
   calipso.lib.step(
       function defineRoutes() {
 
@@ -69,14 +83,7 @@ function init(module,app,next) {
         });
 
         calipso.lib.mongoose.model('ContentType', ContentType);
-
-        // Store the content types in an array for later use
-        ContentType.post('save',function() {
-          storeContentTypes(); // Store an array of their names in the theme
-          updateContentAfterChange(); // Store an array of their names in the theme
-        });
-
-
+        
         // Create a new form taghandler for content type fields
         calipso.form.render_tag_json = function(field, value) {
             return '<textarea'
@@ -167,6 +174,8 @@ function createContentType(req,res,template,block,next) {
 
       var saved;
 
+      calipso.e.pre_emit('CONTENT_TYPE_CREATE',c);
+      
       c.save(function(err) {
 
         if(err) {
@@ -175,6 +184,7 @@ function createContentType(req,res,template,block,next) {
             res.redirect('/content/type/new');
           }
         } else {
+          calipso.e.post_emit('CONTENT_TYPE_CREATE',c);
           res.redirect('/content/type');
         }
 
@@ -266,7 +276,9 @@ function updateContentType(req,res,template,block,next) {
               c.ispublic = form.contentType.ispublic === "Yes" ? true : false;
               c.updated = new Date();
               c.fields = form.contentType.fields;
-
+              
+              calipso.e.pre_emit('CONTENT_TYPE_UPDATE',c);
+             
               c.save(function(err) {
                 if(err) {
                   req.flash('error',req.t('Could not update content type because {msg}.',{msg:err.message}));
@@ -274,6 +286,7 @@ function updateContentType(req,res,template,block,next) {
                     res.redirect('/content/type/edit/' + req.moduleParams.id);
                   }
                 } else {
+                  calipso.e.post_emit('CONTENT_TYPE_UPDATE',c);
                   res.redirect('/content/type/show/' + req.moduleParams.id);
                 }
                 next();
@@ -395,17 +408,24 @@ function deleteContentType(req,res,template,block,next) {
   var ContentType = calipso.lib.mongoose.model('ContentType');
   var id = req.moduleParams.id;
 
-  ContentType.remove({_id:id}, function(err) {
-    if(err) {
-      req.flash('info',req.t('Unable to delete the content type because {msg}.',{msg:err.message}));
-      res.redirect("/content/type");
-    } else {
-      req.flash('info',req.t('The content type has now been deleted.'));
-      res.redirect("/content/type");
-    }
-    next();
-  });
+  ContentType.findById(id, function(err, c) {
+      
+    calipso.e.pre_emit('CONTENT_TYPE_DELETE',c);
+    
+    ContentType.remove({_id:id}, function(err) {
+      if(err) {
+        req.flash('info',req.t('Unable to delete the content type because {msg}.',{msg:err.message}));
+        res.redirect("/content/type");
+      } else {
+        calipso.e.post_emit('CONTENT_TYPE_DELETE',c);
+        req.flash('info',req.t('The content type has now been deleted.'));
+        res.redirect("/content/type");
+      }
+      next();
+    });
 
+  });
+  
 }
 
 /**
@@ -415,7 +435,7 @@ function storeContentTypes() {
 
     var ContentType = calipso.lib.mongoose.model('ContentType');
 
-    ContentType.find({},function (err, types) {
+    ContentType.find({}).sort('contentType',1).find(function (err, types) {
         if(err || !types) {
           // Don't throw error, just pass back failure.
           calipso.error(err);
@@ -424,7 +444,7 @@ function storeContentTypes() {
         calipso.data.contentTypes = [];
         types.forEach(function(type) {
           calipso.data.contentTypes.push(type.contentType);
-        });
+        });        
 
     });
 
