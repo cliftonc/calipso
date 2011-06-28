@@ -82,7 +82,7 @@ function init(module, app, next) {
         host: 'localhost',
         port: 9200,
     };
-    elasticSearchClient = new ElasticSearchClient(serverOptions);           
+    connectAndMonitor(serverOptions);
     
     next();
 
@@ -90,6 +90,18 @@ function init(module, app, next) {
 
 };
 
+
+/**
+ *  Connect to a server, maintain the connection by monitoring server status
+ */
+function connectAndMonitor(serverOptions) {
+  
+  // Create client
+  elasticSearchClient = new ElasticSearchClient(serverOptions);
+  
+  
+
+}
 
 /**
  * Index an object
@@ -175,6 +187,9 @@ function reindex(req, res, template, block, next) {
       }
          
     })
+    .on('error',function(error) {
+        calipso.error(error);
+    })
     .exec()  
   
 };
@@ -202,6 +217,9 @@ function clearIndex(req, res, template, block, next) {
              res.redirect("/");
              next();
           }
+      })      
+      .on('error',function(error) {
+          calipso.error(error);
       })
       .exec()  
       
@@ -271,19 +289,26 @@ function search(req, res, template, block, next) {
         .on('data', function(data) {
 
             var results = JSON.parse(data);
-                        
-            var total = results.hits.total;
-            var hits = results.hits.hits ? results.hits.hits : [];
-            var facets = results.facets;            
-            var pagerHtml = calipso.lib.pager.render(from,limit,total,req.url);            
+            
+            if(results.hits && results.hits.total) {
+                          
+              var total = results.hits.total;
+              var hits = results.hits.hits ? results.hits.hits : [];
+              var facets = results.facets;            
+              var pagerHtml = calipso.lib.pager.render(from,limit,total,req.url);            
+  
+              calipso.theme.renderItem(req, res, template, block, {query:query,hits:hits,facets:facets,pager:pagerHtml},next);
 
-            calipso.theme.renderItem(req, res, template, block, {query:query,hits:hits,facets:facets,pager:pagerHtml},next);
-
+            } else {
+              res.statusCode = 500;
+              res.errorMsg = "Error executing search: " + results;
+              next();
+            }
         })
         .on('error', function(error){              
             res.statusCode = 500;
             res.errorMsg = error;
-            next(error);
+            next();
         })
         .exec()
          

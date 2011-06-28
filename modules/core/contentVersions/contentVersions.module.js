@@ -138,9 +138,6 @@ function saveVersion(content) {
     
 }
 
-
-
-
 /**
  * Show version
  */
