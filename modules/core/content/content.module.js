@@ -43,6 +43,11 @@ function route(req,res,module,app,next) {
  */
 function init(module,app,next) {
 
+  // Register events for the Content Module
+  calipso.e.addEvent('CONTENT_CREATE');
+  calipso.e.addEvent('CONTENT_UPDATE');
+  calipso.e.addEvent('CONTENT_DELETE');
+  
   // There are dependencies, so we need to track if this is initialised
   module.initialised = false;
 
@@ -240,6 +245,10 @@ function createContent(req,res,template,block,next) {
                 c.layout = contentType.layout;
                 c.ispublic = contentType.ispublic;
 
+                // Emit event pre-save, this DOES NOT Allow you to change
+                // The content item (yet).
+                calipso.e.pre_emit('CONTENT_CREATE',c);
+                
                 c.save(function(err) {
                   if(err) {
                     calipso.debug(err);
@@ -249,6 +258,10 @@ function createContent(req,res,template,block,next) {
                     }
                   } else {
                     req.flash('info',req.t('Content saved.'));
+                    
+                    // Raise CONTENT_CREATE event
+                    calipso.e.post_emit('CONTENT_CREATE',c);
+                    
                     if(returnTo) {
                       res.redirect(returnTo);
                     } else {
@@ -514,6 +527,10 @@ function updateContent(req,res,template,block,next) {
                     c.layout = contentType.layout;
                     c.ispublic = contentType.ispublic;
 
+                    // Emit pre event
+                    // This does not allow you to change the content
+                    calipso.e.pre_emit('CONTENT_CREATE',c);               
+                    
                     c.save(function(err) {
                       if(err) {
                         var errorMsg = '';
@@ -529,7 +546,12 @@ function updateContent(req,res,template,block,next) {
                           res.redirect('back');
                         }
                       } else {
+                         
                         req.flash('info',req.t('Content saved.'));
+                        
+                        // Raise CONTENT_CREATE event
+                        calipso.e.post_emit('CONTENT_UPDATE',c);
+                        
                         if(returnTo) {
                           res.redirect(returnTo);
                         } else {
@@ -640,11 +662,11 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   } else {
     
-    res.menu.adminToolbar.addMenuItem({name:'Create',path:'new',url:'/content/new',description:'Create content ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/',description:'List all ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/show/' + content.id,description:'Show current ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Create',weight:3,path:'new',url:'/content/new',description:'Create content ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/content/show/' + content.id,description:'Show current ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Edit',weight:4,path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Delete',weight:5,path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});
 
     
     item = content.toObject();
@@ -813,18 +835,25 @@ function deleteContent(req,res,template,block,next) {
 
   var Content = calipso.lib.mongoose.model('Content');
   var id = req.moduleParams.id;
+  
+  Content.findById(id, function(err, c) {
+      
+    // Raise CONTENT_CREATE event
+    calipso.e.pre_emit('CONTENT_DELETE',c);
+    
+    Content.remove({_id:id}, function(err) {
+      if(err) {
+        req.flash('info',req.t('Unable to delete the content because {msg}',{msg:err.message}));
+        res.redirect("/");
+      } else {
+        calipso.e.post_emit('CONTENT_DELETE',c); 
+        req.flash('info',req.t('The content has now been deleted.'));
+        res.redirect("/");
+      }
+      next();
+    });
 
-  Content.remove({_id:id}, function(err) {
-    if(err) {
-      req.flash('info',req.t('Unable to delete the content because {msg}',{msg:err.message}));
-      res.redirect("/");
-    } else {
-      req.flash('info',req.t('The content has now been deleted.'));
-      res.redirect("/");
-    }
-    next();
   });
-
 }
 
 /**
