@@ -35,8 +35,9 @@ function route(req, res, module, app, next) {
 
   
   res.menu.admin.addMenuItem({name:'Search',path:'cms/search',url:'#',description:'Search ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Configure',path:'cms/search/configure',url:'/admin/search/configure',description:'Configure Search ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Reindex',path:'cms/search/reindex',url:'/admin/search/reindex',description:'Reindex content ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Configure Search',weight:1,path:'cms/search/configure',url:'/admin/search/configure',description:'Configure Search ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Reindex Content',weight:2,path:'cms/search/reindex',url:'/admin/search/reindex',description:'Reindex content ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Clear Index',weight:3,path:'cms/search/clearindex',url:'/admin/search/clearindex',description:'Clear content index ...',security:[]});
 
   // Router
   module.router.route(req, res, next);
@@ -48,7 +49,12 @@ function route(req, res, module, app, next) {
  */
 function init(module, app, next) {
 
-
+  // Register for events  
+  calipso.e.post('CONTENT_CREATE',module.name,indexContent);
+  calipso.e.post('CONTENT_UPDATE',module.name,indexContent);  
+  calipso.e.post('CONTENT_DELETE',module.name,removeContent);
+  
+  // Do the init
   calipso.lib.step(
 
     function defineRoutes() {
@@ -62,6 +68,8 @@ function init(module, app, next) {
 
       // ADMIN
       module.router.addRoute('GET /admin/search/reindex',reindex,{admin:true},this.parallel());      
+      module.router.addRoute('GET /admin/search/clearindex',clearIndex,{admin:true},this.parallel());      
+
   
     }, function done() {
       
@@ -70,20 +78,7 @@ function init(module, app, next) {
         host: 'localhost',
         port: 9200,
     };
-    elasticSearchClient = new ElasticSearchClient(serverOptions);    
-
-    // Add a post save hook to content
-    var Content = calipso.lib.mongoose.model('Content');
-    
-    // Save event
-    Content.schema.post('save',function() {
-      indexContent(this);
-    });    
- 
-    // Remove event (doesn't seem to work)
-    Content.schema.post('remove',function() {
-      console.dir('REMOVE!');
-    });        
+    elasticSearchClient = new ElasticSearchClient(serverOptions);           
     
     next();
 
@@ -97,22 +92,41 @@ function init(module, app, next) {
  */
 function indexContent(content) {
     
-    var toIndex = content.toObject();
-    
-    // Elastic expects all documents to have an id
-    toIndex.id = toIndex._id;
-    delete toIndex._id;
-    
-    // Index, content, based on content type
-    elasticSearchClient.index('calipso','content', toIndex)
-      .on('data', function(data) {
-          var result = JSON.parse(data);
-          if(!result.ok) {
-            calipso.error("Error elastic search indexing: " + result); 
-          }
-      })
-      .exec()
+  var toIndex = content.toObject();
   
+  console.log("INDEXING CONTENT: " + content.title);
+  
+  // Elastic expects all documents to have an id
+  toIndex.id = toIndex._id;
+  delete toIndex._id;
+  
+  // Index, content, based on content type
+  elasticSearchClient.index('calipso','content', toIndex)
+    .on('data', function(data) {
+        var result = JSON.parse(data);
+        if(!result.ok) {
+          calipso.error("Error elastic search indexing: " + result); 
+        }
+    })
+    .exec()
+
+}
+
+/**
+ * Remove a single object
+ */
+function removeContent(content) {      
+  
+  // Remove
+  elasticSearchClient.deleteDocument('calipso', 'content', content._id)
+    .on('data',
+    function(data) {
+        var result = JSON.parse(data);
+        if(!result.ok) {
+          calipso.error("Error elastic search removing: " + result); 
+        }
+    }).exec();
+      
 }
 
 /**
@@ -121,43 +135,69 @@ function indexContent(content) {
  */
 function reindex(req, res, template, block, next) {   
 
+  var Content = calipso.lib.mongoose.model('Content');
+
+  // Clear down the existing index
+  var qryObj = {"match_all" : {}};
+  
+  // Index
+  elasticSearchClient.deleteByQuery('calipso', 'content', qryObj)
+    .on('data', function(data) {
+        var result = JSON.parse(data);
+        if(result.ok) {
+                     
+         // Select all content                
+         Content.count({}, function (err, count) {
+  
+          var total = count;
+          calipso.log("Reindexing " + total + " documents ...");
+  
+          Content.find({},function (err, contents) {
+            
+              contents.forEach(function(item) {
+                 indexContent(item);
+              });                          
+              
+              req.flash('info',req.t('Re-indexing {msg} content items ... this may take some time!',{msg:total}));
+              next();
+              
+          });
+          
+        });
+         
+      }
+         
+    })
+    .exec()  
+  
+};
+
+/**
+ * Empty search index completely 
+ */
+function clearIndex(req, res, template, block, next) {   
+
     var Content = calipso.lib.mongoose.model('Content');
 
     // Clear down the existing index
-    var qryObj = {
-        "query" : { "query_string" : {"query" : "*"} },
-    }
+    var qryObj = {"match_all" : {}};
     
     // Index
     elasticSearchClient.deleteByQuery('calipso', 'content', qryObj)
       .on('data', function(data) {
           var result = JSON.parse(data);
-          if(result.ok) {
-                       
-           // Select all content                
-           Content.count({}, function (err, count) {
-    
-            var total = count;
-            calipso.log("Reindexing " + total + " documents ...");
-    
-            Content.find({},function (err, contents) {
-              
-                contents.forEach(function(item) {
-                   indexContent(item);
-                });                          
-                
-                req.flash('info',req.t('Re-indexing {msg} content items ... this may take some time!',{msg:total}));
-                next();
-                
-            });
-            
-          });
-           
-        }
-           
+          if(result.ok) {             
+             req.flash('info',req.t("Calipso / content index being cleared ..."));
+             res.redirect("/");
+             next();
+          } else {
+             req.flash('error',req.t("There was an error clearing the index ..."));
+             res.redirect("/");
+             next();
+          }
       })
       .exec()  
-  
+      
 };
 
 /**
@@ -222,12 +262,16 @@ function search(req, res, template, block, next) {
     // TODO - add paging and faceting
     elasticSearchClient.search('calipso', 'content', qryObj)
         .on('data', function(data) {
-            var results = JSON.parse(data);            
+
+            var results = JSON.parse(data);
+                        
             var total = results.hits.total;
             var hits = results.hits.hits ? results.hits.hits : [];
             var facets = results.facets;            
             var pagerHtml = calipso.lib.pager.render(from,limit,total,req.url);            
+
             calipso.theme.renderItem(req, res, template, block, {query:query,hits:hits,facets:facets,pager:pagerHtml},next);
+
         })
         .on('error', function(error){              
             res.statusCode = 500;
@@ -235,8 +279,5 @@ function search(req, res, template, block, next) {
             next(error);
         })
         .exec()
-        
-   
+         
 };
-
-
