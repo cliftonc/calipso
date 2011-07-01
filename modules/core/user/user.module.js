@@ -35,6 +35,15 @@ function route(req, res, module, app, next) {
  * Init
  */
 function init(module, app, next) {
+    
+  // Register events for the Content Module
+  calipso.e.addEvent('USER_CREATE');
+  calipso.e.addEvent('USER_UPDATE');
+  calipso.e.addEvent('USER_DELETE');
+  calipso.e.addEvent('USER_LOCK');
+  calipso.e.addEvent('USER_UNLOCK');
+  calipso.e.addEvent('USER_LOGIN');
+  calipso.e.addEvent('USER_LOGOUT');
 
   calipso.lib.step(
 
@@ -45,12 +54,15 @@ function init(module, app, next) {
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
       module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
       module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
-      module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
+      module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());          
       module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
+      module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
       module.router.addRoute('GET /user/profile/:username/edit',updateUserForm,{block:'content'},this.parallel());
+      
       module.router.addRoute('GET /user/profile/:username/lock',lockUser,{admin:true},this.parallel());
       module.router.addRoute('GET /user/profile/:username/unlock',unlockUser,{admin:true},this.parallel());
-      module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
+      module.router.addRoute('GET /user/profile/:username/delete',deleteUser,{admin:true},this.parallel());
+      
     },
     function done() {
 
@@ -370,11 +382,12 @@ function lockUser(req, res, template, block, next) {
       }
       
       u.locked = true;
-      
+      calipso.e.pre_emit('USER_LOCK',u);
       u.save(function(err) {        
           if(err) {
             req.flash('error',req.t('There was an error unlocking that user account.'));
           } else {
+            calipso.e.post_emit('USER_LOCK',u);
             req.flash('info',req.t('Account locked.'));
           }
           res.redirect('/user/profile/' + username);    
@@ -402,11 +415,12 @@ function unlockUser(req, res, template, block, next) {
       }
       
       u.locked = false;
-      
+      calipso.e.pre_emit('USER_UNLOCK',u);
       u.save(function(err) {        
           if(err) {
             req.flash('error',req.t('There was an error unlocking that user account.'));
           } else {
+            calipso.e.post_emit('USER_UNLOCK',u);
             req.flash('info',req.t('Account unlocked.'));
           }
           res.redirect('/user/profile/' + username);    
@@ -510,6 +524,7 @@ function updateUserProfile(req, res, template, block, next) {
           return;
         }
 
+        calipso.e.pre_emit('USER_UPDATE',u);
         u.save(function(err) {
           if(err) {
             
@@ -521,6 +536,8 @@ function updateUserProfile(req, res, template, block, next) {
             
           } else {
 
+            calipso.e.post_emit('USER_UPDATE',u);
+            
             // Update session details if your account
             if(req.session.user && (req.session.user.username === username)) { // Allows for name change
               createUserSession(req, u, function(err) {
@@ -562,7 +579,8 @@ function loginUser(req, res, template, block, next) {
         // TO BE REMOVED In later version
         if(user && calipso.lib.crypto.check(form.user.password,user.hash) || (user && user.hash === '')) {
           if(!user.locked) {            
-            found = true;
+            found = true;            
+            calipso.e.post_emit('USER_LOGIN',user);
             createUserSession(req, user, function(err) {
                 if(err) calipso.error("Error saving session: " + err);
             });             
@@ -617,15 +635,31 @@ function createUserSession(req, user, next) {
  */
 function logoutUser(req, res, template, block, next) {
 
-  req.session.user = null;
-  req.session.save(function(err) {
-    // Check for error
-  });
-  if(res.statusCode != 302) {
-    res.redirect('back');
+  if(req.session && req.session.user) {
+    
+    var User = calipso.lib.mongoose.model('User');
+    
+    User.findOne({username:req.session.user.username}, function(err, u) {
+          
+      req.session.user = null;
+      req.session.save(function(err) {
+        // Check for error
+         calipso.e.post_emit('USER_LOGOUT',u);
+         if(res.statusCode != 302) {
+            res.redirect('back');
+         }
+         next();
+    
+      });
+      
+    });
+      
+  } else {
+    // Fail quietly
+    res.redirect('back');    
+    next();
   }
-  next();
-
+  
 }
 
 /**
@@ -687,6 +721,8 @@ function registerUser(req, res, template, block, next) {
       // Create the hash
       u.hash = calipso.lib.crypto.hash(new_password,calipso.config.cryptoKey);
 
+      calipso.e.pre_emit('USER_CREATE',u);
+      
       u.save(function(err) {
 
         if(err) {
@@ -695,6 +731,7 @@ function registerUser(req, res, template, block, next) {
             res.redirect('back');
           }
         } else {
+          calipso.e.post_emit('USER_CREATE',u);
           if(!res.noRedirect) {
             req.flash('info',req.t('Profile created, you can now login using this account.'));
             res.redirect('/user/profile/' + u.username);
@@ -760,6 +797,41 @@ function userProfile(req, res, template, block, next) {
 
 
 /**
+ * Delete user
+ */
+function deleteUser(req, res, template, block, next) {
+
+  var User = calipso.lib.mongoose.model('User');
+  var username = req.moduleParams.username;
+  
+  User.findOne({username:username}, function(err, u) {
+   
+    // Raise USER_DELETE event
+    calipso.e.pre_emit('USER_DELETE',u);
+
+    User.remove({_id:u._id}, function(err) {
+      if(err) {
+        req.flash('info',req.t('Unable to delete the user because {msg}',{msg:err.message}));
+        res.redirect("/user/list");
+      } else {
+        calipso.e.post_emit('USER_DELETE',u); 
+        req.flash('info',req.t('The user has now been deleted.'));
+        res.redirect("/user/list");
+      }
+      next();
+    });
+
+  });
+}
+
+/**
+ * Helper function for link to user
+ */ 
+function userLink(req,user) {      
+  return calipso.link.render({id:user._id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});  
+}
+
+/**
  * List all content types
  */
 function listUsers(req,res,template,block,next) {
@@ -771,7 +843,7 @@ function listUsers(req,res,template,block,next) {
 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';      
       var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
-      var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 20;
+      var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 5;
       
       var query = new Query();
 
@@ -779,17 +851,39 @@ function listUsers(req,res,template,block,next) {
       User.count(query, function (err, count) {
 
         var total = count;                
-        var pagerHtml = calipso.lib.pager.render(from,limit,total,"");
-        
-        
+        // var pagerHtml = calipso.lib.pager.render(from,limit,total,"");
+                
         User.find(query)
           .sort('username', 1)
           .skip(from).limit(limit)
-          .find(function (err, users) {
-
+          .find(function (err, users) {                           
+              
                 // Render the item into the response
                 if(format === 'html') {
-                  calipso.theme.renderItem(req,res,template,block,{items:users,pager:pagerHtml,isUserAdmin:isUserAdmin},next);
+                  
+                  var table = {id:'user-list',sort:true,
+                      columns:[{name:'_id',label:'User',fn:userLink},                              
+                              {name:'fullname',label:'Full Name'},
+                              {name:'roles',label:'Roles'},
+                              {name:'email',label:'Email',fn:function(req,row) {
+                                return calipso.link.render({label:row.email,url:'mailto:' + row.email});                                
+                              }}
+                      ],
+                      data:users,
+                      view:{
+                        pager:true,
+                        from:from,
+                        limit:limit,
+                        total:total,
+                        url:req.url,                        
+                        sort:[]
+                      }
+                  };
+                  
+                  var tableHtml = calipso.table.render(table,req); 
+                                    
+                  calipso.theme.renderItem(req,res,tableHtml,block,null,next);
+                  
                 }
 
                 if(format === 'json') {
