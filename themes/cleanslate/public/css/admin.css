@@ -40,3 +40,6 @@
   height: 15px;
 }
 
+#user-list, .tabular {
+	clear: both;
+}
