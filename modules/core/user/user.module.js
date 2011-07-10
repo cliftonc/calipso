@@ -843,7 +843,8 @@ function listUsers(req,res,template,block,next) {
 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';      
       var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
-      var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 5;
+      var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 5;            
+      var sortBy = req.moduleParams.sortBy;
       
       var query = new Query();
 
@@ -851,48 +852,49 @@ function listUsers(req,res,template,block,next) {
       User.count(query, function (err, count) {
 
         var total = count;                
-        // var pagerHtml = calipso.lib.pager.render(from,limit,total,"");
-                
-        User.find(query)
-          .sort('username', 1)
-          .skip(from).limit(limit)
-          .find(function (err, users) {                           
-              
-                // Render the item into the response
-                if(format === 'html') {
-                  
-                  var table = {id:'user-list',sort:true,
-                      columns:[{name:'_id',label:'User',fn:userLink},                              
-                              {name:'fullname',label:'Full Name'},
-                              {name:'roles',label:'Roles'},
-                              {name:'email',label:'Email',fn:function(req,row) {
-                                return calipso.link.render({label:row.email,url:'mailto:' + row.email});                                
-                              }}
-                      ],
-                      data:users,
-                      view:{
-                        pager:true,
-                        from:from,
-                        limit:limit,
-                        total:total,
-                        url:req.url,                        
-                        sort:[]
-                      }
-                  };
-                  
-                  var tableHtml = calipso.table.render(table,req); 
-                                    
-                  calipso.theme.renderItem(req,res,tableHtml,block,null,next);
-                  
+        
+        var qry = User.find(query)  .skip(from).limit(limit);
+        
+        // Add sort
+        qry = calipso.table.sortQuery(qry,sortBy);
+        
+        qry.find(function (err, users) {                           
+          
+          // Render the item into the response
+          if(format === 'html') {
+            
+            var table = {id:'user-list',sort:true,cls:'table-admin',
+                columns:[{name:'_id',sort:'username',label:'User',fn:userLink},                              
+                        {name:'fullname',label:'Full Name'},
+                        {name:'roles',label:'Roles',sortable:false},
+                        {name:'email',label:'Email',fn:function(req,row) {
+                          return calipso.link.render({label:row.email,url:'mailto:' + row.email});                                
+                        }}
+                ],
+                data:users,
+                view:{
+                  pager:true,
+                  from:from,
+                  limit:limit,
+                  total:total,
+                  url:req.url,                        
+                  sort:calipso.table.parseSort(sortBy)
                 }
+            };
+            
+            var tableHtml = calipso.table.render(table,req); 
+                              
+            calipso.theme.renderItem(req,res,tableHtml,block,null,next);
+            
+          }
 
-                if(format === 'json') {
-                  res.format = format;
-                  res.send(users.map(function(u) {
-                    return u.toObject();
-                  }));
-                  next();
-                }
+          if(format === 'json') {
+            res.format = format;
+            res.send(users.map(function(u) {
+              return u.toObject();
+            }));
+            next();
+          }
 
         });
 

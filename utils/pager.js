@@ -2,6 +2,9 @@
 /**
  * Simple pager - couldn't find one for Express that worked for me.
  */
+
+var url = require('url'), qs = require('querystring');
+
 exports = module.exports = {
     render: function(skip,limit,total,path){
   
@@ -9,7 +12,7 @@ exports = module.exports = {
     var currentPage = skip/limit + 1;
     var result = "", resultStart = "<div class='pager'>", start, finish;
     var selectedClass = 'page-selected';
-    var visiblePages = 5;
+    var visiblePages = 5;    
     
     // Remember how many we have
     var totalPageLinks = 0;
@@ -55,8 +58,16 @@ exports = module.exports = {
 
 function pageLink(path,skip,limit,page) {
   
-  var fullPath = path.match(/\?/g) ? path + "&" : path + "?"  
-  return "<a class='pager-page' href='" + fullPath + "from=" + skip + "&limit=" + limit + "'>" + page + "</a>";
+  // Update params
+  var pathUrl = url.parse(path,true);  
+  pathUrl.query.limit = limit;
+  pathUrl.query.from = skip;
+
+  // Re-create the query string
+  qs.escape = function(esc) { return esc; }    
+  var fullPath = pathUrl.pathname + "?" + qs.stringify(pathUrl.query); 
+
+  return "<a class='pager-page' href='" + fullPath + "'>" + page + "</a>";
   
 }
 
