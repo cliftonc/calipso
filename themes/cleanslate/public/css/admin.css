@@ -56,3 +56,6 @@ span.pager-page {
   padding: 3px;
   background: silver;
 }
+.tabular {
+	clear: both;
+}
