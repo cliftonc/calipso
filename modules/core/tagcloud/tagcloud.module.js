@@ -62,8 +62,7 @@ function init(module,app,next) {
 /**
  * Map reduce that creates a tag cloud in mongo
  */
-function mapReduceTagCloud() {
-
+function mapReduceTagCloud(options) {
 
   // We need to check if we are already map reducing ...
   if(calipso.mr.tagcloud) {
@@ -109,8 +108,10 @@ function mapReduceTagCloud() {
       calipso.error(err);
     }
 
-    });
+  });
 
+  
+  
  };
 
 /**
