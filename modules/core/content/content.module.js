@@ -248,7 +248,7 @@ function createContent(req,res,template,block,next) {
                 // Emit event pre-save, this DOES NOT Allow you to change
                 // The content item (yet).
                 calipso.e.pre_emit('CONTENT_CREATE',c);
-                
+              
                 c.save(function(err) {
                   if(err) {
                     calipso.debug(err);
@@ -260,7 +260,9 @@ function createContent(req,res,template,block,next) {
                     req.flash('info',req.t('Content saved.'));
                     
                     // Raise CONTENT_CREATE event
-                    calipso.e.post_emit('CONTENT_CREATE',c);
+                    calipso.e.post_emit('CONTENT_CREATE',c,function(c) {
+                        console.dir(c);
+                    });
                     
                     if(returnTo) {
                       res.redirect(returnTo);
@@ -270,8 +272,8 @@ function createContent(req,res,template,block,next) {
                   }
                   // If not already redirecting, then redirect
                   next();
-                });
-
+                });                  
+                
               }
 
           });
@@ -530,7 +532,7 @@ function updateContent(req,res,template,block,next) {
                     // Emit pre event
                     // This does not allow you to change the content
                     calipso.e.pre_emit('CONTENT_CREATE',c);               
-                    
+                      
                     c.save(function(err) {
                       if(err) {
                         var errorMsg = '';
@@ -550,7 +552,9 @@ function updateContent(req,res,template,block,next) {
                         req.flash('info',req.t('Content saved.'));
                         
                         // Raise CONTENT_CREATE event
-                        calipso.e.post_emit('CONTENT_UPDATE',c);
+                        calipso.e.post_emit('CONTENT_UPDATE',c,function(c) {
+                            console.dir(c);
+                        });
                         
                         if(returnTo) {
                           res.redirect(returnTo);
@@ -703,6 +707,7 @@ function listContent(req,res,template,block,next) {
       
       var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
+      var sortBy = req.moduleParams.sortBy;
 
       // TODO : Make this more flexible ...
       var t1 = req.moduleParams.t1 ? req.moduleParams.t1 : '';
@@ -745,9 +750,17 @@ function listContent(req,res,template,block,next) {
       }
 
     // Get the content list
-    getContentList(query,{req:req,res:res,template:template,block:block,format:format},next);
+    getContentList(query,{req:req,res:res,template:template,block:block,format:format,sortBy:sortBy},next);
 
 };
+
+
+/**
+ * Helper function for link to user
+ */ 
+function contentLink(req,content) {      
+  return calipso.link.render({id:content._id,title:req.t('View {content}',{content:content.title}),label:content.title,url:'/content/show/' + content._id});  
+}
 
 /**
  * Take a query and parameters, return or render content lists
@@ -779,17 +792,40 @@ function getContentList(query,out,next) {
           pagerHtml = calipso.lib.pager.render(from,limit,total,"");
         }
 
-        Content.find(query)
-          .sort('published', -1)
-          .sort('updated', -1)
-          .skip(from).limit(limit)
-          .find(function (err, contents) {
+        var qry = Content.find(query).skip(from).limit(limit);  
+          
+        // Add sort
+        qry = calipso.table.sortQuery(qry,out.sortBy);
+        
+        qry.find(function (err, contents) {
 
                 if(out && out.res) {
 
                   // Render the item into the response
                   if(out.format === 'html') {
-                    calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
+                                                
+                    var table = {id:'content-list',sort:true,cls:'table-admin',
+                        columns:[{name:'_id',sort:'title',label:'Title',fn:contentLink},                              
+                                {name:'contentType',label:'Type'},
+                                {name:'status',label:'Status'},
+                                {name:'published',label:'Published'}
+                        ],
+                        data:contents,
+                        view:{
+                          pager:true,
+                          from:from,
+                          limit:limit,
+                          total:total,
+                          url:out.req.url,                        
+                          sort:calipso.table.parseSort(out.sortBy)
+                        }
+                    };
+                    
+                    var tableHtml = calipso.table.render(table,out.req);
+                    
+                    //calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);                    
+                    calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
+                    
                   }
 
                   if(out.format === 'json') {
