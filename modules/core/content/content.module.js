@@ -663,6 +663,8 @@ function showContentByID(req,res,template,block,next) {
     } else {      
       // Show a 404
       res.statusCode = 404;      
+      next();
+      
     }
     
   });
