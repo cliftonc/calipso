@@ -601,8 +601,9 @@ function showAliasedContent(req,res,template,block,next) {
   Content.findOne({alias:alias},function (err, content) {
 
       if(err || !content) {
+        // Create content if it doesn't exist
         if(req.session.user && req.session.user.isAdmin) {
-          res.redirect("/content/new?alias=" + alias + "&type=Article")
+          res.redirect("/content/new?alias=" + alias + "&type=Article") // TODO - make this configurable
         } else {
           res.statusCode = 404;
         }
@@ -637,17 +638,32 @@ function showContentByID(req,res,template,block,next) {
 
   Content.findById(id, function(err, content) {
       
-    calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {    
-        if(err) {
-          next(err);
-        } else {
-          // Add the user display details to content
-          content.set('displayAuthor',userDetails);
-          showContent(req,res,template,block,next,err,content,format);
-        }
+    // Error locating content
+    if(err) {
+      res.statusCode = 500;
+      errorMessage = err.message;
+      next();
+      return;
+    }
     
-    });
-    
+    // Content found
+    if(content) {
+      
+      calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {    
+          if(err) {
+            next(err);
+          } else {
+            // Add the user display details to content
+            content.set('displayAuthor',userDetails);
+            showContent(req,res,template,block,next,err,content,format);
+          }
+      
+      });
+      
+    } else {      
+      // Show a 404
+      res.statusCode = 404;      
+    }
     
   });
 
