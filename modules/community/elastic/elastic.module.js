@@ -106,7 +106,7 @@ function connectAndMonitor(serverOptions) {
 /**
  * Index an object
  */
-function indexContent(content) {
+function indexContent(content,next) {
     
   var toIndex = content.toObject();
 
@@ -127,6 +127,8 @@ function indexContent(content) {
     })
     .exec()
 
+  return next();
+    
 }
 
 /**

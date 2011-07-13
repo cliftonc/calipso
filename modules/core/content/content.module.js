@@ -247,33 +247,35 @@ function createContent(req,res,template,block,next) {
 
                 // Emit event pre-save, this DOES NOT Allow you to change
                 // The content item (yet).
-                calipso.e.pre_emit('CONTENT_CREATE',c);
-              
-                c.save(function(err) {
-                  if(err) {
-                    calipso.debug(err);
-                    req.flash('error',req.t('Could not save content because {msg}.',{msg:err.message}));
-                    if(res.statusCode != 302) {
-                        res.redirect('/content/new');
-                    }
-                  } else {
-                    req.flash('info',req.t('Content saved.'));
-                    
-                    // Raise CONTENT_CREATE event
-                    calipso.e.post_emit('CONTENT_CREATE',c,function(c) {
-                        console.dir(c);
-                    });
-                    
-                    if(returnTo) {
-                      res.redirect(returnTo);
-                    } else {
-                      res.redirect('/content/show/' + c._id);
-                    }
-                  }
-                  // If not already redirecting, then redirect
-                  next();
-                });                  
+                calipso.e.pre_emit('CONTENT_CREATE',c,function(c) {
                 
+                  c.save(function(err) {
+                    if(err) {
+                      calipso.debug(err);
+                      req.flash('error',req.t('Could not save content because {msg}.',{msg:err.message}));
+                      if(res.statusCode != 302) {
+                          res.redirect('/content/new');
+                      }
+                      next();
+                    } else {
+                      req.flash('info',req.t('Content saved.'));
+                      
+                      // Raise CONTENT_CREATE event
+                      calipso.e.post_emit('CONTENT_CREATE',c,function(c) {
+                          
+                        if(returnTo) {
+                          res.redirect(returnTo);
+                        } else {
+                          res.redirect('/content/show/' + c._id);
+                        }
+                        next();
+                      });
+                      
+                    }
+                    
+                  });
+                  
+                });
               }
 
           });
@@ -531,41 +533,45 @@ function updateContent(req,res,template,block,next) {
 
                     // Emit pre event
                     // This does not allow you to change the content
-                    calipso.e.pre_emit('CONTENT_CREATE',c);               
-                      
-                    c.save(function(err) {
-                      if(err) {
-                        var errorMsg = '';
-                        if(err.errors) {
-                          for(var error in err.errors) {
-                            errorMessage = error + " " + err.errors[error] + '\r\n';
+                    calipso.e.pre_emit('CONTENT_CREATE',c,function(c) {                    
+                        
+                      c.save(function(err) {
+                        if(err) {
+                          
+                          var errorMsg = '';
+                          if(err.errors) {
+                            for(var error in err.errors) {
+                              errorMessage = error + " " + err.errors[error] + '\r\n';
+                            }
+                          } else {
+                            errorMessage = err.message;
                           }
+                          req.flash('error',req.t('Could not update content because {msg}',{msg:errorMessage}));
+                          if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                            res.redirect('back');
+                          }
+                          next();
+                          
                         } else {
-                          errorMessage = err.message;
-                        }
-                        req.flash('error',req.t('Could not update content because {msg}',{msg:errorMessage}));
-                        if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-                          res.redirect('back');
-                        }
-                      } else {
-                         
-                        req.flash('info',req.t('Content saved.'));
-                        
-                        // Raise CONTENT_CREATE event
-                        calipso.e.post_emit('CONTENT_UPDATE',c,function(c) {
-                            console.dir(c);
-                        });
-                        
-                        if(returnTo) {
-                          res.redirect(returnTo);
-                        } else {
-                          res.redirect('/content/show/' + req.moduleParams.id);
-                        }
-                      }
-                      next();
-
-                    });
-
+                           
+                          req.flash('info',req.t('Content saved.'));
+                          
+                          // Raise CONTENT_CREATE event
+                          calipso.e.post_emit('CONTENT_UPDATE',c,function(c) {
+                            if(returnTo) {
+                              res.redirect(returnTo);
+                            } else {
+                              res.redirect('/content/show/' + req.moduleParams.id);
+                            }
+                            next();
+                          });
+                          
+                        }                        
+  
+                      });
+                      
+                    });               
+                    
                   }
 
               });

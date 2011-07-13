@@ -13,22 +13,58 @@ var assert = require('assert'),
 /**
  * Tests
  */
-exports['I can create an event emitter, it fires and can be enabled and disabled'] = function() {
+exports['I can create an event emitter'] = function() {
     
   var ee = new event.CalipsoEventEmitter();
   var eventCount = 0;  
 
   ee.addEvent('TEST');
-  ee.pre('TEST','bob',function(options) {
+  ee.addEvent('TEST2');
+  
+  ee.pre('TEST','bob1',function(data,next) {
       eventCount++;
+      data.bob1 = "My Data";
+      next(data);
   });  
-  ee.pre_emit('TEST',{data:"data"});  
-  ee.events['TEST'].enabled = false;  
-  ee.pre_emit('TEST',{data:"data"});  
-  ee.events['TEST'].enabled = true;  
-  ee.pre_emit('TEST',{data:"data"});  
-
-  eventCount.should.equal(2);
+  
+  ee.post('TEST','bob1',function(data,next) {
+      eventCount++;
+      data.bob1 = "Changed Data";
+      next(data);
+  });
+    
+  ee.pre('TEST2','bob1',function(data,next) {
+      eventCount++;
+      data.blah = "Mixin?";
+      next(data);
+  });  
+  
+  ee.pre('TEST','bob2',function(data,next) {
+      eventCount++;      
+      data.bob2 = "My Data";
+      next(data);
+  });
+  
+  ee.pre_emit('TEST2',{data:"data"},function(data) {     
+     data.blah.should.equal("Mixin?");
+  });
+    
+  ee.post_emit('TEST',{data:"data"},function(data) {     
+     data.bob1.should.equal("Changed Data");
+  });
+  
+  ee.pre_emit('TEST',{data:"data"},function(data) {
+      
+     data.bob1.should.equal("My Data");
+     data.bob2.should.equal("My Data");     
+     
+    ee.post_emit('TEST',data,function(data2) {       
+       data2.bob1.should.equal("Changed Data");     
+    });  
+     
+  });  
+  
+  eventCount.should.equal(5);
   
 };
 

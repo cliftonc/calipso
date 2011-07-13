@@ -65,12 +65,12 @@ function init(module,app,next) {
 /**
  * Map reduce function
  */
-function mapReduceTaxonomy() {
+function mapReduceTaxonomy(options,next) {
 
   // We need to check if we are already map reducing ...
   if(calipso.mr.taxonomy) {
     // TODO : CHECK IF THIS MISSES THINGS ...
-    return;
+    return next();    
   }
   calipso.mr.taxonomy = true;
 
@@ -121,6 +121,7 @@ function mapReduceTaxonomy() {
       // Do Something!!
       calipso.error(err);
     }
+    return next();
   });
 
 };
