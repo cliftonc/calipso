@@ -96,8 +96,8 @@ function init(module,app,next) {
               + '</textarea>';
         }
 
-        // Cache the content types in the calipso.data objecte 
-        storeContentTypes(null,function(){});
+        // Cache the content types in the calipso.data object 
+        storeContentTypes(null,null,function(){});
 
         module.initialised = true;
         next();
@@ -431,7 +431,7 @@ function deleteContentType(req,res,template,block,next) {
 /**
  * Store content types in calipso.data cache
  */
-function storeContentTypes(options,next) {
+function storeContentTypes(event,options,next) {
 
     var ContentType = calipso.lib.mongoose.model('ContentType');
 
@@ -454,7 +454,7 @@ function storeContentTypes(options,next) {
  * Hook to update content after change
  * TODO
  */
-function updateContentAfterChange(options,next) {
+function updateContentAfterChange(event,options,next) {
 
   // TODO
   // Referential integrity update

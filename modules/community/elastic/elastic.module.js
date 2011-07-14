@@ -97,16 +97,14 @@ function init(module, app, next) {
 function connectAndMonitor(serverOptions) {
   
   // Create client
-  elasticSearchClient = new ElasticSearchClient(serverOptions);
-  
-  
+  elasticSearchClient = new ElasticSearchClient(serverOptions);  
 
 }
 
 /**
  * Index an object
  */
-function indexContent(content,next) {
+function indexContent(event,content,next) {
     
   var toIndex = content.toObject();
 

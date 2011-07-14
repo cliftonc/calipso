@@ -13,58 +13,87 @@ var assert = require('assert'),
 /**
  * Tests
  */
-exports['I can create an event emitter'] = function() {
+ exports['I can create pre and post event emitters and emit an event, with no asynchronous callback'] = function() {
     
   var ee = new event.CalipsoEventEmitter();
   var eventCount = 0;  
 
   ee.addEvent('TEST');
-  ee.addEvent('TEST2');
   
-  ee.pre('TEST','bob1',function(data,next) {
-      eventCount++;
-      data.bob1 = "My Data";
-      next(data);
-  });  
-  
-  ee.post('TEST','bob1',function(data,next) {
-      eventCount++;
-      data.bob1 = "Changed Data";
-      next(data);
-  });
-    
-  ee.pre('TEST2','bob1',function(data,next) {
-      eventCount++;
-      data.blah = "Mixin?";
-      next(data);
-  });  
-  
-  ee.pre('TEST','bob2',function(data,next) {
+  ee.pre('TEST','myPreListener',function(event,data) {
       eventCount++;      
-      data.bob2 = "My Data";
-      next(data);
-  });
+  });      
   
-  ee.pre_emit('TEST2',{data:"data"},function(data) {     
-     data.blah.should.equal("Mixin?");
-  });
-    
-  ee.post_emit('TEST',{data:"data"},function(data) {     
-     data.bob1.should.equal("Changed Data");
-  });
+  ee.post('TEST','myPostListener',function(event,data) {
+      eventCount++;      
+  });    
   
-  ee.pre_emit('TEST',{data:"data"},function(data) {
-      
-     data.bob1.should.equal("My Data");
-     data.bob2.should.equal("My Data");     
-     
-    ee.post_emit('TEST',data,function(data2) {       
-       data2.bob1.should.equal("Changed Data");     
-    });  
-     
-  });  
+  ee.pre_emit('TEST',{data:"data"});
+  ee.post_emit('TEST',{data:"data"});
   
-  eventCount.should.equal(5);
+  eventCount.should.equal(2);
   
 };
 
+exports['I can create a pre and post event emitters and emit an event, with an asynchronous callback'] = function() {
+    
+  var ee = new event.CalipsoEventEmitter();
+  var eventCount = 0;  
+
+  ee.addEvent('TEST');
+  
+  ee.pre('TEST','myPreListener',function(event,data,next) {
+      eventCount++;
+      data.newData = "Pre Hello World";      
+      next(data);
+  });    
+  
+  ee.post('TEST','myPostListener',function(event,data,next) {
+      eventCount++;
+      data.newData = "Post Hello World";      
+      next(data);
+  });    
+  
+  ee.pre_emit('TEST',{data:"data"},function(data) {
+      data.newData.should.equal("Pre Hello World");
+  });
+  
+  ee.post_emit('TEST',{data:"data"},function(data) {
+      data.newData.should.equal("Post Hello World");
+  });
+  
+  eventCount.should.equal(2);
+  
+};
+
+
+exports['I can create a custom events'] = function() {
+    
+  var ee = new event.CalipsoEventEmitter();
+  var eventCount = 0;  
+
+  ee.addEvent('TEST');
+  
+  ee.custom('TEST','START','myListener',function(event,data,next) {
+      eventCount++;
+      data.start = "Started";      
+      next(data);
+  });    
+  
+  ee.custom('TEST','FINISH','myListener',function(event,data,next) {
+      eventCount++;
+      data.finish = "Finished";      
+      next(data);
+  });    
+  
+  ee.custom_emit('TEST','START',{data:"data"},function(data) {
+      data.start.should.equal("Started");
+  });
+  
+  ee.custom_emit('TEST','FINISH',{data:"data"},function(data) {
+      data.finish.should.equal("Finished");
+  });
+  
+  eventCount.should.equal(2);
+  
+};

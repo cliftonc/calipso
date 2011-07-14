@@ -65,7 +65,7 @@ function init(module,app,next) {
 /**
  * Map reduce function
  */
-function mapReduceTaxonomy(options,next) {
+function mapReduceTaxonomy(event,options,next) {
 
   // We need to check if we are already map reducing ...
   if(calipso.mr.taxonomy) {

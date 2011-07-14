@@ -48,14 +48,15 @@ function route(req, res, module, app, next) {
  */
 function init(module, app, next) {
 
-
-  // If dependent on another module (e.g. content):
-  // if(!calipso.modules.content.initialised) {
-  //   process.nextTick(function() { init(module,app,next); });
-  //   return;
-  // }
-  // Any pre-route config
-
+  calipso.e.addEvent('TEMPLATE_EVENT');  
+  
+  // Version event listeners
+  calipso.e.custom('TEMPLATE_EVENT','PING',module.name,templatePing);
+  calipso.e.pre('CONTENT_CREATE',module.name,templateEvent);
+  calipso.e.post('CONTENT_CREATE',module.name,templateEvent);  
+  calipso.e.pre('CONTENT_UPDATE',module.name,templateEvent);
+  calipso.e.post('CONTENT_UPDATE',module.name,templateEvent);  
+  
   calipso.lib.step(
 
   function defineRoutes() {
@@ -99,12 +100,18 @@ function templatePage(req, res, template, block, next) {
       variable: myVariable
     }
   };
+  
+  // Raise a ping
+  calipso.e.custom_emit('TEMPLATE_EVENT','PING',{req:req}, function(options) {
+  
+    // Render the item via the template provided above
+    calipso.theme.renderItem(req, res, template, block, {
+      item: item
+    },next);
 
-  // Render the item via the template provided above
-  calipso.theme.renderItem(req, res, template, block, {
-    item: item
-  },next);
+  });
 
+  
 };
 
 /**
@@ -126,6 +133,28 @@ function allPages(req, res, template, block, next) {
   },next);
 
 };
+
+/**
+ * Function called by event listeners
+ */
+function templateEvent(event,content,next) {
+  
+  // Content - fires
+  console.log(event + " @ " + content.title);
+  return next();
+  
+}
+
+/**
+ * Function called by event listeners
+ */
+function templatePing(event,options,next) {
+  
+  // Content - fires
+  options.req.flash('info','Fired from an ' + event + ' listener in the page rendering process ... You are: ' + (options.req.session.user ? options.req.session.user.username : " The Invisible Man/Woman!"));  
+  return next();
+  
+}
 
 /**
  * Template installation hook

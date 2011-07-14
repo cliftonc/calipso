@@ -113,7 +113,7 @@ function showContent(req,res,template,block,next) {
 /**
  * Save version
  */
-function saveVersion(content,next) {   
+function saveVersion(event,content,next) {   
     
     var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
     
@@ -127,6 +127,7 @@ function saveVersion(content,next) {
     }
     
     version.save(function(err) {
+      
       if(err) {
         calipso.error(err);
       }
@@ -134,7 +135,7 @@ function saveVersion(content,next) {
         // TODO - enable notification / event?
         calipso.e.post_emit('CONTENT_VERSION',version);
       }
-      
+            
       return next();
       
     });
