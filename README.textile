@@ -10,13 +10,11 @@ h3. Quick Install
 
 If you want to try it out as quickly as possible, please install MongoDB, and then use NPM:
 
-@
-npm install calipso -g
-cd /var/www
-calipso create-site MySite
-cd MySite
-calipso
-@
+    npm install calipso -g
+    cd /var/www@
+    calipso create-site MySite
+    cd MySite
+    calipso
 
 h3. Contributors
 
