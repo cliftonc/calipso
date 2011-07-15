@@ -115,6 +115,14 @@ function list(req, res, template, block, next) {
       }
     },
     {
+      name:'Link',
+      about: {
+        description:'Link rendering library.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
       name:'Menu',
       about: {
         description:'Menu management and rendering class.',
@@ -126,6 +134,14 @@ function list(req, res, template, block, next) {
       name:'Router',
       about: {
         description:'Router object that allows modules to route requests internally.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Table',
+      about: {
+        description:'Table rendering library.',
         author:'cliftonc',
         version:calipso.app.version
       }
