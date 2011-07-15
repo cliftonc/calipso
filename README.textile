@@ -6,6 +6,18 @@ For additional details, including installation instructions, please visit the ho
 
 If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc) or dennis (dennishall) and we can suggest some places for you to start.
 
+h3. Quick Install
+
+If you want to try it out as quickly as possible, please install MongoDB, and then use NPM:
+
+@
+npm install calipso -g
+cd /var/www
+calipso create-site MySite
+cd MySite
+calipso
+@
+
 h3. Contributors
 
  * "Clifton Cunningham":https://github.com/cliftonc
