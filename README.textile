@@ -12,11 +12,13 @@ If you want to try it out as quickly as possible, please install MongoDB, and th
 
 <pre><code>
     npm install calipso -g
-    cd /var/www@
+    cd /var/www
     calipso create-site MySite
     cd MySite
     calipso
 </code></pre>
+
+This is relatively new, and as I am working on the module management functions there are some tricky dependencies in core (e.g. expat, mongodb) that require compilation and can cause issues.  Please raise / update issues if you find them.
 
 h3. Contributors
 
