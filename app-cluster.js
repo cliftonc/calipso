@@ -2,7 +2,7 @@
  * Calipso script for running in clustered mode. Usage: node app-cluster, or
  * NODE_ENV=production node app-cluster
  */
-var cluster = require('cluster'), live=require('cluster-live');
+var cluster = require('cluster');
 var port = 3000;
 var path = __dirname;
 var app;
@@ -24,24 +24,17 @@ require('./app').boot(function(app) {
       .use(cluster.logger(path + '/logs', 'debug'))
       .use(cluster.debug())
       .use(cluster.pidfiles(path + '/pids'))
-      .use(cluster.stats({ connections: true, lightRequests: true }))
-      .use(live(9999))
+      .use(cluster.stats({ connections: true, lightRequests: true }))      
     .in('test')
       .set('workers', 4)
       .use(cluster.logger(path + '/logs', 'warning'))
-      .use(cluster.pidfiles(path + '/pids'))
-      .use(cluster.stats({ connections: true, lightRequests: true }))
-      .use(live(9999))
+      .use(cluster.pidfiles(path + '/pids'))            
     .in('production')
       .set('workers', 4)
       .use(cluster.logger(path + '/logs'))
-      .use(cluster.pidfiles(path + '/pids'))
-      .use(cluster.stats({ connections: true, lightRequests: true }))
-      .use(live(9999,{user:'admin',pass:app.set('config').livePassword}))
+      .use(cluster.pidfiles(path + '/pids'))            
     .in('all')
-      .listen(port);
-
-    console.log("\x1b[36mCalipso cluster live listening on port \x1b[0m 9999 \x1b[36m, Production 'admin' password: %s \x1b[0m\r\n", app.set('config').livePassword);
+      .listen(port);    
 
 
 });
