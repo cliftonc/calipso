@@ -41,6 +41,9 @@ fi
 echo "Installing dependencies via NPM ... please be patient this can take a few minutes ..."
 npmResult=$(npm install)
 
+# Fix for mongodb native
+npmResult=$(npm install mongodb --mongodb:native)
+
 # Quick check of key modules
 npm_local=$(npm root)
 npm_global=$(npm root -g)
@@ -66,3 +69,4 @@ sanityTest=$(make)
 
 # Check to see if we got all 100%
 echo 'If you can see 100% success on the sanity tests then you are probably good to go!'
+exit 0

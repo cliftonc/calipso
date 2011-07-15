@@ -8,7 +8,7 @@
 /**
 * Dependencies on this script
 */
-var fs = require('fs'), nodepath = require('path'), exec = require('child_process').exec;
+var fs = require('fs'), nodepath = require('path'), exec = require('child_process').exec, step = require('../support/step');
 
 /**
  * Paths
@@ -57,7 +57,7 @@ function runLauncher(appLauncher) {
 
   // Check if this is a calipso site
   if(!isCalipso() && appLauncher.command != 'create-site') {
-    console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso create-site\r\n');
+    console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso create-site SiteName\r\n');
     return;
   }
 
@@ -69,7 +69,7 @@ function runLauncher(appLauncher) {
       runServer(appLauncher.server.port);
       break;
     case 'create-site':
-      createApplication(path);
+      createApplication(path,appLauncher.script.params[0]);
       break;
     default:
       appLauncher.command = 'server';
@@ -130,6 +130,11 @@ function processParam(param,depth) {
   if(appLauncher.command == 'script' && i > 3) {
     appLauncher.script.params.push(param);
   }
+    
+  // Script params
+  if(appLauncher.command == 'create-site' && i > 2) {
+    appLauncher.script.params.push(param);
+  }
 
 }
 
@@ -181,68 +186,84 @@ function runServer(port) {
  */
 function createApplicationAt(path) {
 
-  mkdir(path + '/conf',function() {
-    copy(calipsoPath + '/conf/*',path + '/conf');
+  step(
+    function create() {
+      var self = this;
+      mkdir(path + '/bin',function() {
+        copy(calipsoPath + '/bin/install.sh',path + '/bin',self.parallel());
+      });
+      mkdir(path + '/conf',function() {
+        copy(calipsoPath + '/conf/*',path + '/conf',self.parallel());
+      });
+      mkdir(path + '/i18n',function() {
+        copy(calipsoPath + '/i18n/*',path + '/i18n',self.parallel());
+      });
+      mkdir(path + '/lib',function() {
+        copy(calipsoPath + '/lib/*',path + '/lib',self.parallel());
+      });
+      mkdir(path + '/node_modules',function() {
+        copy(calipsoPath + '/node_modules/*',path + '/node_modules',self.parallel());
+      });
+      mkdir(path + '/modules',function() {
+        copy(calipsoPath + '/modules/*',path + '/modules',self.parallel());
+      });
+      mkdir(path + '/support',function() {
+        copy(calipsoPath + '/support/*',path + '/support',self.parallel());
+      });
+      mkdir(path + '/test',function() {
+        copy(calipsoPath + '/test/*',path + '/test',self.parallel());
+      });
+      mkdir(path + '/themes',function() {
+        copy(calipsoPath + '/themes/*',path + '/themes',self.parallel());
+      });
+      mkdir(path + '/utils',function() {
+        copy(calipsoPath + '/utils/*',path + '/utils',self.parallel());
+      });
+      mkdir(path + '/logs',self.parallel());
+      mkdir(path + '/pids',self.parallel());
+      mkdir(path + '/media',self.parallel());
+      copy(calipsoPath + '/app-cluster.js',path + '/',self.parallel());
+      copy(calipsoPath + '/app.js',path + '/',self.parallel());
+      copy(calipsoPath + '/package.json',path + '/',self.parallel());
+      copy(calipsoPath + '/Makefile',path + '/',self.parallel());      
+    },
+    function done() {
+      write(path + '/.calipso','Created @ ' + new Date());      
+      console.log('');
+      console.log('\x1b[36mApplication created at: \x1b[0m : ' + path);
+      console.log('\x1b[36mRunning install script, please wait ... \x1b[0m');
+      runInstall(path)
+    }
+  )
+  
+}
+
+function runInstall(path) {
+  
+  exec('./bin/install.sh', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
   });
-
-  mkdir(path + '/i18n',function() {
-    copy(calipsoPath + '/i18n/*',path + '/i18n');
-  });
-
-  mkdir(path + '/lib',function() {
-    copy(calipsoPath + '/lib/*',path + '/lib');
-  });
-
-  mkdir(path + '/node_modules',function() {
-    copy(calipsoPath + '/node_modules/*',path + '/node_modules');
-  });
-
-  mkdir(path + '/modules',function() {
-    copy(calipsoPath + '/modules/*',path + '/modules');
-  });
-
-  mkdir(path + '/support',function() {
-    copy(calipsoPath + '/support/*',path + '/support');
-  });
-
-  mkdir(path + '/test',function() {
-    copy(calipsoPath + '/test/*',path + '/test');
-  });
-
-  mkdir(path + '/themes',function() {
-    copy(calipsoPath + '/themes/*',path + '/themes');
-  });
-
-  mkdir(path + '/utils',function() {
-    copy(calipsoPath + '/utils/*',path + '/utils');
-  });
-
-  mkdir(path + '/logs');
-  mkdir(path + '/pids');
-  mkdir(path + '/media');
-
-  copy(calipsoPath + '/app-cluster.js',path + '/');
-  copy(calipsoPath + '/app.js',path + '/');
-  copy(calipsoPath + '/package.json',path + '/');
-
-  write(path + '/.calipso','Created @ ' + new Date());
 
 }
 
-function createApplication(path) {
-  emptyDirectory(path, function(empty){
-    if (empty) {
-      createApplicationAt(path);
-    } else {
-      confirm('This will over-write the existing site, continue? ', function(ok){
-        if (ok) {
-          process.stdin.destroy();
-          createApplicationAt(path);
-        } else {
-          abort('aborting');
-        }
-      });
-    }
+function createApplication(path,siteName) {  
+  var site = path + "/" + siteName;
+  mkdir(site,function() {
+    emptyDirectory(site, function(empty){
+      if (empty) {
+        createApplicationAt(site);
+      } else {
+        confirm('This will over-write the existing site, continue? ', function(ok){
+          if (ok) {
+            process.stdin.destroy();
+            createApplicationAt(site);
+          } else {
+            abort('aborting');
+          }
+        });
+      }
+    });
   });
 };
 
@@ -333,7 +354,7 @@ function mkdir(path, fn) {
 function copy(from, to, fn) {
   exec('cp -R ' + from + ' ' + to, function(err){
     if (err) throw err;
-    console.log('   \x1b[36mCopied\x1b[0m : ' + from + ' to ' + to);
+    console.log('   \x1b[36mCopied\x1b[0m : ' + to);
     fn && fn();
   });
 }

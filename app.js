@@ -26,7 +26,7 @@ var path = __dirname;
 var theme = 'default';
 var port = 3000;
 var app;
-var version = "0.1.1";
+var version = "0.1.2";
 
 /**
  * Test the db connection.  db.open is async, so we get the CALIPSO ascii art
