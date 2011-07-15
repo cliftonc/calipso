@@ -36,6 +36,14 @@
         }
       }
     },
+    "guideLanding": {
+      "layout": {
+        "copyFrom":"default",
+        "sections": {
+          "body": {"template": "body.html"}
+        }
+      }
+    },
     "blogLanding": {
       "layout": {
         "copyFrom":"default",
@@ -45,6 +53,14 @@
       }
     },
     "githubLanding": {
+      "layout": {
+        "copyFrom":"default",
+        "sections": {
+          "body": {"template": "body.html"}
+        }
+      }
+    },    
+    "quickstartLanding": {
       "layout": {
         "copyFrom":"default",
         "sections": {
