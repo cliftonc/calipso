@@ -813,7 +813,7 @@ function getContentList(query,out,next) {
 
         var pagerHtml = "";
         if(pager) {
-          pagerHtml = calipso.lib.pager.render(from,limit,total,"");
+          pagerHtml = calipso.lib.pager.render(from,limit,total,out.req.url);
         }
 
         var qry = Content.find(query).skip(from).limit(limit);  

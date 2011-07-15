@@ -21,11 +21,12 @@ exports = module.exports = function(req, options, callback) {
     var query = new Query({
       'contentType': 'Github Feed'
     });
+    
     options.getContentList(query, {
       req: req,
-      limit: 30
+      sortBy: 'published,desc',      
+      limit: 30      
     }, this.parallel());
-
 
   }, function done(err, header, output) {
 
