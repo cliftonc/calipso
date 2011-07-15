@@ -56,6 +56,8 @@ function init(module, app, next) {
   calipso.e.post('CONTENT_CREATE',module.name,templateEvent);  
   calipso.e.pre('CONTENT_UPDATE',module.name,templateEvent);
   calipso.e.post('CONTENT_UPDATE',module.name,templateEvent);  
+  calipso.e.pre('CONTENT_CREATE_FORM',module.name,formAlter);
+  calipso.e.pre('CONTENT_UPDATE_FORM',module.name,formAlter);
   
   calipso.lib.step(
 
@@ -150,9 +152,31 @@ function templateEvent(event,content,next) {
  */
 function templatePing(event,options,next) {
   
-  // Content - fires
+  // Req is passed through by the event emitter (specifically, not normally done)
   options.req.flash('info','Fired from an ' + event + ' listener in the page rendering process ... You are: ' + (options.req.session.user ? options.req.session.user.username : " The Invisible Man/Woman!"));  
   return next();
+  
+}
+
+
+/**
+ * Example of a form alter
+ * Adds a new section to the content create and update forms
+ */
+function formAlter(event,form,next) {
+  
+  // Content - fires
+  var newSection = {
+    id:'form-section-template',
+    label:'Template Alter',
+    fields:[
+            {label:'Status',name:'content[template]',type:'textarea',description:'A field added dynamically to the content from by the template module'},                 
+           ]
+  }
+  
+  form.sections.push(newSection);
+  
+  return next(form);
   
 }
 

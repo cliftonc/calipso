@@ -47,6 +47,8 @@ function init(module,app,next) {
   calipso.e.addEvent('CONTENT_CREATE');
   calipso.e.addEvent('CONTENT_UPDATE');
   calipso.e.addEvent('CONTENT_DELETE');
+  calipso.e.addEvent('CONTENT_CREATE_FORM');
+  calipso.e.addEvent('CONTENT_UPDATE_FORM');
   
   // There are dependencies, so we need to track if this is initialised
   module.initialised = false;
@@ -56,7 +58,9 @@ function init(module,app,next) {
 
         // Default routes
         module.router.addRoute('GET /',homePage,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /tag/:tag.:format?',listContent,{template:'list',block:'content'},this.parallel());
+        
+        // TODO
+        module.router.addRoute('GET /tag/:tag.:format?',listContent,{template:'list',block:'content'},this.parallel());        
         module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?.:format?',listContent,{template:'list',block:'content'},this.parallel());
 
         // Alias for SEO friendly pages, match to prefix excluding content pages
@@ -427,11 +431,12 @@ function createContentFormByType(req,res,template,block,next) {
     }
 
     res.layout = 'admin';
-
-    calipso.form.render(form,values,req,function(form) {
-      calipso.theme.renderItem(req,res,form,block,{},next);
+    
+    calipso.e.pre_emit('CONTENT_CREATE_FORM',form,function(form) {
+      calipso.form.render(form,values,req,function(form) {        
+          calipso.theme.renderItem(req,res,form,block,{},next);          
+      });
     });
-
   });
 
 }
@@ -479,8 +484,10 @@ function editContentForm(req,res,template,block,next) {
         res.layout = 'admin';
 
         // Test!
-        calipso.form.render(form,values,req,function(form) {
-          calipso.theme.renderItem(req,res,form,block,{},next);
+        calipso.e.pre_emit('CONTENT_UPDATE_FORM',form,function(form) {
+          calipso.form.render(form,values,req,function(form) {
+            calipso.theme.renderItem(req,res,form,block,{},next);
+          });
         });
 
       });
@@ -727,7 +734,6 @@ function listContent(req,res,template,block,next) {
       var Content = calipso.lib.mongoose.model('Content');
 
       res.menu.adminToolbar.addMenuItem({name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',security:[]});
-
       
       var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
@@ -739,7 +745,6 @@ function listContent(req,res,template,block,next) {
       var t3 = req.moduleParams.t3 ? req.moduleParams.t3 : '';
       var t4 = req.moduleParams.t4 ? req.moduleParams.t4 : '';
 
-
       var query = new Query();
 
       if(req.session.user && req.session.user.isAdmin) {
@@ -750,15 +755,16 @@ function listContent(req,res,template,block,next) {
       }
 
       if(tag) {
+        res.layout = tag + "Landing" // Enable landing page layout to be created for a tag;
         query.where('tags',tag);
       }
 
       // Taxonomy tags
       var taxonomy = "";
       if(t1) {
-        res.layout = t1 + "Landing" // Enable landing page layout to be created for this t1 level;
+        res.layout = t1 + "Landing" // Enable landing page layout to be created for a t1 level;
         taxonomy += t1;
-        if(t2) {
+        if(t2) {          
           taxonomy += "/" + t2;
           if(t3) {
             taxonomy += "/" + t3;
