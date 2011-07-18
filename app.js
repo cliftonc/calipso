@@ -24,9 +24,15 @@ var fs = require('fs'),
 // Local App Variables
 var path = __dirname;
 var theme = 'default';
-var port = 3000;
+var port = 3000; // usually only for non-production envs
+var dbPort = 27017; // if you are running multiple mongodb instances
+var dbBaseName = 'calipso';
+var googleAnalyticsKey = 'UA-17607570-#';
+var serverUrl = 'http://calip.so';
+var disqusName = 'calipsojs';
 var app;
 var version = "0.1.2";
+
 
 /**
  * Test the db connection.  db.open is async, so we get the CALIPSO ascii art
@@ -72,7 +78,13 @@ exports.boot = function(next) {
   app = express.createServer();
   app.path = path;
   app.version = version;
-
+  app.port = port;
+  app.dbBaseName = dbBaseName;
+  app.dbPort = dbPort;
+  app.googleAnalyticsKey = googleAnalyticsKey;
+  app.serverUrl = serverUrl;
+  app.disqusName = disqusName;
+  
   // Import configuration
   require(path + '/conf/configuration.js')(app, express, function(err){
 
