@@ -1,0 +1,14 @@
+{
+  "name": "tweetstream",
+  "description": "Uses pusher module and twitter-node nodejs module to demonstrate a live websocket stream of tweets. ",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-tweetstream.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
+  "dependencies": {
+     "twitter-node": "0.0.x"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "template",
+  "description": "Example module to enable creation of new modules.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-template.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}

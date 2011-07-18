@@ -1,0 +1,14 @@
+{
+  "name": "repo",
+  "description": "Calipso core module to provide repository UI functions",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
+  "dependencies": {
+     "github": "0.0.x"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "devtools",
+  "description": "Start of developer tools module.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-devtools.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}

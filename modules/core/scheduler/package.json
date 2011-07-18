@@ -1,0 +1,11 @@
+{
+  "name": "scheduler",
+  "description": "Scheduler module that enables execution of job functions exposed by other modules on cron schedules.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}

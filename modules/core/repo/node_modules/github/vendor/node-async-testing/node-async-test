@@ -1,0 +1,21 @@
+#! /usr/bin/env node
+
+var asyncTesting = require('./async_testing'),
+    path = require('path');
+
+if( process.ARGV.length < 3 ) {
+  var paths = [process.cwd()];
+}
+else {
+  var paths = [];
+  process.ARGV.slice(2).forEach(function(dir) {
+    if( dir.charAt(0) === '/' ) {
+      paths.push(dir);
+    }
+    else {
+      paths.push(path.join(process.cwd(),dir));
+    }
+  });
+}
+
+asyncTesting.runSuitesInPaths(paths);

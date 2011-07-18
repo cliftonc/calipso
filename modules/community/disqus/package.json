@@ -1,0 +1,11 @@
+{
+  "name": "disqus",
+  "description": "Adds disqus as the default commenting engine, applies by default to any content page (html suffix), but can be ammended to apply to other pages.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-disqus.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}

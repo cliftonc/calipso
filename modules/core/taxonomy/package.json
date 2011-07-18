@@ -1,0 +1,11 @@
+{
+  "name": "taxonomy",
+  "description": "Simple taxonomy (menus based on categories) module, uses map reduce functions to create menu trees.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"  
+}

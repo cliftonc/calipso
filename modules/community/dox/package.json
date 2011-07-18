@@ -1,0 +1,14 @@
+{
+  "name": "dox",
+  "description": "Module that provides automated documentation, based on source code, for the modules currently deployed into a Calipso instance.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-dox.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
+  "dependencies": {
+     "github-flavored-markdown": "1.0.x"
+  }
+}

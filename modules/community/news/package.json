@@ -1,0 +1,11 @@
+{
+  "name": "news",
+  "description": "Simple breaking news module, uses a breaking tag to retrieve the last 5 content items tagged 'breaking'.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-news.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}

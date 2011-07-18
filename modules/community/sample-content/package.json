@@ -1,0 +1,11 @@
+{
+  "name": "sample-content",
+  "description": "Sample content to test themes.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-sample-content.git"
+  },
+  "author": "Dennis Hall"
+}

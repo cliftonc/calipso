@@ -1,0 +1,5 @@
+exit status codes
+run specific suites
+run specific tests
+run all at once, errors be damned.
+  try and give a hint as to which errors exited? by paying attention to which ones don't finish

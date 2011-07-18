@@ -1,0 +1,14 @@
+{
+  "name": "user",
+  "description": "User management module.",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
+  "dependencies": {
+      "bcrypt": ">=0.2.3"
+  }
+}

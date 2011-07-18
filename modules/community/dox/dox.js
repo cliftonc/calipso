@@ -1,279 +1,361 @@
-
 /*!
- * Dox
- * Copyright (c) 2010 TJ Holowaychuk <tj@vision-media.ca>
- * MIT Licensed
- *
- * Note: This has been modified to suit the slightly more specific requirements of Calipso.  Modified lines are
- * highlighted (to allow upgrading).
- *
+ * Module auto-documentation module based on the Dox library
+ * http://visionmedia.github.com/dox/
  */
-
-/*!
- * Module dependencies.
- */
-
-var markdown = require('github-flavored-markdown').parse;
 
 /**
- * Library version.
+ * Exports
+ * Note that any hooks must be exposed here to be seen by Calipso
  */
+var calipso = require('lib/calipso');
 
-exports.version = '0.0.5';
+exports = module.exports = {
+  init: init,
+  route: route,
+  about: {
+    description: 'Module that provides automated documentation, based on source code, for the modules currently deployed into a Calipso instance.',
+    author: 'cliftonc',
+    version: '0.1.1',
+    home:'http://github.com/cliftonc/calipso'
+  }
+};
 
 /**
- * Parse comments in the given string of `js`.
- *
- * @param {String} js
- * @return {Array}
- * @see exports.parseComment
- * @api public
+ * Routes
  */
 
-exports.parseComments = function(js){
+function route(req, res, module, app, next) {
 
-  var comments = []
-    , comment
-    , buf = ''
-    , ignore
-    , within
-    , code;
+  // Routes
+  module.router.route(req, res, next);
 
-  for (var i = 0, len = js.length; i < len; ++i) {
-    // start comment
-    if (!within && '/' == js[i] && '*' == js[i+1]) {
-      // MODIFIED FOR CALIPSO
-      // Note that a comment must be the first thing
-      // In a file for this to work
-      // code following previous comment
-      if (buf.trim().length && comments.length > 0) {
-        comment = comments[comments.length - 1];
-        comment.code = code = escape(buf.trim());
-        comment.ctx = exports.parseCodeContext(code);
-        buf = '';
+};
+
+/**
+ * Initialisation
+ */
+
+function init(module, app, next) {
+
+  // Any pre-route config
+  calipso.lib.step(
+
+  function defineRoutes() {
+
+    // Page
+    module.router.addRoute('GET /dox', list, {
+      template: 'list',
+      block: 'content'
+    }, this.parallel());
+
+    module.router.addRoute('GET /dox/:module', document, {
+      template: 'document',
+      block: 'content'
+    }, this.parallel());
+
+    module.router.addRoute('GET /dox/library/:library', document, {
+      template: 'document',
+      block: 'content'
+    }, this.parallel());
+
+
+  }, function done() {
+
+    // Any schema configuration goes here
+    next();
+  });
+
+
+};
+
+/**
+ *List all modules
+ */
+function list(req, res, template, block, next) {
+
+  var libraries = [
+    {
+      name:'calipso',
+      about: {
+        description:'Core calipso library (connect middleware) that controls the overall function of Calipso',
+        author:'cliftonc',
+        version:calipso.app.version
       }
-      i += 2;
-      within = true;
-      ignore = '!' == js[i];
-    // end comment
-    } else if (within && '*' == js[i] && '/' == js[i+1]) {
-      i += 2;
-      buf = buf.replace(/^ *\* ?/gm, '');
-      var comment = exports.parseComment(buf);
-      comment.ignore = ignore;
-      comments.push(comment);
-      within = ignore = false;
-      buf = '';
-    // buffer comment or code
-    } else {
-      buf += js[i];
+    },
+    {
+      name:'Date',
+      about: {
+        description:'Core calipso library that wraps the jQuery UI Datepicker date functions for use across the framework.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Event',
+      about: {
+        description:'Module event handlers and events, used to drive initiation and routing of dependent modules.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Form',
+      about: {
+        description:'Core calipso form handling library, forms are created from json objects and rendered consistently. Contributors: dennishall.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Helpers',
+      about: {
+        description:'Helper functions that can be used from within the view engines (jade or ejs).',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Link',
+      about: {
+        description:'Link rendering library.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Menu',
+      about: {
+        description:'Menu management and rendering class.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Router',
+      about: {
+        description:'Router object that allows modules to route requests internally.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Table',
+      about: {
+        description:'Table rendering library.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
+    },
+    {
+      name:'Theme',
+      about: {
+        description:'Theme management library, responsible for all rendering.',
+        author:'cliftonc',
+        version:calipso.app.version
+      }
     }
-  }
+  ];
 
-  // trailing code
-  if (buf.trim().length) {
-    comment = comments[comments.length - 1];
-    code = buf.trim();
-    comment.code = escape(code);
-    comment.ctx = exports.parseCodeContext(code);
-  }
+  // Render the item via the template provided above
+  calipso.theme.renderItem(req, res, template, block, {modules: calipso.modules, libraries:libraries}, next);
 
-  return comments;
-};
-
-/**
- * Parse the given comment `str`.
- *
- * The comment object returned contains the following
- *
- *  - `tags`  array of tag objects
- *  - `description` the first line of the comment
- *  - `body` lines following the description
- *  - `content` both the description and the body
- *  - `isPrivate` true when "@api private" is used
- *
- * @param {String} str
- * @return {Object}
- * @see exports.parseTag
- * @api public
- */
-
-exports.parseComment = function(str) {
-  str = str.trim();
-  var comment = { tags: [] }
-    , description = {};
-
-  // parse comment body
-  // MODIFIED FOR CALIPSO - removed the : > ## replace
-  description.full = str.split('\n@')[0]; //.replace(/^([\w ]+):/gm, '## $1');
-  description.summary = description.full.split('\n\n')[0];
-  description.body = description.full.split('\n\n').slice(1).join('\n\n');
-
-  // parse tags
-  if (~str.indexOf('\n@')) {
-    var tags = '@' + str.split('\n@').slice(1).join('\n@');
-    comment.tags = tags.split('\n').map(exports.parseTag);
-    comment.isPrivate = comment.tags.some(function(tag){
-      return 'api' == tag.type && 'private' == tag.visibility;
-    })
-  }
-
-  // markdown
-  description.full = markdown(escape(description.full));
-  description.summary = markdown(escape(description.summary));
-  description.body = markdown(escape(description.body));
-
-  // MODIFIED FOR CALIPSO No markdown
-  description.plainbody = escape(description.body);
-  description.plainfull = escape(description.full);
-
-  comment.description = description;
-
-  return comment;
 }
 
 /**
- * Parse tag string "@param {Array} name description" etc.
- *
- * @param {String}
- * @return {Object}
- * @api public
+ * Simple template page function
  */
 
-exports.parseTag = function(str) {
-  var tag = {}
-    , parts = str.split(/ +/)
-    , type = tag.type = parts.shift().replace('@', '');
+function document(req, res, template, block, next) {
 
-  switch (type) {
-    case 'param':
-      tag.types = exports.parseTagTypes(parts.shift());
-      tag.name = parts.shift() || '';
-      tag.description = parts.join(' ');
-      break;
-    case 'return':
-      tag.types = exports.parseTagTypes(parts.shift());
-      tag.description = parts.join(' ');
-      break;
-    case 'see':
-      if (~str.indexOf('http')) {
-        tag.title = parts.length > 1
-          ? parts.shift()
-          : '';
-        tag.url = parts.join(' ');
-      } else {
-        tag.local = parts.join(' ');
+
+  var fs = calipso.lib.fs;
+
+  // Get the module name
+  var module = req.moduleParams.module;
+  var library = req.moduleParams.library;
+
+  if ((!module || !calipso.modules[module]) && !library) {
+    res.statusCode = 404;
+    next();
+    return;
+  }
+
+  // See if we are looking for a sub-file
+  var templateFile = req.moduleParams.template;
+  var include = req.moduleParams.include;
+
+
+  // Get the file
+  var filePath;
+  var fileType = "module"; // Default
+  if (!include && !templateFile && !library) {
+    // We are getting the module itself
+    filePath = calipso.modules[module].path + "/" + module + ".module.js";
+  }
+
+  if (include && !library) {
+
+    // By default the include file will be part of the module
+    filePath = calipso.modules[module].path + "/" + include + ".js";
+
+  }
+
+  if (templateFile && !library) {
+
+    // Locate it (as we are uncertain of the path)
+    fs.readdirSync(calipso.app.path + "/" + calipso.modules[module].path + "/templates/").forEach(function(actualTemplate) {
+      if (actualTemplate.split(".")[0] === templateFile) {
+        filePath = calipso.modules[module].path + "/templates/" + actualTemplate;
       }
-    case 'api':
-      tag.visibility = parts.shift();
-      break;
-    case 'type':
-      tag.types = exports.parseTagTypes(parts.shift());
-      break;
+    });
+    fileType = "template";
+
   }
 
-  return tag;
+
+  if (library) {
+
+    // Include a core library
+    filePath = "lib/" + library + ".js";
+    fileType = "library";
+
+  }
+
+  // Attempt to read the file from disk
+  var source;
+  source = fs.readFileSync(calipso.app.path + "/" + filePath, 'utf8');
+
+  // Run it through dox
+  var output = [];
+  var templates = [];
+  var requires = [];
+
+  try {
+
+    switch (fileType) {
+
+        case "module":
+
+          var dox = require('./dox');
+          output = dox.parseComments(source);
+
+          templates = linkTemplates(module, output);
+          requires = linkRequired(module, output);
+          break;
+
+        case "library":
+
+          var dox = require('./dox');
+          output = dox.parseComments(source);
+
+          requires = linkRequired(module, output, true);
+
+          break;
+
+        default:
+
+          output = [{
+                 description: {
+                   full: 'Displaying file: ' + filePath
+                 },
+                 code: escape(source)
+               }]
+
+    }
+
+
+  } catch (ex) {
+
+    calipso.error(ex.message);
+
+  }
+
+  // Render the item via the template provided above
+  calipso.theme.renderItem(req, res, template, block, {
+    output: output,
+    module: calipso.modules[module],
+    templates: templates,
+    requires: requires,
+    type: fileType,
+    path: filePath
+  }, next);
+
+};
+
+
+
+
+/**
+ *  Replace any template('name') occurrences with links to the template.
+ *  Return a 'template' array that can be printed at the top to show all templates used
+ *  by this module
+ **/
+
+function linkTemplates(module, output) {
+
+  var templateRegex = /template:?.'(\w+)'/g;
+  var replaceString = "template: <a href=\"/dox/" + module + "?template=$1\">$1</a>"
+  var templates = [];
+
+  output.forEach(function(item) {
+    if (item.code) {
+
+      // Add to array
+      var match = true;
+      while (match != null) {
+        match = templateRegex.exec(item.code)
+        if (match != null) templates.push(match[1]);
+      }
+
+      item.code = item.code.replace(templateRegex, replaceString);
+
+    }
+  })
+
+  return templates;
+
 }
 
 /**
- * Parse tag type string "{Array|Object}" etc.
- *
- * @param {String} str
- * @return {Array}
- * @api public
- */
+ *  Replace any require('module') with a link, ad add to requires array
+ **/
 
-exports.parseTagTypes = function(str) {
-  return str
-    .replace(/[{}]/g, '')
-    .split(/ *[|,\/] */);
-};
+function linkRequired(module, output, library) {
+
+  // var requireRegex = /require\(\'(\w+.*)\'\)/;
+  var requireLocalRegex = /require\(\'\.\/(\w+.*)\'\)/g;
+  var requireLibRegex = /require\(\'lib\/(\w+.*)\'\)/g;
+  var libString = "require(\'lib/<a href=\"/dox/library/$1\">$1</a>')";
+  var localString = "require(\'./<a href=\"/dox/" + module + "?include=$1\">$1</a>')";
+
+  var replaceAllString = library ?  libString : localString;
+  var requires = [];
+
+  output.forEach(function(item) {
+    if (item.code) {
+
+      // Add to array
+      var match = true;
+      while (match != null) {
+        match = requireLocalRegex.exec(item.code)
+        if (match != null) requires.push(match[1]);
+      }
+
+      // Replace
+      item.code = item.code.replace(requireLocalRegex, replaceAllString);
+      item.code = item.code.replace(requireLibRegex, libString);
+
+    }
+  })
+
+  return requires;
+
+}
 
 /**
- * Parse the context from the given `str` of js.
- *
- * This method attempts to discover the context
- * for the comment based on it's code. Currently
- * supports:
- *
- *   - function statements
- *   - function expressions
- *   - prototype methods
- *   - prototype properties
- *   - methods
- *   - properties
- *   - declarations
- *
- * @param {String} str
- * @return {Object}
- * @api public
+ *Escape
  */
-
-exports.parseCodeContext = function(str){
-  var str = str.split('\n')[0];
-
-  // function statement
-  if (/^function (\w+)\(/.exec(str)) {
-    return {
-        type: 'function'
-      , name: RegExp.$1
-      , string: RegExp.$1 + '()'
-    };
-  // function expression
-  } else if (/^var *(\w+) *= *function/.exec(str)) {
-    return {
-        type: 'function'
-      , name: RegExp.$1
-      , string: RegExp.$1 + '()'
-    };
-  // prototype method
-  } else if (/^(\w+)\.prototype\.(\w+) *= *function/.exec(str)) {
-    return {
-        type: 'method'
-      , constructor: RegExp.$1
-      , name: RegExp.$2
-      , string: RegExp.$1 + '.prototype.' + RegExp.$2 + '()'
-    };
-  // prototype property
-  } else if (/^(\w+)\.prototype\.(\w+) *= *([^\n;]+)/.exec(str)) {
-    return {
-        type: 'property'
-      , constructor: RegExp.$1
-      , name: RegExp.$2
-      , value: RegExp.$3
-      , string: RegExp.$1 + '.prototype' + RegExp.$2
-    };
-  // method
-  } else if (/^(\w+)\.(\w+) *= *function/.exec(str)) {
-    return {
-        type: 'method'
-      , receiver: RegExp.$1
-      , name: RegExp.$2
-      , string: RegExp.$1 + '.' + RegExp.$2 + '()'
-    };
-  // property
-  } else if (/^(\w+)\.(\w+) *= *([^\n;]+)/.exec(str)) {
-    return {
-        type: 'property'
-      , receiver: RegExp.$1
-      , name: RegExp.$2
-      , value: RegExp.$3
-      , string: RegExp.$1 + '.' + RegExp.$2
-    };
-  // declaration
-  } else if (/^var +(\w+) *= *([^\n;]+)/.exec(str)) {
-    return {
-        type: 'declaration'
-      , name: RegExp.$1
-      , value: RegExp.$2
-      , string: RegExp.$1
-    };
-  }
-};
 
 function escape(html) {
-  return String(html)
-    .replace(/&(?!\w+;)/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return String(html).replace(/&(?!\w+;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 };

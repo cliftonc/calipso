@@ -1,0 +1,11 @@
+{
+  "name": "media",
+  "description": "Media management (upload, insert, edit, delete, gallery) type functions for linking and using with content (in progress).",
+  "version": "0.2.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso-media.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}
