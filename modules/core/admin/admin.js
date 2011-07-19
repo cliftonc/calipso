@@ -410,6 +410,7 @@ function coreConfig(req, res, template, block, next) {
        cM.readonly = true;
       }
       cM.description = module.about.description;
+      
       //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
       tempModuleFields[module.type].push(cM);
     }

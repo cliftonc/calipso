@@ -35,7 +35,7 @@
     "request":">=1.9.5",
     "pool":">=0.4.1",    
     "mime":">=1.2.2",
-    "cluster": ">=0.6.0",    
+    "cluster": ">=0.6.0"    
   },
   "devDependencies": {
     "expresso": ">=0.7.3",
