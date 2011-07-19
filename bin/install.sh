@@ -29,7 +29,15 @@ fi
 
 # Checking that you have expat
 echo 'Checking for libexpat ...'
-expat_loc=`whereis -b expat.h | cut -c8-`
+os=`uname`
+case $os in
+  "Darwin")
+    expat_loc=`find /usr -name "expat.h" -print`
+    ;;
+  "Linux")
+    expat_loc=`whereis -b expat.h | cut -c8-`
+    ;;
+esac
 if [[ -e "$expat_loc" ]]; then
   echo 'Libexpat OK'
 else
