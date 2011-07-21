@@ -90,7 +90,7 @@ function runLauncher(appLauncher) {
     case 'modules':      
       require(path + '/app').boot(function(app) {
           modules.moduleRouter(path,appLauncher.script.params,true,function(err) {              
-              console.log("Done ... ");
+              console.log("");
               process.exit();
           });         
       });

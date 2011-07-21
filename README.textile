@@ -13,8 +13,9 @@ If you want to try it out as quickly as possible, please install MongoDB, and th
 <pre><code>
     npm install calipso -g
     cd /var/www
-    calipso create-site MySite
+    calipso create-site MySite    
     cd MySite
+    calipso modules check
     calipso
 </code></pre>
 
@@ -28,3 +29,4 @@ h3. Contributors
  * "Jonathan Zacsh":https://github.com/jzacsh
  * "Jerad Bitner":https://github.com/sirkitree
  * "Martin Moen":https://github.com/botto
+ * "Dale [dtan]":https://github.com/dtan
