@@ -7,6 +7,7 @@ var calipso = require("lib/calipso"),
 exports = module.exports = {
   init: init,
   route: route,
+  depends: ["pusher"],
   about: {
     description: 'Uses pusher module and twitter-node nodejs module to demonstrate a live websocket stream of tweets. ',
     author: 'cliftonc',
