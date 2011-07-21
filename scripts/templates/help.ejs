@@ -1,0 +1,23 @@
+
+Command format:
+
+calipso                            : Show this help file.
+
+calipso site <name>                : Create site in folder.
+calipso install                    : Ensure valid installation.
+
+calipso cluster server.port=3000   : Run as cluster.
+calipso server server.port=3000    : Run as a single server.
+
+calipso modules list               : List installed modules.
+calipso modules install *params    : Install module@version.
+calipso modules check *params      : Check installation of one/all modules.
+
+calipso test                       : Run all tests.
+
+calipso script help *<name>        : This help script, optional script name. 
+calipso script <name> *params      : Run a script with <name>, with params.
+
+Available scripts:
+<? if (scripts.length) { scripts.forEach(function(name){ ?>
+<?= name ?><? }) } ?>

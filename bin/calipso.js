@@ -8,7 +8,21 @@
 /**
 * Dependencies on this script
 */
-var fs = require('fs'), nodepath = require('path'), exec = require('child_process').exec, step = require('../support/step');
+var fs = require('fs'), 
+    nodepath = require('path'), 
+    exec = require('child_process').exec,
+    colors = require('colors');
+    
+/**
+ * Optimist configuration
+ */
+var argv = require('optimist')
+      .default('src', false)
+      .default('port', 3000)
+      .alias('p', 'port')
+      .alias('s', 'src')
+      .boolean('s')      
+      .argv;
 
 /**
  * Paths
@@ -17,26 +31,25 @@ var fs = require('fs'), nodepath = require('path'), exec = require('child_proces
  **/
 var path = fs.realpathSync('.');
 var calipsoPath = __dirname + "/../";
+require.paths.unshift(path); //make local paths accessible
+
+var step = require('support/step')
+    modules = require('lib/Modules');
 
 /**
- * Main Command router
+ * Main Command Object
+ * Defaults to display the help script
  */
 var appLauncher = {
-      command:'server',
-      server: { port:3000 },
+      command:argv._[0] ? argv._[0] : 'help',
+      server: { port:argv.port },
+      src:argv.src,
       script: {
         name:'help',
-        params: []
+        params: argv._.splice(1)
       }
     };
-
-for(var i in process.argv) {
-  // Skip the first two - Node and app.js path
-  if(i>1) {
-    processParam(process.argv[i],i);
-  }
-}
-
+    
 runLauncher(appLauncher);
 
 /**
@@ -44,19 +57,19 @@ runLauncher(appLauncher);
  * @param appLauncher
  */
 function runLauncher(appLauncher) {
-
+  
   // Always use current directory?
-  console.log('\r\n\x1b[36mLaunching calipso from: \x1b[0m ' + path);
-  console.log('\x1b[36mCalipso directory: \x1b[0m ' + calipsoPath);
-
+  console.log('Launching calipso from: '.cyan.bold + path.white);
+  console.log('Calipso directory: '.cyan.bold + calipsoPath.white);  
+  
   // Check if this is a calipso src folder
-  if(isLibrary()) {
-    console.log('\x1b[1mDo not run this from the calipso library folder, please run from an empty directory or an installed calipso site\x1b[0m\r\n');
+  if(isLibrary() && !appLauncher.src) {
+    console.log('\x1b[1mTo run this from the src folder, you need to add an "-s true" parameter, or please run from an empty directory or an installed calipso site\x1b[0m\r\n');
     return;
   }
 
   // Check if this is a calipso site
-  if(!isCalipso() && appLauncher.command != 'create-site') {
+  if(!isCalipso() && appLauncher.command != 'create-site' && !appLauncher.src) {
     console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso create-site SiteName\r\n');
     return;
   }
@@ -68,12 +81,24 @@ function runLauncher(appLauncher) {
     case 'server':
       runServer(appLauncher.server.port);
       break;
-    case 'create-site':
-      createApplication(path,appLauncher.script.params[0]);
+    case 'site':
+      createApplication(path,appLauncher.script.params);
+      break;
+    case 'install':
+      runInstall(path);
+      break;
+    case 'modules':      
+      require(path + '/app').boot(function(app) {
+          modules.moduleRouter(path,appLauncher.script.params,true,function(err) {              
+              console.log("Done ... ");
+              process.exit();
+          });         
+      });
       break;
     default:
-      appLauncher.command = 'server';
-      runServer(appLauncher.server.port);
+      // Default is to display help
+      appLauncher.command = 'script';		
+			runScript(appLauncher.script);	
   }
 
 }
@@ -98,44 +123,9 @@ function isCalipso() {
  * Runs by default from path where calipso runs via __dirname.
  */
 function runScript(scriptLauncher) {
-  var script = require(bootstrapPath + '/scripts/'+ scriptLauncher.name);
+  var script = require(path + '/scripts/'+ scriptLauncher.name);
+  printAscii();
   script.execute(scriptLauncher.params,path);
-}
-
-/**
- * Process params into array to enable launch
- * @param param
- * @param params
- */
-function processParam(param,depth) {
-
-  var paramArray = param.split("=");
-
-  // Run command - must always come after the app
-  if(i == 2) {
-    appLauncher.command = param;
-  }
-
-  // Server.port
-  if(paramArray[0] == "server.port" && paramArray[1] != undefined) {
-    appLauncher.server.port = paramArray[1];
-  }
-
-  //
-  if((appLauncher.command == "script" || appLauncher.command == "test") && i == 3) {
-    appLauncher.script.name = param;
-  }
-
-  // Script params
-  if(appLauncher.command == 'script' && i > 3) {
-    appLauncher.script.params.push(param);
-  }
-    
-  // Script params
-  if(appLauncher.command == 'create-site' && i > 2) {
-    appLauncher.script.params.push(param);
-  }
-
 }
 
 /**
@@ -144,38 +134,44 @@ function processParam(param,depth) {
 function runTests(appLauncher) {
 
   // var test = appLauncher.name ? appLauncher.name : 'all';
-  exec('expresso -I . -s tests/* ', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
+  exec('expresso -I lib -s tests/* ', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
       console.log(stdout);
       console.log(stderr);
   });
 
 }
 
+/** 
+ * Show ascii art
+ */
+ 
+ function printAscii() {
+   
+  console.log("");
+  console.log("            _ _                    ".blue.bold);
+  console.log("  ___  __ _| (_)_ __  ___  ___     ".blue.bold);
+  console.log(" / __|/ _` | | | '_ \\/ __|/ _ \\  ".blue.bold);
+  console.log("| (__| (_| | | | |_) \\__ \\ (_) | ".green.bold);
+  console.log(" \\___|\\__,_|_|_| .__/|___/\\___/ ".green.bold);
+  console.log("               |_|                 ".green.bold);
+  console.log("");
+
+ }
 
 /**
  * Launch a server
  */
 function runServer(port) {
 
-
-  console.log("");
-  console.log("\x1b[36m            _ _                    \x1b[0m");
-  console.log("\x1b[36m  ___  __ _| (_)_ __  ___  ___     \x1b[0m");
-  console.log("\x1b[36m / __|/ _` | | | '_ \\/ __|/ _ \\  \x1b[0m");
-  console.log("\x1b[36m| (__| (_| | | | |_) \\__ \\ (_) | \x1b[0m");
-  console.log("\x1b[36m \\___|\\__,_|_|_| .__/|___/\\___/ \x1b[0m");
-  console.log("\x1b[36m               |_|                 \x1b[0m");
-  console.log("");
-
+  printAscii();
+  
   // Ensure we run in the local folder of the application
   process.chdir(path);
   require(path + '/app').boot(function(app) {
     app.listen(port);
-    console.log("\x1b[36mCalipso server listening on port: \x1b[0m %d", app.address().port);
-    console.log("\x1b[36mCalipso configured for\x1b[0m %s \x1b[36menvironment\x1b[0m\r\n", global.process.env.NODE_ENV || 'development');
+    console.log("Calipso server listening on port: ".green + app.address().port.toString().white.bold);
+    console.log("Calipso configured for ".green + (global.process.env.NODE_ENV || 'development').white.bold + " environment\r\n".green);
   });
-
-
 
 }
 
@@ -188,7 +184,8 @@ function createApplicationAt(path) {
 
   step(
     function create() {
-      var self = this;
+      var self = this;            
+      
       mkdir(path + '/bin',function() {
         copy(calipsoPath + '/bin/install.sh',path + '/bin',self.parallel());
       });
@@ -200,10 +197,7 @@ function createApplicationAt(path) {
       });
       mkdir(path + '/lib',function() {
         copy(calipsoPath + '/lib/*',path + '/lib',self.parallel());
-      });
-      mkdir(path + '/node_modules',function() {
-        copy(calipsoPath + '/node_modules/*',path + '/node_modules',self.parallel());
-      });
+      });      
       mkdir(path + '/modules',function() {
         copy(calipsoPath + '/modules/*',path + '/modules',self.parallel());
       });
@@ -230,14 +224,17 @@ function createApplicationAt(path) {
     function done() {
       write(path + '/.calipso','Created @ ' + new Date());      
       console.log('');
-      console.log('\x1b[36mApplication created at: \x1b[0m : ' + path);
-      console.log('\x1b[36mRunning install script, please wait ... \x1b[0m');
+      console.log('Application created at: '.green + path.white.bold);
+      console.log('Running install script, please wait ... '.green);
       runInstall(path)
     }
   )
   
 }
 
+/**
+ * Run the install shell script 
+ */
 function runInstall(path) {
   
   exec('./bin/install.sh', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
@@ -247,6 +244,9 @@ function runInstall(path) {
 
 }
 
+/**
+ * Create a site
+ */
 function createApplication(path,siteName) {  
   var site = path + "/" + siteName;
   mkdir(site,function() {
@@ -254,7 +254,7 @@ function createApplication(path,siteName) {
       if (empty) {
         createApplicationAt(site);
       } else {
-        confirm('This will over-write the existing site, continue? ', function(ok){
+        confirm('This will over-write the existing site, continue? '.red.bold, function(ok){
           if (ok) {
             process.stdin.destroy();
             createApplicationAt(site);
@@ -273,7 +273,6 @@ function createApplication(path,siteName) {
  * @param {String} path
  * @param {Function} fn
  */
-
 function emptyDirectory(path, fn) {
   fs.readdir(path, function(err, files){
     if (err && 'ENOENT' != err.code) throw err;
@@ -290,7 +289,7 @@ function emptyDirectory(path, fn) {
 
 function write(path, str) {
   fs.writeFile(path, str);
-  console.log('   \x1b[36mcreate\x1b[0m : ' + path);
+  console.log('   create : '.blue + path.white);
 }
 
 /**
@@ -338,7 +337,7 @@ function prompt(msg, fn) {
 function mkdir(path, fn) {
   exec('mkdir -p ' + path, function(err){
     if (err) throw err;
-    console.log('   \x1b[36mcreate\x1b[0m : ' + path);
+    console.log('   create: '.blue + path.white);
     fn && fn();
   });
 }
@@ -354,7 +353,7 @@ function mkdir(path, fn) {
 function copy(from, to, fn) {
   exec('cp -R ' + from + ' ' + to, function(err){
     if (err) throw err;
-    console.log('   \x1b[36mCopied\x1b[0m : ' + to);
+    console.log('   Copied: '.blue + to.white);
     fn && fn();
   });
 }

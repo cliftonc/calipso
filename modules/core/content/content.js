@@ -126,7 +126,7 @@ function init(module,app,next) {
           taxonomy:{type: String, default:''},
           content:{type: String, required: false, default:''},
           status:{type: String, required: false, default:'draft'},
-          alias:{type: String, required: true, unique: true},
+          alias:{type: String, required: true},
           author:{type: String, required: true},
           etag:{type: String, default:''},
           tags:[String],

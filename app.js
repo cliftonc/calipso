@@ -118,7 +118,6 @@ function bootApplication(app, next) {
         .set('compress', true);
     }
   });
-
   app.use(stylusMiddleware);
   
   var oneDay = 86400000;

@@ -35,7 +35,10 @@
     "request":">=1.9.5",
     "pool":">=0.4.1",    
     "mime":">=1.2.2",
-    "cluster": ">=0.6.0"    
+    "cluster": ">=0.6.0",
+    "optimist":">=0.2.6",
+    "colors":">=0.5.0",
+    "semver":">=1.0.8"
   },
   "devDependencies": {
     "expresso": ">=0.7.3",
