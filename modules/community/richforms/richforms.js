@@ -42,10 +42,19 @@ function init(module, app, next) {
     }, this.parallel());
     module.router.addRoute(/.*/, allPages, {
       end: false,
+      template: 'datepicker.style',
+      block: 'styles.richforms.datepicker'
+    }, this.parallel());
+    module.router.addRoute(/.*/, allPages, {
+      end: false,
       template: 'markitup.script',
       block: 'scripts.richforms.markitup'
     }, this.parallel());
-
+    module.router.addRoute(/.*/, allPages, {
+      end: false,
+      template: 'markitup.style',
+      block: 'styles.richforms.markitup'
+    }, this.parallel());
     app.use(calipso.lib.express.static(__dirname + '/static'));
 
     module.router.addRoute('GET /richforms/preview', showPreview, {}, this.parallel());
