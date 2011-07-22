@@ -238,7 +238,7 @@ function createApplicationAt(path) {
       console.log('');
       console.log('Application created at: '.green + path.white.bold);
       console.log('Installing all application dependencies via NPM, please wait ... '.green);
-      runInstall(path)
+      runInstall(path);
     }
   )
   
@@ -259,8 +259,16 @@ function runInstall(path) {
 /**
  * Create a site
  */
-function createApplication(path,siteName) {  
-  var site = path + "/" + siteName;
+function createApplication(path,siteName) { 
+
+  var site;
+  if(siteName.toString().match(/^\//)) {
+    // site is a full path  
+    site = siteName.toString();
+  } else {
+    site = path + "/" + siteName;
+  }
+  
   mkdir(site,function() {
     emptyDirectory(site, function(empty){
       if (empty) {

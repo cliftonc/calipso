@@ -14,8 +14,7 @@ If you want to try it out as quickly as possible, please install MongoDB, and th
     npm install calipso -g
     cd /var/www
     calipso create-site MySite    
-    cd MySite
-    calipso modules check
+    cd MySite    
     calipso
 </code></pre>
 
