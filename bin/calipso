@@ -137,7 +137,7 @@ function runScript(scriptLauncher) {
 function runTests(appLauncher) {
 
   // var test = appLauncher.name ? appLauncher.name : 'all';
-  exec('expresso -I lib -s tests/* ', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
+  exec('make', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
       console.log(stdout);
       console.log(stderr);
   });
