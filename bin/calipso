@@ -31,10 +31,10 @@ var argv = require('optimist')
  **/
 var path = fs.realpathSync('.');
 var calipsoPath = __dirname + "/../";
-require.paths.unshift(path); //make local paths accessible
 
-var step = require('support/step')
-    modules = require('lib/Modules');
+require.paths.unshift(calipsoPath); //make local paths accessible
+
+var step = require('step');
 
 /**
  * Main Command Object
@@ -69,8 +69,8 @@ function runLauncher(appLauncher) {
   }
 
   // Check if this is a calipso site
-  if(!isCalipso() && appLauncher.command != 'create-site' && !appLauncher.src) {
-    console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso create-site SiteName\r\n');
+  if(!isCalipso() && appLauncher.command != 'site' && !appLauncher.src) {
+    console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso site SiteName\r\n');
     return;
   }
 
@@ -87,10 +87,12 @@ function runLauncher(appLauncher) {
     case 'install':
       runInstall(path);
       break;
-    case 'modules':      
-      process.chdir(path);
+    case 'modules':              
+      process.chdir(path);      
+      require.paths.unshift(path); //make local paths accessible
       require(path + '/app').boot(function(app) {
-          modules.moduleRouter(path,appLauncher.script.params,true,function(err) {              
+        var modules = require('lib/Modules')
+        modules.moduleRouter(path,appLauncher.script.params,true,function(err) {              
               console.log("");
               process.exit();
           });         
@@ -213,7 +215,16 @@ function createApplicationAt(path) {
       });
       mkdir(path + '/utils',function() {
         copy(calipsoPath + '/utils/*',path + '/utils',self.parallel());
+      });      
+      mkdir(path + '/scripts',function() {
+        copy(calipsoPath + '/scripts/*',path + '/scripts',self.parallel());
+        mkdir(path + '/scripts/templates',function() {
+          copy(calipsoPath + '/scripts/templates/*',path + '/scripts/templates',self.parallel());
+        });
       });
+      mkdir(path + '/node_modules',function() {
+        copy(calipsoPath + '/node_modules/*',path + '/node_modules',self.parallel());
+      });      
       mkdir(path + '/logs',self.parallel());
       mkdir(path + '/pids',self.parallel());
       mkdir(path + '/media',self.parallel());
@@ -226,7 +237,7 @@ function createApplicationAt(path) {
       write(path + '/.calipso','Created @ ' + new Date());      
       console.log('');
       console.log('Application created at: '.green + path.white.bold);
-      console.log('Running install script, please wait ... '.green);
+      console.log('Installing all application dependencies via NPM, please wait ... '.green);
       runInstall(path)
     }
   )
