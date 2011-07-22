@@ -562,7 +562,8 @@ function updateContent(req,res,template,block,next) {
                             if(returnTo) {
                               res.redirect(returnTo);
                             } else {
-                              res.redirect('/content/show/' + req.moduleParams.id);
+                              // us the reference to the originally id deifned by req.moduleParams.id
+                              res.redirect('/content/show/' + id);
                             }
                             next();
                           });
