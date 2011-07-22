@@ -10,8 +10,10 @@ calipso cluster server.port=3000   : Run as cluster.
 calipso server server.port=3000    : Run as a single server.
 
 calipso modules list               : List installed modules.
-calipso modules install *params    : Install module@version.
-calipso modules check *params      : Check installation of one/all modules.
+calipso modules install *mod@ver   : Install module@version, or reinstall module.
+calipso modules check              : Check installation of all modules.
+calipso modules enable *mod        : Check installation of one/all modules.
+calipso modules disable *mod       : Check installation of one/all modules.
 
 calipso test                       : Run all tests.
 
