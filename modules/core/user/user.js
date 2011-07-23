@@ -779,12 +779,12 @@ function userProfile(req, res, template, block, next) {
     }
       
     if(req.session.user && req.session.user.isAdmin) {
-        res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/user/list',description:'List users ...',security:[]});  
-        res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/user/profile/' + username + '/edit',description:'Edit user details ...',security:[]});
-        res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/user/profile/' + username + '/delete',description:'Delete account ...',security:[]});
+        res.menu.adminToolbar.addMenuItem({name:'List',weight:2,path:'list',url:'/user/list',description:'List users ...',security:[]});  
+        res.menu.adminToolbar.addMenuItem({name:'Edit',weight:1,path:'edit',url:'/user/profile/' + username + '/edit',description:'Edit user details ...',security:[]});
+        res.menu.adminToolbar.addMenuItem({name:'Delete',weight:3,path:'delete',url:'/user/profile/' + username + '/delete',description:'Delete account ...',security:[]});
         
-        if(!u.locked) res.menu.adminToolbar.addMenuItem({name:'Lock',path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
-        if(u.locked) res.menu.adminToolbar.addMenuItem({name:'Unlock',path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
+        if(!u.locked) res.menu.adminToolbar.addMenuItem({name:'Lock',weight:5,path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
+        if(u.locked) res.menu.adminToolbar.addMenuItem({name:'Unlock',weight:4,path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
     }
     
     userDisplay(req,username,function(err,display) {        
