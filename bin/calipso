@@ -228,6 +228,7 @@ function createApplicationAt(path) {
       mkdir(path + '/logs',self.parallel());
       mkdir(path + '/pids',self.parallel());
       mkdir(path + '/media',self.parallel());
+      mkdir(path + '/tmp',self.parallel());
       copy(calipsoPath + '/app-cluster.js',path + '/',self.parallel());
       copy(calipsoPath + '/app.js',path + '/',self.parallel());
       copy(calipsoPath + '/package.json',path + '/',self.parallel());
