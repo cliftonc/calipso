@@ -27,4 +27,4 @@ h3. Contributors
  * "Jonathan Zacsh":https://github.com/jzacsh
  * "Jerad Bitner":https://github.com/sirkitree
  * "Martin Moen":https://github.com/botto
- * "Dale [dtan]":https://github.com/dtan
+ * "dale tan":https://github.com/dtan
