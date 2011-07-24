@@ -10,5 +10,6 @@
   "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
   "dependencies": {
      "node-expat": "1.3.x"
-  }
+  },
+  "scripts": { "install" : "bash ./install.sh" }
 }
