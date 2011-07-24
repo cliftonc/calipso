@@ -190,7 +190,7 @@ function createApplicationAt(path) {
       var self = this;            
       
       mkdir(path + '/bin',function() {
-        copy(calipsoPath + '/bin/install.sh',path + '/bin',self.parallel());
+        copy(calipsoPath + '/bin/siteInstall.sh',path + '/bin',self.parallel());
       });
       mkdir(path + '/conf',function() {
         copy(calipsoPath + '/conf/*',path + '/conf',self.parallel());
