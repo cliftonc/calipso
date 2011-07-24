@@ -1,8 +1,9 @@
 <div class='admin-page'>
 <% for(var language in languageCache) { %>
-  <h3><%- language %></h3>
-  <pre>
-    <code>
+  <div id="lang-<%- language %>" class="language-wrap">
+    <h3><%- language %></h3>
+    <pre>
+      <code>
 exports.language = {
 <%
       // First of all, put them into an array
@@ -22,9 +23,11 @@ exports.language = {
   <%- JSON.stringify(key) %>:<%- JSON.stringify(languageCache[language][key]) %><% if (c < len) { %>,<% } %>
 <%
       });
-%>}
-    </code>
-  </pre>
+%>  
+}
+      </code>
+    </pre>
+  </div>
 <% } %>
   <div>
     <small>
