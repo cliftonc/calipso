@@ -4,7 +4,7 @@
 # Make sure we have node and npm installed
 node=$(node --version)
 npm=$(npm --version)
-KEY_MODULES=(express mongodb)
+KEY_MODULES=(mongodb)
 
 E_ERROR=1
 
@@ -26,10 +26,6 @@ else
   echo 'You need to run this command from the Calipso base folder (not bin).' >&2
   exit $E_ERROR
 fi
-
-# We have to manually install mongodb with native
-echo "Installing mongodb in native mode ..."
-npmResult=$(npm install mongodb --mongodb:native)
 
 # Quick check of key modules
 npm_local=$(npm root)
