@@ -24,7 +24,8 @@ function route(req, res, module, app, next) {
   // Menu  
   // res.menu.admin.addMenuItem({name:'Profile',path:'user',url:'/user',description:'Your Profile ...',security:[]});
 
-  res.menu.admin.addMenuItem({name:'Users',path:'admin/users',url:'/user/list',description:'Manage users ...',security:[]});
+  res.menu.admin.addMenuItem({name:'Users', path: 'admin/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
   
   // Router
   module.router.route(req, res, next);
@@ -48,7 +49,8 @@ function init(module, app, next) {
   calipso.lib.step(
 
     function defineRoutes() {
-      module.router.addRoute(/.*/,loginForm,{end:false,template:'login',block:'user.login'},this.parallel());
+      module.router.addRoute(/.*/, loginForm, { end: false, template: 'login', block: 'user.login' }, this.parallel());
+      module.router.addRoute('GET /login', loginPage, { end: false, template: 'loginPage', block: 'login' }, this.parallel());
       module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
       module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
@@ -188,6 +190,29 @@ function loginForm(req, res, template, block, next) {
     buttons:[
       {name:'submit', type:'submit', value:'Login'},
       {name:'register', type:'button', link:'/user/register', value:'Register'}
+    ]
+  };
+
+  calipso.form.render(userForm, null, req, function(form) {
+    calipso.theme.renderItem(req, res, template, block, {form:form},next);
+    // next();
+  });
+
+};
+
+/**
+ * Login form
+ */
+function loginPage(req, res, template, block, next) {
+
+  var userForm = {
+    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
+    fields:[
+      {label:'Username', name:'user[username]', type:'text'},
+      {label:'Password', name:'user[password]', type:'password'}
+    ],
+    buttons:[
+      {name:'submit', type:'submit', value:'Login'}
     ]
   };
 
