@@ -1,5 +1,17 @@
 <div class='admin-page'>
-<% for(var language in languageCache) { %>
+<% 
+  var languages = [];
+  for(var language in languageCache) { 
+    languages.push(language);
+  }
+  languages.sort();
+%>
+  
+  
+<% 
+  for(var i=0, len = languages.length; i < len; i++) { 
+    var language = languages[i];
+%>
   <div id="lang-<%- language %>" class="language-wrap">
     <h3><%- language %></h3>
     <pre>
