@@ -190,7 +190,7 @@ function document(req, res, template, block, next) {
   var fileType = "module"; // Default
   if (!include && !templateFile && !library) {
     // We are getting the module itself
-    filePath = calipso.modules[module].path + "/" + module + ".module.js";
+    filePath = calipso.modules[module].path + "/" + module + ".js";
   }
 
   if (include && !library) {
