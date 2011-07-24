@@ -128,6 +128,8 @@ function install(next) {
           if(err) {
             next(err)
           } else {
+            // Cache the content types in the calipso.data object 
+            storeContentTypes(null,null,function(){});
             calipso.log("Content types module installed ... ");
             next();
           }
