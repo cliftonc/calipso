@@ -40,9 +40,7 @@
     "optimist":"0.2.x",
     "colors":"0.5.x",
     "bcrypt": "0.2.x",
-    "semver":"1.0.x"
-  },
-  "devDependencies": {
+    "semver":"1.0.x",
     "expresso": "0.8.x",
     "should": "0.2.x"
   },
