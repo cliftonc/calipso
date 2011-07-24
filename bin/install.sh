@@ -31,10 +31,6 @@ fi
 echo "Installing mongodb in native mode ..."
 npmResult=$(npm install mongodb --mongodb:native)
 
-# Lets try npm install
-echo "Installing dependencies via NPM ... please be patient this can take a few minutes ..."
-npmResult=$(npm install)
-
 # Quick check of key modules
 npm_local=$(npm root)
 npm_global=$(npm root -g)
@@ -53,10 +49,6 @@ for module in "${KEY_MODULES[@]}"; do
         echo ' found.'
     fi
 done
-
-# Run full module install
-echo 'Checking all module dependencies ...'
-calipso modules check
 
 # Lets try our sanity test
 echo 'Running sanity tests ...'
