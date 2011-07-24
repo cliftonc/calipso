@@ -406,10 +406,11 @@ function coreConfig(req, res, template, block, next) {
       cM.name = 'config[modules]['+ moduleName +']';
       cM.checked = module.enabled;
       cM.type = 'checkbox';
-      if(calipso.lib._.indexOf(readonlyModules,moduleName) != -1) {
+      if(calipso.lib._.indexOf(readonlyModules,moduleName) !== -1) {
        cM.readonly = true;
       }
-      cM.description = module.about.description;
+
+      cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
       
       //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
       tempModuleFields[module.type].push(cM);
