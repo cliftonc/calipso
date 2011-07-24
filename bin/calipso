@@ -237,8 +237,9 @@ function createApplicationAt(path) {
       write(path + '/.calipso','Created @ ' + new Date());      
       console.log('');
       console.log('Application created at: '.green + path.white.bold);
-      console.log('Installing all application dependencies via NPM, please wait ... '.green);
-      runInstall(path);
+      // CC : Disabled to test default NPM installation process
+      // console.log('Installing all application dependencies via NPM, please wait ... '.green);
+      // runInstall(path);
     }
   )
   
