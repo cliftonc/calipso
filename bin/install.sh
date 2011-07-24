@@ -46,10 +46,6 @@ for module in "${KEY_MODULES[@]}"; do
     fi
 done
 
-# Lets try our sanity test
-echo 'Running sanity tests ...'
-sanityTest=$(make)
-
 # Check to see if we got all 100%
-echo 'If you can see 100% success on the sanity tests then you are probably good to go!'
+echo 'Installation completed, please try the command "calipso" to test the installation.'
 exit 0
