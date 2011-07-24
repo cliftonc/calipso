@@ -27,12 +27,13 @@ else
   exit $E_ERROR
 fi
 
+# We have to manually install mongodb with native
+echo "Installing mongodb in native mode ..."
+npmResult=$(npm install mongodb --mongodb:native)
+
 # Lets try npm install
 echo "Installing dependencies via NPM ... please be patient this can take a few minutes ..."
 npmResult=$(npm install)
-
-# Fix for mongodb native
-npmResult=$(npm install mongodb --mongodb:native)
 
 # Quick check of key modules
 npm_local=$(npm root)
@@ -63,4 +64,4 @@ sanityTest=$(make)
 
 # Check to see if we got all 100%
 echo 'If you can see 100% success on the sanity tests then you are probably good to go!'
-exit $sanityTest
+exit 0
