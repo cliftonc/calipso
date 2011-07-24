@@ -236,7 +236,7 @@ function document(req, res, template, block, next) {
 
         case "module":
 
-          var dox = require('./dox');
+          var dox = require('./dox.library');
           output = dox.parseComments(source);
 
           templates = linkTemplates(module, output);
@@ -245,7 +245,7 @@ function document(req, res, template, block, next) {
 
         case "library":
 
-          var dox = require('./dox');
+          var dox = require('./dox.library');
           output = dox.parseComments(source);
 
           requires = linkRequired(module, output, true);
