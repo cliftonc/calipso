@@ -46,8 +46,8 @@ The most important of these at the moment is 'modules check' (this will ensure t
     calipso modules check              : Check installation of all modules.
     calipso modules install *mod@ver   : Install module@version, or reinstall module.
     calipso modules download github    : Download module from github (e.g. cliftonc/calipso-elastic)    
-    calipso modules enable *mod        : Check installation of one/all modules.
-    calipso modules disable *mod       : Check installation of one/all modules.
+    calipso modules enable *mod        : Enable module.
+    calipso modules disable *mod       : Disable module.
     
 </code></pre>
 
