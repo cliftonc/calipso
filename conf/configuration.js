@@ -1,5 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+    
+var defaultTheme = 'cleanslate';
 
 /**
  * Default configuration manager This file controls the loading, and initial
@@ -18,7 +20,7 @@ module.exports = function(app, express, next) {
   var defaultConfig = {
     version:1,  // Used to warn - e.g. structural changes require a config reset
     cache: false,
-    theme: 'cleanslate',
+    theme: defaultTheme,
     language: 'en',
     install: true,
     cryptoKey: createRandomString(),
@@ -150,6 +152,11 @@ module.exports = function(app, express, next) {
     });
   });
 
+};
+
+// prefer a getter since a property can be overwritten
+module.exports.getDefaultTheme = function () {
+  return defaultTheme; 
 };
 
 /**

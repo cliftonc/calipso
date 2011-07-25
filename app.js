@@ -138,6 +138,7 @@ function bootApplication(app, next) {
   // Translation - after static, set to add mode if appropriate
   app.use(translate.translate(app.set('config').language, app.set('language-add')));
 
+  calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
   // Core calipso router
   app.use(calipso.calipsoRouter(app, app.set('config'), function() {
     next();
