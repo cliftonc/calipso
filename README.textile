@@ -4,9 +4,9 @@ Calipso is a simple NodeJS content management system, built along similar themes
 
 For additional details, including installation instructions, please visit the home page: "http://calip.so/":http://calip.so/?utm_source=github&utm_medium=calipso&utm_campaign=github
 
-If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc) or dennis (dennishall) and we can suggest some places for you to start.
+If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc), dennis (dennishall) or dale (dtan) and we can suggest some places for you to start.
 
-h3. Quick Installbn
+h3. Quick Install
 
 If you want to try it out as quickly as possible, please install MongoDB, and then use NPM:
 
@@ -18,6 +18,33 @@ If you want to try it out as quickly as possible, please install MongoDB, and th
 </code></pre>
 
 This is relatively new, and as I am working on the module management functions there are some tricky dependencies in core (e.g. expat, mongodb) that require compilation and can cause issues.  Please raise / update issues if you find them.
+
+h3. Calipso Command Line Client
+
+The commands currently supported from the command line client are:
+
+h4. Commands That Run Anywhere
+<pre><code>
+    calipso                            : Show this help file.
+    calipso site <name|folder>         : Create site in folder.
+    
+h4. Commands That Run In Site Folder
+
+The most important of these at the moment is 'modules check' (this will ensure that all modules have all of their dependencies installed via npm), and should be run on site install.
+
+</code></pre>
+    calipso install                    : Re-run site install.
+    
+    calipso cluster server.port=3000   : Run as cluster.
+    calipso server server.port=3000    : Run as a single server.    
+
+    calipso modules list               : List installed modules.
+    calipso modules check              : Check installation of all modules.
+    calipso modules install *mod@ver   : Install module@version, or reinstall module.
+    calipso modules download github    : Download module from github (e.g. cliftonc/calipso-elastic)    
+    calipso modules enable *mod        : Check installation of one/all modules.
+    calipso modules disable *mod       : Check installation of one/all modules.
+</code></pre>
 
 h3. Contributors
 
