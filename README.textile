@@ -24,15 +24,17 @@ h3. Calipso Command Line Client
 The commands currently supported from the command line client are:
 
 h4. Commands That Run Anywhere
+
 <pre><code>
     calipso                            : Show this help file.
     calipso site <name|folder>         : Create site in folder.
-    
+</code></pre>    
+
 h4. Commands That Run In Site Folder
 
 The most important of these at the moment is 'modules check' (this will ensure that all modules have all of their dependencies installed via npm), and should be run on site install.
 
-</code></pre>
+<pre><code>
     calipso install                    : Re-run site install.
     
     calipso cluster server.port=3000   : Run as cluster.
