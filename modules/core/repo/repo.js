@@ -56,6 +56,8 @@ function init(module, app, next) {
  */
 function repoHome(req, res, template, block, next) {
      
+    calipso.error("This is an error message ...",{hello:"world"});
+  
     var github = new GitHubApi(true);
     github.getRepoApi().show('cliftonc', 'calipso',function(err, repo) {
         calipso.theme.renderItem(req, res, sys.inspect(repo,true,10,false), block, {},next);        
