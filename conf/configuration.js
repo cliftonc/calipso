@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+    express = require('express'),
     Schema = mongoose.Schema;
     
 var defaultTheme = 'cleanslate';
@@ -9,7 +10,7 @@ var defaultTheme = 'cleanslate';
  * AppConfigs collection, it will always contain a single item (though could
  * contain more for a future multisite type configuration).
  */
-module.exports = function(app, express, next) {
+module.exports = function(app, next) {
 
   /**
    * This is the default configuration

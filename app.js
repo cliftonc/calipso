@@ -25,7 +25,6 @@ var fs = require('fs'),
 var path = __dirname;
 var theme = 'default';
 var port = 3000;
-var app;
 var version = "0.2.1";
 
 /**
@@ -64,17 +63,22 @@ process.on('uncaughtException', function (err) {
 
 
 /**
+ * Placeholder for application
+ */
+var app;
+
+/**
  * Initial bootstrapping
  */
 exports.boot = function(next) {
 
-  //Create our express instance
-  app = express.createServer();
+  //Create our express instance, export for later reference
+  app = exports.app = express.createServer();
   app.path = path;
   app.version = version;
 
   // Import configuration
-  require(path + '/conf/configuration.js')(app, express, function(err){
+  require(path + '/conf/configuration.js')(app, function(err){
 
     if(err) {
       console.log("There was a fatal error attempting to load the configuration, application will terminate.");
@@ -84,7 +88,7 @@ exports.boot = function(next) {
     theme = app.set('config').theme;
 
     // Bootstrap application
-    bootApplication(app, function() {
+    bootApplication(function() {
       next(app);
     });
 
@@ -92,12 +96,14 @@ exports.boot = function(next) {
 
 };
 
+
+
 /**
  *  App settings and middleware
  *  Any of these can be added into the by environment configuration files to
  *  enable modification by env.
  */
-function bootApplication(app, next) {
+function bootApplication(next) {
 
   app.use(express.methodOverride());
   app.use(express.cookieParser());
@@ -138,11 +144,11 @@ function bootApplication(app, next) {
   // Translation - after static, set to add mode if appropriate
   app.use(translate.translate(app.set('config').language, app.set('language-add')));
 
+  // Default Theme
   calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
+  
   // Core calipso router
-  app.use(calipso.calipsoRouter(app, app.set('config'), function() {
-    next();
-  }));
+  app.use(calipso.calipsoRouter(next));
   
 }
 
