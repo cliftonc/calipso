@@ -250,9 +250,11 @@ function createContent(req,res,template,block,next) {
                   c.save(function(err) {
                     if(err) {
                       calipso.debug(err);
+                      // TODO : err.errors is an object that contains actual fields, can pass back actual errors
+                      // To the form
                       req.flash('error',req.t('Could not save content because {msg}.',{msg:err.message}));
                       if(res.statusCode != 302) {
-                          res.redirect('/content/new');
+                          res.redirect('/content/new?type='+form.content.contentType);
                       }
                       next();
                     } else {
