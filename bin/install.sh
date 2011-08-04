@@ -28,8 +28,8 @@ else
 fi
 
 # Quick check of key modules
-npm_local=$(npm root)
-npm_global=$(npm root -g)
+npm_local=$(npm config get root)
+npm_global=$(npm config get root -g)
 echo 'Checking that key modules are installed...'
 for module in "${KEY_MODULES[@]}"; do
     echo -n "  $module module ... "
