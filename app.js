@@ -129,12 +129,12 @@ function bootApplication(next) {
   var oneDay = 86400000;
   
   // Static - tag it so we can replace later
-  var themeStatic = express.static(path + '/themes/' + theme + '/public',{maxAge:oneDay});  
+  var themeStatic = express["static"](path + '/themes/' + theme + '/public',{maxAge:oneDay});  
   themeStatic.tag = 'themeStatic';
   app.use(themeStatic);
   
   // Media paths  
-  app.use(express.static(path + '/media',{maxAge:oneDay}));      
+  app.use(express["static"](path + '/media',{maxAge:oneDay}));      
   
   // connect-form
   app.use(form({
