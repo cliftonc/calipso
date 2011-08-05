@@ -11,15 +11,15 @@
 require.paths.unshift(__dirname); //make local paths accessible
 
 var fs = require('fs'),
-    express = require('express'),
-    mongoose = require('mongoose'),
-    sys = require('sys'),
-    nodepath = require('path'),
-    form = require('connect-form'),
-    stylus = require('stylus'),
-    translate = require('i18n/translate'),
-    calipso = require('lib/calipso'),
-    mongoStore = require('support/connect-mongodb');
+  express = require('express'),
+  mongoose = require('mongoose'),
+  sys = require('sys'),
+  nodepath = require('path'),
+  form = require('connect-form'),
+  stylus = require('stylus'),
+  translate = require('i18n/translate'),
+  calipso = require('lib/calipso'),
+  mongoStore = require('support/connect-mongodb');
 
 // Local App Variables
 var path = __dirname;
@@ -31,7 +31,7 @@ var version = "0.2.1";
  * Test the db connection.  db.open is async, so we get the CALIPSO ascii art
  * before we get the error message, but I left it this way to reduce overhead.
  */
-(function(){
+(function () {
 
   var mongodb = require('mongodb'),
     Db = mongodb.Db,
@@ -111,7 +111,7 @@ function bootApplication(next) {
   app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));
 
   var publicDir = __dirname + '/themes/' + theme + '/public';
-  
+
   // Stylus
   var stylusMiddleware = stylus.middleware({
     src: __dirname + '/themes/' + theme + '/stylus', // .styl files are located in `views/stylesheets`
@@ -125,31 +125,31 @@ function bootApplication(next) {
     }
   });
   app.use(stylusMiddleware);
-  
+
   var oneDay = 86400000;
-  
+
   // Static - tag it so we can replace later
-  var themeStatic = express["static"](path + '/themes/' + theme + '/public',{maxAge:oneDay});  
+  var themeStatic = express["static"](path + '/themes/' + theme + '/public',{maxAge:oneDay});
   themeStatic.tag = 'themeStatic';
   app.use(themeStatic);
-  
-  // Media paths  
-  app.use(express["static"](path + '/media',{maxAge:oneDay}));      
-  
+
+  // Media paths
+  app.use(express["static"](path + '/media',{maxAge:oneDay}));
+
   // connect-form
   app.use(form({
     keepExtensions: true
   }));
-  
+
   // Translation - after static, set to add mode if appropriate
   app.use(translate.translate(app.set('config').language, app.set('language-add')));
 
   // Default Theme
   calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
-  
+
   // Core calipso router
   app.use(calipso.calipsoRouter(next));
-  
+
 }
 
 // allow normal node loading if appropriate
