@@ -20,40 +20,14 @@ var fs = require('fs'),
   translate = require('i18n/translate'),
   calipso = require('lib/calipso'),
   logo = require('logo'),
+  colors = require('colors'),
   mongoStore = require('support/connect-mongodb');
 
 // Local App Variables
-var path = __dirname;
-var theme = 'default';
-var port = 3000;
-var version = "0.2.1";
-
-/**
- * Test the db connection.  db.open is async, so we get the CALIPSO ascii art
- * before we get the error message, but I left it this way to reduce overhead.
- */
-(function () {
-
-  var mongodb = require('mongodb'),
-    Db = mongodb.Db,
-    Connection = mongodb.Connection,
-    Server = mongodb.Server;
-
-  var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
-  var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
-
-  //sys.puts(">> Connecting to " + host + ":" + port);
-  var db = new Db('node-mongo-examples', new Server(host, port, {}), {native_parser:true});
-  db.open(function(err, db) {
-    if(err){
-      console.log("Error connecting to mongodb - maybe it's not running?");
-    } else {
-      //console.log("Connected to mongodb.");
-      db.close();
-    }
-  });
-
-})();
+var path = __dirname,
+  theme = 'default',
+  port = 3000,
+  version = "0.2.1";
 
 /**
  * Catch All exception handler
@@ -82,16 +56,28 @@ exports.boot = function(next) {
   require(path + '/conf/configuration.js')(app, function(err){
 
     if(err) {
-      console.log("There was a fatal error attempting to load the configuration, application will terminate.");
+
+      console.log("There was a fatal error loading Calipso, will terminate, reason:\r\n".bold.red);
+
+      // Add additional detail to know errors
+      switch (err.code) {
+        case "ECONNREFUSED":
+          console.log("Unable to connect to the specified database: ".magenta + app.set('db-uri'));
+          break;
+        default:
+          console.log("Unknown error: ".magenta + err.message);
+      }
+      next();
+
+    } else {
+
+      // Load application configuration
+      theme = app.set('config').theme;
+      // Bootstrap application
+      bootApplication(function() {
+        next(app);
+      });
     }
-
-    // Load application configuration
-    theme = app.set('config').theme;
-
-    // Bootstrap application
-    bootApplication(function() {
-      next(app);
-    });
 
   });
 
@@ -170,10 +156,15 @@ if (!module.parent) {
 
   exports.boot(function(app) {
 
-    app.listen(port);
-    console.log("\x1b[36mCalipso version: \x1b[0m %s", app.version);
-    console.log("\x1b[36mCalipso server listening on port: \x1b[0m %d", app.address().port);
-    console.log("\x1b[36mCalipso configured for\x1b[0m %s \x1b[36menvironment\x1b[0m\r\n", global.process.env.NODE_ENV || 'development');
+    if(app) {
+      app.listen(port);
+      console.log("Calipso version: ".green + app.version);
+      console.log("Calipso server listening on port: ".green + app.address().port);
+      console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
+    } else {
+      console.log("");
+      process.exit();
+    }
 
   });
 

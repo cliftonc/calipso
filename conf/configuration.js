@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     express = require('express'),
     Schema = mongoose.Schema;
-    
+
 var defaultTheme = 'cleanslate';
 
 /**
@@ -157,7 +157,7 @@ module.exports = function(app, next) {
 
 // prefer a getter since a property can be overwritten
 module.exports.getDefaultTheme = function () {
-  return defaultTheme; 
+  return defaultTheme;
 };
 
 /**
@@ -174,48 +174,72 @@ function loadConfig(app, defaultConfig, next) {
   /**
    * Connect to mongoose and get configuration schema
    */
-  mongoose.connect(app.set('db-uri'));
-  var AppConfig = mongoose.model('AppConfig');
+   mongoose.connect(app.set('db-uri'),function(err) {
 
-  /**
-   * Locate the configuration, if it doesn't exist create one based on
-   * defaults.
-   */
-  AppConfig.findOne({}, function(err, config) {
-    if (err) {
-      next(err);
-    } else {
-      if (config) {
+     if(err) {
+       next(err);
+       return;
+     }
 
-        var updateConfig = false;
+    var AppConfig = mongoose.model('AppConfig');
 
-        // Check that our config object is up to date with any changes.
-        if(config.version != defaultConfig.version) {
-          console.log("WARNING: The current config is not the same version as the default config.");
-          console.log("It is strongly recommended to drop the current database for now (sorry - this needs to be improved!)");
-          updateConfig = true;
-        }
-
-        // Update our config if appropriate
-        if(updateConfig) {
-          // Attempt to save
-          config.save(function(err) {
-            next(err, config);
-          });
-        } else {
-          next(null,config);
-        }
-
+    /**
+     * Locate the configuration, if it doesn't exist create one based on
+     * defaults.
+     */
+    AppConfig.findOne({}, function(err, config) {
+      if (err) {
+        next(err);
       } else {
-        console.log("Setting default config (install mode) no configuration found in '" + app.set('db-uri') + "' database.");
-        console.log("If this is incorrect or unexpected, please terminate now and check your database configuration before viewing any pages!\r\n\r\n");
-        var newConfig = new AppConfig(defaultConfig);
-        newConfig.save(function(err) {
-          next(null, newConfig);
-          return;
-        });
+        if (config) {
+
+          var updateConfig = false;
+
+          // Check that our config object is up to date with any changes.
+          if(config.version != defaultConfig.version) {
+            console.log("WARNING: The current config is not the same version as the default config.");
+            console.log("It is strongly recommended to drop the current database for now (sorry - this needs to be improved!)");
+            updateConfig = true;
+          }
+
+          // Update our config if appropriate
+          if(updateConfig) {
+            // Attempt to save
+            config.save(function(err) {
+              next(err, config);
+            });
+          } else {
+            next(null,config);
+          }
+
+        } else {
+          console.log("Setting default config (install mode) no configuration found in '" + app.set('db-uri') + "' database.");
+          console.log("If this is incorrect or unexpected, please terminate now and check your database configuration before viewing any pages!\r\n\r\n");
+          var newConfig = new AppConfig(defaultConfig);
+          newConfig.save(function(err) {
+            next(null, newConfig);
+            return;
+          });
+        }
       }
-    }
+    });
+
+   });
+
+}
+
+
+
+/**
+ * Check that the mongodb instance specified in the configuration is valid.
+ */
+function checkMongo(dbUri,next) {
+
+  console.log(dbUri);
+  GLOBAL.DEBUG = true;
+  var connect = require('mongodb').connect;
+  connect(dbUri, function(err, db) {
+     next(err);
   });
 
 }
