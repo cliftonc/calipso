@@ -8,11 +8,12 @@
 /**
 * Dependencies on this script
 */
-var fs = require('fs'), 
-    nodepath = require('path'), 
+var fs = require('fs'),
+    nodepath = require('path'),
     exec = require('child_process').exec,
+    logo = require('../logo'),
     colors = require('colors');
-    
+
 /**
  * Optimist configuration
  */
@@ -21,7 +22,7 @@ var argv = require('optimist')
       .default('port', 3000)
       .alias('p', 'port')
       .alias('s', 'src')
-      .boolean('s')      
+      .boolean('s')
       .argv;
 
 /**
@@ -49,7 +50,7 @@ var appLauncher = {
         params: argv._.splice(1)
       }
     };
-    
+
 runLauncher(appLauncher);
 
 /**
@@ -57,11 +58,11 @@ runLauncher(appLauncher);
  * @param appLauncher
  */
 function runLauncher(appLauncher) {
-  
+
   // Always use current directory?
   console.log('Launching calipso from: '.cyan.bold + path.white);
-  console.log('Calipso directory: '.cyan.bold + calipsoPath.white);  
-  
+  console.log('Calipso directory: '.cyan.bold + calipsoPath.white);
+
   // Check if this is a calipso src folder
   if(isLibrary() && !appLauncher.src) {
     console.log('\x1b[1mTo run this from the src folder, you need to add an "-s true" parameter, or please run from an empty directory or an installed calipso site\x1b[0m\r\n');
@@ -87,21 +88,21 @@ function runLauncher(appLauncher) {
     case 'install':
       runInstall(path);
       break;
-    case 'modules':              
-      process.chdir(path);      
+    case 'modules':
+      process.chdir(path);
       require.paths.unshift(path); //make local paths accessible
       require(path + '/app').boot(function(app) {
         var modules = require('lib/Modules')
-        modules.moduleRouter(path,appLauncher.script.params,true,function(err) {              
+        modules.moduleRouter(path,appLauncher.script.params,true,function(err) {
               console.log("");
               process.exit();
-          });         
+          });
       });
       break;
     default:
       // Default is to display help
-      appLauncher.command = 'script';		
-			runScript(appLauncher.script);	
+      appLauncher.command = 'script';
+      runScript(appLauncher.script);
   }
 
 }
@@ -127,7 +128,7 @@ function isCalipso() {
  */
 function runScript(scriptLauncher) {
   var script = require(path + '/scripts/'+ scriptLauncher.name);
-  printAscii();
+  logo.print();
   script.execute(scriptLauncher.params,path);
 }
 
@@ -144,30 +145,13 @@ function runTests(appLauncher) {
 
 }
 
-/** 
- * Show ascii art
- */
- 
- function printAscii() {
-   
-  console.log("");
-  console.log("            _ _                    ".blue.bold);
-  console.log("  ___  __ _| (_)_ __  ___  ___     ".blue.bold);
-  console.log(" / __|/ _` | | | '_ \\/ __|/ _ \\  ".blue.bold);
-  console.log("| (__| (_| | | | |_) \\__ \\ (_) | ".green.bold);
-  console.log(" \\___|\\__,_|_|_| .__/|___/\\___/ ".green.bold);
-  console.log("               |_|                 ".green.bold);
-  console.log("");
-
- }
-
 /**
  * Launch a server
  */
 function runServer(port) {
 
-  printAscii();
-  
+  logo.print();
+
   // Ensure we run in the local folder of the application
   process.chdir(path);
   require(path + '/app').boot(function(app) {
@@ -187,8 +171,8 @@ function createApplicationAt(path) {
 
   step(
     function create() {
-      var self = this;            
-      
+      var self = this;
+
       mkdir(path + '/bin',function() {
         copy(calipsoPath + '/bin/*.sh',path + '/bin',self.parallel());
       });
@@ -200,7 +184,7 @@ function createApplicationAt(path) {
       });
       mkdir(path + '/lib',function() {
         copy(calipsoPath + '/lib/*',path + '/lib',self.parallel());
-      });      
+      });
       mkdir(path + '/modules',function() {
         copy(calipsoPath + '/modules/*',path + '/modules',self.parallel());
       });
@@ -215,7 +199,7 @@ function createApplicationAt(path) {
       });
       mkdir(path + '/utils',function() {
         copy(calipsoPath + '/utils/*',path + '/utils',self.parallel());
-      });      
+      });
       mkdir(path + '/scripts',function() {
         copy(calipsoPath + '/scripts/*',path + '/scripts',self.parallel());
         mkdir(path + '/scripts/templates',function() {
@@ -224,7 +208,7 @@ function createApplicationAt(path) {
       });
       mkdir(path + '/node_modules',function() {
         copy(calipsoPath + '/node_modules/*',path + '/node_modules',self.parallel());
-      });      
+      });
       mkdir(path + '/logs',self.parallel());
       mkdir(path + '/pids',self.parallel());
       mkdir(path + '/media',self.parallel());
@@ -232,10 +216,10 @@ function createApplicationAt(path) {
       copy(calipsoPath + '/app-cluster.js',path + '/',self.parallel());
       copy(calipsoPath + '/app.js',path + '/',self.parallel());
       copy(calipsoPath + '/package.json',path + '/',self.parallel());
-      copy(calipsoPath + '/Makefile',path + '/',self.parallel());      
+      copy(calipsoPath + '/Makefile',path + '/',self.parallel());
     },
     function done() {
-      write(path + '/.calipso','Created @ ' + new Date());      
+      write(path + '/.calipso','Created @ ' + new Date());
       console.log('');
       console.log('Application created at: '.green + path.white.bold);
       // CC : Disabled to test default NPM installation process
@@ -243,14 +227,14 @@ function createApplicationAt(path) {
       runInstall(path);
     }
   )
-  
+
 }
 
 /**
- * Run the install shell script 
+ * Run the install shell script
  */
 function runInstall(path) {
-  
+
   exec('./bin/siteInstall.sh', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
       console.log(stdout);
       console.log(stderr);
@@ -261,16 +245,16 @@ function runInstall(path) {
 /**
  * Create a site
  */
-function createApplication(path,siteName) { 
+function createApplication(path,siteName) {
 
   var site;
   if(siteName.toString().match(/^\//)) {
-    // site is a full path  
+    // site is a full path
     site = siteName.toString();
   } else {
     site = path + "/" + siteName;
   }
-  
+
   mkdir(site,function() {
     emptyDirectory(site, function(empty){
       if (empty) {
