@@ -19,6 +19,7 @@ var fs = require('fs'),
   stylus = require('stylus'),
   translate = require('i18n/translate'),
   calipso = require('lib/calipso'),
+  logo = require('logo'),
   mongoStore = require('support/connect-mongodb');
 
 // Local App Variables
@@ -96,8 +97,6 @@ exports.boot = function(next) {
 
 };
 
-
-
 /**
  *  App settings and middleware
  *  Any of these can be added into the by environment configuration files to
@@ -110,31 +109,44 @@ function bootApplication(next) {
   app.use(express.responseTime());
   app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));
 
-  var publicDir = __dirname + '/themes/' + theme + '/public';
+  // Default Theme
+  calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
+
+  // Create holders for theme dependent middleware
+  // These are here because they need to be in the connect stack before the calipso router
+  // THese helpers are re-used when theme switching.
+  app.mwHelpers = {};
 
   // Stylus
-  var stylusMiddleware = stylus.middleware({
-    src: __dirname + '/themes/' + theme + '/stylus', // .styl files are located in `views/stylesheets`
-    dest: __dirname + '/themes/' + theme + '/public', // .styl resources are compiled `/stylesheets/*.css`
-    debug: false,
-    compile: function(str, path) { // optional, but recommended
-      return stylus(str)
-        .set('filename', path)
-        .set('warn', true)
-        .set('compress', true);
-    }
-  });
-  app.use(stylusMiddleware);
+  app.mwHelpers.stylusMiddleware = function(path, theme) {
+    var mw = stylus.middleware({
+      src: path + '/themes/' + theme + '/stylus', // .styl files are located in `views/stylesheets`
+      dest: path + '/themes/' + theme + '/public', // .styl resources are compiled `/stylesheets/*.css`
+      debug: false,
+      compile: function(str, path) { // optional, but recommended
+        return stylus(str)
+          .set('filename', path)
+          .set('warn', true)
+          .set('compress', true);
+      }
+    });
+    mw.tag = 'theme.stylus';
+    return mw;
+  }
 
-  var oneDay = 86400000;
+  // Static
+  app.mwHelpers.staticMiddleware = function(path,theme) {
+    var mw = express["static"](path + '/themes/' + theme + '/public',{maxAge:86400000});
+    mw.tag = 'theme.static';
+    return mw;
+  }
 
-  // Static - tag it so we can replace later
-  var themeStatic = express["static"](path + '/themes/' + theme + '/public',{maxAge:oneDay});
-  themeStatic.tag = 'themeStatic';
-  app.use(themeStatic);
+  // Attach theme based middleware
+  app.use(app.mwHelpers.stylusMiddleware(path,theme));
+  app.use(app.mwHelpers.staticMiddleware(path,theme));
 
   // Media paths
-  app.use(express["static"](path + '/media',{maxAge:oneDay}));
+  app.use(express["static"](path + '/media',{maxAge:86400000}));
 
   // connect-form
   app.use(form({
@@ -144,25 +156,17 @@ function bootApplication(next) {
   // Translation - after static, set to add mode if appropriate
   app.use(translate.translate(app.set('config').language, app.set('language-add')));
 
-  // Default Theme
-  calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
-
   // Core calipso router
   app.use(calipso.calipsoRouter(next));
 
 }
 
+
 // allow normal node loading if appropriate
+// e.g. not called from app-cluster or bin/calipso
 if (!module.parent) {
 
-  console.log("");
-  console.log("\x1b[36m            _ _                    \x1b[0m");
-  console.log("\x1b[36m  ___  __ _| (_)_ __  ___  ___     \x1b[0m");
-  console.log("\x1b[36m / __|/ _` | | | '_ \\/ __|/ _ \\  \x1b[0m");
-  console.log("\x1b[36m| (__| (_| | | | |_) \\__ \\ (_) | \x1b[0m");
-  console.log("\x1b[36m \\___|\\__,_|_|_| .__/|___/\\___/ \x1b[0m");
-  console.log("\x1b[36m               |_|                 \x1b[0m");
-  console.log("");
+  logo.print();
 
   exports.boot(function(app) {
 
