@@ -26,62 +26,21 @@ var fs = require('fs'),
 // Local App Variables
 var path = __dirname,
   theme = 'default',
-  port = 3000,
+  port = process.env.PORT || 3000,
   version = "0.2.1";
 
 /**
  * Catch All exception handler
  */
 process.on('uncaughtException', function (err) {
- console.log('Uncaught exception: ' + err + err.stack);
+  console.log('Uncaught exception: ' + err + err.stack);
 });
 
 
 /**
  * Placeholder for application
  */
-var app;
-
-/**
- * Initial bootstrapping
- */
-exports.boot = function(next) {
-
-  //Create our express instance, export for later reference
-  app = exports.app = express.createServer();
-  app.path = path;
-  app.version = version;
-
-  // Import configuration
-  require(path + '/conf/configuration.js')(app, function(err){
-
-    if(err) {
-
-      console.log("There was a fatal error loading Calipso, will terminate, reason:\r\n".bold.red);
-
-      // Add additional detail to know errors
-      switch (err.code) {
-        case "ECONNREFUSED":
-          console.log("Unable to connect to the specified database: ".magenta + app.set('db-uri'));
-          break;
-        default:
-          console.log("Unknown error: ".magenta + err.message);
-      }
-      next();
-
-    } else {
-
-      // Load application configuration
-      theme = app.set('config').theme;
-      // Bootstrap application
-      bootApplication(function() {
-        next(app);
-      });
-    }
-
-  });
-
-};
+var app, exports;
 
 /**
  *  App settings and middleware
@@ -104,12 +63,12 @@ function bootApplication(next) {
   app.mwHelpers = {};
 
   // Stylus
-  app.mwHelpers.stylusMiddleware = function(path, theme) {
+  app.mwHelpers.stylusMiddleware = function (path, theme) {
     var mw = stylus.middleware({
       src: path + '/themes/' + theme + '/stylus', // .styl files are located in `views/stylesheets`
       dest: path + '/themes/' + theme + '/public', // .styl resources are compiled `/stylesheets/*.css`
       debug: false,
-      compile: function(str, path) { // optional, but recommended
+      compile: function (str, path) { // optional, but recommended
         return stylus(str)
           .set('filename', path)
           .set('warn', true)
@@ -118,21 +77,21 @@ function bootApplication(next) {
     });
     mw.tag = 'theme.stylus';
     return mw;
-  }
+  };
 
   // Static
-  app.mwHelpers.staticMiddleware = function(path,theme) {
-    var mw = express["static"](path + '/themes/' + theme + '/public',{maxAge:86400000});
+  app.mwHelpers.staticMiddleware = function (path, theme) {
+    var mw = express["static"](path + '/themes/' + theme + '/public', {maxAge: 86400000});
     mw.tag = 'theme.static';
     return mw;
-  }
+  };
 
   // Attach theme based middleware
-  app.use(app.mwHelpers.stylusMiddleware(path,theme));
-  app.use(app.mwHelpers.staticMiddleware(path,theme));
+  app.use(app.mwHelpers.stylusMiddleware(path, theme));
+  app.use(app.mwHelpers.staticMiddleware(path, theme));
 
   // Media paths
-  app.use(express["static"](path + '/media',{maxAge:86400000}));
+  app.use(express["static"](path + '/media', {maxAge: 86400000}));
 
   // connect-form
   app.use(form({
@@ -147,6 +106,44 @@ function bootApplication(next) {
 
 }
 
+/**
+ * Initial bootstrapping
+ */
+exports.boot = function (next) {
+
+  //Create our express instance, export for later reference
+  app = exports.app = express.createServer();
+  app.path = path;
+  app.version = version;
+
+  // Import configuration
+  require(path + '/conf/configuration.js')(app, function (err) {
+
+    if (err) {
+
+      // Add additional detail to know errors
+      switch (err.code) {
+      case "ECONNREFUSED":
+        console.log("Unable to connect to the specified database: ".red + app.set('db-uri'));
+        break;
+      default:
+        console.log("Fatal unknown error: ".magenta + err);
+      }
+      next();
+
+    } else {
+
+      // Load application configuration
+      theme = app.set('config').theme;
+      // Bootstrap application
+      bootApplication(function () {
+        next(app);
+      });
+    }
+
+  });
+
+};
 
 // allow normal node loading if appropriate
 // e.g. not called from app-cluster or bin/calipso
@@ -154,15 +151,15 @@ if (!module.parent) {
 
   logo.print();
 
-  exports.boot(function(app) {
+  exports.boot(function (app) {
 
-    if(app) {
+    if (app) {
       app.listen(port);
       console.log("Calipso version: ".green + app.version);
-      console.log("Calipso server listening on port: ".green + app.address().port);
       console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
+      console.log("Calipso server listening on port: ".green + app.address().port);
     } else {
-      console.log("");
+      console.log("\r\nCalipso terminated ...\r\n".grey);
       process.exit();
     }
 
