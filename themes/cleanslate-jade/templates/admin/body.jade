@@ -1,0 +1,14 @@
+.content
+  - if (request.url === "/admin")
+    .admin-page
+      h2 Default Administration Dashboard
+      .admin-dashboard-col1 A
+      .admin-dashboard-col2 B
+      .admin-dashboard-clear
+      .admin-dashboard-col1 C
+      .admin-dashboard-col2 D
+      .admin-dashboard-clear
+
+  - else
+    != admin
+    != content
