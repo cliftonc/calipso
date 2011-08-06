@@ -44,23 +44,25 @@ function init(module,app,next) {
       function defineRoutes() {
 
         // Default routes
-        module.router.addRoute('GET /',homePage,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /',homePage,{template:'list',block:'content.home'},this.parallel());
 
         // TODO
-        module.router.addRoute('GET /tag/:tag.:format?',listContent,{template:'list',block:'content'},this.parallel());
-        module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?.:format?',listContent,{template:'list',block:'content'},this.parallel());
+        module.router.addRoute('GET /tag/:tag.:format?',listContent,{template:'list',cache:true,block:'content.tag.list'},this.parallel());
+        module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?.:format?',listContent,{template:'list',cache:true,block:'content.section.list'},this.parallel());
 
         // Alias for SEO friendly pages, match to prefix excluding content pages
-        module.router.addRoute(/^((?!content).*)\.html/,showAliasedContent,{template:'show',block:'content'},this.parallel());
-        module.router.addRoute(/^((?!content).*)\.json/,showAliasedContent,{template:'show',block:'content'},this.parallel());
+        //module.router.addRoute(/^\/((?!content).*)\.html/,showAliasedContent,{template:'show',block:'content.show.html'},this.parallel());
+        //module.router.addRoute(/^\/((?!content).*)\.json/,showAliasedContent,{template:'show',block:'content.show.json'},this.parallel());
+
+        module.router.addRoute("GET /:alias.:format",showAliasedContent,{template:'show',block:'content.show',cache:true},this.parallel());
 
         // Admin operations
-        module.router.addRoute('GET /content',listContent,{admin:true,template:'listAdmin',block:'content'},this.parallel());
-        module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,template:'listAdmin',block:'content'},this.parallel());
+        module.router.addRoute('GET /content',listContent,{admin:true,template:'listAdmin',block:'content.list'},this.parallel());
+        module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,template:'listAdmin',block:'content.list'},this.parallel());
         module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/new',createContentForm,{admin:true,block:'content'},this.parallel());
-        module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{admin:true,template:'show',block:'content'},this.parallel());
-        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,block:'content'},this.parallel());
+        module.router.addRoute('GET /content/new',createContentForm,{admin:true,block:'content.create'},this.parallel());
+        module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{admin:true,template:'show',block:'content.show'},this.parallel());
+        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,block:'content.edit'},this.parallel());
         module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true},this.parallel());
         module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());
 

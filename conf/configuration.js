@@ -21,6 +21,7 @@ module.exports = function(app, next) {
   var defaultConfig = {
     version:1,  // Used to warn - e.g. structural changes require a config reset
     cache: false,
+    cacheTtl:600,
     theme: defaultTheme,
     language: 'en',
     install: true,
@@ -91,6 +92,14 @@ module.exports = function(app, next) {
     watchFiles: {
       type: Boolean,
       'default': true
+    },
+    cache: {
+      type: Boolean,
+      'default': false
+    },
+    cacheTtl: {
+      type: Number,
+      'default': 600
     },
     logs: {
       level: {

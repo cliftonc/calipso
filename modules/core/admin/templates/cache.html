@@ -1,5 +1,8 @@
 <div class='admin-page'>
-    <pre class='prettyprint'>
-<%= cache %>
-    </pre>
+<%
+  for(var item in cache) {
+    var cacheItem = cache[item];
+%>
+  <%= item %>, expires: <%= cacheItem.expires %><br/>
+<% } %>
 </div>

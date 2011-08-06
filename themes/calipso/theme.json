@@ -8,15 +8,15 @@
       "layout": {
         "template": "default.html",
         "sections": {
-          "styles": {"template": "styles.html"},
+          "styles": {"template": "styles.html","cache":true,"varyParams":false},
           "scripts": {"template": "scripts.html"},
           "admin": {"template": "adminMenu.html"},
           "primary": {"template": "primaryMenu.html"},
-          "header": {"template": "header.html"},
+          "header": {"template": "header.html","cache":true,"varyParams":false},
           "messages": {"template": "messages.html"},
           "body": {"template": "body.html"},
           "right": {"template": "right.html"},
-          "footer": {"template": "footer.html"}
+          "footer": {"template": "footer.html","cache":true,"varyParams":false}
         },
         "modules":{
           "user":{
@@ -32,7 +32,7 @@
       "layout": {
         "copyFrom":"default",
         "sections": {
-          "body": {"template": "body.html"}
+          "body": {"template": "body.html","cache":true,"varyParams":true}
         }
       }
     },
@@ -56,10 +56,10 @@
       "layout": {
         "copyFrom":"default",
         "sections": {
-          "body": {"template": "body.html"}
+          "body": {"template": "body.html","cache":true,"varyParams":true}
         }
       }
-    },    
+    },
     "quickstartLanding": {
       "layout": {
         "copyFrom":"default",
