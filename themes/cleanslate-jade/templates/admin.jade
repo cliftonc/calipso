@@ -1,0 +1,27 @@
+!!!5
+html(lang="en")
+head
+  meta(charset="utf-8")
+  meta(name="description", content="put your site description here")
+  meta(name="keywords", content="put your site keywords here")
+  title Clean Slate
+  != styles
+  != scripts
+  
+body
+  #adminMenu!= admin
+  #container
+    #header
+      h1
+        a(href="/") Site Name
+      nav.secondary!= secondary
+      nav.primary!= primary
+    
+    #messages!= messages
+    
+    - if (user.isAdmin)
+      #adminToolbar!= getMenu('adminToolbar')
+    
+    #admin-body!= body
+    
+    #footer!= footer

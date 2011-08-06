@@ -1,0 +1,6 @@
+- var msgs = flashMessages()
+
+- each msgArr, type in msgs
+  ul(class=type)
+    - each msg in msgArr
+      li!= msg
