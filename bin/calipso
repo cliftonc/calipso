@@ -232,6 +232,7 @@ function createApplicationAt(path) {
       copy(calipsoPath + '/app.js',path + '/',self.parallel());
       copy(calipsoPath + '/package.json',path + '/',self.parallel());
       copy(calipsoPath + '/Makefile',path + '/',self.parallel());
+      copy(calipsoPath + '/logo.js',path + '/',self.parallel());
     },
     function done() {
       write(path + '/.calipso','Created @ ' + new Date());
