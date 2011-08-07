@@ -425,7 +425,7 @@ function coreConfig(req, res, template, block, next) {
     // populate the Modules form fields
     // TODO - make this dynamic
     var adminModuleFields = adminForm.sections[4].fields;
-    var tempModuleFields = {core:[],community:[],site:[]};
+    var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
     var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
 
     // load up the tempModuleFields (according to module category)
