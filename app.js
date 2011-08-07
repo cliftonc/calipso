@@ -27,7 +27,7 @@ var fs = require('fs'),
 var path = __dirname,
   theme = 'default',
   port = process.env.PORT || 3000,
-  version = "0.2.1";
+  version = "0.2.2";
 
 /**
  * Catch All exception handler
