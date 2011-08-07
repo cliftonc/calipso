@@ -94,7 +94,9 @@ function runLauncher(appLauncher) {
       require(path + '/app').boot(function(app) {
         var modules = require('lib/Modules')
         modules.moduleRouter(path,appLauncher.script.params,true,function(err) {
-              console.log("");
+              if(err) {
+                console.log("\r\n" + err.message.red + "\r\n");
+              }
               process.exit();
           });
       });
@@ -335,6 +337,8 @@ function prompt(msg, fn) {
 
 /**
  * Mkdir -p.
+ *
+ * TODO - these are unix only ...
  *
  * @param {String} path
  * @param {Function} fn

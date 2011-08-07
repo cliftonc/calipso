@@ -1,6 +1,7 @@
 tmp
 lib-cov
 node_modules
+modules/downloaded
 *.pid
 *.log
 *.swp
