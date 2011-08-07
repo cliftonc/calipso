@@ -4,7 +4,7 @@
 # Make sure we have node and npm installed
 node=$(node --version)
 npm=$(npm --version)
-KEY_MODULES=(mongodb)
+KEY_MODULES=()
 
 E_ERROR=1
 
