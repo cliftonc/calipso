@@ -447,7 +447,7 @@ function coreConfig(req, res, template, block, next) {
     }
 
     // add only non-empty fieldsets for module categories
-    ['Core','Community','Site'].forEach(function(moduleType){
+    ['Core','Community','Site','Downloaded'].forEach(function(moduleType){
       var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
       // "Site" modules fieldset will only show up if there are any to show.
       if(moduleTypeFields.length){
