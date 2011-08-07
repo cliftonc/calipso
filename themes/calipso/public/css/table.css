@@ -1,7 +1,0 @@
-table {margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;}
-table thead tr th,table tfoot tr th {background-color:#e6EEEE;border:1px solid black;font-size:8pt;padding:4px;}
-table thead tr .sortable {background-image:url(../images/sort.gif); background-repeat:no-repeat;background-position:center right;cursor:pointer;}
-table tbody td {padding:4px;vertical-align:top;}
-table thead tr .sorted-asc {background-image:url(../images/asc.gif);background-repeat:no-repeat;background-position:center right;cursor:pointer;}
-table thead tr .sorted-desc {background-image:url(../images/desc.gif);background-repeat:no-repeat;background-position:center right;cursor:pointer;}
-table thead tr .sorted-asc, table thead tr .sorted-desc {background-color:#8dbdd8;}

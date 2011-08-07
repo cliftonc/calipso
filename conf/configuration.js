@@ -23,6 +23,7 @@ module.exports = function(app, next) {
     cache: false,
     cacheTtl:600,
     theme: defaultTheme,
+    adminTheme: defaultTheme,
     language: 'en',
     install: true,
     cryptoKey: createRandomString(),
@@ -68,7 +69,12 @@ module.exports = function(app, next) {
     theme: {
       type: String,
       required: true,
-      'default': 'default'
+      'default': defaultTheme
+    },
+    adminTheme: {
+      type: String,
+      required: true,
+      'default': defaultTheme
     },
     install: {
       type: Boolean,

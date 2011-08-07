@@ -63,10 +63,10 @@ function bootApplication(next) {
   app.mwHelpers = {};
 
   // Stylus
-  app.mwHelpers.stylusMiddleware = function (path, theme) {
+  app.mwHelpers.stylusMiddleware = function (themePath) {
     var mw = stylus.middleware({
-      src: path + '/themes/' + theme + '/stylus', // .styl files are located in `views/stylesheets`
-      dest: path + '/themes/' + theme + '/public', // .styl resources are compiled `/stylesheets/*.css`
+      src: themePath + '/stylus', // .styl files are located in `views/stylesheets`
+      dest: themePath + '/public', // .styl resources are compiled `/stylesheets/*.css`
       debug: false,
       compile: function (str, path) { // optional, but recommended
         return stylus(str)
@@ -78,17 +78,17 @@ function bootApplication(next) {
     mw.tag = 'theme.stylus';
     return mw;
   };
+  // Load placeholder, replaced later
+  app.use(app.mwHelpers.stylusMiddleware(''));
 
   // Static
-  app.mwHelpers.staticMiddleware = function (path, theme) {
-    var mw = express["static"](path + '/themes/' + theme + '/public', {maxAge: 86400000});
+  app.mwHelpers.staticMiddleware = function (themePath) {
+    var mw = express["static"](themePath + '/public', {maxAge: 86400000});
     mw.tag = 'theme.static';
     return mw;
   };
-
-  // Attach theme based middleware
-  app.use(app.mwHelpers.stylusMiddleware(path, theme));
-  app.use(app.mwHelpers.staticMiddleware(path, theme));
+  // Load placeholder, replaced later
+  app.use(app.mwHelpers.staticMiddleware(''));
 
   // Media paths
   app.use(express["static"](path + '/media', {maxAge: 86400000}));

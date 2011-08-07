@@ -84,21 +84,11 @@ function init(module, app, next) {
 
   }, function done() {
 
-    // Load the available themes into the calipso data object
-    // Used when rendering the edit form
-    calipso.data.themes = [];
-    calipso.lib.fs.readdir(app.path + '/themes', function(err, folders) {
+    // Shortcuts
+    calipso.data.loglevels = calipso.lib.winston.config.npm.levels;
+    calipso.data.modules = calipso.modules; // TODO - why do we need this?
+    next();
 
-      folders.forEach(function(name) {
-        if (name !='.DS_Store'){
-            calipso.data.themes.push(name);
-        }
-      });
-      calipso.data.loglevels = calipso.lib.winston.config.npm.levels;
-      calipso.data.modules = calipso.modules;
-
-      next();
-    });
 
   });
 
@@ -264,20 +254,25 @@ function showAdmin(req, res, template, block, next) {
  */
 function coreConfig(req, res, template, block, next) {
 
-
-  //res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/});
-  //res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
-  //res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
-
-
-  //set the languages array
+  // Temporary data for form
   calipso.data.loglevels = [];
-
-  //console.log(calipso.modules);
-
-
   for(var level in calipso.lib.winston.config.npm.levels){
     calipso.data.loglevels.push(level);
+  }
+
+  calipso.data.themes = [];
+  calipso.data.adminThemes = []; // TODO
+  for(var themeName in calipso.themes){
+    var theme = calipso.themes[themeName];
+    if(theme.about.type === "full" || theme.about.type === "frontend") {
+      calipso.data.themes.push(themeName);
+    }
+    if(theme.about.type === "full" || theme.about.type === "admin") {
+      calipso.data.adminThemes.push(themeName);
+    }
+    if(!theme.about.type) {
+      console.error("Theme " + themeName + " not enabled due to missing type.");
+    }
   }
 
 
@@ -297,6 +292,7 @@ function coreConfig(req, res, template, block, next) {
         watchFiles: item.meta.watchFiles,
         language: item.meta.language,
         theme: item.meta.theme,
+        adminTheme: item.meta.adminTheme,
         logslevel: item.meta.logs.level,
         logsconsoleenabled:  item.meta.logs.console.enabled,
         logsfileenabled: item.meta.logs.file.enabled,
@@ -358,11 +354,20 @@ function coreConfig(req, res, template, block, next) {
           label:'Theme',
           fields:[
             {
-              label:'Theme',
+              label:'Frontend Theme',
               name:'config[theme]',
               type:'select',
               value:item.meta.theme,
-              options: calipso.data.themes
+              options: calipso.data.themes,
+              description:'Theme used for all web pages excluding admin pages'
+            },
+            {
+              label:'Admin Theme',
+              name:'config[adminTheme]',
+              type:'select',
+              value:item.meta.adminTheme,
+              options: calipso.data.adminThemes,
+              description:'Administration theme [NOT YET IMPLEMENTED]'
             }
           ]
         },
@@ -514,6 +519,7 @@ function saveAdmin(req, res, template, block, next) {
         if (!err && c) {
 
           c.theme = form.config.theme;
+          c.adminTheme = form.config.adminTheme;
           c.cache = form.config.cache;
           c.cacheTtl = form.config.cacheTtl;
           c.language = form.config.language;

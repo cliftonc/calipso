@@ -92,8 +92,21 @@ function runLauncher(appLauncher) {
       process.chdir(path);
       require.paths.unshift(path); //make local paths accessible
       require(path + '/app').boot(function(app) {
-        var modules = require('lib/Modules')
+        var modules = require('lib/cli/Modules')
         modules.moduleRouter(path,appLauncher.script.params,true,function(err) {
+              if(err) {
+                console.log("\r\n" + err.message.red + "\r\n");
+              }
+              process.exit();
+          });
+      });
+      break;
+    case 'themes':
+      process.chdir(path);
+      require.paths.unshift(path); //make local paths accessible
+      require(path + '/app').boot(function(app) {
+        var themes = require('lib/cli/Themes')
+        themes.themeRouter(path,appLauncher.script.params,true,function(err) {
               if(err) {
                 console.log("\r\n" + err.message.red + "\r\n");
               }

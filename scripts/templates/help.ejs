@@ -6,15 +6,20 @@ calipso                            : Show this help file.
 calipso site <name>                : Create site in folder.
 calipso install                    : Ensure valid installation.
 
-calipso cluster server.port=3000   : Run as cluster.
-calipso server server.port=3000    : Run as a single server.
+calipso cluster                    : Run as cluster.
+calipso server                     : Run as a single server.
 
-calipso modules list               : List installed modules.
-calipso modules reinstall *mod@ver : Reinstall module dependencies.
+calipso modules list               : List installed modules
+calipso modules reinstall *mod     : Reinstall module dependencies
+calipso modules uninstall *mod     : Remove module (delete from disk)
 calipso modules check              : Check installation of all modules.
-calipso modules enable *mod        : Check installation of one/all modules.
-calipso modules disable *mod       : Check installation of one/all modules.
+calipso modules enable *mod        : Enable module.
+calipso modules disable *mod       : Disable module.
 calipso modules download *url      : Download (url: http://, gh: cliftonc/calipso-elastic, repo: elastic).
+
+calipso themes list                : List installed themes.
+calipso themes uninstall *theme    : Remove theme (delete from disk)
+calipso themes download *url       : Download (url: http://, gh: cliftonc/calipso-site-theme, repo: calipso-site).
 
 calipso test                       : Run all tests.
 
