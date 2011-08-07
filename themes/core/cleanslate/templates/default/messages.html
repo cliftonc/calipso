@@ -1,0 +1,13 @@
+
+<% var msgs = flashMessages(); %>
+
+<% for (var type in msgs) {  %>
+  <ul class="<%- type %>">
+    <% var msgSet = msgs[type]; %>
+    <% for (var i=0,l=msgSet.length; i<l; i++) { %>
+      <li>
+        <%- msgSet[i] %>
+      </li>
+    <% } %>
+  </ul>
+<% } %>

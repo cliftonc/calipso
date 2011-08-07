@@ -1,0 +1,26 @@
+<div class="content">
+<% if(request.url === "/admin") { %>
+<div class="admin-page">
+  <h2>Default Administration Dashboard</h2>
+  <div class="admin-dashboard-col1">
+  A
+  </div>
+  <div class="admin-dashboard-col2">
+  B
+  </div>
+  <div class="admin-dashboard-clear">
+  </div>
+  <div class="admin-dashboard-col1">
+  C
+  </div>
+  <div class="admin-dashboard-col2">
+  D
+  </div>
+  <div class="admin-dashboard-clear">
+  </div>
+</div>
+<% } else { %>
+  <%- admin %>
+  <%- content %>
+<% } %>
+</div>

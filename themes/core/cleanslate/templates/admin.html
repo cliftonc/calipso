@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="put your site description here">
+    <meta name="keywords" content="put your site keywords here">
+    <title>Clean Slate</title>
+    <%- styles %>
+    <%- scripts %>
+  </head>
+  <body>
+    <div id="adminMenu">
+      <%- admin %>
+    </div>            
+    <div id="container">
+      <div id="header">
+        <h1><a href="/">Site Name</a></h1>
+        <nav class="secondary">
+          <%- secondary %>
+        </nav>
+        <nav class="primary">
+          <%- primary %>
+        </nav>
+      </div>
+      <div id="messages">
+        <%- messages %>
+      </div>
+      <% if(user.isAdmin) { %>
+        <div id="adminToolbar">
+          <%- getMenu('adminToolbar') %>
+        </div>
+      <% } %>
+      <div id="admin-body">        
+        <%- body %>
+      </div>
+      <div id="footer">
+        <%- footer %>
+      </div>
+    </div>
+  </body>
+</html>

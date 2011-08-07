@@ -1,0 +1,74 @@
+{
+  "name": "cleanslate",
+  "type": "full",
+  "description": "Not intended to be used directly, but as a starting point for other themes",
+  "version": "0.2.1",
+  "author": "Dennis Hall <dennishall@github.com>",
+  "layouts": {
+    "default": {
+      "layout": {
+        "template": "default.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "styles": {"template": "styles.html"},
+          "admin": {"menu": "admin", "template": "adminMenu.html"},
+          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "secondary": {"template": "secondaryMenu.html"},
+          "messages": {"template": "messages.html"},
+          "body": {"template": "body.html"},
+          "sidePanel": {"template": "sidePanel.html"},
+          "footer": {"template": "footer.html"}
+        }
+      }
+    },
+    "home": {
+      "layout": {
+        "copyFrom": "default",
+        "sections": {
+          "body": {"template": "body.html"}
+        }
+      }
+    },
+    "blogLanding": {
+      "layout": {
+        "copyFrom": "default",
+        "sections": {
+          "body": {"template": "body.html"}
+        }
+      }
+    },
+    "admin": {
+      "layout": {
+        "template": "admin.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "styles": {"template": "styles.html"},
+          "admin": {"menu": "admin", "template": "adminMenu.html"},
+          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "secondary": {"template": "secondaryMenu.html"},
+          "messages": {"template": "messages.html"},
+          "body": {"template": "body.html"},
+          "footer": {"template": "footer.html"}
+        }
+      }
+    },
+    "preview": {
+      "layout": {
+        "template": "preview.html",
+        "sections": {
+          "scripts": {"template": "scripts.html"},
+          "styles": {"template": "styles.html"},
+          "body": {"template": "body.html"}
+        }
+      }
+    },
+    "rss": {
+      "layout": {
+        "template": "rss.html",
+        "sections": {
+          "body": {"template": "body.html"}
+        }
+      }
+    }
+  }
+}
