@@ -47,8 +47,8 @@ function init(module,app,next) {
         module.router.addRoute('GET /',homePage,{template:'list',block:'content.home'},this.parallel());
 
         // TODO
-        module.router.addRoute('GET /tag/:tag.:format?',listContent,{template:'list',cache:true,block:'content.tag.list'},this.parallel());
-        module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?.:format?',listContent,{template:'list',cache:true,block:'content.section.list'},this.parallel());
+        module.router.addRoute('GET /tag/:tag.:format?',listContent,{template:'list',cache:false,block:'content.tag.list'},this.parallel());
+        module.router.addRoute('GET /section/:t1?/:t2?/:t3?/:t4?.:format?',listContent,{template:'list',cache:false,block:'content.section.list'},this.parallel());
 
         // Alias for SEO friendly pages, match to prefix excluding content pages
         //module.router.addRoute(/^\/((?!content).*)\.html/,showAliasedContent,{template:'show',block:'content.show.html'},this.parallel());
@@ -747,7 +747,7 @@ function listContent(req,res,template,block,next) {
       }
 
       if(tag) {
-        res.layout = tag + "Landing" // Enable landing page layout to be created for a tag;
+        res.layout = "tagLanding" // Enable landing page layout to be created for a tag view
         query.where('tags',tag);
       }
 
