@@ -11,20 +11,20 @@ h3. Quick Install
 If you want to try it out as quickly as possible, please install MongoDB, and then use NPM:
 
 <pre><code>
-    npm install calipso -g    
-    calipso site /var/www/MySite    
+    npm install calipso -g
+    calipso site /var/www/MySite
     cd /var/www/MySite
-    calipso    
-    
+    calipso
+
 </code></pre>
 
 h4. Note on Ubuntu
 
-At the moment to install the mongodb client on Ubuntu, you need to pass through the --mongodb:native parameter: 
+At the moment to install the mongodb client on Ubuntu, you need to pass through the --mongodb:native parameter:
 
 <pre><code>
     npm install calipso -g --mongodb:native
-    
+
 </pre></code>
 
 This is relatively new, and as I am working on the module management functions there are some tricky dependencies in core (e.g. expat, mongodb) that require compilation and can cause issues.  Please raise / update issues if you find them.
@@ -38,8 +38,8 @@ h4. Commands That Run Anywhere
 <pre><code>
     calipso                            : Show this help file.
     calipso site <name|folder>         : Create site in folder.
-    
-</code></pre>    
+
+</code></pre>
 
 h4. Commands That Run In Site Folder
 
@@ -47,17 +47,21 @@ The most important of these at the moment is 'modules check' (this will ensure t
 
 <pre><code>
     calipso install                    : Re-run site install.
-    
+
     calipso cluster server.port=3000   : Run as cluster.
-    calipso server server.port=3000    : Run as a single server.    
+    calipso server server.port=3000    : Run as a single server.
 
     calipso modules list               : List installed modules.
     calipso modules check              : Check installation of all modules.
     calipso modules install *mod@ver   : Install module@version, or reinstall module.
-    calipso modules download github    : Download module from github (e.g. cliftonc/calipso-elastic)    
+    calipso modules download github    : Download module from github (e.g. cliftonc/calipso-elastic)
     calipso modules enable *mod        : Enable module.
     calipso modules disable *mod       : Disable module.
-    
+
+    calipso themes list                : List installed themes.
+    calipso themes uninstall *theme    : Remove theme (delete from disk)
+    calipso themes download *url       : Download (url: http://, gh: cliftonc/calipso-site-theme, repo: calipso-site).
+
 </code></pre>
 
 h3. Contributors
