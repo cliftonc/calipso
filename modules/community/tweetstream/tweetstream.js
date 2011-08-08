@@ -1,8 +1,10 @@
 /**
  * Example tweet streaming via socket.io (pusher module)
  */
-var calipso = require("lib/calipso"),
-    http = require("http");
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  http = require("http");
 
 exports = module.exports = {
   init: init,

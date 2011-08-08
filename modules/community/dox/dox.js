@@ -7,7 +7,9 @@
  * Exports
  * Note that any hooks must be exposed here to be seen by Calipso
  */
-var calipso = require('lib/calipso');
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 exports = module.exports = {
   init: init,

@@ -1,7 +1,11 @@
 /**
  * Base feeds module
  */
-var calipso = require("lib/calipso"), sys = require('sys'), events = require('events');
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  sys = require('sys'), 
+  events = require('events');
 
 exports = module.exports = {
   init: init,

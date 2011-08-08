@@ -2,9 +2,11 @@
  * Module to enable socket.io to push updates to a user
  */
 
-var calipso = require("lib/calipso"),
-    io = require('socket.io'),
-    sys = require("sys");
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  io = require('socket.io'),
+  sys = require("sys");
 
 exports = module.exports = {
   init: init,

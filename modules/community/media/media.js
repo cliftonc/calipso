@@ -1,7 +1,9 @@
 /**
  * Media management module
  */
-var calipso = require("lib/calipso");
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 exports = module.exports = {
   init: init, 
@@ -45,9 +47,9 @@ function init(module,app,next) {
           originalName:{type: String, required: true},
           mediaType:{type: String, required: true},
           author:{type: String, required: true},
-          ispublic:{type: Boolean, required: true, default: false},
-          created: { type: Date, default: Date.now },
-          updated: { type: Date, default: Date.now }
+          ispublic:{type: Boolean, required: true, "default": false},
+          created: { type: Date, "default": Date.now },
+          updated: { type: Date, "default": Date.now }
         });
 
         calipso.lib.mongoose.model('Media', Media);
@@ -57,9 +59,9 @@ function init(module,app,next) {
           name:{type: String, required: true},
           description:{type: String, required: true},
           author:{type: String, required: true},
-          ispublic:{type: Boolean, required: true, default: false},
-          created: { type: Date, default: Date.now },
-          updated: { type: Date, default: Date.now }
+          ispublic:{type: Boolean, required: true, "default": false},
+          created: { type: Date, "default": Date.now },
+          updated: { type: Date, "default": Date.now }
         });
 
         calipso.lib.mongoose.model('MediaGallery', MediaGallery);

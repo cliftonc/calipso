@@ -1,7 +1,10 @@
 /**
  * Calipso is included in every module
  */
-var calipso = require('lib/calipso');
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
+
 
 /**
  * Exports
