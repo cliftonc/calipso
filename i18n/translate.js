@@ -1,4 +1,5 @@
-var rootpath = __dirname + '/../';
+var rootpath = process.cwd(),
+  path = require('path');
 /**
  * Translation function, will be exposed through a connect middleware function
  * that adds a translate function to the request object.
@@ -73,7 +74,7 @@ function cacheLanguages(languages, loadedLanguages) {
   fs.readdirSync("i18n").forEach(function(file){
     var languageFile = file.split(".");
     if(languageFile[0] === "language") {
-      languageCache[languageFile[1]] = require(rootpath + "i18n/" + file).language;
+      languageCache[languageFile[1]] = require(path.join(rootpath, "i18n/", file)).language;
       loadedLanguages.push(languageFile[1]);
     }
   });

@@ -7,8 +7,9 @@
  * Usage:  node app, or NODE_ENV=production node app
  *
  */
-
-var rootpath = __dirname + '/',
+ 
+var rootpath = process.cwd(), 
+  path = require('path'), 
   fs = require('fs'),
   express = require('express'),
   mongoose = require('mongoose'),
@@ -16,11 +17,11 @@ var rootpath = __dirname + '/',
   nodepath = require('path'),
   form = require('connect-form'),
   stylus = require('stylus'),
-  translate = require(rootpath + 'i18n/translate'),
-  calipso = require(rootpath + 'lib/calipso'),
-  logo = require(rootpath + 'logo'),
   colors = require('colors'),
-  mongoStore = require(rootpath + 'support/connect-mongodb');
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  translate = require(path.join(rootpath, 'i18n/translate')),
+  logo = require(path.join(rootpath, 'logo')),
+  mongoStore = require(path.join(rootpath, 'support/connect-mongodb'));
 
 // Local App Variables
 var path = rootpath,
