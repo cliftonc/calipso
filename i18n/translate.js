@@ -1,4 +1,4 @@
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path');
 /**
  * Translation function, will be exposed through a connect middleware function

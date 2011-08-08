@@ -8,7 +8,7 @@
  *
  */
  
-var rootpath = process.cwd(), 
+var rootpath = process.cwd() + '/', 
   path = require('path'), 
   fs = require('fs'),
   express = require('express'),
