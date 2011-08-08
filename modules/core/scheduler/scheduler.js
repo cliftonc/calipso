@@ -2,7 +2,10 @@
  * Job scheduler - enables create, update, delete and execution of jobs on
  * cron schedules.
  */
-var calipso = require('lib/calipso'), cron = require('./scheduler.cron');
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  cron = require('./scheduler.cron');
 
 exports = module.exports = {
   init: init,
@@ -51,11 +54,11 @@ function init(module,app,next) {
         // Ensure we have the job schema defined
         var ScheduledJob = new calipso.lib.mongoose.Schema({
           name:{type: String, required: true, unique: true},
-          cronTime:{type: String, default:'* * * * * *',required: true},
-          enabled:{type: Boolean, default:false, required: true},
-          module:{type: String, default:'', required: true},
-          method:{type: String, default:'', required: true},
-          args:{type: String, default:'', required: false}
+          cronTime:{type: String, "default":'* * * * * *',required: true},
+          enabled:{type: Boolean, "default":false, required: true},
+          module:{type: String, "default":'', required: true},
+          method:{type: String, "default":'', required: true},
+          args:{type: String, "default":'', required: false}
         });
         calipso.lib.mongoose.model('ScheduledJob', ScheduledJob);
 

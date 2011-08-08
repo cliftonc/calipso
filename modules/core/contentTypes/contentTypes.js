@@ -4,7 +4,10 @@
  * Base content type sub-module [Depends on Content]
  */
 
-var calipso = require("lib/calipso"), Query = require("mongoose").Query;
+var rootpath = process.cwd(),
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  Query = require("mongoose").Query;
 
 exports = module.exports = {
   init: init,
@@ -67,12 +70,12 @@ function init(module,app,next) {
 
         // Schemea
         var ContentType = new calipso.lib.mongoose.Schema({
-          contentType:{type: String, required: true, unique: true, default:'default'},
-          description:{type: String, required: true, default: 'Default Content Type'},
-          layout:{type: String, required: true, default: 'default'},
-          ispublic:{type: Boolean, required: true, default: true},
-          created: { type: Date, default: Date.now },
-          updated: { type: Date, default: Date.now },
+          contentType:{type: String, required: true, unique: true, "default": 'default'},
+          description:{type: String, required: true, "default": 'Default Content Type'},
+          layout:{type: String, required: true, "default": 'default'},
+          ispublic:{type: Boolean, required: true, "default": true},
+          created: { type: Date, "default": Date.now },
+          updated: { type: Date, "default": Date.now },
           fields: {type: String}
         });
 
