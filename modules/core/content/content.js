@@ -3,7 +3,7 @@
  * This is the core module that provides the basic content management
  * functions.
  */
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   Query = require("mongoose").Query, 

@@ -2,7 +2,7 @@
 /**
  * Base taxonomy module to create menus
  */
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
 

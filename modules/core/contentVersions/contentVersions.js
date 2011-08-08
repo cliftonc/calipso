@@ -4,7 +4,7 @@
  * Base content type sub-module [Depends on Content]
  */
 
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   Query = require('mongoose').Query,

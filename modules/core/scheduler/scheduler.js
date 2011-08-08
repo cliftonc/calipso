@@ -2,7 +2,7 @@
  * Job scheduler - enables create, update, delete and execution of jobs on
  * cron schedules.
  */
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   cron = require('./scheduler.cron');
