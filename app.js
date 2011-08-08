@@ -8,23 +8,22 @@
  *
  */
 
-require.paths.unshift(__dirname); //make local paths accessible
-
-var fs = require('fs'),
+var rootpath = __dirname + '/',
+  fs = require('fs'),
   express = require('express'),
   mongoose = require('mongoose'),
   sys = require('sys'),
   nodepath = require('path'),
   form = require('connect-form'),
   stylus = require('stylus'),
-  translate = require('i18n/translate'),
-  calipso = require('lib/calipso'),
-  logo = require('logo'),
+  translate = require(rootpath + 'i18n/translate'),
+  calipso = require(rootpath + 'lib/calipso'),
+  logo = require(rootpath + 'logo'),
   colors = require('colors'),
-  mongoStore = require('support/connect-mongodb');
+  mongoStore = require(rootpath + 'support/connect-mongodb');
 
 // Local App Variables
-var path = __dirname,
+var path = rootpath,
   theme = 'default',
   port = process.env.PORT || 3000,
   version = "0.2.2";
