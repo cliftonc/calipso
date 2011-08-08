@@ -5,7 +5,9 @@
  **/
 var assert = require('assert'),
     mongoose = require('mongoose'),
-    should = require('should');
+    should = require('should'),
+    path = require('path'),
+    rootpath = process.cwd() + '/';
 
 /**
  * Simple sanity tests to make sure that calipso will run.
@@ -157,7 +159,7 @@ require('../app').boot(function(server) {
     };
 
     // Ok, now lets test the modules
-    calipso = require('lib/calipso');
+    calipso = require(path.join(rootpath, 'lib/calipso'));
 
     // Login as some modules may require admin access
     for(var module in calipso.modules) {
