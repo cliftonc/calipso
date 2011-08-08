@@ -1,7 +1,7 @@
 /**
  * Media management module
  */
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
 

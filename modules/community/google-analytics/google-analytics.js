@@ -2,7 +2,7 @@
  * Base module to insert google analytics tracking code
  */
 
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
 

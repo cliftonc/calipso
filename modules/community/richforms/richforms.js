@@ -1,7 +1,7 @@
 /**
  * Enable rich forms (jQuery UI and editor)
  */
-var rootpath = process.cwd(),
+var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
 
