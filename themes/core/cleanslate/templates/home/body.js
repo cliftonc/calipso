@@ -2,8 +2,10 @@
  * Additional content section / block functions for body.
  */
 
-var calipso = require("lib/calipso");
-
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
+console.log('theme body: ', process.cwd())
 exports = module.exports = function(req, options, callback) {
 
   /**
@@ -31,4 +33,4 @@ exports = module.exports = function(req, options, callback) {
     });
   });
 
-}
+};
