@@ -4,7 +4,6 @@
  * - Timing for modules, as well as full page timing.
  * - Block structure for processed blocks on a page (useful for theming).
  */
- console.log("dev tools: ", process.cwd())
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));

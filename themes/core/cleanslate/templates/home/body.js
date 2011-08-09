@@ -5,7 +5,7 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
-console.log('theme body: ', process.cwd())
+
 exports = module.exports = function(req, options, callback) {
 
   /**
