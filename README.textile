@@ -15,6 +15,7 @@ If you want to try it out as quickly as possible, please install MongoDB, and th
     calipso site /var/www/MySite
     cd /var/www/MySite
     calipso server
+
 </code></pre>
 
 h4. Note on Ubuntu
