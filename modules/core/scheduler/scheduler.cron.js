@@ -1,8 +1,8 @@
 /**
  * This is a modified version of the cron.js library referrred to below
- * 
+ *
  * I needed to modify it to enable management of jobs, not just creating of them.
- * 
+ *
  */
 
 /**
@@ -17,7 +17,10 @@
  *    - http://www.gnu.org/copyleft/gpl.html
  */
 
-var sys = require("sys"), calipso = require("lib/calipso"); 
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  sys = require("sys");
 
 function CronTime(time) {
 
@@ -40,7 +43,7 @@ function CronTime(time) {
 };
 
 CronTime.prototype = {
-    
+
   _parse: function() {
 
     var aliases = this.aliases,
@@ -57,15 +60,15 @@ CronTime.prototype = {
          }),
     split = source.replace(/^\s\s*|\s\s*$/g, '').split(/\s+/),
     cur, len = 6;
-    
+
     while (len--) {
       cur = split[len] || '*';
       this._parseField(cur, this.map[len], this.constraints[len]);
     }
 
   },
-  _parseField: function(field, type, constraints) {    
-    
+  _parseField: function(field, type, constraints) {
+
     var rangePattern = /(\d+?)(?:-(\d+?))?(?:\/(\d+?))?(?:,|$)/g,
     typeObj = this[type],
     diff,
@@ -114,41 +117,41 @@ function CronJob(options) {
   }
 
   this.configure(options);
-  
+
 }
 
-CronJob.prototype = {    
-  
+CronJob.prototype = {
+
     configure: function(options) {
-      
-    options = options ? options : {jobName:'', 
+
+    options = options ? options : {jobName:'',
                                    cronTime:'* * * * * *',
-                                   enabled:true, 
+                                   enabled:true,
                                    module:'',
                                    method:'',
                                    events:'',
                                    args:''
     }
-        
+
     // Set options
     this.jobName = options.jobName;
-    this.fn = options.fn;      
+    this.fn = options.fn;
     this.enabled = options.enabled;
     this.module = options.module;
     this.method = options.method;
     this.args = options.args;
     this.blocking = options.blocking ? options.blocking : true;
-    
+
     // calculation holders
     this.now = {};
     this.running = false;
     this.initiated = false;
     this.invalid = false;
-    
+
     try {
-      this.cronTime = new CronTime(options.cronTime);    
+      this.cronTime = new CronTime(options.cronTime);
     } catch(ex) {
-      this.invalid = true;   
+      this.invalid = true;
       this.enabled = false;
     }
     this.cronTimeString = options.cronTime;
@@ -156,28 +159,28 @@ CronJob.prototype = {
   },
   enable: function() {
     if(!this.invalid) {
-      this.enabled = true;  
-    }    
+      this.enabled = true;
+    }
     this.clock();
   },
   disable: function() {
     this.enabled = false;
     this.clock();
-  }, 
+  },
   executeJob: function() {
       if (typeof this.fn === 'function' && !(this.blocking && this.running)) {
-        
+
         // Job starter
-        this.jobStart();                 
+        this.jobStart();
         // Create the callback wrapper
         // TODO : This doesn't feel right?
-        var job = this;        
+        var job = this;
         function jobFinish(err) {
           job.jobFinish(job,err);
         }
-        
+
         this.fn(this.args,jobFinish);
-      }  
+      }
   },
   jobStart: function() {
     this.running = true;
@@ -188,18 +191,18 @@ CronJob.prototype = {
     this.running = false;
     this.jobFinished = new Date;
     if(!err) {
-      calipso.debug("Job " + job.jobName + " completed in " + (job.jobFinished - job.jobStarted) + " ms");  
+      calipso.debug("Job " + job.jobName + " completed in " + (job.jobFinished - job.jobStarted) + " ms");
     } else {
       calipso.error("Job " + job.jobName + " completed with an error: " + err);
     }
-    
+
   },
   clock: function() {
 
     if(!this.enabled) {
       return;
     }
-    
+
     var date = new Date,
     now = this.now,
     self = this,
@@ -240,7 +243,7 @@ CronJob.prototype = {
  * Timer helper functions
  */
 function jobStart() {
-  calipso.debug("Job Started " + this.jobName);  
+  calipso.debug("Job Started " + this.jobName);
 }
 
 function jobFinish(err) {
