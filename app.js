@@ -7,9 +7,9 @@
  * Usage:  node app, or NODE_ENV=production node app
  *
  */
- 
-var rootpath = process.cwd() + '/', 
-  path = require('path'), 
+
+var rootpath = process.cwd() + '/',
+  path = require('path'),
   fs = require('fs'),
   express = require('express'),
   mongoose = require('mongoose'),
@@ -27,7 +27,7 @@ var rootpath = process.cwd() + '/',
 var path = rootpath,
   theme = 'default',
   port = process.env.PORT || 3000,
-  version = "0.2.2";
+  version = "0.2.3";
 
 /**
  * Catch All exception handler
