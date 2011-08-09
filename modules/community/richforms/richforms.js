@@ -1,7 +1,9 @@
 /**
  * Enable rich forms (jQuery UI and editor)
  */
-var calipso = require('lib/calipso');
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 /**
  * Turns form date elements into jQUery UI Datepickers
@@ -55,7 +57,7 @@ function init(module, app, next) {
       template: 'markitup.style',
       block: 'styles.richforms.markitup'
     }, this.parallel());
-    app.use(calipso.lib.express.static(__dirname + '/static'));
+    app.use(calipso.lib.express["static"](__dirname + '/static'));
 
     module.router.addRoute('GET /richforms/preview', showPreview, {}, this.parallel());
 
@@ -77,7 +79,7 @@ function init(module, app, next) {
 
       return tagOutput;
 
-    }
+    };
 
     // TODO : ADD TIME PICKER
     // Any schema configuration goes here

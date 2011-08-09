@@ -4,9 +4,11 @@
  * Base content type sub-module [Depends on Content]
  */
 
-var calipso = require('lib/calipso'),
-    Query = require('mongoose').Query,
-    diff = require('./support/jsdiff');
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  Query = require('mongoose').Query,
+  diff = require('./support/jsdiff');
 
 exports = module.exports = {
   init: init,

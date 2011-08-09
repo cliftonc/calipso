@@ -6,7 +6,9 @@
 
 // Takes an ISO time and returns a string representing how
 // long ago the date represents.
-var calipsoDate = require("lib/Date").CalipsoDate;
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipsoDate = require(path.join(rootpath, "lib/Date")).CalipsoDate;
 
 exports = module.exports = {
 
@@ -53,4 +55,4 @@ exports = module.exports = {
   }
 
 
-}
+};

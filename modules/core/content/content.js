@@ -3,7 +3,12 @@
  * This is the core module that provides the basic content management
  * functions.
  */
-var calipso = require("lib/calipso"), Query = require("mongoose").Query, utils = require('connect').utils, merge = utils.merge;
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  Query = require("mongoose").Query, 
+  utils = require('connect').utils, 
+  merge = utils.merge;
 
 exports = module.exports = {
   init: init,
@@ -116,19 +121,19 @@ function init(module,app,next) {
 
         // Default Content Schema
         var Content = new calipso.lib.mongoose.Schema({
-          title:{type: String, required: true, default: ''},
-          teaser:{type: String, required: false, default: ''},
-          taxonomy:{type: String, default:''},
-          content:{type: String, required: false, default:''},
-          status:{type: String, required: false, default:'draft'},
+          title:{type: String, required: true, "default": ''},
+          teaser:{type: String, required: false, "default": ''},
+          taxonomy:{type: String, "default":''},
+          content:{type: String, required: false, "default":''},
+          status:{type: String, required: false, "default":'draft'},
           alias:{type: String, required: true},
           author:{type: String, required: true},
-          etag:{type: String, default:''},
+          etag:{type: String, "default":''},
           tags:[String],
           published: { type: Date },
           scheduled: { type: Date },
-          created: { type: Date, default: Date.now },
-          updated: { type: Date, default: Date.now },
+          created: { type: Date, "default": Date.now },
+          updated: { type: Date, "default": Date.now },
           contentType:{type: String},  // Copy from content type
           layout:{type: String},       // Copy from content type
           ispublic:{type: Boolean}    // Copy from content type

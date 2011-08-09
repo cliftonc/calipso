@@ -18,6 +18,19 @@ If you want to try it out as quickly as possible, please install MongoDB, and th
 
 </code></pre>
 
+h4. Using node v0.5.3
+
+Since node v0.5.3 has removed <code>require.paths</code>, in order to <code>require('lib/calipso')</code>, you must include the following to your file:
+
+<pre><code>
+    var rootpath = process.cwd() + '/',
+      path = require('path'),
+      calipso = require(path.join(rootpath, 'lib/calipso'));
+
+</pre></code>
+
+That also goes for including anything that is based on the root path of the project directory.
+
 h4. Note on Ubuntu
 
 At the moment to install the mongodb client on Ubuntu, you need to pass through the --mongodb:native parameter:

@@ -1,7 +1,10 @@
 /**
  * User management module
  */
-var calipso = require("lib/calipso"), Query = require("mongoose").Query;
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  Query = require("mongoose").Query;
 
 exports = module.exports = {
   init: init,
@@ -70,9 +73,9 @@ function init(module, app, next) {
 
       var Role = new calipso.lib.mongoose.Schema({
         name:{type: String, required: true, unique:true},
-        description:{type: String,default:''},
-        isAdmin:{type: Boolean, required: true, default: false},
-        isDefault:{type: Boolean, required: true, default: false}
+        description:{type: String,"default":''},
+        isAdmin:{type: Boolean, required: true, "default": false},
+        isDefault:{type: Boolean, required: true, "default": false}
       });
       calipso.lib.mongoose.model('Role', Role);
 
@@ -81,14 +84,14 @@ function init(module, app, next) {
         username:{type: String, required: true, unique:true},
         fullname:{type: String, required: false},        
         password:{type: String, required: false},
-        hash:{type: String, required: true, default:''},
+        hash:{type: String, required: true, "default":''},
         email:{type: String, required: true, unique:true},
-        showName:{type: String, default:'registered'},
-        showEmail:{type: String, default:'registered'},
+        showName:{type: String, "default":'registered'},
+        showEmail:{type: String, "default":'registered'},
         about:{type: String},
-        language:{type: String, default:'en'},
+        language:{type: String, "default":'en'},
         roles:[String],        
-        locked:{type: Boolean, default:false}
+        locked:{type: Boolean, "default":false}
       });
       
       calipso.lib.mongoose.model('User', User);

@@ -7,24 +7,24 @@
  * Usage:  node app, or NODE_ENV=production node app
  *
  */
-
-require.paths.unshift(__dirname); //make local paths accessible
-
-var fs = require('fs'),
+ 
+var rootpath = process.cwd() + '/', 
+  path = require('path'), 
+  fs = require('fs'),
   express = require('express'),
   mongoose = require('mongoose'),
   sys = require('sys'),
   nodepath = require('path'),
   form = require('connect-form'),
   stylus = require('stylus'),
-  translate = require('i18n/translate'),
-  calipso = require('lib/calipso'),
-  logo = require('logo'),
   colors = require('colors'),
-  mongoStore = require('support/connect-mongodb');
+  calipso = require(path.join(rootpath, 'lib/calipso')),
+  translate = require(path.join(rootpath, 'i18n/translate')),
+  logo = require(path.join(rootpath, 'logo')),
+  mongoStore = require(path.join(rootpath, 'support/connect-mongodb'));
 
 // Local App Variables
-var path = __dirname,
+var path = rootpath,
   theme = 'default',
   port = process.env.PORT || 3000,
   version = "0.2.2";

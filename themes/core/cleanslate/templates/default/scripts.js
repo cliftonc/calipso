@@ -2,7 +2,9 @@
  * Additional content section / block functions for scripts.
  */
 
-var calipso = require("lib/calipso");
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 exports = module.exports = function(req, options, callback) {
 
