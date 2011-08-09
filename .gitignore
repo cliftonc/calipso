@@ -2,10 +2,11 @@ tmp
 lib-cov
 node_modules
 modules/downloaded
+modules/custom
 themes/downloaded
+themes/custom
 *.pid
 *.log
 *.swp
 *.sock
 *.gz
-themes/calipso/public/css/calipso.css
