@@ -14,13 +14,14 @@ exports = module.exports = function(req, options, callback) {
 
       options.getContent(req, 'about-me', this.parallel());
       options.getBlock('tagcloud',this.parallel());
+      options.getBlock(/^side.*/,this.parallel());
 
       // Demonstration of how to use getModuleFn
       options.getModuleFn(req,'template.templatePage',{template:'templateShow'},this.parallel());
 
     },
-    function done(err, about,tagcloud,fn) {
-      callback(err,{about:about,tagcloud:tagcloud, fn:fn});
+    function done(err, about,tagcloud,side,fn) {
+      callback(err,{about:about,tagcloud:tagcloud, side:side, fn:fn});
     }
   );
 
