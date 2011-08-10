@@ -33,7 +33,7 @@ That also goes for including anything that is based on the root path of the proj
 
 h4. Note on Ubuntu
 
-At the moment to install the mongodb client on Ubuntu, you need to pass through the --mongodb:native parameter:
+Sometimes to install the mongodb client on Ubuntu, you need to pass through the --mongodb:native parameter (only try this if you have problems with the typical install, it doesn't seem to occur on the most recent versions of the mongodb client):
 
 <pre><code>
     npm install calipso -g --mongodb:native
