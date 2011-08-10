@@ -8,7 +8,7 @@ If you would like to contribute, please take a look at the issues list as this w
 
 h3. Quick Install
 
-If you want to try it out as quickly as possible, please install MongoDB, and then use NPM:
+If you want to try it out as quickly as possible, please install MongoDB, ensure that you have the right compilers installed (for OSX, XCode4 will work, for Ubuntu, the build-essential and libssl-dev packages) and then use NPM:
 
 <pre><code>
     npm install calipso -g
