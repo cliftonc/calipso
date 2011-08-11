@@ -7,7 +7,7 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, "/lib/calipso"));
 
 exports = module.exports = {
-  init: init, 
+  init: init,
   route: route
 };
 
@@ -47,11 +47,11 @@ function init(module,app,next) {
 
         calipso.lib.mongoose.model('Tag', Tag);
 
-        // Register for events  
+        // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTagCloud);
         calipso.e.post('CONTENT_UPDATE',module.name,mapReduceTagCloud);
         calipso.e.post('CONTENT_DELETE',module.name,mapReduceTagCloud);
-        
+
         next();
       }
   );
@@ -66,7 +66,7 @@ function mapReduceTagCloud(event,options,next) {
   // We need to check if we are already map reducing ...
   if(calipso.mr.tagcloud) {
 
-    // TODO : CHECK IF THIS MISSES THINGS ...    
+    // TODO : CHECK IF THIS MISSES THINGS ...
     return next();
 
   }
@@ -110,8 +110,8 @@ function mapReduceTagCloud(event,options,next) {
 
   });
 
-  
-  
+
+
  };
 
 /**
@@ -123,9 +123,10 @@ function tagCloud(req,res,template,block,next) {
 
   Tag.find({})
    .find(function (err, tags) {
+
       // Render the item into the response
       calipso.theme.renderItem(req,res,template,block,{tags:tags},next);
-      
+
    });
 
 
