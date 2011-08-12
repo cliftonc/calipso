@@ -4,15 +4,15 @@
  *  against an app instance, this is typically executed by the make file
  **/
 require.paths.unshift(__dirname + "/../"); //make local application paths accessible
- 
+
 var assert = require('assert'),
     sys = require('sys'),
     should = require('should'),
     table = require('lib/Table');
 
- // Stub request and translate 
+ // Stub request and translate
 var req = {t:function(st) { return st },url:'/'};
-      
+
 var table1 = {id:'1',
               cls:'my-table',
               sort:true,
@@ -23,6 +23,7 @@ var table1 = {id:'1',
                 from:0,
                 limit:10,
                 total:50,
+                url:'/data',
                 sort:[{name:'name',dir:'asc'}]
               }
         };
@@ -30,15 +31,13 @@ var table1 = {id:'1',
  * Tests
  */
 exports['I can create a table'] = function() {
-    
-  
+
+
   var tb = table.CalipsoTable;
-  
+
   var output = tb.render(table1,req);
-  
-  console.log(output);
-    
+
   true.should.equal(true);
-  
+
 };
 
