@@ -43,12 +43,16 @@
     "semver":"1.0.x",
     "hook.io":"0.6.x",
     "zipfile":"0.2.x",
-    "rimraf":"1.0.x"
+    "rimraf":"1.0.x",
+    "nconf":"0.2.x"
   },
   "devDependencies": {
     "expresso": "0.8.x",
     "should": "0.2.x"
   },
-  "scripts": { "install" : "bash ./bin/install.sh" },
+  "scripts": {
+    "install" : "bash ./bin/install.sh",
+    "test" : "expresso -s"
+  },
   "bin": { "calipso": "./bin/calipso" }
 }
