@@ -879,7 +879,7 @@ function listUsers(req,res,template,block,next) {
 
         var total = count;
 
-        var qry = User.find(query)  .skip(from).limit(limit);
+        var qry = User.find(query).skip(from).limit(limit);
 
         // Add sort
         qry = calipso.table.sortQuery(qry,sortBy);
