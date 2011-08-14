@@ -31,11 +31,21 @@ function init(module, app, next) {
       template: 'disqus',
       block: 'scripts.disqus'
     }, this.parallel());
+
     module.router.addRoute(/^(\/dox.*)/, disqus, {
       end: false,
       template: 'disqus',
       block: 'scripts.disqus'
     }, this.parallel());
+
+
+  module.router.addRoute(/^(\/repo\/show.*)/, disqus, {
+      end: false,
+      template: 'disqus',
+      block: 'scripts.disqus'
+    }, this.parallel());
+
+
 
   }, function done() {
 
