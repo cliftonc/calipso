@@ -40,7 +40,7 @@
   height: 15px;
 }
 
-table {margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;}
+table {margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;clear:both;}
 table thead tr th,table tfoot tr th {background-color:silver;border:1px solid silver;font-size:8pt;padding:4px;}
 table thead tr .sortable {background-image:url(../images/sort.gif); background-repeat:no-repeat;background-position:center right;cursor:pointer;}
 table tbody td {padding:4px;vertical-align:top;}
@@ -57,5 +57,5 @@ span.pager-page {
   background: silver;
 }
 .tabular {
-	clear: both;
+  clear: both;
 }
