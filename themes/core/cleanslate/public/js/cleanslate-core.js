@@ -1,13 +1,15 @@
 /*!
  * cleanslate core
  *
- * javascript module loader
+ * currently covers:
+ *  - tabs
+ *  - sortable tables (just updates the querystring for server-side sorting)
  *
  */
 cleanslate = {
   log : function(){
     try {
-      console.log.apply('',arguments);
+      console.log.apply(window, arguments);
     } catch(e) {
       cleanslate.backlog.push(arguments);
     }
@@ -33,73 +35,38 @@ cleanslate = {
     
     // TABLES
     $("th.sortable").click(function() {
-        
-        var col = $(this);
-        
-        var sorted = col.hasClass('sorted-asc') ? 'asc' : (col.hasClass('sorted-desc') ? 'desc' : 'none');
-        var newSorted = 'asc';
-        
-        switch(sorted) {
-          case('asc'):
-            newSorted = 'desc';
-            break;
-          case('desc'):
-            newSorted = 'none';
-            break;
-          case('none'):
-            newSorted = 'asc';
-            break;
+      
+      var name = $(this).attr('name');
+      
+      // Consider the current URL
+      var baseUrl = location.protocol + '//' + location.host + location.pathname;
+      var params = location.search ? location.search.substring(1).split('&') : [];
+      
+      // Update the params
+      var found = false;
+      var newParams = [];
+      $.each(params, function(i, param) {
+        if(param.indexOf('sortBy='+name+',')===0){
+          found = true;
+          var paramSplit = param.split(',');
+          // asc->desc (and implicitly, desc->none, by not pushing it to the newParams)
+          if(paramSplit[1] == 'asc'){
+            newParams.push(paramSplit[0] + ',desc');
+          }
+        } else {
+          newParams.push(param);
         }
-        
-        // Consider the current URL
-        var loc = window.location.toString();
-        var baseUrl = loc.split("?")[0];        
-        var params = (loc.split("?").length > 1) ? loc.split("?")[1].split("&") : [];        
-        
-        // New url   
-        var sortQueryBase = "sortBy=" + col.attr('name') + ",";        
-        var update = sortQueryBase + newSorted;
-        
-        // Check if it is already in the url
-        var checkRegex = new RegExp(sortQueryBase.replace("[","\\[").replace("]","\\]"),"g");
-        var updateRegex = new RegExp((sortQueryBase + sorted).replace("[","\\[").replace("]","\\]"),"g");
-
-        // Update the params
-        var matched = false;  
-        var newParams = [];
-        params.forEach(function(param,key) {        
-          if(param.match(checkRegex)) {
-            matched = true;
-            if(newSorted === 'none') {
-              // Nothing              
-            } else {
-              newParams.push(param.replace(updateRegex,update));              
-            }
-          } else {
-            newParams.push(param);
-          }          
-        });
-        
-        // New
-        if(!matched) {
-          newParams.push(sortQueryBase + newSorted);
-        }
-              
-        // 
-        var url = baseUrl;          
-        newParams.forEach(function(param,key) {          
-          if(key === 0) {
-            url += "?";
-          } else {
-            url += "&";
-          };
-          url+= param;          
-        });
-        
-        window.location = url;
-        
-        
-        
+      });
+      
+      // New (none->asc)
+      if(!found) {
+        newParams.push('sortBy=' + name + ',asc');
+      }
+      
+      var newSearch = newParams.join('&');
+      
+      location = baseUrl + (newSearch ? '?'+newSearch : '') + location.hash;
+      
     });
     
   } // end of cleanslate.init
