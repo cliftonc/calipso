@@ -6,8 +6,8 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query, 
-  utils = require('connect').utils, 
+  Query = require("mongoose").Query,
+  utils = require('connect').utils,
   merge = utils.merge;
 
 exports = module.exports = {
@@ -76,42 +76,7 @@ function init(module,app,next) {
 
         // Add dynamic helpers
         calipso.dynamicHelpers.getContent = function() {
-
-          return function(req,alias,next) {
-
-            var Content = calipso.lib.mongoose.model('Content');
-
-            Content.findOne({alias:alias},function (err, content) {
-                if(err || !content) {
-
-                  var text = req.t("Click to create") + ": " +
-                  " <a title='" + req.t("Click to create") + " ...' href='/content/new?" +
-                  "type=Block%20Content" +
-                  "&alias=" + alias +
-                  "&teaser=Content%20for%20" + alias +
-                  "&returnTo=" + req.url +
-                  "'>" + alias +"</a>";
-
-                  // Don't throw error, just pass back failure.
-                  next(null,text);
-
-                } else {
-
-                  var text;
-                  if(req.session && req.session.user && req.session.user.isAdmin) {
-                    text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + content._id + "'>" +
-                      content.content + "</span>"
-                  } else {
-                    text = content.content;
-                  }
-
-                  next(null,text);
-
-                }
-            });
-
-          }
-
+          return getContent;
         }
 
         // Get content list helper
@@ -153,6 +118,48 @@ function init(module,app,next) {
 
       }
   );
+}
+
+/**
+ * Helper function
+ */
+function getContent(req,alias,next) {
+
+  var Content = calipso.lib.mongoose.model('Content');
+
+  Content.findOne({alias:alias},function (err, c) {
+
+      if(err || !c) {
+
+        var text = req.t("Click to create") + ": " +
+        " <a title='" + req.t("Click to create") + " ...' href='/content/new?" +
+        "type=Block%20Content" +
+        "&alias=" + alias +
+        "&teaser=Content%20for%20" + alias +
+        "&returnTo=" + req.url +
+        "'>" + alias +"</a>";
+
+        // Don't throw error, just pass back failure.
+        next(null,text);
+
+      } else {
+
+        var text;
+        if(req.session && req.session.user && req.session.user.isAdmin) {
+          text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
+            c.content + "</span>"
+        } else {
+          text = c.content;
+        }
+        next(null,text);
+
+      }
+
+
+  });
+
+
+
 }
 
 /**
@@ -214,7 +221,6 @@ function createContent(req,res,template,block,next) {
 
           var Content = calipso.lib.mongoose.model('Content');
           var ContentType = calipso.lib.mongoose.model('ContentType');
-
 
           var c = new Content(form.content);
 
@@ -823,6 +829,8 @@ function getContentList(query,out,next) {
 
         // Add sort
         qry = calipso.table.sortQuery(qry,out.sortBy);
+
+
 
         qry.find(function (err, contents) {
 

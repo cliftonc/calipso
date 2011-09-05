@@ -10,12 +10,6 @@ exports = module.exports = {
   init: init,
   route: route,
   install:install,
-  about: {
-    description: 'User management module.',
-    author: 'cliftonc',
-    version: '0.2.1',
-    home:'http://github.com/cliftonc/calipso'
-  },
   userDisplay:userDisplay
 };
 
@@ -98,7 +92,9 @@ function init(module, app, next) {
       next();
 
       // Load roles into calipso data
-      storeRoles();
+      if(app.config.get('installed')) {
+        storeRoles();
+      }
 
     }
   )
@@ -112,6 +108,11 @@ function storeRoles() {
 
     var Role = calipso.lib.mongoose.model('Role');
 
+    delete calipso.data.roleArray;
+    delete calipso.data.roles;
+    calipso.data.roleArray = [];
+    calipso.data.roles = {};
+
     Role.find({}).sort('name',1).find(function (err, roles) {
 
         if(err || !roles) {
@@ -120,15 +121,11 @@ function storeRoles() {
         }
 
         // Create a role array and object cache
-        delete calipso.data.roleArray;
-        delete calipso.data.roles;
-        calipso.data.roleArray = [];
-        calipso.data.roles = {};
-
         roles.forEach(function(role) {
             calipso.data.roleArray.push(role.name);
             calipso.data.roles[role.name] = {description:role.description, isAdmin:role.isAdmin};
         });
+                
 
     });
 
@@ -536,7 +533,7 @@ function updateUserProfile(req, res, template, block, next) {
           }
 
           // Create the hash
-          u.hash = calipso.lib.crypto.hash(new_password,calipso.config.cryptoKey);
+          u.hash = calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'));
           u.password = ''; // Temporary for migration to hash, remove later
 
         }
@@ -745,7 +742,7 @@ function registerUser(req, res, template, block, next) {
       }
 
       // Create the hash
-      u.hash = calipso.lib.crypto.hash(new_password,calipso.config.cryptoKey);
+      u.hash = calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'));
 
       calipso.e.pre_emit('USER_CREATE',u);
 
@@ -968,20 +965,42 @@ function install(next) {
       r.save(this.parallel());
 
       // Create administrative user
-      var admin = new User({
-        username:'admin',
-        hash:calipso.lib.crypto.hash('password',calipso.config.cryptoKey),
-        email:'admin@example.com',
-        about:'Default administrator.',
-        roles:['Administrator']
-      });
-      admin.save(this.parallel());
+      if (calipso.data.adminUser) {
+        
+        
+        // Create default if skipped form
+        if(!calipso.data.adminUser.username && !calipso.data.adminUser.password) {
+          calipso.data.adminUser = {
+            username: 'admin',
+            password: 'password',
+            email: 'admin@example.com',
+            about: 'Default administrator.'            
+          }
+        }        
+        var user = calipso.data.adminUser;
+        
+        // We have a user u via the install process, apply defaults just in case
+        // They screw up the form        
+        var admin = new User({
+          username:user.username,
+          hash:calipso.lib.crypto.hash(user.password,calipso.config.get('session:secret')),
+          email:user.email,
+          about:user.about,
+          roles:['Administrator']
+        });
+        admin.save(this.parallel());      
+        
+        // Note the details for the admin user are in memory at this point @ calipso.data.adminUser
+        // This is later used to display the summary page, it will be deleted there.
+        
+      }
 
     },
     function allDone(err) {
+      
       if(err) {
-        calipso.log(err);
-        next(err)
+        calipso.error("User module installed " + err.message);
+        next(err);
       } else {
         storeRoles();
         calipso.log("User module installed ... ");

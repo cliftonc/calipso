@@ -1,0 +1,53 @@
+<div class='admin-install'>
+  <h1><%= t("Configure MongoDB") %></h1>
+  <div>
+    <%- form %>
+  </div>
+  <div id="mongo-status" style="display: none; padding: 10px; margin-bottom: 20px; text-align: center; width: 100%;">
+  </div>
+  <div class="admin-install-links">
+    <a href="?installStep=welcome"><%= "<< " + t("First Step: Welcome") %></a> | <a id='form-submit' href=""><%= t("Third Step: Configure Default User") + " >>" %></a>
+   </div>
+   <script>
+     $(document).ready(function() {      
+      
+      // Ajax request to /admin/install/mongo/test
+      function checkMongo() {
+        
+        $('#mongo-status').show();
+        $('#mongo-status').html("<span class='install-progress'>Connecting to MongoDB, please wait ... </span>");               
+        
+        var dbUri = $(".database-uri").val();
+        var postData = {"dbUri":dbUri};
+        console.log(dbUri);
+
+        $.ajax({
+           type: "POST",
+           url: "/admin/installApi/mongo",
+           dataType:"json",
+           data:postData,
+           success: function(res){
+             if(res.status === "OK") {
+               $('#mongo-status').html("<span class='install-success'>MongoDB connection successfull ... </span>");               
+               setTimeout(function() {                 
+                 $('#install-mongo-form').submit();
+               },1000);
+             } else {
+               $('#mongo-status').html("<span class='install-failure'>MongoDB connection failed, please check the details and try again ... </span>");               
+             }             
+           }
+         });
+
+       //     $('#install-mongo-form').submit();                
+
+        //    $('#mongo-status').html()
+      }    
+
+      $('#form-submit').click(function(event) {
+          event.preventDefault();
+          checkMongo();
+      });
+
+    });
+  </script>
+</div>

@@ -32,15 +32,10 @@ function route(req,res,module,app,next) {
  */
 function init(module,app,next) {
 
-  if(!calipso.modules.content.initialised) {
-    process.nextTick(function() { init(module,app,next); });
-    return;
-  }
-
     // Any pre-route config
   calipso.lib.step(
       function defineRoutes() {
-        module.router.addRoute(/.*/,taxonomy,{end:false},this.parallel());
+        module.router.addRoute(/.*/,taxonomy,{},this.parallel());
       },
       function done() {
 
@@ -52,8 +47,8 @@ function init(module,app,next) {
         });
 
         calipso.lib.mongoose.model('TaxonomyMenu', TaxonomyMenu);
-        
-        // Register for events  
+
+        // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTaxonomy);
         calipso.e.post('CONTENT_UPDATE',module.name,mapReduceTaxonomy);
         calipso.e.post('CONTENT_DELETE',module.name,mapReduceTaxonomy);
@@ -72,7 +67,7 @@ function mapReduceTaxonomy(event,options,next) {
   // We need to check if we are already map reducing ...
   if(calipso.mr.taxonomy) {
     // TODO : CHECK IF THIS MISSES THINGS ...
-    return next();    
+    return next();
   }
   calipso.mr.taxonomy = true;
 
@@ -84,7 +79,7 @@ function mapReduceTaxonomy(event,options,next) {
       return;
    }
 
-   // Not public or draft      
+   // Not public or draft
    if(!this.ispublic || this.status === "draft") return;
 
    var taxArr = this.taxonomy.split("/");
@@ -133,15 +128,17 @@ function mapReduceTaxonomy(event,options,next) {
  */
 function taxonomy(req,res,template,block,next) {
 
+  next();
+  return;
+
   // Generate the menu from the taxonomy
   var TaxonomyMenu = calipso.lib.mongoose.model('TaxonomyMenu');
 
-  TaxonomyMenu.find({})
-   .find(function (err, tax) {
+  TaxonomyMenu.find({},function (err, tax) {
+       console.log("HERE!");
       // Render the item into the response
-
       tax.forEach(function(item) {
-          //TODO: This needs to be improved!        
+          //TODO: This needs to be improved!
           res.menu.primary.addMenuItem({name:item._id,path:item._id,url:'/section/' + item._id,description:'Link ...',security:[]});
       });
       next();

@@ -5,6 +5,7 @@ modules/downloaded
 modules/custom
 themes/downloaded
 themes/custom
+conf/*.json
 *.pid
 *.log
 *.swp

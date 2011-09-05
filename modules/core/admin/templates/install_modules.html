@@ -1,0 +1,15 @@
+<div class='admin-install'>
+  <h1><%= t("Configure Default Modules") %></h1>
+  <div>
+    <%- form %>
+  </div>
+  <div class="admin-install-links">
+    <a href="?installStep=user"><%= "<< " + t("Third Step: Configure Default User") %></a> | <a id='form-submit' href=""><%= t("Final Step: Save Configuration and Install") + " >>" %></a>
+   </div>
+     <script>
+    $('#form-submit').click(function(event) {
+        event.preventDefault();
+        $('#install-modules-form').submit();
+    });
+  </script>
+</div>

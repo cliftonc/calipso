@@ -27,7 +27,7 @@ var rootpath = process.cwd() + '/',
 var path = rootpath,
   theme = 'default',
   port = process.env.PORT || 3000,
-  version = "0.2.3";
+  version = "0.2.4";
 
 /**
  * Catch All exception handler
@@ -52,10 +52,15 @@ function bootApplication(next) {
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.responseTime());
-  app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));
+
+  // Create session middleware - tag it so we can later replace
+  var inMemorySession = express.session({ secret: app.config.get('session:secret') });
+  inMemorySession.tag = "session";
+  app.use(inMemorySession);
+
 
   // Default Theme
-  calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
+  calipso.defaultTheme = app.config.get('themes:default');
 
   // Create holders for theme dependent middleware
   // These are here because they need to be in the connect stack before the calipso router
@@ -65,14 +70,14 @@ function bootApplication(next) {
   // Stylus
   app.mwHelpers.stylusMiddleware = function (themePath) {
     var mw = stylus.middleware({
-      src: themePath + '/stylus', // .styl files are located in `views/stylesheets`
-      dest: themePath + '/public', // .styl resources are compiled `/stylesheets/*.css`
+      src: themePath + '/stylus',
+      dest: themePath + '/public',
       debug: false,
       compile: function (str, path) { // optional, but recommended
         return stylus(str)
           .set('filename', path)
-          .set('warn', true)
-          .set('compress', true);
+          .set('warn', app.config.get('libraries:stylus:warn'))
+          .set('compress', app.config.get('libraries:stylus:compress'));
       }
     });
     mw.tag = 'theme.stylus';
@@ -95,11 +100,11 @@ function bootApplication(next) {
 
   // connect-form
   app.use(form({
-    keepExtensions: true
+      keepExtensions: app.config.get('libraries:formidable:keepExtensions')
   }));
 
   // Translation - after static, set to add mode if appropriate
-  app.use(translate.translate(app.set('config').language, app.set('language-add')));
+  app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
   // Core calipso router
   app.use(calipso.calipsoRouter(next));
@@ -116,30 +121,18 @@ exports.boot = function (next) {
   app.path = path;
   app.version = version;
 
-  // Import configuration
-  require(path + '/conf/configuration.js')(app, function (err) {
+  // Load configuration
+  var Config = require(path + "/lib/Config").Config;
+  app.config = new Config({},function(err) {
 
-    if (err) {
-
-      // Add additional detail to know errors
-      switch (err.code) {
-      case "ECONNREFUSED":
-        console.log("Unable to connect to the specified database: ".red + app.set('db-uri'));
-        break;
-      default:
-        console.log("Fatal unknown error: ".magenta + err);
-      }
-      next();
-
-    } else {
-
-      // Load application configuration
-      theme = app.set('config').theme;
-      // Bootstrap application
-      bootApplication(function () {
-        next(app);
-      });
-    }
+    // TODO : Check for error
+    
+    // Load application configuration
+    theme = app.config.get('themes:front');
+    // Bootstrap application
+    bootApplication(function () {
+      next(app);
+    });
 
   });
 

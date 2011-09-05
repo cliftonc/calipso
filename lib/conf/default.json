@@ -1,0 +1,84 @@
+{
+  "version":1,
+  "installed":false,
+  "database": {
+    "uri":"mongodb://localhost/calipso"
+  },
+  "server": {
+    "name":"Calipso",
+    "url":"http://localhost:3000",
+    "modulePath":"./modules",
+    "themePath":"./themes"
+  },
+  "performance": {
+    "cache":{
+        "enabled":true,
+        "ttl":600
+    },
+    "watchFiles":true
+  },
+  "session":{
+    "secret":"calipso"
+  },
+  "theme": {
+    "default":"cleanslate",
+    "front":"cleanslate",
+    "admin":"cleanslate"
+  },
+  "i18n": {
+    "language":"en",
+    "additive":true
+  },
+  "logging": {
+    "console": {
+        "enabled": true,
+        "level": "info",
+        "timestamp":true,
+        "colorize":true
+      },
+      "file": {
+        "enabled": false,
+        "level": "info",
+        "filepath": "logs/calipso.log",
+        "timestamp":true
+      }
+  },
+  "libraries":{
+    "stylus":{
+      "warn":true,
+      "compress":false
+    },
+    "formidable":{
+      "keepExtensions":true
+    }
+  },
+  "modules": {
+    "google-analytics": {
+      "enabled":false,
+      "config": {
+        "key":"UA-17607570-4"
+      }
+    },
+    "disqus": {
+      "enabled":false,
+      "config":{
+        "shortname":"calipsojs"
+      }
+    },
+    "admin":{
+      "enabled": true
+    },
+    "content":{
+      "enabled": true
+    },
+    "contentTypes": {
+      "enabled": true
+    },
+    "user":{
+      "enabled": true
+    },
+    "taxonomy":{
+      "enabled": true
+    }
+  }
+}

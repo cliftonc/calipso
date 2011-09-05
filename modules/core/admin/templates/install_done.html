@@ -1,0 +1,29 @@
+<div class='admin-install'>
+  <% if(err) { %>
+    <h1>Looks like there was a problem ...</h1>
+    <p>The installation process has encountered errors:</p>
+<code>
+<%= err %>
+</code>
+    <p>It is highly recommended that you return to the previous step and ensure that you entered all of the correct information.  If you continue to have problems please let us know via github.</p>
+    </pre>
+    <div class="admin-install-links">
+      <a href="?installStep=modules"><%= "<< " + t("Third Step: Configure Modules") %></a>
+    </div>
+  <% } else { %>
+    <h1>Installation Complete</h1>
+    <p>The installation process has completed, your final configuration is shown below:</p>
+    <table>
+      <tr>
+        <th>Database</th><td><%= calipso.config.get('database:uri') %></td>
+      </tr>
+      <tr>
+        <th>Admin User</th><td><%= calipso.data.adminUser.username %></td>
+      </tr>
+      <tr>
+        <th>Admin Password</th><td><%= calipso.data.adminUser.password %></td>
+      </tr>      
+    </table>
+    <p><a href="/">Go to Home Page</a></p>
+  <% } %>
+</div>

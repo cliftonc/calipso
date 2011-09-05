@@ -1,0 +1,15 @@
+<div class='admin-install'>
+  <h1><%= t("Create Admin User") %></h1>
+  <div>
+    <%- form %>
+  </div>
+  <div class="admin-install-links">
+    <a href="?installStep=mongodb"><%= "<< " + t("Second Step: Configure MongoDB") %></a> | <a id="form-submit" href="#"><%= t("Fourth Step: Configure Modules") + " >> " %></a>
+  </div>
+     <script>
+    $('#form-submit').click(function(event) {
+        event.preventDefault();
+        $('#install-user-form').submit();
+    });
+  </script>
+</div>

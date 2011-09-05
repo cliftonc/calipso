@@ -80,21 +80,20 @@ function init(module, app, next) {
     }, this.parallel());
 
 
-    // Default installation router
+    // Default installation routers
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
-
+    module.router.addRoute('POST /admin/install', install, null, this.parallel());
+    module.router.addRoute('POST /admin/installApi/mongo', installMongoTest, null, this.parallel());
 
   }, function done() {
 
     // Shortcuts
-    calipso.data.loglevels = calipso.lib.winston.config.npm.levels;
-    calipso.data.modules = calipso.modules; // TODO - why do we need this?
+    calipso.data.loglevels = calipso.lib.winston.config.npm.levels;    
     next();
 
 
   });
 
-  // NOTE: Configuration schemas are defined in Configuration.js
 }
 
 
@@ -103,14 +102,6 @@ function init(module, app, next) {
  * optionally enable translation of these by google translate.
  */
 function showLanguages(req, res, template, block, next) {
-
-
-
-  //res.menu.admin.secondary.push({ name: req.t('Configuration'),url: '/admin/core/config',regexp: /admin\/config/});
-  //res.menu.admin.secondary.push({ name: req.t('Languages'),url: '/admin/core/languages',regexp: /admin\/admin/});
-  //res.menu.admin.secondary.push({ name: req.t('Cache'),url: '/admin/core/cache',regexp: /admin\/cache/});
-
-
 
   // Check to see if we should google translate?!
   // e.g. /admin/languages?translate=es
@@ -174,64 +165,286 @@ function showLanguages(req, res, template, block, next) {
  */
 function install(req, res, template, block, next) {
 
+
   // If not in install mode, do not install
-  if (!calipso.app.set('config').install) {
+  if (calipso.config.get('installed')) {
+    console.log("INSTALLED");
     res.redirect("/");
     next();
     return;
   }
+  
+  // Ensure we are using the install layout
+  res.layout = "install";
 
-  // Run the module install scripts
-  calipso.lib.step(
+  // The install process will work in steps
+  var installStep = req.moduleParams.installStep || "welcome";
 
-  function installModules() {
-    var group = this.group();
-    for (var module in calipso.modules) {
-      // Check to see if the module is currently enabled, if so install it
-      if (calipso.modules[module].enabled && typeof calipso.modules[module].fn.install === 'function') {
-        calipso.modules[module].fn.install(group());
-      } else {
-        // Just call the group function to enable step to continue
-        group()();
+  // Process the input from the previous step
+  calipso.form.process(req, function(form) {
+
+      if (form) {
+        if(form.userStep) {
+          // Store the user for later
+          calipso.data.adminUser = form.user;
+        } else {
+          // Update the configuration
+          updateConfiguration(form);
+        }
+        // Override install step
+        installStep = form.installStep
       }
-    }
-  }, function done(err) {
 
-    // If we encounter any issues it must be catastrophic.
+      // Process the installation
+      switch (installStep) {
+        case "welcome":
+          installWelcome(req,res,localNext);
+          break;
+        case "mongodb":
+          installMongo(req,res,localNext);
+          break;
+        case "user":
+          installUser(req,res,localNext);
+          break;
+        case "modules":
+          installModules(req,res,localNext);
+          break;
+        case "done":
+          installDone(req,res,localNext);
+          break;
+        default:
+          localNext(new Error("A step was specified that is not defined in the install process: " + installStep));
+      }
+
+  });
+
+  function localNext(err) {
     if (err) {
       res.statusCode = 500;
       res.errorMessage = err.message;
-      req.flash('error', req.t('Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.'));
-      next()
-      return;
+      req.flash('error', req.t('Calipso has become stuck in install mode. The specific error returned was: ' + err.message));
+    }
+    next();
+  }
+
+}
+
+/**
+ * Installation welcome screen - called by install router, not a routing function.
+ */
+function updateConfiguration(values) {
+  // Update config for all the values, do not save now
+  for(value in values) {
+    if(value !== 'installStep' && value !== 'userStep' && value !== 'returnTo' && value !== 'submit')
+      // Switch on/off to true / false
+      if(values[value] === 'on') values[value] = true;
+      if(values[value] === 'off') values[value] = false;
+      calipso.config.set(value,values[value]);
+  }
+  return;
+}
+
+
+
+/**
+ * Installation welcome screen - called by install router, not a routing function.
+ */
+function installWelcome(req,res,next) {
+
+  // Manually grab the template
+  var template = calipso.modules.admin.templates.install_welcome;
+  calipso.theme.renderItem(req, res, template, 'admin.install.welcome', {}, next);
+
+}
+
+/**
+ * Installation mongodb - called by install router, not a routing function.
+ */
+function installMongo(req,res,next) {
+
+  // Manually grab the template
+  var template = calipso.modules.admin.templates.install_mongo;
+
+  // Create the form
+  var mongoForm = {id:'install-mongo-form',title:'',type:'form',method:'POST',action:'/admin/install',
+        fields:[
+          {label:'MongoDB URI',name:'database:uri',cls:'database-uri', type:'text',description:'Enter the database URI, in the form: mongodb://servername:port/database'},
+          {label:'',name:'installStep',type:'hidden'}
+        ],
+        buttons:[]}; // Submitted via template
+
+  var formValues = {
+    'database:uri':calipso.config.get('database:uri'),
+    'installStep':'user'
+  }
+
+  calipso.form.render(mongoForm, formValues, req, function(form) {
+      calipso.theme.renderItem(req, res, template, 'admin.install.mongo', {form:form}, next);
+  });
+
+}
+
+/**
+ * Function to enable ajax testing of the mongo configuration
+ */
+function installMongoTest(req, res, template, block, next) {
+
+  calipso.form.process(req,function(form) {
+    
+    var dbUri = form.dbUri;
+    var output = {};
+
+    if(dbUri) {
+      calipso.mongoConnect(dbUri,true,function(err,connected) {
+        if(!err) {
+          output.status = "OK";
+        } else {
+          output.status = "FAILED";
+          output.message= "Failed to connect to MongoDB because: " + err.message;
+        }
+        res.format = "json";
+        res.end(JSON.stringify(output),"UTF-8");
+        next();
+      });      
+    } else {
+      output.status = "FAILED";
+      output.message= "You need to provide a valid database uri, in the format described.";      
+      res.format = "json";
+      res.end(JSON.stringify(output),"UTF-8");
+      next();
     }
 
-    // Retrieve the configuration from the database
-    var AppConfig = calipso.lib.mongoose.model('AppConfig');
-    AppConfig.findOne({}, function(err, c) {
+  });
+}
 
-      calipso.app.set('config').install = false;
-      c.install = false;
-      c.save(function(err) {
-        if (err) {
-          res.statusCode = 500;
-          res.errorMessage = err.message;
-          req.flash('error', req.t('Calipso has become stuck in install mode. This is a catastrophic failure, please report it on github.'));
-        } else {
-          req.flash('info', req.t('Calipso has been installed with default user: {user}, password: {password}.  It is a good idea to login and change this via the user profile page.',
-                                  {user:'admin',password:'password'}));
-          if (res.statusCode != 302) {
-            res.redirect("/");
-          }
+
+
+/**
+ * Installation user - called by install router, not a routing function.
+ */
+function installUser(req,res,next) {
+
+  // Manually grab the template
+  var template = calipso.modules.admin.templates.install_user;
+
+  // Create the form
+  // TODO - reference exported form from user module instead, this will be difficult to maintain
+  var userForm = {
+    id:'install-user-form',title:'',type:'form',method:'POST',action:'/admin/install',
+      fields:[
+        {label:'Username', name:'user[username]', type:'text'},
+        {label:'Full Name', name:'user[fullname]', type:'text'},
+        {label:'Email', name:'user[email]', type:'text'},
+        {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
+        {label:'Password', name:'user[password]', type:'password'},        
+        {label:'',name:'installStep',type:'hidden'},
+        {label:'',name:'userStep',type:'hidden'}
+      ],
+    buttons:[]
+  };
+
+  var formValues = {
+    user:(calipso.data.adminUser || {}), // Store here during install process
+    'userStep':true,
+    'installStep':'modules'
+  }
+
+  calipso.form.render(userForm, formValues, req, function(form) {
+      calipso.theme.renderItem(req, res, template, 'admin.install.user', {form:form}, next);
+  });
+
+}
+
+/**
+ * Install Modules - called by install router, not a routing function.
+ */
+function installModules(req,res,next) {
+
+  // Manually grab the template
+  var template = calipso.modules.admin.templates.install_modules;
+
+  // Create the form
+  var moduleForm = {id:'install-modules-form',title:'',type:'form',method:'POST',action:'/admin/install',
+        fields:[
+          {label:'',name:'installStep',type:'hidden'}
+        ],
+        buttons:[]}; // Submitted via template
+
+  //Add the modules
+  moduleForm.fields = createModuleFields(moduleForm.fields);
+  
+  // Defaults
+  var formValues = {
+    'modules:admin:enabled': true,
+    'modules:content:enabled': true,
+    'modules:contentTypes:enabled': true,
+    'modules:user:enabled': true,
+    'installStep':'done'
+  }
+
+  calipso.form.render(moduleForm, formValues, req, function(form) {
+      calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form:form}, next);
+  });
+
+}
+
+function doInstallation(next) {
+
+  // NOTE: User is installed via the user module
+    
+  // Set the install flag to true, enable db connection
+  calipso.config.set('installed',true);
+  calipso.mongoConnect(function(err) {
+
+    if(err) {
+      return next(err);
+    }
+
+    // Get a list of all the modules to install 
+    var modulesToInstall = [];
+    for (var module in calipso.modules) {
+        // Check to see if the module is currently enabled, if so install it
+        if (calipso.modules[module].enabled && calipso.modules[module].fn && typeof calipso.modules[module].fn.install === 'function') {
+          modulesToInstall.push(module);
         }
+    } 
 
-        next();
-        return;
+    // Note - the admin user is created in the user module install process
+    calipso.lib.step(
+      function installModules() {
+        var group = this.group();
+         modulesToInstall.forEach(function(module){
+          calipso.silly("Installing module " + module);
+          calipso.modules[module].fn.install(group());            
+        });
+      },
+      function saveConfiguration(err) {
+        calipso.silly("Saving configuration ... ");
+        calipso.config.set('installed',true);
+        calipso.config.save(this);
+        this();
+      },
+      function done(err) {
+        return next(err);
+      }
+    );
+            
+  });
 
-      });
-    });
+}
 
-  })
+
+/**
+ * Install Modules - called by install router, not a routing function.
+ */
+function installDone(req,res,next) {
+
+  doInstallation(function(err) {
+
+    var template = calipso.modules.admin.templates.install_done;
+    calipso.theme.renderItem(req, res, template, 'admin.install.done', {err:err,calipso:calipso}, next);
+
+  });
 
 }
 
@@ -278,30 +491,6 @@ function coreConfig(req, res, template, block, next) {
   }
 
 
-  var AppConfig = calipso.lib.mongoose.model('AppConfig');
-
-  AppConfig.findOne({}, function(err, config) {
-    var item = {
-      id: config._id,
-      type: 'config',
-      meta: config.toObject()
-    };
-
-    var values = {
-      config: {
-        cache:item.meta.cache,
-        cacheTtl:item.meta.cacheTtl,
-        watchFiles: item.meta.watchFiles,
-        language: item.meta.language,
-        theme: item.meta.theme,
-        adminTheme: item.meta.adminTheme,
-        logslevel: item.meta.logs.level,
-        logsconsoleenabled:  item.meta.logs.console.enabled,
-        logsfileenabled: item.meta.logs.file.enabled,
-        logsfilefilepath: item.meta.logs.file.filepath
-      }
-    };
-
     var adminForm = {
       id:'admin-form',
       title:'Administration',
@@ -311,23 +500,32 @@ function coreConfig(req, res, template, block, next) {
       tabs:true,
       sections:[
         {
-          id:'form-section-development',
-          label:'Development',
+          id:'form-section-core',
+          label:'Site',
+          fields:[
+            {
+              label:'Site Name',
+              name:'server:name',
+              type:'text'
+            }            
+          ]
+        },
+        {
+          id:'form-section-language',
+          label:'Language',
           fields:[
             {
               label:'Default Language',
-              name:'config[language]',
-              type:'select',
-              value:item.meta.language,
+              name:'i18n:language',
+              type:'select',              
               options: req.languages
             },
             {
-              label:'Watch Template Files',
-              name:'config[watchFiles]',
-              type:'checkbox',
-              value: item.meta.watchFiles,
+              label:'Add Unknown Terms',
+              name:'i18n:additive',
+              type:'checkbox',  
               labelFirst: true
-            }
+            }            
           ]
         },
         {
@@ -336,18 +534,22 @@ function coreConfig(req, res, template, block, next) {
           fields:[
             {
               label:'Enable Cache',
-              name:'config[cache]',
+              name:'performance:cache:enabled',
               type:'checkbox',
-              description:'Experimental - will probably break things!',
-              value: item.meta.cache,
-              labelFirst: false
+              description:'Experimental - will probably break things!',              
+              labelFirst: true
             },
             {
               label:'Default Cache TTL',
-              name:'config[cacheTtl]',
+              name:'performance:cache:ttl',
               type:'textbox',
-              description:'Default age (in seconds) for cache items.',
-              value: item.meta.cacheTtl
+              description:'Default age (in seconds) for cache items.'              
+            },
+            {
+              label:'Watch Template Files',
+              name:'performance:watchFiles',
+              type:'checkbox',              
+              labelFirst: true
             }
           ]
         },
@@ -357,17 +559,15 @@ function coreConfig(req, res, template, block, next) {
           fields:[
             {
               label:'Frontend Theme',
-              name:'config[theme]',
+              name:'theme:front',
               type:'select',
-              value:item.meta.theme,
               options: calipso.data.themes,
               description:'Theme used for all web pages excluding admin pages'
             },
             {
               label:'Admin Theme',
-              name:'config[adminTheme]',
+              name:'theme:admin',
               type:'select',
-              value:item.meta.adminTheme,
               options: calipso.data.adminThemes,
               description:'Administration theme [NOT YET IMPLEMENTED]'
             }
@@ -378,31 +578,58 @@ function coreConfig(req, res, template, block, next) {
           label:'Logging',
           fields:[
             {
-              label:'Log Level',
-              name:'config[logslevel]',
-              type:'select',
-              value:item.meta.logs.level,
-              options: calipso.data.loglevels
+              label:'Console Logging',
+              name:'logging:console:enabled',
+              type:'checkbox',              
+              labelFirst: true,
+              description:'Enable logging to the console.'
             },
             {
-              label:'Console Logging',
-              name:'config[logsconsoleenabled]',
-              type:'checkbox',
-              value: item.meta.logs.console.enabled,
-              labelFirst: true
+              label:'Console Log Level',
+              name:'logging:console:level',
+              type:'select',              
+              options: calipso.data.loglevels,              
+              description:'Log level that controls verbosity of display on the console.'
+            },
+            {
+              label:'Console Timestamp',
+              name:'logging:console:timestamp',
+              type:'checkbox',              
+              labelFirst: true,              
+              description:'Prepend timestamps to console logs.'              
+            },
+            {
+              label:'Console Colorize',
+              name:'logging:console:timestamp',
+              type:'checkbox',              
+              labelFirst: true,              
+              description:'Show colors on the console logs'                            
             },
             {
               label:'File Logging',
-              name:'config[logsfileenabled]',
-              type:'checkbox',
-              value: item.meta.logs.file.enabled,
+              name:'logging:file:enabled',
+              type:'checkbox',              
               labelFirst: true
             },
             {
+              label:'File Log Level',
+              name:'logging:file:level',
+              type:'select',              
+              options: calipso.data.loglevels,              
+              description:'Log level that controls verbosity of display in the file logs.'
+            },
+            {
               label:'File Log Path',
-              name:'config[logsfilefilepath]',
-              type:'text',
-              value: item.meta.logs.file.filepath
+              name:'logging:file:filepath',
+              type:'text',              
+              description:'Path to create the file logs.'              
+            },            
+            {
+              label:'File Log Timestamp',
+              name:'logging:file:timestamp',
+              type:'checkbox',              
+              labelFirst: true,              
+              description:'Prepend timestamps to file logs.'              
             }
           ]
         },
@@ -410,7 +637,7 @@ function coreConfig(req, res, template, block, next) {
           id:'form-section-modules',
           label:'Modules',
           fields:[] // populated in a loop just below
-        },
+        }
       ],
       fields:[
         {
@@ -423,34 +650,51 @@ function coreConfig(req, res, template, block, next) {
         {
           name:'submit',
           type:'submit',
-          value:'Save Content'
+          value:'Save Configuration'
         }
       ]
     };
 
+    // Values can come straight off the config.
+    var values = calipso.config;
 
-    // populate the Modules form fields
-    // TODO - make this dynamic
-    var adminModuleFields = adminForm.sections[4].fields;
-    var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
+    var adminModuleFields = adminForm.sections[5].fields;
+    createModuleFields(adminModuleFields);
+    
+    res.layout = 'admin';
+
+    calipso.form.render(adminForm, values, req, function(form) {
+      calipso.theme.renderItem(req, res, form, block, {}, next);
+    });
+
+}
+
+
+/**
+ * Create a form field for a module
+ */
+function createModuleFields(formFields) {
+
     var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
+    var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
 
     // load up the tempModuleFields (according to module category)
     for(var moduleName in calipso.modules) {
+
       var cM = {};
       var module = calipso.modules[moduleName];
       cM.label = moduleName;
-      cM.name = 'config[modules]['+ moduleName +']';
-      cM.checked = module.enabled;
+      cM.name = 'modules:'+ moduleName + ":enabled";
+      // cM.checked = module.enabled;
       cM.type = 'checkbox';
       if(calipso.lib._.indexOf(readonlyModules,moduleName) !== -1) {
        cM.readonly = true;
       }
-
       cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
 
       //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
       tempModuleFields[module.type].push(cM);
+
     }
 
     // add only non-empty fieldsets for module categories
@@ -458,7 +702,7 @@ function coreConfig(req, res, template, block, next) {
       var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
       // "Site" modules fieldset will only show up if there are any to show.
       if(moduleTypeFields.length){
-        adminModuleFields.push({
+        formFields.push({
           type: 'fieldset',
           name: moduleType + '_fieldset', // shouldn't need a name ...
           legend: moduleType,
@@ -472,26 +716,13 @@ function coreConfig(req, res, template, block, next) {
       return a.name < b.name ? -1 : 1;
     }
 
-    for(var i=0;i<adminModuleFields.length;i++){
-      if(adminModuleFields[i].fields.length){
-        adminModuleFields[i].fields.sort(moduleSort);
+    for(var i=0;i<formFields.length;i++){
+      if(formFields[i].fields && formFields[i].fields.length){
+        formFields[i].fields.sort(moduleSort);
       }
     }
 
-    //console.log(values.config);
-    res.layout = 'admin';
-
-    // Test!
-    calipso.form.render(adminForm, values, req, function(form) {
-      calipso.theme.renderItem(req, res, form, block, {}, next);
-    });
-    // if you want to use ./templates/admin.html (must contain <%- form %>):
-    //calipso.form.render(adminForm, incomingForm, req, function(form) {
-    //  calipso.theme.renderItem(req, res, template, block, {form: form}, next);
-    //});
-
-    //console.log(item.meta.logs);
-  });
+    return formFields;
 
 }
 
@@ -513,47 +744,22 @@ function saveAdmin(req, res, template, block, next) {
 
     if (form) {
 
-      // Re-retrieve our object
-      var AppConfig = calipso.lib.mongoose.model('AppConfig');
-
-      AppConfig.findOne({}, function(err, c) {
-
-        if (!err && c) {
-
-          c.theme = form.config.theme;
-          c.adminTheme = form.config.adminTheme;
-          c.cache = form.config.cache;
-          c.cacheTtl = form.config.cacheTtl;
-          c.language = form.config.language;
-          c.watchFiles = form.config.watchFiles;
-          c.logs.level = form.config.logslevel;
-          c.logs.file.enabled = form.config.logsfileenabled;
-          c.logs.file.filepath = form.config.logsfilefilepath;
-          c.logs.console.enabled = form.config.logsconsoleenabled;
-          c.modules = moduleFormatToArray(res, form.config.modules);
-
-          c.save(function(err) {
-            if (err) {
-              req.flash('error', req.t('Could not update the configuration because {msg}.',{msg:err.message}));
-              if (res.statusCode != 302) { // Don't redirect if we already are, multiple errors
-                res.redirect('/admin/core/config');
-              }
-            } else {
-              calipso.config = c; // TODO : This wont work on multiple edits
-              res.reloadConfig = true;
-              res.redirect('/admin/core/config/reload');
-            }
+      // Update the configuration
+      updateConfiguration(form);
+      updateEnabledModules(form);     
+      
+      calipso.config.save(function(err) {
+          if(err) {
+            req.flash('error', req.t('Could not process the updated configuration: ' + err.message));
+            res.redirect('/admin/core/config');
+          } else {
+            // Set the reload config flag for calipso.doResponse to pick up
+            res.reloadConfig = true;
             next();
-          });
-
-        } else {
-          req.flash('error', req.t('Could not load the application configuration, please check your database.'));
-          res.redirect('/admin');
-          next();
-
-        }
-      });
-
+          }
+      });      
+   
+   
     } else {
 
       req.flash('error', req.t('Could not process the updated configuration.'));
@@ -567,24 +773,13 @@ function saveAdmin(req, res, template, block, next) {
 }
 
 /**
- *Convert the modules into an array to enable rendering to the form
+ * Process the core config and enable / disable modules
  */
-function moduleFormatToArray(res, modules) {
-
-  var arrayModules = [];
-
-  for (var module in calipso.modules) {
-    var enabled = modules[module] === 'on';
-    arrayModules.push({
-      name: module,
-      enabled: enabled
-    });
-  }
-
-  return arrayModules;
-
+function updateEnabledModules(form) {
+  
+  
+  
 }
-
 
 /**
  * Display the cache

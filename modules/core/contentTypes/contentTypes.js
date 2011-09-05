@@ -94,7 +94,13 @@ function init(module,app,next) {
         }
 
         // Cache the content types in the calipso.data object 
-        storeContentTypes(null,null,function(){});
+        if(app.config.get('installed')) {
+          storeContentTypes(null,null,function(err){ 
+            if(err) {
+              calipso.error("An error occurred loading content types: " + err.message);
+            }
+          });  
+        }        
 
         module.initialised = true;
         next();
@@ -433,18 +439,21 @@ function deleteContentType(req,res,template,block,next) {
 function storeContentTypes(event,options,next) {
 
     var ContentType = calipso.lib.mongoose.model('ContentType');
+    
+    delete calipso.data.contentTypes;
+    calipso.data.contentTypes = [];
 
-    ContentType.find({}).sort('contentType',1).find(function (err, types) {
+    ContentType.find({}).sort('contentType',1).find(function (err, types) {        
         if(err || !types) {
-          // Don't throw error, just pass back failure.
-          calipso.error(err);
+          // Don't throw error, just pass back failure.          
+          return next(err);
+        } else {                   
+          types.forEach(function(type) {
+            calipso.data.contentTypes.push(type.contentType);
+          });        
+          return next();
         }
-        delete calipso.data.contentTypes;
-        calipso.data.contentTypes = [];
-        types.forEach(function(type) {
-          calipso.data.contentTypes.push(type.contentType);
-        });        
-        return next();
+        
     });
 
 }
