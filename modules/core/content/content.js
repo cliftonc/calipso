@@ -369,7 +369,7 @@ function createContentForm(req,res,template,block,next) {
     var type = "Article";         // Hard coded default TODO fix
 
     // Create the form
-    var form = {id:'content-type-form',title:'Create Content ...',type:'form',method:'GET',action:'/content/new',tabs:true,
+    var form = {id:'content-type-form',title:'Create Content ...',type:'form',method:'GET',action:'/content/new',tabs:false,
           fields:[
             {label:'Type',name:'type',type:'select',options:function() { return calipso.data.contentTypes },description:'Select the type of content you want to create ...'},
             {label:'',name:'alias',type:'hidden'},
