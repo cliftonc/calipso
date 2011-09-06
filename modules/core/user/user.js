@@ -53,7 +53,7 @@ function init(module, app, next) {
 
     function defineRoutes() {
       module.router.addRoute(/.*/, loginForm, { end: false, template: 'login', block: 'user.login' }, this.parallel());
-      module.router.addRoute('GET /login', loginPage, { end: false, template: 'loginPage', block: 'login' }, this.parallel());
+      module.router.addRoute('GET /user/login', loginPage, { end: false, template: 'loginPage', block: 'content' }, this.parallel());
       module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
       module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
