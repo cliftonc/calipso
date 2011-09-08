@@ -34,6 +34,13 @@ function route(req, res, module, app, next) {
  */
 function init(module, app, next) {
 
+  // Initialise administration events - enabled for hook.io  
+  calipso.e.addEvent('CONFIG_UPDATE',{enabled:true,hookio:true}); 
+
+  // Add listener to config_update
+  calipso.e.post('CONFIG_UPDATE',module.name,calipso.reloadConfig);
+
+  // Admin routes
   calipso.lib.step(
 
   function defineRoutes() {
@@ -48,12 +55,6 @@ function init(module, app, next) {
     // Core configuration
     module.router.addRoute('GET /admin/core/config', coreConfig, {
       block: 'admin.show',
-      admin: true
-    }, this.parallel());
-
-    module.router.addRoute('GET /admin/core/config/reload', reloadAdmin, {
-      template: 'reload',
-      block: 'admin.reload',
       admin: true
     }, this.parallel());
 
@@ -168,7 +169,6 @@ function install(req, res, template, block, next) {
 
   // If not in install mode, do not install
   if (calipso.config.get('installed')) {
-    console.log("INSTALLED");
     res.redirect("/");
     next();
     return;
@@ -419,10 +419,14 @@ function doInstallation(next) {
         });
       },
       function saveConfiguration(err) {
+        // Save configuration to file
         calipso.silly("Saving configuration ... ");
         calipso.config.set('installed',true);
-        calipso.config.save(this);
-        this();
+        calipso.config.save(this);        
+      },
+      function reloadConfiguration() {
+        // This ensures the configuration is applied in cluster mode
+        calipso.reloadConfig(calipso.config, this);
       },
       function done(err) {
         return next(err);
@@ -530,27 +534,79 @@ function coreConfig(req, res, template, block, next) {
         },
         {
           id:'form-section-performance',
-          label:'Performance',
-          fields:[
+          label:'Performance & Clustering',
+          fields:[            
             {
-              label:'Enable Cache',
-              name:'performance:cache:enabled',
-              type:'checkbox',
-              description:'Experimental - will probably break things!',              
-              labelFirst: true
+              label:'Performance',
+              legend:'Performance',
+              type:'fieldset',
+              fields:[   
+                {
+                  label:'Enable Cache',
+                  name:'performance:cache:enabled',
+                  type:'checkbox',
+                  description:'Experimental - will probably break things!',              
+                  labelFirst: true
+                },
+                {
+                  label:'Default Cache TTL',
+                  name:'performance:cache:ttl',
+                  type:'text',
+                  description:'Default age (in seconds) for cache items.'              
+                },
+                {
+                  label:'Watch Template Files',
+                  name:'performance:watchFiles',
+                  type:'checkbox',              
+                  labelFirst: true
+                }
+              ]
             },
             {
-              label:'Default Cache TTL',
-              name:'performance:cache:ttl',
-              type:'textbox',
-              description:'Default age (in seconds) for cache items.'              
+              label:'Hook.IO',
+              legend:'Hook.IO',
+              type:'fieldset',
+              fields:[             
+                {
+                  label:'Hook.IO Name',
+                  name:'server:hookio:name',
+                  type:'text'
+                },            
+                {
+                  label:'Hook.IO Port',
+                  name:'server:hookio:port',
+                  type:'text'
+                },            
+                {
+                  label:'Hook.IO Host Name',
+                  name:'server:hookio:host',
+                  type:'text'
+                },            
+                {
+                  label:'Hook.IO Debug',
+                  name:'server:hookio:debug',
+                  type:'checkbox',
+                  labelFirst: true
+                },
+                {
+                  label:'Hook.IO Max Listeners',
+                  name:'server:hookio:maxListeners',
+                  type:'textbox'              
+                }   
+              ]
             },
             {
-              label:'Watch Template Files',
-              name:'performance:watchFiles',
-              type:'checkbox',              
-              labelFirst: true
-            }
+              label:'Event Emitter',
+              legend:'Event Emitter',
+              type:'fieldset',
+              fields:[             
+                {
+                  label:'EventEmitter Max Listeners',
+                  name:'server:events:maxListeners',
+                  type:'textbox'              
+                }
+              ]
+            }                                       
           ]
         },
         {
@@ -740,25 +796,37 @@ function reloadAdmin(req, res, template, block, next) {
  */
 function saveAdmin(req, res, template, block, next) {
 
-  calipso.form.process(req, function(form) {
+  calipso.form.process(req, function(config) {
 
-    if (form) {
+    if (config) {
 
-      // Update the configuration
-      updateConfiguration(form);
-      updateEnabledModules(form);     
-      
-      calipso.config.save(function(err) {
-          if(err) {
-            req.flash('error', req.t('Could not process the updated configuration: ' + err.message));
-            res.redirect('/admin/core/config');
-          } else {
-            // Set the reload config flag for calipso.doResponse to pick up
-            res.reloadConfig = true;
-            next();
-          }
-      });      
-   
+      calipso.e.pre_emit('CONFIG_UPDATE',config,function(config) {
+
+        // Update the configuration
+        updateConfiguration(config);
+        updateEnabledModules(config);     
+
+        calipso.config.save(function(err) {
+            if(err) {
+              
+              req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
+              res.redirect('/admin/core/config');
+              
+            } else {
+              
+              // Set the reload config flag for event handler to pick up
+              calipso.e.post_emit('CONFIG_UPDATE',config,function(config) {       
+                                                
+                req.flash('info', req.t('Changes to configuration saved.'));
+                res.redirect('/admin');
+                next();                
+                
+              });
+              
+            }
+        });
+        
+      });
    
     } else {
 

@@ -8,7 +8,18 @@
     "name":"Calipso",
     "url":"http://localhost:3000",
     "modulePath":"./modules",
-    "themePath":"./themes"
+    "themePath":"./themes",
+    "hookio":{
+      "name":"calipso-hook",
+      "host":"localhost",
+      "socket":"",
+      "port":9001,
+      "debug":false,
+      "maxListeners":500
+    },
+    "events":{
+      "maxListeners":500
+    }
   },
   "performance": {
     "cache":{
