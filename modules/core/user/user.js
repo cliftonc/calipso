@@ -47,7 +47,7 @@ function init(module, app, next) {
 
     function defineRoutes() {
       module.router.addRoute(/.*/, loginForm, { end: false, template: 'login', block: 'user.login' }, this.parallel());
-      module.router.addRoute('GET /login', loginPage, { end: false, template: 'loginPage', block: 'login' }, this.parallel());
+      module.router.addRoute('GET /login', loginPage, { end: false, template: 'loginPage', block: 'content.login' }, this.parallel());
       module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
       module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
@@ -184,7 +184,7 @@ function loginForm(req, res, template, block, next) {
   var userForm = {
     id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
     fields:[
-      {label:'Username', name:'user[username]', type:'text'},
+      {label:'Username', name:'user[username]', type:'textbox'},
       {label:'Password', name:'user[password]', type:'password'}
     ],
     buttons:[
@@ -207,7 +207,7 @@ function loginPage(req, res, template, block, next) {
   var userForm = {
     id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
     fields:[
-      {label:'Username', name:'user[username]', type:'text'},
+      {label:'Username', name:'user[username]', type:'textbox'},
       {label:'Password', name:'user[password]', type:'password'}
     ],
     buttons:[
