@@ -939,6 +939,8 @@ function install(next) {
 
     function createDefaults() {
 
+      var self = this;
+
       // Create default roles
       var r = new Role({
         name:'Guest',
@@ -946,7 +948,7 @@ function install(next) {
         isAdmin:false,
         isDefault:true
       });
-      r.save(this.parallel());
+      r.save(self.parallel());
 
       var r = new Role({
         name:'Contributor',
@@ -954,7 +956,7 @@ function install(next) {
         isAdmin:false,
         isDefault:false
       });
-      r.save(this.parallel());
+      r.save(self.parallel());
 
       var r = new Role({
         name:'Administrator',
@@ -962,45 +964,35 @@ function install(next) {
         isAdmin:true,
         isDefault:false
       });
-      r.save(this.parallel());
+      r.save(self.parallel());
 
       // Create administrative user
       if (calipso.data.adminUser) {
+                        
+        var adminUser = calipso.data.adminUser;                
         
-        
-        // Create default if skipped form
-        if(!calipso.data.adminUser.username && !calipso.data.adminUser.password) {
-          calipso.data.adminUser = {
-            username: 'admin',
-            password: 'password',
-            email: 'admin@example.com',
-            about: 'Default administrator.'            
-          }
-        }        
-        var user = calipso.data.adminUser;
-        
-        // We have a user u via the install process, apply defaults just in case
-        // They screw up the form        
+        // Create a new user
         var admin = new User({
-          username:user.username,
-          hash:calipso.lib.crypto.hash(user.password,calipso.config.get('session:secret')),
-          email:user.email,
-          about:user.about,
+          username:adminUser.username,
+          hash:calipso.lib.crypto.hash(adminUser.password,calipso.config.get('session:secret')),
+          email:adminUser.email,
+          about:adminUser.about,
           roles:['Administrator']
         });
-        admin.save(this.parallel());      
+        admin.save(self.parallel());  
+
+      } else {
         
-        // Note the details for the admin user are in memory at this point @ calipso.data.adminUser
-        // This is later used to display the summary page, it will be deleted there.
+          // Fatal error
+          self.parallel()(new Error("No administrative user details provided through login process!"));
         
       }
 
     },
-    function allDone(err) {
-      
+    function allDone(err) {      
       if(err) {
         calipso.error("User module installed " + err.message);
-        next(err);
+        next();
       } else {
         storeRoles();
         calipso.log("User module installed ... ");

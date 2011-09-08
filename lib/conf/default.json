@@ -23,7 +23,7 @@
   },
   "performance": {
     "cache":{
-        "enabled":true,
+        "enabled":false,
         "ttl":600
     },
     "watchFiles":true

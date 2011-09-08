@@ -84,7 +84,8 @@ function init(module, app, next) {
     // Default installation routers
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
     module.router.addRoute('POST /admin/install', install, null, this.parallel());
-    module.router.addRoute('POST /admin/installApi/mongo', installMongoTest, null, this.parallel());
+    module.router.addRoute('POST /admin/installTest/mongo', installMongoTest, null, this.parallel());
+    module.router.addRoute('POST /admin/installTest/user', installUserTest, null, this.parallel());
 
   }, function done() {
 
@@ -289,6 +290,12 @@ function installMongo(req,res,next) {
  */
 function installMongoTest(req, res, template, block, next) {
 
+  if (calipso.config.get('installed')) {
+      res.format = "json";
+      res.end(JSON.stringify({status:"Invalid Request"}),"UTF-8");
+      return next();      
+  }
+
   calipso.form.process(req,function(form) {
     
     var dbUri = form.dbUri;
@@ -332,11 +339,12 @@ function installUser(req,res,next) {
   var userForm = {
     id:'install-user-form',title:'',type:'form',method:'POST',action:'/admin/install',
       fields:[
-        {label:'Username', name:'user[username]', type:'text'},
+        {label:'Username', name:'user[username]', cls:'username', type:'text'},
         {label:'Full Name', name:'user[fullname]', type:'text'},
         {label:'Email', name:'user[email]', type:'text'},
         {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
-        {label:'Password', name:'user[password]', type:'password'},        
+        {label:'Password', name:'user[password]', cls:'password', type:'password'},        
+        {label:'Repeat Password', name:'user[check_password]', cls: 'check_password', type:'password'},  
         {label:'',name:'installStep',type:'hidden'},
         {label:'',name:'userStep',type:'hidden'}
       ],
@@ -353,6 +361,51 @@ function installUser(req,res,next) {
       calipso.theme.renderItem(req, res, template, 'admin.install.user', {form:form}, next);
   });
 
+}
+
+/**
+ * Function to enable ajax testing of the mongo configuration
+ */
+function installUserTest(req, res, template, block, next) {
+
+  if (calipso.config.get('installed')) {
+      res.format = "json";
+      res.end(JSON.stringify({status:"Invalid Request"}),"UTF-8");
+      return next();      
+  }
+
+
+  calipso.form.process(req,function(form) {
+        
+    // Check to see if new passwords match
+    var err;
+    
+    if(form.password != form.check_password) {
+      err = new Error(req.t('Your passwords do not match.'));
+    }
+
+    // Check to see if new passwords are blank
+    if(form.password === '') {
+      err = new Error(req.t('Your password cannot be blank.'));        
+    }
+    
+    if(form.username === '') {
+      err = new Error(req.t('Your username cannot be blank.'));        
+    }    
+
+    var output = {};
+    if(err) {
+      output.status = "FAILED";
+      output.message= "There was a problem because: " + err.message;          
+    } else {
+      output.status = "OK";
+    }
+    res.format = "json";
+    res.end(JSON.stringify(output),"UTF-8");
+    next();
+
+  });
+  
 }
 
 /**
@@ -426,7 +479,7 @@ function doInstallation(next) {
       },
       function reloadConfiguration() {
         // This ensures the configuration is applied in cluster mode
-        calipso.reloadConfig(calipso.config, this);
+        calipso.reloadConfig("ADMIN_INSTALL", calipso.config, this);
       },
       function done(err) {
         return next(err);

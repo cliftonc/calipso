@@ -1,10 +1,10 @@
 <div class='admin-install'>
   <h1><%= t("Configure MongoDB") %></h1>
+  <div id="mongo-status" style="display: none;">
+  </div>
   <div>
     <%- form %>
-  </div>
-  <div id="mongo-status" style="display: none; padding: 10px; margin-bottom: 20px; text-align: center; width: 100%;">
-  </div>
+  </div>  
   <div class="admin-install-links">
     <a href="?installStep=welcome"><%= "<< " + t("First Step: Welcome") %></a> | <a id='form-submit' href=""><%= t("Third Step: Configure Default User") + " >>" %></a>
    </div>
@@ -23,17 +23,17 @@
 
         $.ajax({
            type: "POST",
-           url: "/admin/installApi/mongo",
+           url: "/admin/installTest/mongo",
            dataType:"json",
            data:postData,
            success: function(res){
              if(res.status === "OK") {
-               $('#mongo-status').html("<span class='install-success'>MongoDB connection successfull ... </span>");               
+               $('#mongo-status').html("<ul class='info'><li>MongoDB connection successfull ... </li></ul>");               
                setTimeout(function() {                 
                  $('#install-mongo-form').submit();
                },1000);
              } else {
-               $('#mongo-status').html("<span class='install-failure'>MongoDB connection failed, please check the details and try again ... </span>");               
+               $('#mongo-status').html("<ul class='error'><li>MongoDB connection failed, please check the details and try again ...</li></ul>");               
              }             
            }
          });
