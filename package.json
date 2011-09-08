@@ -1,7 +1,7 @@
 {
   "name": "calipso",
   "description": "A NodeJS CMS",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "homepage": "http://calip.so",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "jade": "0.13.x",
     "stylus": "0.13.x",
     "underscore":"1.1.x",
-    "mongoose": "1.7.x",
+    "mongoose": "2.0.x",
     "winston": "0.3.x",
     "mongodb": "0.9.x",
     "connect-form": "0.2.x",
