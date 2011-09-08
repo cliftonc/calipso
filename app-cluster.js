@@ -8,14 +8,14 @@ var path = __dirname;
 var app;
 
 /**
- * Create an instance of calipso via the normal App.
+ * Create an instance of calipso via the normal App,
  */
 require('./app').boot(function (app) {
 
   /**
    * TODO: Check to ensure that the logs and pids folders exist before launching
    */
-
+  
   cluster(app)
     .set('working directory', path)
     .set('socket path', path)
@@ -37,4 +37,4 @@ require('./app').boot(function (app) {
     .listen(port);
 
 
-});
+},true);

@@ -27,7 +27,7 @@ var rootpath = process.cwd() + '/',
 var path = rootpath,
   theme = 'default',
   port = process.env.PORT || 3000,
-  version = "0.2.4";
+  version = "0.3.0";
 
 /**
  * Catch All exception handler
@@ -114,12 +114,13 @@ function bootApplication(next) {
 /**
  * Initial bootstrapping
  */
-exports.boot = function (next) {
+exports.boot = function (next,cluster) {
 
   //Create our express instance, export for later reference
-  app = exports.app = express.createServer();
+  app = exports.app = express.createServer();  
   app.path = path;
   app.version = version;
+  app.isCluster = cluster;
 
   // Load configuration
   var Config = require(path + "/lib/Config").Config;
