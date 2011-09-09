@@ -544,233 +544,233 @@ function coreConfig(req, res, template, block, next) {
   }
 
 
-    var adminForm = {
-      id:'admin-form',
-      title:'Administration',
-      type:'form',
-      method:'POST',
-      action:'/admin/core/config/save',
-      tabs:true,
-      sections:[
-        {
-          id:'form-section-core',
-          label:'Site',
-          fields:[
-            {
-              label:'Site Name',
-              name:'server:name',
-              type:'text'
-            }            
-          ]
-        },
-        {
-          id:'form-section-language',
-          label:'Language',
-          fields:[
-            {
-              label:'Default Language',
-              name:'i18n:language',
-              type:'select',              
-              options: req.languages
-            },
-            {
-              label:'Add Unknown Terms',
-              name:'i18n:additive',
-              type:'checkbox',  
-              labelFirst: true
-            }            
-          ]
-        },
-        {
-          id:'form-section-performance',
-          label:'Performance & Clustering',
-          fields:[            
-            {
-              label:'Performance',
-              legend:'Performance',
-              type:'fieldset',
-              fields:[   
-                {
-                  label:'Enable Cache',
-                  name:'performance:cache:enabled',
-                  type:'checkbox',
-                  description:'Experimental - will probably break things!',              
-                  labelFirst: true
-                },
-                {
-                  label:'Default Cache TTL',
-                  name:'performance:cache:ttl',
-                  type:'text',
-                  description:'Default age (in seconds) for cache items.'              
-                },
-                {
-                  label:'Watch Template Files',
-                  name:'performance:watchFiles',
-                  type:'checkbox',              
-                  labelFirst: true
-                }
-              ]
-            },
-            {
-              label:'Hook.IO',
-              legend:'Hook.IO',
-              type:'fieldset',
-              fields:[             
-                {
-                  label:'Hook.IO Name',
-                  name:'server:hookio:name',
-                  type:'text'
-                },            
-                {
-                  label:'Hook.IO Port',
-                  name:'server:hookio:port',
-                  type:'text'
-                },            
-                {
-                  label:'Hook.IO Host Name',
-                  name:'server:hookio:host',
-                  type:'text'
-                },            
-                {
-                  label:'Hook.IO Debug',
-                  name:'server:hookio:debug',
-                  type:'checkbox',
-                  labelFirst: true
-                },
-                {
-                  label:'Hook.IO Max Listeners',
-                  name:'server:hookio:maxListeners',
-                  type:'textbox'              
-                }   
-              ]
-            },
-            {
-              label:'Event Emitter',
-              legend:'Event Emitter',
-              type:'fieldset',
-              fields:[             
-                {
-                  label:'EventEmitter Max Listeners',
-                  name:'server:events:maxListeners',
-                  type:'textbox'              
-                }
-              ]
-            }                                       
-          ]
-        },
-        {
-          id:'form-section-theme',
-          label:'Theme',
-          fields:[
-            {
-              label:'Frontend Theme',
-              name:'theme:front',
-              type:'select',
-              options: calipso.data.themes,
-              description:'Theme used for all web pages excluding admin pages'
-            },
-            {
-              label:'Admin Theme',
-              name:'theme:admin',
-              type:'select',
-              options: calipso.data.adminThemes,
-              description:'Administration theme [NOT YET IMPLEMENTED]'
-            }
-          ]
-        },
-        {
-          id:'form-section-logging',
-          label:'Logging',
-          fields:[
-            {
-              label:'Console Logging',
-              name:'logging:console:enabled',
-              type:'checkbox',              
-              labelFirst: true,
-              description:'Enable logging to the console.'
-            },
-            {
-              label:'Console Log Level',
-              name:'logging:console:level',
-              type:'select',              
-              options: calipso.data.loglevels,              
-              description:'Log level that controls verbosity of display on the console.'
-            },
-            {
-              label:'Console Timestamp',
-              name:'logging:console:timestamp',
-              type:'checkbox',              
-              labelFirst: true,              
-              description:'Prepend timestamps to console logs.'              
-            },
-            {
-              label:'Console Colorize',
-              name:'logging:console:timestamp',
-              type:'checkbox',              
-              labelFirst: true,              
-              description:'Show colors on the console logs'                            
-            },
-            {
-              label:'File Logging',
-              name:'logging:file:enabled',
-              type:'checkbox',              
-              labelFirst: true
-            },
-            {
-              label:'File Log Level',
-              name:'logging:file:level',
-              type:'select',              
-              options: calipso.data.loglevels,              
-              description:'Log level that controls verbosity of display in the file logs.'
-            },
-            {
-              label:'File Log Path',
-              name:'logging:file:filepath',
-              type:'text',              
-              description:'Path to create the file logs.'              
-            },            
-            {
-              label:'File Log Timestamp',
-              name:'logging:file:timestamp',
-              type:'checkbox',              
-              labelFirst: true,              
-              description:'Prepend timestamps to file logs.'              
-            }
-          ]
-        },
-        {
-          id:'form-section-modules',
-          label:'Modules',
-          fields:[] // populated in a loop just below
-        }
-      ],
-      fields:[
-        {
-          label:'',
-          name:'returnTo',
-          type:'hidden'
-        }
-      ],
-      buttons:[
-        {
-          name:'submit',
-          type:'submit',
-          value:'Save Configuration'
-        }
-      ]
-    };
+  var adminForm = {
+    id:'admin-form',
+    title:'Administration',
+    type:'form',
+    method:'POST',
+    action:'/admin/core/config/save',
+    tabs:true,
+    sections:[
+      {
+        id:'form-section-core',
+        label:'Site',
+        fields:[
+          {
+            label:'Site Name',
+            name:'server:name',
+            type:'text'
+          }
+        ]
+      },
+      {
+        id:'form-section-language',
+        label:'Language',
+        fields:[
+          {
+            label:'Default Language',
+            name:'i18n:language',
+            type:'select',
+            options: req.languages
+          },
+          {
+            label:'Add Unknown Terms',
+            name:'i18n:additive',
+            type:'checkbox',  
+            labelFirst: true
+          }
+        ]
+      },
+      {
+        id:'form-section-performance',
+        label:'Performance & Clustering',
+        fields:[
+          {
+            label:'Performance',
+            legend:'Performance',
+            type:'fieldset',
+            fields:[
+              {
+                label:'Enable Cache',
+                name:'performance:cache:enabled',
+                type:'checkbox',
+                description:'Experimental - will probably break things!',
+                labelFirst: true
+              },
+              {
+                label:'Default Cache TTL',
+                name:'performance:cache:ttl',
+                type:'text',
+                description:'Default age (in seconds) for cache items.'
+              },
+              {
+                label:'Watch Template Files',
+                name:'performance:watchFiles',
+                type:'checkbox',
+                labelFirst: true
+              }
+            ]
+          },
+          {
+            label:'Hook.IO',
+            legend:'Hook.IO',
+            type:'fieldset',
+            fields:[
+              {
+                label:'Hook.IO Name',
+                name:'server:hookio:name',
+                type:'text'
+              }, 
+              {
+                label:'Hook.IO Port',
+                name:'server:hookio:port',
+                type:'text'
+              },
+              {
+                label:'Hook.IO Host Name',
+                name:'server:hookio:host',
+                type:'text'
+              },
+              {
+                label:'Hook.IO Debug',
+                name:'server:hookio:debug',
+                type:'checkbox',
+                labelFirst: true
+              },
+              {
+                label:'Hook.IO Max Listeners',
+                name:'server:hookio:maxListeners',
+                type:'textbox'
+              }
+            ]
+          },
+          {
+            label:'Event Emitter',
+            legend:'Event Emitter',
+            type:'fieldset',
+            fields:[
+              {
+                label:'EventEmitter Max Listeners',
+                name:'server:events:maxListeners',
+                type:'textbox'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id:'form-section-theme',
+        label:'Theme',
+        fields:[
+          {
+            label:'Frontend Theme',
+            name:'theme:front',
+            type:'select',
+            options: calipso.data.themes,
+            description:'Theme used for all web pages excluding admin pages'
+          },
+          {
+            label:'Admin Theme',
+            name:'theme:admin',
+            type:'select',
+            options: calipso.data.adminThemes,
+            description:'Administration theme [NOT YET IMPLEMENTED]'
+          }
+        ]
+      },
+      {
+        id:'form-section-logging',
+        label:'Logging',
+        fields:[
+          {
+            label:'Console Logging',
+            name:'logging:console:enabled',
+            type:'checkbox',
+            labelFirst: true,
+            description:'Enable logging to the console.'
+          },
+          {
+            label:'Console Log Level',
+            name:'logging:console:level',
+            type:'select',
+            options: calipso.data.loglevels,
+            description:'Log level that controls verbosity of display on the console.'
+          },
+          {
+            label:'Console Timestamp',
+            name:'logging:console:timestamp',
+            type:'checkbox',
+            labelFirst: true,
+            description:'Prepend timestamps to console logs.'
+          },
+          {
+            label:'Console Colorize',
+            name:'logging:console:timestamp',
+            type:'checkbox',
+            labelFirst: true,
+            description:'Show colors on the console logs'
+          },
+          {
+            label:'File Logging',
+            name:'logging:file:enabled',
+            type:'checkbox',
+            labelFirst: true
+          },
+          {
+            label:'File Log Level',
+            name:'logging:file:level',
+            type:'select',
+            options: calipso.data.loglevels,
+            description:'Log level that controls verbosity of display in the file logs.'
+          },
+          {
+            label:'File Log Path',
+            name:'logging:file:filepath',
+            type:'text',
+            description:'Path to create the file logs.'
+          },
+          {
+            label:'File Log Timestamp',
+            name:'logging:file:timestamp',
+            type:'checkbox',
+            labelFirst: true,
+            description:'Prepend timestamps to file logs.'
+          }
+        ]
+      },
+      {
+        id:'form-section-modules',
+        label:'Modules',
+        fields:[] // populated in a loop just below
+      }
+    ],
+    fields:[
+      {
+        label:'',
+        name:'returnTo',
+        type:'hidden'
+      }
+    ],
+    buttons:[
+      {
+        name:'submit',
+        type:'submit',
+        value:'Save Configuration'
+      }
+    ]
+  };
 
-    // Values can come straight off the config.
-    var values = calipso.config;
+  // Values can come straight off the config.
+  var values = calipso.config;
 
-    var adminModuleFields = adminForm.sections[5].fields;
-    createModuleFields(adminModuleFields);
-    
-    res.layout = 'admin';
+  var adminModuleFields = adminForm.sections[5].fields;
+  createModuleFields(adminModuleFields);
+  
+  res.layout = 'admin';
 
-    calipso.form.render(adminForm, values, req, function(form) {
-      calipso.theme.renderItem(req, res, form, block, {}, next);
-    });
+  calipso.form.render(adminForm, values, req, function(form) {
+    calipso.theme.renderItem(req, res, form, block, {}, next);
+  });
 
 }
 
@@ -780,54 +780,54 @@ function coreConfig(req, res, template, block, next) {
  */
 function createModuleFields(formFields) {
 
-    var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
-    var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
+  var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
+  var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
 
-    // load up the tempModuleFields (according to module category)
-    for(var moduleName in calipso.modules) {
+  // load up the tempModuleFields (according to module category)
+  for(var moduleName in calipso.modules) {
 
-      var cM = {};
-      var module = calipso.modules[moduleName];
-      cM.label = moduleName;
-      cM.name = 'modules:'+ moduleName + ":enabled";
-      // cM.checked = module.enabled;
-      cM.type = 'checkbox';
-      if(calipso.lib._.indexOf(readonlyModules,moduleName) !== -1) {
-       cM.readonly = true;
-      }
-      cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
-
-      //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
-      tempModuleFields[module.type].push(cM);
-
+    var cM = {};
+    var module = calipso.modules[moduleName];
+    cM.label = moduleName;
+    cM.name = 'modules:'+ moduleName + ":enabled";
+    // cM.checked = module.enabled;
+    cM.type = 'checkbox';
+    if(calipso.lib._.indexOf(readonlyModules,moduleName) !== -1) {
+     cM.readonly = true;
     }
+    cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
 
-    // add only non-empty fieldsets for module categories
-    ['Core','Community','Site','Downloaded'].forEach(function(moduleType){
-      var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
-      // "Site" modules fieldset will only show up if there are any to show.
-      if(moduleTypeFields.length){
-        formFields.push({
-          type: 'fieldset',
-          name: moduleType + '_fieldset', // shouldn't need a name ...
-          legend: moduleType,
-          fields: moduleTypeFields
-        });
-      }
-    });
+    //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
+    tempModuleFields[module.type].push(cM);
 
-    // sort modules
-    function moduleSort(a, b){
-      return a.name < b.name ? -1 : 1;
+  }
+
+  // add only non-empty fieldsets for module categories
+  ['Core','Community','Site','Downloaded'].forEach(function(moduleType){
+    var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
+    // "Site" modules fieldset will only show up if there are any to show.
+    if(moduleTypeFields.length){
+      formFields.push({
+        type: 'fieldset',
+        name: moduleType + '_fieldset', // shouldn't need a name ...
+        legend: moduleType,
+        fields: moduleTypeFields
+      });
     }
+  });
 
-    for(var i=0;i<formFields.length;i++){
-      if(formFields[i].fields && formFields[i].fields.length){
-        formFields[i].fields.sort(moduleSort);
-      }
+  // sort modules
+  function moduleSort(a, b){
+    return a.name < b.name ? -1 : 1;
+  }
+
+  for(var i=0;i<formFields.length;i++){
+    if(formFields[i].fields && formFields[i].fields.length){
+      formFields[i].fields.sort(moduleSort);
     }
+  }
 
-    return formFields;
+  return formFields;
 
 }
 
@@ -856,23 +856,23 @@ function saveAdmin(req, res, template, block, next) {
         updateEnabledModules(config);     
 
         calipso.config.save(function(err) {
-            if(err) {
+          if(err) {
+            
+            req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
+            res.redirect('/admin/core/config');
+            
+          } else {
+            
+            // Set the reload config flag for event handler to pick up
+            calipso.e.post_emit('CONFIG_UPDATE',config,function(config) {       
+                                              
+              req.flash('info', req.t('Changes to configuration saved.'));
+              res.redirect('/admin');
+              next();                
               
-              req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
-              res.redirect('/admin/core/config');
-              
-            } else {
-              
-              // Set the reload config flag for event handler to pick up
-              calipso.e.post_emit('CONFIG_UPDATE',config,function(config) {       
-                                                
-                req.flash('info', req.t('Changes to configuration saved.'));
-                res.redirect('/admin');
-                next();                
-                
-              });
-              
-            }
+            });
+            
+          }
         });
         
       });
@@ -893,20 +893,16 @@ function saveAdmin(req, res, template, block, next) {
  * Process the core config and enable / disable modules
  */
 function updateEnabledModules(form) {
-  
-  
-  
+  // todo ?
 }
 
 /**
  * Display the cache
  */
 function showCache(req,res,template,block,next) {
-
   calipso.theme.renderItem(req, res, template, block, {
     cache: calipso.cache.cache
   },next);
-
 }
 
 
@@ -914,7 +910,6 @@ function showCache(req,res,template,block,next) {
  * Display the cache
  */
 function clearCache(req,res,template,block,next) {
-
   calipso.cache.clear(function() {
     calipso.theme.renderItem(req, res, template, block, {
       cache: calipso.cache.cache

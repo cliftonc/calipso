@@ -5,11 +5,7 @@
   -webkit-column-gap: 20px;
   column-count: 2;
   column-gap: 20px;
-}
-
-#form-section-modules .description {
-  padding-left: 20px;
-  color: grey;
+  padding: 5px 0 20px;
 }
 
 
@@ -17,8 +13,11 @@
   font-size: 1.2em;
   margin-bottom: 10px;
 }
-#form-section-modules .checkable {
-  margin-left:0;
+#form-section-modules .checkbox {
+  margin-left: 0;
+}
+#form-section-modules .description {
+  padding-left: 22px;
 }
 
 .admin-dashboard-col1 {
@@ -31,7 +30,7 @@
 .admin-dashboard-col2 {
   display: inline;
   float: right;
-  width:45%;
+  width: 45%;
   border: solid 1px silver;  
 }
 
@@ -40,13 +39,12 @@
   height: 15px;
 }
 
-table {margin:10px 0pt 15px;font-size:8pt;width:100%;text-align:left;}
-table thead tr th,table tfoot tr th {background-color:silver;border:1px solid silver;font-size:8pt;padding:4px;}
-table thead tr .sortable {background-image:url(../images/sort.gif); background-repeat:no-repeat;background-position:center right;cursor:pointer;}
-table tbody td {padding:4px;vertical-align:top;}
-table thead tr .sorted-asc {background-image:url(../images/asc.gif);background-repeat:no-repeat;background-position:center right;cursor:pointer;}
-table thead tr .sorted-desc {background-image:url(../images/desc.gif);background-repeat:no-repeat;background-position:center right;cursor:pointer;}
-table thead tr .sorted-asc, table thead tr .sorted-desc {background-color:#8dbdd8;}
+table {margin:0 0 20px;width:100%;text-align:left;}
+th {background:silver;border:1px solid silver;padding:4px;}
+td {padding:4px;vertical-align:top;}
+.sortable {background:silver url(../images/sort.gif) center right no-repeat; padding-right:16px; cursor:pointer;}
+.sorted-asc {background:#8dbdd8 url(../images/asc.gif) center right no-repeat;}
+.sorted-desc {background:#8dbdd8 url(../images/desc.gif) center right no-repeat;}
 
 a.pager-page {
   padding: 3px;

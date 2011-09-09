@@ -16,14 +16,12 @@
  * html5doctor.com/html-5-reset-stylesheet/
  */
 
-html, body, body div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p,
+blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q,
+samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup,
+menu, nav, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -31,25 +29,15 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
 blockquote, q { quotes: none; }
-
 blockquote:before, blockquote:after,
 q:before, q:after { content: ""; content: none; }
-
 ins { background-color: #ff9; color: #000; text-decoration: none; }
-
 mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bold; }
-
 del { text-decoration: line-through; }
-
 abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
-
 table { border-collapse: collapse; border-spacing: 0; }
-
 hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
 
 
@@ -68,7 +56,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
  * Minimal base styles.
  */
 
-/* 1) Always force a scrollbar in non-IE
+/* 1) Always force a scrollbar (since IE always does)
    2) Remove iOS text size adjust without disabling user zoom: www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
 html { overflow-y: scroll; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
 
@@ -128,8 +116,8 @@ input::-moz-focus-inner,
 button::-moz-focus-inner { border: 0; padding: 0; }
 
 /* Colors for form validity */
-input:valid, textarea:valid {  }
-input:invalid, textarea:invalid { border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red; }
+/*input:valid, textarea:valid {  }*/
+input:invalid, textarea:invalid { -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red; }
 .no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
 
 /* Bicubic resizing for non-native sized IMG:
@@ -172,7 +160,7 @@ _*/
 #body {width:660px;float:left;margin:0 20px 20px 0;min-height:100px;_display:inline;}
 #admin-body {margin:0 0 20px;}
 #sidePanel {width:300px;float:left;margin:0 0 20px;}
-#footer {clear:both;padding:20px;}
+#footer {clear:both;padding:20px;margin:0 0 40px;}
 
 /* non-layout */
 #header {float:left;width:100%;}
@@ -216,75 +204,137 @@ p {margin:0 0 1em;}
 */
 label {display:inline-block;width:150px;text-align:right;padding-right:10px;}
 label.for-checkable {width:auto;text-align:left;padding:0 0 0 10px;}
-select {padding:1px;}
+textarea, input[type="text"], input[type="password"], select { border-radius: 3px; border: 1px solid #999; padding: 3px;}
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { border-color: #007DFF; }
 textarea {width:65%;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
-.tab-container .actions {margin-top:0;}
-.description {padding:2px 0 5px 160px;font-size:11px;display}
-input[type=submit] {margin-left:160px;padding:8px 16px;font-size:14px;font-weight:bold;}
-input[type=text] {width: 65%};
+.description {padding:2px 0 5px 160px;font-size:11px;color: #777;}
+input[type="submit"] {
+  margin:0 20px 0 0;
+  padding:8px 16px;
+  font-size:14px;
+  font-weight:bold;
+  color: #000;
+	background: -moz-linear-gradient( top, #ededed 0%, #a1a1a1 );
+	background: -webkit-gradient( linear, left top, left bottom, from(#ededed), to(#a1a1a1) );
+	border: 1px solid #333; /* 333 instead of black because chrome renders the corners better that way */
+  box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
+	border-radius: 7px;
+  text-shadow: 0 1px 0 #fff;
+}
+input[type="submit"]:hover { border-color: #007dff; box-shadow: 0 0 8px rgba(0, 125, 160, 0.8); }
 input.date {width:3em;}
 input.date-day,
 input.time {width:2em;}
-input.checkable {margin-left:160px;}
+input.checkbox, input.radio {margin-left:160px;}
+input.labelFirst {margin-left:auto;}
 form .section {margin:0 0 20px;}
 form .section:first-child {border:0;}
-.actions {clear:both;padding:20px 0;border-top:1px solid #ccc;margin:10px 20px 0;}
+.actions {clear:both;padding:20px 0 20px 160px;border-top:1px solid #ccc;margin:10px 0 0;}
 
-#userFormToggleTrigger {float:right;}
-#user-login {text-align:right;}
-#user-login form {text-align:right;clear:both;padding:10px;background:rgb(255,128,47);}
+.log-in-or-register {float:right;}
+.link-divider { width: 0; height: 1.2em; overflow: hidden; display: inline-block; border-right: 1px solid #000; margin: 0 5px; }
+#user-login {position: absolute;right:0;top:30px;display:none;border: 1px solid #ccc;box-shadow:0 2px 4px #333;}
+#user-login form {padding:20px;background:#eee;}
 #user-welcome-or-login h2 {display:none;}
-#user-welcome-or-login label {padding-right:5px;}
+#user-welcome-or-login label {padding:0;text-align:left;width:auto;}
+#user-welcome-or-login input {width:180px;}
 #user-welcome-or-login .form-field {margin:0 0 2px;}
 #user-welcome-or-login .actions {margin:0;padding:0;border:0;}
-#user-welcome-or-login input[type=submit] {padding:1px 5px;font-size:inherit;font-weight:normal;}
+#user-welcome-or-login .actions a {display: none;}
+#user-welcome-or-login input[type="submit"] {width:auto;padding:3px 8px;font-size:inherit;font-weight:normal;}
+
+#user-login:before,
+#user-login:after {
+  content: "";
+  position: absolute;
+  z-index: 998;
+  top: -8px;
+  right: 78px;
+  margin-left: -8px;
+  border-top: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #eee;
+}
+
+#user-login:after {
+  border-bottom: 9px solid #ccc;
+  top: -9px;
+  z-index: 997;
+}
+
+/* general 'close' button - round with an 'x',
+   actually a multiplication sign:	`&times;`	`&#215;`	`&#xD7;`	`×`  */
+.close {
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  text-align: center;
+  overflow: hidden;
+  background: #aaa;
+  color: #aaa;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.close:before {
+  content: "\D7";
+  color: #000;
+  display: block;
+  text-align: center;
+  font-weight: normal;
+  width: 16px;
+  position: absolute;
+  top: -1px;
+  left: 0;
+  font-size: 13px;
+  line-height: 16px;
+  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+}
 
 
+
+/* messages [info, success, warning, error] */
 #messages {
   clear: both;
 }
 #messages ul {
   list-style:none;
 }
-.info {
+.info,
+.success,
+.warning,
+.error {
   border: 1px solid;
-  margin: 0 20px 20px;
+  margin: 0 0 20px;
   padding:15px 10px 15px 50px;
   background-repeat: no-repeat;
-  background-position: 10px 6px;
+  background-position: 10px 6px;  
+}
+.info {
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url('images/icons/info.png');
 }
 .success {
-  border: 1px solid;
-  margin: 0 20px 20px;
-  padding:15px 10px 15px 50px;
-  background-repeat: no-repeat;
-  background-position: 10px 6px;
   color: #4F8A10;
   background-color: #DFF2BF;
   background-image:url('images/icons/success.png');
 }
 .warning {
-  border: 1px solid;
-  margin: 0 20px 20px;
-  padding:15px 10px 15px 50px;
-  background-repeat: no-repeat;
-  background-position: 10px 6px;
   color: #9F6000;
   background-color: #FEEFB3;
   background-image: url('images/icons/warning.png');
 }
 .error {
-  border: 1px solid;
-  margin: 0 20px 20px;
-  padding:15px 10px 15px 50px;
-  background-repeat: no-repeat;
-  background-position: 10px 6px;
   color: #D8000C;
-  background-color: #FFBABA;
+  background-color: #F6D6D6;
   background-image: url('images/icons/error.png');
 }
 
@@ -300,6 +350,7 @@ form .section:first-child {border:0;}
 }
 
 
+/* tabs */
 ul.tabs {
   height: 32px;
   border-bottom: 1px solid #999;
@@ -334,12 +385,13 @@ ul.tabs li.active a:hover {
   border-bottom: 1px solid #fff;
 }
 .tab-container {
-  border:1px solid #999;
+  border: 1px solid #999;
   border-top: none;
   clear: both;
+  padding: 0 20px;
 }
 .tab-content {
-  padding: 20px 20px 10px;
+  padding: 20px 0 10px;
 }
 .tab-content h2 {
   font-weight: normal;
@@ -353,6 +405,55 @@ ul.tabs li.active a:hover {
   float: left;
   margin: 0 20px 20px 0;
   padding: 5px;
+}
+.tab-container .actions {
+  margin: 0;
+}
+
+
+/* tag cloud */
+.tagcloud { height: 180px; }
+.tagcloud .tag { float:left; padding:1px; display:inline; }
+.tag-10 { font-size: 1.8em; }
+.tag-9 { font-size: 1.7em; }
+.tag-8 { font-size: 1.5em; }
+.tag-7 { font-size: 1.4em; }
+.tag-6 { font-size: 1.3em; }
+.tag-5 { font-size: 1.1em; }
+.tag-4 { font-size: 1.0em; }
+.tag-3 { font-size: 0.9em; }
+.tag-2 { font-size: 0.8em; }
+.tag-1 { font-size: 0.7em; }
+
+
+/** Search **/
+.search {
+  float: right;
+  clear: both;
+}
+
+.search .actions {
+  border: none;
+  margin: 0px;
+  padding: 0px;  
+  float: right;
+}
+
+.search label {
+  width: 50px;
+}
+
+.search .actions input {
+  margin: 0px;
+  padding: 2px;
+  margin-left: 10px;
+  font-size: 0.9em;  
+}
+
+.facets {
+  width: 150px;
+  float: left;
+  margin-right: 30px;  
 }
 
 
@@ -380,53 +481,12 @@ ul.tabs li.active a:hover {
 
 /* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
    nicolasgallagher.com/micro-clearfix-hack/ */
-.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:before,
+.clearfix:after { content: ""; display: table; }
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
-.tagcloud{height:180px;}
-.tag{float:left;padding:1px;display:inline}
-.tag-10{font-size:1.8em}
-.tag-9{font-size:1.7em}
-.tag-8{font-size:1.5em}
-.tag-7{font-size:1.4em}
-.tag-6{font-size:1.3em}
-.tag-5{font-size:1.1em}
-.tag-4{font-size:1em}
-.tag-3{font-size:.9em}
-.tag-2{font-size:.8em}
-.tag-1{font-size:.7em}
-
-/** Search **/
-.search {
-  float: right;
-  clear:both;
-}
-
-.search .actions {
-  border: none;
-  margin: 0px;
-  padding: 0px;
-  float: right;
-}
-
-.search label {
-  width: 50px;
-}
-
-.search .actions input {
-  margin: 0px;
-  padding: 2px;
-  margin-left: 10px;
-  font-size: 0.9em;
-}
-
-.facets {
-  width: 150px;
-  float: left;
-  margin-right: 30px;
-}
-
+  
 
 /**
  * Placeholder media queries for responsive design. Modify as design requires.
