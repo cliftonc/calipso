@@ -31,16 +31,16 @@ Since node v0.5.3 has removed <code>require.paths</code>, in order to <code>requ
 
 That also goes for including anything that is based on the root path of the project directory.
 
-h4. Note on Ubuntu
+h3. Development Steps
 
-Sometimes to install the mongodb client on Ubuntu, you need to pass through the --mongodb:native parameter (only try this if you have problems with the typical install, it doesn't seem to occur on the most recent versions of the mongodb client):
+To get running in development mode (not the site mode outlined on the front page) - e.g. so you can make changes to core and submit pull requests:
 
-<pre><code>
-    npm install calipso -g --mongodb:native
+1.  Fork the repository
+2.  Clone from your fork (replace YOURNAME!): git clone git@github.com:YOURNAME/calipso.git
+3.  Run 'npm install -d' in the clone folder to install all of the dependencies.
+4.  Run 'node app' to run Calipso from the source folder.
 
-</pre></code>
-
-This is relatively new, and as I am working on the module management functions there are some tricky dependencies in core (e.g. expat, mongodb) that require compilation and can cause issues.  Please raise / update issues if you find them.
+Note that the bin/calipso command line script is really designed to allow people who just want to use Calipso to build sites to use it, it isn't used in the dev process.  As always, any questions please do shout.
 
 h3. Calipso Command Line Client
 
