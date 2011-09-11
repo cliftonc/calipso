@@ -20,9 +20,7 @@ cleanslate = {
     
     // HIDE/SHOW USER LOGIN FORM
     (function doUsername(){
-      var cookie = document.cookie;
-      var re = /.*?\buserData=([^;]+).*/;
-      var userDataString = re.test(cookie) && $.trim(cookie.replace(re,'$1')) || localStorage.user || '{}';
+      var userDataString = $.cookie('userData') || localStorage.user || '{}';
       var user = JSON.parse(decodeURIComponent(userDataString == 'undefined' ? '{}' : userDataString));
       var userWelcomeOrLoginBox = $('#user-welcome-or-login');
       if(user.username){
@@ -113,7 +111,7 @@ cleanslate = {
       var name = $(this).attr('name');
       
       // Consider the current URL
-      var baseUrl = location.protocol + '//' + location.host + location.pathname;
+      var baseUrl = location.protocol + '//' + location.host + ':' + location.port + location.pathname;
       var params = location.search ? location.search.substring(1).split('&') : [];
       
       // Update the params
@@ -145,10 +143,11 @@ cleanslate = {
     
     
     // DOUBLE CLICK TO EDIT CONTENT
-    // todo - should check if user.isAdmin first.
+    // todo - should check if user.isAdmin, or if the user is the author of the content
     $('.content-block').dblclick(function() {
-      if(this.id) {
-        location.href = "/content/edit/" + this.id + "?returnTo=<%= request.url %>";
+      var id = this.id, l = location;
+      if(id) {
+        l.href = "/content/edit/" + id + "?returnTo=" + l.pathname + l.search + l.hash;
       }
     });
     
