@@ -1,9 +1,11 @@
 <% if(key) { %>
 	
-	<script type="text/javascript">	
+<script type="text/javascript">	
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', '<%- key %>']);
+	<% if(anonymizeIP) { %>_gaq.push(["_gat._anonymizeIp"]); <% } %>
 	_gaq.push(['_trackPageview']);
+	<% if(trackPageSpeed) { %>_gaq.push(['_trackPageLoadTime']); <% } %>
 	
 	(function() {
 	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

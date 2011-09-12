@@ -9,6 +9,8 @@ module.exports = function(app,express) {
 
   // Change to suit - this key works for calip.so
   app.set('google-analytics-key', 'UA-17607570-4');
+  app.set('google-analytics-anonymize-ip', true);
+  app.set('google-analytics-track-pagespeed', true);
 
   // Disqus
   app.set('disqus-shortname', 'calipsojs');
@@ -19,7 +21,5 @@ module.exports = function(app,express) {
   // Language mode
   app.set('language-add', true);
 
-
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-
 }
