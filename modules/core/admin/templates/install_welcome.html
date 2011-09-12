@@ -1,7 +1,19 @@
-<div class='admin-install'>
-  <h1><%= t("Welcome to Calipso") %></h1>
-  <p><%= t("It looks like this is your first time using Calipso in this environment, so this install process will guide you through the initial configuration.") %></p>
+<div class="admin-install">
+  
+  <h1><%= t("Thanks for choosing Calipso. You're awesome!") %></h1>
+  
+  <p><%= t("It looks like this is your first time using Calipso in this " +
+  "environment, so this install process will guide you through the initial " +
+  "configuration in three easy steps:") %></p>
+  
+  <ol>
+    <li><%= t("Configure MongoDB") %></li>
+    <li><%= t("Configure Default (Admin) User") %></li>
+    <li><%= t("Configure Modules") %></li>
+  </ol>
+  
   <div class="admin-install-links">
-    <a href="?installStep=mongodb"><%= t("First Step: Configure MongoDB") + " >>" %></a>
+    <a class="button next" href="?installStep=mongodb"><%= t("Step 1: Configure MongoDB") %> &gt;</a>
   </div>
+  
 </div>

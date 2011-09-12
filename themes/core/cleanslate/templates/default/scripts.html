@@ -6,13 +6,3 @@
 <script src="/js/cleanslate-core.js"></script>
 <%- scripts %>
 
-<!-- todo: move to cleanslate-core.js -->
-<script>
-$('.content-block').dblclick(function() {
-  var id = this.id, l = location;
-  if(id) {
-    l.href = "/content/edit/" + id + "?returnTo=" + l.pathname + l.search + l.hash;
-  }
-});
-</script>
-

@@ -1,18 +1,28 @@
 <div class='admin-install'>
   <% if(err) { %>
-    <h1>Looks like there was a problem ...</h1>
+    
+    <h1>Looks like there was a problem :(</h1>
+    
     <p>The installation process has encountered errors:</p>
-<code>
-<%= err %>
-</code>
-    <p>It is highly recommended that you return to the previous step and ensure that you entered all of the correct information.  If you continue to have problems please let us know via github.</p>
-    </pre>
+    
+    <code><%= err %></code>
+    
+    <p>It is highly recommended that you return to the previous step and ensure
+    that you entered all of the correct information. If you continue to have
+    problems please <a href="https://github.com/cliftonc/calipso">let us know via github</a>.</p>
+    
     <div class="admin-install-links">
-      <a href="?installStep=modules"><%= "<< " + t("Third Step: Configure Modules") %></a>
+      <a class="button back" href="?installStep=modules">&lt; <%= t("Step 3: Configure Modules") %></a>
     </div>
+    
+    
   <% } else { %>
-    <h1>Installation Complete</h1>
-    <p>The installation process has completed, your final configuration is shown below:</p>
+    
+    
+    <h1>Installation Successfully Completed!</h1>
+    
+    <p>Your final configuration is shown below.</p>
+    
     <table>
       <tr>
         <th>Database</th><td><%= calipso.config.get('database:uri') %></td>
@@ -21,9 +31,12 @@
         <th>Admin User</th><td><%= calipso.data.adminUser.username %></td>
       </tr>
       <tr>
+        <%/* todo: CONSIDER showing a 'masked' password, f/ex: ****last4 */%>
         <th>Admin Password</th><td><%= calipso.data.adminUser.password %></td>
-      </tr>      
+      </tr>
     </table>
+    
     <p><a href="/">Go to Home Page</a></p>
+    
   <% } %>
 </div>

@@ -45,7 +45,7 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
  * Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/
  */
 
-body { font:13px/1.231 sans-serif; *font-size:small; } /* Hack retained to preserve specificity */
+body { font:13px/1.385 sans-serif; *font-size:small; } /* Hack retained to preserve specificity */
 
 /* Normalize monospace sizing:
    en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome */
@@ -69,7 +69,7 @@ a:hover, a:active { outline: none; }
 a, a:active, a:visited { color: #607890; }
 a:hover { color: #036; }
 
-ul, ol { margin-left: 2em; }
+ul, ol { margin: 0 0 1em 2em; }
 ol { list-style-type: decimal; }
 
 /* Remove margins for navigation lists */
@@ -208,20 +208,44 @@ textarea, input[type="text"], input[type="password"], select { border-radius: 3p
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { border-color: #007DFF; }
 textarea {width:65%;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
-.description {padding:2px 0 5px 160px;font-size:11px;color: #777;}
-input[type="submit"] {
+.description {padding:2px 0 5px 160px;font-size:11px;color: #777;max-width:400px;}
+.button,
+button {
+  display: inline-block;
   margin:0 20px 0 0;
   padding:8px 16px;
   font-size:14px;
   font-weight:bold;
-  color: #000;
+  color: #000 !important;
 	background: -moz-linear-gradient( top, #ededed 0%, #a1a1a1 );
 	background: -webkit-gradient( linear, left top, left bottom, from(#ededed), to(#a1a1a1) );
 	border: 1px solid #333; /* 333 instead of black because chrome renders the corners better that way */
   box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
 	border-radius: 7px;
   text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
 }
+.button:hover,
+button:hover { border-color: #007dff; box-shadow: 0 0 8px rgba(0, 125, 160, 0.8); }
+a.submit,
+input[type="submit"] {
+  display: inline-block;
+  margin:0 20px 0 0;
+  padding:8px 16px;
+  font-size:14px;
+  font-weight:bold;
+  color: #000 !important;
+	background: -moz-linear-gradient( top, #ededed 0%, #a1a1a1 );
+	background: -webkit-gradient( linear, left top, left bottom, from(#ededed), to(#a1a1a1) );
+  background: -webkit-gradient( linear, left top, left bottom, from(#4d90fe), to(#4787ed) );
+  background: -webkit-gradient( linear, left top, left bottom, from(#4dc0fe), to(#47a7ed) );
+	border: 1px solid #333; /* 333 instead of black because chrome renders the corners better that way */
+  box-shadow: 0 1px 4px rgba(150, 150, 150, 0.5);
+	border-radius: 7px;
+  text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
+}
+a.submit:hover,
 input[type="submit"]:hover { border-color: #007dff; box-shadow: 0 0 8px rgba(0, 125, 160, 0.8); }
 input.date {width:3em;}
 input.date-day,
@@ -231,6 +255,64 @@ input.labelFirst {margin-left:auto;}
 form .section {margin:0 0 20px;}
 form .section:first-child {border:0;}
 .actions {clear:both;padding:20px 0 20px 160px;border-top:1px solid #ccc;margin:10px 0 0;}
+
+/* FORM STEPS */
+.form-steps ul {margin:0 0 20px; list-style: none;width:100%;float:left;}
+.form-steps li {float:left;}
+/* widths for different numbers of steps, the first step should be less wide than the others */
+/* two and three are not used (as of 11Sep11) */
+.two-form-steps li:first-child {width: 480px;}   /* 980/2 - 10 */
+.two-form-steps li:last-child {width: 500px;}    /* 980/2 + 10 */
+.three-form-steps li {width: 327px;}             /* 980/3 (rounded up) */
+.three-form-steps li:first-child {width: 316px;} /* 980/3 - 10 (rounded down) */
+.three-form-steps li:last-child {width: 337px;}  /* 980/3 + 10 (rounded up) */
+.four-form-steps li {width: 245px;}              /* 980/4 */
+.four-form-steps li:first-child {width: 235px;}  /* 980/4 - 10 */
+.four-form-steps li:last-child {width: 255px;}   /* 980/4 + 10 */
+/* </end step widths> */
+.form-step-name {
+  background: #ddd;
+  padding-left: 40px;
+  height: 60px;
+  line-height: 60px;
+  position: relative;
+  border-right:3px solid #fff;
+}
+li:first-child .form-step-name {padding-left:20px;}
+li:last-child .form-step-name {border:0;}
+li:last-child .form-step-name:before,
+li:last-child .form-step-name:after {border:0;}
+.form-step-name:before,
+.form-step-name:after {
+  content: "";
+  position: absolute;
+  z-index: 998;
+  top: 0;
+  right: -20px;
+  border-top: 30px solid transparent;
+  border-left: 20px solid #ddd;
+  border-right: 0;
+  border-bottom: 30px solid transparent;
+}
+.form-step-name:after {
+  content: "";
+  line-height: 0px;
+  border-left-color: #fff;
+  right: -23px;
+  z-index: 997;
+}
+.on .form-step-name {
+  background: #888;
+  color: #fff;
+  font-weight: bold;
+  /* font-size: 14px; */ /* bold makes it look smaller somehow .. bump up the size? */
+  text-shadow: 0 1px 1px #000;
+  /* it would be nice to have this effect, but it cannot be supported via css alone */
+  /*box-shadow: inset 0 0 5px #000;*/
+}
+.on .form-step-name:before {
+  border-left-color: #888;
+}
 
 .log-in-or-register {float:right;}
 .link-divider { width: 0; height: 1.2em; overflow: hidden; display: inline-block; border-right: 1px solid #000; margin: 0 5px; }
@@ -456,7 +538,10 @@ ul.tabs li.active a:hover {
   margin-right: 30px;  
 }
 
-
+.admin-install p {max-width: 660px;}
+.admin-install-links {text-align: right;}
+.admin-install-links a {margin:0;}
+.admin-install-links .back {float: left;}
 
 /**
  * Non-semantic helper classes: please define your styles before this section.

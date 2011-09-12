@@ -1,53 +1,83 @@
-<div class='admin-install'>
+<div class="admin-install">
+  
+  <div class="form-steps three-form-steps clearfix">
+    <ul>
+      <li class="step1">
+        <div class="form-step-name">
+          <%= t("Configure MongoDB") %>
+        </div>
+      </li>
+      <li class="step2 on">
+        <div class="form-step-name">
+          <%= t("Configure Default (Admin) User") %>
+        </div>
+      </li>
+      <li class="step3">
+        <div class="form-step-name">
+          <%= t("Configure Modules") %>
+        </div>
+      </li>
+    </ul>
+  </div>
+  
   <h1><%= t("Create Admin User") %></h1>
+  
   <div id="user-status" style="display: none;">
   </div>
-  <div>
-    <%- form %>
-  </div>  
+  
+  <%- form %>
+  
   <div class="admin-install-links">
-    <a href="?installStep=mongodb"><%= "<< " + t("Second Step: Configure MongoDB") %></a> | <a id="form-submit" href="#"><%= t("Fourth Step: Configure Modules") + " >> " %></a>
+    <a class="button back" href="?installStep=mongodb">&lt; <%= t("Step 1: Configure MongoDB") %></a>
+    <a id="form-submit" class="button next" href="#"><%= t("Step 3: Configure Modules") %> &gt;</a>
   </div>
-   <script>
-     $(document).ready(function() {      
+  
+  <script>
+    (function L() {
       
-      // Ajax request to /admin/install/mongo/test
-      function checkUser() {
+      if(window.jQuery){
         
-        $('#user-status').show();
-        $('#user-status').html("<span class='install-progress'>Validating user, please wait ... </span>");               
-        
-        var username = $(".username").val();
-        var password = $(".password").val();
-        var check_password = $(".check_password").val();
-        
-        var postData = {"username":username,"password":password,"check_password":check_password};        
-
-        $.ajax({
-           type: "POST",
-           url: "/admin/installTest/user",
-           dataType:"json",
-           data:postData,
-           success: function(res){
-             if(res.status === "OK") {
-               $('#user-status').html("<ul class='info'><li>User is valid ... </li></ul>");               
-               setTimeout(function() {                 
-                 $('#install-user-form').submit();
-               },1000);
-             } else {
-              console.log(res);
-               $('#user-status').html("<ul class='error'><li>" + res.message + "</li></ul>");               
-             }             
-           }
-         });
-
-      }    
-
-      $('#form-submit').click(function(event) {
-          event.preventDefault();
+        // Ajax request to /admin/install/mongo/test
+        function checkUser() {
+          
+          $('#user-status').show();
+          $('#user-status').html("<span class='install-progress'>Validating user, please wait ... </span>");
+          
+          var username = $(".username").val();
+          var password = $(".password").val();
+          var check_password = $(".check_password").val();
+          
+          var postData = {"username":username,"password":password,"check_password":check_password};
+          
+          $.ajax({
+            type: "POST",
+            url: "/admin/installTest/user",
+            dataType:"json",
+            data:postData,
+            success: function(res){
+              if(res.status === "OK") {
+                $('#user-status').html("<div class='success'>User is valid.</div>");
+                setTimeout(function() {
+                  $('#install-user-form').submit();
+                },1000);
+              } else {
+                console.log(res);
+                $('#user-status').html("<div class='error'>" + res.message + "</div>");
+              }
+            }
+          });
+          
+        }
+  
+        $('#form-submit').click(function(e) {
+          e.preventDefault();
           checkUser();
-      });
-
-    });
+        });
+      
+      } else {
+        setTimeout(L, 50);
+      }
+      
+    })();
   </script>
 </div>

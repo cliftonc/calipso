@@ -5,7 +5,7 @@
   width: 100%;
   margin: 0;
   padding: 2px 0 0 0;
-  list-style: none;  
+  list-style: none;
   background: #111;
   background: -moz-linear-gradient(#444, #111); 
   background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
@@ -42,7 +42,7 @@
 *html #primary-menu li a:hover /* IE6 */ {
   color: #fafafa;
 }
- 
+
 #primary-menu li:hover > ul {
   display: block;
 }
@@ -53,16 +53,16 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  margin-left: 10px;    
+  margin-left: 10px;
   display: none;
   position: absolute;
   top: 30px;
   left: 0;
-  z-index: 99999;    
+  z-index: 99999;
   background: #444;
   background: -moz-linear-gradient(#444, #111);
   background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
-  background: -webkit-linear-gradient(#444, #111);    
+  background: -webkit-linear-gradient(#444, #111);
   background: -o-linear-gradient(#444, #111);
   background: -ms-linear-gradient(#444, #111);
   background: linear-gradient(#444, #111);
@@ -81,20 +81,20 @@
 #primary-menu ul li {
   float: none;
   margin: 0;
-  padding: 0;    
-  display: block;  
+  padding: 0;
+  display: block;
   -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
   -webkit-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
   box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
 }
 
-#primary-menu ul li:last-child {   
+#primary-menu ul li:last-child {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
-  box-shadow: none;    
+  box-shadow: none;
 }
- 
-#primary-menu ul a {    
+
+#primary-menu ul a {
   padding: 10px;
   height: 10px;
   width: 130px;
@@ -106,12 +106,8 @@
   text-transform: none;
 }
 
-*html #primary-menu ul a /* IE6 */ {    
-  height: 10px;
-}
-
-*:first-child+html #primary-menu ul a /* IE7 */ {    
-  height: 10px;
+#primary-menu ul a {
+  *height: 10px; /* IE6 & IE7 */
 }
 
 #primary-menu a:hover {
@@ -146,18 +142,18 @@
   top: 12px;
   width: 0;
   height: 0;
-  border-left: 0;  
+  border-left: 0;
   border-bottom: 5px solid transparent;
   border-top: 5px solid transparent;
   border-right: 8px solid #444;
 }
 
 #primary-menu ul li:first-child a:hover:after {
-  border-bottom-color: #04acec; 
+  border-bottom-color: #04acec;
 }
 
 #primary-menu ul ul li:first-child a:hover:after {
-  border-right-color: #04acec; 
+  border-right-color: #04acec;
   border-bottom-color: transparent;
 }
 
@@ -176,5 +172,4 @@
   height: 0;
 }
 
-* html #primary-menu             { zoom: 1; } /* IE6 */
-*:first-child+html #primary-menu { zoom: 1; } /* IE7 */
+#primary-menu { *zoom: 1; } /* IE6 & IE7 */

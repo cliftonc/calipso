@@ -46,8 +46,9 @@ function init(module, app, next) {
   calipso.lib.step(
 
     function defineRoutes() {
+      module.router.addRoute(/.*/, setCookie, { end: false }, this.parallel());
       module.router.addRoute(/.*/, loginForm, { end: false, template: 'login', block: 'user.login' }, this.parallel());
-      module.router.addRoute('GET /login', loginPage, { end: false, template: 'loginPage', block: 'content.login' }, this.parallel());
+      module.router.addRoute('GET /user/login', loginPage, { end: false, template: 'loginPage', block: 'content' }, this.parallel());
       module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
       module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
@@ -100,6 +101,29 @@ function init(module, app, next) {
 
 }
 
+
+/**
+ * Set a cookie with some user data
+ * put some of the user information in a cookie so that most pages can be
+ * personalized with javascript - a common strategy for aggressive page caching
+ * TODO - fix a bug wherein the cookie gets set twice *if* on an admin page
+ * TODO - make sure this is the appropriate place for setting this cookie
+ */
+function setCookie(req, res, template, block, next) {
+  
+  if(req.session.user){
+    if(!req.cookies.userData){
+      res.cookie('userData', JSON.stringify(req.session.user));
+    }
+  } else {
+    res.clearCookie('userData');
+  }
+  
+  next();
+  
+}
+
+
 /**
  * Store content types in calipso.data cache
  */
@@ -121,13 +145,14 @@ function storeRoles() {
 
     // Create a role array and object cache
     roles.forEach(function(role) {
-        calipso.data.roleArray.push(role.name);
-        calipso.data.roles[role.name] = {description:role.description, isAdmin:role.isAdmin};
+      calipso.data.roleArray.push(role.name);
+      calipso.data.roles[role.name] = {description:role.description, isAdmin:role.isAdmin};
     });
 
   });
 
 }
+
 
 /**
  * Helper function to get user details respecting their privacy selections
@@ -569,7 +594,7 @@ function updateUserProfile(req, res, template, block, next) {
 
             // Update session details if your account
             if(req.session.user && (req.session.user.username === username)) { // Allows for name change
-              createUserSession(req, u, function(err) {
+              createUserSession(req, res, u, function(err) {
                 if(err) calipso.error("Error saving session: " + err);
               });
             }
@@ -610,7 +635,7 @@ function loginUser(req, res, template, block, next) {
           if(!user.locked) {
             found = true;
             calipso.e.post_emit('USER_LOGIN',user);
-            createUserSession(req, user, function(err) {
+            createUserSession(req, res, user, function(err) {
               if(err) calipso.error("Error saving session: " + err);
             });
           }
@@ -649,27 +674,13 @@ function isUserAdmin(user) {
 /**
  * Create session object for logged in user
  */
-function createUserSession(req, user, next) {
+function createUserSession(req, res, user, next) {
 
   var isAdmin = isUserAdmin(user);
 
   // Create session
   req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
   req.session.save(function(err) {
-    
-    // SET A COOKIE WTH SOME USER DATA
-    // put some of the user information in a cookie so that most pages can be
-    // personalized with javascript - a common strategy for aggressive page caching
-    // TODO - THERE IS SOME BUG WHEREIN THE COOKIE GETS UNSET IF ON AN ADMIN PAGE
-    // TODO - make sure this is the appropriate place for this
-    if(req.session.user){
-      if(!req.cookies.userData){
-        res.cookie('userData', JSON.stringify(req.session.user));
-      }
-    } else {
-      res.clearCookie('userData');
-    }
-    
     next(err);
   });
 }

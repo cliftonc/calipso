@@ -433,10 +433,10 @@ function installModules(req,res,next) {
     'modules:contentTypes:enabled': true,
     'modules:user:enabled': true,
     'installStep':'done'
-  }
+  };
 
   calipso.form.render(moduleForm, formValues, req, function(form) {
-      calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form:form}, next);
+    calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form:form}, next);
   });
 
 }
@@ -456,10 +456,10 @@ function doInstallation(next) {
     // Get a list of all the modules to install 
     var modulesToInstall = [];
     for (var module in calipso.modules) {
-        // Check to see if the module is currently enabled, if so install it
-        if (calipso.modules[module].enabled && calipso.modules[module].fn && typeof calipso.modules[module].fn.install === 'function') {
-          modulesToInstall.push(module);
-        }
+      // Check to see if the module is currently enabled, if so install it
+      if (calipso.modules[module].enabled && calipso.modules[module].fn && typeof calipso.modules[module].fn.install === 'function') {
+        modulesToInstall.push(module);
+      }
     } 
 
     // Note - the admin user is created in the user module install process
@@ -485,7 +485,7 @@ function doInstallation(next) {
         return next(err);
       }
     );
-            
+    
   });
 
 }

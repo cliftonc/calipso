@@ -111,8 +111,9 @@ cleanslate = {
       var name = $(this).attr('name');
       
       // Consider the current URL
-      var baseUrl = location.protocol + '//' + location.host + ':' + location.port + location.pathname;
-      var params = location.search ? location.search.substring(1).split('&') : [];
+      var l = location;
+      var baseUrl = l.protocol + '//' + l.hostname + ':' + l.port + l.pathname;
+      var params = l.search ? l.search.substring(1).split('&') : [];
       
       // Update the params
       var found = false;
@@ -137,7 +138,7 @@ cleanslate = {
       
       var newSearch = newParams.join('&');
       
-      location = baseUrl + (newSearch ? '?'+newSearch : '') + location.hash;
+      location = baseUrl + (newSearch ? '?'+newSearch : '') + l.hash;
       
     });
     
