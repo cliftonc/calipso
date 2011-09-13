@@ -153,6 +153,12 @@ cleanslate = {
     });
     
     
+    // REMOVE ANNOYING TITLE TOOLTIPS FROM MENUS
+    $('.menu a').each(function(i, node) {
+      node.title = "";
+    });
+    
+    
   } // end of cleanslate.init
   
 }; //end of cleanslate
