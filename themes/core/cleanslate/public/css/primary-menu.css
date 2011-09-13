@@ -4,7 +4,6 @@
 #primary-menu {
   width: 100%;
   margin: 0;
-  padding: 2px 0 0 0;
   list-style: none;
   background: #111;
   background: -moz-linear-gradient(#444, #111); 
@@ -27,7 +26,7 @@
 #primary-menu a {
   float: left;
   height: 20px;
-  padding: 0 22px 10px;
+  padding: 2px 22px 10px;
   color: #CFCFCF;
   text-transform: uppercase;
   font: bold 12px/29px Arial, Helvetica;
@@ -56,7 +55,7 @@
   margin-left: 10px;
   display: none;
   position: absolute;
-  top: 30px;
+  top: 32px;
   left: 0;
   z-index: 99999;
   background: #444;
@@ -120,7 +119,7 @@
   background: linear-gradient(#04acec,  #0186ba);
 }
 
-#primary-menu ul li:first-child > a {
+#primary-menu li:first-child > a {
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
 }
@@ -171,5 +170,16 @@
   clear: both;
   height: 0;
 }
+
+
+#primary-menu > li:last-child > a {
+  -moz-border-radius: 0 5px 5px 0;
+  border-radius: 0 5px 5px 0;
+}
+#primary-menu > li:first-child > a {
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
+}
+
 
 #primary-menu { *zoom: 1; } /* IE6 & IE7 */
