@@ -640,7 +640,7 @@ function coreConfig(req, res, template, block, next) {
               {
                 label:'Hook.IO Max Listeners',
                 name:'server:hookio:maxListeners',
-                type:'textbox'
+                type:'text'
               }
             ]
           },
@@ -652,7 +652,7 @@ function coreConfig(req, res, template, block, next) {
               {
                 label:'EventEmitter Max Listeners',
                 name:'server:events:maxListeners',
-                type:'textbox'
+                type:'text'
               }
             ]
           }
@@ -900,9 +900,11 @@ function updateEnabledModules(form) {
  * Display the cache
  */
 function showCache(req,res,template,block,next) {
+    
   calipso.theme.renderItem(req, res, template, block, {
     cache: calipso.cache.cache
   },next);
+  
 }
 
 

@@ -9,16 +9,16 @@
       "layout": {
         "template": "default.html",
         "sections": {
-          "header": {"template": "header.html"},
-          "scripts": {"template": "scripts.html"},
-          "styles": {"template": "styles.html"},
+          "header": {"template": "header.html", "cache":true},
+          "scripts": {"template": "scripts.html", "cache":true},
+          "styles": {"template": "styles.html","cache":true},
           "admin": {"menu": "admin", "template": "adminMenu.html"},
           "primary": {"menu": "primary", "template": "primaryMenu.html"},
-          "secondary": {"template": "secondaryMenu.html"},
+          "secondary": {"template": "secondaryMenu.html","cache":true},
           "messages": {"template": "messages.html"},
           "body": {"template": "body.html"},
           "sidePanel": {"template": "sidePanel.html"},
-          "footer": {"template": "footer.html"}
+          "footer": {"template": "footer.html","cache":true}
         }
       }
     },
@@ -27,7 +27,7 @@
         "template": "default.html",
         "copyFrom": "default",
         "sections": {
-          "body": {"template": "body.html"}
+          "body": {"template": "body.html", "cache": true}
         }
       }
     },
