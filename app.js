@@ -53,10 +53,13 @@ function bootApplication(next) {
   app.use(express.cookieParser());
   app.use(express.responseTime());
 
-  // Create session middleware - tag it so we can later replace
-  var inMemorySession = express.session({ secret: app.config.get('session:secret') });
-  inMemorySession.tag = "session";
-  app.use(inMemorySession);
+  // Create dummy session middleware - tag it so we can later replace
+  var temporarySession = function(req, res, next) { 
+    req.session = {};
+    next(); 
+  };
+  temporarySession.tag = "session";
+  app.use(temporarySession);
 
 
   // Default Theme

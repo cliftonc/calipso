@@ -41,7 +41,7 @@
     "colors":"0.5.x",
     "bcrypt": "0.2.x",
     "semver":"1.0.x",
-    "hook.io":"0.6.x",
+    "hook.io":"0.7.x",
     "zipfile":"0.2.x",
     "rimraf":"1.0.x",
     "nconf":"0.2.x"

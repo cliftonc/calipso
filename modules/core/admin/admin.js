@@ -780,7 +780,7 @@ function coreConfig(req, res, template, block, next) {
  */
 function createModuleFields(formFields) {
 
-  var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
+  var readonlyModules = []; // ["admin","user","content","contentTypes"]; // Modules that cant be disabled
   var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
 
   // load up the tempModuleFields (according to module category)
