@@ -135,7 +135,6 @@ function taxonomy(req,res,template,block,next) {
   var TaxonomyMenu = calipso.lib.mongoose.model('TaxonomyMenu');
 
   TaxonomyMenu.find({},function (err, tax) {
-       console.log("HERE!");
       // Render the item into the response
       tax.forEach(function(item) {
           //TODO: This needs to be improved!
