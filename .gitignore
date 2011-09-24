@@ -1,10 +1,11 @@
 tmp
 lib-cov
 node_modules
-modules/downloaded
-modules/custom
-themes/downloaded
-themes/custom
+modules/downloaded/*
+modules/custom/*
+modules/community/*
+themes/downloaded/*
+themes/custom/*
 conf/*.json
 *.pid
 *.log

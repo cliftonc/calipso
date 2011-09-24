@@ -804,7 +804,7 @@ function createModuleFields(formFields) {
 
     var cM = {};
     var module = calipso.modules[moduleName];
-    var moduleDisplayName = module.about ? module.about.name : moduleName;
+    var moduleDisplayName = module.about.label ? module.about.label : module.about.name;
     
     cM.label = moduleDisplayName;
     cM.name = 'modules:'+ moduleName + ":enabled";
@@ -822,7 +822,7 @@ function createModuleFields(formFields) {
   }
 
   for(moduleType in tempModuleFields) {      
-    var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
+    var moduleTypeFields = tempModuleFields[moduleType];
     // "Site" modules fieldset will only show up if there are any to show.
     if(moduleTypeFields.length){
       formFields.push({
