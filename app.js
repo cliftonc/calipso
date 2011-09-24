@@ -26,8 +26,7 @@ var rootpath = process.cwd() + '/',
 // Local App Variables
 var path = rootpath,
   theme = 'default',
-  port = process.env.PORT || 3000,
-  version = "0.3.0";
+  port = process.env.PORT || 3000;
 
 /**
  * Catch All exception handler
@@ -122,7 +121,6 @@ exports.boot = function (next,cluster) {
   //Create our express instance, export for later reference
   app = exports.app = express.createServer();  
   app.path = path;
-  app.version = version;
   app.isCluster = cluster;
 
   // Load configuration
@@ -152,7 +150,7 @@ if (!module.parent) {
 
     if (app) {
       app.listen(port);
-      console.log("Calipso version: ".green + app.version);
+      console.log("Calipso version: ".green + app.about.version);
       console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
       console.log("Calipso server listening on port: ".green + app.address().port);
     } else {
