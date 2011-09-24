@@ -234,12 +234,10 @@ function install(req, res, template, block, next) {
  * Installation welcome screen - called by install router, not a routing function.
  */
 function updateConfiguration(values) {
+    
   // Update config for all the values, do not save now
   for(value in values) {
     if(value !== 'installStep' && value !== 'userStep' && value !== 'returnTo' && value !== 'submit')
-      // Switch on/off to true / false
-      if(values[value] === 'on') values[value] = true;
-      if(values[value] === 'off') values[value] = false;
       calipso.config.set(value,values[value]);
   }
   return;
@@ -560,6 +558,21 @@ function coreConfig(req, res, template, block, next) {
             label:'Site Name',
             name:'server:name',
             type:'text'
+          },
+           {
+            label:'Modules Location',
+            name:'server:modulePath',
+            type:'text'
+          },
+           {
+            label:'Themes Location',
+            name:'server:themePath',
+            type:'text'
+          },
+           {
+            label:'Server URL',
+            name:'server:url',
+            type:'text'
           }
         ]
       },
@@ -675,7 +688,10 @@ function coreConfig(req, res, template, block, next) {
             type:'select',
             options: calipso.data.adminThemes,
             description:'Administration theme [NOT YET IMPLEMENTED]'
-          }
+          },{            
+            name:'theme:default',
+            type:'hidden'
+          }          
         ]
       },
       {
@@ -705,7 +721,7 @@ function coreConfig(req, res, template, block, next) {
           },
           {
             label:'Console Colorize',
-            name:'logging:console:timestamp',
+            name:'logging:console:colorize',
             type:'checkbox',
             labelFirst: true,
             description:'Show colors on the console logs'
@@ -780,7 +796,7 @@ function coreConfig(req, res, template, block, next) {
  */
 function createModuleFields(formFields) {
 
-  var readonlyModules = []; // ["admin","user","content","contentTypes"]; // Modules that cant be disabled
+  var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
   var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
 
   // load up the tempModuleFields (according to module category)
@@ -853,7 +869,7 @@ function saveAdmin(req, res, template, block, next) {
 
         // Update the configuration
         updateConfiguration(config);
-        updateEnabledModules(config);     
+        // updateEnabledModules(config);     
 
         calipso.config.save(function(err) {
           if(err) {
