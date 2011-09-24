@@ -1,5 +1,6 @@
 {
   "name": "taxonomy",
+  "label": "Taxonomy Menus",
   "description": "Simple taxonomy (menus based on categories) module, uses map reduce functions to create menu trees.",
   "version": "0.2.0",
   "homepage": "http://calip.so",

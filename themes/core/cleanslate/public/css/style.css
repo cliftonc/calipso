@@ -40,7 +40,6 @@ abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
 table { border-collapse: collapse; border-spacing: 0; }
 hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
 
-
 /**
  * Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/
  */
@@ -208,7 +207,7 @@ textarea, input[type="text"], input[type="password"], select { border-radius: 3p
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { border-color: #007DFF; }
 textarea {width:65%;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
-.description {padding:2px 0 5px 160px;font-size:11px;color: #777;max-width:400px;}
+.description {padding:2px 0 5px 160px;font-size:11px;color: #777;max-width:400px;display:block;}
 .button,
 button {
   display: inline-block;
@@ -254,7 +253,10 @@ input.checkbox, input.radio {margin-left:160px;}
 input.labelFirst {margin-left:auto;}
 form .section {margin:0 0 20px;}
 form .section:first-child {border:0;}
-.actions {clear:both;padding:20px 0 20px 160px;border-top:1px solid #ccc;margin:10px 0 0;}
+.actions {clear:both;padding:20px 0 20px 20px;border-top:1px solid #ccc;margin:10px 0 0; height: 35px;}
+.actions input {
+  float: right;
+}
 
 /* FORM STEPS */
 .form-steps ul {margin:0 0 20px; list-style: none;width:100%;float:left;}

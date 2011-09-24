@@ -198,7 +198,8 @@ function contentForm() {
             {label:'',name:'returnTo',type:'hidden'}
           ],
           buttons:[
-               {name:'submit',type:'submit',value:'Save Content'}
+               {name:'submit',type:'submit',value:'Save Content'},
+               {name:'cancel',type:'button',href:'/content', value:'Cancel'}
           ]};
 }
 

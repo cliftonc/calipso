@@ -772,7 +772,8 @@ function coreConfig(req, res, template, block, next) {
         name:'submit',
         type:'submit',
         value:'Save Configuration'
-      }
+      },
+     {name:'cancel',type:'button',href:'/admin', value:'Cancel'}
     ]
   };
 

@@ -1,18 +1,27 @@
 #form-section-modules .fieldset-fields {
-  -moz-column-count: 2;
-  -moz-column-gap: 20px;
-  -webkit-column-count: 2;
-  -webkit-column-gap: 20px;
-  column-count: 2;
-  column-gap: 20px;
   padding: 5px 0 20px;
 }
 
+#form-section-modules legend {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
 
 #form-section-modules legend {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
+
+#form-section-modules div.form-item {
+  float: left;
+  clear:none !important;
+  width: 50%;
+  margin-bottom: 10px;
+  height: 50px;
+  overflow: none;
+}
+
 #form-section-modules .checkbox {
   margin-left: 0;
 }

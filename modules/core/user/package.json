@@ -1,5 +1,6 @@
 {
   "name": "user",
+  "label": "Users & Roles",
   "description": "User management module.",
   "version": "0.2.0",
   "homepage": "http://calip.so",
