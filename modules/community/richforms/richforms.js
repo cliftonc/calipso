@@ -64,10 +64,10 @@ function init(module, app, next) {
   }, function done() {
 
     // Set the old function so it can be reset later
-    calipso.form.render_tag_date_default = calipso.form.render_tag_date;
+    calipso.form.elementTypes.date.defaultRender = calipso.form.elementTypes.date.render;
 
     // Test over-riding a form element
-    calipso.form.render_tag_date = function(field, value) {
+    calipso.form.elementTypes.date.render = function(field, value) {
 
       // Default value to current date
       var dateValue = value ? value : new Date();
@@ -78,9 +78,8 @@ function init(module, app, next) {
       tagOutput += '<input type="hidden" name="' + field.name + '[date]"' + ' id="date-' + field.name.replace('[', '_').replace(']', '') + '-value"' + ' value="' + calipso.date.formatDate('MM, dd yy', dateValue) + '"' + ' />';
 
       return tagOutput;
-
-    };
-
+     };
+     
     // TODO : ADD TIME PICKER
     // Any schema configuration goes here
     next();
