@@ -2,7 +2,11 @@
  * cleanslate core
  *
  * currently covers:
+<<<<<<< HEAD
  *  - tabs (open tab is bookmarkable, can't be used with other things that rely on hash)
+=======
+ *  - tabs
+>>>>>>> master
  *  - sortable tables (just updates the querystring for server-side sorting)
  *
  */
@@ -16,7 +20,6 @@ cleanslate = {
   },
   backlog : [],
   init: function(){
-    
     
     // HIDE/SHOW USER LOGIN FORM
     (function doUsername(){

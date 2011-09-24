@@ -230,8 +230,7 @@ function createApplicationAt(path) {
       mkdir(path + '/tmp',self.parallel());
       copy(calipsoPath + '/app-cluster.js',path + '/',self.parallel());
       copy(calipsoPath + '/app.js',path + '/',self.parallel());
-      copy(calipsoPath + '/package.json',path + '/',self.parallel());
-      copy(calipsoPath + '/Makefile',path + '/',self.parallel());
+      copy(calipsoPath + '/package.json',path + '/',self.parallel());      
       copy(calipsoPath + '/logo.js',path + '/',self.parallel());
     },
     function done() {

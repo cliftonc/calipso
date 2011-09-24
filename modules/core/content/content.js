@@ -385,7 +385,7 @@ function createContentForm(req,res,template,block,next) {
     // Default values
     var values = {
         content: {
-          contentType:type,
+          contentType:type
         },
         alias:alias,
         teaser:teaser,
