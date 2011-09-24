@@ -19,8 +19,6 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu
-  // res.menu.admin.addMenuItem({name:'Profile',path:'user',url:'/user',description:'Your Profile ...',security:[]});
-
   res.menu.admin.addMenuItem({name:'Users', path: 'admin/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
   res.menu.admin.addMenuItem({name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
 
@@ -212,7 +210,7 @@ function loginForm(req, res, template, block, next) {
     ],
     buttons:[
       {name:'submit', type:'submit', value:'Login'},
-      {name:'register', type:'link', link:'/user/register', value:'Register'}
+      {name:'register', type:'link', href:'/user/register', value:'Register'}
     ]
   };
 
@@ -259,23 +257,23 @@ function registerUserForm(req, res, template, block, next) {
       id:'form-section-core',
       label:'Your Details',
       fields:[
-        {label:'Username', name:'user[username]', type:'text'},
-        {label:'Full Name', name:'user[fullname]', type:'text'},
-        {label:'Email', name:'user[email]', type:'text'},
-        {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
-        {label:'About You', name:'user[about]', type:'textarea'},
-        {label:'New Password', name:'user[new_password]', type:'password'},
-        {label:'Repeat Password', name:'user[repeat_password]', type:'password'},
+        {label:'Username', name:'user[username]', type:'text', description:'Enter the username you would like to use on this site.'},
+        {label:'Full Name', name:'user[fullname]', type:'text', description:'Enter your actual name, you can control the privacy settings of this.'},
+        {label:'Email', name:'user[email]', type:'text', description:'Enter your email address, you can control the privacy settings of this.'},
+        {label:'Language', name:'user[language]', type:'select', options:req.languages, description:'Select your default language.'}, // TODO : Select based on available
+        {label:'About You', name:'user[about]', type:'textarea', description:'Write something about yourself, this will appear on your profile page.'},
+        {label:'New Password', name:'user[new_password]', type:'password', description:'Enter a password, the stronger the better.'},
+        {label:'Repeat Password', name:'user[repeat_password]', type:'password', description:'Repeat as always.'},
         {label:'Show Full Name', name:'user[showName]', type:'select',options:[
           {label:'Never',value:'never'},
           {label:'Registered Users Only',value:'registered'},
           {label:'Public',value:'public'}
-        ]},
+        ], description:'Decide how your profile displays your full name.'},
         {label:'Show Email', name:'user[showEmail]', type:'select',options:[
           {label:'Never',value:'never'},
           {label:'Registered Users Only',value:'registered'},
           {label:'Public',value:'public'}
-        ]}
+        ], description:'Decide how your profile displays your email.'}
       ],
     }],
     buttons:[
