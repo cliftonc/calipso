@@ -67,7 +67,9 @@
     "google-analytics": {
       "enabled":false,
       "config": {
-        "key":"UA-17607570-4"
+        "key":"UA-17607570-4",
+        "anonymize-ip":true,
+        "track-pagespeed":true
       }
     },
     "disqus": {

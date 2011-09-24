@@ -797,14 +797,16 @@ function coreConfig(req, res, template, block, next) {
 function createModuleFields(formFields) {
 
   var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
-  var tempModuleFields = {core:[],community:[],site:[],downloaded:[]};
+  var tempModuleFields = {};
 
   // load up the tempModuleFields (according to module category)
   for(var moduleName in calipso.modules) {
 
     var cM = {};
     var module = calipso.modules[moduleName];
-    cM.label = moduleName;
+    var moduleDisplayName = module.about ? module.about.name : moduleName;
+    
+    cM.label = moduleDisplayName;
     cM.name = 'modules:'+ moduleName + ":enabled";
     // cM.checked = module.enabled;
     cM.type = 'checkbox';
@@ -813,13 +815,13 @@ function createModuleFields(formFields) {
     }
     cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
 
-    //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
+    //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);    
+    tempModuleFields[module.type] = tempModuleFields[module.type] || [];      
     tempModuleFields[module.type].push(cM);
 
   }
 
-  // add only non-empty fieldsets for module categories
-  ['Core','Community','Site','Downloaded'].forEach(function(moduleType){
+  for(moduleType in tempModuleFields) {      
     var moduleTypeFields = tempModuleFields[moduleType.toLowerCase()];
     // "Site" modules fieldset will only show up if there are any to show.
     if(moduleTypeFields.length){
@@ -830,7 +832,7 @@ function createModuleFields(formFields) {
         fields: moduleTypeFields
       });
     }
-  });
+  };
 
   // sort modules
   function moduleSort(a, b){
