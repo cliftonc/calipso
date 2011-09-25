@@ -2,7 +2,7 @@ tmp
 lib-cov
 node_modules
 modules/downloaded/*
-modules/custom/*
+modules/custom
 modules/community/*
 themes/downloaded/*
 themes/custom/*
