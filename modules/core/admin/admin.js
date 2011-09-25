@@ -89,10 +89,7 @@ function init(module, app, next) {
 
   }, function done() {
 
-    // Shortcuts
-    calipso.data.loglevels = calipso.lib.winston.config.npm.levels;    
     next();
-
 
   });
 
@@ -519,12 +516,6 @@ function showAdmin(req, res, template, block, next) {
  * TODO Refactor this to a proper form
  */
 function coreConfig(req, res, template, block, next) {
-
-  // Temporary data for form
-  calipso.data.loglevels = [];
-  for(var level in calipso.lib.winston.config.npm.levels){
-    calipso.data.loglevels.push(level);
-  }
 
   calipso.data.themes = [];
   calipso.data.adminThemes = []; // TODO
