@@ -425,7 +425,7 @@ function installModules(req,res,next) {
   
   // Defaults
   var formValues = {
-    modules {
+    modules: {
       admin: {
         enabled: true
       },
