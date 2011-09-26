@@ -46,8 +46,9 @@
           var username = $(".username").val();
           var password = $(".password").val();
           var check_password = $(".check_password").val();
+          var email = $(".email").val();
           
-          var postData = {"username":username,"password":password,"check_password":check_password};
+          var postData = {"username":username,"password":password,"check_password":check_password,"email":email};
           
           $.ajax({
             type: "POST",
