@@ -270,7 +270,9 @@ function installMongo(req,res,next) {
         buttons:[]}; // Submitted via template
 
   var formValues = {
-    'database:uri':calipso.config.get('database:uri'),
+    database: {
+        uri: calipso.config.get('database:uri')
+    },
     'installStep':'user'
   }
 
@@ -336,7 +338,7 @@ function installUser(req,res,next) {
       fields:[
         {label:'Username', name:'user[username]', cls:'username', type:'text'},
         {label:'Full Name', name:'user[fullname]', type:'text'},
-        {label:'Email', name:'user[email]', type:'text'},
+        {label:'Email', name:'user[email]', cls:'email', type:'text'},
         {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
         {label:'Password', name:'user[password]', cls:'password', type:'password'},        
         {label:'Repeat Password', name:'user[check_password]', cls: 'check_password', type:'password'},  
@@ -388,6 +390,11 @@ function installUserTest(req, res, template, block, next) {
       err = new Error(req.t('Your username cannot be blank.'));        
     }    
 
+    // Check to see if new passwords are blank
+    if(form.email === '') {
+      err = new Error(req.t('Your email cannot be blank.'));        
+    }
+
     var output = {};
     if(err) {
       output.status = "FAILED";
@@ -423,11 +430,21 @@ function installModules(req,res,next) {
   
   // Defaults
   var formValues = {
-    'modules:admin:enabled': true,
-    'modules:content:enabled': true,
-    'modules:contentTypes:enabled': true,
-    'modules:user:enabled': true,
-    'installStep':'done'
+    modules: {
+      admin: {
+        enabled: true
+      },
+      content: {
+        enabled: true
+      },
+      contentTypes: {
+        enabled: true
+      },
+      user: {
+        enabled: true
+      }      
+    },
+    installStep: 'done'    
   };
 
   calipso.form.render(moduleForm, formValues, req, function(form) {
