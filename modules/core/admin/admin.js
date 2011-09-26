@@ -272,7 +272,7 @@ function installMongo(req,res,next) {
   var formValues = {
     database: {
         uri: calipso.config.get('database:uri')
-    }
+    },
     'installStep':'user'
   }
 
