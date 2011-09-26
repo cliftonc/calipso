@@ -792,25 +792,33 @@ function createModuleFields(formFields) {
   var tempModuleFields = {};
 
   // load up the tempModuleFields (according to module category)
-  for(var moduleName in calipso.modules) {
+  for(var moduleName in calipso.modules) {    
 
     var cM = {};
-    var module = calipso.modules[moduleName];
-    var moduleDisplayName = module.about.label ? module.about.label : module.about.name;
+    var module = calipso.modules[moduleName];       
     
-    cM.label = moduleDisplayName;
-    cM.name = 'modules:'+ moduleName + ":enabled";
-    // cM.checked = module.enabled;
-    cM.type = 'checkbox';
-    if(calipso.lib._.indexOf(readonlyModules,moduleName) !== -1) {
-     cM.readonly = true;
+    if(module.about) {
+      var moduleDisplayName = module.about.label ? module.about.label : module.about.name;
+
+      cM.label = moduleDisplayName;
+      cM.name = 'modules:'+ moduleName + ":enabled";
+      // cM.checked = module.enabled;
+      cM.type = 'checkbox';
+      if(calipso.lib._.indexOf(readonlyModules,moduleName) !== -1) {
+       cM.readonly = true;
+      }
+      cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
+
+      //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);    
+      tempModuleFields[module.type] = tempModuleFields[module.type] || [];      
+      tempModuleFields[module.type].push(cM);  
+      
+    } else {
+      
+      calipso.error("Module: " + moduleName + " @ " + module.path + ", appears to be invalid, it will not be shown in the configuration form.");
+      
     }
-    cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
-
-    //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);    
-    tempModuleFields[module.type] = tempModuleFields[module.type] || [];      
-    tempModuleFields[module.type].push(cM);
-
+    
   }
 
   for(moduleType in tempModuleFields) {      
