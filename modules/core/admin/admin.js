@@ -270,7 +270,9 @@ function installMongo(req,res,next) {
         buttons:[]}; // Submitted via template
 
   var formValues = {
-    'database:uri':calipso.config.get('database:uri'),
+    database: {
+        uri: calipso.config.get('database:uri')
+    }
     'installStep':'user'
   }
 
@@ -423,11 +425,21 @@ function installModules(req,res,next) {
   
   // Defaults
   var formValues = {
-    'modules:admin:enabled': true,
-    'modules:content:enabled': true,
-    'modules:contentTypes:enabled': true,
-    'modules:user:enabled': true,
-    'installStep':'done'
+    modules {
+      admin: {
+        enabled: true
+      },
+      content: {
+        enabled: true
+      },
+      contentTypes: {
+        enabled: true
+      },
+      user: {
+        enabled: true
+      }      
+    },
+    installStep: 'done'    
   };
 
   calipso.form.render(moduleForm, formValues, req, function(form) {
