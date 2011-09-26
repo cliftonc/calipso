@@ -338,7 +338,7 @@ function installUser(req,res,next) {
       fields:[
         {label:'Username', name:'user[username]', cls:'username', type:'text'},
         {label:'Full Name', name:'user[fullname]', type:'text'},
-        {label:'Email', name:'user[email]', type:'text'},
+        {label:'Email', name:'user[email]', cls:'email', type:'text'},
         {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
         {label:'Password', name:'user[password]', cls:'password', type:'password'},        
         {label:'Repeat Password', name:'user[check_password]', cls: 'check_password', type:'password'},  
