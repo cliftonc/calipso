@@ -390,6 +390,11 @@ function installUserTest(req, res, template, block, next) {
       err = new Error(req.t('Your username cannot be blank.'));        
     }    
 
+    // Check to see if new passwords are blank
+    if(form.email === '') {
+      err = new Error(req.t('Your email cannot be blank.'));        
+    }
+
     var output = {};
     if(err) {
       output.status = "FAILED";
