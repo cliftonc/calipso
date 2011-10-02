@@ -4,6 +4,7 @@ node_modules
 modules/downloaded/*
 modules/custom
 modules/community/*
+media/*
 themes/downloaded/*
 themes/custom/*
 conf/*.json
