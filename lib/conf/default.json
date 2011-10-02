@@ -11,7 +11,7 @@
     "themePath":"./themes",
     "hookio":{
       "name":"calipso-hook",
-      "host":"localhost",
+      "host":"127.0.0.1",
       "socket":"",
       "port":9001,
       "debug":false,
