@@ -8,6 +8,7 @@
  *
  */
 
+
 var rootpath = process.cwd() + '/',
   path = require('path'),
   fs = require('fs'),
@@ -53,9 +54,9 @@ function bootApplication(next) {
   app.use(express.responseTime());
 
   // Create dummy session middleware - tag it so we can later replace
-  var temporarySession = function(req, res, next) { 
+  var temporarySession = function(req, res, next) {
     req.session = {};
-    next(); 
+    next();
   };
   temporarySession.tag = "session";
   app.use(temporarySession);
@@ -119,7 +120,7 @@ function bootApplication(next) {
 exports.boot = function (next,cluster) {
 
   //Create our express instance, export for later reference
-  app = exports.app = express.createServer();  
+  app = exports.app = express.createServer();
   app.path = path;
   app.isCluster = cluster;
 
@@ -128,7 +129,7 @@ exports.boot = function (next,cluster) {
   app.config = new Config({},function(err) {
 
     // TODO : Check for error
-    
+
     // Load application configuration
     theme = app.config.get('themes:front');
     // Bootstrap application
