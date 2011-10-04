@@ -3,7 +3,7 @@
  * NODE_ENV=production node app-cluster
  */
 var cluster = require('cluster');
-var port = 3000;
+var port = process.env.PORT || 3000;
 var path = __dirname;
 var app;
 
@@ -15,7 +15,7 @@ require('./app').boot(function (app) {
   /**
    * TODO: Check to ensure that the logs and pids folders exist before launching
    */
-  
+
   cluster(app)
     .set('working directory', path)
     .set('socket path', path)

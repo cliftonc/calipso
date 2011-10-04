@@ -124,6 +124,4 @@ function tagCloud(req,res,template,block,next) {
 
    });
 
-
-
 };
