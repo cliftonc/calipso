@@ -3,12 +3,24 @@
 
 @import "compass/css3";
 
+
+html {
+  padding-top: 40px;
+}
+
 #admin-menu {
   background: darken(#2F5163, 15%);
+  border-bottom: 1px solid darken(#2F5163, 15%);
+  position: fixed;
+  left: 0;
   list-style: none;
   margin: 0;
   padding: 2px 0 0 0;
+  top: 0;
   width: 100%;
+  z-index: 9999;
+
+  @include background( linear-gradient( #2F5163, darken(#2F5163, 10%) ) );
 }
 
 #admin-menu li {
@@ -20,6 +32,7 @@
 #admin-menu a {
   color: #fff;
   float: left;
+  font-size: 14px;
   height: 20px;
   padding: 0 22px;
   line-height: 30px;
@@ -40,12 +53,6 @@
   display: block;
 }
 
-#admin-body {
-  float: right;
-  width: 70%;
-}
-/* Sub-menu */
-
 #admin-menu ul {
   list-style: none;
   margin: 0;
@@ -57,17 +64,9 @@
   left: 0;
   z-index: 99999;
   background: #444;
-  background: -moz-linear-gradient(#444, #111);
-  background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
-  background: -webkit-linear-gradient(#444, #111);
-  background: -o-linear-gradient(#444, #111);
-  background: -ms-linear-gradient(#444, #111);
-  background: linear-gradient(#444, #111);
-  -moz-box-shadow: 0 0 2px rgba(255,255,255,.5);
-  -webkit-box-shadow: 0 0 2px rgba(255,255,255,.5);
-  box-shadow: 0 0 2px rgba(255,255,255,.5);
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  @include background( linear-gradient(#444, #111) );
+  @include box-shadow( 0 0 2px rgba(255,255,255, 0.5) );
+  @include border-radius( 5px );
 }
 
 #admin-menu ul ul {

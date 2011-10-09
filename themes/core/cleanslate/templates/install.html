@@ -7,7 +7,7 @@
   
     <title>Calipso Setup</title>
 
-    <link rel="stylesheet" href="/css/installation.css" />
+    <link rel="stylesheet" href="/css/install.css" />
   
   </head>
 
@@ -26,10 +26,18 @@
       <div id="footer">
         <%- footer %>
       </div>
-      
+
     </div>
 
     <%- scripts %>
+
+    <script>
+        
+        $(".error, .success, .info, .notice").live('click', function() {
+          $(this).fadeOut(300);
+        });
+
+    </script>
 
   </body>
 

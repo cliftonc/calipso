@@ -1,0 +1,431 @@
+// Calipso Stylesheet
+//
+// Author: Nate Hunzaker from work by Dennis Hall
+// ------------------------------------------ //
+// Table of Contents
+// ------------------------------------------ //
+//
+// 1. General
+// 2. Typography
+//    a. Body
+//    b. Headings
+// 3. Layout
+// 4. Form Elements
+// 5. Misc.
+//
+// ------------------------------------------ //
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
+
+@import "compass/css3";
+@import "compass/reset";
+
+
+// 1. General
+// ------------------------------------------ //
+
+  html {
+    background: #fff;
+  }
+
+
+// 2. Typography
+// ------------------------------------------ //
+
+  // Using a Modular Scale of 16/20 using the golden ratio:
+  //
+  // http://modularscale.com/scale/?px1=16&px2=20&ra1=1.618&ra2=0
+  
+  // General
+
+    body {
+      background: #fff;
+      color: #444;
+      font: 400 0.875em/1.618em "Helvetica", serif;
+      min-width: 700px;
+      text-shadow: 0 2px 1px #fff;
+      height: 100%;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:link, a:visited {
+      color: #222;
+    }
+
+    ul, ol, dl {
+      margin: 0 0 0 1.618em;
+      padding: 0;
+    }
+
+    ol li {
+      list-style: decimal;
+    }
+
+    p {
+      margin: 0 0 2.618em;
+    }
+
+    strong, b {
+      color: #222;
+      font-weight: 600;
+    }
+
+    i, em {
+      font-style: italic;
+    }
+
+
+  // Headings
+    h1,h2,h3,h4,h5,h6 {
+      color: #222;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 600;
+      line-height: 1.618em;
+      margin-bottom: 15px;
+      text-shadow: 0 1px 1px #fff;  // An easy way to anti-alias text
+    }
+
+    h6, h5 {
+      font-size: 1em;
+    }
+
+    h4 {
+      font-size: 1.25em;
+    }
+
+    h3 {
+      font-size: 1.618em;
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      font-size: 2.023em;
+      letter-spacing: -1px;
+    }
+
+    h1 {
+      font-size: 2.618em;
+      letter-spacing: -2px;
+    }
+
+
+// 3. Layout
+// ------------------------------------------ //
+
+  #header {
+    border-bottom: 1px solid #d9d9d9;
+    color: #fff;
+    overflow: hidden;
+    padding: 1% 0 1.5%;
+    left: 0;
+    top: 0;
+    margin: 0 auto;
+    width: 650px;
+  }
+
+  #container {
+    margin: 0 auto;
+    width: 700px;
+  }
+
+  .admin-body {
+    margin: 0 auto 20px;
+    padding: 25px;
+    position: relative;
+    max-width: 700px;
+  }
+
+  #footer {
+    clear: both;
+  }
+
+
+// 4. Form Elements
+// ------------------------------------------ //
+
+  form {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    padding: 0 20px 20px;
+
+    h4 {
+      background: #2F5163;
+      border: 1px solid darken(#2F5163, 10%);
+      color: #fff;
+      left: -30px;
+      top: 10px;
+      position: relative;
+      padding: 5px 15px;
+      float: left;
+
+      text-shadow: 0 1px 1px darken(#2F5163, 30%);
+      text-transform: capitalize;
+
+      @include border-right-radius(8px);
+      @include border-top-left-radius(8px);
+
+      @include box-shadow( inset 0 1px 0 rgba(255,255,255,0.25), 1px 1px 3px #ccc);
+        
+        &:after {
+          content: ' ';  
+          position: absolute;  
+          width: 0;  
+          height: 0;  
+          left: 0px;  
+          top: 100%;  
+          border-width: 5px 4px;  
+          border-style: solid;  
+          border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;  
+        }
+    }
+
+    @include border-radius(5px);
+  }
+
+  .form-item {
+    clear:both;
+    padding:0 0 10px;
+  }
+
+  label {
+    @include inline-block();
+    text-align:right;
+    line-height: 2.5em;
+    padding-right:10px;
+    position: relative;
+    top: -3px;
+    font-weight: bold;
+    width: 24%;
+    margin-right: 10%;
+  }
+
+  label.for-checkable {
+    width:auto;
+    text-align:left;
+    padding:0 0 0 10px;
+  }
+
+  textarea, input[type="text"], input[type="password"], select { 
+    border: 1px solid #999; 
+    padding: 1%;
+    font-size: 1em;
+
+    width: 58%;
+
+    @include border-radius(3px); 
+    @include box-shadow(inset 1px 1px 3px #d9d9d9);
+      
+      &.database-uri {
+        width: 300px;
+      }
+  }
+
+  select {
+    width: 60%;
+  }
+
+  textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { border-color: #007DFF; }
+  textarea {width:65%;height:200px;}
+  #content_teaser-wrapper textarea {height:100px;}
+
+  .description {
+    padding: 2px 0 5px 215px;
+    font-size:11px;
+    color: #777;
+    max-width:400px;
+    display:block;}
+
+  .button, button, input[type="submit"], a.submit {
+    
+    background: #d9d9d9;
+    border: 1px solid #aaa;
+    border-color: #aaa #999 #888;
+    color: #000;
+    
+    font-size: 14px;
+    font-weight: 400;
+    
+    margin: 0 20px 0 0;
+    padding: 8px 16px;
+    text-shadow: 0 1px 0 #fff;
+    text-decoration: none;
+
+    @include inline-block();
+    @include background( linear-gradient(#ededed, #d9d9d9) );
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+  	@include border-radius(7px);
+      
+      &:hover, &:focus, &.loading {
+        background: #2F5163;
+        border-color: #333;
+        color: #fff;
+        text-shadow: 0 1px 1px #111;
+        @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
+        @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+      }
+
+      &:active {
+        border-color: #000;
+        @include box-shadow( inset 0 0 8px #000 );
+      }
+
+      &.loading {
+        background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
+        @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+        padding-left: 40px;
+      }
+
+  }
+
+  input.date {width:3em;}
+  input.date-day,
+  input.time {width:2em;}
+  input.checkbox, input.radio {margin-left:110px;}
+  input.labelFirst {margin-left:auto;}
+  form .section {margin:0 0 20px;}
+  form .section:first-child {border:0;}
+  .actions {
+    clear:both;
+  }
+
+  .actions input {
+    float: right;
+  }
+
+// 5. Misc
+// ------------------------------------//
+
+  .form-steps{
+    margin: 20px auto 10px;
+    width: 50%;
+  } 
+
+  .form-steps ul { 
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .form-steps li {
+    text-align: center;
+    margin: 0 2px;
+
+    float: left;
+
+    @include border-radius(8px);
+    @include background(linear-gradient(#aaa 5%,  #ccc 20%));
+
+  }
+
+  .two-form-steps li { 
+    width: 50%;
+  }
+
+  .three-form-steps li {
+    width: 32%;
+  }
+
+  .four-form-steps li {
+    width: 25%;
+  }
+
+  .form-step-name {
+    color: #222;
+    background: #d9d9d9;
+    border: 1px solid #aaa;
+    height: 30px;
+    font-size: 12px;
+    line-height: 30px;
+    position: relative;
+
+    @include border-radius(8px);
+  }
+
+  .valid .form-step-name {
+    border-color: #888;
+    @include box-shadow(inset 0 0 7px #777 );
+  }
+
+  .current .form-step-name {
+    background: #2F5163;
+    border: 1px solid #111;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #000;
+
+    @include background( linear-gradient( lighten(#2F5163, 10%), #2F5163));
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25));
+  }
+
+  /* messages [info, success, warning, error] */
+  #messages {
+    clear: both;
+  }
+  #messages ul {
+    list-style:none;
+  }
+
+  .info,
+  .success,
+  .warning,
+  .error {
+    border: 1px solid;
+    cursor: pointer;
+    margin: 0 0 20px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px 6px;  
+
+    position: fixed;
+    right: 20px;
+    top: 90px;
+
+    text-shadow: 0 1px 0 #fff;
+
+    @include border-radius(8px);
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255, 0.75));
+  }
+
+  .info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('images/icons/info.png');
+  }
+  .success {
+    color: #4F8830;
+    background-color: #DFF2BF;
+    border-color: #AC6;
+    background-image:url('images/icons/success.png');
+  }
+  .warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('images/icons/warning.png');
+  }
+  .error {
+    color: #D8000C;
+    background-color: #F6D6D6;
+    background-image: url('images/icons/error.png');
+    border-color: #F6AAAA;
+  }
+      
+  .admin-install p {
+    max-width: 660px;
+  }
+
+  .admin-install-links {
+    border-top: 1px solid #bbb;
+    margin-top: 2.618em;
+    padding: 1.618em;
+    text-align: right;
+  }
+
+  .admin-install-links a {
+    margin:0;
+  }
+  .admin-install-links .back {
+    float: left;
+  }
