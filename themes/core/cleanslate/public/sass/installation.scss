@@ -113,27 +113,16 @@ html {
   border-bottom: 1px solid #d9d9d9;
   color: #fff;
   overflow: hidden;
-  padding: 1% 2% 1.5%;
+  padding: 1% 0 1.5%;
   left: 0;
   top: 0;
   margin: 0 auto;
-  width: 600px;
-
-    .logo {
-      display: block;
-      font-family: "Open Sans", sans-serif;
-      line-height: 40px;
-      font-size: 24px;
-      font-weight: 600;
-      float: left;
-      text-decoration: none;
-    }
+  width: 650px;
 }
 
 #container {
-  margin: 20px auto;
-  min-width: 500px;
-  max-width: 700px;
+  margin: 0 auto;
+  width: 700px;
 }
 
 #body {
@@ -269,7 +258,7 @@ textarea {width:65%;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
 
 .description {
-  padding: 2px 0 5px 160px;
+  padding: 2px 0 5px 215px;
   font-size:11px;
   color: #777;
   max-width:400px;
@@ -333,8 +322,7 @@ form .section:first-child {border:0;}
 // ------------------------------------//
 
 .form-steps{
-  margin-top: 4px;
-  float: right;
+  margin: 20px auto 10px;
   width: 50%;
 } 
 
@@ -347,6 +335,7 @@ form .section:first-child {border:0;}
 .form-steps li {
   text-align: center;
   margin: 0 2px;
+
   float: left;
 
   @include border-radius(8px);
@@ -359,7 +348,7 @@ form .section:first-child {border:0;}
 }
 
 .three-form-steps li {
-  width: 31%;
+  width: 32%;
 }
 
 .four-form-steps li {
@@ -374,8 +363,6 @@ form .section:first-child {border:0;}
   font-size: 12px;
   line-height: 30px;
   position: relative;
-
-  text-shadow: 0 1px 2px #aaa;
 
   @include border-radius(8px);
 }

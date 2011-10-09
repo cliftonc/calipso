@@ -159,31 +159,20 @@ h1 {
   border-bottom: 1px solid #d9d9d9;
   color: #fff;
   overflow: hidden;
-  padding: 1% 2% 1.5%;
+  padding: 1% 0 1.5%;
   left: 0;
   top: 0;
   margin: 0 auto;
-  width: 600px;
-}
-/* line 122, ../sass/installation.scss */
-#header .logo {
-  display: block;
-  font-family: "Open Sans", sans-serif;
-  line-height: 40px;
-  font-size: 24px;
-  font-weight: 600;
-  float: left;
-  text-decoration: none;
+  width: 650px;
 }
 
-/* line 133, ../sass/installation.scss */
+/* line 123, ../sass/installation.scss */
 #container {
-  margin: 20px auto;
-  min-width: 500px;
-  max-width: 700px;
+  margin: 0 auto;
+  width: 700px;
 }
 
-/* line 139, ../sass/installation.scss */
+/* line 128, ../sass/installation.scss */
 #body {
   float: left;
   margin: 0 20px 20px 0;
@@ -191,7 +180,7 @@ h1 {
   _display: inline;
 }
 
-/* line 146, ../sass/installation.scss */
+/* line 135, ../sass/installation.scss */
 .admin-body {
   margin: 0 auto 20px;
   padding: 25px;
@@ -199,14 +188,14 @@ h1 {
   max-width: 700px;
 }
 
-/* line 153, ../sass/installation.scss */
+/* line 142, ../sass/installation.scss */
 #sidePanel {
   width: 300px;
   float: left;
   margin: 0 0 20px;
 }
 
-/* line 159, ../sass/installation.scss */
+/* line 148, ../sass/installation.scss */
 .dummy-ad {
   width: 298px;
   height: 248px;
@@ -217,19 +206,19 @@ h1 {
   text-align: center;
 }
 
-/* line 170, ../sass/installation.scss */
+/* line 159, ../sass/installation.scss */
 #footer {
   clear: both;
 }
 
-/* line 174, ../sass/installation.scss */
+/* line 163, ../sass/installation.scss */
 nav.secondary {
   position: absolute;
   top: 22px;
   right: 0;
 }
 
-/* line 175, ../sass/installation.scss */
+/* line 164, ../sass/installation.scss */
 nav.primary {
   width: 100%;
   float: left;
@@ -237,19 +226,19 @@ nav.primary {
   margin: 0 0 10px;
 }
 
-/* line 177, ../sass/installation.scss */
+/* line 166, ../sass/installation.scss */
 table {
   width: 100%;
 }
 
-/* line 180, ../sass/installation.scss */
+/* line 169, ../sass/installation.scss */
 th, td {
   padding: 4px;
   border: 1px solid #ccc;
   text-align: left;
 }
 
-/* line 190, ../sass/installation.scss */
+/* line 179, ../sass/installation.scss */
 #install-mongo-form, #install-user-form, #install-modules-form {
   background: #fff;
   border: 1px solid #d9d9d9;
@@ -261,7 +250,7 @@ th, td {
   -khtml-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 195, ../sass/installation.scss */
+/* line 184, ../sass/installation.scss */
 #install-mongo-form h4, #install-user-form h4, #install-modules-form h4 {
   background: #2F5163;
   border: 1px solid #1f3540;
@@ -296,7 +285,7 @@ th, td {
   -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
 }
-/* line 213, ../sass/installation.scss */
+/* line 202, ../sass/installation.scss */
 #install-mongo-form h4:after, #install-user-form h4:after, #install-modules-form h4:after {
   content: ' ';
   position: absolute;
@@ -309,13 +298,13 @@ th, td {
   border-color: black black transparent transparent;
 }
 
-/* line 229, ../sass/installation.scss */
+/* line 218, ../sass/installation.scss */
 .form-item {
   clear: both;
   padding: 0 0 10px;
 }
 
-/* line 234, ../sass/installation.scss */
+/* line 223, ../sass/installation.scss */
 label {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -336,14 +325,14 @@ label {
   *display: inline;
 }
 
-/* line 246, ../sass/installation.scss */
+/* line 235, ../sass/installation.scss */
 label.for-checkable {
   width: auto;
   text-align: left;
   padding: 0 0 0 10px;
 }
 
-/* line 252, ../sass/installation.scss */
+/* line 241, ../sass/installation.scss */
 textarea, input[type="text"], input[type="password"], select {
   border: 1px solid #999;
   padding: 1%;
@@ -360,37 +349,37 @@ textarea, input[type="text"], input[type="password"], select {
   -o-box-shadow: inset 1px 1px 3px #d9d9d9;
   box-shadow: inset 1px 1px 3px #d9d9d9;
 }
-/* line 262, ../sass/installation.scss */
+/* line 251, ../sass/installation.scss */
 textarea.database-uri, input[type="text"].database-uri, input[type="password"].database-uri, select.database-uri {
   width: 300px;
 }
 
-/* line 267, ../sass/installation.scss */
+/* line 256, ../sass/installation.scss */
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
   border-color: #007DFF;
 }
 
-/* line 268, ../sass/installation.scss */
+/* line 257, ../sass/installation.scss */
 textarea {
   width: 65%;
   height: 200px;
 }
 
-/* line 269, ../sass/installation.scss */
+/* line 258, ../sass/installation.scss */
 #content_teaser-wrapper textarea {
   height: 100px;
 }
 
-/* line 271, ../sass/installation.scss */
+/* line 260, ../sass/installation.scss */
 .description {
-  padding: 2px 0 5px 160px;
+  padding: 2px 0 5px 215px;
   font-size: 11px;
   color: #777;
   max-width: 400px;
   display: block;
 }
 
-/* line 278, ../sass/installation.scss */
+/* line 267, ../sass/installation.scss */
 .button, button, input[type="submit"], a.submit {
   border: 1px solid #aaa;
   border-color: #aaa #999 #888;
@@ -427,7 +416,7 @@ textarea {
 .button, button, input[type="submit"], a.submit {
   *display: inline;
 }
-/* line 297, ../sass/installation.scss */
+/* line 286, ../sass/installation.scss */
 .button:hover, .button.loading, button:hover, button.loading, input[type="submit"]:hover, input[type="submit"].loading, a.submit:hover, a.submit.loading {
   border-color: #333;
   color: #fff;
@@ -443,7 +432,7 @@ textarea {
   background: -ms-linear-gradient(#3f6d86, #2f5163);
   background: linear-gradient(#3f6d86, #2f5163);
 }
-/* line 305, ../sass/installation.scss */
+/* line 294, ../sass/installation.scss */
 .button:active, button:active, input[type="submit"]:active, a.submit:active {
   border-color: #000;
   -moz-box-shadow: inset 0 0 8px black;
@@ -451,7 +440,7 @@ textarea {
   -o-box-shadow: inset 0 0 8px black;
   box-shadow: inset 0 0 8px black;
 }
-/* line 310, ../sass/installation.scss */
+/* line 299, ../sass/installation.scss */
 .button.loading, button.loading, input[type="submit"].loading, a.submit.loading {
   background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
   background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-linear-gradient(#3f6d86, #2f5163);
@@ -462,62 +451,61 @@ textarea {
   padding-left: 40px;
 }
 
-/* line 317, ../sass/installation.scss */
+/* line 306, ../sass/installation.scss */
 input.date {
   width: 3em;
 }
 
-/* line 319, ../sass/installation.scss */
+/* line 308, ../sass/installation.scss */
 input.date-day,
 input.time {
   width: 2em;
 }
 
-/* line 320, ../sass/installation.scss */
+/* line 309, ../sass/installation.scss */
 input.checkbox, input.radio {
   margin-left: 110px;
 }
 
-/* line 321, ../sass/installation.scss */
+/* line 310, ../sass/installation.scss */
 input.labelFirst {
   margin-left: auto;
 }
 
-/* line 322, ../sass/installation.scss */
+/* line 311, ../sass/installation.scss */
 form .section {
   margin: 0 0 20px;
 }
 
-/* line 323, ../sass/installation.scss */
+/* line 312, ../sass/installation.scss */
 form .section:first-child {
   border: 0;
 }
 
-/* line 324, ../sass/installation.scss */
+/* line 313, ../sass/installation.scss */
 .actions {
   clear: both;
 }
 
-/* line 328, ../sass/installation.scss */
+/* line 317, ../sass/installation.scss */
 .actions input {
   float: right;
 }
 
-/* line 335, ../sass/installation.scss */
+/* line 324, ../sass/installation.scss */
 .form-steps {
-  margin-top: 4px;
-  float: right;
+  margin: 20px auto 10px;
   width: 50%;
 }
 
-/* line 341, ../sass/installation.scss */
+/* line 329, ../sass/installation.scss */
 .form-steps ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 347, ../sass/installation.scss */
+/* line 335, ../sass/installation.scss */
 .form-steps li {
   text-align: center;
   margin: 0 2px;
@@ -536,22 +524,22 @@ form .section:first-child {
   background: linear-gradient(#aaaaaa 5%, #cccccc 20%);
 }
 
-/* line 357, ../sass/installation.scss */
+/* line 346, ../sass/installation.scss */
 .two-form-steps li {
   width: 50%;
 }
 
-/* line 361, ../sass/installation.scss */
+/* line 350, ../sass/installation.scss */
 .three-form-steps li {
-  width: 31%;
+  width: 32%;
 }
 
-/* line 365, ../sass/installation.scss */
+/* line 354, ../sass/installation.scss */
 .four-form-steps li {
   width: 25%;
 }
 
-/* line 369, ../sass/installation.scss */
+/* line 358, ../sass/installation.scss */
 .form-step-name {
   color: #222;
   background: #d9d9d9;
@@ -560,7 +548,6 @@ form .section:first-child {
   font-size: 12px;
   line-height: 30px;
   position: relative;
-  text-shadow: 0 1px 2px #aaa;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   -o-border-radius: 8px;
@@ -569,7 +556,7 @@ form .section:first-child {
   border-radius: 8px;
 }
 
-/* line 383, ../sass/installation.scss */
+/* line 370, ../sass/installation.scss */
 .valid .form-step-name {
   border-color: #888;
   -moz-box-shadow: inset 0 0 7px #777777;
@@ -578,7 +565,7 @@ form .section:first-child {
   box-shadow: inset 0 0 7px #777777;
 }
 
-/* line 388, ../sass/installation.scss */
+/* line 375, ../sass/installation.scss */
 .current .form-step-name {
   background: #2F5163;
   border: 1px solid #111;
@@ -598,17 +585,17 @@ form .section:first-child {
 }
 
 /* messages [info, success, warning, error] */
-/* line 400, ../sass/installation.scss */
+/* line 387, ../sass/installation.scss */
 #messages {
   clear: both;
 }
 
-/* line 403, ../sass/installation.scss */
+/* line 390, ../sass/installation.scss */
 #messages ul {
   list-style: none;
 }
 
-/* line 409, ../sass/installation.scss */
+/* line 396, ../sass/installation.scss */
 .info,
 .success,
 .warning,
@@ -634,14 +621,14 @@ form .section:first-child {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
-/* line 426, ../sass/installation.scss */
+/* line 413, ../sass/installation.scss */
 .info {
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url("images/icons/info.png");
 }
 
-/* line 431, ../sass/installation.scss */
+/* line 418, ../sass/installation.scss */
 .success {
   color: #4F8830;
   background-color: #DFF2BF;
@@ -649,14 +636,14 @@ form .section:first-child {
   background-image: url("images/icons/success.png");
 }
 
-/* line 437, ../sass/installation.scss */
+/* line 424, ../sass/installation.scss */
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
   background-image: url("images/icons/warning.png");
 }
 
-/* line 442, ../sass/installation.scss */
+/* line 429, ../sass/installation.scss */
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
@@ -664,12 +651,12 @@ form .section:first-child {
   border-color: #F6AAAA;
 }
 
-/* line 449, ../sass/installation.scss */
+/* line 436, ../sass/installation.scss */
 .admin-install p {
   max-width: 660px;
 }
 
-/* line 453, ../sass/installation.scss */
+/* line 440, ../sass/installation.scss */
 .admin-install-links {
   border-top: 1px solid #bbb;
   margin-top: 2.618em;
@@ -677,12 +664,12 @@ form .section:first-child {
   text-align: right;
 }
 
-/* line 460, ../sass/installation.scss */
+/* line 447, ../sass/installation.scss */
 .admin-install-links a {
   margin: 0;
 }
 
-/* line 463, ../sass/installation.scss */
+/* line 450, ../sass/installation.scss */
 .admin-install-links .back {
   float: left;
 }
@@ -691,7 +678,7 @@ form .section:first-child {
  * Non-semantic helper classes: please define your styles before this section.
  */
 /* For image replacement */
-/* line 472, ../sass/installation.scss */
+/* line 459, ../sass/installation.scss */
 .ir {
   display: block;
   text-indent: -99in;
@@ -703,7 +690,7 @@ form .section:first-child {
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
-/* line 476, ../sass/installation.scss */
+/* line 463, ../sass/installation.scss */
 .hidden {
   display: none;
   visibility: hidden;
@@ -711,7 +698,7 @@ form .section:first-child {
 
 /* Hide only visually, but have it available for screenreaders: by Jon Neal.
   www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
-/* line 480, ../sass/installation.scss */
+/* line 467, ../sass/installation.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -724,7 +711,7 @@ form .section:first-child {
 }
 
 /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-/* line 483, ../sass/installation.scss */
+/* line 470, ../sass/installation.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -736,26 +723,26 @@ form .section:first-child {
 }
 
 /* Hide visually and from screenreaders, but maintain layout */
-/* line 486, ../sass/installation.scss */
+/* line 473, ../sass/installation.scss */
 .invisible {
   visibility: hidden;
 }
 
 /* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
    nicolasgallagher.com/micro-clearfix-hack/ */
-/* line 491, ../sass/installation.scss */
+/* line 478, ../sass/installation.scss */
 .clearfix:before,
 .clearfix:after {
   content: "";
   display: table;
 }
 
-/* line 492, ../sass/installation.scss */
+/* line 479, ../sass/installation.scss */
 .clearfix:after {
   clear: both;
 }
 
-/* line 493, ../sass/installation.scss */
+/* line 480, ../sass/installation.scss */
 .clearfix {
   zoom: 1;
 }
@@ -779,7 +766,7 @@ form .section:first-child {
  * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
  */
 @media print {
-  /* line 521, ../sass/installation.scss */
+  /* line 508, ../sass/installation.scss */
   * {
     background: transparent !important;
     color: black !important;
@@ -789,46 +776,46 @@ form .section:first-child {
   }
 
   /* Black prints faster: sanbeiji.com/archives/953 */
-  /* line 523, ../sass/installation.scss */
+  /* line 510, ../sass/installation.scss */
   a, a:visited {
     color: #444 !important;
     text-decoration: underline;
   }
 
-  /* line 524, ../sass/installation.scss */
+  /* line 511, ../sass/installation.scss */
   a[href]:after {
     content: " (" attr(href) ")";
   }
 
-  /* line 525, ../sass/installation.scss */
+  /* line 512, ../sass/installation.scss */
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
 
-  /* line 526, ../sass/installation.scss */
+  /* line 513, ../sass/installation.scss */
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
     content: "";
   }
 
   /* Don't show links for images, or javascript/internal links */
-  /* line 527, ../sass/installation.scss */
+  /* line 514, ../sass/installation.scss */
   pre, blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
 
-  /* line 528, ../sass/installation.scss */
+  /* line 515, ../sass/installation.scss */
   thead {
     display: table-header-group;
   }
 
   /* css-discuss.incutio.com/wiki/Printing_Tables */
-  /* line 529, ../sass/installation.scss */
+  /* line 516, ../sass/installation.scss */
   tr, img {
     page-break-inside: avoid;
   }
 
-  /* line 530, ../sass/installation.scss */
+  /* line 517, ../sass/installation.scss */
   img {
     max-width: 100% !important;
   }
@@ -837,13 +824,13 @@ form .section:first-child {
     margin: 0.5cm;
 }
 
-  /* line 532, ../sass/installation.scss */
+  /* line 519, ../sass/installation.scss */
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
-  /* line 533, ../sass/installation.scss */
+  /* line 520, ../sass/installation.scss */
   h2, h3 {
     page-break-after: avoid;
   }
