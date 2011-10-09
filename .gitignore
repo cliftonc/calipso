@@ -13,3 +13,5 @@ conf/*.json
 *.swp
 *.sock
 *.gz
+
+*.sass-cache

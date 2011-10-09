@@ -64,9 +64,20 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* line 32, ../sass/style.scss */
+/* line 22, ../sass/installation.scss */
+html {
+  background: #fafafa;
+}
+
+/* line 35, ../sass/installation.scss */
 body {
   background: #fff;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(5%, #fafafa));
+  background: -webkit-linear-gradient(#ffffff, #fafafa 5%);
+  background: -moz-linear-gradient(#ffffff, #fafafa 5%);
+  background: -o-linear-gradient(#ffffff, #fafafa 5%);
+  background: -ms-linear-gradient(#ffffff, #fafafa 5%);
+  background: linear-gradient(#ffffff, #fafafa 5%);
   color: #444;
   font: 400 0.875em/1.618em "Helvetica", serif;
   min-width: 700px;
@@ -74,44 +85,44 @@ body {
   height: 100%;
 }
 
-/* line 41, ../sass/style.scss */
+/* line 45, ../sass/installation.scss */
 a {
   text-decoration: none;
 }
 
-/* line 45, ../sass/style.scss */
+/* line 49, ../sass/installation.scss */
 a:link, a:visited {
   color: #222;
 }
 
-/* line 49, ../sass/style.scss */
+/* line 53, ../sass/installation.scss */
 ul, ol, dl {
   margin: 0 0 0 1.618em;
   padding: 0;
 }
 
-/* line 54, ../sass/style.scss */
+/* line 58, ../sass/installation.scss */
 ol li {
   list-style: decimal;
 }
 
-/* line 58, ../sass/style.scss */
+/* line 62, ../sass/installation.scss */
 p {
   margin: 0 0 1.618em;
 }
 
-/* line 62, ../sass/style.scss */
+/* line 66, ../sass/installation.scss */
 strong, b {
   color: #222;
   font-weight: 600;
 }
 
-/* line 67, ../sass/style.scss */
+/* line 71, ../sass/installation.scss */
 i, em {
   font-style: italic;
 }
 
-/* line 73, ../sass/style.scss */
+/* line 77, ../sass/installation.scss */
 h1, h2, h3, h4, h5, h6 {
   color: #222;
   font-family: "Open Sans", sans-serif;
@@ -121,58 +132,90 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 1px 1px #fff;
 }
 
-/* line 82, ../sass/style.scss */
+/* line 86, ../sass/installation.scss */
 h6, h5 {
   font-size: 1em;
 }
 
-/* line 86, ../sass/style.scss */
+/* line 90, ../sass/installation.scss */
 h4 {
   font-size: 1.25em;
 }
 
-/* line 90, ../sass/style.scss */
+/* line 94, ../sass/installation.scss */
 h3 {
   font-size: 1.618em;
   letter-spacing: -1px;
 }
 
-/* line 95, ../sass/style.scss */
+/* line 99, ../sass/installation.scss */
 h2 {
   font-size: 2.023em;
   letter-spacing: -1px;
 }
 
-/* line 100, ../sass/style.scss */
+/* line 104, ../sass/installation.scss */
 h1 {
   font-size: 2.618em;
   letter-spacing: -2px;
 }
 
-/* line 109, ../sass/style.scss */
+/* line 113, ../sass/installation.scss */
 #container {
   margin: 20px auto;
   min-width: 500px;
-  max-width: 980px;
+  max-width: 700px;
 }
 
-/* line 115, ../sass/style.scss */
+/* line 119, ../sass/installation.scss */
 #body {
-  margin: 0 20px 20px 0;
   float: left;
-  width: 60%;
+  margin: 0 20px 20px 0;
+  min-height: 100px;
+  _display: inline;
 }
 
-/* line 121, ../sass/style.scss */
+/* line 126, ../sass/installation.scss */
+.admin-body {
+  margin: 0 auto 20px;
+  padding: 25px;
+  position: relative;
+  max-width: 700px;
+}
+
+/* line 133, ../sass/installation.scss */
 #sidePanel {
-  width: 25%;
-  float: right;
+  width: 300px;
+  float: left;
   margin: 0 0 20px;
 }
 
-/* line 126, ../sass/style.scss */
+/* line 139, ../sass/installation.scss */
+#header {
+  border-bottom: 1px solid #d9d9d9;
+  color: #fff;
+  overflow: hidden;
+  padding: 1% 2% 1.5%;
+  left: 0;
+  top: 0;
+  margin: 0 auto;
+  width: 70%;
+  min-width: 700px;
+}
+/* line 150, ../sass/installation.scss */
+#header .logo {
+  display: block;
+  font-family: "Open Sans", sans-serif;
+  line-height: 40px;
+  font-size: 24px;
+  font-weight: 600;
+  float: left;
+  text-decoration: none;
+}
+
+/* line 161, ../sass/installation.scss */
 .dummy-ad {
-  width: 100%;
+  width: 298px;
   height: 248px;
   border: 1px solid #ccc;
   background: #eee;
@@ -181,25 +224,19 @@ h1 {
   text-align: center;
 }
 
-/* line 136, ../sass/style.scss */
+/* line 172, ../sass/installation.scss */
 #footer {
   clear: both;
 }
 
-/* line 140, ../sass/style.scss */
+/* line 176, ../sass/installation.scss */
 nav.secondary {
-  color: #fff;
   position: absolute;
-  top: 4px;
-  right: 10px;
-  text-shadow: 0 1px 2px #111;
-}
-/* line 147, ../sass/style.scss */
-nav.secondary a {
-  color: #fff;
+  top: 22px;
+  right: 0;
 }
 
-/* line 152, ../sass/style.scss */
+/* line 177, ../sass/installation.scss */
 nav.primary {
   width: 100%;
   float: left;
@@ -207,35 +244,85 @@ nav.primary {
   margin: 0 0 10px;
 }
 
-/* line 159, ../sass/style.scss */
+/* line 179, ../sass/installation.scss */
 table {
   width: 100%;
 }
 
-/* line 163, ../sass/style.scss */
+/* line 182, ../sass/installation.scss */
 th, td {
   padding: 4px;
   border: 1px solid #ccc;
   text-align: left;
 }
 
-/* line 173, ../sass/style.scss */
+/* line 192, ../sass/installation.scss */
+#install-mongo-form, #install-user-form, #install-modules-form {
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  padding: 0 20px 20px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 197, ../sass/installation.scss */
+#install-mongo-form h4, #install-user-form h4, #install-modules-form h4 {
+  background: #2F5163;
+  border: 1px solid #1f3540;
+  color: #fff;
+  left: -30px;
+  top: 10px;
+  position: relative;
+  padding: 5px 15px;
+  float: left;
+  text-shadow: 0 1px 1px black;
+  text-transform: capitalize;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -o-border-top-right-radius: 8px;
+  -ms-border-top-right-radius: 8px;
+  -khtml-border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
+  -moz-border-radius-bottomright: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -o-border-bottom-right-radius: 8px;
+  -ms-border-bottom-right-radius: 8px;
+  -khtml-border-bottom-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+  -webkit-border-top-left-radius: 8px;
+  -o-border-top-left-radius: 8px;
+  -ms-border-top-left-radius: 8px;
+  -khtml-border-top-left-radius: 8px;
+  border-top-left-radius: 8px;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+}
+/* line 215, ../sass/installation.scss */
+#install-mongo-form h4:after, #install-user-form h4:after, #install-modules-form h4:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 0px;
+  top: 100%;
+  border-width: 5px 4px;
+  border-style: solid;
+  border-color: black black transparent transparent;
+}
+
+/* line 231, ../sass/installation.scss */
 .form-item {
   clear: both;
   padding: 0 0 10px;
 }
 
-/*
-  label :: width = 150, padding-right = 10
-  .description :: padding-left
-  =
-  input[type=submit] :: margin-left
-  =
-  .checkable :: margin-left
-  = 150 + 10
-
-*/
-/* line 189, ../sass/style.scss */
+/* line 236, ../sass/installation.scss */
 label {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -248,7 +335,7 @@ label {
   position: relative;
   top: -3px;
   font-weight: bold;
-  width: 20%;
+  width: 24%;
   margin-right: 10%;
 }
 /* line 7, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
@@ -256,14 +343,14 @@ label {
   *display: inline;
 }
 
-/* line 201, ../sass/style.scss */
+/* line 248, ../sass/installation.scss */
 label.for-checkable {
   width: auto;
   text-align: left;
   padding: 0 0 0 10px;
 }
 
-/* line 207, ../sass/style.scss */
+/* line 254, ../sass/installation.scss */
 textarea, input[type="text"], input[type="password"], select {
   border: 1px solid #999;
   padding: 1%;
@@ -280,28 +367,28 @@ textarea, input[type="text"], input[type="password"], select {
   -o-box-shadow: inset 1px 1px 3px #d9d9d9;
   box-shadow: inset 1px 1px 3px #d9d9d9;
 }
-/* line 217, ../sass/style.scss */
+/* line 264, ../sass/installation.scss */
 textarea.database-uri, input[type="text"].database-uri, input[type="password"].database-uri, select.database-uri {
   width: 300px;
 }
 
-/* line 222, ../sass/style.scss */
+/* line 269, ../sass/installation.scss */
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
   border-color: #007DFF;
 }
 
-/* line 223, ../sass/style.scss */
+/* line 270, ../sass/installation.scss */
 textarea {
   width: 65%;
   height: 200px;
 }
 
-/* line 224, ../sass/style.scss */
+/* line 271, ../sass/installation.scss */
 #content_teaser-wrapper textarea {
   height: 100px;
 }
 
-/* line 226, ../sass/style.scss */
+/* line 273, ../sass/installation.scss */
 .description {
   padding: 2px 0 5px 160px;
   font-size: 11px;
@@ -310,7 +397,7 @@ textarea {
   display: block;
 }
 
-/* line 233, ../sass/style.scss */
+/* line 280, ../sass/installation.scss */
 .button, button, input[type="submit"], a.submit {
   border: 1px solid #aaa;
   border-color: #aaa #999 #888;
@@ -347,7 +434,7 @@ textarea {
 .button, button, input[type="submit"], a.submit {
   *display: inline;
 }
-/* line 252, ../sass/style.scss */
+/* line 299, ../sass/installation.scss */
 .button:hover, .button.loading, button:hover, button.loading, input[type="submit"]:hover, input[type="submit"].loading, a.submit:hover, a.submit.loading {
   border-color: #333;
   color: #fff;
@@ -363,7 +450,7 @@ textarea {
   background: -ms-linear-gradient(#3f6d86, #2f5163);
   background: linear-gradient(#3f6d86, #2f5163);
 }
-/* line 260, ../sass/style.scss */
+/* line 307, ../sass/installation.scss */
 .button:active, button:active, input[type="submit"]:active, a.submit:active {
   border-color: #000;
   -moz-box-shadow: inset 0 0 8px black;
@@ -371,7 +458,7 @@ textarea {
   -o-box-shadow: inset 0 0 8px black;
   box-shadow: inset 0 0 8px black;
 }
-/* line 265, ../sass/style.scss */
+/* line 312, ../sass/installation.scss */
 .button.loading, button.loading, input[type="submit"].loading, a.submit.loading {
   background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
   background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-linear-gradient(#3f6d86, #2f5163);
@@ -382,191 +469,153 @@ textarea {
   padding-left: 40px;
 }
 
-/* line 272, ../sass/style.scss */
+/* line 319, ../sass/installation.scss */
 input.date {
   width: 3em;
 }
 
-/* line 274, ../sass/style.scss */
+/* line 321, ../sass/installation.scss */
 input.date-day,
 input.time {
   width: 2em;
 }
 
-/* line 275, ../sass/style.scss */
+/* line 322, ../sass/installation.scss */
 input.checkbox, input.radio {
   margin-left: 110px;
 }
 
-/* line 276, ../sass/style.scss */
+/* line 323, ../sass/installation.scss */
 input.labelFirst {
   margin-left: auto;
 }
 
-/* line 277, ../sass/style.scss */
+/* line 324, ../sass/installation.scss */
 form .section {
   margin: 0 0 20px;
 }
 
-/* line 278, ../sass/style.scss */
+/* line 325, ../sass/installation.scss */
 form .section:first-child {
   border: 0;
 }
 
-/* line 279, ../sass/style.scss */
+/* line 326, ../sass/installation.scss */
 .actions {
   clear: both;
 }
 
-/* line 283, ../sass/style.scss */
+/* line 330, ../sass/installation.scss */
 .actions input {
   float: right;
 }
 
-/* line 287, ../sass/style.scss */
-.log-in-or-register {
+/* line 337, ../sass/installation.scss */
+.form-steps {
+  margin-top: 4px;
   float: right;
+  width: 50%;
 }
 
-/* line 288, ../sass/style.scss */
-.link-divider {
-  width: 0;
-  height: 1.2em;
-  overflow: hidden;
-  display: inline-block;
-  border-right: 1px solid #000;
-  margin: 0 5px;
-}
-
-/* line 289, ../sass/style.scss */
-#user-login {
-  position: absolute;
-  right: 0;
-  top: 30px;
-  display: none;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px #333;
-}
-
-/* line 290, ../sass/style.scss */
-#user-login form {
-  padding: 20px;
-  background: #eee;
-}
-
-/* line 291, ../sass/style.scss */
-#user-welcome-or-login h2 {
-  display: none;
-}
-
-/* line 292, ../sass/style.scss */
-#user-welcome-or-login label {
-  padding: 0;
-  text-align: left;
-  width: auto;
-}
-
-/* line 293, ../sass/style.scss */
-#user-welcome-or-login input {
-  width: 180px;
-}
-
-/* line 294, ../sass/style.scss */
-#user-welcome-or-login .form-field {
-  margin: 0 0 2px;
-}
-
-/* line 295, ../sass/style.scss */
-#user-welcome-or-login .actions {
+/* line 343, ../sass/installation.scss */
+.form-steps ul {
+  list-style: none;
   margin: 0;
   padding: 0;
-  border: 0;
 }
 
-/* line 296, ../sass/style.scss */
-#user-welcome-or-login .actions a {
-  display: none;
-}
-
-/* line 297, ../sass/style.scss */
-#user-welcome-or-login input[type="submit"] {
-  width: auto;
-  padding: 3px 8px;
-  font-size: inherit;
-  font-weight: normal;
-}
-
-/* line 300, ../sass/style.scss */
-#user-login:before,
-#user-login:after {
-  content: "";
-  position: absolute;
-  z-index: 998;
-  top: -8px;
-  right: 78px;
-  margin-left: -8px;
-  border-top: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #eee;
-}
-
-/* line 313, ../sass/style.scss */
-#user-login:after {
-  border-bottom: 9px solid #ccc;
-  top: -9px;
-  z-index: 997;
-}
-
-/* general 'close' button - round with an 'x',
-   actually a multiplication sign:	`&times;`	`&#215;`	`&#xD7;`	`×`  */
-/* line 321, ../sass/style.scss */
-.close {
-  display: block;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 16px;
+/* line 349, ../sass/installation.scss */
+.form-steps li {
   text-align: center;
-  overflow: hidden;
-  background: #aaa;
-  color: #aaa;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  cursor: pointer;
+  margin: 0 2px;
+  float: left;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(5%, #aaaaaa), color-stop(20%, #cccccc));
+  background: -webkit-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: -moz-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: -o-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: -ms-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: linear-gradient(#aaaaaa 5%, #cccccc 20%);
 }
 
-/* line 338, ../sass/style.scss */
-.close:before {
-  content: "\D7";
-  color: #000;
-  display: block;
-  text-align: center;
-  font-weight: normal;
-  width: 16px;
-  position: absolute;
-  top: -1px;
-  left: 0;
-  font-size: 13px;
-  line-height: 16px;
-  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+/* line 359, ../sass/installation.scss */
+.two-form-steps li {
+  width: 50%;
+}
+
+/* line 363, ../sass/installation.scss */
+.three-form-steps li {
+  width: 31%;
+}
+
+/* line 367, ../sass/installation.scss */
+.four-form-steps li {
+  width: 25%;
+}
+
+/* line 371, ../sass/installation.scss */
+.form-step-name {
+  color: #222;
+  background: #d9d9d9;
+  border: 1px solid #aaa;
+  height: 30px;
+  font-size: 12px;
+  line-height: 30px;
+  position: relative;
+  text-shadow: 0 1px 2px #aaa;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+}
+
+/* line 385, ../sass/installation.scss */
+.valid .form-step-name {
+  border-color: #888;
+  -moz-box-shadow: inset 0 0 7px #777777;
+  -webkit-box-shadow: inset 0 0 7px #777777;
+  -o-box-shadow: inset 0 0 7px #777777;
+  box-shadow: inset 0 0 7px #777777;
+}
+
+/* line 390, ../sass/installation.scss */
+.current .form-step-name {
+  background: #2F5163;
+  border: 1px solid #111;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 1px 1px #000;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
+  background: -webkit-linear-gradient(#3f6d86, #2f5163);
+  background: -moz-linear-gradient(#3f6d86, #2f5163);
+  background: -o-linear-gradient(#3f6d86, #2f5163);
+  background: -ms-linear-gradient(#3f6d86, #2f5163);
+  background: linear-gradient(#3f6d86, #2f5163);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* messages [info, success, warning, error] */
-/* line 356, ../sass/style.scss */
+/* line 402, ../sass/installation.scss */
 #messages {
   clear: both;
 }
 
-/* line 359, ../sass/style.scss */
+/* line 405, ../sass/installation.scss */
 #messages ul {
   list-style: none;
 }
 
-/* line 365, ../sass/style.scss */
+/* line 411, ../sass/installation.scss */
 .info,
 .success,
 .warning,
@@ -592,14 +641,14 @@ form .section:first-child {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
-/* line 381, ../sass/style.scss */
+/* line 428, ../sass/installation.scss */
 .info {
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url("images/icons/info.png");
 }
 
-/* line 386, ../sass/style.scss */
+/* line 433, ../sass/installation.scss */
 .success {
   color: #4F8830;
   background-color: #DFF2BF;
@@ -607,14 +656,14 @@ form .section:first-child {
   background-image: url("images/icons/success.png");
 }
 
-/* line 392, ../sass/style.scss */
+/* line 439, ../sass/installation.scss */
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
   background-image: url("images/icons/warning.png");
 }
 
-/* line 397, ../sass/style.scss */
+/* line 444, ../sass/installation.scss */
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
@@ -622,197 +671,12 @@ form .section:first-child {
   border-color: #F6AAAA;
 }
 
-/* line 405, ../sass/style.scss */
-.sidePanelItem {
-  margin: 0 0 10px;
-}
-
-/* tabs */
-/* line 408, ../sass/style.scss */
-ul.tabs {
-  height: 32px;
-  border-bottom: 1px solid #999;
-  border-left: 1px solid #999;
-}
-
-/* line 413, ../sass/style.scss */
-ul.tabs li {
-  float: left;
-  height: 31px;
-  line-height: 31px;
-  border: 1px solid #999;
-  border-left: 0;
-  margin-bottom: -1px;
-  background: #e0e0e0;
-  overflow: hidden;
-  position: relative;
-}
-
-/* line 424, ../sass/style.scss */
-ul.tabs li a {
-  text-decoration: none;
-  color: #000;
-  display: block;
-  font-size: 1.2em;
-  padding: 0 20px;
-  border: 1px solid #fff;
-  outline: none;
-}
-
-/* line 433, ../sass/style.scss */
-ul.tabs li a:hover {
-  background: #ccc;
-}
-
-/* line 437, ../sass/style.scss */
-ul.tabs li.active,
-ul.tabs li.active a:hover {
-  background: #fff;
-  border-bottom: 1px solid #fff;
-}
-
-/* line 441, ../sass/style.scss */
-.tab-container {
-  background: #fff;
-  border: 1px solid #999;
-  border-top: none;
-  clear: both;
-  padding: 0 20px;
-}
-
-/* line 448, ../sass/style.scss */
-.tab-content {
-  padding: 20px 0 10px;
-}
-
-/* line 451, ../sass/style.scss */
-.tab-content h2 {
-  font-weight: normal;
-  padding-bottom: 10px;
-  font-size: 1.8em;
-}
-
-/* line 456, ../sass/style.scss */
-.tab-content h3 a {
-  color: #254588;
-}
-
-/* line 459, ../sass/style.scss */
-.tab-content img {
-  float: left;
-  margin: 0 20px 20px 0;
-  padding: 5px;
-}
-
-/* line 464, ../sass/style.scss */
-.tab-container .actions {
-  margin: 0;
-}
-
-/* tag cloud */
-/* line 470, ../sass/style.scss */
-.tagcloud {
-  height: 180px;
-}
-
-/* line 471, ../sass/style.scss */
-.tagcloud .tag {
-  float: left;
-  padding: 1px;
-  display: inline;
-}
-
-/* line 472, ../sass/style.scss */
-.tag-10 {
-  font-size: 1.8em;
-}
-
-/* line 473, ../sass/style.scss */
-.tag-9 {
-  font-size: 1.7em;
-}
-
-/* line 474, ../sass/style.scss */
-.tag-8 {
-  font-size: 1.5em;
-}
-
-/* line 475, ../sass/style.scss */
-.tag-7 {
-  font-size: 1.4em;
-}
-
-/* line 476, ../sass/style.scss */
-.tag-6 {
-  font-size: 1.3em;
-}
-
-/* line 477, ../sass/style.scss */
-.tag-5 {
-  font-size: 1.1em;
-}
-
-/* line 478, ../sass/style.scss */
-.tag-4 {
-  font-size: 1.0em;
-}
-
-/* line 479, ../sass/style.scss */
-.tag-3 {
-  font-size: 0.9em;
-}
-
-/* line 480, ../sass/style.scss */
-.tag-2 {
-  font-size: 0.8em;
-}
-
-/* line 481, ../sass/style.scss */
-.tag-1 {
-  font-size: 0.7em;
-}
-
-/** Search **/
-/* line 485, ../sass/style.scss */
-.search {
-  float: right;
-  clear: both;
-}
-
-/* line 490, ../sass/style.scss */
-.search .actions {
-  border: none;
-  margin: 0px;
-  padding: 0px;
-  float: right;
-}
-
-/* line 497, ../sass/style.scss */
-.search label {
-  width: 50px;
-}
-
-/* line 501, ../sass/style.scss */
-.search .actions input {
-  margin: 0px;
-  padding: 2px;
-  margin-left: 10px;
-  font-size: 0.9em;
-}
-
-/* line 508, ../sass/style.scss */
-.facets {
-  width: 150px;
-  float: left;
-  margin-right: 30px;
-}
-
-/* line 514, ../sass/style.scss */
+/* line 451, ../sass/installation.scss */
 .admin-install p {
   max-width: 660px;
 }
 
-/* line 518, ../sass/style.scss */
+/* line 455, ../sass/installation.scss */
 .admin-install-links {
   border-top: 1px solid #bbb;
   margin-top: 2.618em;
@@ -820,12 +684,12 @@ ul.tabs li.active a:hover {
   text-align: right;
 }
 
-/* line 525, ../sass/style.scss */
+/* line 462, ../sass/installation.scss */
 .admin-install-links a {
   margin: 0;
 }
 
-/* line 528, ../sass/style.scss */
+/* line 465, ../sass/installation.scss */
 .admin-install-links .back {
   float: left;
 }
@@ -834,7 +698,7 @@ ul.tabs li.active a:hover {
  * Non-semantic helper classes: please define your styles before this section.
  */
 /* For image replacement */
-/* line 537, ../sass/style.scss */
+/* line 474, ../sass/installation.scss */
 .ir {
   display: block;
   text-indent: -99in;
@@ -846,7 +710,7 @@ ul.tabs li.active a:hover {
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
-/* line 541, ../sass/style.scss */
+/* line 478, ../sass/installation.scss */
 .hidden {
   display: none;
   visibility: hidden;
@@ -854,7 +718,7 @@ ul.tabs li.active a:hover {
 
 /* Hide only visually, but have it available for screenreaders: by Jon Neal.
   www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
-/* line 545, ../sass/style.scss */
+/* line 482, ../sass/installation.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -867,7 +731,7 @@ ul.tabs li.active a:hover {
 }
 
 /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-/* line 548, ../sass/style.scss */
+/* line 485, ../sass/installation.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -879,26 +743,26 @@ ul.tabs li.active a:hover {
 }
 
 /* Hide visually and from screenreaders, but maintain layout */
-/* line 551, ../sass/style.scss */
+/* line 488, ../sass/installation.scss */
 .invisible {
   visibility: hidden;
 }
 
 /* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
    nicolasgallagher.com/micro-clearfix-hack/ */
-/* line 556, ../sass/style.scss */
+/* line 493, ../sass/installation.scss */
 .clearfix:before,
 .clearfix:after {
   content: "";
   display: table;
 }
 
-/* line 557, ../sass/style.scss */
+/* line 494, ../sass/installation.scss */
 .clearfix:after {
   clear: both;
 }
 
-/* line 558, ../sass/style.scss */
+/* line 495, ../sass/installation.scss */
 .clearfix {
   zoom: 1;
 }
@@ -922,7 +786,7 @@ ul.tabs li.active a:hover {
  * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
  */
 @media print {
-  /* line 586, ../sass/style.scss */
+  /* line 523, ../sass/installation.scss */
   * {
     background: transparent !important;
     color: black !important;
@@ -932,46 +796,46 @@ ul.tabs li.active a:hover {
   }
 
   /* Black prints faster: sanbeiji.com/archives/953 */
-  /* line 588, ../sass/style.scss */
+  /* line 525, ../sass/installation.scss */
   a, a:visited {
     color: #444 !important;
     text-decoration: underline;
   }
 
-  /* line 589, ../sass/style.scss */
+  /* line 526, ../sass/installation.scss */
   a[href]:after {
     content: " (" attr(href) ")";
   }
 
-  /* line 590, ../sass/style.scss */
+  /* line 527, ../sass/installation.scss */
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
 
-  /* line 591, ../sass/style.scss */
+  /* line 528, ../sass/installation.scss */
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
     content: "";
   }
 
   /* Don't show links for images, or javascript/internal links */
-  /* line 592, ../sass/style.scss */
+  /* line 529, ../sass/installation.scss */
   pre, blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
 
-  /* line 593, ../sass/style.scss */
+  /* line 530, ../sass/installation.scss */
   thead {
     display: table-header-group;
   }
 
   /* css-discuss.incutio.com/wiki/Printing_Tables */
-  /* line 594, ../sass/style.scss */
+  /* line 531, ../sass/installation.scss */
   tr, img {
     page-break-inside: avoid;
   }
 
-  /* line 595, ../sass/style.scss */
+  /* line 532, ../sass/installation.scss */
   img {
     max-width: 100% !important;
   }
@@ -980,13 +844,13 @@ ul.tabs li.active a:hover {
     margin: 0.5cm;
 }
 
-  /* line 597, ../sass/style.scss */
+  /* line 534, ../sass/installation.scss */
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
-  /* line 598, ../sass/style.scss */
+  /* line 535, ../sass/installation.scss */
   h2, h3 {
     page-break-after: avoid;
   }

@@ -4,17 +4,43 @@
     <meta charset="utf-8">
     <meta name="description" content="put your site description here">
     <meta name="keywords" content="put your site keywords here">
-    <title>Clean Slate</title>
-    <%- styles %>
+  
+    <title>Calipso Setup</title>
+
+    <link rel="stylesheet" href="/css/installation.css" />
+  
   </head>
+
   <body> 
-    <div id="container">
-      <div id="header">
-        <h1><a href="/">Welcome to Calipso</a></h1>        
-        <nav class="primary">
-          <%- primary %>
-        </nav>
+    <div id="header">
+      <a href="/" class="logo"><%= t("Calipso Installer") %></a>
+
+      <div class="form-steps three-form-steps clearfix">
+        <ul>
+          <li class="step1">
+            <div class="form-step-name">
+              <%= t("Setup Database") %>
+            </div>
+          </li>
+          <li class="step2">
+            <div class="form-step-name">
+              <%= t("Create Admin") %>
+            </div>
+          </li>
+          <li class="step3">
+            <div class="form-step-name">
+              <%= t("Add Features") %>
+            </div>
+          </li>
+        </ul>
       </div>
+
+    </div>
+
+    <div id="container">
+
+      
+
       <div id="messages">
         <%- messages %>
       </div>
@@ -25,6 +51,8 @@
         <%- footer %>
       </div>
     </div>
+
     <%- scripts %>
+
   </body>
 </html>

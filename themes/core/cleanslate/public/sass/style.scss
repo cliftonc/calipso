@@ -1,0 +1,599 @@
+
+// Calipso Stylesheet
+//
+// Author: Dennis Hall, revised by Nate Hunzaker
+// ------------------------- //
+// Table of Contents
+// ------------------------- //
+//
+// 1. Typography
+//    a. General
+//    b. Headings
+// 2. Layout
+// 3. Form Elements
+//
+// ------------------------- //
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
+
+@import "compass/css3";
+@import "compass/reset";
+
+
+// 1. Typography
+// ------------------------------------------ //
+
+  // Using a Modular Scale of 16/20 using the golden ratio:
+  //
+  // http://modularscale.com/scale/?px1=16&px2=20&ra1=1.618&ra2=0
+  
+  // General
+
+    body {
+      background: #fff;
+      color: #444;
+      font: 400 0.875em/1.618em "Helvetica", serif;
+      min-width: 700px;
+      text-shadow: 0 2px 1px #fff;
+      height: 100%;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:link, a:visited {
+      color: #222;
+    }
+
+    ul, ol, dl {
+      margin: 0 0 0 1.618em;
+      padding: 0;
+    }
+
+    ol li {
+      list-style: decimal;
+    }
+
+    p {
+      margin: 0 0 1.618em;
+    }
+
+    strong, b {
+      color: #222;
+      font-weight: 600;
+    }
+
+    i, em {
+      font-style: italic;
+    }
+
+
+  // Headings
+    h1,h2,h3,h4,h5,h6 {
+      color: #222;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 600;
+      line-height: 1.618em;
+      margin-bottom: 15px;
+      text-shadow: 0 1px 1px #fff;  // An easy way to anti-alias text
+    }
+
+    h6, h5 {
+      font-size: 1em;
+    }
+
+    h4 {
+      font-size: 1.25em;
+    }
+
+    h3 {
+      font-size: 1.618em;
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      font-size: 2.023em;
+      letter-spacing: -1px;
+    }
+
+    h1 {
+      font-size: 2.618em;
+      letter-spacing: -2px;
+    }
+
+
+// 2. Layout
+// ------------------------------------------ //
+
+#container {
+  margin: 20px auto;
+  min-width: 500px;
+  max-width: 980px;
+}
+
+#body {
+  margin: 0 20px 20px 0;
+  float: left;
+  width: 60%;
+}
+
+#sidePanel {
+  width: 25%;
+  float: right;
+  margin: 0 0 20px;
+}
+.dummy-ad {
+  width:100%;
+  height:248px;
+  border:1px solid #ccc;
+  background:#eee;
+  color:#aaa;
+  line-height:248px;
+  text-align:center;
+}
+
+#footer {
+  clear: both;
+}
+
+nav.secondary {
+  color: #fff;
+  position:absolute;
+  top:4px;
+  right:10px;
+  text-shadow: 0 1px 2px #111;
+    
+    a {
+      color: #fff;
+    }
+}
+
+nav.primary {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin: 0 0 10px;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  padding:4px;
+  border:1px solid #ccc;
+  text-align:left;
+}
+
+
+// 3. Form Elements
+// ------------------------------------------ //
+
+.form-item {
+  clear:both;
+  padding:0 0 10px;
+}
+
+/*
+  label :: width = 150, padding-right = 10
+  .description :: padding-left
+  =
+  input[type=submit] :: margin-left
+  =
+  .checkable :: margin-left
+  = 150 + 10
+
+*/
+
+label {
+  @include inline-block();
+  text-align:right;
+  line-height: 2.5em;
+  padding-right:10px;
+  position: relative;
+  top: -3px;
+  font-weight: bold;
+  width: 20%;
+  margin-right: 10%;
+}
+
+label.for-checkable {
+  width:auto;
+  text-align:left;
+  padding:0 0 0 10px;
+}
+
+textarea, input[type="text"], input[type="password"], select { 
+  border: 1px solid #999; 
+  padding: 1%;
+  font-size: 1em;
+
+  width: 58%;
+
+  @include border-radius(3px); 
+  @include box-shadow(inset 1px 1px 3px #d9d9d9);
+    
+    &.database-uri {
+      width: 300px;
+    }
+}
+
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { border-color: #007DFF; }
+textarea {width:65%;height:200px;}
+#content_teaser-wrapper textarea {height:100px;}
+
+.description {
+  padding: 2px 0 5px 160px;
+  font-size:11px;
+  color: #777;
+  max-width:400px;
+  display:block;}
+
+.button, button, input[type="submit"], a.submit {
+  
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  color: #000;
+  
+  font-size: 14px;
+  font-weight: 400;
+  
+  margin: 0 20px 0 0;
+  padding: 8px 16px;
+  text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
+
+  @include inline-block();
+  @include background( linear-gradient(#ededed, #d9d9d9) );
+  @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+	@include border-radius(7px);
+    
+    &:hover, &.loading {
+      border-color: #333;
+      color: #fff;
+      text-shadow: 0 1px 1px #111;
+      @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
+      @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+    }
+
+    &:active {
+      border-color: #000;
+      @include box-shadow( inset 0 0 8px #000 );
+    }
+
+    &.loading {
+      @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+      padding-left: 40px;
+    }
+
+}
+
+input.date {width:3em;}
+input.date-day,
+input.time {width:2em;}
+input.checkbox, input.radio {margin-left:110px;}
+input.labelFirst {margin-left:auto;}
+form .section {margin:0 0 20px;}
+form .section:first-child {border:0;}
+.actions {
+  clear:both;
+}
+
+.actions input {
+  float: right;
+}
+
+.log-in-or-register {float:right;}
+.link-divider { width: 0; height: 1.2em; overflow: hidden; display: inline-block; border-right: 1px solid #000; margin: 0 5px; }
+#user-login {position: absolute;right:0;top:30px;display:none;border: 1px solid #ccc;box-shadow:0 2px 4px #333;}
+#user-login form {padding:20px;background:#eee;}
+#user-welcome-or-login h2 {display:none;}
+#user-welcome-or-login label {padding:0;text-align:left;width:auto;}
+#user-welcome-or-login input {width:180px;}
+#user-welcome-or-login .form-field {margin:0 0 2px;}
+#user-welcome-or-login .actions {margin:0;padding:0;border:0;}
+#user-welcome-or-login .actions a {display: none;}
+#user-welcome-or-login input[type="submit"] {width:auto;padding:3px 8px;font-size:inherit;font-weight:normal;}
+
+#user-login:before,
+#user-login:after {
+  content: "";
+  position: absolute;
+  z-index: 998;
+  top: -8px;
+  right: 78px;
+  margin-left: -8px;
+  border-top: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #eee;
+}
+
+#user-login:after {
+  border-bottom: 9px solid #ccc;
+  top: -9px;
+  z-index: 997;
+}
+
+/* general 'close' button - round with an 'x',
+   actually a multiplication sign:	`&times;`	`&#215;`	`&#xD7;`	`×`  */
+.close {
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  text-align: center;
+  overflow: hidden;
+  background: #aaa;
+  color: #aaa;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.close:before {
+  content: "\D7";
+  color: #000;
+  display: block;
+  text-align: center;
+  font-weight: normal;
+  width: 16px;
+  position: absolute;
+  top: -1px;
+  left: 0;
+  font-size: 13px;
+  line-height: 16px;
+  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+}
+
+
+
+/* messages [info, success, warning, error] */
+#messages {
+  clear: both;
+}
+#messages ul {
+  list-style:none;
+}
+.info,
+.success,
+.warning,
+.error {
+  border: 1px solid;
+  margin: 0 0 20px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px 6px;  
+
+  position: fixed;
+  right: 20px;
+  top: 90px;
+
+  text-shadow: 0 1px 0 #fff;
+
+  @include border-radius(4px);
+  @include box-shadow(inset 0 1px 0 rgba(255,255,255, 0.75));
+}
+.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+  background-image: url('images/icons/info.png');
+}
+.success {
+  color: #4F8830;
+  background-color: #DFF2BF;
+  border-color: #AC6;
+  background-image:url('images/icons/success.png');
+}
+.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+  background-image: url('images/icons/warning.png');
+}
+.error {
+  color: #D8000C;
+  background-color: #F6D6D6;
+  background-image: url('images/icons/error.png');
+  border-color: #F6AAAA;
+}
+
+
+.sidePanelItem {margin:0 0 10px;}
+
+/* tabs */
+ul.tabs {
+  height: 32px;
+  border-bottom: 1px solid #999;
+  border-left: 1px solid #999;
+}
+ul.tabs li {
+  float: left;
+  height: 31px;
+  line-height: 31px;
+  border: 1px solid #999;
+  border-left: 0;
+  margin-bottom: -1px;
+  background: #e0e0e0;
+  overflow: hidden;
+  position: relative;
+}
+ul.tabs li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+  font-size: 1.2em;
+  padding: 0 20px;
+  border: 1px solid #fff;
+  outline: none;
+}
+ul.tabs li a:hover {
+  background: #ccc;
+}
+ul.tabs li.active,
+ul.tabs li.active a:hover {
+  background: #fff;
+  border-bottom: 1px solid #fff;
+}
+.tab-container {
+  background: #fff;
+  border: 1px solid #999;
+  border-top: none;
+  clear: both;
+  padding: 0 20px;
+}
+.tab-content {
+  padding: 20px 0 10px;
+}
+.tab-content h2 {
+  font-weight: normal;
+  padding-bottom: 10px;
+  font-size: 1.8em;
+}
+.tab-content h3 a {
+  color: #254588;
+}
+.tab-content img {
+  float: left;
+  margin: 0 20px 20px 0;
+  padding: 5px;
+}
+.tab-container .actions {
+  margin: 0;
+}
+
+
+/* tag cloud */
+.tagcloud { height: 180px; }
+.tagcloud .tag { float:left; padding:1px; display:inline; }
+.tag-10 { font-size: 1.8em; }
+.tag-9 { font-size: 1.7em; }
+.tag-8 { font-size: 1.5em; }
+.tag-7 { font-size: 1.4em; }
+.tag-6 { font-size: 1.3em; }
+.tag-5 { font-size: 1.1em; }
+.tag-4 { font-size: 1.0em; }
+.tag-3 { font-size: 0.9em; }
+.tag-2 { font-size: 0.8em; }
+.tag-1 { font-size: 0.7em; }
+
+
+/** Search **/
+.search {
+  float: right;
+  clear: both;
+}
+
+.search .actions {
+  border: none;
+  margin: 0px;
+  padding: 0px;  
+  float: right;
+}
+
+.search label {
+  width: 50px;
+}
+
+.search .actions input {
+  margin: 0px;
+  padding: 2px;
+  margin-left: 10px;
+  font-size: 0.9em;  
+}
+
+.facets {
+  width: 150px;
+  float: left;
+  margin-right: 30px;  
+}
+    
+.admin-install p {
+  max-width: 660px;
+}
+
+.admin-install-links {
+  border-top: 1px solid #bbb;
+  margin-top: 2.618em;
+  padding: 1.618em;
+  text-align: right;
+}
+
+.admin-install-links a {
+  margin:0;
+}
+.admin-install-links .back {
+  float: left;
+}
+
+/**
+ * Non-semantic helper classes: please define your styles before this section.
+ */
+
+/* For image replacement */
+.ir { display: block; text-indent: -99in; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+
+/* Hide for both screenreaders and browsers:
+   css-discuss.incutio.com/wiki/Screenreader_Visibility */
+.hidden { display: none; visibility: hidden; }
+
+/* Hide only visually, but have it available for screenreaders: by Jon Neal.
+  www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible { visibility: hidden; }
+
+/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
+   nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+  
+
+/**
+ * Placeholder media queries for responsive design. Modify as design requires.
+ * These follow after, and will override, the primary ('mobile first') styles
+ * The closing /mediaquery comment is required by respond.js min/max-width Media Query polyfill
+ */
+
+@media only screen and (min-width: 480px) {
+  /* Style adjustments for viewports 480px and over go here */
+
+}/*/mediaquery*/
+
+@media only screen and (min-width: 768px) {
+  /* Style adjustments for viewports 768px and over go here */
+
+}/*/mediaquery*/
+
+
+
+/**
+ * Print styles.
+ *
+ * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
+ */
+@media print {
+  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important;
+  -ms-filter: none !important; } /* Black prints faster: sanbeiji.com/archives/953 */
+  a, a:visited { color: #444 !important; text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  /* Don't show links for images, or javascript/internal links */
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; } /* css-discuss.incutio.com/wiki/Printing_Tables */
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page { margin: 0.5cm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3{ page-break-after: avoid; }
+}

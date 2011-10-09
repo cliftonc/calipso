@@ -1,22 +1,22 @@
 /* Main menu */
 /* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
-/* line 6, ../sass/admin-menu.scss */
+
+@import "compass/css3";
+
 #admin-menu {
-  background: #16272f;
+  background: darken(#2F5163, 15%);
   list-style: none;
   margin: 0;
   padding: 2px 0 0 0;
   width: 100%;
 }
 
-/* line 14, ../sass/admin-menu.scss */
 #admin-menu li {
   float: left;
   padding: 0;
   position: relative;
 }
-
-/* line 20, ../sass/admin-menu.scss */
+ 
 #admin-menu a {
   color: #fff;
   float: left;
@@ -28,29 +28,24 @@
   text-shadow: 0 1px 2px #000;
 }
 
-/* line 31, ../sass/admin-menu.scss */
 #admin-menu li:hover > a {
   color: #fafafa;
 }
 
-/* line 35, ../sass/admin-menu.scss */
-*html #admin-menu li a:hover {
+*html #admin-menu li a:hover /* IE6 */ {
   color: #fafafa;
 }
 
-/* line 39, ../sass/admin-menu.scss */
 #admin-menu li:hover > ul {
   display: block;
 }
 
-/* line 43, ../sass/admin-menu.scss */
 #admin-body {
   float: right;
   width: 70%;
 }
-
 /* Sub-menu */
-/* line 49, ../sass/admin-menu.scss */
+
 #admin-menu ul {
   list-style: none;
   margin: 0;
@@ -62,26 +57,24 @@
   left: 0;
   z-index: 99999;
   background: #444;
-  background: -moz-linear-gradient(#444444, #111111);
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #111111), color-stop(1, #444444));
-  background: -webkit-linear-gradient(#444444, #111111);
-  background: -o-linear-gradient(#444444, #111111);
-  background: -ms-linear-gradient(#444444, #111111);
-  background: linear-gradient(#444444, #111111);
-  -moz-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
-  -webkit-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  background: -moz-linear-gradient(#444, #111);
+  background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
+  background: -webkit-linear-gradient(#444, #111);
+  background: -o-linear-gradient(#444, #111);
+  background: -ms-linear-gradient(#444, #111);
+  background: linear-gradient(#444, #111);
+  -moz-box-shadow: 0 0 2px rgba(255,255,255,.5);
+  -webkit-box-shadow: 0 0 2px rgba(255,255,255,.5);
+  box-shadow: 0 0 2px rgba(255,255,255,.5);
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
 
-/* line 73, ../sass/admin-menu.scss */
 #admin-menu ul ul {
   top: 0;
   left: 140px;
 }
 
-/* line 78, ../sass/admin-menu.scss */
 #admin-menu ul li {
   float: none;
   margin: 0;
@@ -92,14 +85,12 @@
   box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
 }
 
-/* line 88, ../sass/admin-menu.scss */
 #admin-menu ul li:last-child {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
-/* line 94, ../sass/admin-menu.scss */
+ 
 #admin-menu ul a {
   padding: 10px;
   height: 10px;
@@ -112,30 +103,25 @@
   text-transform: none;
 }
 
-/* line 106, ../sass/admin-menu.scss */
 #admin-menu ul a {
-  *height: 10px;
-  /* IE6 & IE7 */
+  *height: 10px; /* IE6 & IE7 */
 }
 
-/* line 110, ../sass/admin-menu.scss */
 #admin-menu a:hover {
   background: #0186ba;
-  background: -moz-linear-gradient(#04acec, #0186ba);
+  background: -moz-linear-gradient(#04acec,  #0186ba);
   background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
-  background: -webkit-linear-gradient(#04acec, #0186ba);
-  background: -o-linear-gradient(#04acec, #0186ba);
-  background: -ms-linear-gradient(#04acec, #0186ba);
-  background: linear-gradient(#04acec, #0186ba);
+  background: -webkit-linear-gradient(#04acec,  #0186ba);
+  background: -o-linear-gradient(#04acec,  #0186ba);
+  background: -ms-linear-gradient(#04acec,  #0186ba);
+  background: linear-gradient(#04acec,  #0186ba);
 }
-
-/* line 120, ../sass/admin-menu.scss */
+ 
 #admin-menu ul li:first-child > a {
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
 }
 
-/* line 125, ../sass/admin-menu.scss */
 #admin-menu ul li:first-child > a:after {
   content: '';
   position: absolute;
@@ -148,7 +134,6 @@
   border-bottom: 8px solid #444;
 }
 
-/* line 137, ../sass/admin-menu.scss */
 #admin-menu ul ul li:first-child a:after {
   left: -8px;
   top: 12px;
@@ -159,26 +144,23 @@
   border-top: 5px solid transparent;
   border-right: 8px solid #444;
 }
-
-/* line 148, ../sass/admin-menu.scss */
+ 
 #admin-menu ul li:first-child a:hover:after {
   border-bottom-color: #04acec;
 }
 
-/* line 152, ../sass/admin-menu.scss */
 #admin-menu ul ul li:first-child a:hover:after {
   border-right-color: #04acec;
   border-bottom-color: transparent;
 }
 
-/* line 158, ../sass/admin-menu.scss */
+
 #admin-menu ul li:last-child > a {
   -moz-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
 }
 
 /* Clear floated elements */
-/* line 164, ../sass/admin-menu.scss */
 #admin-menu:after {
   visibility: hidden;
   display: block;
@@ -188,9 +170,4 @@
   height: 0;
 }
 
-/* line 173, ../sass/admin-menu.scss */
-#admin-menu {
-  *zoom: 1;
-}
-
-/* IE6 & IE7 */
+#admin-menu { *zoom: 1; } /* IE6 & IE7 */

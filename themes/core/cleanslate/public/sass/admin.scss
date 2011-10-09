@@ -1,0 +1,168 @@
+@import "compass/css3";
+
+html {
+  background: #fff;
+}
+
+body {
+  background: #fff;
+  @include background(linear-gradient(#d9d9d9, #fff));
+}
+
+#form-section-modules .fieldset-fields {
+  padding: 5px 0 20px;
+}
+
+#form-section-modules legend {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+#form-section-modules legend {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+#form-section-modules div.form-item {
+  float: left;
+  clear:none !important;
+  width: 50%;
+  margin-bottom: 10px;
+  height: 50px;
+  overflow: none;
+}
+
+#form-section-modules .checkbox {
+  margin-left: 0;
+}
+#form-section-modules .description {
+  padding-left: 22px;
+}
+
+.admin-dashboard-col1 {
+  float: left;
+  width: 45%;
+  display: inline;
+  border: solid 1px silver;
+}
+
+.admin-dashboard-col2 {
+  display: inline;
+  float: right;
+  width: 45%;
+  border: solid 1px silver;
+}
+
+.admin-dashboard-clear {
+  clear: both;
+  height: 15px;
+}
+
+// Tables
+// ---------------------------------------//
+
+table {
+  background: #fff;
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: collapse;
+  font-size: 13px;
+      
+      th, td {
+        padding: 10px 10px 9px;
+        line-height: 18px;
+        text-align: left;
+      }
+
+      tbody tr {    
+          &:nth-child(odd) {
+            background: #efefef;
+          }
+      }
+      
+      th {
+        padding-top: 9px;
+        font-weight: bold;
+        vertical-align: middle;
+        border-bottom: 1px solid #DDD;
+      }      
+
+      th + th, td + td {
+        border-left: 1px solid #DDD;
+      }
+}
+
+.sortable {
+  background: url(../images/sort.gif) center right no-repeat; 
+  padding-right:16px; 
+  cursor:pointer;
+}
+.sorted-asc {
+  background: lighten(#8dbdd8, 20%) url(../images/asc.gif) center right no-repeat;
+  border-color: #8dbdd8;
+}
+.sorted-desc {
+  background: lighten(#8dbdd8, 40%) url(../images/desc.gif) center right no-repeat;
+  border-color: #8dbdd8;
+}
+
+a.pager-page {
+  padding: 3px;
+  border: solid 1px silver;
+}
+span.pager-page {
+  padding: 3px;
+  background: silver;
+}
+.tabular {
+  clear: both;
+}
+
+#adminToolbar {
+  background: #fff;
+  border: 1px solid #ccc;
+  float:left;
+  overflow: hidden;
+  width:20%;
+
+  @include border-radius(8px);
+    
+    ul, li {
+      margin: 0; 
+      list-style:none; 
+      list-style-image: none; 
+    }
+
+    li {
+      border-bottom: 1px solid #d9d9d9;
+      display: block;
+      overflow: hidden;
+
+        a {
+          display:block;
+          padding:8px 16px;
+          color:#222;
+          text-decoration:none;
+          font-weight: bold;
+        }
+        
+        &:last-child {
+          border: 0;
+        }
+
+        &:hover {
+          background: #eee;
+          border-color: #ccc;
+        }
+    }
+}
+
+#adminToolbar li ul {
+  display:none;
+  float:left;
+  clear:left;
+  position:absolute;
+  background:#1993A8;
+}
