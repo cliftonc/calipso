@@ -12,47 +12,25 @@
   </head>
 
   <body> 
-    <div id="header">
-      <a href="/" class="logo"><%= t("Calipso Installer") %></a>
-
-      <div class="form-steps three-form-steps clearfix">
-        <ul>
-          <li class="step1">
-            <div class="form-step-name">
-              <%= t("Setup Database") %>
-            </div>
-          </li>
-          <li class="step2">
-            <div class="form-step-name">
-              <%= t("Create Admin") %>
-            </div>
-          </li>
-          <li class="step3">
-            <div class="form-step-name">
-              <%= t("Add Features") %>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-
+  
     <div id="container">
-
-      
 
       <div id="messages">
         <%- messages %>
       </div>
+
       <div id="admin-body">        
         <%- body %>
       </div>
+      
       <div id="footer">
         <%- footer %>
       </div>
+      
     </div>
 
     <%- scripts %>
 
   </body>
+
 </html>
