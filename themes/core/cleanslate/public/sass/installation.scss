@@ -20,7 +20,7 @@
 
 
 html {
-  background: #fafafa;
+  background: #fff;
 }
 
 // 1. Typography
@@ -34,7 +34,6 @@ html {
 
     body {
       background: #fff;
-      @include background(linear-gradient( #fff, #fafafa 5%) );
       color: #444;
       font: 400 0.875em/1.618em "Helvetica", serif;
       min-width: 700px;
@@ -110,6 +109,27 @@ html {
 // 2. Layout
 // ------------------------------------------ //
 
+#header {
+  border-bottom: 1px solid #d9d9d9;
+  color: #fff;
+  overflow: hidden;
+  padding: 1% 2% 1.5%;
+  left: 0;
+  top: 0;
+  margin: 0 auto;
+  width: 600px;
+
+    .logo {
+      display: block;
+      font-family: "Open Sans", sans-serif;
+      line-height: 40px;
+      font-size: 24px;
+      font-weight: 600;
+      float: left;
+      text-decoration: none;
+    }
+}
+
 #container {
   margin: 20px auto;
   min-width: 500px;
@@ -134,28 +154,6 @@ html {
   width:300px;
   float:left;
   margin:0 0 20px;
-}
-
-#header {
-  border-bottom: 1px solid #d9d9d9;
-  color: #fff;
-  overflow: hidden;
-  padding: 1% 2% 1.5%;
-  left: 0;
-  top: 0;
-  margin: 0 auto;
-  width: 70%;
-  min-width: 700px;
-
-    .logo {
-      display: block;
-      font-family: "Open Sans", sans-serif;
-      line-height: 40px;
-      font-size: 24px;
-      font-weight: 600;
-      float: left;
-      text-decoration: none;
-    }
 }
 
 .dummy-ad {
