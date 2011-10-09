@@ -1,203 +1,152 @@
-/**
- * HTML5 ? Boilerplate
- *
- * style.css contains a reset, font normalization and some base styles.
- *
- * Credit is left where credit is due.
- * Much inspiration was taken from these projects:
- * - yui.yahooapis.com/2.8.1/build/base/base.css
- * - camendesign.com/design/
- * - praegnanz.de/weblog/htmlcssjs-kickstart
- */
 
-/**
- * html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
- * v1.6.1 2010-09-17 | Authors: Eric Meyer & Richard Clark
- * html5doctor.com/html-5-reset-stylesheet/
- */
+// ---------------------------------------------- //
+// Name: style.css
+// Author: Nate Hunzaker, from work originally 
+//         by Dennis Hall
+// ---------------------------------------------- //
+// Table of Contents:
+// ---------------------------------------------- //
+// 1. General
+// 2. Typography
+// 3. Layout
+// 4. Tables
+// 5. Form Elements
+// 5. Misc.
+// ---------------------------------------------- //
 
-html, body, body div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-}
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
 
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-
-blockquote, q { quotes: none; }
-
-blockquote:before, blockquote:after,
-q:before, q:after { content: ""; content: none; }
-
-ins { background-color: #ff9; color: #000; text-decoration: none; }
-
-mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bold; }
-
-del { text-decoration: line-through; }
-
-abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
-
-table { border-collapse: collapse; border-spacing: 0; }
-
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+@import "compass/reset";
+@import "compass/css3";
 
 
-/**
- * Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/
- */
+// 1. Layout
+// ------------------------------------------ //
 
-body { font:13px/1.231 sans-serif; *font-size:small; } /* Hack retained to preserve specificity */
+  #container {
+    width:980px;
+    margin:0 auto;
+    position:relative;
+  }
 
-/* Normalize monospace sizing:
-   en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome */
-pre, code, kbd, samp { font-family: monospace, sans-serif; }
+  #body {
+    width:660px;
+    float:left;
+    margin:0 20px 20px 0;
+    min-height:100px;
+    _display:inline;
+  }
+  
+  #sidePanel {
+    width:300px;
+    float:left;
+    margin:0 0 20px;
+  }
 
+  #footer {
+    clear:both;
+    padding:20px;
+    margin:0 0 40px;
+  }
 
-/**
- * Minimal base styles.
- */
+  .home-content {
+    div {
+      margin-bottom: 1.618em;
+    }
+  }
 
-/* 1) Always force a scrollbar in non-IE
-   2) Remove iOS text size adjust without disabling user zoom: www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
-html { overflow-y: scroll; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
-
-/* j.mp/webkit-tap-highlight-color */
-a:link { -webkit-tap-highlight-color: #FF5E99; }
-
-/* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
-a:hover, a:active { outline: none; }
-
-a, a:active, a:visited { color: #607890; }
-a:hover { color: #036; }
-
-ul, ol { margin-left: 2em; }
-ol { list-style-type: decimal; }
-
-/* Remove margins for navigation lists */
-nav ul, nav li { margin: 0; list-style:none; list-style-image: none; }
-
-small { font-size: 85%; }
-b, strong, th { font-weight: bold; }
-
-td { vertical-align: top; }
-
-/* Set sub, sup without affecting line-height: gist.github.com/413930 */
-sub, sup { font-size: 75%; line-height: 0; position: relative; }
-sup { top: -0.5em; }
-sub { bottom: -0.25em; }
-
-pre {
-  /* www.pathf.com/blogs/2008/05/formatting-quoted-code-in-blog-posts-css21-white-space-pre-wrap/ */
-}
-
-pre code {
-  /* www.pathf.com/blogs/2008/05/formatting-quoted-code-in-blog-posts-css21-white-space-pre-wrap/ */
-  white-space: pre; white-space: pre-wrap; word-wrap: break-word;
-  padding: 15px;
-}
-
-legend { *margin-left: -7px; }
-
-/* 1) Make inputs and buttons play nice in IE: www.viget.com/inspire/styling-the-button-element-in-internet-explorer/
-   2) WebKit browsers add a 2px margin outside the chrome of form elements.
-      Firefox adds a 1px margin above and below textareas
-   3) Set font-size to match <body>'s, and font-family to sans-serif
-   4) Align to baseline */
-button, input, select, textarea { width: auto; overflow: visible; margin: 0; font-size: 100%; font-family: sans-serif; vertical-align: baseline; }
-
-/* 1) Remove default scrollbar in IE: www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/
-   2) Align to text-top */
-textarea { overflow: auto; vertical-align:text-top; }
-
-/* Hand cursor on clickable input elements */
-label, input[type="button"], input[type="submit"], input[type="image"], button { cursor: pointer; }
-
-/* Remove extra padding and inner border in Firefox */
-input::-moz-focus-inner,
-button::-moz-focus-inner { border: 0; padding: 0; }
-
-/* Colors for form validity */
-input:valid, textarea:valid {  }
-input:invalid, textarea:invalid { border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red; }
-.no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
-
-/* Bicubic resizing for non-native sized IMG:
-   code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
-img { -ms-interpolation-mode: bicubic; }
-
-
-/**
- * You might tweak these..
- */
-
-body, select, input, textarea {
-  color: #333;
-  /* Set your base font here, to apply evenly */
-  /* font-family: Georgia, serif;  */
-}
-
-/* Headers (h1, h2, etc) have no default font-size or margin; define those yourself */
-h1, h2, h3, h4, h5, h6 { font-weight: bold; }
-
-/* These selection declarations have to be separate
-   No text-shadow: twitter.com/miketaylr/status/12228805301 */
-/*
-::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
-::selection { background:#FF5E99; color:#fff; text-shadow: none; }
-*/
-
-
-
-
-
-/**
- * Primary styles
- *
- * Author: Dennis Hall
-_*/
-
-/* layout */
-#container {width:980px;margin:0 auto;position:relative;}
-#body {width:660px;float:left;margin:0 20px 20px 0;min-height:100px;_display:inline;}
-#admin-body {margin:0 0 20px;}
-#sidePanel {width:300px;float:left;margin:0 0 20px;}
-#footer {clear:both;padding:20px;}
-
-/* non-layout */
-#header {float:left;width:100%;}
-#header h1 {margin:0;}
-#header h1 a {
-  display: block;
-  float:left;
-  color: #000;
-  font: 800 50px/1 sans-serif;
-  text-shadow: 0px 0px 1px #222;
-  text-decoration: none;
-  letter-spacing: -2px;
-  margin: 20px 0;
-}
 nav.secondary {position:absolute;top:22px;right:0;}
-nav.primary {width:100%;float:left;clear:both;margin:0 0 10px;}
 
-table {width: 100%;}
-th,td {padding:4px;border:1px solid #ccc;text-align:left;}
+nav.primary {
+  background: #111;
+  border: 1px solid #000;
+  width:100%;
+  float:left;
+  clear:both;
+  margin:0 0 10px;
 
-h1 {font-size:200%;margin:0 0 20px;}
-h2 {font-size:200%;margin:0 0 20px;}
-h3 {font-size:160%;text-transform:uppercase;margin:0 0 20px;}
-h4 {font-size:130%;color:#000;margin:0 0 10px;}
-p {margin:0 0 1em;}
+  @include border-radius(8px);
+}
+
+// 2. Typography
+// ------------------------------------------ //
+
+  // Using a Modular Scale of 16/20 using the golden ratio:
+  // http://modularscale.com/scale/?px1=16&px2=20&ra1=1.618&ra2=0
+  
+  // General
+
+    body {
+      background: #fff;
+      color: #444;
+      font: 400 0.875em/1.618em "Helvetica", serif;
+      min-width: 700px;
+      text-shadow: 0 2px 1px #fff;
+      height: 100%;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:link, a:visited {
+      color: #222;
+    }
+
+    ul, ol, dl {
+      margin: 0 0 0 1.618em;
+      padding: 0;
+    }
+
+    ol li {
+      list-style: decimal;
+    }
+
+    p {
+      margin: 0 0 2.618em;
+    }
+
+    strong, b {
+      color: #222;
+      font-weight: 600;
+    }
+
+    i, em {
+      font-style: italic;
+    }
+
+  // Headings
+    h1,h2,h3,h4,h5,h6 {
+      color: #222;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 600;
+      line-height: 1.618em;
+      margin-bottom: 15px;
+      text-shadow: 0 1px 1px #fff;  // An easy way to anti-alias text
+    }
+
+    h6, h5 {
+      font-size: 1em;
+    }
+
+    h4 {
+      font-size: 1.25em;
+    }
+
+    h3 {
+      font-size: 1.618em;
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      font-size: 2.023em;
+      letter-spacing: -1px;
+    }
+
+    h1 {
+      font-size: 2.618em;
+      letter-spacing: -2px;
+    }
 
 .dummy-ad {width:298px;height:248px;border:1px solid #ccc;background:#eee;color:#aaa;line-height:248px;text-align:center;}
 
@@ -216,190 +165,238 @@ p {margin:0 0 1em;}
 */
 label {display:inline-block;width:150px;text-align:right;padding-right:10px;}
 label.for-checkable {width:auto;text-align:left;padding:0 0 0 10px;}
-select {padding:1px;}
+textarea, input[type="text"], input[type="password"], select { border-radius: 3px; border: 1px solid #999; padding: 3px;}
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { border-color: #007DFF; }
 textarea {width:65%;height:200px;}
 #content_teaser-wrapper textarea {height:100px;}
-.tab-container .actions {margin-top:0;}
-.description {padding:2px 0 5px 160px;font-size:11px;}
-input[type=submit] {margin-left:160px;padding:8px 16px;font-size:14px;font-weight:bold;}
+.description {padding:2px 0 5px 160px;font-size:11px;color: #777;max-width:400px;display:block;}
+
+.button, button, input[type="submit"], a.submit {
+
+  background: #d9d9d9;
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  color: #000;
+  cursor: pointer;
+  
+  font-size: 14px;
+  font-weight: 400;
+  
+  margin: 0 20px 0 0;
+  padding: 8px 16px;
+  text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
+
+  @include inline-block();
+  @include background( linear-gradient(#ededed, #d9d9d9) );
+  @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+  @include border-radius(7px);
+    
+    &:hover, &:focus, &.loading {
+      background: #2F5163;
+      border-color: #333;
+      color: #fff;
+      text-shadow: 0 1px 1px #111;
+      @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
+      @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+    }
+
+    &:active {
+      border-color: #000;
+      @include box-shadow( inset 0 0 8px #000 );
+    }
+
+    &.loading {
+      background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
+      @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+      padding-left: 40px;
+    }
+
+}
+
 input.date {width:3em;}
 input.date-day,
 input.time {width:2em;}
-input.checkable {margin-left:160px;}
+input.checkbox, input.radio {margin-left:160px;}
+input.labelFirst {margin-left:auto;}
 form .section {margin:0 0 20px;}
 form .section:first-child {border:0;}
-.actions {clear:both;padding:20px 0;border-top:1px solid #ccc;margin:10px 20px 0;}
+.actions {clear:both;padding:20px 0 20px 20px;border-top:1px solid #ccc;margin:10px 0 0; height: 35px;}
+.actions input {
+  float: right;
+}
 
-#userFormToggleTrigger {float:right;}
-#user-login {text-align:right;}
-#user-login form {text-align:right;clear:both;padding:10px;background:rgb(255,128,47);}
-#user-welcome-or-login h2 {display:none;}
-#user-welcome-or-login label {padding-right:5px;}
-#user-welcome-or-login .form-field {margin:0 0 2px;}
-#user-welcome-or-login .actions {margin:0;padding:0;border:0;}
-#user-welcome-or-login input[type=submit] {padding:1px 5px;font-size:inherit;font-weight:normal;}
+.log-in-or-register {float:right;}
+.link-divider { width: 0; height: 1.2em; overflow: hidden; display: inline-block; border-right: 1px solid #000; margin: 0 5px; }
 
 
+// User Login
+// -------------------------------------------//
+
+#user-login {
+  background: #eee;
+  padding: 20px;
+  position: absolute;
+  right:0;
+  top: 30px;
+  display:none;
+  border: 1px solid #aaa;
+
+  width: 220px;
+
+  @include border-radius(8px);
+  @include box-shadow(inset 0 0 1px #fff, 0 1px 5px #888);
+
+    .form-item {
+      clear: both;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    label {
+      width: 30%;
+      float: left;
+    }
+
+}
+
+#user-welcome-or-login h2 {
+  display:none;
+}
+#user-welcome-or-login input {
+  float: right;
+  width: 60%;
+}
+#user-welcome-or-login .form-field {
+  margin:0 0 2px;
+}
+#user-welcome-or-login .actions {
+  border-top: 1px solid #d9d9d9;
+  padding: 10px 0 0;
+}
+#user-welcome-or-login .actions a {
+  display: none;
+}
+#user-welcome-or-login input[type="submit"] {
+  width: auto;
+  margin:0;
+}
+
+#user-login:before,
+#user-login:after {
+  content: "";
+  position: absolute;
+  z-index: 998;
+  top: -8px;
+  right: 78px;
+  margin-left: -8px;
+  border-top: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #eee;
+}
+
+#user-login:after {
+  border-bottom: 9px solid #ccc;
+  top: -9px;
+  z-index: 997;
+}
+
+.close {
+  display: block;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  text-align: center;
+  overflow: hidden;
+  background: #aaa;
+  color: #aaa;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.close:before {
+  content: "\D7";
+  color: #000;
+  display: block;
+  text-align: center;
+  font-weight: normal;
+  width: 16px;
+  position: absolute;
+  top: -1px;
+  left: 0;
+  font-size: 13px;
+  line-height: 16px;
+  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+}
+
+
+
+/* messages [info, success, warning, error] */
 #messages {
   clear: both;
 }
 #messages ul {
   list-style:none;
 }
-.info {
+.info,
+.success,
+.warning,
+.error {
   border: 1px solid;
-  margin: 0 20px 20px;
+  margin: 0 0 20px;
   padding:15px 10px 15px 50px;
   background-repeat: no-repeat;
   background-position: 10px 6px;  
+}
+.info {
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url('images/icons/info.png');
 }
 .success {
-  border: 1px solid;
-  margin: 0 20px 20px;
-  padding:15px 10px 15px 50px;
-  background-repeat: no-repeat;
-  background-position: 10px 6px;  
   color: #4F8A10;
   background-color: #DFF2BF;
   background-image:url('images/icons/success.png');
 }
 .warning {
-  border: 1px solid;
-  margin: 0 20px 20px;
-  padding:15px 10px 15px 50px;
-  background-repeat: no-repeat;
-  background-position: 10px 6px;  
   color: #9F6000;
   background-color: #FEEFB3;
   background-image: url('images/icons/warning.png');
 }
 .error {
-  border: 1px solid;
-  margin: 0 20px 20px;
-  padding:15px 10px 15px 50px;
-  background-repeat: no-repeat;
-  background-position: 10px 6px;  
   color: #D8000C;
-  background-color: #FFBABA;
+  background-color: #F6D6D6;
   background-image: url('images/icons/error.png');
 }
 
 
 .sidePanelItem {margin:0 0 10px;}
 
-#footer {
-  background: #62555E;
-  color: #ddd;
-}
-#footer a {
-  color: #fff;
-}
 
+/* tag cloud */
+.tagcloud { height: 180px; }
+.tagcloud .tag { float:left; padding:1px; display:inline; }
+.tag-10 { font-size: 1.8em; }
+.tag-9 { font-size: 1.7em; }
+.tag-8 { font-size: 1.5em; }
+.tag-7 { font-size: 1.4em; }
+.tag-6 { font-size: 1.3em; }
+.tag-5 { font-size: 1.1em; }
+.tag-4 { font-size: 1.0em; }
+.tag-3 { font-size: 0.9em; }
+.tag-2 { font-size: 0.8em; }
+.tag-1 { font-size: 0.7em; }
 
-ul.tabs {
-  height: 32px;
-  border-bottom: 1px solid #999;
-  border-left: 1px solid #999;
-}
-ul.tabs li {
-  float: left;
-  height: 31px;
-  line-height: 31px;
-  border: 1px solid #999;
-  border-left: 0;
-  margin-bottom: -1px;
-  background: #e0e0e0;
-  overflow: hidden;
-  position: relative;
-}
-ul.tabs li a {
-  text-decoration: none;
-  color: #000;
-  display: block;
-  font-size: 1.2em;
-  padding: 0 20px;
-  border: 1px solid #fff;
-  outline: none;
-}
-ul.tabs li a:hover {
-  background: #ccc;
-}
-ul.tabs li.active,
-ul.tabs li.active a:hover {
-  background: #fff;
-  border-bottom: 1px solid #fff;
-}
-.tab-container {
-  border:1px solid #999;
-  border-top: none;
-  clear: both;
-}
-.tab-content {
-  padding: 20px 20px 10px;
-}
-.tab-content h2 {
-  font-weight: normal;
-  padding-bottom: 10px;
-  font-size: 1.8em;
-}
-.tab-content h3 a {
-  color: #254588;
-}
-.tab-content img {
-  float: left;
-  margin: 0 20px 20px 0;
-  padding: 5px;
-}
-
-
-
-/**
- * Non-semantic helper classes: please define your styles before this section.
- */
-
-/* For image replacement */
-.ir { display: block; text-indent: -99in; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
-
-/* Hide for both screenreaders and browsers:
-   css-discuss.incutio.com/wiki/Screenreader_Visibility */
-.hidden { display: none; visibility: hidden; }
-
-/* Hide only visually, but have it available for screenreaders: by Jon Neal.
-  www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
-.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
-/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
-
-/* Hide visually and from screenreaders, but maintain layout */
-.invisible { visibility: hidden; }
-
-/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
-   nicolasgallagher.com/micro-clearfix-hack/ */
-.clearfix:before, .clearfix:after { content: ""; display: table; }
-.clearfix:after { clear: both; }
-.clearfix { zoom: 1; }
-
-.tagcloud{height:180px;}
-.tag{float:left;padding:1px;display:inline}
-.tag-10{font-size:1.8em}
-.tag-9{font-size:1.7em}
-.tag-8{font-size:1.5em}
-.tag-7{font-size:1.4em}
-.tag-6{font-size:1.3em}
-.tag-5{font-size:1.1em}
-.tag-4{font-size:1em}
-.tag-3{font-size:.9em}
-.tag-2{font-size:.8em}
-.tag-1{font-size:.7em}
 
 /** Search **/
 .search {
   float: right;
-  clear:both;
+  clear: both;
 }
 
 .search .actions {
@@ -425,6 +422,40 @@ ul.tabs li.active a:hover {
   float: left;
   margin-right: 30px;  
 }
+
+.admin-install p {max-width: 660px;}
+.admin-install-links {text-align: right;}
+.admin-install-links a {margin:0;}
+.admin-install-links .back {float: left;}
+
+/**
+ * Non-semantic helper classes: please define your styles before this section.
+ */
+
+/* For image replacement */
+.ir { display: block; text-indent: -99in; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+
+/* Hide for both screenreaders and browsers:
+   css-discuss.incutio.com/wiki/Screenreader_Visibility */
+.hidden { display: none; visibility: hidden; }
+
+/* Hide only visually, but have it available for screenreaders: by Jon Neal.
+  www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible { visibility: hidden; }
+
+/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
+   nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
   
 
 /**

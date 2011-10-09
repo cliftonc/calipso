@@ -1,25 +1,42 @@
 /* Main menu */
 /* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
-/* line 6, ../sass/admin-menu.scss */
+/* line 7, ../sass/admin-menu.scss */
+html {
+  padding-top: 40px;
+}
+
+/* line 11, ../sass/admin-menu.scss */
 #admin-menu {
   background: #16272f;
+  border-bottom: 1px solid #16272f;
+  position: fixed;
+  left: 0;
   list-style: none;
   margin: 0;
   padding: 2px 0 0 0;
+  top: 0;
   width: 100%;
+  z-index: 9999;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2f5163), color-stop(100%, #1f3540));
+  background: -webkit-linear-gradient(#2f5163, #1f3540);
+  background: -moz-linear-gradient(#2f5163, #1f3540);
+  background: -o-linear-gradient(#2f5163, #1f3540);
+  background: -ms-linear-gradient(#2f5163, #1f3540);
+  background: linear-gradient(#2f5163, #1f3540);
 }
 
-/* line 14, ../sass/admin-menu.scss */
+/* line 26, ../sass/admin-menu.scss */
 #admin-menu li {
   float: left;
   padding: 0;
   position: relative;
 }
 
-/* line 20, ../sass/admin-menu.scss */
+/* line 32, ../sass/admin-menu.scss */
 #admin-menu a {
   color: #fff;
   float: left;
+  font-size: 14px;
   height: 20px;
   padding: 0 22px;
   line-height: 30px;
@@ -28,29 +45,22 @@
   text-shadow: 0 1px 2px #000;
 }
 
-/* line 31, ../sass/admin-menu.scss */
+/* line 44, ../sass/admin-menu.scss */
 #admin-menu li:hover > a {
   color: #fafafa;
 }
 
-/* line 35, ../sass/admin-menu.scss */
+/* line 48, ../sass/admin-menu.scss */
 *html #admin-menu li a:hover {
   color: #fafafa;
 }
 
-/* line 39, ../sass/admin-menu.scss */
+/* line 52, ../sass/admin-menu.scss */
 #admin-menu li:hover > ul {
   display: block;
 }
 
-/* line 43, ../sass/admin-menu.scss */
-#admin-body {
-  float: right;
-  width: 70%;
-}
-
-/* Sub-menu */
-/* line 49, ../sass/admin-menu.scss */
+/* line 56, ../sass/admin-menu.scss */
 #admin-menu ul {
   list-style: none;
   margin: 0;
@@ -62,26 +72,31 @@
   left: 0;
   z-index: 99999;
   background: #444;
-  background: -moz-linear-gradient(#444444, #111111);
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #111111), color-stop(1, #444444));
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #111111));
   background: -webkit-linear-gradient(#444444, #111111);
+  background: -moz-linear-gradient(#444444, #111111);
   background: -o-linear-gradient(#444444, #111111);
   background: -ms-linear-gradient(#444444, #111111);
   background: linear-gradient(#444444, #111111);
   -moz-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
   -webkit-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  -o-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
   -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
   border-radius: 5px;
 }
 
-/* line 73, ../sass/admin-menu.scss */
+/* line 72, ../sass/admin-menu.scss */
 #admin-menu ul ul {
   top: 0;
   left: 140px;
 }
 
-/* line 78, ../sass/admin-menu.scss */
+/* line 77, ../sass/admin-menu.scss */
 #admin-menu ul li {
   float: none;
   margin: 0;
@@ -92,14 +107,14 @@
   box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
 }
 
-/* line 88, ../sass/admin-menu.scss */
+/* line 87, ../sass/admin-menu.scss */
 #admin-menu ul li:last-child {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
 
-/* line 94, ../sass/admin-menu.scss */
+/* line 93, ../sass/admin-menu.scss */
 #admin-menu ul a {
   padding: 10px;
   height: 10px;
@@ -112,13 +127,13 @@
   text-transform: none;
 }
 
-/* line 106, ../sass/admin-menu.scss */
+/* line 105, ../sass/admin-menu.scss */
 #admin-menu ul a {
   *height: 10px;
   /* IE6 & IE7 */
 }
 
-/* line 110, ../sass/admin-menu.scss */
+/* line 109, ../sass/admin-menu.scss */
 #admin-menu a:hover {
   background: #0186ba;
   background: -moz-linear-gradient(#04acec, #0186ba);
@@ -129,13 +144,13 @@
   background: linear-gradient(#04acec, #0186ba);
 }
 
-/* line 120, ../sass/admin-menu.scss */
+/* line 119, ../sass/admin-menu.scss */
 #admin-menu ul li:first-child > a {
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
 }
 
-/* line 125, ../sass/admin-menu.scss */
+/* line 124, ../sass/admin-menu.scss */
 #admin-menu ul li:first-child > a:after {
   content: '';
   position: absolute;
@@ -148,7 +163,7 @@
   border-bottom: 8px solid #444;
 }
 
-/* line 137, ../sass/admin-menu.scss */
+/* line 136, ../sass/admin-menu.scss */
 #admin-menu ul ul li:first-child a:after {
   left: -8px;
   top: 12px;
@@ -160,25 +175,25 @@
   border-right: 8px solid #444;
 }
 
-/* line 148, ../sass/admin-menu.scss */
+/* line 147, ../sass/admin-menu.scss */
 #admin-menu ul li:first-child a:hover:after {
   border-bottom-color: #04acec;
 }
 
-/* line 152, ../sass/admin-menu.scss */
+/* line 151, ../sass/admin-menu.scss */
 #admin-menu ul ul li:first-child a:hover:after {
   border-right-color: #04acec;
   border-bottom-color: transparent;
 }
 
-/* line 158, ../sass/admin-menu.scss */
+/* line 157, ../sass/admin-menu.scss */
 #admin-menu ul li:last-child > a {
   -moz-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
 }
 
 /* Clear floated elements */
-/* line 164, ../sass/admin-menu.scss */
+/* line 163, ../sass/admin-menu.scss */
 #admin-menu:after {
   visibility: hidden;
   display: block;
@@ -188,7 +203,7 @@
   height: 0;
 }
 
-/* line 173, ../sass/admin-menu.scss */
+/* line 172, ../sass/admin-menu.scss */
 #admin-menu {
   *zoom: 1;
 }
