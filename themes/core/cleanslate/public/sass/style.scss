@@ -23,6 +23,27 @@
 // 1. Layout
 // ------------------------------------------ //
 
+  #header {
+    margin-top: 50px;
+      
+      h1 {
+        font-size: 3em;
+        margin-bottom: 50px;
+      }
+
+      nav.secondary {
+        position:absolute;
+        top:22px;
+        right:0;
+      }
+
+      nav.primary {
+        width:100%;
+        clear:both;
+        @include border-radius(8px);
+      }
+  }
+
   #container {
     width:980px;
     margin:0 auto;
@@ -52,21 +73,14 @@
   .home-content {
     div {
       margin-bottom: 1.618em;
+        
+        &.home-spacer {
+          border-bottom: 1px solid #d9d9d9;
+          height: 0;
+        }
     }
   }
-
-nav.secondary {position:absolute;top:22px;right:0;}
-
-nav.primary {
-  background: #111;
-  border: 1px solid #000;
-  width:100%;
-  float:left;
-  clear:both;
-  margin:0 0 10px;
-
-  @include border-radius(8px);
-}
+  
 
 // 2. Typography
 // ------------------------------------------ //
