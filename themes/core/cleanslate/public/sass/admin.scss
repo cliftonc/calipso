@@ -222,6 +222,21 @@
     padding-left: 22px;
   }
 
+  .admin-page {
+    
+    h2 {
+      margin-bottom: 1.5em;
+    }
+
+    .admin-dashboard-col1, .admin-dashboard-col2 {
+      
+      padding: 10px;
+
+      @include box-shadow(0 1px 3px #d9d9d9);
+      @include border-radius(4px);
+    }
+  }
+
   .admin-dashboard-col1 {
     float: left;
     width: 45%;
@@ -419,7 +434,10 @@ ul.tabs li.active a:hover {
   border: 1px solid #999;
   clear: both;
   padding: 0 20px;
+
+  @include border-radius(4px);
 }
+
 .tab-content {
   padding: 20px 0 10px;
     

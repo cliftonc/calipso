@@ -64,6 +64,7 @@ html {
   left: 0;
   z-index: 99999;
   background: #444;
+  
   @include background( linear-gradient(#444, #111) );
   @include box-shadow( 0 0 2px rgba(255,255,255, 0.5) );
   @include border-radius( 5px );
@@ -79,15 +80,11 @@ html {
   margin: 0;
   padding: 0;
   display: block;
-  -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
-  -webkit-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
-  box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
+  @include box-shadow(0 1px 0 #111111, 0 2px 0 #777777);
 }
 
 #admin-menu ul li:last-child {
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+  @include box-shadow(none);
 }
  
 #admin-menu ul a {
@@ -108,17 +105,11 @@ html {
 
 #admin-menu a:hover {
   background: #0186ba;
-  background: -moz-linear-gradient(#04acec,  #0186ba);
-  background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
-  background: -webkit-linear-gradient(#04acec,  #0186ba);
-  background: -o-linear-gradient(#04acec,  #0186ba);
-  background: -ms-linear-gradient(#04acec,  #0186ba);
-  background: linear-gradient(#04acec,  #0186ba);
+  @include background(linear-gradient(#04acec,  #0186ba) );
 }
  
 #admin-menu ul li:first-child > a {
-  -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
+  @include border-top-radius(5px);
 }
 
 #admin-menu ul li:first-child > a:after {
