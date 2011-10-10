@@ -705,30 +705,127 @@ form .section:first-child {
 }
 
 /* line 440, ../sass/style.scss */
-.admin-install p {
-  max-width: 660px;
+#adminToolbar {
+  position: absolute;
+  top: 70px;
+  float: left;
 }
-
-/* line 441, ../sass/style.scss */
-.admin-install-links {
+/* line 445, ../sass/style.scss */
+#adminToolbar ul, #adminToolbar li {
+  margin: 0;
+  list-style: none;
+  list-style-image: none;
+}
+/* line 451, ../sass/style.scss */
+#adminToolbar ul {
   text-align: right;
 }
-
-/* line 442, ../sass/style.scss */
-.admin-install-links a {
-  margin: 0;
+/* line 455, ../sass/style.scss */
+#adminToolbar li {
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+}
+/* line 7, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+#adminToolbar li {
+  *display: inline;
+}
+/* line 459, ../sass/style.scss */
+#adminToolbar li a:link, #adminToolbar li a:visited {
+  background: #d9d9d9;
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  color: #000;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 20px 0 0;
+  padding: 8px 16px;
+  text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ededed), color-stop(100%, #d9d9d9));
+  background: -webkit-linear-gradient(#ededed, #d9d9d9);
+  background: -moz-linear-gradient(#ededed, #d9d9d9);
+  background: -o-linear-gradient(#ededed, #d9d9d9);
+  background: -ms-linear-gradient(#ededed, #d9d9d9);
+  background: linear-gradient(#ededed, #d9d9d9);
+  -moz-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -o-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -o-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -khtml-border-radius: 7px;
+  border-radius: 7px;
+}
+/* line 7, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+#adminToolbar li a:link, #adminToolbar li a:visited {
+  *display: inline;
+}
+/* line 479, ../sass/style.scss */
+#adminToolbar li a:link:hover, #adminToolbar li a:link:focus, #adminToolbar li a:link.loading, #adminToolbar li a:visited:hover, #adminToolbar li a:visited:focus, #adminToolbar li a:visited.loading {
+  background: #2F5163;
+  border-color: #333;
+  color: #fff;
+  text-shadow: 0 1px 1px #111;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
+  background: -webkit-linear-gradient(#3f6d86, #2f5163);
+  background: -moz-linear-gradient(#3f6d86, #2f5163);
+  background: -o-linear-gradient(#3f6d86, #2f5163);
+  background: -ms-linear-gradient(#3f6d86, #2f5163);
+  background: linear-gradient(#3f6d86, #2f5163);
+}
+/* line 488, ../sass/style.scss */
+#adminToolbar li a:link:active, #adminToolbar li a:visited:active {
+  border-color: #000;
+  -moz-box-shadow: inset 0 0 8px black;
+  -webkit-box-shadow: inset 0 0 8px black;
+  -o-box-shadow: inset 0 0 8px black;
+  box-shadow: inset 0 0 8px black;
+}
+/* line 493, ../sass/style.scss */
+#adminToolbar li a:link.loading, #adminToolbar li a:visited.loading {
+  background: #2f5163 url("/images/loader.gif") 15px 50% no-repeat;
+  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
+  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, -moz-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, -o-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, -ms-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(#3f6d86, #2f5163);
+  padding-left: 40px;
+}
+/* line 500, ../sass/style.scss */
+#adminToolbar li:last-child {
+  border: 0;
 }
 
-/* line 443, ../sass/style.scss */
-.admin-install-links .back {
+/* line 506, ../sass/style.scss */
+#adminToolbar li ul {
+  display: none;
   float: left;
+  clear: left;
+  position: absolute;
+  background: #1993A8;
 }
 
 /**
  * Non-semantic helper classes: please define your styles before this section.
  */
 /* For image replacement */
-/* line 450, ../sass/style.scss */
+/* line 519, ../sass/style.scss */
 .ir {
   display: block;
   text-indent: -99in;
@@ -740,7 +837,7 @@ form .section:first-child {
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
-/* line 454, ../sass/style.scss */
+/* line 523, ../sass/style.scss */
 .hidden {
   display: none;
   visibility: hidden;
@@ -748,7 +845,7 @@ form .section:first-child {
 
 /* Hide only visually, but have it available for screenreaders: by Jon Neal.
   www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
-/* line 458, ../sass/style.scss */
+/* line 527, ../sass/style.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -761,7 +858,7 @@ form .section:first-child {
 }
 
 /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-/* line 461, ../sass/style.scss */
+/* line 530, ../sass/style.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -773,26 +870,26 @@ form .section:first-child {
 }
 
 /* Hide visually and from screenreaders, but maintain layout */
-/* line 464, ../sass/style.scss */
+/* line 533, ../sass/style.scss */
 .invisible {
   visibility: hidden;
 }
 
 /* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
    nicolasgallagher.com/micro-clearfix-hack/ */
-/* line 469, ../sass/style.scss */
+/* line 538, ../sass/style.scss */
 .clearfix:before,
 .clearfix:after {
   content: "";
   display: table;
 }
 
-/* line 470, ../sass/style.scss */
+/* line 539, ../sass/style.scss */
 .clearfix:after {
   clear: both;
 }
 
-/* line 471, ../sass/style.scss */
+/* line 540, ../sass/style.scss */
 .clearfix {
   zoom: 1;
 }
@@ -816,7 +913,7 @@ form .section:first-child {
  * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
  */
 @media print {
-  /* line 499, ../sass/style.scss */
+  /* line 568, ../sass/style.scss */
   * {
     background: transparent !important;
     color: black !important;
@@ -826,46 +923,46 @@ form .section:first-child {
   }
 
   /* Black prints faster: sanbeiji.com/archives/953 */
-  /* line 501, ../sass/style.scss */
+  /* line 570, ../sass/style.scss */
   a, a:visited {
     color: #444 !important;
     text-decoration: underline;
   }
 
-  /* line 502, ../sass/style.scss */
+  /* line 571, ../sass/style.scss */
   a[href]:after {
     content: " (" attr(href) ")";
   }
 
-  /* line 503, ../sass/style.scss */
+  /* line 572, ../sass/style.scss */
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
 
-  /* line 504, ../sass/style.scss */
+  /* line 573, ../sass/style.scss */
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
     content: "";
   }
 
   /* Don't show links for images, or javascript/internal links */
-  /* line 505, ../sass/style.scss */
+  /* line 574, ../sass/style.scss */
   pre, blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
 
-  /* line 506, ../sass/style.scss */
+  /* line 575, ../sass/style.scss */
   thead {
     display: table-header-group;
   }
 
   /* css-discuss.incutio.com/wiki/Printing_Tables */
-  /* line 507, ../sass/style.scss */
+  /* line 576, ../sass/style.scss */
   tr, img {
     page-break-inside: avoid;
   }
 
-  /* line 508, ../sass/style.scss */
+  /* line 577, ../sass/style.scss */
   img {
     max-width: 100% !important;
   }
@@ -874,13 +971,13 @@ form .section:first-child {
     margin: 0.5cm;
 }
 
-  /* line 510, ../sass/style.scss */
+  /* line 579, ../sass/style.scss */
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
-  /* line 511, ../sass/style.scss */
+  /* line 580, ../sass/style.scss */
   h2, h3 {
     page-break-after: avoid;
   }
