@@ -44,7 +44,7 @@
       color: #444;
       font: 400 0.875em/1.618em "Helvetica", serif;
       min-width: 700px;
-      text-shadow: 0 2px 1px #fff;
+      text-shadow: 0 1px 1px #fff;
       height: 100%;
     }
 
@@ -124,7 +124,7 @@
   #header {
     
     border-bottom: 1px solid #d9d9d9;
-    margin: 0 auto 40px;
+    margin: 20px auto 40px;
     overflow: hidden;
 
     h1 {
@@ -143,40 +143,39 @@
   #admin-body {
     clear: both;
     margin: 0 auto 40px;
-    width: 70%;
+    width: 72%;
       
       .content-item {
-        border: 1px solid #d9d9d9;
-        padding: 10px 25px 25px;
-
-        @include box-shadow(0 1px 3px #d9d9d9);
+        border: 1px solid #fff;
+        padding: 25px;
+        position: relative;
+        outline: 0;
+        
+        @include border-radius(2px);
+        @include box-shadow(0 1px 8px rgba(0,0,0,0.25), inset 0 0 10px #f8f8f8 );
           
           h2 {
-            border-bottom: 1px solid #d9d9d9;
-            padding-bottom: 10px;
+            line-height: 1em;
+            padding: 10px;
+
+            @include border-radius(2px);
           }
 
           .by, .status, .created, .tags {
             font-style: italic;
             font-family: Georgia, serif;
-            float: left;
-            line-height: 1em;
-            padding: 0 1em 7px;
-            margin: 0 1em 0;
+            margin: 1em;
           }
 
           .content {
-            border-top: 1px solid #d9d9d9;
-            padding-top: 25px;
+            border: 1px solid transparent;
             clear: left;
+            margin-top: 2em;
+            padding: 10px;
+
+            @include border-radius(2px);
           }
       }
-  }
-
-  #sidePanel {
-    width:300px;
-    float:left;
-    margin:0 0 20px;
   }
 
   #footer {
@@ -269,9 +268,11 @@
     font-size: 13px;
         
         th, td {
-          padding: 10px 10px 9px;
+          padding: 10px 15px;
           line-height: 18px;
           text-align: left;
+
+          text-transform: capitalize;
         }
 
         tbody tr {
@@ -279,11 +280,12 @@
           border-bottom: 1px solid #d9d9d9;
           
             &:nth-child(odd) {
-              background: #f0f0f0;
+              background: #f3f3f3;
             }
 
             &:hover {
               background: lighten(#8dbdd8, 20%);
+              border-width: 1px 0;
               border-color: #8dbdd8;
                 
                 td {
@@ -331,9 +333,8 @@ span.pager-page {
 }
 
 #adminToolbar {
-  float: right;
   position: relative;
-  top: 14px;
+  top: 20px;
       
     ul, li {
       margin: 0; 
@@ -342,33 +343,51 @@ span.pager-page {
     }
 
     ul {
-      overflow: hidden;
-      background: #fff;
-      border: 1px solid #ccc;
-
-      @include border-radius(8px);
-
-      @include box-shadow(0 1px 3px #d9d9d9);
+      text-align: right;
     }
 
     li {
-      display: block;
-      float: left;
-      overflow: hidden;
+
+      @include inline-block;
 
         a:link, a:visited {
-          display:block;
-          padding:8px 16px;
-          color:#222;
-          text-decoration:none;
-          font-weight: bold;
+          background: #d9d9d9;
+          border: 1px solid #aaa;
+          border-color: #aaa #999 #888;
+          color: #000;
+          cursor: pointer;
+          
+          font-size: 14px;
+          font-weight: 400;
+          
+          margin: 0 20px 0 0;
+          padding: 8px 16px;
+          text-shadow: 0 1px 0 #fff;
+          text-decoration: none;
+
+          @include inline-block();
+          @include background( linear-gradient(#ededed, #d9d9d9) );
+          @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+          @include border-radius(7px);
             
-            &:hover {
-              color: #2F5163;
+            &:hover, &:focus, &.loading {
+              background: #2F5163;
+              border-color: #333;
+              color: #fff;
+              text-shadow: 0 1px 1px #111;
+              @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
+              @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
             }
 
             &:active {
-              color: darken(#2F5163, 10%);
+              border-color: #000;
+              @include box-shadow( inset 0 0 8px #000 );
+            }
+
+            &.loading {
+              background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
+              @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+              padding-left: 40px;
             }
         }
         
@@ -682,32 +701,31 @@ form .section:first-child {border:0;}
 .error {
   border: 1px solid;
   margin: 0 0 20px;
-  padding:15px 10px 15px 50px;
+  padding: 10px 15px;
   background-repeat: no-repeat;
   background-position: 10px 6px;  
 
+  text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+
   @include border-radius(8px);
+  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
 }
 .info {
   color: #00529B;
   background-color: #BDE5F8;
   border-color: darken(#BDE5F8, 10%);
-  background-image: url('images/icons/info.png');
 }
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
-  background-image:url('images/icons/success.png');
 }
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
-  background-image: url('images/icons/warning.png');
 }
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
-  background-image: url('images/icons/error.png');
 }
 
 .sidePanelItem {margin:0 0 10px;}
