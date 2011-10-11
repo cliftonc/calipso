@@ -64,7 +64,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* line 26, ../sass/style.scss */
+/* line 25, ../sass/style.scss */
 #header {
   margin-top: 50px;
 }
@@ -227,24 +227,13 @@ h1 {
   text-align: center;
 }
 
-/* form elements */
-/* line 168, ../sass/style.scss */
+/* line 169, ../sass/style.scss */
 .form-item {
   clear: both;
   padding: 0 0 10px;
 }
 
-/*
-  label :: width = 150, padding-right = 10
-  .description :: padding-left
-  =
-  input[type=submit] :: margin-left
-  =
-  .checkable :: margin-left
-  = 150 + 10
-
-*/
-/* line 180, ../sass/style.scss */
+/* line 171, ../sass/style.scss */
 label {
   display: inline-block;
   width: 150px;
@@ -252,37 +241,37 @@ label {
   padding-right: 10px;
 }
 
-/* line 181, ../sass/style.scss */
+/* line 172, ../sass/style.scss */
 label.for-checkable {
   width: auto;
   text-align: left;
   padding: 0 0 0 10px;
 }
 
-/* line 182, ../sass/style.scss */
+/* line 173, ../sass/style.scss */
 textarea, input[type="text"], input[type="password"], select {
   border-radius: 3px;
   border: 1px solid #999;
   padding: 3px;
 }
 
-/* line 183, ../sass/style.scss */
+/* line 174, ../sass/style.scss */
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
   border-color: #007DFF;
 }
 
-/* line 184, ../sass/style.scss */
+/* line 175, ../sass/style.scss */
 textarea {
   width: 65%;
   height: 200px;
 }
 
-/* line 185, ../sass/style.scss */
+/* line 176, ../sass/style.scss */
 #content_teaser-wrapper textarea {
   height: 100px;
 }
 
-/* line 186, ../sass/style.scss */
+/* line 177, ../sass/style.scss */
 .description {
   padding: 2px 0 5px 160px;
   font-size: 11px;
@@ -291,7 +280,7 @@ textarea {
   display: block;
 }
 
-/* line 188, ../sass/style.scss */
+/* line 179, ../sass/style.scss */
 .button, button, input[type="submit"], a.submit {
   background: #d9d9d9;
   border: 1px solid #aaa;
@@ -330,7 +319,7 @@ textarea {
 .button, button, input[type="submit"], a.submit {
   *display: inline;
 }
-/* line 209, ../sass/style.scss */
+/* line 200, ../sass/style.scss */
 .button:hover, .button:focus, .button.loading, button:hover, button:focus, button.loading, input[type="submit"]:hover, input[type="submit"]:focus, input[type="submit"].loading, a.submit:hover, a.submit:focus, a.submit.loading {
   background: #2F5163;
   border-color: #333;
@@ -347,7 +336,7 @@ textarea {
   background: -ms-linear-gradient(#3f6d86, #2f5163);
   background: linear-gradient(#3f6d86, #2f5163);
 }
-/* line 218, ../sass/style.scss */
+/* line 209, ../sass/style.scss */
 .button:active, button:active, input[type="submit"]:active, a.submit:active {
   border-color: #000;
   -moz-box-shadow: inset 0 0 8px black;
@@ -355,7 +344,7 @@ textarea {
   -o-box-shadow: inset 0 0 8px black;
   box-shadow: inset 0 0 8px black;
 }
-/* line 223, ../sass/style.scss */
+/* line 214, ../sass/style.scss */
 .button.loading, button.loading, input[type="submit"].loading, a.submit.loading {
   background: #2f5163 url("/images/loader.gif") 15px 50% no-repeat;
   background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
@@ -367,38 +356,38 @@ textarea {
   padding-left: 40px;
 }
 
-/* line 231, ../sass/style.scss */
+/* line 222, ../sass/style.scss */
 input.date {
   width: 3em;
 }
 
-/* line 233, ../sass/style.scss */
+/* line 224, ../sass/style.scss */
 input.date-day,
 input.time {
   width: 2em;
 }
 
-/* line 234, ../sass/style.scss */
+/* line 225, ../sass/style.scss */
 input.checkbox, input.radio {
   margin-left: 160px;
 }
 
-/* line 235, ../sass/style.scss */
+/* line 226, ../sass/style.scss */
 input.labelFirst {
   margin-left: auto;
 }
 
-/* line 236, ../sass/style.scss */
+/* line 227, ../sass/style.scss */
 form .section {
   margin: 0 0 20px;
 }
 
-/* line 237, ../sass/style.scss */
+/* line 228, ../sass/style.scss */
 form .section:first-child {
   border: 0;
 }
 
-/* line 238, ../sass/style.scss */
+/* line 229, ../sass/style.scss */
 .actions {
   clear: both;
   padding: 20px 0 20px 20px;
@@ -407,17 +396,17 @@ form .section:first-child {
   height: 35px;
 }
 
-/* line 239, ../sass/style.scss */
+/* line 230, ../sass/style.scss */
 .actions input {
   float: right;
 }
 
-/* line 243, ../sass/style.scss */
+/* line 234, ../sass/style.scss */
 .log-in-or-register {
   float: right;
 }
 
-/* line 244, ../sass/style.scss */
+/* line 235, ../sass/style.scss */
 .link-divider {
   width: 0;
   height: 1.2em;
@@ -427,7 +416,7 @@ form .section:first-child {
   margin: 0 5px;
 }
 
-/* line 250, ../sass/style.scss */
+/* line 241, ../sass/style.scss */
 #user-login {
   background: #eee;
   padding: 20px;
@@ -448,52 +437,52 @@ form .section:first-child {
   -o-box-shadow: inset 0 0 1px white, 0 1px 5px #888888;
   box-shadow: inset 0 0 1px white, 0 1px 5px #888888;
 }
-/* line 264, ../sass/style.scss */
+/* line 255, ../sass/style.scss */
 #user-login .form-item {
   clear: both;
   margin: 10px 0;
   overflow: hidden;
 }
-/* line 270, ../sass/style.scss */
+/* line 261, ../sass/style.scss */
 #user-login label {
   width: 30%;
   float: left;
 }
 
-/* line 277, ../sass/style.scss */
+/* line 268, ../sass/style.scss */
 #user-welcome-or-login h2 {
   display: none;
 }
 
-/* line 280, ../sass/style.scss */
+/* line 271, ../sass/style.scss */
 #user-welcome-or-login input {
   float: right;
   width: 60%;
 }
 
-/* line 284, ../sass/style.scss */
+/* line 275, ../sass/style.scss */
 #user-welcome-or-login .form-field {
   margin: 0 0 2px;
 }
 
-/* line 287, ../sass/style.scss */
+/* line 278, ../sass/style.scss */
 #user-welcome-or-login .actions {
   border-top: 1px solid #d9d9d9;
   padding: 10px 0 0;
 }
 
-/* line 291, ../sass/style.scss */
+/* line 282, ../sass/style.scss */
 #user-welcome-or-login .actions a {
   display: none;
 }
 
-/* line 294, ../sass/style.scss */
+/* line 285, ../sass/style.scss */
 #user-welcome-or-login input[type="submit"] {
   width: auto;
   margin: 0;
 }
 
-/* line 300, ../sass/style.scss */
+/* line 291, ../sass/style.scss */
 #user-login:before,
 #user-login:after {
   content: "";
@@ -508,14 +497,14 @@ form .section:first-child {
   border-bottom: 8px solid #eee;
 }
 
-/* line 313, ../sass/style.scss */
+/* line 304, ../sass/style.scss */
 #user-login:after {
   border-bottom: 9px solid #ccc;
   top: -9px;
   z-index: 997;
 }
 
-/* line 319, ../sass/style.scss */
+/* line 310, ../sass/style.scss */
 .close {
   display: block;
   position: absolute;
@@ -534,7 +523,7 @@ form .section:first-child {
   cursor: pointer;
 }
 
-/* line 336, ../sass/style.scss */
+/* line 327, ../sass/style.scss */
 .close:before {
   content: "\D7";
   color: #000;
@@ -551,132 +540,128 @@ form .section:first-child {
 }
 
 /* messages [info, success, warning, error] */
-/* line 354, ../sass/style.scss */
+/* line 347, ../sass/style.scss */
 #messages {
   clear: both;
 }
 
-/* line 357, ../sass/style.scss */
+/* line 350, ../sass/style.scss */
 #messages ul {
   list-style: none;
 }
 
-/* line 363, ../sass/style.scss */
+/* line 356, ../sass/style.scss */
 .info,
 .success,
 .warning,
 .error {
   border: 1px solid;
   margin: 0 0 20px;
-  padding: 15px 10px 15px 50px;
+  padding: 15px 10px;
   background-repeat: no-repeat;
   background-position: 10px 6px;
 }
 
-/* line 370, ../sass/style.scss */
+/* line 363, ../sass/style.scss */
 .info {
   color: #00529B;
   background-color: #BDE5F8;
-  background-image: url("images/icons/info.png");
 }
 
-/* line 375, ../sass/style.scss */
+/* line 367, ../sass/style.scss */
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
-  background-image: url("images/icons/success.png");
 }
 
-/* line 380, ../sass/style.scss */
+/* line 371, ../sass/style.scss */
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
-  background-image: url("images/icons/warning.png");
 }
 
-/* line 385, ../sass/style.scss */
+/* line 375, ../sass/style.scss */
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
-  background-image: url("images/icons/error.png");
 }
 
-/* line 392, ../sass/style.scss */
+/* line 380, ../sass/style.scss */
 .sidePanelItem {
   margin: 0 0 10px;
 }
 
 /* tag cloud */
-/* line 396, ../sass/style.scss */
+/* line 383, ../sass/style.scss */
 .tagcloud {
   height: 180px;
 }
 
-/* line 397, ../sass/style.scss */
+/* line 384, ../sass/style.scss */
 .tagcloud .tag {
   float: left;
   padding: 1px;
   display: inline;
 }
 
-/* line 398, ../sass/style.scss */
+/* line 385, ../sass/style.scss */
 .tag-10 {
   font-size: 1.8em;
 }
 
-/* line 399, ../sass/style.scss */
+/* line 386, ../sass/style.scss */
 .tag-9 {
   font-size: 1.7em;
 }
 
-/* line 400, ../sass/style.scss */
+/* line 387, ../sass/style.scss */
 .tag-8 {
   font-size: 1.5em;
 }
 
-/* line 401, ../sass/style.scss */
+/* line 388, ../sass/style.scss */
 .tag-7 {
   font-size: 1.4em;
 }
 
-/* line 402, ../sass/style.scss */
+/* line 389, ../sass/style.scss */
 .tag-6 {
   font-size: 1.3em;
 }
 
-/* line 403, ../sass/style.scss */
+/* line 390, ../sass/style.scss */
 .tag-5 {
   font-size: 1.1em;
 }
 
-/* line 404, ../sass/style.scss */
+/* line 391, ../sass/style.scss */
 .tag-4 {
   font-size: 1.0em;
 }
 
-/* line 405, ../sass/style.scss */
+/* line 392, ../sass/style.scss */
 .tag-3 {
   font-size: 0.9em;
 }
 
-/* line 406, ../sass/style.scss */
+/* line 393, ../sass/style.scss */
 .tag-2 {
   font-size: 0.8em;
 }
 
-/* line 407, ../sass/style.scss */
+/* line 394, ../sass/style.scss */
 .tag-1 {
   font-size: 0.7em;
 }
 
 /** Search **/
-/* line 411, ../sass/style.scss */
+/* line 398, ../sass/style.scss */
 .search {
   float: right;
   clear: both;
 }
 
-/* line 416, ../sass/style.scss */
+/* line 403, ../sass/style.scss */
 .search .actions {
   border: none;
   margin: 0px;
@@ -684,12 +669,12 @@ form .section:first-child {
   float: right;
 }
 
-/* line 423, ../sass/style.scss */
+/* line 410, ../sass/style.scss */
 .search label {
   width: 50px;
 }
 
-/* line 427, ../sass/style.scss */
+/* line 414, ../sass/style.scss */
 .search .actions input {
   margin: 0px;
   padding: 2px;
@@ -697,30 +682,30 @@ form .section:first-child {
   font-size: 0.9em;
 }
 
-/* line 434, ../sass/style.scss */
+/* line 421, ../sass/style.scss */
 .facets {
   width: 150px;
   float: left;
   margin-right: 30px;
 }
 
-/* line 440, ../sass/style.scss */
+/* line 427, ../sass/style.scss */
 #adminToolbar {
   position: absolute;
-  top: 70px;
+  top: 75px;
   float: left;
 }
-/* line 445, ../sass/style.scss */
+/* line 432, ../sass/style.scss */
 #adminToolbar ul, #adminToolbar li {
   margin: 0;
   list-style: none;
   list-style-image: none;
 }
-/* line 451, ../sass/style.scss */
+/* line 438, ../sass/style.scss */
 #adminToolbar ul {
   text-align: right;
 }
-/* line 455, ../sass/style.scss */
+/* line 442, ../sass/style.scss */
 #adminToolbar li {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -732,100 +717,15 @@ form .section:first-child {
 #adminToolbar li {
   *display: inline;
 }
-/* line 459, ../sass/style.scss */
-#adminToolbar li a:link, #adminToolbar li a:visited {
-  background: #d9d9d9;
-  border: 1px solid #aaa;
-  border-color: #aaa #999 #888;
-  color: #000;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0 20px 0 0;
-  padding: 8px 16px;
-  text-shadow: 0 1px 0 #fff;
-  text-decoration: none;
-  display: -moz-inline-box;
-  -moz-box-orient: vertical;
-  display: inline-block;
-  vertical-align: middle;
-  *vertical-align: auto;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ededed), color-stop(100%, #d9d9d9));
-  background: -webkit-linear-gradient(#ededed, #d9d9d9);
-  background: -moz-linear-gradient(#ededed, #d9d9d9);
-  background: -o-linear-gradient(#ededed, #d9d9d9);
-  background: -ms-linear-gradient(#ededed, #d9d9d9);
-  background: linear-gradient(#ededed, #d9d9d9);
-  -moz-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
-  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
-  -o-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
-  box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  -o-border-radius: 7px;
-  -ms-border-radius: 7px;
-  -khtml-border-radius: 7px;
-  border-radius: 7px;
-}
-/* line 7, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
-#adminToolbar li a:link, #adminToolbar li a:visited {
-  *display: inline;
-}
-/* line 479, ../sass/style.scss */
-#adminToolbar li a:link:hover, #adminToolbar li a:link:focus, #adminToolbar li a:link.loading, #adminToolbar li a:visited:hover, #adminToolbar li a:visited:focus, #adminToolbar li a:visited.loading {
-  background: #2F5163;
-  border-color: #333;
-  color: #fff;
-  text-shadow: 0 1px 1px #111;
-  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
-  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
-  background: -webkit-linear-gradient(#3f6d86, #2f5163);
-  background: -moz-linear-gradient(#3f6d86, #2f5163);
-  background: -o-linear-gradient(#3f6d86, #2f5163);
-  background: -ms-linear-gradient(#3f6d86, #2f5163);
-  background: linear-gradient(#3f6d86, #2f5163);
-}
-/* line 488, ../sass/style.scss */
-#adminToolbar li a:link:active, #adminToolbar li a:visited:active {
-  border-color: #000;
-  -moz-box-shadow: inset 0 0 8px black;
-  -webkit-box-shadow: inset 0 0 8px black;
-  -o-box-shadow: inset 0 0 8px black;
-  box-shadow: inset 0 0 8px black;
-}
-/* line 493, ../sass/style.scss */
-#adminToolbar li a:link.loading, #adminToolbar li a:visited.loading {
-  background: #2f5163 url("/images/loader.gif") 15px 50% no-repeat;
-  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
-  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, -moz-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, -o-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, -ms-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(#3f6d86, #2f5163);
-  padding-left: 40px;
-}
-/* line 500, ../sass/style.scss */
-#adminToolbar li:last-child {
-  border: 0;
+/* line 445, ../sass/style.scss */
+#adminToolbar li a {
+  color: #2F5163;
+  margin: 0 2em 0 0;
+  text-decoration: underline;
 }
 
-/* line 506, ../sass/style.scss */
-#adminToolbar li ul {
-  display: none;
-  float: left;
-  clear: left;
-  position: absolute;
-  background: #1993A8;
-}
-
-/**
- * Non-semantic helper classes: please define your styles before this section.
- */
 /* For image replacement */
-/* line 519, ../sass/style.scss */
+/* line 455, ../sass/style.scss */
 .ir {
   display: block;
   text-indent: -99in;
@@ -837,7 +737,7 @@ form .section:first-child {
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
-/* line 523, ../sass/style.scss */
+/* line 459, ../sass/style.scss */
 .hidden {
   display: none;
   visibility: hidden;
@@ -845,7 +745,7 @@ form .section:first-child {
 
 /* Hide only visually, but have it available for screenreaders: by Jon Neal.
   www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
-/* line 527, ../sass/style.scss */
+/* line 463, ../sass/style.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -858,7 +758,7 @@ form .section:first-child {
 }
 
 /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-/* line 530, ../sass/style.scss */
+/* line 466, ../sass/style.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -870,50 +770,32 @@ form .section:first-child {
 }
 
 /* Hide visually and from screenreaders, but maintain layout */
-/* line 533, ../sass/style.scss */
+/* line 469, ../sass/style.scss */
 .invisible {
   visibility: hidden;
 }
 
 /* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
    nicolasgallagher.com/micro-clearfix-hack/ */
-/* line 538, ../sass/style.scss */
+/* line 474, ../sass/style.scss */
 .clearfix:before,
 .clearfix:after {
   content: "";
   display: table;
 }
 
-/* line 539, ../sass/style.scss */
+/* line 475, ../sass/style.scss */
 .clearfix:after {
   clear: both;
 }
 
-/* line 540, ../sass/style.scss */
+/* line 476, ../sass/style.scss */
 .clearfix {
   zoom: 1;
 }
 
-/**
- * Placeholder media queries for responsive design. Modify as design requires.
- * These follow after, and will override, the primary ('mobile first') styles
- * The closing /mediaquery comment is required by respond.js min/max-width Media Query polyfill
- */
-@media only screen and (min-width: 480px) {
-  /* Style adjustments for viewports 480px and over go here */
-}
-/*/mediaquery*/
-@media only screen and (min-width: 768px) {
-  /* Style adjustments for viewports 768px and over go here */
-}
-/*/mediaquery*/
-/**
- * Print styles.
- *
- * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
- */
 @media print {
-  /* line 568, ../sass/style.scss */
+  /* line 483, ../sass/style.scss */
   * {
     background: transparent !important;
     color: black !important;
@@ -923,46 +805,45 @@ form .section:first-child {
   }
 
   /* Black prints faster: sanbeiji.com/archives/953 */
-  /* line 570, ../sass/style.scss */
+  /* line 491, ../sass/style.scss */
   a, a:visited {
     color: #444 !important;
     text-decoration: underline;
   }
 
-  /* line 571, ../sass/style.scss */
+  /* line 495, ../sass/style.scss */
   a[href]:after {
     content: " (" attr(href) ")";
   }
 
-  /* line 572, ../sass/style.scss */
+  /* line 499, ../sass/style.scss */
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
 
-  /* line 573, ../sass/style.scss */
+  /* Don't show links for images, or javascript/internal links */
+  /* line 504, ../sass/style.scss */
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
     content: "";
   }
 
-  /* Don't show links for images, or javascript/internal links */
-  /* line 574, ../sass/style.scss */
+  /* line 508, ../sass/style.scss */
   pre, blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
 
-  /* line 575, ../sass/style.scss */
+  /* line 512, ../sass/style.scss */
   thead {
     display: table-header-group;
   }
 
-  /* css-discuss.incutio.com/wiki/Printing_Tables */
-  /* line 576, ../sass/style.scss */
+  /* line 515, ../sass/style.scss */
   tr, img {
     page-break-inside: avoid;
   }
 
-  /* line 577, ../sass/style.scss */
+  /* line 518, ../sass/style.scss */
   img {
     max-width: 100% !important;
   }
@@ -971,13 +852,13 @@ form .section:first-child {
     margin: 0.5cm;
 }
 
-  /* line 579, ../sass/style.scss */
+  /* line 524, ../sass/style.scss */
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
-  /* line 580, ../sass/style.scss */
+  /* line 528, ../sass/style.scss */
   h2, h3 {
     page-break-after: avoid;
   }

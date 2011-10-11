@@ -146,13 +146,13 @@
     width: 72%;
       
       .content-item {
-        border: 1px solid #fff;
+        border: 1px solid #d9d9d9;
         padding: 25px;
         position: relative;
         outline: 0;
         
-        @include border-radius(2px);
-        @include box-shadow(0 1px 8px rgba(0,0,0,0.25), inset 0 0 10px #f8f8f8 );
+        @include border-radius(4px);
+        @include box-shadow(0 1px 8px rgba(0,0,0,0.05), inset 0 0 10px #f8f8f8 );
           
           h2 {
             line-height: 1em;
@@ -261,33 +261,32 @@
   table {
     background: #fff;
     border: 1px solid #d9d9d9;
+    border-collapse: collapse;
     width: 100%;
     margin-bottom: 18px;
     padding: 0;
-    border-collapse: collapse;
     font-size: 13px;
-        
+
         th, td {
-          padding: 10px 15px;
+          padding: 15px 20px;
           line-height: 18px;
           text-align: left;
 
           text-transform: capitalize;
+
+          &[name="title"] {
+            width: 40%;
+          }
         }
 
         tbody tr {
-          
-          border-bottom: 1px solid #d9d9d9;
-          
+
             &:nth-child(odd) {
               background: #f3f3f3;
             }
 
-            &:hover {
-              background: lighten(#8dbdd8, 20%);
-              border-width: 1px 0;
-              border-color: #8dbdd8;
-                
+            &:hover { 
+              background: lighten(#8dbdd8, 15%);       
                 td {
                   border-color: #8dbdd8;
                 }
@@ -295,14 +294,9 @@
         }
         
         th {
-          padding-top: 9px;
+          border: 1px solid #ddd;
           font-weight: bold;
           vertical-align: middle;
-          border-bottom: 1px solid #DDD;
-        }      
-
-        th + th, td + td {
-          border-left: 1px solid #d9d9d9;
         }
   }
 
@@ -604,7 +598,7 @@ input.date-day,
 input.time {width:2em;}
 
 select.date.date-month {
-  width: 42%;
+  width: 25%;
 }
 
 input.checkbox, input.radio {margin-left:160px;}
