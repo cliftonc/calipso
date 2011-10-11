@@ -560,108 +560,114 @@ form .section:first-child {
   padding: 15px 10px;
   background-repeat: no-repeat;
   background-position: 10px 6px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
 }
 
-/* line 362, ../sass/style.scss */
+/* line 365, ../sass/style.scss */
 .info {
   color: #00529B;
   background-color: #BDE5F8;
 }
 
-/* line 366, ../sass/style.scss */
+/* line 370, ../sass/style.scss */
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
 }
 
-/* line 370, ../sass/style.scss */
+/* line 375, ../sass/style.scss */
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
 }
 
-/* line 374, ../sass/style.scss */
+/* line 380, ../sass/style.scss */
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
 }
 
-/* line 379, ../sass/style.scss */
+/* line 385, ../sass/style.scss */
 .sidePanelItem {
   margin: 0 0 10px;
 }
 
 /* tag cloud */
-/* line 382, ../sass/style.scss */
+/* line 388, ../sass/style.scss */
 .tagcloud {
   height: 180px;
 }
 
-/* line 383, ../sass/style.scss */
+/* line 389, ../sass/style.scss */
 .tagcloud .tag {
   float: left;
   padding: 1px;
   display: inline;
 }
 
-/* line 384, ../sass/style.scss */
+/* line 390, ../sass/style.scss */
 .tag-10 {
   font-size: 1.8em;
 }
 
-/* line 385, ../sass/style.scss */
+/* line 391, ../sass/style.scss */
 .tag-9 {
   font-size: 1.7em;
 }
 
-/* line 386, ../sass/style.scss */
+/* line 392, ../sass/style.scss */
 .tag-8 {
   font-size: 1.5em;
 }
 
-/* line 387, ../sass/style.scss */
+/* line 393, ../sass/style.scss */
 .tag-7 {
   font-size: 1.4em;
 }
 
-/* line 388, ../sass/style.scss */
+/* line 394, ../sass/style.scss */
 .tag-6 {
   font-size: 1.3em;
 }
 
-/* line 389, ../sass/style.scss */
+/* line 395, ../sass/style.scss */
 .tag-5 {
   font-size: 1.1em;
 }
 
-/* line 390, ../sass/style.scss */
+/* line 396, ../sass/style.scss */
 .tag-4 {
   font-size: 1.0em;
 }
 
-/* line 391, ../sass/style.scss */
+/* line 397, ../sass/style.scss */
 .tag-3 {
   font-size: 0.9em;
 }
 
-/* line 392, ../sass/style.scss */
+/* line 398, ../sass/style.scss */
 .tag-2 {
   font-size: 0.8em;
 }
 
-/* line 393, ../sass/style.scss */
+/* line 399, ../sass/style.scss */
 .tag-1 {
   font-size: 0.7em;
 }
 
 /** Search **/
-/* line 397, ../sass/style.scss */
+/* line 403, ../sass/style.scss */
 .search {
   float: right;
   clear: both;
 }
 
-/* line 402, ../sass/style.scss */
+/* line 408, ../sass/style.scss */
 .search .actions {
   border: none;
   margin: 0px;
@@ -669,12 +675,12 @@ form .section:first-child {
   float: right;
 }
 
-/* line 409, ../sass/style.scss */
+/* line 415, ../sass/style.scss */
 .search label {
   width: 50px;
 }
 
-/* line 413, ../sass/style.scss */
+/* line 419, ../sass/style.scss */
 .search .actions input {
   margin: 0px;
   padding: 2px;
@@ -682,62 +688,15 @@ form .section:first-child {
   font-size: 0.9em;
 }
 
-/* line 420, ../sass/style.scss */
+/* line 426, ../sass/style.scss */
 .facets {
   width: 150px;
   float: left;
   margin-right: 30px;
 }
 
-/* line 426, ../sass/style.scss */
-#adminToolbar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 999999;
-}
-/* line 432, ../sass/style.scss */
-#adminToolbar ul, #adminToolbar li {
-  margin: 0;
-  list-style: none;
-  list-style-image: none;
-}
-/* line 438, ../sass/style.scss */
-#adminToolbar ul {
-  text-align: right;
-}
-/* line 442, ../sass/style.scss */
-#adminToolbar li {
-  position: relative;
-  float: left;
-}
-/* line 446, ../sass/style.scss */
-#adminToolbar li a {
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
-  border-right: 1px solid rgba(0, 0, 0, 0.25);
-  color: #fff;
-  display: block;
-  font-size: 14px;
-  height: 20px;
-  padding: 0 22px;
-  line-height: 30px;
-  height: 33px;
-  text-decoration: none;
-  text-shadow: 0 1px 2px #000;
-  white-space: nowrap;
-}
-/* line 460, ../sass/style.scss */
-#adminToolbar li a:hover {
-  background: #333;
-  background: rgba(0, 0, 0, 0.35);
-  -moz-box-shadow: inset 0 0 4px #111111;
-  -webkit-box-shadow: inset 0 0 4px #111111;
-  -o-box-shadow: inset 0 0 4px #111111;
-  box-shadow: inset 0 0 4px #111111;
-}
-
 /* For image replacement */
-/* line 473, ../sass/style.scss */
+/* line 433, ../sass/style.scss */
 .ir {
   display: block;
   text-indent: -99in;
@@ -749,7 +708,7 @@ form .section:first-child {
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
-/* line 477, ../sass/style.scss */
+/* line 437, ../sass/style.scss */
 .hidden {
   display: none;
   visibility: hidden;
@@ -757,7 +716,7 @@ form .section:first-child {
 
 /* Hide only visually, but have it available for screenreaders: by Jon Neal.
   www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
-/* line 481, ../sass/style.scss */
+/* line 441, ../sass/style.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -770,7 +729,7 @@ form .section:first-child {
 }
 
 /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-/* line 484, ../sass/style.scss */
+/* line 444, ../sass/style.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -782,32 +741,32 @@ form .section:first-child {
 }
 
 /* Hide visually and from screenreaders, but maintain layout */
-/* line 487, ../sass/style.scss */
+/* line 447, ../sass/style.scss */
 .invisible {
   visibility: hidden;
 }
 
 /* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
    nicolasgallagher.com/micro-clearfix-hack/ */
-/* line 492, ../sass/style.scss */
+/* line 452, ../sass/style.scss */
 .clearfix:before,
 .clearfix:after {
   content: "";
   display: table;
 }
 
-/* line 493, ../sass/style.scss */
+/* line 453, ../sass/style.scss */
 .clearfix:after {
   clear: both;
 }
 
-/* line 494, ../sass/style.scss */
+/* line 454, ../sass/style.scss */
 .clearfix {
   zoom: 1;
 }
 
 @media print {
-  /* line 501, ../sass/style.scss */
+  /* line 461, ../sass/style.scss */
   * {
     background: transparent !important;
     color: black !important;
@@ -817,45 +776,45 @@ form .section:first-child {
   }
 
   /* Black prints faster: sanbeiji.com/archives/953 */
-  /* line 509, ../sass/style.scss */
+  /* line 469, ../sass/style.scss */
   a, a:visited {
     color: #444 !important;
     text-decoration: underline;
   }
 
-  /* line 513, ../sass/style.scss */
+  /* line 473, ../sass/style.scss */
   a[href]:after {
     content: " (" attr(href) ")";
   }
 
-  /* line 517, ../sass/style.scss */
+  /* line 477, ../sass/style.scss */
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
 
   /* Don't show links for images, or javascript/internal links */
-  /* line 522, ../sass/style.scss */
+  /* line 482, ../sass/style.scss */
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
     content: "";
   }
 
-  /* line 526, ../sass/style.scss */
+  /* line 486, ../sass/style.scss */
   pre, blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
 
-  /* line 530, ../sass/style.scss */
+  /* line 490, ../sass/style.scss */
   thead {
     display: table-header-group;
   }
 
-  /* line 533, ../sass/style.scss */
+  /* line 493, ../sass/style.scss */
   tr, img {
     page-break-inside: avoid;
   }
 
-  /* line 536, ../sass/style.scss */
+  /* line 496, ../sass/style.scss */
   img {
     max-width: 100% !important;
   }
@@ -864,13 +823,13 @@ form .section:first-child {
     margin: 0.5cm;
 }
 
-  /* line 542, ../sass/style.scss */
+  /* line 502, ../sass/style.scss */
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
-  /* line 546, ../sass/style.scss */
+  /* line 506, ../sass/style.scss */
   h2, h3 {
     page-break-after: avoid;
   }
