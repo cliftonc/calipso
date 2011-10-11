@@ -1,9 +1,9 @@
-/* line 20, ../sass/admin-menu.scss */
+/* line 21, ../sass/admin-menu.scss */
 html {
   padding-top: 33px;
 }
 
-/* line 24, ../sass/admin-menu.scss */
+/* line 25, ../sass/admin-menu.scss */
 #adminMenu {
   border-bottom: 1px solid #001;
   top: 0;
@@ -24,18 +24,18 @@ html {
   box-shadow: inset -3px 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #cccccc, inset 0 -1px 1px black;
 }
 
-/* line 41, ../sass/admin-menu.scss */
+/* line 42, ../sass/admin-menu.scss */
 #admin-menu {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-/* line 46, ../sass/admin-menu.scss */
+/* line 47, ../sass/admin-menu.scss */
 #admin-menu li {
   position: relative;
   float: left;
 }
-/* line 50, ../sass/admin-menu.scss */
+/* line 51, ../sass/admin-menu.scss */
 #admin-menu li a {
   border-left: 1px solid rgba(255, 255, 255, 0.15);
   border-right: 1px solid rgba(0, 0, 0, 0.25);
@@ -50,7 +50,7 @@ html {
   text-shadow: 0 1px 2px #000;
   white-space: nowrap;
 }
-/* line 64, ../sass/admin-menu.scss */
+/* line 65, ../sass/admin-menu.scss */
 #admin-menu li a:hover {
   background: #333;
   background: rgba(0, 0, 0, 0.35);
@@ -59,7 +59,7 @@ html {
   -o-box-shadow: inset 0 0 4px #111111;
   box-shadow: inset 0 0 4px #111111;
 }
-/* line 73, ../sass/admin-menu.scss */
+/* line 74, ../sass/admin-menu.scss */
 #admin-menu > li:last-child a {
   -moz-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.15);
   -webkit-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.15);
@@ -67,12 +67,12 @@ html {
   box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.15);
 }
 
-/* line 82, ../sass/admin-menu.scss */
+/* line 83, ../sass/admin-menu.scss */
 #admin-menu li:hover > ul {
   display: block;
 }
 
-/* line 86, ../sass/admin-menu.scss */
+/* line 87, ../sass/admin-menu.scss */
 #admin-menu ul {
   background: #333;
   border: 1px solid #111;
@@ -110,7 +110,7 @@ html {
   border-bottom-right-radius: 5px;
 }
 
-/* line 106, ../sass/admin-menu.scss */
+/* line 107, ../sass/admin-menu.scss */
 #admin-menu ul ul {
   top: -2px;
   left: 100%;
@@ -118,7 +118,7 @@ html {
   width: auto;
 }
 
-/* line 113, ../sass/admin-menu.scss */
+/* line 114, ../sass/admin-menu.scss */
 #admin-menu ul li {
   float: none;
   margin: 0;
@@ -127,7 +127,7 @@ html {
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
-/* line 122, ../sass/admin-menu.scss */
+/* line 123, ../sass/admin-menu.scss */
 #admin-menu ul a {
   padding: 10px;
   height: 10px;
@@ -139,8 +139,55 @@ html {
   text-transform: none;
 }
 
-/* Clear floated elements */
 /* line 138, ../sass/admin-menu.scss */
+#adminToolbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999999;
+}
+/* line 144, ../sass/admin-menu.scss */
+#adminToolbar ul, #adminToolbar li {
+  margin: 0;
+  list-style: none;
+  list-style-image: none;
+}
+/* line 150, ../sass/admin-menu.scss */
+#adminToolbar ul {
+  text-align: right;
+}
+/* line 154, ../sass/admin-menu.scss */
+#adminToolbar li {
+  position: relative;
+  float: left;
+}
+/* line 159, ../sass/admin-menu.scss */
+#adminToolbar li a {
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  height: 20px;
+  padding: 0 22px;
+  line-height: 30px;
+  height: 33px;
+  text-decoration: none;
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+}
+/* line 173, ../sass/admin-menu.scss */
+#adminToolbar li a:hover {
+  background: #333;
+  background: rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: inset 0 0 4px #111111;
+  -webkit-box-shadow: inset 0 0 4px #111111;
+  -o-box-shadow: inset 0 0 4px #111111;
+  box-shadow: inset 0 0 4px #111111;
+}
+
+/* Clear floated elements */
+/* line 189, ../sass/admin-menu.scss */
 #admin-menu:after {
   visibility: hidden;
   display: block;
@@ -150,7 +197,7 @@ html {
   height: 0;
 }
 
-/* line 147, ../sass/admin-menu.scss */
+/* line 198, ../sass/admin-menu.scss */
 #admin-menu {
   *zoom: 1;
 }
