@@ -23,6 +23,7 @@
 
   #header {
 
+    position: relative;
     margin-top: 50px;
       
       h1 {
@@ -44,9 +45,8 @@
   }
 
   #container {
-    width:980px;
-    margin:0 auto;
-    position:relative;
+    width: 980px;
+    margin: 0 auto;
   }
 
   #body {
@@ -424,10 +424,11 @@
   }
 
   #adminToolbar {
-    position: absolute;
-    top: 75px;
-    float: left;
-        
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999999;
+            
       ul, li {
         margin: 0; 
         list-style:none; 
@@ -439,14 +440,32 @@
       }
 
       li {
-        @include inline-block;
+        position: relative;
+        float: left;
           
           a {
-            color: #2F5163;
-            margin: 0 2em 0 0;
-            text-decoration: underline;
-          }
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-right: 1px solid rgba(0, 0, 0, 0.25);
+            color: #fff;
+            display: block;
+            font-size: 14px;
+            height: 20px;
+            padding: 0 22px;
+            line-height: 30px;
+            height: 33px;
+            text-decoration: none;
+            text-shadow: 0 1px 2px #000;
+            white-space: nowrap;
+
+            &:hover {
+              background: #333;
+              background: rgba(0, 0, 0, 0.35);
+
+              @include box-shadow(inset 0 0 4px #111);
+            }
+          }       
       }
+
   }
 
 

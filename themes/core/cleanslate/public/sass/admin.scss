@@ -261,9 +261,8 @@
   table {
     background: #fff;
     border: 1px solid #d9d9d9;
-    border-collapse: collapse;
+    border-top: 0;
     width: 100%;
-    margin-bottom: 18px;
     padding: 0;
     font-size: 13px;
 
@@ -283,35 +282,53 @@
 
             &:nth-child(odd) {
               background: #f3f3f3;
+              border-bottom: 1px solid #d9d9d9;
+              border-top: 1px solid #d9d9d9;
+            }
+
+            td {
+              border-right: 1px solid #d9d9d9;
             }
 
             &:hover { 
+              
               background: lighten(#8dbdd8, 15%);       
+
                 td {
-                  border-color: #8dbdd8;
+                  border: 1px solid #8dbdd8;
                 }
             }
         }
         
         th {
-          border: 1px solid #ddd;
+          background: #fff;
+          border: 1px solid #d9d9d9;
           font-weight: bold;
           vertical-align: middle;
+          text-align: center;
+          padding: 10px 10px;
+
+          @include box-shadow(inset 0 -3px 5px #eee);
+
         }
   }
 
 .sortable {
-  background: url(../images/sort.gif) center right no-repeat; 
+  background: url(../images/sort.gif) 90% 50% no-repeat; 
   padding-right:16px; 
   cursor:pointer;
 }
 .sorted-asc {
-  background: lighten(#8dbdd8, 20%) url(../images/asc.gif) center right no-repeat;
+  background: lighten(#8dbdd8, 20%) url(../images/asc.gif) 90% 50% no-repeat; 
   border-color: #8dbdd8;
+
+  @include box-shadow(none);
 }
 .sorted-desc {
-  background: lighten(#8dbdd8, 40%) url(../images/desc.gif) center right no-repeat;
-  border-color: #8dbdd8;
+  background: lighten(#288B56, 40%) url(../images/desc.gif) 90% 50% no-repeat; 
+  border-color: lighten(#288B56, 10%);
+
+  @include box-shadow(none);
 }
 
 a.pager-page {
@@ -500,115 +517,118 @@ ul.tabs li.active a:hover {
 // 5. Form Elements
 // ----------------------------------------//
 
-.form-item {
-  border-top: 1px solid #d9d9d9;
-  clear: both;
-  margin: 20px 0;
-  padding: 10px 0 0;
-}
+  .form-item {
+    border-top: 1px dotted #d9d9d9;
+    clear: both;
+    margin: 11px 0 0;
+    padding: 10px 0 0;
+  }
 
-.fieldset-fields {
-  clear: both;
-  margin-bottom: 60px;
-}
+  .fieldset-fields {
+    clear: both;
+    margin-bottom: 60px;
+  }
 
-label {
-  display:inline-block;
-  font-weight: bold;
-  width:30%;
-  text-align:left;
-  padding-right:10px;
-  vertical-align: top;
-}
+  label {
+    display: inline-block;
+    font-weight: bold;
+    width: 30%;
+    text-align: left;
+    padding-right: 10px;
+    vertical-align: top;
+  }
 
-label.for-checkable {
-  width:auto;
-  text-align:left;
-  padding:0 0 0 10px;
-}
+  label.for-checkable {
+    width: auto;
+    text-align: left;
+    padding: 0 0 0 10px;
+  }
 
-textarea, input[type="text"], input[type="password"], select { 
-  border-radius: 3px;
-  border: 1px solid #999; 
-  padding: 1%;
-  width: 66%;
-}
-
-textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { 
-  border-color: #007DFF; 
-}
-textarea {
-  width:65%;
-  height:200px;
-}
-
-.description {
-  color: #777;
-  padding: 2px 0 5px 203px;
-  font: italic 11px/1.5em Georgia, serif;
-  max-width: 400px;
-  display: block;
-}
-
-.button, button, input[type="submit"], a.submit {
-
-  background: #d9d9d9;
-  border: 1px solid #aaa;
-  border-color: #aaa #999 #888;
-  color: #000;
-  cursor: pointer;
-  
-  font-size: 14px;
-  font-weight: 400;
-  
-  margin: 0 20px 0 0;
-  padding: 8px 16px;
-  text-shadow: 0 1px 0 #fff;
-  text-decoration: none;
-
-  @include inline-block();
-  @include background( linear-gradient(#ededed, #d9d9d9) );
-  @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
-  @include border-radius(7px);
+  textarea, input[type="text"], input[type="password"], select { 
     
-    &:hover, &:focus, &.loading {
-      background: #2F5163;
-      border-color: #333;
-      color: #fff;
-      text-shadow: 0 1px 1px #111;
-      @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
-      @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
-    }
+    font-size: 14px;
+    border: 1px solid #999; 
+    padding: 1%;
+    width: 66%;
 
-    &:active {
-      border-color: #000;
-      @include box-shadow( inset 0 0 8px #000 );
-    }
+    @include border-radius(3px);
+  }
 
-    &.loading {
-      background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
-      @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
-      padding-left: 40px;
-    }
+  textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { 
+    border-color: #007DFF; 
+  }
+  textarea {
+    width:65%;
+    height:200px;
+  }
 
-}
+  .description {
+    color: #777;
+    padding: 2px 0 5px 203px;
+    font: italic 11px/1.5em Georgia, serif;
+    max-width: 400px;
+    display: block;
+  }
 
-input.date {width:3em;}
-input.date-day,
-input.time {width:2em;}
+  .button, button, input[type="submit"], a.submit {
 
-select.date.date-month {
-  width: 25%;
-}
+    background: #d9d9d9;
+    border: 1px solid #aaa;
+    border-color: #aaa #999 #888;
+    color: #000;
+    cursor: pointer;
+    
+    font-size: 14px;
+    font-weight: 400;
+    
+    margin: 0 20px 0 0;
+    padding: 8px 16px;
+    text-shadow: 0 1px 0 #fff;
+    text-decoration: none;
 
-input.checkbox, input.radio {margin-left:160px;}
-input.labelFirst {margin-left:auto;}
-form .section {margin:0 0 20px;}
-form .section:first-child {border:0;}
-.actions {clear:both;padding:20px 0 20px 20px;border-top:1px solid #ccc;margin:10px 0 0; height: 35px;}
-.actions input {
-  float: right;
-}
+    @include inline-block();
+    @include background( linear-gradient(#ededed, #d9d9d9) );
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+    @include border-radius(7px);
+      
+      &:hover, &:focus, &.loading {
+        background: #2F5163;
+        border-color: #333;
+        color: #fff;
+        text-shadow: 0 1px 1px #111;
+        @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
+        @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+      }
+
+      &:active {
+        border-color: #000;
+        @include box-shadow( inset 0 0 8px #000 );
+      }
+
+      &.loading {
+        background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
+        @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+        padding-left: 40px;
+      }
+
+  }
+
+  input.date {width:3em;}
+  input.date-day,
+  input.time {width:2em;}
+
+  select.date.date-month {
+    width: 25%;
+  }
+
+  input.checkbox, input.radio {margin-left:160px;}
+  input.labelFirst {margin-left:auto;}
+  form .section {margin:0 0 20px;}
+  form .section:first-child {border:0;}
+  .actions {clear:both;padding:20px 0 20px 20px;border-top:1px solid #ccc;margin:10px 0 0; height: 35px;}
+  .actions input {
+    float: right;
+  }
 
 .log-in-or-register {float:right;}
 .link-divider { width: 0; height: 1.2em; overflow: hidden; display: inline-block; border-right: 1px solid #000; margin: 0 5px; }
