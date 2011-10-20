@@ -1,5 +1,5 @@
 {
-  "version":1,
+  "version":"0.3.0",
   "installed":false,
   "database": {
     "uri":"mongodb://localhost/calipso"
@@ -19,6 +19,12 @@
     },
     "events":{
       "maxListeners":500
+    }
+  },
+  "calipso": {
+    "repo": {
+      "url":"http://calip.so/repo/api",
+      "defaultVersion":"master"
     }
   },
   "performance": {

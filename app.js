@@ -98,8 +98,9 @@ function bootApplication(next) {
   // Load placeholder, replaced later
   app.use(app.mwHelpers.staticMiddleware(''));
 
-  // Media paths
+  // Core static paths
   app.use(express["static"](path + '/media', {maxAge: 86400000}));
+  app.use(express["static"](path + '/lib/client/js', {maxAge: 86400000}));
 
   // connect-form
   app.use(form({

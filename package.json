@@ -44,7 +44,8 @@
     "hook.io":"0.7.x",
     "zipfile":"0.2.x",
     "rimraf":"1.0.x",
-    "nconf":"0.2.x"
+    "nconf":"0.2.x",
+    "async": "0.1.x"
   },
   "devDependencies": {
     "expresso": "0.8.x",
