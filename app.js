@@ -8,6 +8,7 @@
  *
  */
 
+
 var rootpath = process.cwd() + '/',
   path = require('path'),
   fs = require('fs'),
@@ -26,8 +27,7 @@ var rootpath = process.cwd() + '/',
 // Local App Variables
 var path = rootpath,
   theme = 'default',
-  port = process.env.PORT || 3000,
-  version = "0.2.3";
+  port = process.env.PORT || 3000;
 
 /**
  * Catch All exception handler
@@ -52,10 +52,18 @@ function bootApplication(next) {
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.responseTime());
-  app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));
+
+  // Create dummy session middleware - tag it so we can later replace
+  var temporarySession = function(req, res, next) {
+    req.session = {};
+    next();
+  };
+  temporarySession.tag = "session";
+  app.use(temporarySession);
+
 
   // Default Theme
-  calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
+  calipso.defaultTheme = app.config.get('themes:default');
 
   // Create holders for theme dependent middleware
   // These are here because they need to be in the connect stack before the calipso router
@@ -65,14 +73,14 @@ function bootApplication(next) {
   // Stylus
   app.mwHelpers.stylusMiddleware = function (themePath) {
     var mw = stylus.middleware({
-      src: themePath + '/stylus', // .styl files are located in `views/stylesheets`
-      dest: themePath + '/public', // .styl resources are compiled `/stylesheets/*.css`
+      src: themePath + '/stylus',
+      dest: themePath + '/public',
       debug: false,
       compile: function (str, path) { // optional, but recommended
         return stylus(str)
           .set('filename', path)
-          .set('warn', true)
-          .set('compress', true);
+          .set('warn', app.config.get('libraries:stylus:warn'))
+          .set('compress', app.config.get('libraries:stylus:compress'));
       }
     });
     mw.tag = 'theme.stylus';
@@ -90,16 +98,17 @@ function bootApplication(next) {
   // Load placeholder, replaced later
   app.use(app.mwHelpers.staticMiddleware(''));
 
-  // Media paths
+  // Core static paths
   app.use(express["static"](path + '/media', {maxAge: 86400000}));
+  app.use(express["static"](path + '/lib/client/js', {maxAge: 86400000}));
 
   // connect-form
   app.use(form({
-    keepExtensions: true
+      keepExtensions: app.config.get('libraries:formidable:keepExtensions')
   }));
 
   // Translation - after static, set to add mode if appropriate
-  app.use(translate.translate(app.set('config').language, app.set('language-add')));
+  app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
   // Core calipso router
   app.use(calipso.calipsoRouter(next));
@@ -109,37 +118,25 @@ function bootApplication(next) {
 /**
  * Initial bootstrapping
  */
-exports.boot = function (next) {
+exports.boot = function (next,cluster) {
 
   //Create our express instance, export for later reference
   app = exports.app = express.createServer();
   app.path = path;
-  app.version = version;
+  app.isCluster = cluster;
 
-  // Import configuration
-  require(path + '/conf/configuration.js')(app, function (err) {
+  // Load configuration
+  var Config = require(path + "/lib/Config").Config;
+  app.config = new Config({},function(err) {
 
-    if (err) {
+    // TODO : Check for error
 
-      // Add additional detail to know errors
-      switch (err.code) {
-      case "ECONNREFUSED":
-        console.log("Unable to connect to the specified database: ".red + app.set('db-uri'));
-        break;
-      default:
-        console.log("Fatal unknown error: ".magenta + err);
-      }
-      next();
-
-    } else {
-
-      // Load application configuration
-      theme = app.set('config').theme;
-      // Bootstrap application
-      bootApplication(function () {
-        next(app);
-      });
-    }
+    // Load application configuration
+    theme = app.config.get('themes:front');
+    // Bootstrap application
+    bootApplication(function () {
+      next(app);
+    });
 
   });
 
@@ -155,7 +152,7 @@ if (!module.parent) {
 
     if (app) {
       app.listen(port);
-      console.log("Calipso version: ".green + app.version);
+      console.log("Calipso version: ".green + app.about.version);
       console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
       console.log("Calipso server listening on port: ".green + app.address().port);
     } else {

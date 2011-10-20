@@ -1,5 +1,6 @@
 {
   "name": "contentTypes",
+  "label": "Content Types",
   "description": "Core content management functions for definition of content types.",
   "version": "0.2.0",
   "homepage": "http://calip.so",

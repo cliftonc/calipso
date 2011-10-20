@@ -3,12 +3,12 @@
  * NODE_ENV=production node app-cluster
  */
 var cluster = require('cluster');
-var port = 3000;
+var port = process.env.PORT || 3000;
 var path = __dirname;
 var app;
 
 /**
- * Create an instance of calipso via the normal App.
+ * Create an instance of calipso via the normal App,
  */
 require('./app').boot(function (app) {
 
@@ -20,21 +20,21 @@ require('./app').boot(function (app) {
     .set('working directory', path)
     .set('socket path', path)
     .in('development')
-    .set('workers', 4)
+    .set('workers', 3)
     .use(cluster.logger(path + '/logs', 'debug'))
     .use(cluster.debug())
     .use(cluster.pidfiles(path + '/pids'))
     .use(cluster.stats({ connections: true, lightRequests: true }))
     .in('test')
-    .set('workers', 4)
+    .set('workers', 3)
     .use(cluster.logger(path + '/logs', 'warning'))
     .use(cluster.pidfiles(path + '/pids'))
     .in('production')
-    .set('workers', 4)
+    .set('workers', 3)
     .use(cluster.logger(path + '/logs'))
     .use(cluster.pidfiles(path + '/pids'))
     .in('all')
     .listen(port);
 
 
-});
+},true);

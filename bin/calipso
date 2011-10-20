@@ -65,12 +65,11 @@ function runLauncher(appLauncher) {
 
   // Check if this is a calipso src folder
   if(isLibrary() && !appLauncher.src) {
-    console.log('\x1b[1mTo run this from the src folder, you need to add an "-s true" parameter, or please run from an empty directory or an installed calipso site\x1b[0m\r\n');
-    return;
+    console.log('\r\nWARNING:'.yellow.bold + ' You are running this from a Calipso source folder.'.white.bold);
   }
 
   // Check if this is a calipso site
-  if(!isCalipso() && appLauncher.command != 'site' && !appLauncher.src) {
+  if(!isCalipso() && appLauncher.command != 'site' && !isLibrary()) {
     console.log('\x1b[1mThis is not a Calipso site - you must run:\x1b[0m calipso site SiteName\r\n');
     return;
   }
@@ -95,7 +94,7 @@ function runLauncher(appLauncher) {
         var modules = require('lib/cli/Modules')
         modules.moduleRouter(path,appLauncher.script.params,true,function(err) {
               if(err) {
-                console.log("\r\n" + err.message.red + "\r\n");
+                console.log("\r\n" + err.message.red.bold + "\r\n");
               }
               process.exit();
           });
@@ -108,7 +107,7 @@ function runLauncher(appLauncher) {
         var themes = require('lib/cli/Themes')
         themes.themeRouter(path,appLauncher.script.params,true,function(err) {
               if(err) {
-                console.log("\r\n" + err.message.red + "\r\n");
+                console.log("\r\n" + err.message.red.bold + "\r\n");
               }
               process.exit();
           });
@@ -230,7 +229,7 @@ function createApplicationAt(path) {
       mkdir(path + '/tmp',self.parallel());
       copy(calipsoPath + '/app-cluster.js',path + '/',self.parallel());
       copy(calipsoPath + '/app.js',path + '/',self.parallel());
-      copy(calipsoPath + '/package.json',path + '/',self.parallel());      
+      copy(calipsoPath + '/package.json',path + '/',self.parallel());
       copy(calipsoPath + '/logo.js',path + '/',self.parallel());
     },
     function done() {

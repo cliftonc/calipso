@@ -1,0 +1,21 @@
+
+<div class="admin-body">
+  <h2>Calipso Installer</h2>
+
+  <p>
+    <strong><%= t("Thank you for choosing Calipso. You're awesome!") %></strong>
+    <%= t("It looks like this is your first time using Calipso in this " +
+    "environment, so here's what we'll do:") %>
+  </p>
+  
+  <ol>
+    <li><%= t("Setup Database") %></li>
+    <li><%= t("Create Admin") %></li>
+    <li><%= t("Add Features (Modules)") %></li>
+  </ol>
+
+  <footer class="admin-install-links">
+    <a class="step_1 button next" href="?installStep=mongodb"><%= t("Let's Begin") %></a>
+  </footer>
+
+</div>

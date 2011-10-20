@@ -1,16 +1,10 @@
 <!--  SCRIPTS -->
-<!-- put your script includes and any SHORT inlines here -->
-<script src="/js/jquery-1.4.4.min.js"></script>
-<script src="/js/cleanslate-core.js"></script>
-<%- scripts %>
+<!-- put your script includes here -->
+<!-- todo: combine & minify -->
 
-<script>
-$(function() {
-   $('.content-block').dblclick(function() {
-    if(this.id) {
-      location.href = "/content/edit/" + this.id + "?returnTo=<%= request.url %>";
-    }
-  });
-});
-</script>
+<script src="/js/jquery-1.6.4.min.js"></script>
+<script src="/js/jquery.cookie.js"></script>
+<script src="/js/cleanslate-core.js"></script>
+
+<%- scripts %>
 

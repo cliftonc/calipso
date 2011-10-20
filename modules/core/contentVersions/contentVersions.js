@@ -68,27 +68,27 @@ function init(module,app,next) {
         calipso.lib.mongoose.model('ContentVersion', ContentVersion);
 
         // Version event listeners
-        calipso.e.post('CONTENT_CREATE',module.name,saveVersion);
-        calipso.e.post('CONTENT_UPDATE',module.name,saveVersion);
+        calipso.e.post('CONTENT_CREATE', module.name, saveVersion);
+        calipso.e.post('CONTENT_UPDATE', module.name, saveVersion);
 
-        // Form alteration
-        if(calipso.modules.content.fn.originalContentForm) {
-          // We have already altered the form, so lets set it back before altering it
-          calipso.modules.content.fn.contentForm = calipso.modules.content.fn.originalContentForm;
-        }
-
-        // Now, lets alter the form
-        calipso.modules.content.fn.originalContentForm = calipso.modules.content.fn.contentForm;
-        calipso.modules.content.fn.contentForm = function() {
-          var form = calipso.modules.content.fn.originalContentForm();
-          form.sections.push(contentVersionFormSection);
-          return form;
-        }
+        // Form alter of main content form
+        calipso.e.custom('FORM', 'content-form', module.name, alterContentForm);
 
         next();
 
       }
   );
+}
+
+/**
+ * Event listener to alter the content-form
+ */
+function alterContentForm(key, data, next) {
+
+  if(data && data.sections) {
+    data.sections.push(contentVersionFormSection);
+  }
+  next(data);
 }
 
 /**
@@ -115,13 +115,13 @@ function showContent(req,res,template,block,next) {
 /**
  * Save version
  */
-function saveVersion(event,content,next) {
+function saveVersion(event, content, next) {
 
     var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
 
-    // Create version and map fiels
+    // Create version and map fields
     var version = new ContentVersion();
-    calipso.form.mapFields(content.doc,version);
+    calipso.form.mapFields(content, version);
     version.contentId = content._id;
 
     if(version.get("version")) {
