@@ -1,0 +1,163 @@
+/* Main menu */
+/* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
+
+@import "compass/css3";
+
+
+html {
+  padding-top: 40px;
+}
+
+#admin-menu {
+  background: darken(#2F5163, 15%);
+  border-bottom: 1px solid darken(#2F5163, 15%);
+  position: fixed;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 2px 0 0 0;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+
+  @include background( linear-gradient( #2F5163, darken(#2F5163, 10%) ) );
+}
+
+#admin-menu li {
+  float: left;
+  padding: 0;
+  position: relative;
+}
+ 
+#admin-menu a {
+  color: #fff;
+  float: left;
+  font-size: 14px;
+  height: 20px;
+  padding: 0 22px;
+  line-height: 30px;
+  height: 33px;
+  text-decoration: none;
+  text-shadow: 0 1px 2px #000;
+}
+
+#admin-menu li:hover > a {
+  color: #fafafa;
+}
+
+*html #admin-menu li a:hover /* IE6 */ {
+  color: #fafafa;
+}
+
+#admin-menu li:hover > ul {
+  display: block;
+}
+
+#admin-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-left: 10px;
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 99999;
+  background: #444;
+  
+  @include background( linear-gradient(#444, #111) );
+  @include box-shadow( 0 0 2px rgba(255,255,255, 0.5) );
+  @include border-radius( 5px );
+}
+
+#admin-menu ul ul {
+  top: 0;
+  left: 140px;
+}
+
+#admin-menu ul li {
+  float: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+  @include box-shadow(0 1px 0 #111111, 0 2px 0 #777777);
+}
+
+#admin-menu ul li:last-child {
+  @include box-shadow(none);
+}
+ 
+#admin-menu ul a {
+  padding: 10px;
+  height: 10px;
+  width: 130px;
+  height: auto;
+  line-height: 1;
+  display: block;
+  white-space: nowrap;
+  float: none;
+  text-transform: none;
+}
+
+#admin-menu ul a {
+  *height: 10px; /* IE6 & IE7 */
+}
+
+#admin-menu a:hover {
+  background: #0186ba;
+  @include background(linear-gradient(#04acec,  #0186ba) );
+}
+ 
+#admin-menu ul li:first-child > a {
+  @include border-top-radius(5px);
+}
+
+#admin-menu ul li:first-child > a:after {
+  content: '';
+  position: absolute;
+  left: 30px;
+  top: -8px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid #444;
+}
+
+#admin-menu ul ul li:first-child a:after {
+  left: -8px;
+  top: 12px;
+  width: 0;
+  height: 0;
+  border-left: 0;
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-right: 8px solid #444;
+}
+ 
+#admin-menu ul li:first-child a:hover:after {
+  border-bottom-color: #04acec;
+}
+
+#admin-menu ul ul li:first-child a:hover:after {
+  border-right-color: #04acec;
+  border-bottom-color: transparent;
+}
+
+
+#admin-menu ul li:last-child > a {
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+
+/* Clear floated elements */
+#admin-menu:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+#admin-menu { *zoom: 1; } /* IE6 & IE7 */

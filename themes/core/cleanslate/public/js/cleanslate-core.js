@@ -6,6 +6,7 @@
  *  - sortable tables (just updates the querystring for server-side sorting)
  *
  */
+
 cleanslate = {
   log : function(){
     try {

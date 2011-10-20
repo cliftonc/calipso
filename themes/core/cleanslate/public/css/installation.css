@@ -1,0 +1,842 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
+/* line 17, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* line 20, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+body {
+  line-height: 1;
+}
+
+/* line 22, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 24, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 26, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 28, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 101, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 30, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 114, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 22, ../sass/installation.scss */
+html {
+  background: #fff;
+}
+
+/* line 35, ../sass/installation.scss */
+body {
+  background: #fff;
+  color: #444;
+  font: 400 0.875em/1.618em "Helvetica", serif;
+  min-width: 700px;
+  text-shadow: 0 2px 1px #fff;
+  height: 100%;
+}
+
+/* line 44, ../sass/installation.scss */
+a {
+  text-decoration: none;
+}
+
+/* line 48, ../sass/installation.scss */
+a:link, a:visited {
+  color: #222;
+}
+
+/* line 52, ../sass/installation.scss */
+ul, ol, dl {
+  margin: 0 0 0 1.618em;
+  padding: 0;
+}
+
+/* line 57, ../sass/installation.scss */
+ol li {
+  list-style: decimal;
+}
+
+/* line 61, ../sass/installation.scss */
+p {
+  margin: 0 0 1.618em;
+}
+
+/* line 65, ../sass/installation.scss */
+strong, b {
+  color: #222;
+  font-weight: 600;
+}
+
+/* line 70, ../sass/installation.scss */
+i, em {
+  font-style: italic;
+}
+
+/* line 76, ../sass/installation.scss */
+h1, h2, h3, h4, h5, h6 {
+  color: #222;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  line-height: 1.618em;
+  margin-bottom: 15px;
+  text-shadow: 0 1px 1px #fff;
+}
+
+/* line 85, ../sass/installation.scss */
+h6, h5 {
+  font-size: 1em;
+}
+
+/* line 89, ../sass/installation.scss */
+h4 {
+  font-size: 1.25em;
+}
+
+/* line 93, ../sass/installation.scss */
+h3 {
+  font-size: 1.618em;
+  letter-spacing: -1px;
+}
+
+/* line 98, ../sass/installation.scss */
+h2 {
+  font-size: 2.023em;
+  letter-spacing: -1px;
+}
+
+/* line 103, ../sass/installation.scss */
+h1 {
+  font-size: 2.618em;
+  letter-spacing: -2px;
+}
+
+/* line 112, ../sass/installation.scss */
+#header {
+  border-bottom: 1px solid #d9d9d9;
+  color: #fff;
+  overflow: hidden;
+  padding: 1% 0 1.5%;
+  left: 0;
+  top: 0;
+  margin: 0 auto;
+  width: 650px;
+}
+
+/* line 123, ../sass/installation.scss */
+#container {
+  margin: 0 auto;
+  width: 700px;
+}
+
+/* line 128, ../sass/installation.scss */
+#body {
+  float: left;
+  margin: 0 20px 20px 0;
+  min-height: 100px;
+  _display: inline;
+}
+
+/* line 135, ../sass/installation.scss */
+.admin-body {
+  margin: 0 auto 20px;
+  padding: 25px;
+  position: relative;
+  max-width: 700px;
+}
+
+/* line 142, ../sass/installation.scss */
+#sidePanel {
+  width: 300px;
+  float: left;
+  margin: 0 0 20px;
+}
+
+/* line 148, ../sass/installation.scss */
+.dummy-ad {
+  width: 298px;
+  height: 248px;
+  border: 1px solid #ccc;
+  background: #eee;
+  color: #aaa;
+  line-height: 248px;
+  text-align: center;
+}
+
+/* line 159, ../sass/installation.scss */
+#footer {
+  clear: both;
+}
+
+/* line 163, ../sass/installation.scss */
+nav.secondary {
+  position: absolute;
+  top: 22px;
+  right: 0;
+}
+
+/* line 164, ../sass/installation.scss */
+nav.primary {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin: 0 0 10px;
+}
+
+/* line 166, ../sass/installation.scss */
+table {
+  width: 100%;
+}
+
+/* line 169, ../sass/installation.scss */
+th, td {
+  padding: 4px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+/* line 179, ../sass/installation.scss */
+#install-mongo-form, #install-user-form, #install-modules-form {
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  padding: 0 20px 20px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 184, ../sass/installation.scss */
+#install-mongo-form h4, #install-user-form h4, #install-modules-form h4 {
+  background: #2F5163;
+  border: 1px solid #1f3540;
+  color: #fff;
+  left: -30px;
+  top: 10px;
+  position: relative;
+  padding: 5px 15px;
+  float: left;
+  text-shadow: 0 1px 1px black;
+  text-transform: capitalize;
+  -moz-border-radius-topright: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -o-border-top-right-radius: 8px;
+  -ms-border-top-right-radius: 8px;
+  -khtml-border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
+  -moz-border-radius-bottomright: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -o-border-bottom-right-radius: 8px;
+  -ms-border-bottom-right-radius: 8px;
+  -khtml-border-bottom-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+  -webkit-border-top-left-radius: 8px;
+  -o-border-top-left-radius: 8px;
+  -ms-border-top-left-radius: 8px;
+  -khtml-border-top-left-radius: 8px;
+  border-top-left-radius: 8px;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+}
+/* line 202, ../sass/installation.scss */
+#install-mongo-form h4:after, #install-user-form h4:after, #install-modules-form h4:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 0px;
+  top: 100%;
+  border-width: 5px 4px;
+  border-style: solid;
+  border-color: black black transparent transparent;
+}
+
+/* line 218, ../sass/installation.scss */
+.form-item {
+  clear: both;
+  padding: 0 0 10px;
+}
+
+/* line 223, ../sass/installation.scss */
+label {
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  text-align: right;
+  line-height: 2.5em;
+  padding-right: 10px;
+  position: relative;
+  top: -3px;
+  font-weight: bold;
+  width: 24%;
+  margin-right: 10%;
+}
+/* line 7, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+label {
+  *display: inline;
+}
+
+/* line 235, ../sass/installation.scss */
+label.for-checkable {
+  width: auto;
+  text-align: left;
+  padding: 0 0 0 10px;
+}
+
+/* line 241, ../sass/installation.scss */
+textarea, input[type="text"], input[type="password"], select {
+  border: 1px solid #999;
+  padding: 1%;
+  font-size: 1em;
+  width: 58%;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: inset 1px 1px 3px #d9d9d9;
+  -webkit-box-shadow: inset 1px 1px 3px #d9d9d9;
+  -o-box-shadow: inset 1px 1px 3px #d9d9d9;
+  box-shadow: inset 1px 1px 3px #d9d9d9;
+}
+/* line 251, ../sass/installation.scss */
+textarea.database-uri, input[type="text"].database-uri, input[type="password"].database-uri, select.database-uri {
+  width: 300px;
+}
+
+/* line 256, ../sass/installation.scss */
+select {
+  width: 60%;
+}
+
+/* line 260, ../sass/installation.scss */
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
+  border-color: #007DFF;
+}
+
+/* line 261, ../sass/installation.scss */
+textarea {
+  width: 65%;
+  height: 200px;
+}
+
+/* line 262, ../sass/installation.scss */
+#content_teaser-wrapper textarea {
+  height: 100px;
+}
+
+/* line 264, ../sass/installation.scss */
+.description {
+  padding: 2px 0 5px 215px;
+  font-size: 11px;
+  color: #777;
+  max-width: 400px;
+  display: block;
+}
+
+/* line 271, ../sass/installation.scss */
+.button, button, input[type="submit"], a.submit {
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  color: #000;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 20px 0 0;
+  padding: 8px 16px;
+  text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ededed), color-stop(100%, #d9d9d9));
+  background: -webkit-linear-gradient(#ededed, #d9d9d9);
+  background: -moz-linear-gradient(#ededed, #d9d9d9);
+  background: -o-linear-gradient(#ededed, #d9d9d9);
+  background: -ms-linear-gradient(#ededed, #d9d9d9);
+  background: linear-gradient(#ededed, #d9d9d9);
+  -moz-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -o-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -o-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -khtml-border-radius: 7px;
+  border-radius: 7px;
+}
+/* line 7, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_0.11/compass-0.11.5/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+.button, button, input[type="submit"], a.submit {
+  *display: inline;
+}
+/* line 290, ../sass/installation.scss */
+.button:hover, .button.loading, button:hover, button.loading, input[type="submit"]:hover, input[type="submit"].loading, a.submit:hover, a.submit.loading {
+  border-color: #333;
+  color: #fff;
+  text-shadow: 0 1px 1px #111;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5);
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
+  background: -webkit-linear-gradient(#3f6d86, #2f5163);
+  background: -moz-linear-gradient(#3f6d86, #2f5163);
+  background: -o-linear-gradient(#3f6d86, #2f5163);
+  background: -ms-linear-gradient(#3f6d86, #2f5163);
+  background: linear-gradient(#3f6d86, #2f5163);
+}
+/* line 298, ../sass/installation.scss */
+.button:active, button:active, input[type="submit"]:active, a.submit:active {
+  border-color: #000;
+  -moz-box-shadow: inset 0 0 8px black;
+  -webkit-box-shadow: inset 0 0 8px black;
+  -o-box-shadow: inset 0 0 8px black;
+  box-shadow: inset 0 0 8px black;
+}
+/* line 303, ../sass/installation.scss */
+.button.loading, button.loading, input[type="submit"].loading, a.submit.loading {
+  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
+  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, -moz-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, -o-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, -ms-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(#3f6d86, #2f5163);
+  padding-left: 40px;
+}
+
+/* line 310, ../sass/installation.scss */
+input.date {
+  width: 3em;
+}
+
+/* line 312, ../sass/installation.scss */
+input.date-day,
+input.time {
+  width: 2em;
+}
+
+/* line 313, ../sass/installation.scss */
+input.checkbox, input.radio {
+  margin-left: 110px;
+}
+
+/* line 314, ../sass/installation.scss */
+input.labelFirst {
+  margin-left: auto;
+}
+
+/* line 315, ../sass/installation.scss */
+form .section {
+  margin: 0 0 20px;
+}
+
+/* line 316, ../sass/installation.scss */
+form .section:first-child {
+  border: 0;
+}
+
+/* line 317, ../sass/installation.scss */
+.actions {
+  clear: both;
+}
+
+/* line 321, ../sass/installation.scss */
+.actions input {
+  float: right;
+}
+
+/* line 328, ../sass/installation.scss */
+.form-steps {
+  margin: 20px auto 10px;
+  width: 50%;
+}
+
+/* line 333, ../sass/installation.scss */
+.form-steps ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 339, ../sass/installation.scss */
+.form-steps li {
+  text-align: center;
+  margin: 0 2px;
+  float: left;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(5%, #aaaaaa), color-stop(20%, #cccccc));
+  background: -webkit-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: -moz-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: -o-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: -ms-linear-gradient(#aaaaaa 5%, #cccccc 20%);
+  background: linear-gradient(#aaaaaa 5%, #cccccc 20%);
+}
+
+/* line 350, ../sass/installation.scss */
+.two-form-steps li {
+  width: 50%;
+}
+
+/* line 354, ../sass/installation.scss */
+.three-form-steps li {
+  width: 32%;
+}
+
+/* line 358, ../sass/installation.scss */
+.four-form-steps li {
+  width: 25%;
+}
+
+/* line 362, ../sass/installation.scss */
+.form-step-name {
+  color: #222;
+  background: #d9d9d9;
+  border: 1px solid #aaa;
+  height: 30px;
+  font-size: 12px;
+  line-height: 30px;
+  position: relative;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+}
+
+/* line 374, ../sass/installation.scss */
+.valid .form-step-name {
+  border-color: #888;
+  -moz-box-shadow: inset 0 0 7px #777777;
+  -webkit-box-shadow: inset 0 0 7px #777777;
+  -o-box-shadow: inset 0 0 7px #777777;
+  box-shadow: inset 0 0 7px #777777;
+}
+
+/* line 379, ../sass/installation.scss */
+.current .form-step-name {
+  background: #2F5163;
+  border: 1px solid #111;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 1px 1px #000;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
+  background: -webkit-linear-gradient(#3f6d86, #2f5163);
+  background: -moz-linear-gradient(#3f6d86, #2f5163);
+  background: -o-linear-gradient(#3f6d86, #2f5163);
+  background: -ms-linear-gradient(#3f6d86, #2f5163);
+  background: linear-gradient(#3f6d86, #2f5163);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* messages [info, success, warning, error] */
+/* line 391, ../sass/installation.scss */
+#messages {
+  clear: both;
+}
+
+/* line 394, ../sass/installation.scss */
+#messages ul {
+  list-style: none;
+}
+
+/* line 400, ../sass/installation.scss */
+.info,
+.success,
+.warning,
+.error {
+  border: 1px solid;
+  margin: 0 0 20px;
+  padding: 15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px 6px;
+  position: fixed;
+  right: 20px;
+  top: 90px;
+  text-shadow: 0 1px 0 #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -o-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+/* line 417, ../sass/installation.scss */
+.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+  background-image: url("images/icons/info.png");
+}
+
+/* line 422, ../sass/installation.scss */
+.success {
+  color: #4F8830;
+  background-color: #DFF2BF;
+  border-color: #AC6;
+  background-image: url("images/icons/success.png");
+}
+
+/* line 428, ../sass/installation.scss */
+.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+  background-image: url("images/icons/warning.png");
+}
+
+/* line 433, ../sass/installation.scss */
+.error {
+  color: #D8000C;
+  background-color: #F6D6D6;
+  background-image: url("images/icons/error.png");
+  border-color: #F6AAAA;
+}
+
+/* line 440, ../sass/installation.scss */
+.admin-install p {
+  max-width: 660px;
+}
+
+/* line 444, ../sass/installation.scss */
+.admin-install-links {
+  border-top: 1px solid #bbb;
+  margin-top: 2.618em;
+  padding: 1.618em;
+  text-align: right;
+}
+
+/* line 451, ../sass/installation.scss */
+.admin-install-links a {
+  margin: 0;
+}
+
+/* line 454, ../sass/installation.scss */
+.admin-install-links .back {
+  float: left;
+}
+
+/**
+ * Non-semantic helper classes: please define your styles before this section.
+ */
+/* For image replacement */
+/* line 463, ../sass/installation.scss */
+.ir {
+  display: block;
+  text-indent: -99in;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  text-align: left;
+  direction: ltr;
+}
+
+/* Hide for both screenreaders and browsers:
+   css-discuss.incutio.com/wiki/Screenreader_Visibility */
+/* line 467, ../sass/installation.scss */
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+/* Hide only visually, but have it available for screenreaders: by Jon Neal.
+  www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
+/* line 471, ../sass/installation.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
+/* line 474, ../sass/installation.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/* Hide visually and from screenreaders, but maintain layout */
+/* line 477, ../sass/installation.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
+   nicolasgallagher.com/micro-clearfix-hack/ */
+/* line 482, ../sass/installation.scss */
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+
+/* line 483, ../sass/installation.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 484, ../sass/installation.scss */
+.clearfix {
+  zoom: 1;
+}
+
+/**
+ * Placeholder media queries for responsive design. Modify as design requires.
+ * These follow after, and will override, the primary ('mobile first') styles
+ * The closing /mediaquery comment is required by respond.js min/max-width Media Query polyfill
+ */
+@media only screen and (min-width: 480px) {
+  /* Style adjustments for viewports 480px and over go here */
+}
+/*/mediaquery*/
+@media only screen and (min-width: 768px) {
+  /* Style adjustments for viewports 768px and over go here */
+}
+/*/mediaquery*/
+/**
+ * Print styles.
+ *
+ * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
+ */
+@media print {
+  /* line 512, ../sass/installation.scss */
+  * {
+    background: transparent !important;
+    color: black !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  /* Black prints faster: sanbeiji.com/archives/953 */
+  /* line 514, ../sass/installation.scss */
+  a, a:visited {
+    color: #444 !important;
+    text-decoration: underline;
+  }
+
+  /* line 515, ../sass/installation.scss */
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* line 516, ../sass/installation.scss */
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  /* line 517, ../sass/installation.scss */
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  /* Don't show links for images, or javascript/internal links */
+  /* line 518, ../sass/installation.scss */
+  pre, blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  /* line 519, ../sass/installation.scss */
+  thead {
+    display: table-header-group;
+  }
+
+  /* css-discuss.incutio.com/wiki/Printing_Tables */
+  /* line 520, ../sass/installation.scss */
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  /* line 521, ../sass/installation.scss */
+  img {
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 0.5cm;
+}
+
+  /* line 523, ../sass/installation.scss */
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* line 524, ../sass/installation.scss */
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}

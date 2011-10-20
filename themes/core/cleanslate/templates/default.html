@@ -5,7 +5,13 @@
     <meta name="description" content="put your site description here">
     <meta name="keywords" content="put your site keywords here">
     <title>Clean Slate</title>
-    <%- styles %>
+
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <% if (user.isAdmin) { %>
+    <link rel="stylesheet" href="/css/admin-menu.css" />
+    <% } %>
+  
   </head>
   <body>
     <div id="adminMenu">

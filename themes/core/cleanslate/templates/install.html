@@ -4,27 +4,41 @@
     <meta charset="utf-8">
     <meta name="description" content="put your site description here">
     <meta name="keywords" content="put your site keywords here">
-    <title>Clean Slate</title>
-    <%- styles %>
+  
+    <title>Calipso Setup</title>
+
+    <link rel="stylesheet" href="/css/install.css" />
+  
   </head>
+
   <body> 
+  
     <div id="container">
-      <div id="header">
-        <h1><a href="/">Welcome to Calipso</a></h1>        
-        <nav class="primary">
-          <%- primary %>
-        </nav>
-      </div>
+
       <div id="messages">
         <%- messages %>
       </div>
+
       <div id="admin-body">        
         <%- body %>
       </div>
+      
       <div id="footer">
         <%- footer %>
       </div>
+
     </div>
+
     <%- scripts %>
+
+    <script>
+        
+        $(".error, .success, .info, .notice").live('click', function() {
+          $(this).fadeOut(300);
+        });
+
+    </script>
+
   </body>
+
 </html>
