@@ -62,6 +62,7 @@
   },
   "libraries":{
     "stylus":{
+      "enable":false,
       "warn":true,
       "compress":false
     },
