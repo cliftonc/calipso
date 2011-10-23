@@ -141,9 +141,17 @@ function isCalipso() {
  * Runs by default from path where calipso runs via __dirname.
  */
 function runScript(scriptLauncher) {
+
+  if(!nodepath.existsSync(path + '/scripts/'+ scriptLauncher.name)) {
+    scriptLauncher.name = 'help';
+    scriptLauncher.params = [];
+  }
+
   var script = require(path + '/scripts/'+ scriptLauncher.name);
   logo.print();
-  script.execute(scriptLauncher.params,path);
+  script.execute(scriptLauncher.params, path);
+
+
 }
 
 /**
