@@ -215,7 +215,7 @@ var jobCronTimeDescription = "Examples:<br/>"
 
 var jobForm = {id:'job-form',title:'',type:'form',method:'POST',action:'/scheduler',fields:[
                   {label:'Name',name:'job[name]',description:'Enter a unique name for the job',type:'text'},
-                  {label:'CRON Time',name:'job[cronTime]',description:jobCronTimeDescription,type:'cronTime'},
+                  {label:'CRON Time',name:'job[cronTime]',description:jobCronTimeDescription,type:'crontime'},
                   {label:'Enabled',name:'job[enabled]',type:'select',description:'Enable or disable the job',options:["Yes","No"]},
                   {label:'Job Function',name:'job[moduleMethod]',description:'Select the job function to run as per this schedule',type:'select',options:function() { return calipso.data.jobFunctions }},
                   {label:'Arguments',name:'job[args]',description:'Enter the arguments (as per the job function)',type:'textarea'}
@@ -354,7 +354,7 @@ function editJobForm(req,res,template,block,next) {
   res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
-  
+
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 
     if(err || job === null) {
@@ -478,12 +478,12 @@ function showJob(req,res,template,block,next,err) {
 
   var jobName = req.moduleParams.jobName;
   var item;
-  
+
   res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/scheduler/show/' + jobName,description:'Current item ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
-  
+
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 
     if(err || job === null) {
