@@ -90,8 +90,8 @@ function init(module,app,next) {
           teaser:{type: String, required: false, "default": ''},
           taxonomy:{type: String, "default":''},
           content:{type: String, required: false, "default":''},
-          status:{type: String, required: false, "default":'draft'},
-          alias:{type: String, required: true},
+          status:{type: String, required: false, "default":'draft', index: true},
+          alias:{type: String, required: true, index: true},
           author:{type: String, required: true},
           etag:{type: String, "default":''},
           tags:[String],
@@ -101,7 +101,7 @@ function init(module,app,next) {
           updated: { type: Date, "default": Date.now },
           contentType:{type: String},  // Copy from content type
           layout:{type: String},       // Copy from content type
-          ispublic:{type: Boolean}    // Copy from content type
+          ispublic:{type: Boolean, index: true}    // Copy from content type
         });
 
         // Set post hook to enable simple etag generation
@@ -122,24 +122,24 @@ function init(module,app,next) {
 
 /**
  * Helper function
- * 
+ *
  * Second property can be string or object, if string it is the alias.
- * 
+ *
  * If object it is:
- * 
+ *
  *  alias: string key for alias
  *  property: property to extract from content, if supplied callback is string
  *  clickCreate: true|false - if not found, add click to create html
  *  clickEdit: true|false - wrap the property in a click to edit html
- * 
+ *
  * callback
- * 
+ *
  *    err - any errors
  *    text | object (text is returned if a property is supplied, otherwise object).
- * 
+ *
  */
 function getContent(req, options, next) {
-  
+
   // Check to see if we just want content property by alias
   if(typeof options === "string") {
     options = {alias:options, property:"content", clickCreate:true, clickEdit:true};
@@ -162,34 +162,34 @@ function getContent(req, options, next) {
           "&teaser=Content%20for%20" + options.alias +
           "&returnTo=" + req.url +
           "'>" + req.t("Click to create content with alias: {alias} ...",{alias: options.alias}) + "</a>";
-        } else {          
-          text = req.t("Content with alias {alias} not found ...",{alias: options.alias});          
+        } else {
+          text = req.t("Content with alias {alias} not found ...",{alias: options.alias});
         }
-        
-        // Don't throw error, just pass back failure.        
+
+        // Don't throw error, just pass back failure.
         next(null,text);
 
-        
+
       } else {
 
         if(options.property) {
-          
-          var text = c.get(options.property) || req.t("Invalid content property: {property}",{property:options.property});        
+
+          var text = c.get(options.property) || req.t("Invalid content property: {property}",{property:options.property});
           if(options.clickEdit && req.session && req.session.user && req.session.user.isAdmin) {
             text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
-            text + "</span>";         
+            text + "</span>";
           }
 
           next(null, text);
-          
+
         } else {
-          
+
           // Just return the object
           next(null, c);
         }
-       
+
       }
-      
+
   });
 
 
@@ -637,12 +637,12 @@ function updateContent(req,res,template,block,next) {
 /**
  * Locate content based on its alias
  */
-function showAliasedContent(req,res,template,block,next) {
+function showAliasedContent(req, res, template, block, next) {
 
   var allowedFormats = ["html","json"];
   var format = req.moduleParams.format;
   var alias = req.moduleParams.alias;
-                  
+
   // Check type
   if(calipso.lib._.any(allowedFormats,function(value) { return value === format; })) {
 
@@ -674,14 +674,14 @@ function showAliasedContent(req,res,template,block,next) {
         }
 
     });
-          
+
   } else {
-    
+
     // Invalid format, just return nothing
-    next();    
-    
+    next();
+
   }
-  
+
 }
 
 /**
