@@ -70,8 +70,6 @@ function bootApplication(next) {
   // THese helpers are re-used when theme switching.
   app.mwHelpers = {};
 
-  // Stylus
-  
   // Load placeholder, replaced later
   if(app.config.get('libraries:stylus:enabled')) {
     app.mwHelpers.stylusMiddleware = function (themePath) {
