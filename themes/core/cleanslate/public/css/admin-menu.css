@@ -36,10 +36,10 @@ html {
   float: left;
 }
 /* line 51, ../sass/admin-menu.scss */
-#admin-menu li a {
+#admin-menu li a:link, #admin-menu li a:visited {
   border-left: 1px solid rgba(255, 255, 255, 0.15);
   border-right: 1px solid rgba(0, 0, 0, 0.25);
-  color: #fff;
+  color: #fefefe;
   display: block;
   font-size: 14px;
   height: 20px;
@@ -51,7 +51,7 @@ html {
   white-space: nowrap;
 }
 /* line 65, ../sass/admin-menu.scss */
-#admin-menu li a:hover {
+#admin-menu li a:link:hover, #admin-menu li a:visited:hover {
   background: #333;
   background: rgba(0, 0, 0, 0.35);
   -moz-box-shadow: inset 0 0 4px #111111;
@@ -74,7 +74,6 @@ html {
 
 /* line 87, ../sass/admin-menu.scss */
 #admin-menu ul {
-  background: #333;
   border: 1px solid #111;
   list-style: none;
   margin: 0;
@@ -85,7 +84,7 @@ html {
   left: -1px;
   z-index: 99999;
   width: 100%;
-  background: #16272f;
+  background-color: #16272f;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(47, 81, 99, 0.55)), color-stop(100%, rgba(31, 53, 64, 0.35))), url("http://subtlepatterns.com/patterns/blackmamba.png");
   background: -webkit-linear-gradient(rgba(47, 81, 99, 0.55), rgba(31, 53, 64, 0.35)), url("http://subtlepatterns.com/patterns/blackmamba.png");
   background: -moz-linear-gradient(rgba(47, 81, 99, 0.55), rgba(31, 53, 64, 0.35)), url("http://subtlepatterns.com/patterns/blackmamba.png");
@@ -110,7 +109,7 @@ html {
   border-bottom-right-radius: 5px;
 }
 
-/* line 107, ../sass/admin-menu.scss */
+/* line 106, ../sass/admin-menu.scss */
 #admin-menu ul ul {
   top: -2px;
   left: 100%;
@@ -118,7 +117,7 @@ html {
   width: auto;
 }
 
-/* line 114, ../sass/admin-menu.scss */
+/* line 113, ../sass/admin-menu.scss */
 #admin-menu ul li {
   float: none;
   margin: 0;
@@ -127,7 +126,7 @@ html {
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
-/* line 123, ../sass/admin-menu.scss */
+/* line 122, ../sass/admin-menu.scss */
 #admin-menu ul a {
   padding: 10px;
   height: 10px;
@@ -139,29 +138,29 @@ html {
   text-transform: none;
 }
 
-/* line 138, ../sass/admin-menu.scss */
+/* line 137, ../sass/admin-menu.scss */
 #adminToolbar {
   position: fixed;
   top: 0;
   right: 0;
   z-index: 999999;
 }
-/* line 144, ../sass/admin-menu.scss */
+/* line 143, ../sass/admin-menu.scss */
 #adminToolbar ul, #adminToolbar li {
   margin: 0;
   list-style: none;
   list-style-image: none;
 }
-/* line 150, ../sass/admin-menu.scss */
+/* line 149, ../sass/admin-menu.scss */
 #adminToolbar ul {
   text-align: right;
 }
-/* line 154, ../sass/admin-menu.scss */
+/* line 153, ../sass/admin-menu.scss */
 #adminToolbar li {
   position: relative;
   float: left;
 }
-/* line 159, ../sass/admin-menu.scss */
+/* line 158, ../sass/admin-menu.scss */
 #adminToolbar li a {
   border-left: 1px solid rgba(255, 255, 255, 0.15);
   border-right: 1px solid rgba(0, 0, 0, 0.25);
@@ -176,7 +175,7 @@ html {
   text-shadow: 0 1px 2px #000;
   white-space: nowrap;
 }
-/* line 173, ../sass/admin-menu.scss */
+/* line 172, ../sass/admin-menu.scss */
 #adminToolbar li a:hover {
   background: #333;
   background: rgba(0, 0, 0, 0.35);
@@ -186,8 +185,23 @@ html {
   box-shadow: inset 0 0 4px #111111;
 }
 
+/* line 183, ../sass/admin-menu.scss */
+#new-menu-item:hover {
+  background-color: rgba(100, 255, 100, 0.35);
+}
+
+/* line 187, ../sass/admin-menu.scss */
+#delete-menu-item:hover {
+  background-color: rgba(255, 0, 0, 0.35);
+}
+
+/* line 191, ../sass/admin-menu.scss */
+#edit-menu-item:hover {
+  background-color: rgba(0, 200, 200, 0.35);
+}
+
 /* Clear floated elements */
-/* line 189, ../sass/admin-menu.scss */
+/* line 199, ../sass/admin-menu.scss */
 #admin-menu:after {
   visibility: hidden;
   display: block;
@@ -197,7 +211,7 @@ html {
   height: 0;
 }
 
-/* line 198, ../sass/admin-menu.scss */
+/* line 208, ../sass/admin-menu.scss */
 #admin-menu {
   *zoom: 1;
 }
