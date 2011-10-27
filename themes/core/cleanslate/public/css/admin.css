@@ -920,7 +920,7 @@ form .section:first-child {
 .error {
   border: 1px solid;
   margin: 0 0 20px;
-  padding: 10px 15px;
+  padding: 10px 20px;
   background-repeat: no-repeat;
   background-position: 10px 6px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
@@ -936,37 +936,42 @@ form .section:first-child {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-/* line 655, ../sass/admin.scss */
+/* line 656, ../sass/admin.scss */
 .info {
-  color: #00529B;
+  color: #1175a5;
   background-color: #BDE5F8;
   border-color: #8fd3f3;
+  text-shadow: 0 0 3px rgba(50, 150, 255, 0.4);
+  background: rgba(100, 200, 255, 0.2);
+  border: 1px solid #AEF;
+  margin: 25px;
+  display: block;
 }
 
-/* line 660, ../sass/admin.scss */
+/* line 667, ../sass/admin.scss */
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
 }
 
-/* line 664, ../sass/admin.scss */
+/* line 671, ../sass/admin.scss */
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
 }
 
-/* line 668, ../sass/admin.scss */
+/* line 675, ../sass/admin.scss */
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
 }
 
-/* line 673, ../sass/admin.scss */
+/* line 680, ../sass/admin.scss */
 .sidePanelItem {
   margin: 0 0 10px;
 }
 
-/* line 675, ../sass/admin.scss */
+/* line 682, ../sass/admin.scss */
 .language-wrap {
   border: 1px solid #d9d9d9;
   padding: 20px;
@@ -976,12 +981,12 @@ form .section:first-child {
   -o-box-shadow: 0 1px 4px #d9d9d9;
   box-shadow: 0 1px 4px #d9d9d9;
 }
-/* line 683, ../sass/admin.scss */
+/* line 690, ../sass/admin.scss */
 .language-wrap pre {
   clear: both;
   white-space: wrap;
 }
-/* line 688, ../sass/admin.scss */
+/* line 695, ../sass/admin.scss */
 .language-wrap h3, .language-wrap h4 {
   background: #2F5163;
   border: 1px solid #1f3540;
@@ -1016,7 +1021,7 @@ form .section:first-child {
   -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
 }
-/* line 706, ../sass/admin.scss */
+/* line 713, ../sass/admin.scss */
 .language-wrap h3:after, .language-wrap h4:after {
   content: ' ';
   position: absolute;
