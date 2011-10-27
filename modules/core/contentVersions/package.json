@@ -1,5 +1,6 @@
 {
   "name": "contentVersions",
+  "label": "Content Versioning",
   "description": "Provides versioning hooks and forms to enable storage and retrieval of different versions of content.",
   "version": "0.2.0",
   "homepage": "http://calip.so",

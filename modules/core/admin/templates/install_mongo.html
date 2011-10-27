@@ -1,0 +1,86 @@
+<div id="header">
+    
+  <div class="form-steps three-form-steps clearfix">
+    <ul>
+      <li class="step1 current">
+        <div class="form-step-name">
+          <%= t("Setup Database") %>
+        </div>
+      </li>
+      <li class="step2">
+        <div class="form-step-name">
+          <%= t("Create Admin") %>
+        </div>
+      </li>
+      <li class="step3">
+        <div class="form-step-name">
+          <%= t("Add Features") %>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="admin-body">
+  <h2><%= t("Step 1: Configure MongoDB") %></h2>
+
+  <div id="mongo-status" style="display: none;">
+
+  </div>
+  
+  <p>To store content, we need to connect to MongoDB. Please provide the location of your database here:
+
+  <%- form %>
+  <footer class="admin-install-links">
+    <a id="form-submit" class="submit" href="#"><%= t("Create Database") %></a>
+  </footer>
+</div>
+
+
+
+<script>
+
+        (function L() {
+      
+          if(window.jQuery){
+            
+            // Ajax request to /admin/install/mongo/test
+            function checkMongo() {
+              
+              $('#mongo-status').show();
+              $('.submit').html("Connecting to MongoDB ...").addClass("loading");
+              
+              var dbUri = $(".database-uri").val();
+              var postData = {"dbUri":dbUri};
+              
+              $.ajax({
+                type: "POST",
+                url: "/admin/installTest/mongo",
+                dataType:"json",
+                data:postData,
+                success: function(res){
+                  if(res.status === "OK") {
+                    setTimeout(function() {
+                      $('#install-mongo-form').submit();
+                    }, 1500);
+                  } else {
+                    $('#mongo-status').html("<div class='error'>MongoDB connection failed, please check the details and try again.</div>");
+                    $('.submit').html("Create Database").addClass("loading");
+                  }
+                }
+              });
+            }
+      
+            $('#form-submit').click(function(event) {
+              event.preventDefault();
+              checkMongo();
+            });
+          
+          } else {
+            setTimeout(L, 50);
+          }
+          
+        })();
+      
+    </script>

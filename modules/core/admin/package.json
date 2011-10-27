@@ -1,5 +1,6 @@
 {
   "name": "admin",
+  "label": "Administration",
   "description": "Forms and functions to provide administration of configuration, installation and reloading of Calipso.",
   "version": "0.2.0",
   "homepage": "http://calip.so",
