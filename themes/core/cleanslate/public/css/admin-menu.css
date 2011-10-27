@@ -1,209 +1,205 @@
-/* Main menu */
-/* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
+/* line 21, ../sass/admin-menu.scss */
+html {
+  padding-top: 33px;
+}
 
-#admin-menu
-{
-	width: 100%;
-	margin: 0;
-	padding: 2px 0 0 0;
-	list-style: none;  
-	background: #111;
-	background: -moz-linear-gradient(#444, #111); 
-  background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));	
-	background: -webkit-linear-gradient(#444, #111);	
-	background: -o-linear-gradient(#444, #111);
-	background: -ms-linear-gradient(#444, #111);
-	background: linear-gradient(#444, #111);	
-	
-}
- 
-#admin-menu li
-{
-	float: left;
-	padding: 0 0 10px 0;
-	position: relative;
-	line-height: 0;
-}
- 
-#admin-menu a 
-{
-	float: left;
-	height: 20px;
-	padding: 0 22px;
-	color: #CFCFCF;
-	text-transform: uppercase;
-	font: bold 12px/25px Arial, Helvetica;
-	text-decoration: none;
-	text-shadow: 0 1px 0 #000;
-}
- 
-#admin-menu li:hover > a
-{
-	color: #fafafa;
-}
- 
-*html #admin-menu li a:hover /* IE6 */
-{
-	color: #fafafa;
-}
- 
-#admin-menu li:hover > ul
-{
-	display: block;
-}
- 
-/* Sub-menu */
- 
-#admin-menu ul
-{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    margin-left: 10px;    
-    display: none;
-    position: absolute;
-    top: 30px;
-    left: 0;
-    z-index: 99999;    
-    background: #444;
-    background: -moz-linear-gradient(#444, #111);
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
-    background: -webkit-linear-gradient(#444, #111);    
-    background: -o-linear-gradient(#444, #111);	
-    background: -ms-linear-gradient(#444, #111);	
-    background: linear-gradient(#444, #111);
-    -moz-box-shadow: 0 0 2px rgba(255,255,255,.5);
-    -webkit-box-shadow: 0 0 2px rgba(255,255,255,.5);
-    box-shadow: 0 0 2px rgba(255,255,255,.5);	
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-}
- 
-#admin-menu ul ul
-{
+/* line 25, ../sass/admin-menu.scss */
+#adminMenu {
+  border-bottom: 1px solid #001;
   top: 0;
-  left: 140px;  
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  background: #16272f;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(47, 81, 99, 0.65)), color-stop(100%, rgba(31, 53, 64, 0.45))), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -webkit-linear-gradient(rgba(47, 81, 99, 0.65), rgba(31, 53, 64, 0.45)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -moz-linear-gradient(rgba(47, 81, 99, 0.65), rgba(31, 53, 64, 0.45)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -o-linear-gradient(rgba(47, 81, 99, 0.65), rgba(31, 53, 64, 0.45)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -ms-linear-gradient(rgba(47, 81, 99, 0.65), rgba(31, 53, 64, 0.45)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: linear-gradient(rgba(47, 81, 99, 0.65), rgba(31, 53, 64, 0.45)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  -moz-box-shadow: inset -3px 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #cccccc, inset 0 -1px 1px black;
+  -webkit-box-shadow: inset -3px 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #cccccc, inset 0 -1px 1px black;
+  -o-box-shadow: inset -3px 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #cccccc, inset 0 -1px 1px black;
+  box-shadow: inset -3px 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #cccccc, inset 0 -1px 1px black;
 }
- 
-#admin-menu ul li
-{
-    float: none;
-    margin: 0;
-    padding: 0;    
-    display: block;  
-    -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
-    -webkit-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
-    box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
-}
- 
-#admin-menu ul li:last-child
-{   
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;    
-}
- 
-#admin-menu ul a
-{    
-    padding: 10px;
-	height: 10px;
-	width: 130px;
-	height: auto;
-    line-height: 1;
-    display: block;
-    white-space: nowrap;
-    float: none;
-	text-transform: none;
-}
- 
-*html #admin-menu ul a /* IE6 */
-{    
-	height: 10px;
-}
- 
-*:first-child+html #admin-menu ul a /* IE7 */
-{    
-	height: 10px;
-}
- 
-#admin-menu ul a:hover
-{
-    background: #0186ba;
-	background: -moz-linear-gradient(#04acec,  #0186ba);	
-	background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
-	background: -webkit-linear-gradient(#04acec,  #0186ba);
-	background: -o-linear-gradient(#04acec,  #0186ba);
-	background: -ms-linear-gradient(#04acec,  #0186ba);
-	background: linear-gradient(#04acec,  #0186ba);
-}
- 
-#admin-menu ul li:first-child > a
-{
-    -moz-border-radius: 5px 5px 0 0;
-    border-radius: 5px 5px 0 0;
-}
- 
-#admin-menu ul li:first-child > a:after
-{
-    content: '';
-    position: absolute;
-    left: 30px;
-    top: -8px;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 8px solid #444;
-}
- 
-#admin-menu ul ul li:first-child a:after
-{
-    left: -8px;
-    top: 12px;
-    width: 0;
-    height: 0;
-    border-left: 0;	
-    border-bottom: 5px solid transparent;
-    border-top: 5px solid transparent;
-    border-right: 8px solid #444;
-}
- 
-#admin-menu ul li:first-child a:hover:after
-{
-    border-bottom-color: #04acec; 
-}
- 
-#admin-menu ul ul li:first-child a:hover:after
-{
-    border-right-color: #04acec; 
-    border-bottom-color: transparent; 	
-}
- 
- 
-#admin-menu ul li:last-child > a
-{
-    -moz-border-radius: 0 0 5px 5px;
-    border-radius: 0 0 5px 5px;
-}
- 
-/* Clear floated elements */
-#admin-menu:after 
-{
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
-}
- 
-* html #admin-menu             { zoom: 1; } /* IE6 */
-*:first-child+html #admin-menu { zoom: 1; } /* IE7 */
 
-#adminToolbar ul, #adminToolbar li { margin: 0; list-style:none; list-style-image: none; }
-#adminToolbar {width:100%;float:left;clear:both;background: #62555E;color: #ddd;margin:0 0 20px;}
-#adminToolbar a {display:block;padding:8px 16px;color:#fff;text-decoration:none;font-weight: bold;}
-#adminToolbar li li a {text-transform:capitalize;}
-#adminToolbar li:hover,
-#adminToolbar li {position:relative;float:left;}
-#adminToolbar li ul {display:none;float:left;clear:left;position:absolute;/*top:32px;left:0;*/ background:#1993A8;}
+/* line 42, ../sass/admin-menu.scss */
+#admin-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* line 47, ../sass/admin-menu.scss */
+#admin-menu li {
+  position: relative;
+  float: left;
+}
+/* line 51, ../sass/admin-menu.scss */
+#admin-menu li a {
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  height: 20px;
+  padding: 0 22px;
+  line-height: 30px;
+  height: 33px;
+  text-decoration: none;
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+}
+/* line 65, ../sass/admin-menu.scss */
+#admin-menu li a:hover {
+  background: #333;
+  background: rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: inset 0 0 4px #111111;
+  -webkit-box-shadow: inset 0 0 4px #111111;
+  -o-box-shadow: inset 0 0 4px #111111;
+  box-shadow: inset 0 0 4px #111111;
+}
+/* line 74, ../sass/admin-menu.scss */
+#admin-menu > li:last-child a {
+  -moz-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.15);
+  -webkit-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.15);
+  -o-box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 1px 0 0 0 rgba(255, 255, 255, 0.15);
+}
+
+/* line 83, ../sass/admin-menu.scss */
+#admin-menu li:hover > ul {
+  display: block;
+}
+
+/* line 87, ../sass/admin-menu.scss */
+#admin-menu ul {
+  background: #333;
+  border: 1px solid #111;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;
+  position: absolute;
+  top: 33px;
+  left: -1px;
+  z-index: 99999;
+  width: 100%;
+  background: #16272f;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(47, 81, 99, 0.55)), color-stop(100%, rgba(31, 53, 64, 0.35))), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -webkit-linear-gradient(rgba(47, 81, 99, 0.55), rgba(31, 53, 64, 0.35)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -moz-linear-gradient(rgba(47, 81, 99, 0.55), rgba(31, 53, 64, 0.35)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -o-linear-gradient(rgba(47, 81, 99, 0.55), rgba(31, 53, 64, 0.35)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: -ms-linear-gradient(rgba(47, 81, 99, 0.55), rgba(31, 53, 64, 0.35)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  background: linear-gradient(rgba(47, 81, 99, 0.55), rgba(31, 53, 64, 0.35)), url("http://subtlepatterns.com/patterns/blackmamba.png");
+  -moz-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #222222, inset 0 -1px 1px black;
+  -webkit-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #222222, inset 0 -1px 1px black;
+  -o-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #222222, inset 0 -1px 1px black;
+  box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.35), 0 3px 8px #222222, inset 0 -1px 1px black;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -o-border-bottom-left-radius: 5px;
+  -ms-border-bottom-left-radius: 5px;
+  -khtml-border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -o-border-bottom-right-radius: 5px;
+  -ms-border-bottom-right-radius: 5px;
+  -khtml-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* line 107, ../sass/admin-menu.scss */
+#admin-menu ul ul {
+  top: -2px;
+  left: 100%;
+  z-index: 9999;
+  width: auto;
+}
+
+/* line 114, ../sass/admin-menu.scss */
+#admin-menu ul li {
+  float: none;
+  margin: 0;
+  display: block;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* line 123, ../sass/admin-menu.scss */
+#admin-menu ul a {
+  padding: 10px;
+  height: 10px;
+  height: auto;
+  line-height: 1;
+  display: block;
+  white-space: nowrap;
+  float: none;
+  text-transform: none;
+}
+
+/* line 138, ../sass/admin-menu.scss */
+#adminToolbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999999;
+}
+/* line 144, ../sass/admin-menu.scss */
+#adminToolbar ul, #adminToolbar li {
+  margin: 0;
+  list-style: none;
+  list-style-image: none;
+}
+/* line 150, ../sass/admin-menu.scss */
+#adminToolbar ul {
+  text-align: right;
+}
+/* line 154, ../sass/admin-menu.scss */
+#adminToolbar li {
+  position: relative;
+  float: left;
+}
+/* line 159, ../sass/admin-menu.scss */
+#adminToolbar li a {
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  height: 20px;
+  padding: 0 22px;
+  line-height: 30px;
+  height: 33px;
+  text-decoration: none;
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+}
+/* line 173, ../sass/admin-menu.scss */
+#adminToolbar li a:hover {
+  background: #333;
+  background: rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: inset 0 0 4px #111111;
+  -webkit-box-shadow: inset 0 0 4px #111111;
+  -o-box-shadow: inset 0 0 4px #111111;
+  box-shadow: inset 0 0 4px #111111;
+}
+
+/* Clear floated elements */
+/* line 189, ../sass/admin-menu.scss */
+#admin-menu:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+/* line 198, ../sass/admin-menu.scss */
+#admin-menu {
+  *zoom: 1;
+}
+
+/* IE6 & IE7 */

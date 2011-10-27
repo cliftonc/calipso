@@ -1,0 +1,92 @@
+<div id="header">
+
+  <div class="form-steps three-form-steps clearfix">
+    <ul>
+      <li class="step1 valid">
+        <div class="form-step-name">
+          <%= t("Setup Database") %>
+        </div>
+      </li>
+      <li class="step2 current">
+        <div class="form-step-name">
+          <%= t("Create Admin") %>
+        </div>
+      </li>
+      <li class="step3">
+        <div class="form-step-name">
+          <%= t("Add Features") %>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="admin-body">
+  
+  <h2><%= t("Create Admin User") %></h2>
+
+  <p>We need to create an administrator account for your site to safely manage content. Please provide the following information:</p>
+
+  <div id="user-status" style="display: none;"></div>
+  
+  <%- form %>
+
+  <footer class="admin-install-links">
+    <a class="button back" href="?installStep=mongodb"><%= t("Change Database") %></a>
+    <a id="form-submit" class="button next" href="#"><%= t("Create Admin") %></a>
+  </footer>
+
+</div>
+
+
+<script>
+  (function L() {
+    
+    if(window.jQuery){
+
+      // Ajax request to /admin/install/mongo/test
+      function checkUser() {
+        
+        $('#user-status').show();
+        $('#form-submit').html("Creating user ...").addClass("loading");
+        
+        var username = $(".username").val();
+        var password = $(".password").val();
+        var check_password = $(".check_password").val();
+        var email = $(".email").val();
+        
+        var postData = {"username":username,"password":password,"check_password":check_password,"email":email};
+        
+        $.ajax({
+          type: "POST",
+          url: "/admin/installTest/user",
+          dataType:"json",
+          data:postData,
+          success: function(res){
+            if(res.status === "OK") {
+              setTimeout(function() {
+                $('#install-user-form').submit();
+              },1500);
+            } else {
+              setTimeout( function() {
+                $('#user-status').html("<div class='error'>" + res.message + "</div>");
+                $('#form-submit').html("Create Admin").removeClass("loading");
+              }, 1000);
+            }
+          }
+        });
+        
+      }
+
+      $('#form-submit').click(function(e) {
+        e.preventDefault();
+        checkUser();
+      });
+    
+    } else {
+      setTimeout(L, 50);
+    }
+    
+  })();
+</script>

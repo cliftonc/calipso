@@ -6,8 +6,8 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query, 
-  utils = require('connect').utils, 
+  Query = require("mongoose").Query,
+  utils = require('connect').utils,
   merge = utils.merge;
 
 exports = module.exports = {
@@ -76,42 +76,7 @@ function init(module,app,next) {
 
         // Add dynamic helpers
         calipso.dynamicHelpers.getContent = function() {
-
-          return function(req,alias,next) {
-
-            var Content = calipso.lib.mongoose.model('Content');
-
-            Content.findOne({alias:alias},function (err, content) {
-                if(err || !content) {
-
-                  var text = req.t("Click to create") + ": " +
-                  " <a title='" + req.t("Click to create") + " ...' href='/content/new?" +
-                  "type=Block%20Content" +
-                  "&alias=" + alias +
-                  "&teaser=Content%20for%20" + alias +
-                  "&returnTo=" + req.url +
-                  "'>" + alias +"</a>";
-
-                  // Don't throw error, just pass back failure.
-                  next(null,text);
-
-                } else {
-
-                  var text;
-                  if(req.session && req.session.user && req.session.user.isAdmin) {
-                    text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + content._id + "'>" +
-                      content.content + "</span>"
-                  } else {
-                    text = content.content;
-                  }
-
-                  next(null,text);
-
-                }
-            });
-
-          }
-
+          return getContent;
         }
 
         // Get content list helper
@@ -156,6 +121,82 @@ function init(module,app,next) {
 }
 
 /**
+ * Helper function
+ * 
+ * Second property can be string or object, if string it is the alias.
+ * 
+ * If object it is:
+ * 
+ *  alias: string key for alias
+ *  property: property to extract from content, if supplied callback is string
+ *  clickCreate: true|false - if not found, add click to create html
+ *  clickEdit: true|false - wrap the property in a click to edit html
+ * 
+ * callback
+ * 
+ *    err - any errors
+ *    text | object (text is returned if a property is supplied, otherwise object).
+ * 
+ */
+function getContent(req, options, next) {
+  
+  // Check to see if we just want content property by alias
+  if(typeof options === "string") {
+    options = {alias:options, property:"content", clickCreate:true, clickEdit:true};
+  } else {
+    var defaults = {alias:'', property:"", clickCreate:true, clickEdit:true};
+    options = calipso.lib._.extend(defaults, options);
+  }
+
+  var Content = calipso.lib.mongoose.model('Content');
+
+  Content.findOne({alias:options.alias},function (err, c) {
+
+      if(err || !c) {
+
+        var text;
+        if(options.clickCreate) {
+          text = "<a title='" + req.t("Click to create") + " ...' href='/content/new?" +
+          "type=Block%20Content" +
+          "&alias=" + options.alias +
+          "&teaser=Content%20for%20" + options.alias +
+          "&returnTo=" + req.url +
+          "'>" + req.t("Click to create content with alias: {alias} ...",{alias: options.alias}) + "</a>";
+        } else {          
+          text = req.t("Content with alias {alias} not found ...",{alias: options.alias});          
+        }
+        
+        // Don't throw error, just pass back failure.        
+        next(null,text);
+
+        
+      } else {
+
+        if(options.property) {
+          
+          var text = c.get(options.property) || req.t("Invalid content property: {property}",{property:options.property});        
+          if(options.clickEdit && req.session && req.session.user && req.session.user.isAdmin) {
+            text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
+            text + "</span>";         
+          }
+
+          next(null, text);
+          
+        } else {
+          
+          // Just return the object
+          next(null, c);
+        }
+       
+      }
+      
+  });
+
+
+
+}
+
+/**
  * Local default for the content create / edit form
  */
 function contentForm() {
@@ -191,7 +232,8 @@ function contentForm() {
             {label:'',name:'returnTo',type:'hidden'}
           ],
           buttons:[
-               {name:'submit',type:'submit',value:'Save Content'}
+               {name:'submit',type:'submit',value:'Save Content'},
+               {name:'cancel',type:'button',href:'/content', value:'Cancel'}
           ]};
 }
 
@@ -214,7 +256,6 @@ function createContent(req,res,template,block,next) {
 
           var Content = calipso.lib.mongoose.model('Content');
           var ContentType = calipso.lib.mongoose.model('ContentType');
-
 
           var c = new Content(form.content);
 
@@ -363,7 +404,7 @@ function createContentForm(req,res,template,block,next) {
     var type = "Article";         // Hard coded default TODO fix
 
     // Create the form
-    var form = {id:'content-type-form',title:'Create Content ...',type:'form',method:'GET',action:'/content/new',
+    var form = {id:'content-type-form',title:'Create Content ...',type:'form',method:'GET',action:'/content/new',tabs:false,
           fields:[
             {label:'Type',name:'type',type:'select',options:function() { return calipso.data.contentTypes },description:'Select the type of content you want to create ...'},
             {label:'',name:'alias',type:'hidden'},
@@ -379,7 +420,7 @@ function createContentForm(req,res,template,block,next) {
     // Default values
     var values = {
         content: {
-          contentType:type,
+          contentType:type
         },
         alias:alias,
         teaser:teaser,
@@ -480,7 +521,7 @@ function editContentForm(req,res,template,block,next) {
         res.layout = 'admin';
 
         // Test!
-        calipso.e.pre_emit('CONTENT_UPDATE_FORM',form,function(form) {
+        calipso.e.pre_emit('CONTENT_UPDATE_FORM', form, function(form) {
           calipso.form.render(form,values,req,function(form) {
             calipso.theme.renderItem(req,res,form,block,{},next);
           });
@@ -598,43 +639,49 @@ function updateContent(req,res,template,block,next) {
  */
 function showAliasedContent(req,res,template,block,next) {
 
-  var format = req.url.match(/\.json/g) ? "json" : "html";
+  var allowedFormats = ["html","json"];
+  var format = req.moduleParams.format;
+  var alias = req.moduleParams.alias;
+                  
+  // Check type
+  if(calipso.lib._.any(allowedFormats,function(value) { return value === format; })) {
 
-  var alias = req.url
-                  .replace(/^\//, "")
-                  .replace(/\.html/, "")
-                  .replace(/\.json/, "")
-                  .replace(/(\?.*)$/, "")
+    var Content = calipso.lib.mongoose.model('Content');
 
-  var Content = calipso.lib.mongoose.model('Content');
+    Content.findOne({alias:alias},function (err, content) {
 
-  Content.findOne({alias:alias},function (err, content) {
-
-      if(err || !content) {
-        // Create content if it doesn't exist
-        if(req.session.user && req.session.user.isAdmin) {
-          res.redirect("/content/new?alias=" + alias + "&type=Article") // TODO - make this configurable
-        } else {
-          res.statusCode = 404;
-        }
-        next();
-
-      } else {
-
-        calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {
-          if(err) {
-            next(err);
+        if(err || !content) {
+          // Create content if it doesn't exist
+          if(req.session.user && req.session.user.isAdmin) {
+            res.redirect("/content/new?alias=" + alias + "&type=Article") // TODO - make this configurable
           } else {
-            // Add the user display details to content
-            content.set('displayAuthor',userDetails);
-            showContent(req,res,template,block,next,err,content,format);
+            res.statusCode = 404;
           }
-        });
+          next();
 
-      }
+        } else {
 
-  });
+          calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {
+            if(err) {
+              next(err);
+            } else {
+              // Add the user display details to content
+              content.set('displayAuthor',userDetails);
+              showContent(req,res,template,block,next,err,content,format);
+            }
+          });
 
+        }
+
+    });
+          
+  } else {
+    
+    // Invalid format, just return nothing
+    next();    
+    
+  }
+  
 }
 
 /**
@@ -823,6 +870,8 @@ function getContentList(query,out,next) {
 
         // Add sort
         qry = calipso.table.sortQuery(qry,out.sortBy);
+
+
 
         qry.find(function (err, contents) {
 
