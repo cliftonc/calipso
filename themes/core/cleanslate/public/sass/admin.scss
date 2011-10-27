@@ -643,7 +643,7 @@ ul.tabs li.active a:hover {
 .error {
   border: 1px solid;
   margin: 0 0 20px;
-  padding: 10px 15px;
+  padding: 10px 20px;
   background-repeat: no-repeat;
   background-position: 10px 6px;  
 
@@ -652,11 +652,18 @@ ul.tabs li.active a:hover {
   @include border-radius(8px);
   @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
 }
+
 .info {
-  color: #00529B;
+  color: darken(#BDE5F8, 50%);  
   background-color: #BDE5F8;
   border-color: darken(#BDE5F8, 10%);
+  text-shadow: 0 0 3px rgba(50, 150, 255, 0.4);
+  background: rgba(100, 200, 255, 0.2);
+  border: 1px solid #AEF;
+  margin: 25px;
+  display: block;
 }
+
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
