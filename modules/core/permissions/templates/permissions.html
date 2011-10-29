@@ -1,0 +1,15 @@
+<div class="admin-permissions">
+  <h1>Manage Site Permissions</h1>
+  <div>
+    <ul>
+      <% for(var role in roles) { %>
+        <li><%= role %></li>
+      <% } %>
+    </ul>
+    <ul>
+      <% for(var perm in permissions) { %>
+        <li><%= perm %></li>
+      <% } %>
+    </ul>
+  </div>
+</div>

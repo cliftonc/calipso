@@ -1,0 +1,12 @@
+{
+  "name": "permissions",
+  "label": "Permissions",
+  "description": "Management of permissions and authorisation.",
+  "version": "0.3.0",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}
