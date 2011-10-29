@@ -8,17 +8,16 @@ var rootpath = process.cwd() + '/',
 
 exports = module.exports = {
   init: init,
-  route: route
+  route: route,
+  depends:['content']
 };
 
 /**
  *Router
  */
 function route(req,res,module,app,next) {
-
-      // Route
-      module.router.route(req,res,next);
-
+  // Route
+  module.router.route(req,res,next);
 };
 
 /**

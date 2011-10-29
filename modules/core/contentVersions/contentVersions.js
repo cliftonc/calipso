@@ -42,6 +42,9 @@ function init(module,app,next) {
   // Version events
   calipso.e.addEvent('CONTENT_VERSION');
 
+  // Permissions
+  calipso.permissions.addPermission("admin:content:versions","Manage content versions.",true);
+
   calipso.lib.step(
       function defineRoutes() {
 

@@ -53,6 +53,8 @@ function init(module,app,next) {
   calipso.e.post('CONTENT_TYPE_CREATE',module.name,updateContentAfterChange);
   calipso.e.post('CONTENT_TYPE_UPDATE',module.name,updateContentAfterChange);
 
+  // Define permissions
+  calipso.permissions.addPermission("admin:content:type","Manage content types.",true);
 
   calipso.lib.step(
     function defineRoutes() {

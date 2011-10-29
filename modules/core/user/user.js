@@ -41,6 +41,10 @@ function init(module, app, next) {
   calipso.e.addEvent('USER_LOGIN');
   calipso.e.addEvent('USER_LOGOUT');
 
+  // Define permissions
+  calipso.permissions.addPermission("admin:user","Full access to user management.",true);
+  calipso.permissions.addPermission("admin:user:register","Register other users.");
+
   calipso.lib.step(
 
     function defineRoutes() {
@@ -108,7 +112,7 @@ function init(module, app, next) {
  * TODO - make sure this is the appropriate place for setting this cookie
  */
 function setCookie(req, res, template, block, next) {
-  
+
   if(req.session.user){
     if(!req.cookies.userData){
       res.cookie('userData', JSON.stringify(req.session.user));
@@ -116,9 +120,9 @@ function setCookie(req, res, template, block, next) {
   } else {
     res.clearCookie('userData');
   }
-  
+
   next();
-  
+
 }
 
 
@@ -389,11 +393,11 @@ function updateUserForm(req, res, template, block, next) {
     if(req.session.user && req.session.user.isAdmin) {
 
       // Role checkboxes
-      var roleFields = [];      
+      var roleFields = [];
       calipso.data.roleArray.forEach(function(role) {
         roleFields.push(
-          {label:role, name:'user[roleList][' + role + ']', type:'checkbox', description:calipso.data.roles[role].description, checked:calipso.lib._.contains(u.roles,role)}         
-        );        
+          {label:role, name:'user[roleList][' + role + ']', type:'checkbox', description:calipso.data.roles[role].description, checked:calipso.lib._.contains(u.roles,role)}
+        );
       });
 
       userForm.sections[roleSection].fields.push({
@@ -525,16 +529,16 @@ function updateUserProfile(req, res, template, block, next) {
 
         // Update user roles and admin flag
         if(req.session.user && req.session.user.isAdmin) {
-          var newRoles = [];  
+          var newRoles = [];
           u.isAdmin = false; // TO-DO Replace
-          for (var role in form.user.roleList) {                        
+          for (var role in form.user.roleList) {
             if(form.user.roleList[role]) {
               newRoles.push(role);
             }
           }
           u.roles = newRoles;
         }
-        
+
         // Check to see if we are changing the password
         if(old_password) {
 
@@ -1003,9 +1007,9 @@ function install(next) {
 
       // Create administrative user
       if (calipso.data.adminUser) {
-        
-        var adminUser = calipso.data.adminUser;                
-        
+
+        var adminUser = calipso.data.adminUser;
+
         // Create a new user
         var admin = new User({
           username:adminUser.username,
@@ -1014,17 +1018,17 @@ function install(next) {
           about:adminUser.about,
           roles:['Administrator']
         });
-        admin.save(self.parallel());  
+        admin.save(self.parallel());
 
       } else {
-        
+
         // Fatal error
         self.parallel()(new Error("No administrative user details provided through login process!"));
-        
+
       }
 
     },
-    function allDone(err) {      
+    function allDone(err) {
       if(err) {
         calipso.error("User module installed " + err.message);
         next();
