@@ -19,7 +19,9 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu
-  res.menu.admin.addMenuItem({name:'Users', path: 'admin/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
   res.menu.admin.addMenuItem({name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
 
   // Router
