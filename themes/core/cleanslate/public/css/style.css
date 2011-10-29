@@ -251,7 +251,7 @@ form .section:first-child {border:0;}
   margin: 0 20px 20px;
   padding:15px 10px 15px 50px;
   background-repeat: no-repeat;
-  background-position: 10px 6px;  
+  background-position: 10px 6px;
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url('images/icons/info.png');
@@ -261,7 +261,7 @@ form .section:first-child {border:0;}
   margin: 0 20px 20px;
   padding:15px 10px 15px 50px;
   background-repeat: no-repeat;
-  background-position: 10px 6px;  
+  background-position: 10px 6px;
   color: #4F8A10;
   background-color: #DFF2BF;
   background-image:url('images/icons/success.png');
@@ -271,7 +271,7 @@ form .section:first-child {border:0;}
   margin: 0 20px 20px;
   padding:15px 10px 15px 50px;
   background-repeat: no-repeat;
-  background-position: 10px 6px;  
+  background-position: 10px 6px;
   color: #9F6000;
   background-color: #FEEFB3;
   background-image: url('images/icons/warning.png');
@@ -281,7 +281,7 @@ form .section:first-child {border:0;}
   margin: 0 20px 20px;
   padding:15px 10px 15px 50px;
   background-repeat: no-repeat;
-  background-position: 10px 6px;  
+  background-position: 10px 6px;
   color: #D8000C;
   background-color: #FFBABA;
   background-image: url('images/icons/error.png');
@@ -405,7 +405,7 @@ ul.tabs li.active a:hover {
 .search .actions {
   border: none;
   margin: 0px;
-  padding: 0px;  
+  padding: 0px;
   float: right;
 }
 
@@ -417,15 +417,15 @@ ul.tabs li.active a:hover {
   margin: 0px;
   padding: 2px;
   margin-left: 10px;
-  font-size: 0.9em;  
+  font-size: 0.9em;
 }
 
 .facets {
   width: 150px;
   float: left;
-  margin-right: 30px;  
+  margin-right: 30px;
 }
-  
+
 
 /**
  * Placeholder media queries for responsive design. Modify as design requires.

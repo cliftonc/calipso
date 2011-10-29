@@ -14,8 +14,8 @@ var Store = require('connect').session.Store,
 
     defaults = {host: '127.0.0.1', port: 27017, dbname: '/dev', collection: 'sessions'},
 
-    getConnectionURL = function (options) {      
-  
+    getConnectionURL = function (options) {
+
       var url = 'mongo://';
 
       if (options.username) {

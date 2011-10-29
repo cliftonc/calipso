@@ -16,7 +16,7 @@ exports = module.exports = {
  *Router
  */
 function route(req, res, module, app, next) {
-	
+
   // Router
   module.router.route(req, res, next);
 }
@@ -36,7 +36,7 @@ function init(module, app, next) {
         template: 'ga',
         block: 'scripts.ga'
       }, this.parallel());
-    }, 
+    },
     function done() {
 	  // No initialisation?
       next();

@@ -354,7 +354,7 @@ function editJobForm(req,res,template,block,next) {
   res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
-  
+
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 
     if(err || job === null) {
@@ -478,12 +478,12 @@ function showJob(req,res,template,block,next,err) {
 
   var jobName = req.moduleParams.jobName;
   var item;
-  
+
   res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/scheduler/show/' + jobName,description:'Current item ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
-  
+
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 
     if(err || job === null) {

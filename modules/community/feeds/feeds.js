@@ -4,13 +4,13 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  sys = require('sys'), 
+  sys = require('sys'),
   events = require('events');
 
 exports = module.exports = {
   init: init,
   route: route,
-  jobs: {getFeed:getFeed} 
+  jobs: {getFeed:getFeed}
 };
 
 /**
@@ -63,7 +63,7 @@ function getFeed(args,next) {
   var feed = require('./feeds.expat');
 
   var response = feed.parseURL(url, function(err,data) {
-      
+
       if(err) {
           next(err);
           return;
@@ -132,16 +132,16 @@ function processAtom(data,taxonomy,contentType, next) {
  * Process a single atom feed item
  */
 function processAtomItem(item,taxonomy,contentType, next) {
-  
+
   var Content = calipso.lib.mongoose.model('Content');
   var ContentType = calipso.lib.mongoose.model('ContentType');
 
   var alias = calipso.modules['content'].fn.titleAlias(item.title.text);
 
   Content.findOne({alias:alias},function (err, c) {
-      
+
     if(!c) {
-      
+
       var c = new Content();
 
       // This is a fixed mapping
@@ -155,7 +155,7 @@ function processAtomItem(item,taxonomy,contentType, next) {
       c.alias = alias;
       c.author = item.author.name.text || 'feeds';
       c.taxonomy = taxonomy;
-      
+
       // Extension fields (hack for github) - to fix later
       c.set('githubLink',item.link['@'].href);
       c.set('githubImage',item['media:thumbnail']['@'].url);
@@ -166,10 +166,10 @@ function processAtomItem(item,taxonomy,contentType, next) {
         c.created=new Date(item.updated.text);
         c.published=new Date(item.updated.text);
       }
-      
+
       // Get content type
       ContentType.findOne({contentType:contentType}, function(err, ct) {
-          
+
           if(err || !ct) {
 
             next(err);
