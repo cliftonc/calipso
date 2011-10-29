@@ -60,12 +60,12 @@ function init(module,app,next) {
     function defineRoutes() {
 
       // Crud operations
-      module.router.addRoute('GET /content/type',listContentType,{admin:true,template:'list',block:'content'},this.parallel());
-      module.router.addRoute('GET /content/type/list.:format?',listContentType,{admin:true,template:'list',block:'content'},this.parallel());
+      module.router.addRoute('GET /content/type',listContentType,{admin:true,template:'list',block:'content.type.show'},this.parallel());
+      module.router.addRoute('GET /content/type/list.:format?',listContentType,{admin:true,template:'list',block:'content.type.list'},this.parallel());
       module.router.addRoute('POST /content/type/create',createContentType,{admin:true},this.parallel());
-      module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,block:'content',template:'form'},this.parallel());
-      module.router.addRoute('GET /content/type/show/:id.:format?',showContentType,{admin:true,template:'show',block:'content'},this.parallel());
-      module.router.addRoute('GET /content/type/edit/:id',editContentTypeForm,{admin:true,block:'content'},this.parallel());
+      module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,block:'content.type.new',template:'form'},this.parallel());
+      module.router.addRoute('GET /content/type/show/:id.:format?',showContentType,{admin:true,template:'show',block:'content.type.show'},this.parallel());
+      module.router.addRoute('GET /content/type/edit/:id',editContentTypeForm,{admin:true,block:'content.type.edit'},this.parallel());
       module.router.addRoute('GET /content/type/delete/:id',deleteContentType,{admin:true},this.parallel());
       module.router.addRoute('POST /content/type/update/:id',updateContentType,{admin:true},this.parallel());
 
@@ -285,11 +285,11 @@ function updateContentType(req,res,template,block,next) {
             if(err) {
               req.flash('error',req.t('Could not update content type because {msg}.',{msg:err.message}));
               if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-                res.redirect('/content/type/edit/' + req.moduleParams.id);
+                res.redirect('/content/type/edit/' + id);
               }
             } else {
               calipso.e.post_emit('CONTENT_TYPE_UPDATE',c);
-              res.redirect('/content/type/show/' + req.moduleParams.id);
+              res.redirect('/content/type/show/' + id);
             }
             next();
           });
@@ -309,7 +309,7 @@ function updateContentType(req,res,template,block,next) {
 /**
  * Show content type
  */
-function showContentType(req,res,template,block,next,err,content,format) {
+function showContentType(req,res,template,block,next) {
 
   var item;
 
