@@ -167,7 +167,7 @@ function storeRoles() {
  * }
  * This needs to be a synchronous call so it can be used in templates.
  */
-function userDisplay(req,username,next) {
+function userDisplay(req, username, next) {
 
   var isAdmin = (req.session.user && req.session.user.isAdmin);
   var isUser = (req.session.user);
@@ -186,7 +186,7 @@ function userDisplay(req,username,next) {
       // Default display name
       responseData.name = u.username;
       if(isAdmin || (u.showName === 'registered' && isUser) || u.showName === 'public') {
-        responseData.name = u.fullname;
+        responseData.name = u.fullname || u.username;
       }
 
       // Default display name
@@ -196,7 +196,6 @@ function userDisplay(req,username,next) {
       }
 
     }
-
     next(null,responseData);
 
   });

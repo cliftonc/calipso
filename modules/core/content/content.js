@@ -735,7 +735,7 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   if(err || !content) {
 
-    content = {title:"Not Found!",content:"Sorry, I couldn't find that content!"};
+    content = {title:"Not Found!",content:"Sorry, I couldn't find that content!",displayAuthor:{name:"Unknown"}};
 
   } else {
 
@@ -755,7 +755,7 @@ function showContent(req,res,template,block,next,err,content,format) {
       // Override of the template
       template = calipso.theme.cache.contentTypes[content.contentType].view || template;
     }
-    calipso.theme.renderItem(req,res,template,block,{content:content},next);
+    calipso.theme.renderItem(req,res,template,block,{content:content.toObject()},next);
   }
 
   if(format === "json") {
