@@ -41,9 +41,9 @@ function route(req, res, module, app, next, counter) {
     }
   }
 
-  // Menu  
+  // Menu
   res.menu.primary.addMenuItem({name:'Tweet Stream',path:'tweet-stream',url:'/tweets',description:'Example Socket.IO Tweet Stream ...',security:[]});
-  
+
   // ROute
   module.router.route(req, res, next);
 

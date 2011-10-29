@@ -16,7 +16,7 @@ cleanslate = {
   },
   backlog : [],
   init: function(){
-    
+
     // TABS
     // introduced for admin form tabs, but general-purpose enough to belong here.
     $(".tab-content").hide().eq(0).show();
@@ -32,16 +32,16 @@ cleanslate = {
       $(href).fadeIn(200);
       return false;
     });
-    
+
     // TABLES
     $("th.sortable").click(function() {
-      
+
       var name = $(this).attr('name');
-      
+
       // Consider the current URL
       var baseUrl = location.protocol + '//' + location.host + location.pathname;
       var params = location.search ? location.search.substring(1).split('&') : [];
-      
+
       // Update the params
       var found = false;
       var newParams = [];
@@ -57,21 +57,21 @@ cleanslate = {
           newParams.push(param);
         }
       });
-      
+
       // New (none->asc)
       if(!found) {
         newParams.push('sortBy=' + name + ',asc');
       }
-      
+
       var newSearch = newParams.join('&');
-      
+
       location = baseUrl + (newSearch ? '?'+newSearch : '') + location.hash;
-      
+
     });
-    
+
   } // end of cleanslate.init
-  
+
 }; //end of cleanslate
 
-// onDomReady, call cleanslate.init 
+// onDomReady, call cleanslate.init
 $(cleanslate.init);

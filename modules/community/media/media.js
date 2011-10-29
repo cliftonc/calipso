@@ -6,7 +6,7 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, 'lib/calipso'));
 
 exports = module.exports = {
-  init: init, 
+  init: init,
   route: route
 };
 
@@ -17,7 +17,7 @@ function route(req,res,module,app,next) {
 
       // Menu
       res.menu.admin.addMenuItem({name:'Media Management',path:'cms/media',url:'/media',description:'Manage media ...',security:[]});
-      
+
       res.menu.primary.addMenuItem({name:'Media Gallery',path:'media/gallery',url:'/media/gallery',description:'Gallery ...',security:[]});
 
       // Routes

@@ -28,7 +28,7 @@ function route(req, res, module, app, next) {
   // Menus
   //res.menu.primary.push({ name: 'Sample Content', url: '/sample-content', regexp: /sample-content/ });
   res.menu.primary.addMenuItem({name:'Sample Content',path:'sample-content',url:'/sample-content',description:'Sample content ...',security:[]});
-  
+
   // Routes
   module.router.route(req, res, next);
 

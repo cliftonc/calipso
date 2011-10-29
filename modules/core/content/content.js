@@ -6,8 +6,8 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query, 
-  utils = require('connect').utils, 
+  Query = require("mongoose").Query,
+  utils = require('connect').utils,
   merge = utils.merge;
 
 exports = module.exports = {

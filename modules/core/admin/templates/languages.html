@@ -1,15 +1,15 @@
 <div class='admin-page'>
-<% 
+<%
   var languages = [];
-  for(var language in languageCache) { 
+  for(var language in languageCache) {
     languages.push(language);
   }
   languages.sort();
 %>
-  
-  
-<% 
-  for(var i=0, len = languages.length; i < len; i++) { 
+
+
+<%
+  for(var i=0, len = languages.length; i < len; i++) {
     var language = languages[i];
     if (language) {
 %>
@@ -32,19 +32,19 @@ exports.language = {
       // Now, lets write out our object in a sorted fashion!
       items.forEach(function(key,value) {
         c++;
-%>  
+%>
   <%- JSON.stringify(key) %>:<%- JSON.stringify(languageCache[language][key]) %><% if (c < len) { %>,<% } %>
 <%
       });
-%>  
+%>
 }
       </code>
     </pre>
   </div>
-<% 
+<%
     // close out the if statement
     }
-  } 
+  }
 %>
   <div class="language-note">
     <small>
