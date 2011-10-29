@@ -53,6 +53,9 @@ function init(module,app,next) {
   calipso.e.post('CONTENT_TYPE_CREATE',module.name,updateContentAfterChange);
   calipso.e.post('CONTENT_TYPE_UPDATE',module.name,updateContentAfterChange);
 
+  calipso.e.pre('CONTENT_TYPE_CREATE',module.name,compileTemplates);
+  calipso.e.pre('CONTENT_TYPE_UPDATE',module.name,compileTemplates);
+
   // Define permissions
   calipso.permissions.addPermission("admin:content:type","Manage content types.",true);
 
@@ -80,18 +83,17 @@ function init(module,app,next) {
         ispublic:{type: Boolean, required: true, "default": true},
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
-        fields: {type: String}
+        fields: {type: String, "default":""},
+        templateLanguage:{type: String, required: true, "default": 'html'},
+        viewTemplate:{type: String, "default": ''},
+        listTemplate:{type: String, "default": ''},        
       });
 
       calipso.lib.mongoose.model('ContentType', ContentType);
 
       // Cache the content types in the calipso.data object
       if(app.config.get('installed')) {
-        storeContentTypes(null,null,function(err){
-          if(err) {
-            calipso.error("An error occurred loading content types: " + err.message);
-          }
-        });
+        storeContentTypes(null,null,function(){});
       }
 
       module.initialised = true;
@@ -100,7 +102,6 @@ function init(module,app,next) {
     }
   );
 }
-
 
 /**
  * Installation process - asynch
@@ -145,15 +146,26 @@ function install(next) {
  * Content type create / edit form
  */
 var contentTypeForm = {
-  id:'FORM',title:'Form',type:'form',method:'POST',action:'/content/type',fields:[
-    {label:'Content Type',name:'contentType[contentType]',type:'text'},
-    {label:'Description',name:'contentType[description]',type:'text'},
-    {label:'Layout',name:'contentType[layout]',type:'select',options:function() { return calipso.theme.getLayoutsArray() }},
-    {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"]},
-    {label:'Custom Fields',name:'contentType[fields]',type:'json'}
+  id:'FORM',title:'Form',type:'form',method:'POST',tabs:true,action:'/content/type',
+  sections:[
+    {id:'type-section',label:'Content Type',fields:[
+      {label:'Content Type',name:'contentType[contentType]',type:'text',description:'Enter the name of the content type, it must be unique.'},
+      {label:'Description',name:'contentType[description]',type:'text',description:'Enter a description.'},
+      {label:'Layout',name:'contentType[layout]',type:'select',options:function() { return calipso.theme.getLayoutsArray() }, description:'Select the layout from the active theme used to render this type, choose default if unsure!'},
+      {label:'Is Public',name:'contentType[ispublic]',type:'select',options:["Yes","No"],description:"Public content types appear in lists of content, private types are usually used as components in other pages."}
+    ]},
+    {id:'type-custom-fields',label:'Custom Fields',fields:[
+      {label:'Custom Fields',name:'contentType[fields]',type:'json',description:"Define any custom fields using the Calipso form language, see the help below."}
+     ]},
+    {id:'type-custom-templates',label:'Custom Templates',fields:[
+      {label:'Template Language',name:'contentType[templateLanguage]',type:'select',options:[{label:"EJS",value:"html"},{label:"Jade",value:"jade"}],description:"Select the template language to use (if you are over-riding the default templates using the fields below)."},
+      {label:'List Template',name:'contentType[listTemplate]',type:'textarea',description:"NOT YET IMPLEMENTED: Define the template used when listing groups of content of this type, leave blank for default."},
+      {label:'View Template',name:'contentType[viewTemplate]',type:'textarea',description:"Define the template to display a single item of this type, leave blank for default."}
+    ]}
   ],
   buttons:[
-    {name:'submit',type:'submit',value:'Save Content Type'}
+    {name:'submit',type:'submit',value:'Save Content Type'},
+    {name:'cancel',type:'button',href:'/content/type', value:'Cancel'}
   ]
 };
 
@@ -174,24 +186,27 @@ function createContentType(req,res,template,block,next) {
 
       var saved;
 
-      calipso.e.pre_emit('CONTENT_TYPE_CREATE',c);
+      calipso.e.pre_emit('CONTENT_TYPE_CREATE',c, function(c) {
 
-      c.save(function(err) {
+        c.save(function(err) {
 
-        if(err) {
-          req.flash('error',req.t('Could not save content type because {msg}.',{msg:err.message}));
-          if(res.statusCode != 302) {
-            res.redirect('/content/type/new');
+          if(err) {
+            req.flash('error',req.t('Could not save content type because {msg}.',{msg:err.message}));
+            if(res.statusCode != 302) {
+              res.redirect('/content/type/new');
+            }
+             next();
+
+          } else {
+            calipso.e.post_emit('CONTENT_TYPE_CREATE',c, function(c) {
+              res.redirect('/content/type');            
+              next();
+            });
           }
-        } else {
-          calipso.e.post_emit('CONTENT_TYPE_CREATE',c);
-          res.redirect('/content/type');
-        }
 
-        // If not already redirecting, then redirect
-        next();
-
-      });
+        });
+      
+       });
 
      }
   });
@@ -256,7 +271,6 @@ function editContentTypeForm(req,res,template,block,next) {
 
 }
 
-
 /**
  * Update a content type
  */
@@ -272,28 +286,27 @@ function updateContentType(req,res,template,block,next) {
       ContentType.findById(id, function(err, c) {
         if (!err && c) {
 
-          c.contentType = form.contentType.contentType;
-          c.description = form.contentType.description;
-          c.layout = form.contentType.layout;
+          calipso.form.mapFields(form.contentType,c);
           c.ispublic = form.contentType.ispublic === "Yes" ? true : false;
           c.updated = new Date();
-          c.fields = form.contentType.fields;
-
-          calipso.e.pre_emit('CONTENT_TYPE_UPDATE',c);
-
-          c.save(function(err) {
-            if(err) {
-              req.flash('error',req.t('Could not update content type because {msg}.',{msg:err.message}));
-              if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-                res.redirect('/content/type/edit/' + id);
+          
+          calipso.e.pre_emit('CONTENT_TYPE_UPDATE',c,function(c) {
+              
+            c.save(function(err) {
+              if(err) {
+                req.flash('error',req.t('Could not update content type because {msg}.',{msg:err.message}));
+                if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                  res.redirect('/content/type/edit/' + id);
+                }
+                next();
+              } else {
+                calipso.e.post_emit('CONTENT_TYPE_UPDATE',c, function(c) {
+                  res.redirect('/content/type/show/' + id);
+                  next();
+                });
               }
-            } else {
-              calipso.e.post_emit('CONTENT_TYPE_UPDATE',c);
-              res.redirect('/content/type/show/' + id);
-            }
-            next();
+            });
           });
-
         } else {
           req.flash('error',req.t('Could not locate that content type.'));
           res.redirect('/content/type');
@@ -435,9 +448,45 @@ function deleteContentType(req,res,template,block,next) {
 
 
 /**
+ * Compile any custom templates and load them into the theme cache
+ */
+function compileTemplates(event, contentType, next) {
+
+  var type = contentType.contentType,
+      template = contentType.templateLanguage,
+      list = contentType.listTemplate,
+      view = contentType.viewTemplate;
+  
+  calipso.theme.cache.contentTypes = calipso.theme.cache.contentTypes || {};
+  delete calipso.theme.cache.contentTypes[type];
+  calipso.theme.cache.contentTypes[type] = {};
+
+  if(list) {
+    try {
+      var templateFn = calipso.theme.compileTemplate(list,null,template);
+      calipso.theme.cache.contentTypes[type].list = templateFn;
+    } catch(ex) {
+      calipso.error("Error compile list template for type '" + type + "', message: " + ex.message);
+    }
+  }
+  
+  if(view) {      
+    try {
+      var templateFn = calipso.theme.compileTemplate(view,null,template);
+      calipso.theme.cache.contentTypes[type].view = templateFn;
+    } catch(ex) {
+      calipso.error("Error compile view template for type '" + type + "', message: " + ex.message);
+    }
+  }
+
+  next(contentType);
+
+}
+
+/**
  * Store content types in calipso.data cache
  */
-function storeContentTypes(event,options,next) {
+function storeContentTypes(event,contentType,next) {
 
   var ContentType = calipso.lib.mongoose.model('ContentType');
 
@@ -447,12 +496,17 @@ function storeContentTypes(event,options,next) {
   ContentType.find({}).sort('contentType',1).find(function (err, types) {
     if(err || !types) {
       // Don't throw error, just pass back failure.
-      return next(err);
+      calipso.error("Error storing content types in cache: " + err.message);
+      return next(contentType);
     } else {
       types.forEach(function(type) {
         calipso.data.contentTypes.push(type.contentType);
+        // If this is part of the start up process, lets compile all the templates
+        if(event === null) {
+          compileTemplates(null, type, function() {});
+        }
       });
-      return next();
+      return next(contentType);
     }
   });
 
@@ -463,10 +517,10 @@ function storeContentTypes(event,options,next) {
  * Hook to update content after change
  * TODO
  */
-function updateContentAfterChange(event,options,next) {
+function updateContentAfterChange(event,contentType,next) {
 
   // TODO
   // Referential integrity update
-  return next();
+  return next(contentType);
 
 }
