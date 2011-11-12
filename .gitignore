@@ -14,4 +14,4 @@ conf/*.json
 *.sock
 *.gz
 
-*.sass-cache
+*.sass-cache*.mov
