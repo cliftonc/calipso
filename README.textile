@@ -86,3 +86,4 @@ h3. Contributors
  * "Jerad Bitner":https://github.com/sirkitree
  * "Martin Moen":https://github.com/botto
  * "dale tan":https://github.com/dtan
+ * "Nate Hunzaker":https://github.com/nhunzaker
