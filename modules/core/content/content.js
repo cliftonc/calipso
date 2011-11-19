@@ -750,12 +750,17 @@ function showContent(req,res,template,block,next,err,content,format) {
   // Set the page layout to the content type
   if(format === "html") {
     if(content) {
+
       // Change the layout
       res.layout = content.layout ? content.layout : "default";
+
       // Override of the template
-      template = calipso.theme.cache.contentTypes[content.contentType].view || template;
+      template = calipso.theme.cache.contentTypes[content.contentType] ? calipso.theme.cache.contentTypes[content.contentType].view : template;
+
     }
+
     calipso.theme.renderItem(req,res,template,block,{content:content.toObject()},next);
+
   }
 
   if(format === "json") {
@@ -875,7 +880,7 @@ function getContentList(query,out,next) {
 
                   // Render the item into the response
                   if(out.format === 'html') {
-                   
+
                     var table = {id:'content-list',sort:true,cls:'table-admin',
                         columns:[{name:'_id',sort:'title',label:'Title',fn:contentLink},
                                 {name:'contentType',label:'Type'},
