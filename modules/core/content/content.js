@@ -733,11 +733,9 @@ function showContentByID(req,res,template,block,next) {
  */
 function showContent(req,res,template,block,next,err,content,format) {
 
-  var item;
-
   if(err || !content) {
 
-    item = {title:"Not Found!",content:"Sorry, I couldn't find that content!"};
+    content = {title:"Not Found!",content:"Sorry, I couldn't find that content!",displayAuthor:{name:"Unknown"}};
 
   } else {
 
@@ -747,17 +745,17 @@ function showContent(req,res,template,block,next,err,content,format) {
     res.menu.adminToolbar.addMenuItem({name:'Edit',weight:4,path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
     res.menu.adminToolbar.addMenuItem({name:'Delete',weight:5,path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});
 
-
-    item = content.toObject();
-
   }
 
   // Set the page layout to the content type
   if(format === "html") {
     if(content) {
+      // Change the layout
       res.layout = content.layout ? content.layout : "default";
+      // Override of the template
+      template = calipso.theme.cache.contentTypes[content.contentType].view || template;
     }
-    calipso.theme.renderItem(req,res,template,block,{item:item},next);
+    calipso.theme.renderItem(req,res,template,block,{content:content.toObject()},next);
   }
 
   if(format === "json") {
@@ -871,15 +869,13 @@ function getContentList(query,out,next) {
         // Add sort
         qry = calipso.table.sortQuery(qry,out.sortBy);
 
-
-
         qry.find(function (err, contents) {
 
                 if(out && out.res) {
 
                   // Render the item into the response
                   if(out.format === 'html') {
-
+                   
                     var table = {id:'content-list',sort:true,cls:'table-admin',
                         columns:[{name:'_id',sort:'title',label:'Title',fn:contentLink},
                                 {name:'contentType',label:'Type'},

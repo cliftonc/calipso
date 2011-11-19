@@ -19,7 +19,9 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu
-  res.menu.admin.addMenuItem({name:'Users', path: 'admin/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
   res.menu.admin.addMenuItem({name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
 
   // Router
@@ -165,7 +167,7 @@ function storeRoles() {
  * }
  * This needs to be a synchronous call so it can be used in templates.
  */
-function userDisplay(req,username,next) {
+function userDisplay(req, username, next) {
 
   var isAdmin = (req.session.user && req.session.user.isAdmin);
   var isUser = (req.session.user);
@@ -184,7 +186,7 @@ function userDisplay(req,username,next) {
       // Default display name
       responseData.name = u.username;
       if(isAdmin || (u.showName === 'registered' && isUser) || u.showName === 'public') {
-        responseData.name = u.fullname;
+        responseData.name = u.fullname || u.username;
       }
 
       // Default display name
@@ -194,7 +196,6 @@ function userDisplay(req,username,next) {
       }
 
     }
-
     next(null,responseData);
 
   });

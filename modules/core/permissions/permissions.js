@@ -6,6 +6,15 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, 'lib/calipso')),
   Query = require("mongoose").Query;
 
+/**
+ * Routes this module will respond to
+ */
+var routes = [
+    {path: 'GET /admin/permissions', fn: showPermissions, admin:true, template: 'permissions',block: 'admin.permissions'},
+    {path: 'POST /admin/permissions', fn: updatePermissions, admin:true}
+  ];
+
+
 exports = module.exports = {
   init: init,
   route: route,
@@ -16,22 +25,12 @@ exports = module.exports = {
 };
 
 /**
- * Routes this module will respond to
- */
-function routes() {
-  return [
-    {path: 'GET /admin/permissions', fn: showPermissions, admin:true, template: 'permissions',block: 'admin.permissions'},
-    {path: 'POST /admin/permissions', fn: updatePermissions, admin:true}
-  ];
-}
-
-/**
  * Router
  */
 function route(req, res, module, app, next) {
 
   // Menu
-  res.menu.admin.addMenuItem({name:'Permissions', path: 'admin/permissions', weight: 10, url: '/admin/permissions', description: 'Manage permissions ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Permissions', path: 'admin/security/permissions', weight: 10, url: '/admin/permissions', description: 'Manage permissions ...', security: [] });
 
   // Router
   module.router.route(req, res, next);
