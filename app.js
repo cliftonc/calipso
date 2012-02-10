@@ -127,18 +127,16 @@ exports.boot = function (next,cluster) {
 
   // Load configuration
   var Config = require(path + "/lib/Config").Config;
-  app.config = new Config({},function(err) {
-
-    // TODO : Check for error
+  app.config = new Config();
+  app.config.init();
+  console.log("App Config is " + app.config);
 
     // Load application configuration
-    theme = app.config.get('themes:front');
+    // theme = app.config.get('themes:front');
     // Bootstrap application
     bootApplication(function () {
       next(app);
     });
-
-  });
 
 };
 
