@@ -16,20 +16,20 @@ module.exports = exports = {
  * Unsure why this can be here, and does not need to be stored.
  * TODO - Figure out how this works
  */
-var salt = bcrypt.gen_salt_sync(10);
+var salt = bcrypt.genSaltSync(10);
 
 /**
  * Check if a string is valid against a hash
  */
 function check(string,hash) {
-  return bcrypt.compare_sync(string, hash);
+  return bcrypt.compareSync(string, hash);
 }
 
 /**
  * Create a hash from string and key / salt
  */
 function hash(string,key) {
-  var hash = bcrypt.encrypt_sync(string,salt);
+  var hash = bcrypt.hashSync(string,salt);
   return hash;
 }
 
