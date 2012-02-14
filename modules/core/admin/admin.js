@@ -453,9 +453,31 @@ function installModules(req,res,next) {
 
 }
 
-function doInstallation(next) {
+function doInstallation(req, res, next) {
 
   // NOTE: User is installed via the user module
+
+  // Grab the enabled modules from user submitted form
+  calipso.form.process(req, function(form) {
+	for (var key in form) {
+		var moduleName;
+		if (key && (moduleName = key.match(/^modules\:(.*)\:enabled$/))) {
+			moduleName = moduleName[1];
+			
+			// Reload the module if it was disabled
+			if (calipso.modules[moduleName] && !calipso.modules[moduleName].enabled && form[key]) {
+				calipso.requireModule(calipso.modules[moduleName], calipso.modules[moduleName].path);
+				calipso.loadModuleTemplates(calipso.modules[moduleName], calipso.modules[moduleName].path + '/templates');
+				calipso.initModule(moduleName, false);
+			}
+			
+			// Set the enabled flags
+			if (calipso.modules[moduleName]) {
+				calipso.modules[moduleName].enabled = form[key];
+			}
+		}
+	}
+  });
     
   // Set the install flag to true, enable db connection
   calipso.config.set('installed',true);
@@ -469,6 +491,7 @@ function doInstallation(next) {
     var modulesToInstall = [];
     for (var module in calipso.modules) {
       // Check to see if the module is currently enabled, if so install it
+	  // gzbigegg: Shouldn't we go for installation based on the module.enabled flag set by the user submitted form?
       if (calipso.modules[module].enabled && calipso.modules[module].fn && typeof calipso.modules[module].fn.install === 'function') {
         modulesToInstall.push(module);
       }
@@ -479,17 +502,18 @@ function doInstallation(next) {
       function installModules() {
         var group = this.group();
          modulesToInstall.forEach(function(module){
-          calipso.silly("Installing module " + module);
+          calipso.debug("Installing module " + module + " / " + calipso.modules[module].name);
           calipso.modules[module].fn.install(group());            
         });
       },
       function saveConfiguration(err) {
         // Save configuration to file
-        calipso.silly("Saving configuration ... ");
+        calipso.debug("Saving configuration ... ");
         calipso.config.set('installed',true);
         calipso.config.save(this);        
       },
       function reloadConfiguration() {
+	calipso.debug("Reloading configuration ... ");
         // This ensures the configuration is applied in cluster mode
         calipso.reloadConfig("ADMIN_INSTALL", calipso.config, this);
       },
@@ -508,7 +532,7 @@ function doInstallation(next) {
  */
 function installDone(req,res,next) {
 
-  doInstallation(function(err) {
+  doInstallation(req, res, function(err) {
 
     var template = calipso.modules.admin.templates.install_done;
     calipso.theme.renderItem(req, res, template, 'admin.install.done', {err:err,calipso:calipso}, next);

@@ -129,7 +129,6 @@ exports.boot = function (next,cluster) {
   var Config = require(path + "/lib/Config").Config;
   app.config = new Config();
   app.config.init();
-  console.log("App Config is " + app.config);
 
     // Load application configuration
     // theme = app.config.get('themes:front');
