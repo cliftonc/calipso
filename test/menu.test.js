@@ -6,7 +6,7 @@
 require.paths.unshift(__dirname + "/../"); //make local application paths accessible
 
 var assert = require('assert'),
-    sys = require('sys'),
+    util = require('util'),
     should = require('should'),
     menu = require('lib/Menu');
 
