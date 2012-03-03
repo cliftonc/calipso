@@ -1,4 +1,4 @@
-#!/usr/bin/env NODE_PATH=.. node
+#!/usr/bin/env NODE_PATH=".." node
 
 /**
  * Calipso command prompt
