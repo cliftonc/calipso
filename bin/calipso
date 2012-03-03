@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env NODE_PATH=.. node
 
 /**
  * Calipso command prompt
@@ -32,6 +32,7 @@ var argv = require('optimist')
  **/
 var path = fs.realpathSync('.');
 var calipsoPath = __dirname + "/../";
+
 var step = require('step');
 
 /**
