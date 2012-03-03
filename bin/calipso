@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env NODE_PATH=.. node
 
 /**
  * Calipso command prompt
@@ -33,7 +33,7 @@ var argv = require('optimist')
 var path = fs.realpathSync('.');
 var calipsoPath = __dirname + "/../";
 
-require.paths.unshift(calipsoPath); //make local paths accessible
+//require.paths.unshift(calipsoPath); //make local paths accessible
 
 var step = require('step');
 
@@ -89,7 +89,7 @@ function runLauncher(appLauncher) {
       break;
     case 'modules':
       process.chdir(path);
-      require.paths.unshift(path); //make local paths accessible
+      //require.paths.unshift(path); //make local paths accessible
       require(path + '/app').boot(function(app) {
         var modules = require('lib/cli/Modules')
         modules.moduleRouter(path,appLauncher.script.params,true,function(err) {
@@ -102,7 +102,7 @@ function runLauncher(appLauncher) {
       break;
     case 'themes':
       process.chdir(path);
-      require.paths.unshift(path); //make local paths accessible
+      //require.paths.unshift(path); //make local paths accessible
       require(path + '/app').boot(function(app) {
         var themes = require('lib/cli/Themes')
         themes.themeRouter(path,appLauncher.script.params,true,function(err) {
