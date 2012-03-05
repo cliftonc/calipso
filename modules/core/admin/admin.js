@@ -832,7 +832,7 @@ function coreConfig(req, res, template, block, next) {
   // Values can come straight off the config.
   var values = calipso.config;
 
-  var adminModuleFields = adminForm.sections[5].fields;
+  var adminModuleFields = adminForm.sections[6].fields;
   createModuleFields(adminModuleFields);
   
   res.layout = 'admin';
