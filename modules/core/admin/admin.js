@@ -559,6 +559,27 @@ function coreConfig(req, res, template, block, next) {
     tabs:true,
     sections:[
       {
+        id:'form-section-assets',
+        label:'Assets',
+        fields:[
+          {
+            label:'S3 Access Key',
+            name:'s3:key',
+            type:'text'
+          },
+           {
+            label:'S3 Secret Key',
+            name:'s3:secret',
+            type:'password'
+          },
+           {
+            label:'S3 Bucket',
+            name:'s3:bucket',
+            type:'text'
+          }
+        ]
+      },
+      {
         id:'form-section-core',
         label:'Site',
         fields:[
