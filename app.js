@@ -8,6 +8,7 @@
  *
  */
 
+debugger;
 
 var rootpath = process.cwd() + '/',
   path = require('path'),
