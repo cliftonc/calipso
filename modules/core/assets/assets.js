@@ -39,15 +39,43 @@ function init(module, app, next) {
         block: 'content.list',
         admin: true
       }, this.parallel());
-      module.router.addRoute('GET /asset/list.:format?',listAssets,{
+      module.router.addRoute('GET /asset/list.:format?', listAssets,{
         admin:true,
         template:'listAdmin',
         block:'content.list'
+      },this.parallel());
+      module.router.addRoute('GET /asset/show', getAsset, {
+        admin:true
       },this.parallel());
     }, function done() {
       next();
     }
   );
+}
+
+function getAsset(req,res,template,block,next) {
+  var knox = require('knox').createClient({
+    key: calipso.config.get("s3:key"),
+    secret: calipso.config.get("s3:secret"),
+    bucket: calipso.config.get("s3:bucket"),
+    endpoint: "s3.amazonaws.com"
+  });
+  if (req.moduleParams.key[0] == '"')
+    req.moduleParams.key = req.moduleParams.key.substring(1, req.moduleParams.key.length - 1);
+  var fileName = path.basename(req.moduleParams.key);
+  knox.get(req.moduleParams.key).on('response', function(s3res){
+    res.setHeader('Content-Disposition', 'Download;FileName=' + fileName);
+//    s3res.setEncoding('utf8');
+    s3res.on('data', function(chunk){
+      res.write(chunk);
+    });
+    s3res.on('error', function(err){
+      res.end(500, {}, "Bad");
+    });
+    s3res.on('end', function(err) {
+      res.end();
+    });
+  }).end();
 }
 
 function listAssets(req,res,template,block,next) {  
@@ -100,7 +128,10 @@ function listAssets(req,res,template,block,next) {
  * Helper function for link to user
  */
 function contentLink(req,content) {
-  return calipso.link.render({id:content.Key,title:req.t('View {content}',{content:content.Key}),label:content.Key,url:'/asset/show/' + content.Key});
+  if (content.IsFile)
+    return calipso.link.render({id:content.Key,title:req.t('View {content}',{content:content.Key}),label:content.Key,url:'/asset/show?key=&quot;' + content.Key + '&quot;'});
+  else
+    return content.Key;
 }
 
 function formatSize(req,content) {
@@ -160,7 +191,7 @@ function getAssetList(items,out,next) {
         var total = items.length;
 
         items = items.slice(from, from + limit);
-        
+
         var pagerHtml = "";
         if (pager) {
           pagerHtml = calipso.lib.pager.render(from,limit,total,out.req.url);
