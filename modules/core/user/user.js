@@ -57,6 +57,7 @@ function init(module, app, next) {
       module.router.addRoute('GET /user/login', loginPage, { end: false, template: 'loginPage', block: 'content' }, this.parallel());
       module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
       module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
+      module.router.addRoute('GET /admin/roles/list',listRoles,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
       module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
       module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
@@ -855,6 +856,10 @@ function userLink(req,user) {
   return calipso.link.render({id:user._id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});
 }
 
+function roleLink(req,role) {
+  return calipso.link.render({id:role._id,title:req.t('View {role}',{role:role.name}),label:role.name,url:'/admin/role/' + role.name});
+}
+
 /**
  * List all content types
  */
@@ -927,6 +932,75 @@ function listUsers(req,res,template,block,next) {
   });
 };
 
+/**
+ * List all content types
+ */
+function listRoles(req,res,template,block,next) {
+
+  // Re-retrieve our object
+  var Role = calipso.lib.mongoose.model('Role');
+
+  res.menu.adminToolbar.addMenuItem({name:'Register New Role',path:'new',url:'/admin/role/register',description:'Register new role ...',security:[]});
+
+  var format = req.moduleParams.format ? req.moduleParams.format : 'html';
+  var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
+  var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 5;
+  var sortBy = req.moduleParams.sortBy;
+
+  var query = new Query();
+
+  // Initialise the block based on our content
+  Role.count(query, function (err, count) {
+
+    var total = count;
+
+    var qry = Role.find(query).skip(from).limit(limit);
+
+    // Add sort
+    qry = calipso.table.sortQuery(qry,sortBy);
+
+    qry.find(function (err, roles) {
+
+      // Render the item into the response
+      if(format === 'html') {
+
+        var table = {
+          id:'user-list',sort:true,cls:'table-admin',
+          columns:[
+            {name:'_id',sort:'name',label:'Role',fn:roleLink},
+            {name:'description',label:'Description'},
+            {name:'isAdmin',label:'Is Admin'},
+            {name:'isDefault',label:'Is Default'}
+          ],
+          data:roles,
+          view:{
+            pager:true,
+            from:from,
+            limit:limit,
+            total:total,
+            url:req.url,
+            sort:calipso.table.parseSort(sortBy)
+          }
+        };
+
+        var tableHtml = calipso.table.render(table,req);
+
+        calipso.theme.renderItem(req,res,tableHtml,block,null,next);
+
+      }
+
+      if(format === 'json') {
+        res.format = format;
+        res.send(roles.map(function(u) {
+          return u.toObject();
+        }));
+        next();
+      }
+
+    });
+
+  });
+};
 
 /**
  * Installation process - asynch
