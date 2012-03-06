@@ -17,7 +17,7 @@ require('./app').boot(function (app) {
   /**
    * TODO: Check to ensure that the logs and pids folders exist before launching
    */
-
+console.log(cluster);
   cluster(app)
     .set('working directory', path)
     .set('socket path', path)
