@@ -8,8 +8,6 @@
  *
  */
 
-debugger;
-
 var rootpath = process.cwd() + '/',
   path = require('path'),
   fs = require('fs'),
@@ -66,6 +64,12 @@ function bootApplication(next) {
     var temporarySession = app.config.get('installed') ? {} : express.session({ secret: "installing calipso is great fun" });
     temporarySession.tag = "session";
     app.use(temporarySession);
+
+    var temporaryAssets = function(req, res, next) {
+      next();
+    };
+    temporaryAssets.tag = "assets";
+    app.use(temporaryAssets);
 
     // Create holders for theme dependent middleware
     // These are here because they need to be in the connect stack before the calipso router
