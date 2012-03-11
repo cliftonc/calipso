@@ -39,9 +39,9 @@ function handleAsset(req, res, next) {
     , pt = decodeURIComponent(url.pathname)
     , type;
 
-  //if (!req.session || !req.session.user || !req.session.user.isAdmin) {
-  //  return next();
-  //}
+  if (!req.session || !req.session.user || !req.session.user.isAdmin) {
+    return next();
+  }
   if (!/^\/assets\/show\/.*/.test(pt)) return next();
   
   // join / normalize from optional root dir
@@ -77,7 +77,6 @@ function handleAsset(req, res, next) {
       knox.get(escape(asset.alias), headers).on('error', function(err) {
         next(null, err);
       }).on('response', function(s3res) {
-        res.statusCode = s3res.statusCode;
         var buffer = new Buffer(0);
         //if (req.url.substring(req.url.length - fileName.length) !== fileName)
         //  res.setHeader('Content-Disposition', 'inline; filename="' + fileName + '"');
@@ -88,12 +87,12 @@ function handleAsset(req, res, next) {
         // } else {
         //   res.clearCookie('userData');
         // }
-        var headers = {};
         for (var v in s3res.headers) {
           if (/x-amz/.test(v) || v === 'server')
             continue;
           res.setHeader(v, s3res.headers[v]);
         }
+        res.statusCode = s3res.statusCode;
         req.emit('static', s3res);
         s3res.pipe(res);
       }).end();        // Just return the object
