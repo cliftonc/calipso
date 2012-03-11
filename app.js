@@ -62,6 +62,11 @@ function bootApplication(next) {
   temporarySession.tag = "session";
   app.use(temporarySession);
 
+  var temporaryAssets = function(req, res, next) {
+    next();
+  };
+  temporaryAssets.tag = "assets";
+  app.use(temporaryAssets);
 
   // Default Theme
   calipso.defaultTheme = app.config.get('themes:default');

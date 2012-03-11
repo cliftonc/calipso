@@ -4,6 +4,7 @@ var rootpath = process.cwd() + '/',
   Query = require("mongoose").Query,
   mime = require('mime'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
+  parse = require('url').parse;
 
 exports = module.exports = {
   init: init,
@@ -23,6 +24,75 @@ function route(req, res, module, app, next) {
   module.router.route(req, res, next);
 }
 
+function handleAsset(req, res, next) {
+  var maxAge = 0
+    , ranges = req.headers.range
+    , head = 'HEAD' == req.method
+    , get = 'GET' == req.method
+    , done;
+
+  // ignore non-GET requests
+  if (!get && !head) return next();
+
+  // parse url
+  var url = parse(req.url)
+    , pt = decodeURIComponent(url.pathname)
+    , type;
+
+  if (!/^\/assets\/show\/.*/.test(pt)) return next();
+  
+  // join / normalize from optional root dir
+  var Asset = calipso.lib.mongoose.model('Asset');
+  var s = pt.split('\/');
+  s.splice(0, 3); // remove assets/show
+  var bucket = s.splice(0, 1)[0];
+  pt = s.join('/');
+  Asset.findOne({alias:bucket,isbucket:true}, function(err, bucket) {
+    if(err || !bucket.isbucket || bucket.isfolder) {
+      res.statusCode = 404;
+      next();
+      return;
+    }
+    Asset.findOne({alias:pt,bucket:bucket._id}, function(err, asset) {
+      if(err || asset.isbucket || asset.isfolder) {
+        res.statusCode = 404;
+        next();
+        return;
+      }
+      var knox = require('knox').createClient({
+        key: calipso.config.get("s3:key"),
+        secret: calipso.config.get("s3:secret"),
+        bucket: bucket.alias,
+        endpoint: "s3.amazonaws.com"
+      });
+      var fileName = path.basename(asset.alias);
+      var contentType = mime.lookup(fileName);
+      var range = req.header['Range'];
+      var headers = {'response-content-type':contentType};
+      if (range)
+        headers['Range'] = range;
+      knox.get(escape(asset.alias), headers).on('response', function(s3res) {
+        var buffer = new Buffer(0);
+        if (req.url.substring(req.url.length - fileName.length) !== fileName)
+          res.setHeader('Content-Disposition', 'inline; filename="' + fileName + '"');
+        if(req.session.user){
+          if(!req.cookies.userData){
+            res.cookie('userData', JSON.stringify(req.session.user));
+          }
+        } else {
+          res.clearCookie('userData');
+        }
+        for (var v in s3res.headers) {
+          if (/x-amz/.test(v))
+            continue;
+          res.setHeader(v, s3res.headers[v]);
+        }
+        res.statusCode = 200;
+        s3res.pipe(res);
+      }).end();        // Just return the object
+    });
+  });
+}
 
 /*
  * Initialisation
@@ -39,6 +109,11 @@ function init(module, app, next) {
   // Admin routes
   calipso.lib.step(
     function defineRoutes() {
+      calipso.app.stack.forEach(function(middleware,key) {
+        if (middleware.handle.tag === 'assets') {
+          middleware.handle = handleAsset;
+        }
+      });
       // Admin operations
       module.router.addRoute('POST /asset',createAsset,{admin:true},this.parallel());
       module.router.addRoute('GET /assets/new',createAssetForm,{admin:true,block:'content.create'},this.parallel());
@@ -47,7 +122,7 @@ function init(module, app, next) {
         block: 'content.list',
         admin: true
       }, this.parallel());
-      module.router.addRoute('GET /assets/show/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
+      //module.router.addRoute('GET /assets/show/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
       module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
       module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true},this.parallel());
       module.router.addRoute('POST /assets/:id',updateAsset,{admin:true},this.parallel());
@@ -178,13 +253,17 @@ function getAsset(req,options,next) {
   });
 }
 
-function assetForm() {
-      return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/asset',tabs:true,
+function assetForm(asset) {
+  var url = "";
+  if (asset && !asset.isfolder && !asset.isbucket) {
+    url = '</br><h5>/assets/show/' + asset.bucket.alias + '/' + asset.alias + '</h5>';
+  }
+      return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/assets',tabs:true,
           sections:[{
             id:'form-section-content',
             label:'Content',
             fields:[
-                    {label:'Title',name:'asset[title]',type:'text',description:'Title to appear for this piece of content.'},
+                    {label:'Title',name:'asset[title]',type:'text',description:'Title to appear for this piece of content.' + url},
                     {label:'Description',name:'asset[description]',type:'textarea',description:'Enter some short text that describes the content, appears in lists.'},
                    ]
           },{
@@ -288,17 +367,16 @@ function titleAlias(title) {
  * Create the form based on the fields defined in the content type
  * Enable switching of title etc. from create to edit
  */
-function getForm(req,action,title,isBucket,next) {
+function getForm(req,action,title,asset,next) {
 
   // Create the form
-  var form = exports.assetForm(); // Use exports as other modules may alter the form function
+  var form = exports.assetForm(asset); // Use exports as other modules may alter the form function
   form.action = action;
   form.title = title;
 
   // Add any fields
-  var fields = isBucket ? ['Bucket'] : ['Key'];
   // Process any additional fields
-  form = calipso.form.processFields(form,fields);
+  form = calipso.form.processFields(form,[]);
 
   next(form);
 }
@@ -319,7 +397,7 @@ function createAssetForm(req,res,template,block,next) {
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
   // Create the form
-  getForm(req,"/asset",req.t("Create Bucket ..."),type,function(form) {
+  getForm(req,"/asset",req.t("Create Bucket ..."),null,function(form) {
 
     // Default values
     var values = {
@@ -362,7 +440,7 @@ function editAssetForm(req,res,template,block,next) {
   res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',security:[]});
 
 
-  Asset.findById(id, function(err, c) {
+  Asset.findById(id).populate('bucket').run(function(err, c) {
 
     if(err || c === null) {
 
@@ -373,8 +451,7 @@ function editAssetForm(req,res,template,block,next) {
     } else {
 
       // Create the form
-      getForm(req,"/assets/" + id,req.t("Edit Asset ..."),c.isbucket,function(form) {
-
+      getForm(req,"/assets/" + id,req.t("Edit Asset ... "),c,function(form) {
         // Default values
         var values = {asset: c};
 
@@ -584,31 +661,26 @@ function showAsset(req,res,template,block,next,err,asset,format) {
   });
   var fileName = path.basename(asset.alias);
   var contentType = mime.lookup(fileName);
-  knox.get(asset.alias, {'response-content-type':contentType}).on('response', function(s3res) {
+  var range = req.header['Range'];
+  var headers = {'response-content-type':contentType};
+  if (range)
+    headers['Range'] = range;
+  knox.get(escape(asset.alias), headers).on('response', function(s3res) {
     var buffer = new Buffer(0);
     if (req.url.substring(req.url.length - fileName.length) !== fileName)
       res.setHeader('Content-Disposition', 'inline; filename="' + fileName + '"');
-    res.setHeader('Content-Type', contentType);
-    if (!/text\/.*/.test(contentType))
-      res.setHeader('Content-Encoding', undefined);
+    for (var v in s3res.headers) {
+      res.setHeader(v, s3res.headers[v]);
+      console.log(v, s3res.headers[v]);
+    }
+    s3res.on('error', function(err) {
+      next();
+    });
+    s3res.on('end', function (chunk) {
+      next();
+    });
+    res.statusCode = 200;
     s3res.pipe(res);
-    next();
-    // s3res.on('data', function(chunk){
-    //   chunk.copy(buffer, buffer.length, 0, chunk.length);
-    // });
-    // s3res.on('error', function(err){
-    //   next(err, null);
-    // });
-    // s3res.on('end', function(err) {
-    //   res.setHeader('Content-Type', contentType);
-    //   if (!/text\/.*/.test(contentType))
-    //     res.setHeader('Content-Encoding', undefined);
-    //   fs = require('fs');
-    //   fs.writeFileSync('/test.png', buffer);
-    //   res.statusCode = 200;
-    //   res.send(buffer);
-    //   next();
-    // });
   }).end();        // Just return the object
 }
 
