@@ -1,6 +1,8 @@
 
 var rootpath = process.cwd() + '/',
   path = require('path'),
+  Query = require("mongoose").Query,
+  mime = require('mime'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
 
 exports = module.exports = {
@@ -36,26 +38,23 @@ function init(module, app, next) {
   // Admin routes
   calipso.lib.step(
     function defineRoutes() {
-      module.router.addRoute('GET /asset', listAssets, {
+      // Admin operations
+      module.router.addRoute('POST /asset',createAsset,{admin:true},this.parallel());
+      module.router.addRoute('GET /asset/new',createAssetForm,{admin:true,block:'content.create'},this.parallel());
+      module.router.addRoute('GET /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
         admin: true
       }, this.parallel());
+      module.router.addRoute('GET /asset/show/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
+      module.router.addRoute('GET /asset/edit/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
+      module.router.addRoute('GET /asset/delete/:id',deleteAsset,{admin:true},this.parallel());
+      module.router.addRoute('POST /asset/:id',updateAsset,{admin:true},this.parallel());
       module.router.addRoute('GET /asset/list.:format?', listAssets,{
         admin:true,
         template:'listAdmin',
         block:'content.list'
       },this.parallel());
-      module.router.addRoute('GET /asset/show', getAsset, {
-        admin:true
-      },this.parallel());
-      // Admin operations
-      module.router.addRoute('POST /asset',createAsset,{admin:true},this.parallel());
-      module.router.addRoute('GET /asset/new',createAssetForm,{admin:true,block:'content.create'},this.parallel());
-      module.router.addRoute('GET /asset/show/:id.:format?',showAssetByID,{admin:true,template:'show',block:'content.show'},this.parallel());
-      module.router.addRoute('GET /asset/edit/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
-      module.router.addRoute('GET /asset/delete/:id',deleteAsset,{admin:true},this.parallel());
-      module.router.addRoute('POST /asset/:id',updateAsset,{admin:true},this.parallel());
 
     }, function done() {
       // Add dynamic helpers
@@ -76,13 +75,16 @@ function init(module, app, next) {
         bucket:{type: calipso.lib.mongoose.Schema.ObjectId, ref: 'Asset', required: false},
         key: {type: String, required: false, "default": ''},
         isbucket:{type: Boolean, "default":false},
+        folder:{type: calipso.lib.mongoose.Schema.ObjectId, ref: 'Asset', required: false},
+        isfolder:{type: Boolean, "default":false},
         alias:{type: String, required: true, index: true},
         author:{type: String, required: true},
         etag:{type: String, "default":''},
         tags:[String],
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
-        ispublic:{type: Boolean, index: true}    // Copy from content type
+        ispublic:{type: Boolean, index: true},    // Copy from content type
+        issource:{type: Boolean, "default":false, required:true}
       });
 
       // Set post hook to enable simple etag generation
@@ -100,7 +102,19 @@ function init(module, app, next) {
   );
 }
 
-function getAsset(req,res,template,block,next) {
+function getAsset(req,options,next) {
+  var path = [];
+  for (var i = 1; i < 10; i++) {
+    if (req.moduleParams['f' + i])
+      path.push(req.moduleParams['f' + i]);
+  }
+  var bucket = "";
+  if (path.length > 0) {
+    bucket = path.splice(0, 1)[0];
+    path = path.join('/');
+  } else
+    path = "";
+
   // Check to see if we just want content property by alias
   if(typeof options === "string") {
     options = {alias:options, property:"asset", clickCreate:true, clickEdit:true};
@@ -145,11 +159,11 @@ function getAsset(req,res,template,block,next) {
           req.moduleParams.key = req.moduleParams.key.substring(1, req.moduleParams.key.length - 1);
         var fileName = path.basename(req.moduleParams.key);
         knox.get(req.moduleParams.key).on('response', function(s3res) {
-          var buffer = new Buffer();
+          var buffer = new Buffer('');
           res.setHeader('Content-Disposition', 'Download;FileName=' + fileName);
       //    s3res.setEncoding('utf8');
           s3res.on('data', function(chunk){
-            buffer.write(chunk);
+            buffer += chunk;
           });
           s3res.on('error', function(err){
             next(err, null);
@@ -172,7 +186,6 @@ function assetForm() {
                     {label:'Title',name:'asset[title]',type:'text',description:'Title to appear for this piece of content.'},
                     {label:'Permanent URL / Alias',name:'asset[alias]',type:'text',description:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
                     {label:'Teaser',name:'asset[teaser]',type:'textarea',description:'Enter some short text that describes the content, appears in lists.'},
-                    {label:'Key',name:'asset[key]',type:'textarea',description:'Enter the full content text.'}
                    ]
           },{
             id:'form-section-category',
@@ -180,14 +193,6 @@ function assetForm() {
             fields:[
                     {label:'Taxonomy',name:'asset[taxonomy]',type:'text',description:'Enter the menu heirarchy, e.g. "welcome/about"'},
                     {label:'Tags',name:'asset[tags]',type:'text',description:'Enter comma delimited tags to help manage this content.'},
-                   ]
-          },{
-            id:'form-section-status',
-            label:'Status',
-            fields:[
-                    {label:'Status',name:'asset[status]',type:'select',options:["draft","scheduled","published"],description:'Select the status (published is visible to all public).'},
-                    {label:'Published',name:'asset[published]',type:'datetime',description:'Date to appear as published.'},
-                    {label:'Scheduled',name:'content[scheduled]',type:'datetime',description:'Date to be published (if scheduled).'},
                    ]
           }
           ],
@@ -485,192 +490,207 @@ function updateAsset(req,res,template,block,next) {
  * Locate asset based on its alias
  */
 function showAliasedAsset(req, res, template, block, next) {
+  var path = [];
+  for (var i = 1; i < 10; i++) {
+    if (req.moduleParams['f' + i])
+      path.push(req.moduleParams['f' + i]);
+  }
+  var bucket = "";
+  if (path.length > 0) {
+    bucket = path.splice(0, 1)[0];
+    path = path.join('/');
+  } else
+    path = null;
 
   var allowedFormats = ["html","json"];
   var format = req.moduleParams.format;
-  var alias = req.moduleParams.alias;
-
+  if (!format)
+    format = 'html';
+  
   // Check type
-  if(calipso.lib._.any(allowedFormats,function(value) { return value === format; })) {
+  var Asset = calipso.lib.mongoose.model('Asset');
 
-    var Asset = calipso.lib.mongoose.model('Asset');
-
-    Asset.findOne({alias:alias},function (err, asset) {
-
-        if(err || !asset) {
-          // Create asset if it doesn't exist
-          if(req.session.user && req.session.user.isAdmin) {
-            res.redirect("/asset/new?alias=" + alias + "&type=Article") // TODO - make this configurable
-          } else {
-            res.statusCode = 404;
-          }
+  Asset.findOne({_id:bucket}).populate('bucket').run(function(err, asset) {
+    if (err || !asset) {
+      Asset.findOne({alias:bucket}, function (err, bucket) {
+        if (!bucket || err) {
+          res.statusCode = 404;
           next();
-
-        } else {
-
-          calipso.modules.user.fn.userDisplay(req,asset.author,function(err, userDetails) {
-            if(err) {
-              next(err);
+          return;
+        }
+        if (path) {
+          Asset.findOne({alias:path,bucket:bucket._id}).populate('bucket').run(function (err, asset) {
+            if(err || !asset) {
+              // Create asset if it doesn't exist
+              if(req.session.user && req.session.user.isAdmin) {
+                res.redirect("/asset/new?alias=" + alias + "&type=Article") // TODO - make this configurable
+              } else {
+                res.statusCode = 404;
+              }
+              next();
             } else {
-              // Add the user display details to asset
-              asset.set('displayAuthor',userDetails);
-              showAsset(req,res,template,block,next,err,asset,format);
+              calipso.modules.user.fn.userDisplay(req,asset.author,function(err, userDetails) {
+                if(err) {
+                  next(err);
+                } else {
+                  // Add the user display details to asset
+                  asset.set('displayAuthor',userDetails);
+                  showAsset(req,res,template,block,next,err,asset,format);
+                }
+              });
             }
           });
-
+        } else {
+           calipso.modules.user.fn.userDisplay(req,bucket.author,function(err, userDetails) {
+              if(err) {
+                next(err);
+              } else {
+                // Add the user display details to asset
+                bucket.set('displayAuthor',userDetails);
+                showAsset(req,res,template,block,next,err,bucket,format);
+              }
+           });
         }
-
-    });
-
-  } else {
-
-    // Invalid format, just return nothing
-    next();
-
-  }
-
-}
-
-/**
- * Show asset based on its ID
- */
-function showAssetByID(req,res,template,block,next) {
-
-  var Asset = calipso.lib.mongoose.model('Asset');
-  var id = req.moduleParams.id;
-  var format = req.moduleParams.format ? req.moduleParams.format : 'html';
-  Asset.findById(id, function(err, asset) {
-
-    // Error locating asset
-    if(err) {
-      res.statusCode = 500;
-      errorMessage = err.message;
-      next();
-      return;
-    }
-
-    // Asset found
-    if(asset) {
-
-      calipso.modules.user.fn.userDisplay(req,asset.author,function(err, userDetails) {
-          if(err) {
-            next(err);
-          } else {
-            // Add the user display details to asset
-            asset.set('displayAuthor',userDetails);
-            showAsset(req,res,template,block,next,err,asset,format);
-          }
-
       });
-
     } else {
-      // Show a 404
-      res.statusCode = 404;
-      next();
-
+      calipso.modules.user.fn.userDisplay(req,asset.author,function(err, userDetails) {
+        if(err) {
+          next(err);
+        } else {
+          // Add the user display details to asset
+          asset.set('displayAuthor',userDetails);
+          showAsset(req,res,template,block,next,err,asset,format);
+        }
+      });
     }
-
   });
-
 }
+
 
 /***
  * Show asset - called by ID or Alias functions preceeding
  */
 function showAsset(req,res,template,block,next,err,asset,format) {
-
-  if(err || !asset) {
-
-    asset = {title:"Not Found!",content:"Sorry, I couldn't find that content!",displayAuthor:{name:"Unknown"}};
-
-  } else {
-
-    res.menu.adminToolbar.addMenuItem({name:'Create',weight:3,path:'new',url:'/asset/new',description:'Create Bucket ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/asset/show/' + asset.id,description:'Show current ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Edit',weight:4,path:'edit',url:'/asset/edit/' + asset.id,description:'Edit asset ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Delete',weight:5,path:'delete',url:'/asset/delete/' + asset.id,description:'Delete asset ...',security:[]});
-
-  }
-
-  // Set the page layout to the asset type
-  if(format === "html") {
-    if(asset) {
-
-      // Change the layout
-      res.layout = asset.layout ? asset.layout : "default";
-
-      // Override of the template
-      //template = ''
-
-    }
-    calipso.theme.renderItem(req,res,template,block,{content:asset.toObject()},next);
-
-  }
-
-  if(format === "json") {
-    res.format = format;
-    res.send(asset.toObject());
+  if(asset.isbucket || asset.isfolder) {
+    res.statusCode = 404;
     next();
+    return;
   }
-
-
+  var knox = require('knox').createClient({
+    key: calipso.config.get("s3:key"),
+    secret: calipso.config.get("s3:secret"),
+    bucket: asset.bucket.alias,
+    endpoint: "s3.amazonaws.com"
+  });
+  var fileName = path.basename(asset.alias);
+  var contentType = mime.lookup(fileName);
+  knox.get(asset.alias, {'response-content-type':contentType}).on('response', function(s3res) {
+    var buffer = new Buffer(0);
+//    res.setHeader('Content-Disposition', 'Download;FileName=' + fileName);
+    res.setHeader('Content-Type', contentType);
+    if (!/text\/.*/.test(contentType))
+      res.setHeader('Content-Encoding', undefined);
+    s3res.pipe(res);
+    next();
+    // s3res.on('data', function(chunk){
+    //   chunk.copy(buffer, buffer.length, 0, chunk.length);
+    // });
+    // s3res.on('error', function(err){
+    //   next(err, null);
+    // });
+    // s3res.on('end', function(err) {
+    //   res.setHeader('Content-Type', contentType);
+    //   if (!/text\/.*/.test(contentType))
+    //     res.setHeader('Content-Encoding', undefined);
+    //   fs = require('fs');
+    //   fs.writeFileSync('/test.png', buffer);
+    //   res.statusCode = 200;
+    //   res.send(buffer);
+    //   next();
+    // });
+  }).end();        // Just return the object
 }
 
 function listAssets(req,res,template,block,next) {  
   var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var sortBy = req.moduleParams.sortBy;
+  var params = {req:req,res:res,template:template,block:block,format:format,sortBy:sortBy,limit:req.moduleParams.limit,from:req.moduleParams.from};
+  var Asset = calipso.lib.mongoose.model('Asset');
+
+  res.menu.adminToolbar.addMenuItem({name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',security:[]});
 
   // TODO : Make this more flexible ...
-  var t1 = req.moduleParams.t1 ? req.moduleParams.t1 : '';
-  var t2 = req.moduleParams.t2 ? req.moduleParams.t2 : '';
-  var t3 = req.moduleParams.t3 ? req.moduleParams.t3 : '';
-  var t4 = req.moduleParams.t4 ? req.moduleParams.t4 : '';
-    
-  res.menu.adminToolbar.addMenuItem({name:'Create Bucket',weight:1,path:'new',url:'/asset/new',description:'Create Bucket ...',security:[]});
-  if(req.session.user && req.session.user.isAdmin) {
-    // Show all
-  } else {
-    // Published only if not admin
-    query.where('status','published');
+  var path = [];
+  for (var i = 1; i < 10; i++) {
+    if (req.moduleParams['f' + i])
+      path.push(req.moduleParams['f' + i]);
   }
+  var bucket = "";
+  if (path.length > 0) {
+    bucket = path.splice(0, 1)[0];
+    path = path.join('/');
+  } else
+    path = "";
 
-  if(tag) {
-    res.layout = "tagLanding" // Enable landing page layout to be created for a tag view
-    query.where('tags',tag);
-  }
-
-  // Taxonomy tags
-  var taxonomy = "";
-  if(t1) {
-    res.layout = t1 + "Landing" // Enable landing page layout to be created for a t1 level;
-    taxonomy += t1;
-    if(t2) {
-      taxonomy += "/" + t2;
-      if(t3) {
-        taxonomy += "/" + t3;
-        if(t4) {
-          taxonomy += "/" + t4;
-        }
-      }
+  var query = new Query();
+  
+  function finish() {
+    res.menu.adminToolbar.addMenuItem({name:'Create Bucket',weight:1,path:'new',url:'/asset/new',description:'Create Bucket ...',security:[]});
+    if(req.session.user && req.session.user.isAdmin) {
+      // Show all
+    } else {
+      // Published only if not admin
+      query.where('status','published');
     }
+
+    if(tag) {
+      res.layout = "tagLanding" // Enable landing page layout to be created for a tag view
+      query.where('tags',tag);
+    }
+
+    // Folder levels tags
+    var taxonomy = "";
+    if(path) {
+      var q = {$regex:'^' + path + '/[^/]*/?$'};
+      query.where('alias',q);
+      params.path = path + '/';
+    } else
+      params.path = null;
+    // Re-retrieve our object
+    getAssetList(query,params,next);
   }
-
-  var params = {req:req,res:res,template:template,block:block,format:format,sortBy:sortBy};
-
-  // Re-retrieve our object
-  getAssetList(null,params,next);
+  if (bucket) {
+    Asset.findOne({alias:bucket,isbucket:true}, function(err, bucket) {
+      if (!err && bucket) {
+        query.where('bucket', bucket._id);
+        if (!path) {
+          var q = {$regex:'^[^/]*/?$'};
+          query.where('alias',q);
+        }
+      } else {
+        res.statusCode = 404;
+        next();
+        return;
+      }
+      finish();
+    });
+  } else {
+    query.where('isbucket',true);
+    finish();
+  }
 };
 
 /**
  * Helper function for link to user
  */
 function assetLink(req,asset) {
-  if (asset.IsFile)
-    return calipso.link.render({id:asset.Key,title:req.t('View {asset}',{asset:asset.Key}),label:asset.Key,url:'/asset/show?key=&quot;' + asset.Key + '&quot;'});
-  else
-    return asset.Key;
+  if (asset.isbucket)
+    return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
+  if (asset.isfolder) {
+    return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
+  }
+  return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/asset/show/' + asset.alias});
 }
 
 function formatSize(req,asset) {
@@ -679,29 +699,186 @@ function formatSize(req,asset) {
   return asset.Size;
 }
 
+function assetType(req,asset) {
+  if (asset.isbucket)
+    return "S3 Bucket";
+  if (asset.isfolder)
+    return "Folder";
+  return "File";
+}
 /**
  * Take a query and parameters, return or render asset lists
  * This has been refactored so it can be called as a helper (e.g. views)
  * From a theme
  */
-function getAssetList(items,out,next) {
+function getAssetList(query,out,next) {
   var pager = out.hasOwnProperty('pager') ? out.pager : true;
 
+  var Asset = calipso.lib.mongoose.model('Asset');
+
+  function snarfBucketContent(err, items, parent, next) {
+    if (err) {
+      return;
+    }
+    var asset = items.splice(0, 1)[0]; // take the first item
+    if (!asset) {
+      if (next)
+        next(null);
+      return;
+    }
+    var query = {alias:asset.alias, isbucket:(parent === null)};
+    if (parent)
+      query.bucket = parent._id;
+    Asset.findOne(query, function (err, assetFound) {
+      if (err || !assetFound) {
+        if (!asset.title)
+          asset.title = path.basename(asset.alias);
+        asset.isbucket = parent === null;
+        asset.isfolder = asset.alias.substring(asset.alias.length - 1) === '/';
+        if (parent)
+          asset.bucket = parent._id;
+        newAsset = new Asset(asset);
+        newAsset.save(function (err) {
+          if (err)
+            console.log("error:", err)
+          if (parent) {
+            snarfBucketContent(err, items, parent, function (err) {
+              snarfBucketContent(err, items, parent, next);
+            });
+          } else {
+            realContent(newAsset, snarfBucketContent, function (err) {
+              snarfBucketContent(err, items, parent, next);
+            });
+          }
+        });
+      } else {
+        if (parent) {
+          snarfBucketContent(err, items, parent, next, function (err) {
+            snarfBucketContent(err, items, parent, next);
+          });
+        } else {
+          realContent(assetFound, snarfBucketContent, function (err) {
+            snarfBucketContent(err, items, parent, next);
+          });
+        }
+      }
+    });
+  }
+  realContent(null, snarfBucketContent);
+
+  var limit = out.limit ? out.limit : (out.req.moduleParams.limit ? parseInt(out.req.moduleParams.limit) : 20);
   // If pager is enabled, ignore any override in from
   var from;
   if (pager) {
-    from = out.req.moduleParams.from ? parseInt(out.req.moduleParams.from) - 1 : 0;
+    from = out.from ? out.from - 1 : (out.req.moduleParams.from ? parseInt(out.req.moduleParams.from) - 1 : 0);
   } else {
-    var from = out.from ? out.from - 1 : 0;
+    from = out.from ? out.from - 1 : 0;
   }
 
-  var limit = out.limit ? out.limit : (out.req.moduleParams.limit ? parseInt(out.req.moduleParams.limit) : 20);
+  // Initialise the block based on our content
+  Asset.count(query, function (err, count) {
+    var total = count;
 
+    var pagerHtml = "";
+    if(pager) {
+      pagerHtml = calipso.lib.pager.render(from,limit,total,out.req.url);
+    }
+
+    var qry = Asset.find(query).skip(from).limit(limit).populate('bucket');
+    // Add sort
+    qry = calipso.table.sortQuery(qry,out.sortBy);
+    qry.find(function (err, assets) {
+       if(out && out.res) {
+         // Render the item into the response
+         if(out.format === 'html') {
+           // This is where the asset table is rendered for HTML.
+           // We might need a folder like view composed of a bunch of <div> instead.
+           var table = {id:'content-list',sort:true,cls:'table-admin',
+               columns:[{name:'title',sort:'title',label:'Title',fn:function(req, asset) {
+                           if (asset.alias === out.path) {
+                             if (out.path == null) {
+                               return calipso.link.render({id:asset.alias,title:req.t('View parent {asset}',{asset:asset.bucket.title}),label:asset.bucket.title,url:'/asset/' + asset.bucket.alias});
+                             } else {
+                               var p = '';
+                               if (out.path) {
+                                 var s = out.path.split('\/');
+                                 if (s.length > 0 && s[s.length - 1] === '')
+                                  s.splice(-1, 1);
+                                 s.splice(-1, 1);
+                                 p = s.join('/');
+                               }
+                               return calipso.link.render({id:p,title:req.t('View parent folder'),label:'Parent Folder',url:'/asset/' + asset.bucket.alias + '/' + p});
+                             }
+                           }
+                           if (asset.isfolder)
+                             return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
+                           if (asset.isbucket)
+                            return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
+                           return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/asset/show/' + asset.bucket.alias + '/' + asset.alias});
+                        }},
+                       {name:'alias',label:'Alias',fn:function(req, asset) {
+                          if (out.path)
+                            return asset.alias.replace(out.path, '');
+                          return asset.alias;
+                        }},
+                       {name:'isbucket',label:'Type',fn:assetType},
+                       {name:'created',label:'Created'},
+                       {name:'updated',label:'Updated'}
+               ],
+               data:assets,
+               view:{
+                 pager:true,
+                 from:from,
+                 limit:limit,
+                 total:total,
+                 url:out.req.url,
+                 sort:calipso.table.parseSort(out.sortBy)
+               }
+           };
+
+           var tableHtml = calipso.table.render(table,out.req);
+
+           //calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
+           calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
+         }
+         if(out.format === 'json') {
+           out.res.format = out.format;
+           out.res.end(contents.map(function(u) {
+             return u.toObject();
+           }));
+           //next();
+         }
+         // This really needs to be pluggable
+         // WIP!
+         if(out.format === 'rss') {
+           // Override the template
+           out.res.layout = "rss";
+           var newTemplate = calipso.modules["content"].templates["rss"];
+           if(newTemplate) {
+             calipso.theme.renderItem(out.req,out.res,newTemplate,out.block,{contents:contents},next);
+           } else {
+             res.statusCode = 404;
+             next();
+           }
+         }
+      } else {
+         // We are being called as a helper, hence return raw data & the pager.
+         var output = {
+             contents:contents,
+             pager:pagerHtml
+         }
+         next(null,output);
+      }
+    });
+  });
+}
+
+function realContent(asset, callback, next) {
   var expat = require('node-expat');
   var knox = require('knox').createClient({
     key: calipso.config.get("s3:key"),
     secret: calipso.config.get("s3:secret"),
-    bucket: calipso.config.get("s3:bucket"),
+    bucket: (asset && asset.alias) || '',
     endpoint: "s3.amazonaws.com"
   });
   knox.get("").on('response', function(s3res){
@@ -710,87 +887,54 @@ function getAssetList(items,out,next) {
     var items = [];
     var item = null;
     var property = null;
+    var owner = null;
+    var message = null;
+    var code = null;
+    var Asset = calipso.lib.mongoose.model('Asset');
     parser.addListener('startElement', function(name, attrs) {
-      if (name === 'Contents') {
+      if (name === 'Error') {
+        property = 'error';
+      } else if (name === 'Code') {
+        property = 'code';
+      } else if (name === 'Message') {
+        property = 'message';
+      } else if (name === 'Contents' || name == 'Bucket') {
         item = {};
-      } else if (name === 'Key'
-        || name === 'LastModified'
-        || name === 'ETag'
-        || name === 'Size') {
-        property = name;
+      } else if (name === 'Key') {
+        property = 'alias';
+      } else if (name === 'CreationDate') {
+        property = 'created';
+      } else if (name === 'LastModified') {
+        property = 'updated';
+      } else if (name === 'ETag') {
+        property = 'etag';
+      } else if (name === 'Name') {
+        property = 'alias';
+      } else if (name === 'Size') {
+        property = 'size';
       } else if (name === 'DisplayName')
-        property = 'Owner';
+        property = 'author';
     });
     parser.addListener('endElement', function(name) {
-      if (name === 'Contents') {
+      if (name === 'Error') {
+        callback({code:code, message:message}, null, asset);
+      } else if (name === 'Contents' || name == 'Bucket') {
+        if (!item.author)
+          item.author = owner;
         items.push(item);
         item = null;
-      } else if (name === 'ListBucketResult') {
-        // Initialise the block based on our content
-        var total = items.length;
-
-        console.log(items);
-        items = items.slice(from, from + limit);
-
-        var pagerHtml = "";
-        if (pager) {
-          pagerHtml = calipso.lib.pager.render(from,limit,total,out.req.url);
-        }
-        if (out && out.res) {
-          // Render the item into the response
-          if (out.format === 'html') {
-            var table = {id:'content-list',sort:true,cls:'table-admin',
-              columns:[{name:'Key',sort:'Key',label:'Key',fn:assetLink},
-                      {name:'Size',label:'Size',fn:formatSize},
-                      {name:'Owner',label:'Owner'}
-              ],
-              data:items,
-              view:{
-                pager:true,
-                from:from,
-                limit:limit,
-                total:total,
-                url:out.req.url,
-                sort:calipso.table.parseSort(out.sortBy)
-              }
-            };
-
-            var tableHtml = calipso.table.render(table,out.req);
-            //calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
-            calipso.theme.renderItem(out.req, out.res, tableHtml, out.block, null, next);
-
-          }
-
-          if (out.format === 'json') {
-            out.res.format = out.format;
-            out.res.end(items);
-          }
-
-          // This really needs to be pluggable
-          // WIP!
-          if (out.format === 'rss') {
-            // Override the template
-            out.res.layout = "rss";
-            var newTemplate = calipso.modules["asset"].templates["rss"];
-            if(newTemplate) {
-              calipso.theme.renderItem(out.req, out.res, newTemplate, out.block, {assets:items}, next);
-            } else {
-              res.statusCode = 404;
-              next();
-            }
-          }
-        } else {
-          // We are being called as a helper, hence return raw data & the pager.
-          var output = {
-            assets:items,
-            pager:pagerHtml
-          }
-          next (null,output);
-        }
+      } else if (name === 'ListBucketResult' || name === 'ListAllMyBucketsResult') {
+        callback(null, items, asset, next);
       }
     });
     parser.addListener('text', function(s) {
-      if (property) {
+      if (property === 'code')
+        code = s;
+      if (property === 'message')
+        message = s;
+      if (property === 'author')
+        owner = s;
+      if (property && item) {
         if (property === 'Size') {
           if (/\/$/.test(item.Key))
             item.IsDirectory = true;
@@ -803,8 +947,15 @@ function getAssetList(items,out,next) {
         property = null;
       }
     });
+    s3res.on('error', function(err) {
+      callback(err, null, null, next);
+    });
+    buffer = new Buffer('');
+    s3res.on('end', function() {
+      parser.parse(buffer);
+    });
     s3res.on('data', function(chunk){
-      parser.parse(chunk);
+      buffer += chunk;
     });
   }).end();
 };
