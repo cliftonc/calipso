@@ -39,9 +39,9 @@ function handleAsset(req, res, next) {
     , pt = decodeURIComponent(url.pathname)
     , type;
 
-  //if (!req.session || !req.session.user || !req.session.user.isAdmin) {
-  //  return next();
-  //}
+  if (!req.session || !req.session.user || !req.session.user.isAdmin) {
+    return next();
+  }
   if (!/^\/assets\/show\/.*/.test(pt)) return next();
   
   // join / normalize from optional root dir
