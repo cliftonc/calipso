@@ -67,10 +67,9 @@ function handleAsset(req, res, next) {
       });
       var fileName = path.basename(asset.alias);
       var contentType = mime.lookup(fileName);
-      var range = req.header['Range'];
       var headers = {'response-content-type':contentType};
-      if (range)
-        headers['Range'] = range;
+      if (req.headers.range)
+        headers['Range'] = req.headers.range;
       knox.get(escape(asset.alias), headers).on('response', function(s3res) {
         var buffer = new Buffer(0);
         if (req.url.substring(req.url.length - fileName.length) !== fileName)
