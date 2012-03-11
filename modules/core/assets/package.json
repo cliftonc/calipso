@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "homepage": "http://calip.so",
   "dependencies": {
-    "knox": "git://github.com/slaskis/knox.git",
+    "knox": "git://github.com/richtera/knox.git",
     "node-expat": "~1.4.1"
   },
   "repository": {

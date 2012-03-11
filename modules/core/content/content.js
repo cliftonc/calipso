@@ -640,7 +640,7 @@ function updateContent(req,res,template,block,next) {
 function showAliasedContent(req, res, template, block, next) {
 
   var allowedFormats = ["html","json"];
-  var format = req.moduleParams.format;
+  var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var alias = req.moduleParams.alias;
 
   // Check type
@@ -694,7 +694,6 @@ function showContentByID(req,res,template,block,next) {
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
   Content.findById(id, function(err, content) {
-
     // Error locating content
     if(err) {
       res.statusCode = 500;
@@ -705,7 +704,6 @@ function showContentByID(req,res,template,block,next) {
 
     // Content found
     if(content) {
-
       calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {
           if(err) {
             next(err);
@@ -732,7 +730,6 @@ function showContentByID(req,res,template,block,next) {
  * Show content - called by ID or Alias functions preceeding
  */
 function showContent(req,res,template,block,next,err,content,format) {
-
   if(err || !content) {
 
     content = {title:"Not Found!",content:"Sorry, I couldn't find that content!",displayAuthor:{name:"Unknown"}};
@@ -755,10 +752,9 @@ function showContent(req,res,template,block,next,err,content,format) {
       res.layout = content.layout ? content.layout : "default";
 
       // Override of the template
-      template = calipso.theme.cache.contentTypes[content.contentType] ? calipso.theme.cache.contentTypes[content.contentType].view : template;
+      template = calipso.theme.cache.contentTypes[content.contentType] && calipso.theme.cache.contentTypes[content.contentType].view ? calipso.theme.cache.contentTypes[content.contentType].view : template;
 
     }
-
     calipso.theme.renderItem(req,res,template,block,{content:content.toObject()},next);
 
   }
