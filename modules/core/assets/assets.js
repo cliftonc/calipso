@@ -30,6 +30,7 @@ function route(req, res, module, app, next) {
 function init(module, app, next) {
   // Initialise administration events - enabled for hook.io  
   calipso.e.addEvent('ASSET_UPDATE',{enabled:true,hookio:true}); 
+  calipso.e.addEvent('ASSET_UPDATE_FORM', {enabled:true,hookio:true});
   calipso.e.addEvent('ASSET_CREATE_FORM',{enabled:true,hookio:true});
   calipso.e.addEvent('ASSET_CREATE',{enabled:true,hookio:true});
   // Add listener to config_update
@@ -40,17 +41,17 @@ function init(module, app, next) {
     function defineRoutes() {
       // Admin operations
       module.router.addRoute('POST /asset',createAsset,{admin:true},this.parallel());
-      module.router.addRoute('GET /asset/new',createAssetForm,{admin:true,block:'content.create'},this.parallel());
+      module.router.addRoute('GET /assets/new',createAssetForm,{admin:true,block:'content.create'},this.parallel());
       module.router.addRoute('GET /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
         admin: true
       }, this.parallel());
-      module.router.addRoute('GET /asset/show/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
-      module.router.addRoute('GET /asset/edit/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
-      module.router.addRoute('GET /asset/delete/:id',deleteAsset,{admin:true},this.parallel());
-      module.router.addRoute('POST /asset/:id',updateAsset,{admin:true},this.parallel());
-      module.router.addRoute('GET /asset/list.:format?', listAssets,{
+      module.router.addRoute('GET /assets/show/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
+      module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
+      module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true},this.parallel());
+      module.router.addRoute('POST /assets/:id',updateAsset,{admin:true},this.parallel());
+      module.router.addRoute('GET /assets/list.:format?', listAssets,{
         admin:true,
         template:'listAdmin',
         block:'content.list'
@@ -70,7 +71,7 @@ function init(module, app, next) {
       // Default Asset Schema
       var Asset = new calipso.lib.mongoose.Schema({
         title:{type: String, required: true, "default": ''},
-        teaser:{type: String, required: false, "default": ''},
+        description:{type: String, required: false, "default": ''},
         taxonomy:{type: String, "default":''},
         bucket:{type: calipso.lib.mongoose.Schema.ObjectId, ref: 'Asset', required: false},
         key: {type: String, required: false, "default": ''},
@@ -89,7 +90,7 @@ function init(module, app, next) {
 
       // Set post hook to enable simple etag generation
       Asset.pre('save', function (next) {
-        this.etag = calipso.lib.crypto.etag(this.title + this.teaser + this.bucket + this.key);
+        this.etag = calipso.lib.crypto.etag(this.title + this.description + this.bucket + this.key);
         next();
       });
 
@@ -129,10 +130,10 @@ function getAsset(req,options,next) {
     if(err || !c) {
       var text;
       if(options.clickCreate) {
-        text = "<a title='" + req.t("Click to create") + " ...' href='/asset/new?" +
+        text = "<a title='" + req.t("Click to create") + " ...' href='/assets/new?" +
         "type=Block%20Content" +
         "&alias=" + options.alias +
-        "&teaser=Content%20for%20" + options.alias +
+        "&description=Content%20for%20" + options.alias +
         "&returnTo=" + req.url +
         "'>" + req.t("Click to create asset with alias: {alias} ...",{alias: options.alias}) + "</a>";
       } else {
@@ -184,8 +185,7 @@ function assetForm() {
             label:'Content',
             fields:[
                     {label:'Title',name:'asset[title]',type:'text',description:'Title to appear for this piece of content.'},
-                    {label:'Permanent URL / Alias',name:'asset[alias]',type:'text',description:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
-                    {label:'Teaser',name:'asset[teaser]',type:'textarea',description:'Enter some short text that describes the content, appears in lists.'},
+                    {label:'Description',name:'asset[description]',type:'textarea',description:'Enter some short text that describes the content, appears in lists.'},
                    ]
           },{
             id:'form-section-category',
@@ -242,7 +242,7 @@ function createAsset(req,res,template,block,next) {
                 // To the form
                 req.flash('error',req.t('Could not save asset because {msg}.',{msg:err.message}));
                 if(res.statusCode != 302) {
-                    res.redirect('/asset/new?type='+form.content.contentType);
+                    res.redirect('/assets/new?type='+form.content.contentType);
                 }
                 next();
               } else {
@@ -254,7 +254,7 @@ function createAsset(req,res,template,block,next) {
                   if(returnTo) {
                     res.redirect(returnTo);
                   } else {
-                    res.redirect('/asset/show/' + c._id);
+                    res.redirect('/assets/show/' + c._id);
                   }
                   next();
                 });
@@ -314,7 +314,7 @@ function createAssetForm(req,res,template,block,next) {
 
   // Allow defaults to be passed in
   var alias = req.moduleParams.alias ? req.moduleParams.alias : "";
-  var teaser = req.moduleParams.teaser ? req.moduleParams.teaser : "";
+  var description = req.moduleParams.description ? req.moduleParams.description : "";
   var taxonomy = req.moduleParams.taxonomy ? req.moduleParams.taxonomy : "";
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
@@ -326,7 +326,7 @@ function createAssetForm(req,res,template,block,next) {
         asset: {
           title:alias,  // Default the title to the alias
           alias:alias,
-          teaser:teaser,
+          description:description,
           taxonomy:taxonomy,
           returnTo: returnTo
         }
@@ -357,9 +357,9 @@ function editAssetForm(req,res,template,block,next) {
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
   res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/asset/show/' + id,description:'Show current ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/asset/edit/' + id,description:'Edit asset ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/asset/delete/' + id,description:'Delete asset ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/assets/show/' + id,description:'Download actual file ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/assets/' + id,description:'Edit asset ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',security:[]});
 
 
   Asset.findById(id, function(err, c) {
@@ -373,10 +373,10 @@ function editAssetForm(req,res,template,block,next) {
     } else {
 
       // Create the form
-      getForm(req,"/asset/" + id,req.t("Edit Asset ..."),c.isbucket,function(form) {
+      getForm(req,"/assets/" + id,req.t("Edit Asset ..."),c.isbucket,function(form) {
 
         // Default values
-        var values = {content: c};
+        var values = {asset: c};
 
         // Fix for content type being held in meta field
         // TODO this has a bad smell
@@ -461,7 +461,7 @@ function updateAsset(req,res,template,block,next) {
                           res.redirect(returnTo);
                         } else {
                           // use the reference to the originally id deifned by req.moduleParams.id
-                          res.redirect('/asset/show/' + id);
+                          res.redirect('/assets/show/' + id);
                         }
                         next();
                       });
@@ -523,7 +523,7 @@ function showAliasedAsset(req, res, template, block, next) {
             if(err || !asset) {
               // Create asset if it doesn't exist
               if(req.session.user && req.session.user.isAdmin) {
-                res.redirect("/asset/new?alias=" + alias + "&type=Article") // TODO - make this configurable
+                res.redirect("/assets/new?alias=" + alias + "&type=Article") // TODO - make this configurable
               } else {
                 res.statusCode = 404;
               }
@@ -586,7 +586,8 @@ function showAsset(req,res,template,block,next,err,asset,format) {
   var contentType = mime.lookup(fileName);
   knox.get(asset.alias, {'response-content-type':contentType}).on('response', function(s3res) {
     var buffer = new Buffer(0);
-//    res.setHeader('Content-Disposition', 'Download;FileName=' + fileName);
+    if (req.url.substring(req.url.length - fileName.length) !== fileName)
+      res.setHeader('Content-Disposition', 'inline; filename="' + fileName + '"');
     res.setHeader('Content-Type', contentType);
     if (!/text\/.*/.test(contentType))
       res.setHeader('Content-Encoding', undefined);
@@ -636,7 +637,7 @@ function listAssets(req,res,template,block,next) {
   var query = new Query();
   
   function finish() {
-    res.menu.adminToolbar.addMenuItem({name:'Create Bucket',weight:1,path:'new',url:'/asset/new',description:'Create Bucket ...',security:[]});
+    res.menu.adminToolbar.addMenuItem({name:'Create Bucket',weight:1,path:'new',url:'/assets/new',description:'Create Bucket ...',security:[]});
     if(req.session.user && req.session.user.isAdmin) {
       // Show all
     } else {
@@ -690,7 +691,7 @@ function assetLink(req,asset) {
   if (asset.isfolder) {
     return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
   }
-  return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/asset/show/' + asset.alias});
+  return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/assets/' + asset._id});
 }
 
 function formatSize(req,asset) {
@@ -814,12 +815,15 @@ function getAssetList(query,out,next) {
                              return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
                            if (asset.isbucket)
                             return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
-                           return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/asset/show/' + asset.bucket.alias + '/' + asset.alias});
+                           return calipso.link.render({id:asset.alias,title:req.t('Edit file {asset}',{asset:asset.title}),label:asset.title,url:'/assets/' + asset._id});
                         }},
                        {name:'alias',label:'Alias',fn:function(req, asset) {
+                          var file = asset.alias;
                           if (out.path)
-                            return asset.alias.replace(out.path, '');
-                          return asset.alias;
+                            file = file.replace(out.path, '');
+                          if (asset.isfolder || asset.isbucket)
+                            return file;
+                          return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/assets/show/' + asset.bucket.alias + '/' + asset.alias});
                         }},
                        {name:'isbucket',label:'Type',fn:assetType},
                        {name:'created',label:'Created'},
