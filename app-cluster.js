@@ -2,7 +2,7 @@
  * Calipso script for running in clustered mode. Usage: node app-cluster, or
  * NODE_ENV=production node app-cluster
  */
-var cluster = require('cluster2');
+var cluster = require('cluster');
 var port = process.env.PORT || 3000;
 var path = __dirname;
 var app;
