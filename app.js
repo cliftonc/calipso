@@ -49,7 +49,7 @@ var app, exports;
 function bootApplication(next) {
 
   app.use(express.methodOverride());
-  app.use(express.cookieParser());
+  app.use(express.cookieParser(app.config.get('session:secret')));
   app.use(express.responseTime());
 
   // Create dummy session middleware - tag it so we can later replace
@@ -125,7 +125,7 @@ function bootApplication(next) {
 exports.boot = function (next,cluster) {
 
   //Create our express instance, export for later reference
-  app = exports.app = express.createServer();
+  app = exports.app = express.createServer ? express.createServer() : express();
   app.path = path;
   app.isCluster = cluster;
 
@@ -155,7 +155,8 @@ if (!module.parent) {
       app.listen(port);
       console.log("Calipso version: ".green + app.about.version);
       console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
-      console.log("Calipso server listening on port: ".green + app.address().port);
+      if (app.address)
+        console.log("Calipso server listening on port: ".green + app.address().port);
     } else {
       console.log("\r\nCalipso terminated ...\r\n".grey);
       process.exit();

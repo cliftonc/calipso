@@ -21,8 +21,8 @@
     "node": "0.6.x"
   },
   "dependencies": {
-    "express": "2.5.x",
-    "connect": "1.8.x",
+    "express": "git://github.com/visionmedia/express.git",
+    "connect": "2.0.0",
     "ejs": "0.6.x",
     "jade": "0.20.x",
     "stylus": "0.23.x",
