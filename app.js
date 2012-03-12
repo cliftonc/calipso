@@ -42,7 +42,7 @@ function bootApplication(next) {
 
   // Create our express instance, export for later reference
   var app = express.createServer();
-  app.path = path;
+  app.path = function() { return path };
   app.isCluster = false;
 
   // Load configuration
