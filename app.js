@@ -126,7 +126,7 @@ exports.boot = function (next,cluster) {
 
   //Create our express instance, export for later reference
   app = exports.app = express.createServer ? express.createServer() : express();
-  app.path = path;
+  app.path = function() { return path };
   app.isCluster = cluster;
 
   // Load configuration
