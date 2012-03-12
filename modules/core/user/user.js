@@ -21,7 +21,7 @@ function route(req, res, module, app, next) {
   // Menu
   res.menu.admin.addMenuItem({name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
   res.menu.admin.addMenuItem({name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
-  res.menu.admin.addMenuItem({name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
+  res.menu.admin.addMenuItem({name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/role/list', description: 'Manage roles ...', security: [] });
   res.menu.admin.addMenuItem({name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
 
   // Router
@@ -55,7 +55,11 @@ function init(module, app, next) {
       module.router.addRoute('GET /user/login', loginPage, { end: false, template: 'loginPage', block: 'content' }, this.parallel());
       module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
       module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
-      module.router.addRoute('GET /admin/roles/list',listRoles,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
+      module.router.addRoute('GET /admin/role/register',roleForm,{end:false,admin:true,block:'content'},this.parallel());
+      module.router.addRoute('GET /admin/role/list',listRoles,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
+      module.router.addRoute('GET /admin/roles/:role?',roleForm,{end:false,admin:true,block:'content'},this.parallel());
+      module.router.addRoute('POST /admin/roles/:role?', updateRole,{block:'content'},this.parallel());
+      module.router.addRoute('GET /admin/roles/:role/delete', deleteRole,{admin:true},this.parallel());
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
       module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
       module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
@@ -248,6 +252,45 @@ function loginPage(req, res, template, block, next) {
 
 };
 
+function roleForm(req, res, template, block, next) {
+
+  res.layout = 'admin';
+  var Role = calipso.lib.mongoose.model('Role');
+
+  function finish(role) {
+    // TODO : Use secitons!
+    if (req.session.user.isAdmin && role && (role.name != 'Guest') && (role.name != 'Administrator') && (role.name != 'Contributor')) {
+      res.menu.adminToolbar.addMenuItem({name:'Delete Role',path:'return',url:'/admin/roles/' + role._id + '/delete',description:'Delete role ...',security:[]});
+    }
+    var roleForm = {
+      id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/admin/roles/' + (role && role._id ? role._id : ""),
+      sections:[{
+        id:'form-section-core',
+        label:'The New Role',
+        fields:[
+          {label:'Role Name', name:'role[name]', type:'text', description:'Enter the name of the role.'},
+          {label:'Description', name:'role[description]', type:'text', description:'Enter the description of the role.'},
+          {label:'Is Default', name:'role[isDefault]', type:'checkbox', description:'Is this a default role.'},
+          {label:'Is Admin', name:'role[isAdmin]', type:'checkbox', description:'Is a user with this role an admin.'}
+        ],
+      }],
+      buttons:[
+        {name:'submit', type:'submit', value:'Register'}
+      ]
+    };
+
+    calipso.form.render(roleForm, {role:role}, req, function(form) {
+      calipso.theme.renderItem(req, res, form, block, {}, next);
+    });
+  }
+  
+  if (req.moduleParams.role) {
+    Role.findOne({_id:req.moduleParams.role}, function(err, role) {
+      finish(role);
+    });
+  } else
+    finish(null);
+};
 
 /**
  * Register form
@@ -488,6 +531,53 @@ function unlockUser(req, res, template, block, next) {
 
 }
 
+function updateRole(req, res, template, block, next) {
+  calipso.form.process(req,function(form) {
+    if(form) {
+      var role = req.moduleParams.role;
+      var Role = calipso.lib.mongoose.model('Role');
+
+      // Quickly check that the user is an admin or it is their account
+       if(req.session.user && req.session.user.isAdmin) {
+         // We're ok
+       } else {
+         req.flash('error',req.t('You are not authorised to perform that action.'));
+         res.redirect('/');
+         next();
+         return;
+       }
+
+      Role.findOne({_id:role}, function(err, role) {
+        var role = null;
+        if (err || !role) {
+          role = new Role(form.role);
+        } else {
+          role.name = form.role.name;
+          role.isDefault = form.role.isDefault;
+          role.isAdmin = form.role.isAdmin;
+          role.description = form.role.description;
+        }
+        if (role.name === 'Administrator' || role.name === 'Contributor' || role.name === 'Guest') {
+          req.flash('error', req.t('You cannot edit the default calipso roles.'));
+          res.redirect('/admin/role/list');
+          next();
+          return;
+        }
+        if (role.name === 'Administrator' || role.name === 'Contributor' || role.name === 'Guest') {
+          req.flash('error', req.t('You cannot name any new roles identical to the default calipso roles.'));
+          return roleForm(req, res, template, block, next);
+        }
+        role.save(function (err) {
+          if (err)
+            req.flash('error', req.t('There was an error {err}', {err:err}));
+          
+        })
+        res.redirect('/admin/role/list');
+      });
+    } else
+      res.redirect('/admin/role/list');
+  });
+}
 
 /**
  * Update user
@@ -858,7 +948,21 @@ function userProfile(req, res, template, block, next) {
 
 }
 
-
+function deleteRole(req, res, template, block, next) {
+  var Role = calipso.lib.mongoose.model('Role');
+  Role.findOne({_id:req.moduleParams.role}, function (err, r) {
+    Role.remove({_id:r._id}, function(err) {
+      if (err) {
+        req.flash('info', req.t('Unable to delete the role because {mst}', {msg:err.message}));
+        res.redirect("/admin/role/list");
+      } else {
+        req.flash('info', req.t("The role has now been deleted."));
+        res.redirect('/admin/role/list');
+      }
+      next();
+    });
+  });
+}
 /**
  * Delete user
  */
@@ -895,7 +999,9 @@ function userLink(req,user) {
 }
 
 function roleLink(req,role) {
-  return calipso.link.render({id:role._id,title:req.t('View {role}',{role:role.name}),label:role.name,url:'/admin/role/' + role.name});
+  if (role.name === 'Guest' || role.name === 'Administrator' || role.name === 'Contributor')
+    return role.name;
+  return calipso.link.render({id:role._id,title:req.t('View {role}',{role:role.name}),label:role.name,url:'/admin/roles/' + role._id});
 }
 
 /**
