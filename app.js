@@ -8,6 +8,80 @@
  *
  */
 
+var req = require('express/lib/request');
+
+ var flashFormatters = req.flashFormatters = {
+   s: function(val){
+     return String(val);
+   }
+ };
+
+ /**
+  * Queue flash `msg` of the given `type`.
+  *
+  * Examples:
+  *
+  *      req.flash('info', 'email sent');
+  *      req.flash('error', 'email delivery failed');
+  *      req.flash('info', 'email re-sent');
+  *      // => 2
+  *
+  *      req.flash('info');
+  *      // => ['email sent', 'email re-sent']
+  *
+  *      req.flash('info');
+  *      // => []
+  *
+  *      req.flash();
+  *      // => { error: ['email delivery failed'], info: [] }
+  *
+  * Formatting:
+  *
+  * Flash notifications also support arbitrary formatting support.
+  * For example you may pass variable arguments to `req.flash()`
+  * and use the %s specifier to be replaced by the associated argument:
+  *
+  *     req.flash('info', 'email has been sent to %s.', userName);
+  *
+  * To add custom formatters use the `exports.flashFormatters` object.
+  *
+  * @param {String} type
+  * @param {String} msg
+  * @return {Array|Object|Number}
+  * @api public
+  */
+
+  function miniMarkdown(str){
+    return String(str)
+      .replace(/(__|\*\*)(.*?)\1/g, '<strong>$2</strong>')
+      .replace(/(_|\*)(.*?)\1/g, '<em>$2</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  };
+
+ req.flash = function(type, msg){
+   if (this.session === undefined) throw Error('req.flash() requires sessions');
+   var msgs = this.session.flash = this.session.flash || {};
+   if (type && msg) {
+     var i = 2
+       , args = arguments
+       , formatters = this.app.flashFormatters || {};
+     formatters.__proto__ = flashFormatters;
+     msg = miniMarkdown(msg);
+     msg = msg.replace(/%([a-zA-Z])/g, function(_, format){
+       var formatter = formatters[format];
+       if (formatter) return formatter(utils.escape(args[i++]));
+     });
+     return (msgs[type] = msgs[type] || []).push(msg);
+   } else if (type) {
+     var arr = msgs[type];
+     delete msgs[type];
+     return arr || [];
+   } else {
+     this.session.flash = {};
+     return msgs;
+   }
+ };
+
 var rootpath = process.cwd() + '/',
   path = require('path'),
   fs = require('fs'),
@@ -22,7 +96,6 @@ var rootpath = process.cwd() + '/',
   translate = require(path.join(rootpath, 'i18n/translate')),
   logo = require(path.join(rootpath, 'logo')),
   mongoStore = require(path.join(rootpath, 'support/connect-mongodb'));
-
 // Local App Variables
 var path = rootpath,
   theme = 'default',
