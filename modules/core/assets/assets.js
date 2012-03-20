@@ -24,69 +24,143 @@ function route(req, res, module, app, next) {
   module.router.route(req, res, next);
 }
 
+var bucketList = {};
+var bucketCheck = (new Date()).getTime();
+
+function invalidateBuckets()
+{
+  bucketCheck = Date().getTime();
+}
+
+function knox(options) {
+  options = calipso.lib._.extend({
+    key: calipso.config.get("s3:key"),
+    secret: calipso.config.get("s3:secret")
+  }, options);
+  return require('knox').createClient(options);
+}
+
 function handleAsset(req, res, next) {
+  req.pause();
+  // join / normalize from optional root dir
+  var now = (new Date()).getTime();
+  if (now >= bucketCheck) {
+    var Asset = calipso.lib.mongoose.model('Asset');
+    Asset.find({isbucket:true}, function (err, buckets) {
+      newBuckets = {};
+      buckets.forEach(function (item) {
+        newBuckets[item.alias] = true;
+      });
+      bucketList = newBuckets;
+      proceed(req, res, next);
+    });
+  } else
+    proceed(req, res, next);
+}
+
+function proceed(req, res, next) {
   var maxAge = 0
     , ranges = req.headers.range
     , head = 'HEAD' == req.method
     , get = 'GET' == req.method
+    , put = 'PUT' == req.method
+    , post = 'POST' == req.method
+    , del = 'DELETE' == req.method
     , done;
-
   // ignore non-GET requests
-  if (!get && !head) return next();
+  if (!get && !head && !put && !post && !del) {
+    return next();
+  }
+  //  if (!req.session || !req.session.user || !req.session.user.isAdmin) {
+  //    return next();
+  //  }
 
   // parse url
   var url = parse(req.url)
     , pt = decodeURIComponent(url.pathname)
     , type;
-
-  if (!req.session || !req.session.user || !req.session.user.isAdmin) {
-    return next();
-  }
-  if (!/^\/assets\/show\/.*/.test(pt)) return next();
-  
-  // join / normalize from optional root dir
-  var Asset = calipso.lib.mongoose.model('Asset');
   var s = pt.split('\/');
-  s.splice(0, 3); // remove assets/show
+  console.log(s);
+  if (/^\/assets\/show\/.*/.test(pt)) {
+    s.splice(0, 3); // remove assets/show
+  } else if (s[0] === '')
+    s.splice(0, 1); // remove /
+  while (s[s.length - 1] === '')
+    s.splice(s.length - 1, 1);
   var bucket = s.splice(0, 1)[0];
-  pt = s.join('/');
+  if (!bucketList[bucket] && !post && !put)
+    return next();
+  if (put && s.length == 0) {
+    console.log('creating bucket');
+    // Create a new bucket
+    var k = knox();
+    var sreq = k.request(req.method, '', {
+      'Content-Length': '0',
+      'Host': bucket + '.s3.amazonaws.com',
+      'x-amz-acl': 'private'
+    });
+    sreq.on('error', function(err) {
+      console.log(err);
+      next(null, err);
+    }).on('response', function(s3res) {
+      console.log(s3res);
+      for (var v in s3res.headers) {
+        if (/x-amz/.test(v) || v === 'server')
+          continue;
+        res.setHeader(v, s3res.headers[v]);
+      }
+      res.statusCode = s3res.statusCode;
+      s3res.pipe(res);
+    }).end();
+    return;
+  }
+  if (s.length > 0)
+    pt = s.join('/');
+  else
+    pt = null;
+  var Asset = calipso.lib.mongoose.model('Asset');
   Asset.findOne({alias:bucket,isbucket:true}, function(err, bucket) {
-    if(err || !bucket.isbucket || bucket.isfolder) {
-      res.statusCode = 404;
+    if(err || !bucket || !bucket.isbucket || bucket.isfolder) {
       next();
       return;
     }
-    Asset.findOne({alias:pt,bucket:bucket._id}, function(err, asset) {
-      if(err || asset.isbucket || asset.isfolder) {
-        res.statusCode = 404;
-        next();
+    if (pt) {
+      Asset.findOne({alias:pt,bucket:bucket._id}, function(err, asset) {
+        if(err || !asset) {
+          if (put || post) {
+            var author = (req.session && req.session.user) || 'testing';
+            asset = new Asset({isbucket:false, isfolder:false, alias:pt, title:pt, author:author});
+            asset.save(function (err) {
+              if (err) {
+                res.statusCode = 500;
+                next();
+                return;
+              }
+              saveTo(bucket, asset, req, res, next);
+            });
+            return; // done putting new file
+          } else {
+            res.statusCode = 404;
+            next();
+            return; // this file doesn't exist but it's not a put...
+          }
+        }
+        if (asset.isbucket || asset.isfolder) {
+          res.statusCode = 404;
+          next();
+          return; // This is a bucket or folder...
+        }
+        saveTo(bucket, asset, req, res, next);
         return;
-      }
-      var knox = require('knox').createClient({
-        key: calipso.config.get("s3:key"),
-        secret: calipso.config.get("s3:secret"),
-        bucket: bucket.alias,
-        endpoint: "s3.amazonaws.com"
       });
-      var fileName = path.basename(asset.alias);
-      var contentType = mime.lookup(fileName);
-      var headers = {'response-content-type':contentType};
-      for (var v in req.headers) {
-        headers[v] = req.headers[v];
-      }
-      knox.get(escape(asset.alias), headers).on('error', function(err) {
+    } else {
+      var k = knox({
+        bucket: bucket.alias,
+        endpoint: 's3.amazonaws.com'
+      });
+      k.get('').on('error', function(err) {
         next(null, err);
       }).on('response', function(s3res) {
-        var buffer = new Buffer(0);
-        //if (req.url.substring(req.url.length - fileName.length) !== fileName)
-        //  res.setHeader('Content-Disposition', 'inline; filename="' + fileName + '"');
-        // if(req.session.user){
-        //   if(!req.cookies.userData){
-        //     res.cookie('userData', JSON.stringify(req.session.user));
-        //   }
-        // } else {
-        //   res.clearCookie('userData');
-        // }
         for (var v in s3res.headers) {
           if (/x-amz/.test(v) || v === 'server')
             continue;
@@ -95,9 +169,58 @@ function handleAsset(req, res, next) {
         res.statusCode = s3res.statusCode;
         req.emit('static', s3res);
         s3res.pipe(res);
-      }).end();        // Just return the object
-    });
+      }).end();
+    }
   });
+}    
+
+var convert = {
+  'content-type': 'Content-Type',
+  'content-length': 'Content-Length',
+  'expect': 'Expect'
+};
+
+function saveTo(bucket, asset, req, res, next) {
+  var k = knox({
+    bucket: bucket.alias
+  });
+  var fileName = path.basename(asset.alias);
+  var contentType = mime.lookup(fileName);
+  var headers = {'Content-Type':contentType,Expect: '100-continue'};
+  for (var v in req.headers) {
+    if (/x-amz-/i.test(v)) {
+      headers[v] = req.headers[v];
+    } else if (convert[v]) {
+      headers[convert[v]] = req.headers[v];
+    }
+  }
+  var s3req = k.request(req.method, escape(asset.alias), headers)
+    .on('error', function(err) {
+      next(null, err);
+    })
+    .on('response', function(s3res) {
+      for (var v in s3res.headers) {
+        if (/x-amz/.test(v) || v === 'server')
+          continue;
+        res.setHeader(v, s3res.headers[v]);
+      }
+      res.statusCode = s3res.statusCode;
+      s3res.pipe(res);
+    });
+  req
+    .on('abort', function() {
+      next(null);
+    })
+    .on('error', function(err){
+      next(null, err);
+    })
+    .on('data', function(chunk){
+      s3req.write(chunk);
+    })
+    .on('end', function(){
+      s3req.end();
+    });
+  req.resume();
 }
 
 /*
@@ -234,8 +357,7 @@ function getAsset(req,options,next) {
         var knox = require('knox').createClient({
           key: calipso.config.get("s3:key"),
           secret: calipso.config.get("s3:secret"),
-          bucket: calipso.config.get("s3:bucket"),
-          endpoint: "s3.amazonaws.com"
+          bucket: calipso.config.get("s3:bucket")
         });
         if (req.moduleParams.key[0] == '"')
           req.moduleParams.key = req.moduleParams.key.substring(1, req.moduleParams.key.length - 1);
@@ -659,11 +781,10 @@ function showAsset(req,res,template,block,next,err,asset,format) {
     next();
     return;
   }
-  var knox = require('knox').createClient({
+  var k = require('knox').createClient({
     key: calipso.config.get("s3:key"),
     secret: calipso.config.get("s3:secret"),
-    bucket: asset.bucket.alias,
-    endpoint: "s3.amazonaws.com"
+    bucket: asset.bucket.alias
   });
   var fileName = path.basename(asset.alias);
   var contentType = mime.lookup(fileName);
@@ -961,8 +1082,7 @@ function realContent(asset, callback, next) {
   var knox = require('knox').createClient({
     key: calipso.config.get("s3:key"),
     secret: calipso.config.get("s3:secret"),
-    bucket: (asset && asset.alias) || '',
-    endpoint: "s3.amazonaws.com"
+    bucket: (asset && asset.alias) || ''
   });
   knox.get("").on('response', function(s3res){
     s3res.setEncoding('utf8');
