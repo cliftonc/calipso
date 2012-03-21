@@ -41,6 +41,13 @@ function knox(options) {
 }
 
 function handleAsset(req, res, next) {
+  // parse url
+  var url = parse(req.url)
+    , pt = decodeURIComponent(url.pathname)
+    , type;
+  if (!/^\/bucket\/.*/.test(pt)) {
+    return next();
+  }
   req.pause();
   // join / normalize from optional root dir
   var now = (new Date()).getTime();
@@ -80,38 +87,45 @@ function proceed(req, res, next) {
     , pt = decodeURIComponent(url.pathname)
     , type;
   var s = pt.split('\/');
-  console.log(s);
-  if (/^\/assets\/show\/.*/.test(pt)) {
-    s.splice(0, 3); // remove assets/show
-  } else if (s[0] === '')
-    s.splice(0, 1); // remove /
+  s.splice(0, 2); // remove /bucket/
   while (s[s.length - 1] === '')
     s.splice(s.length - 1, 1);
   var bucket = s.splice(0, 1)[0];
   if (!bucketList[bucket] && !post && !put)
     return next();
   if (put && s.length == 0) {
-    console.log('creating bucket');
+    console.log('creating bucket', bucket);
     // Create a new bucket
-    var k = knox();
-    var sreq = k.request(req.method, '', {
-      'Content-Length': '0',
-      'Host': bucket + '.s3.amazonaws.com',
-      'x-amz-acl': 'private'
+    var k = knox({
+      'bucket': bucket,
+      'Host': bucket + '.s3.amazonaws.com'
     });
-    sreq.on('error', function(err) {
-      console.log(err);
-      next(null, err);
-    }).on('response', function(s3res) {
-      console.log(s3res);
-      for (var v in s3res.headers) {
-        if (/x-amz/.test(v) || v === 'server')
-          continue;
-        res.setHeader(v, s3res.headers[v]);
+    var Asset = calipso.lib.mongoose.model('Asset');
+    var author = (req.session && req.session.user) || 'testing';
+    var asset = new Asset({alias:bucket,isbucket:true,title:bucket, author:author});
+    bucket.save(function (err) {
+      if (err) {
+        next(null, err);
+        return;
       }
-      res.statusCode = s3res.statusCode;
-      s3res.pipe(res);
-    }).end();
+      var sreq = k.request(req.method, '', {
+        'Content-Length': '0',
+        'x-amz-acl': 'private'
+      });
+      sreq.on('error', function(err) {
+        asset.remove(function () {
+          next(null, err);          
+        });
+      }).on('response', function(s3res) {
+        for (var v in s3res.headers) {
+          if (/x-amz/.test(v) || v === 'server')
+            continue;
+          res.setHeader(v, s3res.headers[v]);
+        }
+        res.statusCode = s3res.statusCode;
+        s3res.pipe(res);
+      }).end();
+    })
     return;
   }
   if (s.length > 0)
@@ -121,6 +135,7 @@ function proceed(req, res, next) {
   var Asset = calipso.lib.mongoose.model('Asset');
   Asset.findOne({alias:bucket,isbucket:true}, function(err, bucket) {
     if(err || !bucket || !bucket.isbucket || bucket.isfolder) {
+      req.resume();
       next();
       return;
     }
@@ -251,7 +266,8 @@ function init(module, app, next) {
         block: 'content.list',
         admin: true
       }, this.parallel());
-      //module.router.addRoute('GET /assets/show/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
+      //module.router.addRoute('GET /bucket/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
+      module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true}, this.parallel());
       module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
       module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true},this.parallel());
       module.router.addRoute('POST /assets/:id',updateAsset,{admin:true},this.parallel());
@@ -260,7 +276,6 @@ function init(module, app, next) {
         template:'listAdmin',
         block:'content.list'
       },this.parallel());
-
     }, function done() {
       // Add dynamic helpers
       calipso.dynamicHelpers.getAsset = function() {
@@ -308,17 +323,17 @@ function init(module, app, next) {
 }
 
 function getAsset(req,options,next) {
-  var path = [];
+  var p = [];
   for (var i = 1; i < 10; i++) {
     if (req.moduleParams['f' + i])
-      path.push(req.moduleParams['f' + i]);
+      p.push(req.moduleParams['f' + i]);
   }
   var bucket = "";
-  if (path.length > 0) {
-    bucket = path.splice(0, 1)[0];
-    path = path.join('/');
+  if (p.length > 0) {
+    bucket = p.splice(0, 1)[0];
+    p = p.join('/');
   } else
-    path = "";
+    p = "";
 
   // Check to see if we just want content property by alias
   if(typeof options === "string") {
@@ -384,7 +399,7 @@ function getAsset(req,options,next) {
 function assetForm(asset) {
   var url = "";
   if (asset && !asset.isfolder && !asset.isbucket) {
-    url = '</br><h5>/assets/show/' + asset.bucket.alias + '/' + asset.alias + '</h5>';
+    url = '</br><h5>/bucket/' + asset.bucket.alias + '/' + asset.alias + '</h5>';
   }
       return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/assets',tabs:true,
           sections:[{
@@ -461,7 +476,7 @@ function createAsset(req,res,template,block,next) {
                   if(returnTo) {
                     res.redirect(returnTo);
                   } else {
-                    res.redirect('/assets/show/' + c._id);
+                    res.redirect('/bucket/' + c._id);
                   }
                   next();
                 });
@@ -563,7 +578,7 @@ function editAssetForm(req,res,template,block,next) {
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
   res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/assets/show/' + id,description:'Download actual file ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/bucket/' + id,description:'Download actual file ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/assets/' + id,description:'Edit asset ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',security:[]});
 
@@ -666,7 +681,7 @@ function updateAsset(req,res,template,block,next) {
                           res.redirect(returnTo);
                         } else {
                           // use the reference to the originally id deifned by req.moduleParams.id
-                          res.redirect('/assets/show/' + id);
+                          res.redirect('/bucket/' + id);
                         }
                         next();
                       });
@@ -907,16 +922,10 @@ function assetType(req,asset) {
     return "Folder";
   return "File";
 }
-/**
- * Take a query and parameters, return or render asset lists
- * This has been refactored so it can be called as a helper (e.g. views)
- * From a theme
- */
-function getAssetList(query,out,next) {
-  var pager = out.hasOwnProperty('pager') ? out.pager : true;
 
+function syncAssets(req, res, route, next) {
   var Asset = calipso.lib.mongoose.model('Asset');
-
+  var info;
   function snarfBucketContent(err, items, parent, next) {
     if (err) {
       return;
@@ -931,6 +940,13 @@ function getAssetList(query,out,next) {
     if (parent)
       query.bucket = parent._id;
     Asset.findOne(query, function (err, assetFound) {
+      if (!err && assetFound) {
+        if (assetFound.isbucket) {
+          if (!info || !info.bucket || info.bucket === assetFound.alias)
+            res.write('existing ' + assetFound.alias + ':\n');
+        } else
+          res.write('existing ' + parent.alias + ':' + assetFound.alias + '\n');
+      }
       if (err || !assetFound) {
         if (!asset.title)
           asset.title = path.basename(asset.alias);
@@ -939,6 +955,11 @@ function getAssetList(query,out,next) {
         if (parent)
           asset.bucket = parent._id;
         newAsset = new Asset(asset);
+        if (asset.isbucket) {
+          if (!info || !info.bucket || info.bucket === assetFound.alias)
+            res.write('new ' + asset.alias + ':\n');
+        } else
+          res.write('new ' + parent.alias + ':' + asset.alias + '\n');
         newAsset.save(function (err) {
           if (err)
             console.log("error:", err)
@@ -947,7 +968,7 @@ function getAssetList(query,out,next) {
               snarfBucketContent(err, items, parent, next);
             });
           } else {
-            realContent(newAsset, snarfBucketContent, function (err) {
+            realContent(info, newAsset, snarfBucketContent, function (err) {
               snarfBucketContent(err, items, parent, next);
             });
           }
@@ -958,14 +979,44 @@ function getAssetList(query,out,next) {
             snarfBucketContent(err, items, parent, next);
           });
         } else {
-          realContent(assetFound, snarfBucketContent, function (err) {
+          realContent(info, assetFound, snarfBucketContent, function (err) {
             snarfBucketContent(err, items, parent, next);
           });
         }
       }
     });
   }
-  realContent(null, snarfBucketContent);
+
+  var p = [];
+  for (var i = 1; i < 10; i++) {
+    if (req.moduleParams['f' + i])
+      p.push(req.moduleParams['f' + i]);
+  }
+  var bucket = null;
+  if (p.length > 0) {
+    info = {
+      bucket: p.splice(0, 1)[0],
+      prefix: p.join('/')
+    };
+  } else {
+    info = null;
+  }
+  
+  realContent(info, bucket, snarfBucketContent, function () {
+    res.end();
+    next();
+  });
+}
+
+/**
+ * Take a query and parameters, return or render asset lists
+ * This has been refactored so it can be called as a helper (e.g. views)
+ * From a theme
+ */
+function getAssetList(query,out,next) {
+  var pager = out.hasOwnProperty('pager') ? out.pager : true;
+
+  var Asset = calipso.lib.mongoose.model('Asset');
 
   var limit = out.limit ? out.limit : (out.req.moduleParams.limit ? parseInt(out.req.moduleParams.limit) : 20);
   // If pager is enabled, ignore any override in from
@@ -1023,7 +1074,7 @@ function getAssetList(query,out,next) {
                             file = file.replace(out.path, '');
                           if (asset.isfolder || asset.isbucket)
                             return file;
-                          return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/assets/show/' + asset.bucket.alias + '/' + asset.alias});
+                          return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/bucket/' + asset.bucket.alias + '/' + asset.alias});
                         }},
                        {name:'isbucket',label:'Type',fn:assetType},
                        {name:'created',label:'Created'},
@@ -1077,14 +1128,17 @@ function getAssetList(query,out,next) {
   });
 }
 
-function realContent(asset, callback, next) {
+function realContent(info, asset, callback, next) {
   var expat = require('node-expat');
   var knox = require('knox').createClient({
     key: calipso.config.get("s3:key"),
     secret: calipso.config.get("s3:secret"),
     bucket: (asset && asset.alias) || ''
   });
-  knox.get("").on('response', function(s3res){
+  if (info && info.bucket && asset && asset.alias !== info.bucket) {
+    return next();
+  }
+  knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response', function(s3res){
     s3res.setEncoding('utf8');
     var parser = new expat.Parser();
     var items = [];
