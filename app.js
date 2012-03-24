@@ -82,6 +82,13 @@ var req = require('express/lib/request');
    }
  };
 
+var sys;
+try {
+  sys = require('util');
+} catch (e) {
+  sys = require('sys');
+}
+
 var rootpath = process.cwd() + '/',
   path = require('path'),
   fs = require('fs'),
@@ -94,6 +101,7 @@ var rootpath = process.cwd() + '/',
   translate = require(path.join(rootpath, 'i18n/translate')),
   logo = require(path.join(rootpath, 'logo')),
   mongoStore = require(path.join(rootpath, 'support/connect-mongodb'));
+
 // Local App Variables
 var path = rootpath,
     theme = 'default',
