@@ -15,3 +15,4 @@ docs/coverage.html
 *.sock
 *.gz
 *.sass-cache
+themes/community/
