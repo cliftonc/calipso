@@ -16,11 +16,15 @@
  *    - http://www.opensource.org/licenses/mit-license.php
  *    - http://www.gnu.org/copyleft/gpl.html
  */
-
+var sys;
+try {
+ sys = require('util');
+} catch (e) {
+ sys = require('sys');
+}
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  sys = require("sys");
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 function CronTime(time) {
 
