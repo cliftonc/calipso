@@ -197,7 +197,7 @@ function createProject(req, res, template, block, next) {
                   if(returnTo) {
                     res.redirect(returnTo);
                   } else {
-                    res.redirect('/project/' + p._id);
+                    res.redirect('/project/' + p.name);
                   }
                   next();
                 });
