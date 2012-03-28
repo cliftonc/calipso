@@ -7,6 +7,25 @@ var port = process.env.PORT || 3000;
 var path = __dirname;
 var app;
 
+if (typeof cluster !== 'function') {
+  if (cluster.isMaster) {
+    var cpus = require('os').cpus().length;
+    while (cpus-- > 0)
+      cluster.fork();
+    cluster.on('death', function(worker) {
+      console.log('worker ' + worker.pid + ' died');
+//      cluster.fork();
+    });
+  } else {
+    console.log("worker " + process.pid);
+    setTimeout(function () {
+      require('./app').boot(function (app) {
+        app.listen(port);
+      });      
+    }, 0)
+  }
+  return;
+}
 /**
  * Create an instance of calipso via the normal App,
  */
