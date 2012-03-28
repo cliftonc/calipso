@@ -1,0 +1,12 @@
+{
+  "name": "folders",
+  "label": "Asset Folders",
+  "description": "Folder management module.",
+  "version": "0.0.1",
+  "homepage": "https://github.com/richtera/calipso",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/richtera/calipso"
+  },
+  "author": "Geoffrey Johnson"
+}

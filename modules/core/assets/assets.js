@@ -287,7 +287,7 @@ function init(module, app, next) {
         return getAssetList;
       }
 
-      // Default Asset Schema
+      // Default Asset Schema TODO -gajohnson add assetpath property, isProject boolean property
       var Asset = new calipso.lib.mongoose.Schema({
         title:{type: String, required: true, "default": ''},
         description:{type: String, required: false, "default": ''},
