@@ -34,6 +34,7 @@ function route(req, res, module, app, next) {
 function init(module, app, next) {
 
   calipso.e.addEvent('PROJECT_CREATE',{enabled:true,hookio:true});
+  calipso.e.addEvent('FOLDER_CREATE',{enabled:true,hookio:true});
   // Projects routes
   calipso.lib.step(
 
@@ -53,7 +54,14 @@ function init(module, app, next) {
       admin: false,
       permit: function(user){return user.username != '' ? {allow:true} : null}
     }, this.parallel());
-   
+
+    module.router.addRoute('GET /project/:name/:fname', showFolderByName, {
+      template: 'folder',
+      block: 'content.list',
+      admin: false,
+      permit: function(user){return user.username != '' ? {allow:true} : null}
+    }, this.parallel());
+
     module.router.addRoute('GET /projects/new', newProject, {
       block: 'content.list',
       admin: false,
@@ -75,15 +83,17 @@ function init(module, app, next) {
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now }
       });
-
-      /* Set post hook to enable simple etag generation
-      Asset.pre('save', function (next) {
-        this.etag = calipso.lib.crypto.etag(this.title + this.description + this.bucket + this.key);
-        next();
+      var Folder = new calipso.lib.mongoose.Schema({
+        name:{type: String, required: true, "default": ''},
+        project:{type: String, required: true},
+        canWrite: {type: Boolean, required: true, "default": true},
+        canDelete: {type: Boolean, required: true, "default": false},
+        created: { type: Date, "default": Date.now },
+        updated: { type: Date, "default": Date.now }
       });
-      */
 
       calipso.lib.mongoose.model('Project', Project);
+      calipso.lib.mongoose.model('Folder', Folder);
 
     next();
 
@@ -108,6 +118,7 @@ function showProjects(req, res, template, block, next) {
 }
 function showProjectByName(req, res, template, block, next) {
   var Project = calipso.lib.mongoose.model('Project');
+  var Folder = calipso.lib.mongoose.model('Folder');
   var name = req.moduleParams.name;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
   var query = queryPermissions(req);
@@ -116,9 +127,37 @@ function showProjectByName(req, res, template, block, next) {
       res.statusCode = 404;
       next();
     } else {
-      calipso.theme.renderItem(req, res, template, block, {
-        project:p[0]
+      Folder.find({project:p[0].id}).run( function(err, f) {
+        calipso.theme.renderItem(req, res, template, block, {
+        project:p[0],
+        folders:f
       },next);
+      });
+    }
+  });
+}
+function showFolderByName(req, res, template, block, next) {
+  var Project = calipso.lib.mongoose.model('Project');
+  var Folder = calipso.lib.mongoose.model('Folder');
+  var name = req.moduleParams.name;
+  var fname = req.moduleParams.fname;
+  var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
+  var query = queryPermissions(req);
+  Project.find(query).find({name:name}).run( function(err, p) {
+    if(err || p === null || !p.length) {
+      res.statusCode = 404;
+      next();
+    } else {
+      Folder.find({name:fname}).run( function(err, f) {
+        if(err || f === null || !f.length) {
+          res.statusCode = 404;
+          next();
+        } else {
+          calipso.theme.renderItem(req, res, template, block, {
+            folder:f[0]
+          },next);
+        }
+      });
     }
   });
 }
@@ -215,6 +254,7 @@ function createProject(req, res, template, block, next) {
               } else {
                 req.flash('info',req.t('Project saved.'));
                 calipso.e.post_emit('PROJECT_CREATE',p,function(p) {
+                  createDefaultFolders(p);
                   if(returnTo) {
                     res.redirect(returnTo);
                   } else {
@@ -234,5 +274,36 @@ function createProject(req, res, template, block, next) {
       req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
       next();
     }
+  });
+}
+function createDefaultFolders(p) {
+  var archive = createFolder("Archive", p.id, true, false);
+  var work = createFolder("Work", p.id, true, true);
+  var publish = createFolder("Publish", p.id, true, true);
+  saveFolder(archive);
+  saveFolder(work);
+  saveFolder(publish);
+}
+function createFolder(name, project, canWrite, canDelete) {
+  var Folder = calipso.lib.mongoose.model('Folder');
+  var f = new Folder({
+    name:name,
+    project:project,
+    canWrite:canWrite,
+    canDelete:canDelete,
+    created: Date.now(),
+    updated: Date.now()
+  })
+  return f;
+}
+function saveFolder(folder) {
+  calipso.e.pre_emit('FOLDER_CREATE',folder,function(folder) {
+    folder.save(function(err) {
+      if(err) {
+        calipso.debug(err);
+      } else {
+        calipso.e.post_emit('FOLDER_CREATE',folder,function(folder) {});
+      }
+    });
   });
 }
