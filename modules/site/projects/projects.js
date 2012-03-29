@@ -95,7 +95,7 @@ function showProjects(req, res, template, block, next) {
   var format = req.moduleParams.format || 'html';
   var query = new Query();
   query.or([{permissions:req.session.user.roles[0]}, {owner:req.session.user.username}]).exec(); // TODO iterate over all user.roles
-  Project.find(query).find(function (err, contents) {
+  Project.find(query, function (err, contents) {
     if(format === 'html') {
       calipso.theme.renderItem(req, res, template, block, {projects:contents}, next);
     } else if(format === 'json') {
