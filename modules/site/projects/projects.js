@@ -93,9 +93,8 @@ function init(module, app, next) {
 function showProjects(req, res, template, block, next) {
   var Project = calipso.lib.mongoose.model('Project');
   var format = req.moduleParams.format || 'html';
-  var query = new Query();
-  query.or([{permissions:req.session.user.roles[0]}, {owner:req.session.user.username}]).exec(); // TODO iterate over all user.roles
-  Project.find(query, function (err, contents) {
+  var query = queryPermissions(req);
+  Project.find(query).run( function(err, contents) {
     if(format === 'html') {
       calipso.theme.renderItem(req, res, template, block, {projects:contents}, next);
     } else if(format === 'json') {
@@ -111,8 +110,8 @@ function showProjectByName(req, res, template, block, next) {
   var Project = calipso.lib.mongoose.model('Project');
   var name = req.moduleParams.name;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
-
-  Project.find({name:name}).run( function(err, p) {
+  var query = queryPermissions(req);
+  Project.find(query).find({name:name}).run( function(err, p) {
     if(err || p === null || !p.length) {
       res.statusCode = 404;
       next();
@@ -122,6 +121,14 @@ function showProjectByName(req, res, template, block, next) {
       },next);
     }
   });
+}
+function queryPermissions(req) {
+  var query = new Query();
+  query.or([{
+    permissions:req.session.user.roles[0]},
+    {owner:req.session.user.username}
+  ]); // TODO iterate over all user.roles
+  return query;
 }
 function newProject(req, res, template, block, next) {
   var name = req.moduleParams.name ? req.moduleParams.name : "";
