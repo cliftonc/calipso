@@ -69,8 +69,9 @@ function init(module, app, next) {
   }, function done() {
      var Project = new calipso.lib.mongoose.Schema({
         name:{type: String, required: true, "default": ''},
+        description:{type: String, required: false},
+        owner:{type: String, required: true, "default": 'admin'},
         permissions:{type: String, required: true, "default":'Contributor'},
-        description:{type: String, required: false, "default": ''},
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now }
       });
@@ -93,20 +94,17 @@ function showProjects(req, res, template, block, next) {
   var Project = calipso.lib.mongoose.model('Project');
   var format = req.moduleParams.format || 'html';
   var query = new Query();
-
-  Project.count(query, function (err, count) {
-    var total = count;
-    Project.find(query).find(function (err, contents) {
-      if(format === 'html') {
-        calipso.theme.renderItem(req, res, template, block, {projects:contents}, next);
-      } else if(format === 'json') {
-        res.format = format;
-        res.send(contents.map(function(u) {
-          return u.toObject();
-        }));
-        next();
-      }
-    });
+  query.or([{permissions:req.session.user.roles[0]}, {owner:req.session.user.username}]).exec(); // TODO iterate over all user.roles
+  Project.find(query).find(function (err, contents) {
+    if(format === 'html') {
+      calipso.theme.renderItem(req, res, template, block, {projects:contents}, next);
+    } else if(format === 'json') {
+      res.format = format;
+      res.send(contents.map(function(u) {
+        return u.toObject();
+      }));
+      next();
+    }
   });
 }
 function showProjectByName(req, res, template, block, next) {
@@ -119,12 +117,15 @@ function showProjectByName(req, res, template, block, next) {
       res.statusCode = 404;
       next();
     } else {
-      calipso.theme.renderItem(req, res, template, block, {name:name},next);
+      calipso.theme.renderItem(req, res, template, block, {
+        project:p[0]
+      },next);
     }
   });
 }
 function newProject(req, res, template, block, next) {
   var name = req.moduleParams.name ? req.moduleParams.name : "";
+  var description = req.moduleParams.description ? req.moduleParams.description : "";
   var permissions = req.moduleParams.permissions ? req.moduleParams.permissions : "";
   var form = {
     id:'content-type-form',
@@ -139,6 +140,17 @@ function newProject(req, res, template, block, next) {
         name:'name',
         type:'text',
         description:'The name of your project ...'
+      },
+      {
+        label:'Description',
+        name:'description',
+        type:'textarea',
+        description:'Description of your project ...'
+      },
+      {
+        label:'',
+        name:'owner',
+        type:'hidden'
       },
       {
         label:'Permissions',
@@ -164,8 +176,10 @@ function newProject(req, res, template, block, next) {
       contentType:"Project"
     },
     name:name,
+    description:description,
+    owner:req.session.user.username,
     permissions:permissions
-  }
+  };
 
   calipso.form.render(form, values, req, function(form) {
     calipso.theme.renderItem(req,res,form,block,{},next);
@@ -179,14 +193,14 @@ function createProject(req, res, template, block, next) {
       var returnTo = form.returnTo ? form.returnTo : "";
       Project.find({name:form.name}).run( function(err, checkP) {
         if(err || checkP === null) {
-          req.flash('error',req.t('Something went wrong. Does this mean anything? #{err}'));
+          req.flash('error',req.t('Something went wrong. Does this mean anything to you? {msg}.', {msg:err.message}));
           next();
         } else if (!checkP.length) {
           calipso.e.pre_emit('PROJECT_CREATE',p,function(p) {
             p.save(function(err) {
               if(err) {
                 calipso.debug(err);
-                req.flash('error',req.t('Could not create project because {msg}.',{msg:err.message}));
+                req.flash('error',req.t('Could not create project because {msg}.', {msg:err.message}));
                 if(res.statusCode != 302) {
                   res.redirect('/projects/new?type='+form.content.contentType);
                 }
@@ -205,12 +219,12 @@ function createProject(req, res, template, block, next) {
             });
           });
         } else {
-          req.flash('error',req.t('Sorry! A project with that name already exists'));
+          req.flash('error',req.t('Nice try! A project with that name already exists ...'));
           next();
         }
       });
     } else {
-      req.flash('info',req.t('Where did the form go?'));
+      req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
       next();
     }
   });

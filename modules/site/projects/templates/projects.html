@@ -1,10 +1,27 @@
 <div class="projects-view">
 	<h2>Projects</h2>
-	<div>
-		<ul>
-			<% projects.forEach(function(project) { %>
-				<li><%= JSON.stringify(project) %></li>
-			<% }); %>
-		</ul>
-	</div>
+	<table class='tabular'>
+		<tr>
+			<th><%- t('Name') %></th>
+			<th><%- t('Owner') %></th>
+			<th><%- t('Permissions') %></th>
+			<th><%- t('Updated') %></th>
+			<th><%- t('Description') %></th>
+			<% if (user.isAdmin) { %>
+			<th><%- t('Object') %></th>
+			<% } %>
+		</tr>
+		<% projects.forEach(function(item) { %>
+		<tr class='content-list-item'>
+			<td><a href='/project/<%= item.name %>'><%- item.name %></a></td>
+			<td><%- item.owner %></td>
+			<td><%- item.permissions %></td>
+			<td><%- item.updated %></td>
+			<td><%- item.description %></td>
+			<% if (user.isAdmin) { %>
+			<td><%= JSON.stringify(item) %></th>
+			<% } %>
+		</tr>
+		<% });  %>
+	</table>
 </div>
