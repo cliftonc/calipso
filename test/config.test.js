@@ -53,13 +53,13 @@ exports['I can use different environments'] = function() {
     confDev.set('test:v1','v1');
     confDev.get('test:v1').should.equal('v1');
     confDev.save(function(err) {
-        path.existsSync(confDev.file);
+        (fs.existsSync || path.existsSync)(confDev.file);
     });
 
     confTest.set('test:v1','v1');
     confTest.get('test:v1').should.equal('v1');
     confTest.save(function(err) {
-        path.existsSync(confTest.file);
+        (fs.existsSync || path.existsSync)(confTest.file);
     });
 
 };
