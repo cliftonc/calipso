@@ -20,6 +20,9 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu items
+  res.menu.admin.addMenuItem({name:'Projects',path:'prjs',url:'/projects',description:'Project management...',security:[]});
+  res.menu.admin.addMenuItem({name:'Create Project',path:'prjs/newProject',url:'/projects/new',description:'Create a new project ...',security:[]});
+  res.menu.admin.addMenuItem({name:'View Projects',path:'prjs/viewProjects',url:'/projects',description:'View current projects ...',security:[]});
   res.menu.primary.addMenuItem({name:'Projects',path:'prjs',url:'/projects',description:'Project management...',security:[]});
   res.menu.primary.addMenuItem({name:'Create Project',path:'prjs/newProject',url:'/projects/new',description:'Create a new project ...',security:[]});
   res.menu.primary.addMenuItem({name:'View Projects',path:'prjs/viewProjects',url:'/projects',description:'View current projects ...',security:[]});
@@ -105,9 +108,9 @@ function showProjects(req, res, template, block, next) {
   var format = req.moduleParams.format || 'html';
   var query = queryPermissions(req);
   Project.find(query).run( function(err, contents) {
-    if(format === 'html') {
+    if (format === 'html') {
       calipso.theme.renderItem(req, res, template, block, {projects:contents}, next);
-    } else if(format === 'json') {
+    } else if (format === 'json') {
       res.format = format;
       res.send(contents.map(function(u) {
         return u.toObject();
@@ -162,6 +165,7 @@ function showFolderByName(req, res, template, block, next) {
   });
 }
 function queryPermissions(req) {
+  if (req.session.user.isAdmin) { return {}; }
   var query = new Query();
   query.or([{
     permissions:req.session.user.roles[0]},
