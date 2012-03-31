@@ -94,7 +94,6 @@ function proceed(req, res, next) {
   if (!bucketList[bucket] && !post && !put)
     return next();
   if (put && s.length == 0) {
-    console.log('creating bucket', bucket);
     // Create a new bucket
     var k = knox({
       'bucket': bucket,
@@ -102,7 +101,7 @@ function proceed(req, res, next) {
     });
     var Asset = calipso.lib.mongoose.model('Asset');
     var author = (req.session && req.session.user) || 'testing';
-    var asset = new Asset({alias:bucket,isbucket:true,title:bucket, author:author});
+    var asset = new Asset({alias:bucket,key:null,isbucket:true,title:bucket, author:author});
     bucket.save(function (err) {
       if (err) {
         next(null, err);
@@ -133,7 +132,7 @@ function proceed(req, res, next) {
   else
     pt = null;
   var Asset = calipso.lib.mongoose.model('Asset');
-  Asset.findOne({alias:bucket,isbucket:true}, function(err, bucket) {
+  Asset.findOne({alias:bucket,key:null,isbucket:true}, function(err, bucket) {
     if(err || !bucket || !bucket.isbucket || bucket.isfolder) {
       req.resume();
       next();
@@ -144,7 +143,7 @@ function proceed(req, res, next) {
         if(err || !asset) {
           if (put || post) {
             var author = (req.session && req.session.user) || 'testing';
-            asset = new Asset({isbucket:false, isfolder:false, alias:pt, title:pt, author:author});
+            asset = new Asset({isbucket:false, isfolder:false, key:pt, alias:pt, title:pt, author:author});
             asset.save(function (err) {
               if (err) {
                 res.statusCode = 500;
@@ -199,7 +198,7 @@ function saveTo(bucket, asset, req, res, next) {
   var k = knox({
     bucket: bucket.alias
   });
-  var fileName = path.basename(asset.alias);
+  var fileName = path.basename(asset.key);
   var contentType = mime.lookup(fileName);
   var headers = {'Content-Type':contentType,Expect: '100-continue'};
   for (var v in req.headers) {
@@ -293,11 +292,13 @@ function init(module, app, next) {
         description:{type: String, required: false, "default": ''},
         taxonomy:{type: String, "default":''},
         bucket:{type: calipso.lib.mongoose.Schema.ObjectId, ref: 'Asset', required: false},
-        key: {type: String, required: false, "default": ''},
+        key: {type: String, required: false, "default": ''}, // This is the undelying S3 key (or path to file or folder)
         isbucket:{type: Boolean, "default":false},
         folder:{type: calipso.lib.mongoose.Schema.ObjectId, ref: 'Asset', required: false},
         isfolder:{type: Boolean, "default":false},
-        alias:{type: String, required: true, index: true},
+        isproject:{type: Boolean, "default":false},
+        isvirtual:{type: Boolean, "default":false},
+        alias:{type: String, required: true}, // This is the user visible path
         author:{type: String, required: true},
         etag:{type: String, "default":''},
         tags:[String],
@@ -547,6 +548,7 @@ function createAssetForm(req,res,template,block,next) {
         asset: {
           title:alias,  // Default the title to the alias
           alias:alias,
+          key:null,
           description:description,
           taxonomy:taxonomy,
           returnTo: returnTo
@@ -940,42 +942,35 @@ function syncAssets(req, res, route, next) {
     if (parent)
       query.bucket = parent._id;
     Asset.findOne(query, function (err, assetFound) {
-      if (!err && assetFound) {
-        if (assetFound.isbucket) {
-          if (!info || !info.bucket || info.bucket === assetFound.alias)
-            res.write('existing ' + assetFound.alias + ':\n');
-        } else
-          res.write('existing ' + parent.alias + ':' + assetFound.alias + '\n');
+      var isNew = false;
+      if (!assetFound) {
+        assetFound = new Asset();
+        isNew = true;
       }
-      if (err || !assetFound) {
-        if (!asset.title)
-          asset.title = path.basename(asset.alias);
-        asset.isbucket = parent === null;
-        asset.isfolder = asset.alias.substring(asset.alias.length - 1) === '/';
-        if (parent)
-          asset.bucket = parent._id;
-        newAsset = new Asset(asset);
-        if (asset.isbucket) {
-          if (!info || !info.bucket || info.bucket === assetFound.alias)
-            res.write('new ' + asset.alias + ':\n');
-        } else
-          res.write('new ' + parent.alias + ':' + asset.alias + '\n');
-        newAsset.save(function (err) {
-          if (err)
-            console.log("error:", err)
-          if (parent) {
-            snarfBucketContent(err, items, parent, function (err) {
-              snarfBucketContent(err, items, parent, next);
-            });
-          } else {
-            realContent(info, newAsset, snarfBucketContent, function (err) {
-              snarfBucketContent(err, items, parent, next);
-            });
-          }
-        });
-      } else {
+      if (!assetFound.title)
+        assetFound.title = path.basename(asset.alias);
+      assetFound.isbucket = parent === null;
+      assetFound.isfolder = asset.key.substring(asset.key.length - 1) === '/';
+      if (parent)
+        assetFound.bucket = parent._id;
+      assetFound.key = asset.key; // S3 name
+      if (!assetFound.alias) // user name
+        assetFound.alias = asset.key;
+      assetFound.author = asset.author;
+      if (assetFound.isbucket) {
+        if (!info || !info.bucket || info.bucket === assetFound.alias)
+          res.write((isNew ? 'new ' : 'update ') + ' bucket "' + asset.key + '"\n');
+      } else if (parent && assetFound.isfolder) {
+        res.write((isNew ? 'new ' : 'update ') + '"' + asset.key + '"\n');
+      }
+      assetFound.save(function (err) {
+        if (err) {
+          console.log("error:", err)
+          next();
+          return;
+        }
         if (parent) {
-          snarfBucketContent(err, items, parent, next, function (err) {
+          snarfBucketContent(err, items, parent, function (err) {
             snarfBucketContent(err, items, parent, next);
           });
         } else {
@@ -983,7 +978,7 @@ function syncAssets(req, res, route, next) {
             snarfBucketContent(err, items, parent, next);
           });
         }
-      }
+      });
     });
   }
 
@@ -1003,8 +998,38 @@ function syncAssets(req, res, route, next) {
   }
   
   realContent(info, bucket, snarfBucketContent, function () {
-    res.end();
-    next();
+    Asset.find({$or:[{isfolder:true,isbucket:false},{isfolder:false,isbucket:true}]}).populate('bucket').run(function (e, folders) {
+      if (e || folders.length == 0) {
+        doNext();
+        return;
+      }
+      var wasDone = false;
+      function doNext() {
+        if (!wasDone) {
+          res.end();
+          next();
+          wasDone = true;
+        }
+      }
+      function updateFolder(index) {
+        var folder = folders[index];
+        var query = folder.isfolder
+          ? { key:{ $regex:'^' + folder.key + '[^/]+/?$' }, bucket: folder.bucket._id, isbucket: false }
+          : { key:{ $regex:'^[^/]+/?$' }, bucket: folder._id, isbucket: false };
+        Asset.update(query, { folder: folder._id }, { multi: true }, function (e, c) {
+          if (folder.isbucket)
+            res.write('searching bucket root "' + folder.key + '" - ' + c + '\n');
+          else
+            res.write('searching "' + folder.key + '" - ' + c + '\n');
+          if ((folders.length - 1) == index) {
+            doNext();
+          } else {
+            updateFolder(index + 1);
+          }
+        });
+      }
+      updateFolder(0);
+    });
   });
 }
 
@@ -1158,7 +1183,7 @@ function realContent(info, asset, callback, next) {
       } else if (name === 'Contents' || name == 'Bucket') {
         item = {};
       } else if (name === 'Key') {
-        property = 'alias';
+        property = 'key';
       } else if (name === 'CreationDate') {
         property = 'created';
       } else if (name === 'LastModified') {
@@ -1166,7 +1191,7 @@ function realContent(info, asset, callback, next) {
       } else if (name === 'ETag') {
         property = 'etag';
       } else if (name === 'Name') {
-        property = 'alias';
+        property = 'key';
       } else if (name === 'Size') {
         property = 'size';
       } else if (name === 'DisplayName')
