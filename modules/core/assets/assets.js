@@ -32,6 +32,7 @@ function invalidateBuckets()
   bucketCheck = Date().getTime();
 }
 
+// Standard knox interface with the correct key and secret.
 function knox(options) {
   options = calipso.lib._.extend({
     key: calipso.config.get("s3:key"),
@@ -40,6 +41,16 @@ function knox(options) {
   return require('knox').createClient(options);
 }
 
+var convert = {
+  'content-type': 'Content-Type',
+  'content-length': 'Content-Length',
+  'expect': 'Expect'
+};
+
+// Main asset router.
+// PUT /bucket
+// PUT /bucket/[folder/]*file
+// GET /bucket/[folder/]*file
 function handleAsset(req, res, next) {
   // parse url
   var url = parse(req.url)
@@ -48,7 +59,192 @@ function handleAsset(req, res, next) {
   if (!/^\/bucket\/.*/.test(pt)) {
     return next();
   }
+  // Pause incoming stream for now. We might need to read it for POST or PUT.
   req.pause();
+  function proceed(req, res, next) {
+    // Completion for Asset.find()
+    var maxAge = 0
+      , ranges = req.headers.range
+      , head = 'HEAD' == req.method
+      , get = 'GET' == req.method
+      , put = 'PUT' == req.method
+      , post = 'POST' == req.method
+      , del = 'DELETE' == req.method
+      , done;
+    // ignore non-GET requests
+    if (!get && !head && !put && !post && !del) {
+      return next();
+    }
+    
+    //TODO: Check security permissions for the current user here.
+    //  if (!req.session || !req.session.user || !req.session.user.isAdmin) {
+    //    return next();
+    //  }
+
+    // parse url
+    var url = parse(req.url)
+      , alias = decodeURIComponent(url.pathname)
+      , type;
+    alias = alias.split('\/');
+    alias.splice(0, 2); // remove /bucket/
+    while (alias[alias.length - 1] === '')
+      alias.splice(alias.length - 1, 1);
+    var bucket = alias.splice(0, 1)[0];
+    if (!bucketList[bucket] && !post && !put)
+      return next();
+    if (put && alias.length == 0) {
+      // Create a new bucket
+      // This is a PUT with no alias.
+      var k = knox({
+        'bucket': bucket,
+        'Host': bucket + '.s3.amazonaws.com'
+      });
+      var Asset = calipso.lib.mongoose.model('Asset');
+      var author = (req.session && req.session.user) || 'testing';
+      var asset = new Asset({alias:bucket,key:null,isbucket:true,title:bucket, author:author});
+      bucket.save(function (err) {
+        if (err) {
+          next(null, err);
+          return;
+        }
+        var sreq = k.request(req.method, '', {
+          'Content-Length': '0',
+          'x-amz-acl': 'private'
+        });
+        sreq.on('error', function(err) {
+          asset.remove(function () {
+            next(null, err);          
+          });
+        }).on('response', function(s3res) {
+          for (var v in s3res.headers) {
+            if (/x-amz/.test(v) || v === 'server')
+              continue;
+            res.setHeader(v, s3res.headers[v]);
+          }
+          res.statusCode = s3res.statusCode;
+          s3res.pipe(res);
+        }).end();
+      })
+      return;
+    }
+    if (alias.length > 0)
+      alias = alias.join('/');
+    else
+      alias = null;
+    function interactWithS3(bucket, asset, req, res, next) {
+      var k = knox({
+        bucket: bucket.key
+      });
+      var fileName = path.basename(asset.alias);
+      var contentType = mime.lookup(fileName);
+      var headers = {'Content-Type':contentType,Expect: '100-continue'};
+      for (var v in req.headers) {
+        if (/x-amz-/i.test(v)) {
+          headers[v] = req.headers[v];
+        } else if (convert[v]) {
+          headers[convert[v]] = req.headers[v];
+        }
+      }
+      var s3req = k.request(req.method, escape(asset.key), headers)
+        .on('error', function(err) {
+          next(null, err);
+        })
+        .on('response', function(s3res) {
+          for (var v in s3res.headers) {
+            if (/x-amz/.test(v) || v === 'server')
+              continue;
+            res.setHeader(v, s3res.headers[v]);
+          }
+          res.statusCode = s3res.statusCode;
+          s3res.pipe(res);
+        });
+      req
+        .on('abort', function() {
+          next(null);
+        })
+        .on('error', function(err){
+          next(null, err);
+        })
+        .on('data', function(chunk){
+          s3req.write(chunk);
+        })
+        .on('end', function(){
+          s3req.end();
+        });
+      // Now we're setup to read the rest of the request and stream it to S3.
+      req.resume();
+    }
+    var Asset = calipso.lib.mongoose.model('Asset');
+    // Search for the bucket first
+    Asset.findOne({alias:bucket,isbucket:true}, function(err, bucket) {
+      if(err || !bucket || !bucket.isbucket || bucket.isfolder) {
+        // If we didn't find the bucket then it has not been created yet.
+        res.statusCode = 404;
+        req.resume();
+        next();
+        return;
+      }
+      if (alias) {
+        // Search for the asset with this alias.
+        Asset.findOne({alias:alias,bucket:bucket._id}).run(function(err, asset) {
+          if(err || !asset) {
+            if (put || post) {
+              var author = (req.session && req.session.user) || 'testing';
+              Asset.findOne({alias:path.dirname(alias), isfolder:true, bucket:bucket._id}, function(err, folder) {
+                if (err || !folder) {
+                  // If we didn't find the folder then it has not been created yet.
+                  res.statusCode = 404;
+                  req.resume();
+                  next();
+                  return;
+                }
+                var s3path = folder.key + path.basname(alias);
+                asset = new Asset({isbucket:false, isfolder:false,
+                  key:s3path, folder:folder, alias:alias, title:alias, author:author});
+                asset.save(function (err) {
+                  if (err) {
+                    res.statusCode = 500;
+                    next();
+                    return;
+                  }
+                  interactWithS3(bucket, asset, req, res, next);
+                });
+              });
+              return; // done putting new file
+            } else {
+              res.statusCode = 404;
+              next();
+              return; // this file doesn't exist but it's not a put...
+            }
+          }
+          if (asset.isbucket || asset.isfolder) {
+            res.statusCode = 404;
+            next();
+            return; // This is a bucket or folder...
+          }
+          interactWithS3(bucket, asset, req, res, next);
+          return;
+        });
+      } else {
+        var k = knox({
+          bucket: bucket.key,
+          endpoint: 's3.amazonaws.com'
+        });
+        k.get('').on('error', function(err) {
+          next(null, err);
+        }).on('response', function(s3res) {
+          for (var v in s3res.headers) {
+            if (/x-amz/.test(v) || v === 'server')
+              continue;
+            res.setHeader(v, s3res.headers[v]);
+          }
+          res.statusCode = s3res.statusCode;
+          req.emit('static', s3res);
+          s3res.pipe(res);
+        }).end();
+      }
+    });
+  }
   // join / normalize from optional root dir
   var now = (new Date()).getTime();
   if (now >= bucketCheck) {
@@ -63,178 +259,6 @@ function handleAsset(req, res, next) {
     });
   } else
     proceed(req, res, next);
-}
-
-function proceed(req, res, next) {
-  var maxAge = 0
-    , ranges = req.headers.range
-    , head = 'HEAD' == req.method
-    , get = 'GET' == req.method
-    , put = 'PUT' == req.method
-    , post = 'POST' == req.method
-    , del = 'DELETE' == req.method
-    , done;
-  // ignore non-GET requests
-  if (!get && !head && !put && !post && !del) {
-    return next();
-  }
-  //  if (!req.session || !req.session.user || !req.session.user.isAdmin) {
-  //    return next();
-  //  }
-
-  // parse url
-  var url = parse(req.url)
-    , pt = decodeURIComponent(url.pathname)
-    , type;
-  var s = pt.split('\/');
-  s.splice(0, 2); // remove /bucket/
-  while (s[s.length - 1] === '')
-    s.splice(s.length - 1, 1);
-  var bucket = s.splice(0, 1)[0];
-  if (!bucketList[bucket] && !post && !put)
-    return next();
-  if (put && s.length == 0) {
-    // Create a new bucket
-    var k = knox({
-      'bucket': bucket,
-      'Host': bucket + '.s3.amazonaws.com'
-    });
-    var Asset = calipso.lib.mongoose.model('Asset');
-    var author = (req.session && req.session.user) || 'testing';
-    var asset = new Asset({alias:bucket,key:null,isbucket:true,title:bucket, author:author});
-    bucket.save(function (err) {
-      if (err) {
-        next(null, err);
-        return;
-      }
-      var sreq = k.request(req.method, '', {
-        'Content-Length': '0',
-        'x-amz-acl': 'private'
-      });
-      sreq.on('error', function(err) {
-        asset.remove(function () {
-          next(null, err);          
-        });
-      }).on('response', function(s3res) {
-        for (var v in s3res.headers) {
-          if (/x-amz/.test(v) || v === 'server')
-            continue;
-          res.setHeader(v, s3res.headers[v]);
-        }
-        res.statusCode = s3res.statusCode;
-        s3res.pipe(res);
-      }).end();
-    })
-    return;
-  }
-  if (s.length > 0)
-    pt = s.join('/');
-  else
-    pt = null;
-  var Asset = calipso.lib.mongoose.model('Asset');
-  Asset.findOne({alias:bucket,key:null,isbucket:true}, function(err, bucket) {
-    if(err || !bucket || !bucket.isbucket || bucket.isfolder) {
-      req.resume();
-      next();
-      return;
-    }
-    if (pt) {
-      Asset.findOne({alias:pt,bucket:bucket._id}, function(err, asset) {
-        if(err || !asset) {
-          if (put || post) {
-            var author = (req.session && req.session.user) || 'testing';
-            asset = new Asset({isbucket:false, isfolder:false, key:pt, alias:pt, title:pt, author:author});
-            asset.save(function (err) {
-              if (err) {
-                res.statusCode = 500;
-                next();
-                return;
-              }
-              saveTo(bucket, asset, req, res, next);
-            });
-            return; // done putting new file
-          } else {
-            res.statusCode = 404;
-            next();
-            return; // this file doesn't exist but it's not a put...
-          }
-        }
-        if (asset.isbucket || asset.isfolder) {
-          res.statusCode = 404;
-          next();
-          return; // This is a bucket or folder...
-        }
-        saveTo(bucket, asset, req, res, next);
-        return;
-      });
-    } else {
-      var k = knox({
-        bucket: bucket.alias,
-        endpoint: 's3.amazonaws.com'
-      });
-      k.get('').on('error', function(err) {
-        next(null, err);
-      }).on('response', function(s3res) {
-        for (var v in s3res.headers) {
-          if (/x-amz/.test(v) || v === 'server')
-            continue;
-          res.setHeader(v, s3res.headers[v]);
-        }
-        res.statusCode = s3res.statusCode;
-        req.emit('static', s3res);
-        s3res.pipe(res);
-      }).end();
-    }
-  });
-}    
-
-var convert = {
-  'content-type': 'Content-Type',
-  'content-length': 'Content-Length',
-  'expect': 'Expect'
-};
-
-function saveTo(bucket, asset, req, res, next) {
-  var k = knox({
-    bucket: bucket.alias
-  });
-  var fileName = path.basename(asset.key);
-  var contentType = mime.lookup(fileName);
-  var headers = {'Content-Type':contentType,Expect: '100-continue'};
-  for (var v in req.headers) {
-    if (/x-amz-/i.test(v)) {
-      headers[v] = req.headers[v];
-    } else if (convert[v]) {
-      headers[convert[v]] = req.headers[v];
-    }
-  }
-  var s3req = k.request(req.method, escape(asset.alias), headers)
-    .on('error', function(err) {
-      next(null, err);
-    })
-    .on('response', function(s3res) {
-      for (var v in s3res.headers) {
-        if (/x-amz/.test(v) || v === 'server')
-          continue;
-        res.setHeader(v, s3res.headers[v]);
-      }
-      res.statusCode = s3res.statusCode;
-      s3res.pipe(res);
-    });
-  req
-    .on('abort', function() {
-      next(null);
-    })
-    .on('error', function(err){
-      next(null, err);
-    })
-    .on('data', function(chunk){
-      s3req.write(chunk);
-    })
-    .on('end', function(){
-      s3req.end();
-    });
-  req.resume();
 }
 
 /*
@@ -443,7 +467,7 @@ function createAsset(req,res,template,block,next) {
 
   calipso.form.process(req,function(form) {
 
-    if(form) {
+    if (form) {
 
           var Asset = calipso.lib.mongoose.model('Asset');
 
@@ -838,22 +862,25 @@ function listAssets(req,res,template,block,next) {
 
   res.menu.adminToolbar.addMenuItem({name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',security:[]});
 
-  // TODO : Make this more flexible ...
-  var path = [];
+  // alias is the path into the asset
+  var alias = [];
   for (var i = 1; i < 10; i++) {
     if (req.moduleParams['f' + i])
-      path.push(req.moduleParams['f' + i]);
+      alias.push(req.moduleParams['f' + i]);
   }
   var bucket = "";
-  if (path.length > 0) {
-    bucket = path.splice(0, 1)[0];
-    path = path.join('/');
+  if (alias.length > 0) {
+    bucket = alias.splice(0, 1)[0];
+    if (alias.length > 0)
+      alias = alias.join('/') + '/';
+    else
+      alias = null;
   } else
-    path = "";
+    alias = null;
 
   var query = new Query();
   
-  function finish() {
+  function finish(folder) {
     res.menu.adminToolbar.addMenuItem({name:'Create Bucket',weight:1,path:'new',url:'/assets/new',description:'Create Bucket ...',security:[]});
     if(req.session.user && req.session.user.isAdmin) {
       // Show all
@@ -869,31 +896,43 @@ function listAssets(req,res,template,block,next) {
 
     // Folder levels tags
     var taxonomy = "";
-    if(path) {
-      var q = {$regex:'^' + path + '/[^/]*/?$'};
-      query.where('alias',q);
-      params.path = path + '/';
-    } else
-      params.path = null;
+
     // Re-retrieve our object
     getAssetList(query,params,next);
   }
   if (bucket) {
     Asset.findOne({alias:bucket,isbucket:true}, function(err, bucket) {
       if (!err && bucket) {
-        query.where('bucket', bucket._id);
-        if (!path) {
-          var q = {$regex:'^[^/]*/?$'};
-          query.where('alias',q);
+        if (alias) {
+          Asset.findOne({alias:alias,isbucket:false,isfolder:true,bucket:bucket._id}).populate('folder').run(function (err, folder) {
+            if (!err && folder) {
+              // query for the parent folder
+              query.where('folder', folder._id);
+              // Also return the folder itself to be able to display this as a link to the parent folder.
+              query._conditions = {$or:[query._conditions,{_id:folder.id}]};
+              params.folder = folder;
+              finish({alias:folder.alias});
+            } else {
+              res.statusCode = 404;
+              next();
+              return;
+            }
+          });
+        } else {
+          // at the root of the bucket the bucket itself is the parent folder
+          query.where('folder', bucket._id);
+          query._conditions = {$or:[query._conditions,{_id:bucket.id}]};
+          params.folder = bucket;
+          finish();
         }
       } else {
         res.statusCode = 404;
         next();
         return;
       }
-      finish();
     });
   } else {
+    // at the root of the system we just see the buckets
     query.where('isbucket',true);
     finish();
   }
@@ -920,6 +959,8 @@ function formatSize(req,asset) {
 function assetType(req,asset) {
   if (asset.isbucket)
     return "S3 Bucket";
+  if (asset.isproject)
+    return "Project";
   if (asset.isfolder)
     return "Folder";
   return "File";
@@ -928,6 +969,94 @@ function assetType(req,asset) {
 function syncAssets(req, res, route, next) {
   var Asset = calipso.lib.mongoose.model('Asset');
   var info;
+  function realContent(info, asset, callback, next) {
+    var expat = require('node-expat');
+    var knox = require('knox').createClient({
+      key: calipso.config.get("s3:key"),
+      secret: calipso.config.get("s3:secret"),
+      bucket: (asset && asset.alias) || ''
+    });
+    if (info && info.bucket && asset && asset.alias !== info.bucket) {
+      return next();
+    }
+    knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response', function(s3res){
+      s3res.setEncoding('utf8');
+      var parser = new expat.Parser();
+      var items = [];
+      var item = null;
+      var property = null;
+      var owner = null;
+      var message = null;
+      var code = null;
+      var Asset = calipso.lib.mongoose.model('Asset');
+      parser.addListener('startElement', function(name, attrs) {
+        if (name === 'Error') {
+          property = 'error';
+        } else if (name === 'Code') {
+          property = 'code';
+        } else if (name === 'Message') {
+          property = 'message';
+        } else if (name === 'Contents' || name == 'Bucket') {
+          item = {};
+        } else if (name === 'Key') {
+          property = 'key';
+        } else if (name === 'CreationDate') {
+          property = 'created';
+        } else if (name === 'LastModified') {
+          property = 'updated';
+        } else if (name === 'ETag') {
+          property = 'etag';
+        } else if (name === 'Name') {
+          property = 'key';
+        } else if (name === 'Size') {
+          property = 'size';
+        } else if (name === 'DisplayName')
+          property = 'author';
+      });
+      parser.addListener('endElement', function(name) {
+        if (name === 'Error') {
+          callback({code:code, message:message}, null, asset);
+        } else if (name === 'Contents' || name == 'Bucket') {
+          if (!item.author)
+            item.author = owner;
+          items.push(item);
+          item = null;
+        } else if (name === 'ListBucketResult' || name === 'ListAllMyBucketsResult') {
+          callback(null, items, asset, next);
+        }
+      });
+      parser.addListener('text', function(s) {
+        if (property === 'code')
+          code = s;
+        if (property === 'message')
+          message = s;
+        if (property === 'author')
+          owner = s;
+        if (property && item) {
+          if (property === 'Size') {
+            if (/\/$/.test(item.Key))
+              item.IsDirectory = true;
+            else {
+              item.IsFile = true;
+            }
+            item[property] = s;
+          } else
+            item[property] = s;
+          property = null;
+        }
+      });
+      s3res.on('error', function(err) {
+        callback(err, null, null, next);
+      });
+      buffer = new Buffer('');
+      s3res.on('end', function() {
+        parser.parse(buffer);
+      });
+      s3res.on('data', function(chunk){
+        buffer += chunk;
+      });
+    }).end();
+  };
   function snarfBucketContent(err, items, parent, next) {
     if (err) {
       return;
@@ -938,7 +1067,7 @@ function syncAssets(req, res, route, next) {
         next(null);
       return;
     }
-    var query = {alias:asset.alias, isbucket:(parent === null)};
+    var query = {alias:asset.key, isbucket:(parent === null)};
     if (parent)
       query.bucket = parent._id;
     Asset.findOne(query, function (err, assetFound) {
@@ -947,8 +1076,8 @@ function syncAssets(req, res, route, next) {
         assetFound = new Asset();
         isNew = true;
       }
-      if (!assetFound.title)
-        assetFound.title = path.basename(asset.alias);
+      if (!assetFound.title || assetFound.title === 'undefined')
+        assetFound.title = (parent === null) ? asset.key : path.basename(asset.key);
       assetFound.isbucket = parent === null;
       assetFound.isfolder = asset.key.substring(asset.key.length - 1) === '/';
       if (parent)
@@ -1072,20 +1201,13 @@ function getAssetList(query,out,next) {
            // We might need a folder like view composed of a bunch of <div> instead.
            var table = {id:'content-list',sort:true,cls:'table-admin',
                columns:[{name:'title',sort:'title',label:'Title',fn:function(req, asset) {
-                           if (asset.alias === out.path) {
-                             if (out.path == null) {
-                               return calipso.link.render({id:asset.alias,title:req.t('View parent {asset}',{asset:asset.bucket.title}),label:asset.bucket.title,url:'/asset/' + asset.bucket.alias});
-                             } else {
-                               var p = '';
-                               if (out.path) {
-                                 var s = out.path.split('\/');
-                                 if (s.length > 0 && s[s.length - 1] === '')
-                                  s.splice(-1, 1);
-                                 s.splice(-1, 1);
-                                 p = s.join('/');
-                               }
-                               return calipso.link.render({id:p,title:req.t('View parent folder'),label:'Parent Folder',url:'/asset/' + asset.bucket.alias + '/' + p});
-                             }
+                           if (asset.id === (out.folder && out.folder.id)) {
+                             if (out.folder.isbucket)
+                               return calipso.link.render({id:asset.alias,title:req.t('View root folder list'),label:'Root',url:'/asset/'});
+                             else if (out.folder.folder && out.folder.folder.isbucket)
+                               return calipso.link.render({id:out.folder.alias,title:req.t('View parent bucket {parent}', {parent:asset.bucket.title}),label:'Parent Folder',url:'/asset/' + asset.bucket.alias});
+                             else
+                               return calipso.link.render({id:out.folder.alias,title:req.t('View parent folder {parent}', {parent:out.folder.folder.title}),label:'Parent Folder',url:'/asset/' + asset.bucket.alias + '/' + out.folder.folder.alias});
                            }
                            if (asset.isfolder)
                              return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
@@ -1102,6 +1224,8 @@ function getAssetList(query,out,next) {
                           return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/bucket/' + asset.bucket.alias + '/' + asset.alias});
                         }},
                        {name:'isbucket',label:'Type',fn:assetType},
+                       {name:'key',label:'S3 Key'},
+                       {name:'author',lable:'Author'},
                        {name:'created',label:'Created'},
                        {name:'updated',label:'Updated'}
                ],
@@ -1153,91 +1277,3 @@ function getAssetList(query,out,next) {
   });
 }
 
-function realContent(info, asset, callback, next) {
-  var expat = require('node-expat');
-  var knox = require('knox').createClient({
-    key: calipso.config.get("s3:key"),
-    secret: calipso.config.get("s3:secret"),
-    bucket: (asset && asset.alias) || ''
-  });
-  if (info && info.bucket && asset && asset.alias !== info.bucket) {
-    return next();
-  }
-  knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response', function(s3res){
-    s3res.setEncoding('utf8');
-    var parser = new expat.Parser();
-    var items = [];
-    var item = null;
-    var property = null;
-    var owner = null;
-    var message = null;
-    var code = null;
-    var Asset = calipso.lib.mongoose.model('Asset');
-    parser.addListener('startElement', function(name, attrs) {
-      if (name === 'Error') {
-        property = 'error';
-      } else if (name === 'Code') {
-        property = 'code';
-      } else if (name === 'Message') {
-        property = 'message';
-      } else if (name === 'Contents' || name == 'Bucket') {
-        item = {};
-      } else if (name === 'Key') {
-        property = 'key';
-      } else if (name === 'CreationDate') {
-        property = 'created';
-      } else if (name === 'LastModified') {
-        property = 'updated';
-      } else if (name === 'ETag') {
-        property = 'etag';
-      } else if (name === 'Name') {
-        property = 'key';
-      } else if (name === 'Size') {
-        property = 'size';
-      } else if (name === 'DisplayName')
-        property = 'author';
-    });
-    parser.addListener('endElement', function(name) {
-      if (name === 'Error') {
-        callback({code:code, message:message}, null, asset);
-      } else if (name === 'Contents' || name == 'Bucket') {
-        if (!item.author)
-          item.author = owner;
-        items.push(item);
-        item = null;
-      } else if (name === 'ListBucketResult' || name === 'ListAllMyBucketsResult') {
-        callback(null, items, asset, next);
-      }
-    });
-    parser.addListener('text', function(s) {
-      if (property === 'code')
-        code = s;
-      if (property === 'message')
-        message = s;
-      if (property === 'author')
-        owner = s;
-      if (property && item) {
-        if (property === 'Size') {
-          if (/\/$/.test(item.Key))
-            item.IsDirectory = true;
-          else {
-            item.IsFile = true;
-          }
-          item[property] = s;
-        } else
-          item[property] = s;
-        property = null;
-      }
-    });
-    s3res.on('error', function(err) {
-      callback(err, null, null, next);
-    });
-    buffer = new Buffer('');
-    s3res.on('end', function() {
-      parser.parse(buffer);
-    });
-    s3res.on('data', function(chunk){
-      buffer += chunk;
-    });
-  }).end();
-};
