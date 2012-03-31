@@ -289,16 +289,10 @@ function init(module, app, next) {
         block: 'content.list',
         admin: true
       }, this.parallel());
-      //module.router.addRoute('GET /bucket/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?',showAliasedAsset,{admin:true},this.parallel());
       module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true}, this.parallel());
       module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
       module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true},this.parallel());
       module.router.addRoute('POST /assets/:id',updateAsset,{admin:true},this.parallel());
-      module.router.addRoute('GET /assets/list.:format?', listAssets,{
-        admin:true,
-        template:'listAdmin',
-        block:'content.list'
-      },this.parallel());
     }, function done() {
       // Add dynamic helpers
       calipso.dynamicHelpers.getAsset = function() {
@@ -732,87 +726,6 @@ function updateAsset(req,res,template,block,next) {
 
 }
 
-/**
- * Locate asset based on its alias
- */
-function showAliasedAsset(req, res, template, block, next) {
-  var path = [];
-  for (var i = 1; i < 10; i++) {
-    if (req.moduleParams['f' + i])
-      path.push(req.moduleParams['f' + i]);
-  }
-  var bucket = "";
-  if (path.length > 0) {
-    bucket = path.splice(0, 1)[0];
-    path = path.join('/');
-  } else
-    path = null;
-
-  var allowedFormats = ["html","json"];
-  var format = req.moduleParams.format;
-  if (!format)
-    format = 'html';
-  
-  // Check type
-  var Asset = calipso.lib.mongoose.model('Asset');
-
-  Asset.findOne({_id:bucket}).populate('bucket').run(function(err, asset) {
-    if (err || !asset) {
-      Asset.findOne({alias:bucket}, function (err, bucket) {
-        if (!bucket || err) {
-          res.statusCode = 404;
-          next();
-          return;
-        }
-        if (path) {
-          Asset.findOne({alias:path,bucket:bucket._id}).populate('bucket').run(function (err, asset) {
-            if(err || !asset) {
-              // Create asset if it doesn't exist
-              if(req.session.user && req.session.user.isAdmin) {
-                res.redirect("/assets/new?alias=" + alias + "&type=Article") // TODO - make this configurable
-              } else {
-                res.statusCode = 404;
-              }
-              next();
-            } else {
-              calipso.modules.user.fn.userDisplay(req,asset.author,function(err, userDetails) {
-                if(err) {
-                  next(err);
-                } else {
-                  // Add the user display details to asset
-                  asset.set('displayAuthor',userDetails);
-                  showAsset(req,res,template,block,next,err,asset,format);
-                }
-              });
-            }
-          });
-        } else {
-           calipso.modules.user.fn.userDisplay(req,bucket.author,function(err, userDetails) {
-              if(err) {
-                next(err);
-              } else {
-                // Add the user display details to asset
-                bucket.set('displayAuthor',userDetails);
-                showAsset(req,res,template,block,next,err,bucket,format);
-              }
-           });
-        }
-      });
-    } else {
-      calipso.modules.user.fn.userDisplay(req,asset.author,function(err, userDetails) {
-        if(err) {
-          next(err);
-        } else {
-          // Add the user display details to asset
-          asset.set('displayAuthor',userDetails);
-          showAsset(req,res,template,block,next,err,asset,format);
-        }
-      });
-    }
-  });
-}
-
-
 /***
  * Show asset - called by ID or Alias functions preceeding
  */
@@ -937,34 +850,6 @@ function listAssets(req,res,template,block,next) {
     finish();
   }
 };
-
-/**
- * Helper function for link to user
- */
-function assetLink(req,asset) {
-  if (asset.isbucket)
-    return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
-  if (asset.isfolder) {
-    return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
-  }
-  return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/assets/' + asset._id});
-}
-
-function formatSize(req,asset) {
-  if (asset.IsDirectory)
-    return "DIR";
-  return asset.Size;
-}
-
-function assetType(req,asset) {
-  if (asset.isbucket)
-    return "S3 Bucket";
-  if (asset.isproject)
-    return "Project";
-  if (asset.isfolder)
-    return "Folder";
-  return "File";
-}
 
 function syncAssets(req, res, route, next) {
   var Asset = calipso.lib.mongoose.model('Asset');
@@ -1163,6 +1048,34 @@ function syncAssets(req, res, route, next) {
 }
 
 /**
+ * Helper function for link to user
+ */
+function assetLink(req,asset) {
+  if (asset.isbucket)
+    return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
+  if (asset.isfolder) {
+    return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
+  }
+  return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/assets/' + asset._id});
+}
+
+function formatSize(req,asset) {
+  if (asset.IsDirectory)
+    return "DIR";
+  return asset.Size;
+}
+
+function assetType(req,asset) {
+  if (asset.isbucket)
+    return "S3 Bucket";
+  if (asset.isproject)
+    return "Project";
+  if (asset.isfolder)
+    return "Folder";
+  return "File";
+}
+
+/**
  * Take a query and parameters, return or render asset lists
  * This has been refactored so it can be called as a helper (e.g. views)
  * From a theme
@@ -1201,33 +1114,33 @@ function getAssetList(query,out,next) {
            // We might need a folder like view composed of a bunch of <div> instead.
            var table = {id:'content-list',sort:true,cls:'table-admin',
                columns:[{name:'title',sort:'title',label:'Title',fn:function(req, asset) {
-                           if (asset.id === (out.folder && out.folder.id)) {
-                             if (out.folder.isbucket)
-                               return calipso.link.render({id:asset.alias,title:req.t('View root folder list'),label:'Root',url:'/asset/'});
-                             else if (out.folder.folder && out.folder.folder.isbucket)
-                               return calipso.link.render({id:out.folder.alias,title:req.t('View parent bucket {parent}', {parent:asset.bucket.title}),label:'Parent Folder',url:'/asset/' + asset.bucket.alias});
-                             else
-                               return calipso.link.render({id:out.folder.alias,title:req.t('View parent folder {parent}', {parent:out.folder.folder.title}),label:'Parent Folder',url:'/asset/' + asset.bucket.alias + '/' + out.folder.folder.alias});
-                           }
-                           if (asset.isfolder)
-                             return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
-                           if (asset.isbucket)
-                            return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
-                           return calipso.link.render({id:asset.alias,title:req.t('Edit file {asset}',{asset:asset.title}),label:asset.title,url:'/assets/' + asset._id});
-                        }},
-                       {name:'alias',label:'Alias',fn:function(req, asset) {
-                          var file = asset.alias;
-                          if (out.path)
-                            file = file.replace(out.path, '');
-                          if (asset.isfolder || asset.isbucket)
-                            return file;
-                          return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/bucket/' + asset.bucket.alias + '/' + asset.alias});
-                        }},
-                       {name:'isbucket',label:'Type',fn:assetType},
-                       {name:'key',label:'S3 Key'},
-                       {name:'author',lable:'Author'},
-                       {name:'created',label:'Created'},
-                       {name:'updated',label:'Updated'}
+                   if (asset.id === (out.folder && out.folder.id)) {
+                     if (out.folder.isbucket)
+                       return calipso.link.render({id:asset.alias,title:req.t('View root folder list'),label:'Root',url:'/asset/'});
+                     else if (out.folder.folder && out.folder.folder.isbucket)
+                       return calipso.link.render({id:out.folder.alias,title:req.t('View parent bucket {parent}', {parent:asset.bucket.title}),label:'Parent Folder',url:'/asset/' + asset.bucket.alias});
+                     else
+                       return calipso.link.render({id:out.folder.alias,title:req.t('View parent folder {parent}', {parent:out.folder.folder.title}),label:'Parent Folder',url:'/asset/' + asset.bucket.alias + '/' + out.folder.folder.alias});
+                   }
+                   if (asset.isfolder)
+                     return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
+                   if (asset.isbucket)
+                    return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
+                   return calipso.link.render({id:asset.alias,title:req.t('Edit file {asset}',{asset:asset.title}),label:asset.title,url:'/assets/' + asset._id});
+                 }},
+                 {name:'alias',label:'Alias',fn:function(req, asset) {
+                    var file = asset.alias;
+                    if (out.path)
+                      file = file.replace(out.path, '');
+                    if (asset.isfolder || asset.isbucket)
+                      return file;
+                    return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/bucket/' + asset.bucket.alias + '/' + asset.alias});
+                  }},
+                 {name:'isbucket',label:'Type',fn:assetType},
+                 {name:'key',label:'S3 Key'},
+                 {name:'author',label:'Author'},
+                 {name:'created',label:'Created'},
+                 {name:'updated',label:'Updated'}
                ],
                data:assets,
                view:{
@@ -1242,7 +1155,6 @@ function getAssetList(query,out,next) {
 
            var tableHtml = calipso.table.render(table,out.req);
 
-           //calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
            calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
          }
          if(out.format === 'json') {
@@ -1250,7 +1162,6 @@ function getAssetList(query,out,next) {
            out.res.end(contents.map(function(u) {
              return u.toObject();
            }));
-           //next();
          }
          // This really needs to be pluggable
          // WIP!
