@@ -151,7 +151,7 @@ function showFolderByName(req, res, template, block, next) {
       res.statusCode = 404;
       next();
     } else {
-      Folder.find({name:fname}).run( function(err, f) {
+      Folder.find({name:fname,project:p[0].id}).run( function(err, f) {
         if(err || f === null || !f.length) {
           res.statusCode = 404;
           next();
