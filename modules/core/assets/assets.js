@@ -127,7 +127,7 @@ function handleAsset(req, res, next) {
   }
   function interactWithS3(asset, req, res, next) {
     var copy = req.headers['x-amz-copy-source'];
-    if (copy && /proj\//.test(copy)) {
+    if (copy && /(proj|s3)\//.test(copy)) {
       Asset.findOne({alias:copy}, function (err, copyAsset) {
         if (err || !copyAsset) {
           req.statusCode = 500;
@@ -270,6 +270,32 @@ function init(module, app, next) {
       // Get asset list helper
       calipso.dynamicHelpers.getAssetList = function() {
         return getAssetList;
+      }
+      calipso.lib.assets.findAssets = function (arguments) {
+        var Asset = calipso.lib.mongoose.model('Asset');
+        return Asset.find.apply(Asset, arguments);
+      }
+      calipso.lib.assets.updateAssets = function (arguments) {
+        var Asset = calipso.lib.mongoose.model('Asset');
+        return Asset.update.apply(Asset, arguments);
+      }
+      calipso.lib.assets.listProjects = function (callback) {
+        var Asset = calipso.lib.mongoose.model('Asset');
+        var query = Asset.find({isproject:true});
+        process.nextTick(function() { callback(null, query });
+      }
+      calipso.lib.assets.listFiles = function (project, folder, callback) {
+        var Asset = calipso.lib.mongoose.model('Asset');
+        var url = 'proj/' + project + '/' + folder;
+        if (url[url.length - 1] !== '/')
+          url += '/';
+        Asset.findOne({isfolder:true, alias:url }, function (err, project) {
+          if (err) {
+            return callback(err, null);
+          }
+          var query = Asset.find({folder:project._id}).sort('isfolder', -1);
+          callback(err, query);
+        });
       }
 
       // Default Asset Schema TODO -gajohnson add assetpath property, isProject boolean property
