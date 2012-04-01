@@ -24,9 +24,6 @@ function route(req, res, module, app, next) {
   module.router.route(req, res, next);
 }
 
-var rootFolderList = {};
-var bucketCheck = (new Date()).getTime();
-
 function invalidateBuckets()
 {
   bucketCheck = Date().getTime();
@@ -56,7 +53,8 @@ function handleAsset(req, res, next) {
   var url = parse(req.url)
     , pt = decodeURIComponent(url.pathname)
     , type;
-  if (!/^\(proj|s3\)\/.*/.test(pt)) {
+  if (!/^\/(proj|s3)\//.test(pt)) {
+    console.log(pt);
     return next();
   }
   // Pause incoming stream for now. We might need to read it for POST or PUT.
@@ -77,7 +75,7 @@ function handleAsset(req, res, next) {
   
   // parse url
   var url = parse(req.url)
-    , alias = decodeURIComponent(url.pathname)
+    , alias = decodeURIComponent(url.pathname).substring(1)
     , type;
   var paths = alias.split('/');
   var isFolder = paths[paths.length - 1] === '';
@@ -90,6 +88,7 @@ function handleAsset(req, res, next) {
   for (var i = 0; i < (paths.length - 1); i++) {
     parentFolder += paths[i] + '/';
   }
+  console.log(paths, isFolder, root, fileName, isBucket, parentFolder);
   if (put && isBucket) {
     //TODO need to reimplement this so buckets get created by admin package.
     // Create a new bucket
@@ -126,11 +125,27 @@ function handleAsset(req, res, next) {
     })
     return;
   }
-  function interactWithS3(bucket, asset, req, res, next) {
+  function interactWithS3(asset, req, res, next) {
+    var copy = req.headers['x-amz-copy-source'];
+    if (copy && /proj\//.test(copy)) {
+      Asset.findOne({alias:copy}, function (err, copyAsset) {
+        if (err || !copyAsset) {
+          req.statusCode = 500;
+          next(null, err);
+          return;
+        }
+        req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
+        interactWithS3(asset, req, res, next);
+      });
+      return;
+    }
+    var paths = asset.key.split('/');
+    var fileName = paths[paths.length - 1];
+    var bucket = paths.splice(0, 1)[0];
     var k = knox({
       bucket: bucket
     });
-    var fileName = path.basename(asset.alias);
+    var s3key = paths.join('/');
     var contentType = mime.lookup(fileName);
     var headers = {'Content-Type':contentType,Expect: '100-continue'};
     for (var v in req.headers) {
@@ -140,7 +155,8 @@ function handleAsset(req, res, next) {
         headers[convert[v]] = req.headers[v];
       }
     }
-    var s3req = k.request(req.method, escape(asset.key), headers)
+    console.log(headers, s3key);
+    var s3req = k.request(req.method, escape(s3key), headers)
       .on('error', function(err) {
         next(null, err);
       })
@@ -179,7 +195,7 @@ function handleAsset(req, res, next) {
   var Asset = calipso.lib.mongoose.model('Asset');
   // Search for the folder first
   Asset.findOne({alias:parentFolder}, function(err, folder) {
-    if(err || !parentFolder) {
+    if(err || !folder) {
       // If we didn't find the folder then it has not been created yet.
       res.statusCode = 404;
       req.resume();
@@ -191,7 +207,7 @@ function handleAsset(req, res, next) {
       if(err || !asset) {
         if (put || post) {
           var author = (req.session && req.session.user) || 'testing';
-          var s3path = rootFolder.key + fileName;
+          var s3path = folder.key + fileName;
           asset = new Asset({isfolder:false,
             key:s3path, folder:folder._id, alias:alias, title:fileName, author:author});
           asset.save(function (err) {
@@ -200,7 +216,7 @@ function handleAsset(req, res, next) {
               next();
               return;
             }
-            interactWithS3(bucket, asset, req, res, next);
+            interactWithS3(asset, req, res, next);
           });
           return; // done putting new file
         } else {
@@ -214,7 +230,7 @@ function handleAsset(req, res, next) {
         next();
         return; // This is a bucket or folder...
       }
-      interactWithS3(bucket, asset, req, res, next);
+      interactWithS3(asset, req, res, next);
       return;
     });
   });
@@ -894,15 +910,6 @@ function syncAssets(req, res, route, next) {
 /**
  * Helper function for link to user
  */
-function assetLink(req,asset) {
-  if (asset.isbucket)
-    return calipso.link.render({id:asset.alias,title:req.t('View bucket {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
-  if (asset.isfolder) {
-    return calipso.link.render({id:asset.alias,title:req.t('View folder {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.bucket.alias + '/' + asset.alias});
-  }
-  return calipso.link.render({id:asset.alias,title:req.t('View file {asset}',{asset:asset.title}),label:asset.title,url:'/assets/' + asset._id});
-}
-
 function formatSize(req,asset) {
   if (asset.IsDirectory)
     return "DIR";
@@ -982,9 +989,9 @@ function getAssetList(query,out,next) {
                     if (asset.isbucket)
                       return file;
                     if (asset.isproject)
-                      return calipso.link.render({id:file,title:req.t('View project folders {asset}',{asset:asset.title}),label:file,url:'proj/' + asset.alias + '/'});
+                      return asset.title;
                     else
-                      return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:asset.alias});
+                      return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/'+asset.alias});
                   }},
                  {name:'isfolder',label:'Type',fn:assetType},
                  {name:'key',label:'S3 Key'},
