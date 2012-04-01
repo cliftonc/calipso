@@ -4,8 +4,7 @@ var rootpath = process.cwd() + '/',
   Query = require("mongoose").Query,
   mime = require('mime'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  parse = require('url').parse,
-  rootUri = '/project';
+  parse = require('url').parse;
 
 exports = module.exports = {
   init: init,
@@ -57,7 +56,7 @@ function handleAsset(req, res, next) {
   var url = parse(req.url)
     , pt = decodeURIComponent(url.pathname)
     , type;
-  if (!/^\(project|bucket\)\/.*/.test(pt)) {
+  if (!/^\(proj|s3\)\/.*/.test(pt)) {
     return next();
   }
   // Pause incoming stream for now. We might need to read it for POST or PUT.
@@ -86,7 +85,7 @@ function handleAsset(req, res, next) {
   if (isFolder)
     paths.splice(paths.length - 1, 1);
   var fileName = paths[paths.length - 1];
-  var isBucket = (root === 'bucket') && (paths.length == 2);
+  var isBucket = (root === 's3') && (paths.length == 2);
   var parentFolder = '';
   for (var i = 0; i < (paths.length - 1); i++) {
     parentFolder += paths[i] + '/';
@@ -101,7 +100,7 @@ function handleAsset(req, res, next) {
     });
     var Asset = calipso.lib.mongoose.model('Asset');
     var author = (req.session && req.session.user) || 'testing';
-    var asset = new Asset({alias:alias,title:paths[1],key:'bucket/' + paths[1], author:author});
+    var asset = new Asset({alias:alias, title:paths[1],key:'s3/' + paths[1] + '/', author:author});
     bucket.save(function (err) {
       if (err) {
         next(null, err);
@@ -279,7 +278,7 @@ function init(module, app, next) {
 
       // Set post hook to enable simple etag generation
       Asset.pre('save', function (next) {
-        this.etag = calipso.lib.crypto.etag(this.title + this.description + this.bucket + this.key);
+        this.etag = calipso.lib.crypto.etag(this.title + this.description + this.key);
         next();
       });
 
@@ -295,10 +294,10 @@ function init(module, app, next) {
 function assetForm(asset) {
   var url = "";
   if (asset && !asset.isfolder) {
-    var alias = asset.isproject ? rootUri + '/' + asset.alias + '/' : rootUri + '/' + asset.bucket.alias + '/' + asset.alias;
+    var alias = asset.alias;
     url = '<h5></br><a href="' + alias + '">' + alias + '</a>';
     if (!asset.isproject)
-      url += '</br>s3://' + asset.bucket.key + '/' + asset.key + '</h5>';
+      url += '</br>s3://' + asset.key + '</h5>';
   }
       return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/assets',tabs:true,
           sections:[{
@@ -383,12 +382,12 @@ function editAssetForm(req,res,template,block,next) {
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
   res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:rootUri + '/' + id,description:'Download actual file ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/s3/' + id,description:'Download actual file ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/assets/' + id,description:'Edit asset ...',security:[]});
   res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',security:[]});
 
 
-  Asset.findById(id).populate('bucket').run(function(err, c) {
+  Asset.findById(id).populate('folder').run(function(err, c) {
 
     if(err || c === null) {
 
@@ -486,7 +485,7 @@ function updateAsset(req,res,template,block,next) {
                           res.redirect(returnTo);
                         } else {
                           // use the reference to the originally id deifned by req.moduleParams.id
-                          res.redirect(rootUri + '/' + id);
+                          res.redirect('/s3/' + id);
                         }
                         next();
                       });
@@ -770,24 +769,24 @@ function syncAssets(req, res, route, next) {
       assetFound.key = asset.key; // S3 name
       var project = null;
       var match = assetFound.key.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
-      assetFound.alias = 'bucket/' + asset.key;
+      assetFound.alias = 's3/' + asset.key;
       if (match) {
         assetFound.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == assetFound.key;
         if (assetFound.isroot) {
           project = match[2];
           assetFound.isroot = false;
           assetFound.title = match[3];
-          var newUri = 'project/' + match[2] + '/' + match[3] + '/';
+          var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
           console.log("rewriting uri", assetFound.key, newUri);
           assetFound.alias = newUri;
         } else {
           // For a normal asset that's part of a project rewrite it to say
           // {project}/{rootfolder}/{restofuri}
-          var newUri = 'project/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
+          var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
           console.log("rewriting uri", assetFound.key, newUri);
           assetFound.alias = newUri;
         }
-      } else if (/bucket\/[^\/]*\/$/.test(assetFound.alias)) {
+      } else if (/s3\/[^\/]*\/$/.test(assetFound.alias)) {
         assetFound.isroot = true;
       }
       assetFound.author = asset.author;
@@ -816,7 +815,7 @@ function syncAssets(req, res, route, next) {
         });
       }
       if (project) {
-        var pq = {isproject:true,alias:'project/' + project + '/',key:'',isvirtual:true};
+        var pq = {isproject:true,alias:'proj/' + project + '/',key:'',isvirtual:true};
         Asset.findOne(pq, function (e, proj) {
           var newProj = false;
           if (e || !proj) {
@@ -983,7 +982,7 @@ function getAssetList(query,out,next) {
                     if (asset.isbucket)
                       return file;
                     if (asset.isproject)
-                      return calipso.link.render({id:file,title:req.t('View project folders {asset}',{asset:asset.title}),label:file,url:rootUri + '/' + asset.alias + '/'});
+                      return calipso.link.render({id:file,title:req.t('View project folders {asset}',{asset:asset.title}),label:file,url:'proj/' + asset.alias + '/'});
                     else
                       return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:asset.alias});
                   }},
