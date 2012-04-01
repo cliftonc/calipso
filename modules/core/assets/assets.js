@@ -97,31 +97,45 @@ function handleAsset(req, res, next) {
       'Host': fileName + '.s3.amazonaws.com'
     });
     var Asset = calipso.lib.mongoose.model('Asset');
-    var author = (req.session && req.session.user) || 'testing';
-    var asset = new Asset({alias:alias, title:paths[1],key:'s3/' + paths[1] + '/', author:author});
-    bucket.save(function (err) {
-      if (err) {
-        next(null, err);
-        return;
-      }
-      var sreq = k.request(req.method, '', {
-        'Content-Length': '0',
-        'x-amz-acl': 'private'
-      });
-      sreq.on('error', function(err) {
-        asset.remove(function () {
-          next(null, err);          
-        });
-      }).on('response', function(s3res) {
-        for (var v in s3res.headers) {
-          if (/x-amz/.test(v) || v === 'server')
-            continue;
-          res.setHeader(v, s3res.headers[v]);
+    if (alias[alias.length - 1] !== '/')
+      alias += '/';
+    Asset.findOne({isfolder:true,alias:alias}, function (err, asset) {
+      var author = (req.session && req.session.user) || 'testing';
+      if (!asset) {
+        asset = new Asset();
+        console.log('create new bucket ' + alias);
+      } else
+        console.log('found bucket ' + alias);
+      asset.isfolder = true;
+      asset.alias = alias;
+      asset.title = paths[1];
+      asset.key = paths[1] + '/';
+      asset.author = author;
+      asset.save(function (err) {
+        if (err) {
+          res.send(500, "unable to save bucket " + err.message);
+          return;
         }
-        res.statusCode = s3res.statusCode;
-        s3res.pipe(res);
-      }).end();
-    })
+        var sreq = k.request(req.method, '', {
+          'Content-Length': '0',
+          'x-amz-acl': 'private'
+        });
+        sreq.on('error', function(err) {
+          asset.remove(function () {
+            res.send(500, "unable to create bucket " + err.message);
+          });
+        }).on('response', function(s3res) {
+          for (var v in s3res.headers) {
+            if (/x-amz/.test(v) || v === 'server')
+              continue;
+            res.setHeader(v, s3res.headers[v]);
+          }
+          res.statusCode = s3res.statusCode;
+          s3res.pipe(res);
+          req.resume();
+        }).end();
+      });
+    });
     return;
   }
   function interactWithS3(asset, req, res, next) {
@@ -129,8 +143,8 @@ function handleAsset(req, res, next) {
     if (copy && /(proj|s3)\//.test(copy)) {
       Asset.findOne({alias:copy}, function (err, copyAsset) {
         if (err || !copyAsset) {
-          req.statusCode = 500;
-          next(null, err);
+          req.resume();
+          res.send(500, "unable to resolve copy source");
           return;
         }
         req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
@@ -193,40 +207,101 @@ function handleAsset(req, res, next) {
   }
   var Asset = calipso.lib.mongoose.model('Asset');
   // Search for the folder first
+  console.log(parentFolder);
   Asset.findOne({alias:parentFolder}, function(err, folder) {
     if(err || !folder) {
       // If we didn't find the folder then it has not been created yet.
-      res.statusCode = 404;
       req.resume();
-      next();
+      res.send(404, 'unable to find parent folder ' + parentFolder);
       return;
     }
     // Search for the asset with this alias.
     Asset.findOne({alias:alias, folder:folder._id}).run(function(err, asset) {
       if(err || !asset) {
         if (put || post) {
-          var author = (req.session && req.session.user) || 'testing';
+          if (isFolder && (folder.key === '')) {
+            res.send(500, "this folder is rooted and not storage allocated for parent folder " + parentFolder);
+            return;
+          }
           var s3path = folder.key + fileName;
-          asset = new Asset({isfolder:false,
-            key:s3path, folder:folder._id, alias:alias, title:fileName, author:author});
-          asset.save(function (err) {
-            if (err) {
-              res.statusCode = 500;
-              next();
-              return;
+          var author = (req.session && req.session.user) || 'testing';
+          if (isFolder)
+            s3path += '/';
+          if (!asset) {
+            console.log('new asset ' + alias);
+            asset = new Asset({isfolder:isFolder,
+              key:s3path, folder:folder._id, alias:alias, title:fileName, author:author});
+          } else {
+            console.log('existing asset ' + alias);
+          }
+          var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
+          var project = null;
+          if (match) {
+            asset.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == s3path;
+            if (asset.isroot) {
+              project = match[2];
+              asset.isroot = false;
+              asset.title = match[3];
+              var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
+              console.log("rewriting uri", s3path, newUri);
+              asset.alias = newUri;
+            } else {
+              // For a normal asset that's part of a project rewrite it to say
+              // {project}/{rootfolder}/{restofuri}
+              var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
+              console.log("rewriting uri", asset.key, newUri);
+              asset.alias = newUri;
             }
-            interactWithS3(asset, req, res, next);
-          });
+          }
+          function saveAsset() {
+            asset.save(function (err) {
+              if (err) {
+                req.resume();
+                res.send(500, "unable to save asset " + err.message);
+                return;
+              }
+              if (isFolder) {
+                req.resume();
+                res.send(200, 'created folder ' + alias);
+              } else
+                interactWithS3(asset, req, res, next);
+            });
+          }
+          if (project) {
+            // Search and create project first
+            var q = {isproject:true, alias:'proj/' + project + '/'};
+            Asset.findOne(q, function (err, proj) {
+              if (!proj) {
+                console.log('new project proj/' + project + '/');
+                proj = new Asset(q);
+              } else
+                console.log('existing project proj/' + project + '/');
+              proj.key = '';
+              proj.author = author;
+              proj.title = project;
+              proj.isfolder = true;
+              proj.save(function (err) {
+                if (err) {
+                  req.resume();
+                  res.send(500, "unable to create corresponding project " + err.message);
+                  return;
+                }
+                asset.folder = proj._id;
+                saveAsset();
+              })
+            });
+          } else
+            saveAsset();
           return; // done putting new file
         } else {
-          res.statusCode = 404;
-          next();
+          req.resume();
+          res.send(404, "unable to find file " + alias);
           return; // this file doesn't exist but it's not a put...
         }
       }
       if (asset.isfolder) {
-        res.statusCode = 404;
-        next();
+        req.resume();
+        res.send(500, 'existing folder ' + alias);
         return; // This is a bucket or folder...
       }
       interactWithS3(asset, req, res, next);
