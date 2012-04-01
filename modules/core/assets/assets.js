@@ -769,10 +769,10 @@ function syncAssets(req, res, route, next) {
         assetFound.size = null;
       assetFound.key = asset.key; // S3 name
       var project = null;
-      var match = assetFound.key.match(/^([^\/]*)\/project-([^\-\/]*)-([^\-\/]*)(\/.*)?$/);
+      var match = assetFound.key.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
       assetFound.alias = 'bucket/' + asset.key;
       if (match) {
-        assetFound.isroot = (match[1] + '/project-' + match[2] + '-' + match[3] + '/') == assetFound.key;
+        assetFound.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == assetFound.key;
         if (assetFound.isroot) {
           project = match[2];
           assetFound.isroot = false;
