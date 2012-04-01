@@ -88,7 +88,6 @@ function handleAsset(req, res, next) {
   for (var i = 0; i < (paths.length - 1); i++) {
     parentFolder += paths[i] + '/';
   }
-  console.log(paths, isFolder, root, fileName, isBucket, parentFolder);
   if (put && isBucket) {
     //TODO need to reimplement this so buckets get created by admin package.
     // Create a new bucket
