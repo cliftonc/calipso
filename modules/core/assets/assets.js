@@ -411,7 +411,7 @@ function init(module, app, next) {
             if (err) {
               return callback(err, null);
             }
-            var query = Asset.find({folder:project._id}).sort('isfolder', -1);
+            var query = Asset.find({folder:project._id}).sort('isfolder', -1).sort('title', 1);
             callback(err, query);
           });
         },
@@ -1308,7 +1308,7 @@ function getAssetList(query,out,next) {
 
     var qry = Asset.find(query).skip(from).limit(limit).populate('bucket');
     // Add sort
-    qry = calipso.table.sortQuery(qry,out.sortBy);
+    qry = calipso.table.sortQuery(qry, out.sortBy || 'title');
     qry.options.sort = qry.options.sort || [];
     qry.options.sort.splice(0, 0, ['isfolder',-1]);
     qry.options.sort.splice(0, 0, ['isproject',-1]);
