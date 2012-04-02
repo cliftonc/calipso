@@ -104,64 +104,56 @@ function init(module, app, next) {
 
 }
 function showProjects(req, res, template, block, next) {
-  var Project = calipso.lib.mongoose.model('Project');
   var format = req.moduleParams.format || 'html';
-  var query = queryPermissions(req);
-  Project.find(query).run( function(err, contents) {
-    if (format === 'html') {
-      calipso.theme.renderItem(req, res, template, block, {projects:contents}, next);
-    } else if (format === 'json') {
-      res.format = format;
-      res.send(contents.map(function(u) {
-        return u.toObject();
-      }));
-      next();
-    }
+  calipso.lib.assets.listProjects(function(err, query) {
+    query.run( function(err, projects){
+      if (format === 'html') {
+        calipso.theme.renderItem(req, res, template, block, {projects:projects}, next);
+      } else if (format === 'json') {
+        res.format = format;
+        res.send(contents.map(function(u) {
+          return u.toObject();
+        }));
+        next();
+      }
+    });
   });
 }
 function showProjectByName(req, res, template, block, next) {
-  var Project = calipso.lib.mongoose.model('Project');
-  var Folder = calipso.lib.mongoose.model('Folder');
   var name = req.moduleParams.name;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
-  var query = queryPermissions(req);
-  Project.find(query).find({name:name}).run( function(err, p) {
-    if(err || p === null || !p.length) {
-      res.statusCode = 404;
-      next();
-    } else {
-      Folder.find({project:p[0].id}).run( function(err, f) {
+  calipso.lib.assets.findAssets([{isproject:true,title:name}]).run(function(err, project){
+    calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
+      if(err || folders === null) {
+        res.statusCode = 404;
+        next();
+      } else {
         calipso.theme.renderItem(req, res, template, block, {
-        project:p[0],
-        folders:f
-      },next);
-      });
-    }
+          project:project[0],
+          folders:folders
+        },next);
+      }
+    });
   });
 }
 function showFolderByName(req, res, template, block, next) {
-  var Project = calipso.lib.mongoose.model('Project');
-  var Folder = calipso.lib.mongoose.model('Folder');
   var name = req.moduleParams.name;
   var fname = req.moduleParams.fname;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
-  var query = queryPermissions(req);
-  Project.find(query).find({name:name}).run( function(err, p) {
-    if(err || p === null || !p.length) {
-      res.statusCode = 404;
-      next();
-    } else {
-      Folder.find({name:fname,project:p[0].id}).run( function(err, f) {
-        if(err || f === null || !f.length) {
-          res.statusCode = 404;
-          next();
-        } else {
+  calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
+      calipso.lib.assets.listFiles(name, fname, function(err, query){
+      if(err || query === null) {
+        res.statusCode = 404;
+        next();
+      } else {
+        query.run(function(err, assets){
           calipso.theme.renderItem(req, res, template, block, {
-            folder:f[0]
+            folder:folder[0],
+            assets:assets
           },next);
-        }
-      });
-    }
+        });
+      }
+    });
   });
 }
 function queryPermissions(req) {
