@@ -1308,7 +1308,7 @@ function getAssetList(query,out,next) {
 
     var qry = Asset.find(query).skip(from).limit(limit).populate('bucket');
     // Add sort
-    qry = calipso.table.sortQuery(qry, out.sortBy || 'title');
+    qry = calipso.table.sortQuery(qry, out.sortBy);
     qry.options.sort = qry.options.sort || [];
     qry.options.sort.splice(0, 0, ['isfolder',-1]);
     qry.options.sort.splice(0, 0, ['isproject',-1]);
