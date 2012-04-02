@@ -54,7 +54,6 @@ function handleAsset(req, res, next) {
     , pt = decodeURIComponent(url.pathname)
     , type;
   if (!/^\/(proj|s3)\//.test(pt)) {
-    console.log(pt);
     return next();
   }
   // Pause incoming stream for now. We might need to read it for POST or PUT.
@@ -168,7 +167,6 @@ function handleAsset(req, res, next) {
         headers[convert[v]] = req.headers[v];
       }
     }
-    console.log(headers, s3key);
     var s3req = k.request(req.method, escape(s3key), headers)
       .on('error', function(err) {
         next(null, err);
@@ -207,7 +205,6 @@ function handleAsset(req, res, next) {
   }
   var Asset = calipso.lib.mongoose.model('Asset');
   // Search for the folder first
-  console.log(parentFolder);
   Asset.findOne({alias:parentFolder}, function(err, folder) {
     if(err || !folder) {
       // If we didn't find the folder then it has not been created yet.
@@ -310,6 +307,51 @@ function handleAsset(req, res, next) {
   });
 }
 
+function testAssets(req, res, route, next) {
+  console.log('testing');
+  calipso.lib.assets.createAsset('proj/project1/archive/testing/', null, 'andy', function (err, asset) {
+    if (err) {
+      return res.send(500, err.message);
+    }
+    res.write(JSON.stringify(asset) + '\n');
+    console.log('deleting');
+    calipso.lib.assets.deleteAsset('proj/project1/archive/testing/', function (err) {
+      if (err) {
+        res.write("unable to delete folder " + err.message);
+        res.end();
+        return;
+      }
+      res.write("folder deleted\n");
+      calipso.lib.assets.createAsset('s3/ai-test2/project:newproject:archive/', null, 'andy', function (err, asset) {
+        if (err) {
+          res.write("unable to create project " + err.message);
+          res.end();
+          return;
+        }
+        res.write("created project and root folder\n");
+        calipso.lib.assets.deleteAsset('proj/newproject/archive/', function (err, asset) {
+          if (err) {
+            res.write("unable to delete project special folder " + err.message);
+            res.end();
+            return;
+          }
+          res.write("deleted project root folder\n");
+          res.write(JSON.stringify(asset) + '\n');
+          calipso.lib.assets.deleteAsset('proj/newproject/', function (err, asset) {
+            if (err) {
+              res.write("unable to delete the project itself");
+              res.end();
+            }
+            res.write("deleted project\n")
+            res.write(JSON.stringify(asset) + '\n');
+            res.end();
+          });
+        })
+      });
+    })
+  });
+}
+
 /*
  * Initialisation
  */
@@ -331,6 +373,7 @@ function init(module, app, next) {
         }
       });
       // Admin operations
+      module.router.addRoute('GET /assettest', testAssets, {admin:true}, this.parallel());
       module.router.addRoute('GET /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
@@ -370,6 +413,213 @@ function init(module, app, next) {
             }
             var query = Asset.find({folder:project._id}).sort('isfolder', -1);
             callback(err, query);
+          });
+        },
+        deleteAsset: function (path, callback) {
+          var Asset = calipso.lib.mongoose.model('Asset');
+          Asset.findOne({alias:path}, function (err, asset) {
+            if (err)
+              return callback(err, null);
+            if (!asset)
+              return callback(new Error('unable to find asset to delete ' + path), null);
+            if (asset.key !== '') {
+              if (asset.key.indexOf('/') === (asset.key.length - 1)) {
+                // This is a bucket!
+                return callback(new Error("can't delete a bucket for now"), null);
+              }
+              var paths = asset.key.split('/');
+              var k = knox({
+                'bucket': paths[0],
+                'Host': paths[0] + '.s3.amazonaws.com'
+              });
+              // TODO: Implement delete.
+              var s3req = k.request('DELETE', escape(asset.key))
+                .on('error', function(err) {
+                  return callback(new Error('unable to delete ' + err.message), null);
+                })
+                .on('response', function(s3res) {
+                  asset.remove(function (err) {
+                    return callback(err, asset);
+                  });
+                });
+                s3req.end();
+            } else {
+              asset.remove(function (err) {
+                return callback(err, asset);
+              });
+            }
+          });
+        },
+        createAsset: function (path, copySource, author, callback) {
+          var Asset = calipso.lib.mongoose.model('Asset');
+          var paths = path.split('/');
+          var isFolder = paths[paths.length - 1] === '';
+          var root = paths[0];
+          if (isFolder)
+            paths.splice(paths.length - 1, 1);
+          var fileName = paths[paths.length - 1];
+          var isBucket = (root === 's3') && (paths.length == 2);
+          var parentFolder = '';
+          for (var i = 0; i < (paths.length - 1); i++) {
+            parentFolder += paths[i] + '/';
+          }
+          if (isBucket) {
+            // Create a new bucket
+            // This is a PUT with no alias.
+            var k = knox({
+              'bucket': fileName,
+              'Host': fileName + '.s3.amazonaws.com'
+            });
+            var Asset = calipso.lib.mongoose.model('Asset');
+            if (path[alias.length - 1] !== '/')
+              path += '/';
+            Asset.findOne({isfolder:true, alias:alias}, function (err, asset) {
+              var author = (req.session && req.session.user) || 'testing';
+              if (!asset) {
+                asset = new Asset();
+                console.log('create new bucket ' + alias);
+              } else
+                console.log('found bucket ' + alias);
+              asset.isfolder = true;
+              asset.alias = alias;
+              asset.title = paths[1];
+              asset.key = paths[1] + '/';
+              asset.author = author;
+              asset.save(function (err) {
+                if (err) {
+                  return callback(new Error("unable to save bucket " + err.message), null);
+                }
+                var sreq = k.request('PUT', '', {
+                  'Content-Length': '0',
+                  'x-amz-acl': 'private'
+                });
+                sreq.on('error', function(err) {
+                  asset.remove(function () {
+                    return callback(new Error("unable to create bucket " + err.message), null);
+                  });
+                }).on('response', function(s3res) {
+                  //s3res.end();
+                  return callback(null, asset);
+                }).end();
+              });
+            });
+            return;
+          }
+          function interactWithS3(asset, req, res, next) {
+            var headers = {};
+            headers['x-amz-copy-source'] = copySource;
+            if (copy && /(proj|s3)\//.test(copy)) {
+              Asset.findOne({alias:copySource}, function (err, copyAsset) {
+                if (err || !copyAsset) {
+                  return callback(new Error('unable to resolve copy source'));
+                }
+                req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
+                interactWithS3(asset, req, res, next);
+              });
+              return;
+            }
+            var paths = asset.key.split('/');
+            var fileName = paths[paths.length - 1];
+            var bucket = paths.splice(0, 1)[0];
+            var k = knox({
+              bucket: bucket
+            });
+            var s3key = paths.join('/');
+            var contentType = mime.lookup(fileName);
+            headers['Content-Type'] = contentType;
+            headers['Expect'] = '100-continue';
+            var s3req = k.request('PUT', escape(s3key), headers)
+              .on('error', function(err) {
+                next(null, err);
+              })
+              .on('response', function(s3res) {
+                return callback(null, asset);
+              });
+              s3req.end();
+          }
+          var Asset = calipso.lib.mongoose.model('Asset');
+          // Search for the folder first
+          Asset.findOne({alias:parentFolder}, function(err, folder) {
+            if(err || !folder) {
+              // If we didn't find the folder then it has not been created yet.
+              return callback(new Error('unable to find parent folder ' + parentFolder), null);
+            }
+            // Search for the asset with this alias.
+            Asset.findOne({alias:path, folder:folder._id}).run(function(err, asset) {
+              if(err || !asset) {
+                if (isFolder && (folder.key === '')) {
+                  return callback(new Error("this folder is rooted and not storage allocated for parent folder " + parentFolder), null);
+                }
+                var s3path = folder.key + fileName;
+                if (isFolder)
+                  s3path += '/';
+                if (!asset) {
+                  console.log('new asset ' + path);
+                  asset = new Asset({isfolder:isFolder,
+                    key:s3path, folder:folder._id, alias:path, title:fileName, author:author});
+                } else {
+                  console.log('existing asset ' + path);
+                }
+                var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
+                var project = null;
+                if (match) {
+                  asset.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == s3path;
+                  if (asset.isroot) {
+                    project = match[2];
+                    asset.isroot = false;
+                    asset.title = match[3];
+                    var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
+                    console.log("rewriting uri", s3path, newUri);
+                    asset.alias = newUri;
+                  } else {
+                    // For a normal asset that's part of a project rewrite it to say
+                    // {project}/{rootfolder}/{restofuri}
+                    var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
+                    console.log("rewriting uri", asset.key, newUri);
+                    asset.alias = newUri;
+                  }
+                }
+                function saveAsset() {
+                  asset.save(function (err) {
+                    if (err) {
+                      return callback(new Error("unable to save asset " + err.message), null);
+                    }
+                    if (isFolder) {
+                      return callback(null, asset);
+                    } else
+                      interactWithS3(asset, req, res, next);
+                  });
+                }
+                if (project) {
+                  // Search and create project first
+                  var q = {isproject:true, alias:'proj/' + project + '/'};
+                  Asset.findOne(q, function (err, proj) {
+                    if (!proj) {
+                      console.log('new project proj/' + project + '/');
+                      proj = new Asset(q);
+                    } else
+                      console.log('existing project proj/' + project + '/');
+                    proj.key = '';
+                    proj.author = author;
+                    proj.title = project;
+                    proj.isfolder = true;
+                    proj.save(function (err) {
+                      if (err) {
+                        return callback(new Error("unable to create corresponding project " + err.message), null);
+                      }
+                      asset.folder = proj._id;
+                      saveAsset();
+                    })
+                  });
+                } else
+                  saveAsset();
+                return; // done putting new file
+              }
+              if (asset.isfolder) {
+                return callback(null, asset);
+              }
+              return interactWithS3(asset, req, res, next);
+            });
           });
         }
       };
