@@ -19,8 +19,8 @@
 		</tr>
 		<% folders.forEach(function(item) { %>
 		<tr class='content-list-item'>
-			<td><a href='/project/<%= project.name %>/<%= item.name %>'><%- item.name %></a></td>
-			<td><%- item.project %></td>
+			<td><a href='/project/<%= project.title %>/<%= item.title %>'><%- item.title %></a></td>
+			<td><%- item.folder %></td>
 			<td><%- item.canWrite %></td>
 			<td><%- item.canDelete %></td>
 			<td><%- item.created %></td>

@@ -450,8 +450,14 @@ function init(module, app, next) {
             }
           });
         },
-        createAsset: function (path, copySource, author, callback) {
+        //Arguments can be path, copySource, and author
+        createAsset: function (arguments, callback) {
           var Asset = calipso.lib.mongoose.model('Asset');
+          var path = arguments.path;
+          if (!path) return callback(new Error("Could not create asset. No path specified"), null);
+          var copySource = arguments.copySource;
+          if (!copySource) return callback(new Error("Could not create asset. No source specified"), null);
+          var author = arguments.author || 'testing';
           var paths = path.split('/');
           var isFolder = paths[paths.length - 1] === '';
           var root = paths[0];
