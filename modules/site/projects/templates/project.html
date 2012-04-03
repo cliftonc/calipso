@@ -1,5 +1,5 @@
 <div class="project-view">
-	<h2><%- project.name %></h2>
+	<h2><%- project.title %></h2>
 	<span class="small">
 			<i>Created <%- prettyDate(project.created) %>&nbsp;&nbsp;&nbsp;&nbsp;
 			Last updated <%- prettyDate(project.updated) %></i>
@@ -20,7 +20,7 @@
 		<% folders.forEach(function(item) { %>
 		<tr class='content-list-item'>
 			<td><a href='/project/<%= project.title %>/<%= item.title %>'><%- item.title %></a></td>
-			<td><%- item.folder %></td>
+			<td><%- project.title %></td>
 			<td><%- item.canWrite %></td>
 			<td><%- item.canDelete %></td>
 			<td><%- item.created %></td>
