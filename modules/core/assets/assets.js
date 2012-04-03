@@ -456,7 +456,7 @@ function init(module, app, next) {
           var path = arguments.path;
           if (!path) return callback(new Error("Could not create asset. No path specified"), null);
           var copySource = arguments.copySource;
-          if (!copySource) return callback(new Error("Could not create asset. No source specified"), null);
+          //if (!copySource) return callback(new Error("Could not create asset. No source specified"), null);
           var author = arguments.author || 'testing';
           var paths = path.split('/');
           var isFolder = paths[paths.length - 1] === '';

@@ -210,8 +210,6 @@ function newProject(req, res, template, block, next) {
       }
     ]
   };
-
-
   // Default values
   var values = {
     content: {
@@ -230,40 +228,29 @@ function newProject(req, res, template, block, next) {
 function createProject(req, res, template, block, next) {
   calipso.form.process(req, function(form) {
     if (form) {
-      var Project = calipso.lib.mongoose.model('Project');
-      var p = new Project(form);
       var returnTo = form.returnTo ? form.returnTo : "";
-      Project.find({name:form.name}).run( function(err, checkP) {
-        if(err || checkP === null) {
-          req.flash('error',req.t('Something went wrong. Does this mean anything to you? {msg}.', {msg:err.message}));
-          next();
-        } else if (!checkP.length) {
-          calipso.e.pre_emit('PROJECT_CREATE',p,function(p) {
-            p.save(function(err) {
-              if(err) {
-                calipso.debug(err);
-                req.flash('error',req.t('Could not create project because {msg}.', {msg:err.message}));
-                if(res.statusCode != 302) {
-                  res.redirect('/projects/new?type='+form.content.contentType);
-                }
-                next();
-              } else {
-                req.flash('info',req.t('Project saved.'));
-                calipso.e.post_emit('PROJECT_CREATE',p,function(p) {
-                  createDefaultFolders(p);
+      createFolder('Archive', form.name, "ai-test2",form.owner, true, true, function(err, asset){
+        if(err || !asset) {
+          return res.send(500, err.message);
+        } else {
+          createFolder('Work', form.name, "ai-test3", form.owner, true, true, function(err, asset){
+            if(err || !asset) {
+              return res.send(500, err.message);
+            } else {
+              createFolder('Publish', form.name, "ai-test3", form.owner, true, true, function(err, asset){
+                if(err || !asset) {
+                  return res.send(500, err.message);
+                } else {
                   if(returnTo) {
                     res.redirect(returnTo);
                   } else {
-                    res.redirect('/project/' + p.name);
+                    res.redirect('/project/' + form.name);
                   }
                   next();
-                });
-              }
-            });
-          });
-        } else {
-          req.flash('error',req.t('Nice try! A project with that name already exists ...'));
-          next();
+                }
+              });
+            }
+          }); 
         }
       });
     } else {
@@ -272,34 +259,12 @@ function createProject(req, res, template, block, next) {
     }
   });
 }
-function createDefaultFolders(p) {
-  var archive = createFolder("Archive", p.id, true, false);
-  var work = createFolder("Work", p.id, true, true);
-  var publish = createFolder("Publish", p.id, true, true);
-  saveFolder(archive);
-  saveFolder(work);
-  saveFolder(publish);
-}
-function createFolder(name, project, canWrite, canDelete) {
-  var Folder = calipso.lib.mongoose.model('Folder');
-  var f = new Folder({
-    name:name,
-    project:project,
-    canWrite:canWrite,
-    canDelete:canDelete,
-    created: Date.now(),
-    updated: Date.now()
-  })
-  return f;
-}
-function saveFolder(folder) {
-  calipso.e.pre_emit('FOLDER_CREATE',folder,function(folder) {
-    folder.save(function(err) {
-      if(err) {
-        calipso.debug(err);
-      } else {
-        calipso.e.post_emit('FOLDER_CREATE',folder,function(folder) {});
-      }
-    });
+function createFolder(name, project, bucket, author, canWrite, canDelete, callback) {
+  calipso.lib.assets.createAsset({
+    path:'s3/'+bucket+'/project:'+project+':'+name+'/',
+    copySource:null,
+    author:author
+  }, function (err, asset) {
+    callback(err, asset);
   });
 }
