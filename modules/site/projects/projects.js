@@ -333,6 +333,8 @@ function newAsset(req, res, template, block, next) {
   });
 }
 function createAsset(req, res, template, block, next) {
+  var pname = req.moduleParams.pname || '';
+  var fname = req.moduleParams.fname || '';
   calipso.form.process(req, function(form) {
     if (form) {
       // req.uploadedFiles.file[0].name - Original filename
@@ -350,7 +352,7 @@ function createAsset(req, res, template, block, next) {
         var client = calipso.lib.assets.knox({ bucket:bucket });
         function sendFile() {
           if (req.uploadedFiles.file.length === 0) {
-            res.redirect(req.url);
+            res.redirect('/project/' + pname + '/' + fname + '/');
             return;
           }
           var file = req.uploadedFiles.file.splice(0, 1)[0];
