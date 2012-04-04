@@ -77,6 +77,12 @@ function init(module, app, next) {
       permit: function(user){return user.username != '' ? {allow:true} : null}
     },this.parallel());
 
+    module.router.addRoute('GET /upload/:pname/:fname', newAsset, {
+      block: 'content.list',
+      admin: false,
+      permit: function(user){return user.username != '' ? {allow:true} : null}
+    },this.parallel());
+
   }, function done() {
      var Project = new calipso.lib.mongoose.Schema({
         name:{type: String, required: true, "default": ''},
@@ -140,6 +146,7 @@ function showFolderByName(req, res, template, block, next) {
   var name = req.moduleParams.name;
   var fname = req.moduleParams.fname;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
+  res.menu.userToolbar.addMenuItem({name:'Add file',path:'new',url:'/upload/'+name+'/'+fname+'/',description:'Upload a new file ...',security:[]});
   calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
       calipso.lib.assets.listFiles(name, fname, function(err, query){
       if(err || query === null) {
@@ -266,5 +273,47 @@ function createFolder(name, project, bucket, author, canWrite, canDelete, callba
     author:author
   }, function (err, asset) {
     callback(err, asset);
+  });
+}
+function newAsset(req, res, template, block, next){
+  var project = req.moduleParams.pname ? req.moduleParams.pname : "";
+  var folder = req.moduleParams.fname ? req.moduleParams.fname : "";
+  var file = req.moduleParams.file ? req.moduleParams.file : "";
+  var form = {
+    id:'content-type-form',
+    title:'Add new asset ...',
+    type:'form',
+    method:'POST',
+    action:'/proj/'+project+'/'+folder+'/'+file,
+    tabs:false,
+    fields:[
+      {
+        label:'File',
+        name:'file',
+        type:'file',
+        description:'The file to be uploaded ...'
+      }
+    ],
+    buttons:[
+      {
+        name:'upload',
+        type:'submit',
+        value:'Upload'
+      }
+    ]
+  };
+  // Default values
+  var values = {
+    content: {
+      contentType:"Asset"
+    },
+    project:project,
+    folder:folder,
+    owner:req.session.user.username,
+    file:file
+  };
+
+  calipso.form.render(form, values, req, function(form) {
+    calipso.theme.renderItem(req,res,form,block,{},next);
   });
 }
