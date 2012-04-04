@@ -102,9 +102,9 @@ function handleAsset(req, res, next) {
       var author = (req.session && req.session.user) || 'testing';
       if (!asset) {
         asset = new Asset();
-        console.log('create new bucket ' + alias);
+        calipso.debug('create new bucket ' + alias);
       } else
-        console.log('found bucket ' + alias);
+        calipso.debug('found bucket ' + alias);
       asset.isfolder = true;
       asset.alias = alias;
       asset.title = paths[1];
@@ -183,18 +183,18 @@ function handleAsset(req, res, next) {
     if (!get && !del && !head) {
       req
         .on('abort', function() {
-          console.log('abort');
+          calipso.debug('abort');
           next(null);
         })
         .on('error', function(err){
-          console.log('error');
+          calipso.debug('error');
           next(null, err);
         })
         .on('data', function(chunk){
           s3req.write(chunk);
         })
         .on('end', function(){
-          console.log('end');
+          calipso.debug('end');
           s3req.end();
         });
     } else {
@@ -225,11 +225,11 @@ function handleAsset(req, res, next) {
           if (isFolder)
             s3path += '/';
           if (!asset) {
-            console.log('new asset ' + alias);
+            calipso.debug('new asset ' + alias);
             asset = new Asset({isfolder:isFolder,
               key:s3path, folder:folder._id, alias:alias, title:fileName, author:author});
           } else {
-            console.log('existing asset ' + alias);
+            calipso.debug('existing asset ' + alias);
           }
           var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
           var project = null;
@@ -240,13 +240,13 @@ function handleAsset(req, res, next) {
               asset.isroot = false;
               asset.title = match[3];
               var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-              console.log("rewriting uri", s3path, newUri);
+              calipso.debug("rewriting uri", s3path, newUri);
               asset.alias = newUri;
             } else {
               // For a normal asset that's part of a project rewrite it to say
               // {project}/{rootfolder}/{restofuri}
               var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-              console.log("rewriting uri", asset.key, newUri);
+              calipso.debug("rewriting uri", asset.key, newUri);
               asset.alias = newUri;
             }
           }
@@ -269,10 +269,10 @@ function handleAsset(req, res, next) {
             var q = {isproject:true, alias:'proj/' + project + '/'};
             Asset.findOne(q, function (err, proj) {
               if (!proj) {
-                console.log('new project proj/' + project + '/');
+                calipso.debug('new project proj/' + project + '/');
                 proj = new Asset(q);
               } else
-                console.log('existing project proj/' + project + '/');
+                calipso.debug('existing project proj/' + project + '/');
               proj.key = '';
               proj.author = author;
               proj.title = project;
@@ -308,13 +308,13 @@ function handleAsset(req, res, next) {
 }
 
 function testAssets(req, res, route, next) {
-  console.log('testing');
+  calipso.debug('testing');
   calipso.lib.assets.createAsset('proj/project1/archive/testing/', null, 'andy', function (err, asset) {
     if (err) {
       return res.send(500, err.message);
     }
     res.write(JSON.stringify(asset) + '\n');
-    console.log('deleting');
+    calipso.debug('deleting');
     calipso.lib.assets.deleteAsset('proj/project1/archive/testing/', function (err) {
       if (err) {
         res.write("unable to delete folder " + err.message);
@@ -487,9 +487,9 @@ function init(module, app, next) {
               var author = (req.session && req.session.user) || 'testing';
               if (!asset) {
                 asset = new Asset();
-                console.log('create new bucket ' + alias);
+                calipso.debug('create new bucket ' + alias);
               } else
-                console.log('found bucket ' + alias);
+                calipso.debug('found bucket ' + alias);
               asset.isfolder = true;
               asset.alias = alias;
               asset.title = paths[1];
@@ -564,11 +564,11 @@ function init(module, app, next) {
                 if (isFolder)
                   s3path += '/';
                 if (!asset) {
-                  console.log('new asset ' + path);
+                  calipso.debug('new asset ' + path);
                   asset = new Asset({isfolder:isFolder,
                     key:s3path, folder:folder._id, alias:path, title:fileName, author:author});
                 } else {
-                  console.log('existing asset ' + path);
+                  calipso.debug('existing asset ' + path);
                 }
                 var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
                 var project = null;
@@ -579,13 +579,13 @@ function init(module, app, next) {
                     asset.isroot = false;
                     asset.title = match[3];
                     var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-                    console.log("rewriting uri", s3path, newUri);
+                    calipso.debug("rewriting uri", s3path, newUri);
                     asset.alias = newUri;
                   } else {
                     // For a normal asset that's part of a project rewrite it to say
                     // {project}/{rootfolder}/{restofuri}
                     var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-                    console.log("rewriting uri", asset.key, newUri);
+                    calipso.debug("rewriting uri", asset.key, newUri);
                     asset.alias = newUri;
                   }
                 }
@@ -605,10 +605,10 @@ function init(module, app, next) {
                   var q = {isproject:true, alias:'proj/' + project + '/'};
                   Asset.findOne(q, function (err, proj) {
                     if (!proj) {
-                      console.log('new project proj/' + project + '/');
+                      calipso.debug('new project proj/' + project + '/');
                       proj = new Asset(q);
                     } else
-                      console.log('existing project proj/' + project + '/');
+                      calipso.debug('existing project proj/' + project + '/');
                     proj.key = '';
                     proj.author = author;
                     proj.title = project;
@@ -1155,13 +1155,13 @@ function syncAssets(req, res, route, next) {
           assetFound.isroot = false;
           assetFound.title = match[3];
           var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-          console.log("rewriting uri", assetFound.key, newUri);
+          calipso.debug("rewriting uri", assetFound.key, newUri);
           assetFound.alias = newUri;
         } else {
           // For a normal asset that's part of a project rewrite it to say
           // {project}/{rootfolder}/{restofuri}
           var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-          console.log("rewriting uri", assetFound.key, newUri);
+          calipso.debug("rewriting uri", assetFound.key, newUri);
           assetFound.alias = newUri;
         }
       } else if (/s3\/[^\/]*\/$/.test(assetFound.alias)) {
@@ -1177,7 +1177,7 @@ function syncAssets(req, res, route, next) {
       function saveAsset() {
         assetFound.save(function (err) {
           if (err) {
-            console.log("error:", err)
+            calipso.error("error:", err)
             next();
             return;
           }
@@ -1204,10 +1204,10 @@ function syncAssets(req, res, route, next) {
           proj.title = project;
           proj.isroot = true;
           proj.isfolder = true;
-          console.log(newProj ? 'new project' : 'update project', proj.title);
+          calipso.debug(newProj ? 'new project' : 'update project', proj.title);
           proj.save(function (err) {
             if (err) {
-              console.log("error:", err);
+              calipso.error("error:", err);
               next();
               return;
             }
