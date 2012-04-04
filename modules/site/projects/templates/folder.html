@@ -5,30 +5,35 @@
 			Last updated <%- prettyDate(folder.updated) %></i>
 	</span>
 	<p><%- folder.description %></p>
-	<table class='tabular'>
-		<tr>
-			<th><%- t('Name') %></th>
-			<th><%- t('Folder') %></th>
-			<th><%- t('Writeable?') %></th>
-			<th><%- t('Deletable?') %></th>
-			<th><%- t('Created') %></th>
-			<th><%- t('Updated') %></th>
-			<% if (user.isAdmin) { %>
-			<th><%- t('Object') %></th>
-			<% } %>
-		</tr>
-		<% assets.forEach(function(item) { %>
-		<tr class='content-list-item'>
-			<td><%- item.title %></td>
-			<td><%- item.folder %></td>
-			<td><%- item.canWrite %></td>
-			<td><%- item.canDelete %></td>
-			<td><%- item.created %></td>
-			<td><%- item.updated %></td>
-			<% if (user.isAdmin) { %>
-			<td><%= JSON.stringify(item) %></th>
-			<% } %>
-		</tr>
-		<% });  %>
-	</table>
+	<% if(!assets.length) { %>
+		<h4>You haven't added anything yet ...</h4>
+		<p>Upload a file to add it to this project</p>
+	<% } else { %>
+		<table class='tabular'>
+			<tr>
+				<th><%- t('Name') %></th>
+				<th><%- t('Folder') %></th>
+				<th><%- t('Writeable?') %></th>
+				<th><%- t('Deletable?') %></th>
+				<th><%- t('Created') %></th>
+				<th><%- t('Updated') %></th>
+				<% if (user.isAdmin) { %>
+				<th><%- t('Object') %></th>
+				<% } %>
+			</tr>
+			<% assets.forEach(function(item) { %>
+			<tr class='content-list-item'>
+				<td><%- item.title %></td>
+				<td><%- item.folder %></td>
+				<td><%- item.canWrite %></td>
+				<td><%- item.canDelete %></td>
+				<td><%- item.created %></td>
+				<td><%- item.updated %></td>
+				<% if (user.isAdmin) { %>
+				<td><%= JSON.stringify(item) %></th>
+				<% } %>
+			</tr>
+			<% });  %>
+		</table>
+	<% } %>
 </div>
