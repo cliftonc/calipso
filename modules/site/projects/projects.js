@@ -297,6 +297,16 @@ function newAsset(req, res, template, block, next) {
         name:'file',
         type:'file',
         description:'The file to be uploaded ...'
+      },
+      {
+        name:'url',
+        type:'hidden',
+        value: 'proj/' + project + '/' + folder + '/'
+      },
+      { // If we send a filename in here then we prefer this filename to the one in the upload mime file.
+        name:'name',
+        type:'hidden',
+        value: file
       }
     ],
     buttons:[
@@ -328,7 +338,62 @@ function createAsset(req, res, template, block, next) {
       // req.uploadedFiles.file[0].name - Original filename
       // req.uploadedFiles.file[0].path - Path to tmp
       // req.uploadedFiles.url - Path to destination
-      next();
+      var Asset = calipso.lib.assets.assetModel();
+      calipso.lib.assets.findAssets([{isfolder:true,alias:req.formData.url}]).findOne(function(err, folder){
+        if (err) {
+          res.send(500, 'problem finding root folder ' + req.formData.url);
+          next();
+          return;
+        }
+        var paths = folder.key.split('/');
+        var bucket = paths.splice(0, 1)[0];
+        var client = calipso.lib.assets.knox({ bucket:bucket });
+        function sendFile() {
+          if (req.uploadedFiles.file.length === 0) {
+            res.end();
+            return;
+          }
+          var file = req.uploadedFiles.file.splice(0, 1)[0];
+          var stream = fs.createReadStream(file.path);
+          // This already has a trailing '/' after the join.
+          if (req.formData.name != '')
+            file.name = req.formData.name;
+          var fileKey = bucket + '/' + paths.join('/') + file.name;
+          client.putStream(stream, escape(fileKey), function (err) {
+            if (err) {
+              res.statusCode = 500;
+              res.write("unable to write file " + file.name);
+              res.end();
+              return;
+            }
+            Asset.findOne({alias:req.formData.url + file.name, key:fileKey}, function (err, asset) {
+              if (asset == null) {
+                asset = new Asset();
+                console.log('uploading new asset ' + fileKey);
+              } else {
+                console.log('re-uploading existing asset ' + fileKey);
+              }
+              asset.title = file.name;
+              asset.alias = req.formData.url + file.name;
+              asset.folder = folder._id;
+              asset.key = fileKey;
+              asset.author = ((req.session.user && req.session.user.username) || 'testing');
+              asset.save(function (err) {
+                if (err) {
+                  res.statusCode = 500;
+                  res.write("unable to write file asset " + file.name + " (file already saved to S3) " + err.message);
+                  res.end();
+                  return;
+                }
+                res.statusCode = 200;
+                res.write("file " + file.name + ' uploaded\n');
+                sendFile();
+              });
+            });
+          });
+        }
+        sendFile();
+      });
     } else {
       req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
       next();
