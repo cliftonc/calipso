@@ -350,7 +350,7 @@ function createAsset(req, res, template, block, next) {
         var client = calipso.lib.assets.knox({ bucket:bucket });
         function sendFile() {
           if (req.uploadedFiles.file.length === 0) {
-            res.end();
+            res.redirect(req.url);
             return;
           }
           var file = req.uploadedFiles.file.splice(0, 1)[0];
@@ -362,18 +362,20 @@ function createAsset(req, res, template, block, next) {
           client.putStream(stream, escape(fileKey), function (err) {
             if (err) {
               res.statusCode = 500;
-              res.write("unable to write file " + file.name);
-              res.end();
+              calipso.debug('unable to write file ' + file.name);
+              next();
               return;
             }
             Asset.findOne({alias:req.formData.url + file.name, key:fileKey}, function (err, asset) {
               if (asset == null) {
                 asset = new Asset();
-                console.log('uploading new asset ' + fileKey);
+                calipso.debug('uploading new asset ' + fileKey);
               } else {
-                console.log('re-uploading existing asset ' + fileKey);
+                calipso.debug('re-uploading existing asset ' + fileKey);
               }
+              var stat = fs.statSync(file.path);
               asset.title = file.name;
+              asset.size = stat.size;
               asset.alias = req.formData.url + file.name;
               asset.folder = folder._id;
               asset.key = fileKey;
@@ -381,12 +383,12 @@ function createAsset(req, res, template, block, next) {
               asset.save(function (err) {
                 if (err) {
                   res.statusCode = 500;
-                  res.write("unable to write file asset " + file.name + " (file already saved to S3) " + err.message);
-                  res.end();
+                  calipso.debug('unable to write file asset ' + file.name + " (file already saved to S3) " + err.message);
+                  next();
                   return;
                 }
                 res.statusCode = 200;
-                res.write("file " + file.name + ' uploaded\n');
+                calipso.debug('file ' + file.name + ' uploaded');
                 sendFile();
               });
             });
