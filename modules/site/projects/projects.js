@@ -82,6 +82,11 @@ function init(module, app, next) {
       admin: false,
       permit: function(user){return user.username != '' ? {allow:true} : null}
     },this.parallel());
+    module.router.addRoute('POST /upload/:pname/:fname', createAsset, {
+      block: 'content.list',
+      admin: false,
+      permit: function(user){return user.username != '' ? {allow:true} : null}
+    },this.parallel());
 
   }, function done() {
      var Project = new calipso.lib.mongoose.Schema({
@@ -275,7 +280,7 @@ function createFolder(name, project, bucket, author, canWrite, canDelete, callba
     callback(err, asset);
   });
 }
-function newAsset(req, res, template, block, next){
+function newAsset(req, res, template, block, next) {
   var project = req.moduleParams.pname ? req.moduleParams.pname : "";
   var folder = req.moduleParams.fname ? req.moduleParams.fname : "";
   var file = req.moduleParams.file ? req.moduleParams.file : "";
@@ -284,7 +289,7 @@ function newAsset(req, res, template, block, next){
     title:'Add new asset ...',
     type:'form',
     method:'POST',
-    action:'/proj/'+project+'/'+folder+'/'+file,
+    action:'/upload/'+project+'/'+folder+'/',
     tabs:false,
     fields:[
       {
@@ -315,5 +320,18 @@ function newAsset(req, res, template, block, next){
 
   calipso.form.render(form, values, req, function(form) {
     calipso.theme.renderItem(req,res,form,block,{},next);
+  });
+}
+function createAsset(req, res, template, block, next) {
+  calipso.form.process(req, function(form) {
+    if (form) {
+      // req.uploadedFiles.file[0].name - Original filename
+      // req.uploadedFiles.file[0].path - Path to tmp
+      // req.uploadedFiles.url - Path to destination
+      next();
+    } else {
+      req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
+      next();
+    }
   });
 }
