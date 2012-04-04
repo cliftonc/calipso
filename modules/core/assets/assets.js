@@ -389,6 +389,10 @@ function init(module, app, next) {
         return getAssetList;
       }
       calipso.lib.assets = {
+        knox: knox,
+        assetModel: function () {
+          return calipso.lib.mongoose.model('Asset');
+        },
         findAssets: function (arguments) {
           var Asset = calipso.lib.mongoose.model('Asset');
           return Asset.find.apply(Asset, arguments);
