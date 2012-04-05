@@ -116,6 +116,7 @@ function init(module, app, next) {
 }
 function showProjects(req, res, template, block, next) {
   var format = req.moduleParams.format || 'html';
+  res.menu.primary.addMenuItem({name:'Home',path:'back',url:'/',description:'Back to home page...',security:[]});
   calipso.lib.assets.listProjects(function(err, query) {
     query.run( function(err, projects){
       if (format === 'html') {
@@ -133,6 +134,7 @@ function showProjects(req, res, template, block, next) {
 function showProjectByName(req, res, template, block, next) {
   var name = req.moduleParams.name;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
+  res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/projects/', description:'Back to projects ...', security:[]});
   calipso.lib.assets.findAssets([{isproject:true,title:name}]).run(function(err, project){
     calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
       if(err || folders === null) {
@@ -152,6 +154,7 @@ function showFolderByName(req, res, template, block, next) {
   var fname = req.moduleParams.fname;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
   res.menu.userToolbar.addMenuItem({name:'Add file',path:'new',url:'/upload/'+name+'/'+fname+'/',description:'Upload a new file ...',security:[]});
+  res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/project/'+name+'/', description:'Back to project ...', security:[]});
   calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
       calipso.lib.assets.listFiles(name, fname, function(err, query){
       if(err || query === null) {
