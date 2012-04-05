@@ -176,7 +176,7 @@ function queryPermissions(req) {
   var query = new Query();
   query.or([{
     permissions:req.session.user.roles[0]},
-    {owner:req.session.user.username}
+    {author:req.session.user.username}
   ]); // TODO iterate over all user.roles
   return query;
 }
@@ -244,15 +244,15 @@ function createProject(req, res, template, block, next) {
   calipso.form.process(req, function(form) {
     if (form) {
       var returnTo = form.returnTo ? form.returnTo : "";
-      createFolder('Archive', form.name, "ai-test2",form.owner, true, true, function(err, asset){
+      createFolder('Archive', form.name, "ai-test2",form.owner, form.permissions, true, false, function(err, asset){
         if(err || !asset) {
           return res.send(500, err.message);
         } else {
-          createFolder('Work', form.name, "ai-test3", form.owner, true, true, function(err, asset){
+          createFolder('Work', form.name, "ai-test3", form.owner, form.permissions, true, true, function(err, asset){
             if(err || !asset) {
               return res.send(500, err.message);
             } else {
-              createFolder('Publish', form.name, "ai-test3", form.owner, true, true, function(err, asset){
+              createFolder('Publish', form.name, "ai-test3", form.owner, form.permissions, true, true, function(err, asset){
                 if(err || !asset) {
                   return res.send(500, err.message);
                 } else {
@@ -274,12 +274,16 @@ function createProject(req, res, template, block, next) {
     }
   });
 }
-function createFolder(name, project, bucket, author, canWrite, canDelete, callback) {
-  calipso.lib.assets.createAsset({
+function createFolder(name, project, bucket, author, group, canWrite, canDelete, callback) {
+  var arguments = {
     path:'s3/'+bucket+'/project:'+project+':'+name+'/',
     copySource:null,
-    author:author
-  }, function (err, asset) {
+    author:author,
+    group:group,
+    canWrite:canWrite,
+    canDelete:canDelete
+  };
+  calipso.lib.assets.createAsset(arguments, function (err, asset) {
     callback(err, asset);
   });
 }
@@ -299,7 +303,8 @@ function newAsset(req, res, template, block, next) {
         label:'File',
         name:'file',
         type:'file',
-        description:'The file to be uploaded ...'
+        description:'The file(s) to be uploaded ...',
+        multiple:'true'
       },
       {
         name:'url',
