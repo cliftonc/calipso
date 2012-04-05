@@ -136,17 +136,22 @@ function showProjectByName(req, res, template, block, next) {
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/projects/', description:'Back to projects ...', security:[]});
   calipso.lib.assets.findAssets([{isproject:true,title:name}]).run(function(err, project){
-    calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
-      if(err || folders === null) {
-        res.statusCode = 404;
+    if (err || project === null || !project.length) {
+      res.statusCode = 404;
         next();
-      } else {
-        calipso.theme.renderItem(req, res, template, block, {
-          project:project[0],
-          folders:folders
-        },next);
-      }
-    });
+    } else {
+      calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
+        if(err || folders === null) {
+          res.statusCode = 404;
+          next();
+        } else {
+          calipso.theme.renderItem(req, res, template, block, {
+            project:project[0],
+            folders:folders
+          },next);
+        }
+      }); 
+    }
   });
 }
 function showFolderByName(req, res, template, block, next) {
