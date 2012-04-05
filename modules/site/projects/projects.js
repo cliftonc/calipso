@@ -153,7 +153,7 @@ function showFolderByName(req, res, template, block, next) {
   var name = req.moduleParams.name;
   var fname = req.moduleParams.fname;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
-  res.menu.userToolbar.addMenuItem({name:'Add file',path:'new',url:'/upload/'+name+'/'+fname+'/',description:'Upload a new file ...',security:[]});
+  res.menu.userToolbar.addMenuItem({name:'Add files',path:'new',url:'/upload/'+name+'/'+fname+'/',description:'Upload new files ...',security:[]});
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/project/'+name+'/', description:'Back to project ...', security:[]});
   calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
       calipso.lib.assets.listFiles(name, fname, function(err, query){
