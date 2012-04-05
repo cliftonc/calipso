@@ -455,15 +455,12 @@ function init(module, app, next) {
           });
         },
         //Arguments can be path, copySource, and author
-        createAsset: function (arguments, callback) {
+        createAsset: function (options, callback) {
           var Asset = calipso.lib.mongoose.model('Asset');
-          var path = arguments.path;
+          var path = options.path;
           if (!path) return callback(new Error("Could not create asset. No path specified"), null);
-          var copySource = arguments.copySource;
-          var author = arguments.author || 'testing';
-          var group = arguments.group || 'Administrator';
-          var canWrite = arguments.canWrite;
-          var canDelete = arguments.canDelete;
+          var copySource = options.copySource;
+          var author = options.author || 'testing';
           var paths = path.split('/');
           var isFolder = paths[paths.length - 1] === '';
           var root = paths[0];
@@ -650,13 +647,15 @@ function init(module, app, next) {
         isvirtual: {type: Boolean, "default":false},
         alias: {type: String, required: true}, // This is the user visible path
         author: {type: String, required: true},
-        users: {type: String, required: false},
-        canWrite: {type: Boolean, required: false, "default": true},
-        canDelete: {type: Boolean, required: false, "default": true},
         etag: {type: String, "default":''},
         tags: [String],
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
+      });
+      var AssetPermissions = new calipso.lib.mongoose.Schema({
+        project: {type: String, required: true},
+        user: {type: String, required: true},
+        action: {type: String, required: true}
       });
 
       // Set post hook to enable simple etag generation
@@ -666,7 +665,7 @@ function init(module, app, next) {
       });
 
       calipso.lib.mongoose.model('Asset', Asset);
-
+      calipso.lib.mongoose.model('AssetPermissions', AssetPermissions);
       module.initialised = true;
 
       next();

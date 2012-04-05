@@ -88,6 +88,18 @@ function init(module, app, next) {
       permit: function(user){return user.username != '' ? {allow:true} : null}
     },this.parallel());
 
+    module.router.addRoute('GET /projects/users/:pname', showUsersForm, {
+      template: 'users',
+      block: 'content.list',
+      admin: false,
+      permit: function(user){return user.username != '' ? {allow:true} : null}
+    },this.parallel());
+    module.router.addRoute('POST /projects/users/:pname', addUsers, {
+      block: 'content.list',
+      admin: false,
+      permit: function(user){return user.username != '' ? {allow:true} : null}
+    },this.parallel());
+
   }, function done() {
      var Project = new calipso.lib.mongoose.Schema({
         name:{type: String, required: true, "default": ''},
@@ -135,10 +147,11 @@ function showProjectByName(req, res, template, block, next) {
   var name = req.moduleParams.name;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/projects/', description:'Back to projects ...', security:[]});
+  res.menu.userToolbar.addMenuItem({name:'Add users',path:'new',url:'/projects/users/'+name,description:'Add users to this project ...',security:[]});
   calipso.lib.assets.findAssets([{isproject:true,title:name}]).run(function(err, project){
     if (err || project === null || !project.length) {
       res.statusCode = 404;
-        next();
+      next();
     } else {
       calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
         if(err || folders === null) {
@@ -188,7 +201,6 @@ function queryPermissions(req) {
 function newProject(req, res, template, block, next) {
   var name = req.moduleParams.name ? req.moduleParams.name : "";
   var description = req.moduleParams.description ? req.moduleParams.description : "";
-  var permissions = req.moduleParams.permissions ? req.moduleParams.permissions : "";
   var form = {
     id:'content-type-form',
     title:'Add new project ...',
@@ -214,13 +226,6 @@ function newProject(req, res, template, block, next) {
         name:'owner',
         type:'hidden'
       },
-      {
-        label:'Permissions',
-        name:'permissions',
-        type:'select',
-        options:function() { return calipso.data.roleArray },
-        description:'Who can access this project? ...'
-      }
     ],
     buttons:[
       {
@@ -237,8 +242,7 @@ function newProject(req, res, template, block, next) {
     },
     name:name,
     description:description,
-    owner:req.session.user.username,
-    permissions:permissions
+    owner:req.session.user.username
   };
 
   calipso.form.render(form, values, req, function(form) {
@@ -249,15 +253,15 @@ function createProject(req, res, template, block, next) {
   calipso.form.process(req, function(form) {
     if (form) {
       var returnTo = form.returnTo ? form.returnTo : "";
-      createFolder('Archive', form.name, "ai-test2",form.owner, form.permissions, true, false, function(err, asset){
+      createFolder('Archive', form.name, "ai-test2",form.owner, true, false, function(err, asset){
         if(err || !asset) {
           return res.send(500, err.message);
         } else {
-          createFolder('Work', form.name, "ai-test3", form.owner, form.permissions, true, true, function(err, asset){
+          createFolder('Work', form.name, "ai-test3", form.owner, true, true, function(err, asset){
             if(err || !asset) {
               return res.send(500, err.message);
             } else {
-              createFolder('Publish', form.name, "ai-test3", form.owner, form.permissions, true, true, function(err, asset){
+              createFolder('Publish', form.name, "ai-test3", form.owner, true, true, function(err, asset){
                 if(err || !asset) {
                   return res.send(500, err.message);
                 } else {
@@ -279,12 +283,11 @@ function createProject(req, res, template, block, next) {
     }
   });
 }
-function createFolder(name, project, bucket, author, group, canWrite, canDelete, callback) {
+function createFolder(name, project, bucket, author, canWrite, canDelete, callback) {
   var arguments = {
     path:'s3/'+bucket+'/project:'+project+':'+name+'/',
     copySource:null,
     author:author,
-    group:group,
     canWrite:canWrite,
     canDelete:canDelete
   };
@@ -411,6 +414,126 @@ function createAsset(req, res, template, block, next) {
         }
         sendFile();
       });
+    } else {
+      req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
+      next();
+    }
+  });
+}
+function showUsersForm(req, res, template, block, next) {
+  var project = req.moduleParams.pname ? req.moduleParams.pname : "";
+  var user = '';
+  res.menu.userToolbar.addMenuItem({name:'Done',path:'new',url:'/project/'+project,description:'Return to project view ...',security:[]});
+  var User = calipso.lib.mongoose.model('User');
+  User.find( function(err, users) {
+    var usernames = [];
+    users.forEach(function(user) {
+      usernames.push(user.username);
+    });
+    var form = {
+      id:'content-type-form',
+      title:'Add a new user to '+project+' ...',
+      type:'form',
+      method:'POST',
+      action:'/projects/users/'+project,
+      tabs:false,
+      fields:[
+        {
+          name:'project',
+          type:'hidden',
+          value:project
+        },
+        {
+          label:'User',
+          name:'user',
+          type:'select',
+          description:'The user to add to the project ...',
+          options: function(){ return usernames;}
+        },
+        {
+          label:'View',
+          name:'view',
+          type:'checkbox',
+          labelFirst: true,
+          description:'This user can view '+project
+        },
+        {
+          label:'Add',
+          name:'add',
+          type:'checkbox',
+          labelFirst: true,
+          description:'This user can add to '+project
+        },
+        {
+          label:'Modify',
+          name:'modify',
+          type:'checkbox',
+          labelFirst: true,
+          description:'This user can modify '+project
+        }
+      ],
+      buttons:[
+        {
+          name:'add',
+          type:'submit',
+          value:'Add User'
+        }
+      ]
+    };
+    // Default values
+    var values = {
+      content: {
+        contentType:"AssetPermissions"
+      },
+      project:project,
+      user:user,
+      view:true,
+      add:false,
+      modify:false
+    };
+
+    var AssetPermissions = calipso.lib.mongoose.model('AssetPermissions');
+    AssetPermissions.find({project:project}, function(err, permissions){
+      calipso.form.render(form, values, req, function(form) {
+        calipso.theme.renderItem(req, res, form, block, {}, function(){
+          calipso.theme.renderItem(req, res, template, block, {permissions:permissions}, next);
+        });
+      });
+    });
+  });
+}
+function addUsers(req, res, template, block, next) {
+  calipso.form.process(req, function(form) {
+    if (form) {
+      var AssetPermissions = calipso.lib.mongoose.model('AssetPermissions');
+      function addPermission (array){
+        perm = array.splice(0, 1)[0];
+        if (!perm) {
+          res.redirect('/projects/users/' + form.project);
+          next();
+        } else{
+          var permission = new AssetPermissions({
+            project:form.project,
+            user:form.user,
+            action:perm
+          });
+          permission.save(function (err) {
+            if (err) {
+              res.statusCode = 500;
+              calipso.debug('unable to set permission "' + perm + '": ' + err.message);
+              next();
+              return;
+            } else {
+              addPermission(array);
+            }
+          });
+        } 
+      }
+      var a = []
+      if (form.view) a.push('view');
+      if (form.add) a.push('add');
+      if (form.modify) a.push('modify');
+      addPermission(a);
     } else {
       req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
       next();
