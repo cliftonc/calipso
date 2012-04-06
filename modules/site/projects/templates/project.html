@@ -8,9 +8,6 @@
 	<table class='tabular'>
 		<tr>
 			<th><%- t('Name') %></th>
-			<th><%- t('Project') %></th>
-			<th><%- t('Writeable?') %></th>
-			<th><%- t('Deletable?') %></th>
 			<th><%- t('Created') %></th>
 			<th><%- t('Updated') %></th>
 			<% if (user.isAdmin) { %>
@@ -20,9 +17,6 @@
 		<% folders.forEach(function(item) { %>
 		<tr class='content-list-item'>
 			<td><a href='/project/<%= project.title %>/<%= item.title %>'><%- item.title %></a></td>
-			<td><%- project.title %></td>
-			<td><%- item.canWrite %></td>
-			<td><%- item.canDelete %></td>
 			<td><%- item.created %></td>
 			<td><%- item.updated %></td>
 			<% if (user.isAdmin) { %>
