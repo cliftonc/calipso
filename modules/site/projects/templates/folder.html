@@ -23,7 +23,7 @@
 			</tr>
 			<% assets.forEach(function(item) { %>
 			<tr class='content-list-item'>
-				<td><%- item.title %></td>
+				<td><a href='/proj/<%= project %>/<%= folder.title %>/<%= item.title %>'</a><%- item.title %></td>
 				<% if (folder.title != 'Publish') { %>
 				<td><center><img src="/images/accept.png" style="height:24px;" /></center></td>
 				<% } %>
