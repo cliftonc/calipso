@@ -413,7 +413,7 @@ function createAsset(req, res, template, block, next) {
           if (req.formData.name != '')
             file.name = req.formData.name;
           var s3Key = paths.join('/') + file.name;
-          var fileKey = bucket + '/' + s3key;
+          var fileKey = bucket + '/' + s3Key;
           client.putStream(stream, escape(s3Key), function (err) {
             if (err) {
               res.statusCode = 500;
