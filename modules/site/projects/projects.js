@@ -411,8 +411,9 @@ function createAsset(req, res, template, block, next) {
           // This already has a trailing '/' after the join.
           if (req.formData.name != '')
             file.name = req.formData.name;
-          var fileKey = bucket + '/' + paths.join('/') + file.name;
-          client.putStream(stream, escape(fileKey), function (err) {
+          var s3Key = paths.join('/') + file.name;
+          var fileKey = bucket + '/' + s3key;
+          client.putStream(stream, escape(s3Key), function (err) {
             if (err) {
               res.statusCode = 500;
               calipso.debug('unable to write file ' + file.name);
