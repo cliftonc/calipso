@@ -240,13 +240,13 @@ function handleAsset(req, res, next) {
               asset.isroot = false;
               asset.title = match[3];
               var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-              calipso.debug("rewriting uri", s3path, newUri);
+              calipso.debug("rewriting uri from " + s3path + " to " + newUri);
               asset.alias = newUri;
             } else {
               // For a normal asset that's part of a project rewrite it to say
               // {project}/{rootfolder}/{restofuri}
               var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-              calipso.debug("rewriting uri", asset.key, newUri);
+              calipso.debug("rewriting uri from " + asset.key + " to " + newUri);
               asset.alias = newUri;
             }
           }
@@ -578,13 +578,13 @@ function init(module, app, next) {
                     asset.isroot = false;
                     asset.title = match[3];
                     var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-                    calipso.debug("rewriting uri", s3path, newUri);
+                    calipso.debug("rewriting uri from " + s3path + " to " + newUri);
                     asset.alias = newUri;
                   } else {
                     // For a normal asset that's part of a project rewrite it to say
                     // {project}/{rootfolder}/{restofuri}
                     var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-                    calipso.debug("rewriting uri", asset.key, newUri);
+                    calipso.debug("rewriting uri from " + asset.key + " to " + newUri);
                     asset.alias = newUri;
                   }
                 }
@@ -1159,13 +1159,13 @@ function syncAssets(req, res, route, next) {
           assetFound.isroot = false;
           assetFound.title = match[3];
           var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-          calipso.debug("rewriting uri", assetFound.key, newUri);
+          calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
           assetFound.alias = newUri;
         } else {
           // For a normal asset that's part of a project rewrite it to say
           // {project}/{rootfolder}/{restofuri}
           var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-          calipso.debug("rewriting uri", assetFound.key, newUri);
+          calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
           assetFound.alias = newUri;
         }
       } else if (/s3\/[^\/]*\/$/.test(assetFound.alias)) {
@@ -1208,7 +1208,7 @@ function syncAssets(req, res, route, next) {
           proj.title = project;
           proj.isroot = true;
           proj.isfolder = true;
-          calipso.debug(newProj ? 'new project' : 'update project', proj.title);
+          calipso.debug((newProj ? 'new project ' : 'update project ') + proj.title);
           proj.save(function (err) {
             if (err) {
               calipso.error("error:", err);
