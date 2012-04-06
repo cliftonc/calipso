@@ -147,23 +147,48 @@ function showProjectByName(req, res, template, block, next) {
   var name = req.moduleParams.name;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/projects/', description:'Back to projects ...', security:[]});
-  res.menu.userToolbar.addMenuItem({name:'Add users',path:'new',url:'/projects/users/'+name,description:'Add users to this project ...',security:[]});
-  calipso.lib.assets.findAssets([{isproject:true,title:name}]).run(function(err, project){
-    if (err || project === null || !project.length) {
-      res.statusCode = 404;
-      next();
-    } else {
-      calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
-        if(err || folders === null) {
+  filterPermissions(req.session.user.username, name, 'view', function(allowed){
+    if (allowed){
+      res.menu.userToolbar.addMenuItem({name:'Add users',path:'new',url:'/projects/users/'+name,description:'Add users to this project ...',security:[]});
+      calipso.lib.assets.findAssets([{isproject:true,title:name}]).run(function(err, project){
+        if (err || project === null || !project.length) {
           res.statusCode = 404;
           next();
         } else {
-          calipso.theme.renderItem(req, res, template, block, {
-            project:project[0],
-            folders:folders
-          },next);
+          calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
+            if(err || folders === null) {
+              res.statusCode = 404;
+              next();
+            } else {
+              calipso.theme.renderItem(req, res, template, block, {
+                project:project[0],
+                folders:folders
+              },next);
+            }
+          }); 
         }
-      }); 
+      });
+    } else {
+      res.statusCode = 404;
+      next();
+    }
+  });
+}
+function filterPermissions(user, project, action, callback) {
+  calipso.lib.assets.findAssets([{isproject:true,title:project}]).run(function(err, project){
+    if (err || project === null || !project.length) {
+      callback(false);
+    } else if (user == project[0].author) {
+      callback(true);
+    } else {
+      var AssetPermissions = calipso.lib.mongoose.model('AssetPermissions');
+      AssetPermissions.find({project:project[0].title, user:user, action:action},function(err, entry){
+        if (err || entry === null || !entry.length){
+          callback(false);
+        } else {
+          callback(true);
+        }
+      })
     }
   });
 }
@@ -171,32 +196,30 @@ function showFolderByName(req, res, template, block, next) {
   var name = req.moduleParams.name;
   var fname = req.moduleParams.fname;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
-  res.menu.userToolbar.addMenuItem({name:'Add files',path:'new',url:'/upload/'+name+'/'+fname+'/',description:'Upload new files ...',security:[]});
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/project/'+name+'/', description:'Back to project ...', security:[]});
-  calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
-      calipso.lib.assets.listFiles(name, fname, function(err, query){
-      if(err || query === null) {
-        res.statusCode = 404;
-        next();
-      } else {
-        query.run(function(err, assets){
-          calipso.theme.renderItem(req, res, template, block, {
-            folder:folder[0],
-            assets:assets
-          },next);
+  filterPermissions(req.session.user.username, name, 'view', function(allowed){
+    if (allowed){
+     res.menu.userToolbar.addMenuItem({name:'Add files',path:'new',url:'/upload/'+name+'/'+fname+'/',description:'Upload new files ...',security:[]});
+      calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
+        calipso.lib.assets.listFiles(name, fname, function(err, query){
+          if(err || query === null) {
+            res.statusCode = 404;
+            next();
+          } else {
+            query.run(function(err, assets){
+              calipso.theme.renderItem(req, res, template, block, {
+                folder:folder[0],
+                assets:assets
+              },next);
+            });
+          }
         });
-      }
-    });
+      }); 
+    } else {
+      res.statusCode = 404;
+      next();
+    }
   });
-}
-function queryPermissions(req) {
-  if (req.session.user.isAdmin) { return {}; }
-  var query = new Query();
-  query.or([{
-    permissions:req.session.user.roles[0]},
-    {author:req.session.user.username}
-  ]); // TODO iterate over all user.roles
-  return query;
 }
 function newProject(req, res, template, block, next) {
   var name = req.moduleParams.name ? req.moduleParams.name : "";
@@ -299,53 +322,60 @@ function newAsset(req, res, template, block, next) {
   var project = req.moduleParams.pname ? req.moduleParams.pname : "";
   var folder = req.moduleParams.fname ? req.moduleParams.fname : "";
   var file = req.moduleParams.file ? req.moduleParams.file : "";
-  var form = {
-    id:'content-type-form',
-    title:'Add new asset ...',
-    type:'form',
-    method:'POST',
-    action:'/upload/'+project+'/'+folder+'/',
-    tabs:false,
-    fields:[
-      {
-        label:'File',
-        name:'file',
-        type:'file',
-        description:'The file(s) to be uploaded ...',
-        multiple:'true'
-      },
-      {
-        name:'url',
-        type:'hidden',
-        value: 'proj/' + project + '/' + folder + '/'
-      },
-      { // If we send a filename in here then we prefer this filename to the one in the upload mime file.
-        name:'name',
-        type:'hidden',
-        value: file
-      }
-    ],
-    buttons:[
-      {
-        name:'upload',
-        type:'submit',
-        value:'Upload'
-      }
-    ]
-  };
-  // Default values
-  var values = {
-    content: {
-      contentType:"Asset"
-    },
-    project:project,
-    folder:folder,
-    owner:req.session.user.username,
-    file:file
-  };
+  filterPermissions(req.session.user.username, project, 'add', function(allowed){
+    if (allowed) {
+      var form = {
+        id:'content-type-form',
+        title:'Add new asset ...',
+        type:'form',
+        method:'POST',
+        action:'/upload/'+project+'/'+folder+'/',
+        tabs:false,
+        fields:[
+          {
+            label:'File',
+            name:'file',
+            type:'file',
+            description:'The file(s) to be uploaded ...',
+            multiple:'true'
+          },
+          {
+            name:'url',
+            type:'hidden',
+            value: 'proj/' + project + '/' + folder + '/'
+          },
+          { // If we send a filename in here then we prefer this filename to the one in the upload mime file.
+            name:'name',
+            type:'hidden',
+            value: file
+          }
+        ],
+        buttons:[
+          {
+            name:'upload',
+            type:'submit',
+            value:'Upload'
+          }
+        ]
+      };
+      // Default values
+      var values = {
+        content: {
+          contentType:"Asset"
+        },
+        project:project,
+        folder:folder,
+        owner:req.session.user.username,
+        file:file
+      };
 
-  calipso.form.render(form, values, req, function(form) {
-    calipso.theme.renderItem(req,res,form,block,{},next);
+      calipso.form.render(form, values, req, function(form) {
+        calipso.theme.renderItem(req,res,form,block,{},next);
+      });
+    } else {
+      res.statusCode = 404;
+      next();
+    }
   });
 }
 function createAsset(req, res, template, block, next) {
@@ -424,82 +454,89 @@ function showUsersForm(req, res, template, block, next) {
   var project = req.moduleParams.pname ? req.moduleParams.pname : "";
   var user = '';
   res.menu.userToolbar.addMenuItem({name:'Done',path:'new',url:'/project/'+project,description:'Return to project view ...',security:[]});
-  var User = calipso.lib.mongoose.model('User');
-  User.find( function(err, users) {
-    var usernames = [];
-    users.forEach(function(user) {
-      usernames.push(user.username);
-    });
-    var form = {
-      id:'content-type-form',
-      title:'Add a new user to '+project+' ...',
-      type:'form',
-      method:'POST',
-      action:'/projects/users/'+project,
-      tabs:false,
-      fields:[
-        {
-          name:'project',
-          type:'hidden',
-          value:project
-        },
-        {
-          label:'User',
-          name:'user',
-          type:'select',
-          description:'The user to add to the project ...',
-          options: function(){ return usernames;}
-        },
-        {
-          label:'View',
-          name:'view',
-          type:'checkbox',
-          labelFirst: true,
-          description:'This user can view '+project
-        },
-        {
-          label:'Add',
-          name:'add',
-          type:'checkbox',
-          labelFirst: true,
-          description:'This user can add to '+project
-        },
-        {
-          label:'Modify',
-          name:'modify',
-          type:'checkbox',
-          labelFirst: true,
-          description:'This user can modify '+project
-        }
-      ],
-      buttons:[
-        {
-          name:'add',
-          type:'submit',
-          value:'Add User'
-        }
-      ]
-    };
-    // Default values
-    var values = {
-      content: {
-        contentType:"AssetPermissions"
-      },
-      project:project,
-      user:user,
-      view:true,
-      add:false,
-      modify:false
-    };
-
-    var AssetPermissions = calipso.lib.mongoose.model('AssetPermissions');
-    AssetPermissions.find({project:project}, function(err, permissions){
-      calipso.form.render(form, values, req, function(form) {
-        calipso.theme.renderItem(req, res, form, block, {}, function(){
-          calipso.theme.renderItem(req, res, template, block, {permissions:permissions}, next);
+  filterPermissions(req.session.user.username, project, 'modify', function(allowed){
+    if (allowed){
+      var User = calipso.lib.mongoose.model('User');
+      User.find( function(err, users) {
+        var usernames = [];
+        users.forEach(function(user) {
+          usernames.push(user.username);
         });
-      });
-    });
+        var form = {
+          id:'content-type-form',
+          title:'Add a new user to '+project+' ...',
+          type:'form',
+          method:'POST',
+          action:'/projects/users/'+project,
+          tabs:false,
+          fields:[
+            {
+              name:'project',
+              type:'hidden',
+              value:project
+            },
+            {
+              label:'User',
+              name:'user',
+              type:'select',
+              description:'The user to add to the project ...',
+              options: function(){ return usernames;}
+            },
+            {
+              label:'View',
+              name:'view',
+              type:'checkbox',
+              labelFirst: true,
+              description:'This user can view '+project
+            },
+            {
+              label:'Add',
+              name:'add',
+              type:'checkbox',
+              labelFirst: true,
+              description:'This user can add to '+project
+            },
+            {
+              label:'Modify',
+              name:'modify',
+              type:'checkbox',
+              labelFirst: true,
+              description:'This user can modify '+project
+            }
+          ],
+          buttons:[
+            {
+              name:'add',
+              type:'submit',
+              value:'Add User'
+            }
+          ]
+        };
+        // Default values
+        var values = {
+          content: {
+            contentType:"AssetPermissions"
+          },
+          project:project,
+          user:user,
+          view:true,
+          add:false,
+          modify:false
+        };
+
+        var AssetPermissions = calipso.lib.mongoose.model('AssetPermissions');
+        AssetPermissions.find({project:project}, function(err, permissions){
+          calipso.form.render(form, values, req, function(form) {
+            calipso.theme.renderItem(req, res, form, block, {}, function(){
+              calipso.theme.renderItem(req, res, template, block, {permissions:permissions}, next);
+            });
+          });
+        });
+      }); 
+    } else {
+      res.statusCode = 404;
+      next();
+    }
   });
 }
 function addUsers(req, res, template, block, next) {
@@ -530,9 +567,15 @@ function addUsers(req, res, template, block, next) {
         } 
       }
       var a = []
-      if (form.view) a.push('view');
-      if (form.add) a.push('add');
-      if (form.modify) a.push('modify');
+      if (form.view) {
+        a.push('view');
+      }
+      if (form.add) {
+        a.push('add');
+      }
+      if (form.modify) {
+        a.push('modify');
+      }
       addPermission(a);
     } else {
       req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
