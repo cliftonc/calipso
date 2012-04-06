@@ -129,6 +129,8 @@ function init(module, app, next) {
 function showProjects(req, res, template, block, next) {
   var format = req.moduleParams.format || 'html';
   res.menu.primary.addMenuItem({name:'Home',path:'back',url:'/',description:'Back to home page...',security:[]});
+  res.menu.primary.addMenuItem({name:'Publisher',path:'pub',url:'/projects',description:'Publisher ...',security:[]});
+  res.menu.primary.addMenuItem({name:'Staging',path:'staging',url:'/projects',description:'Staging ...',security:[]});
   calipso.lib.assets.listProjects(function(err, query) {
     query.run( function(err, projects){
       if (format === 'html') {
@@ -147,6 +149,8 @@ function showProjectByName(req, res, template, block, next) {
   var name = req.moduleParams.name;
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/projects/', description:'Back to projects ...', security:[]});
+  res.menu.primary.addMenuItem({name:'Publisher',path:'pub',url:'/projects',description:'Publisher ...',security:[]});
+  res.menu.primary.addMenuItem({name:'Staging',path:'staging',url:'/projects',description:'Staging ...',security:[]});
   filterPermissions(req.session.user.username, name, 'view', function(allowed){
     if (allowed){
       res.menu.userToolbar.addMenuItem({name:'Add users',path:'new',url:'/projects/users/'+name,description:'Add users to this project ...',security:[]});
