@@ -213,6 +213,7 @@ function showFolderByName(req, res, template, block, next) {
           } else {
             query.run(function(err, assets){
               calipso.theme.renderItem(req, res, template, block, {
+                project:name,
                 folder:folder[0],
                 assets:assets
               },next);
