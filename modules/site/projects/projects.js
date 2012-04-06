@@ -199,7 +199,8 @@ function showFolderByName(req, res, template, block, next) {
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/project/'+name+'/', description:'Back to project ...', security:[]});
   filterPermissions(req.session.user.username, name, 'view', function(allowed){
     if (allowed){
-     res.menu.userToolbar.addMenuItem({name:'Add files',path:'new',url:'/upload/'+name+'/'+fname+'/',description:'Upload new files ...',security:[]});
+    res.menu.userToolbar.addMenuItem({name:'Add folder',path:'newfolder',url:'/project/'+name+'/'+fname+'/',description:'Add a subfolder ...',security:[]});
+     res.menu.userToolbar.addMenuItem({name:'Add files',path:'newfiles',url:'/upload/'+name+'/'+fname+'/',description:'Upload new files ...',security:[]});
       calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
         calipso.lib.assets.listFiles(name, fname, function(err, query){
           if(err || query === null) {
