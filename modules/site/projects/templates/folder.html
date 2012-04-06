@@ -12,7 +12,9 @@
 		<table class='tabular'>
 			<tr>
 				<th><%- t('Name') %></th>
+				<% if (folder.title != 'Publish') { %>
 				<th>Promote</th>
+				<% } %>
 				<th><%- t('Created') %></th>
 				<th><%- t('Updated') %></th>
 				<% if (user.isAdmin) { %>
@@ -22,7 +24,9 @@
 			<% assets.forEach(function(item) { %>
 			<tr class='content-list-item'>
 				<td><%- item.title %></td>
+				<% if (folder.title != 'Publish') { %>
 				<td><center><img src="/images/accept.png" style="height:24px;" /></center></td>
+				<% } %>
 				<td><%- item.created %></td>
 				<td><%- item.updated %></td>
 				<% if (user.isAdmin) { %>
