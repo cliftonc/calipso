@@ -130,14 +130,13 @@ function saveVersion(event, content, next) {
 
     // Create version and map fields
     var version = new ContentVersion();
-    calipso.form.mapFields(content, version);
+
+    calipso.utils.copyMongoObject(content, version, content.schema);
     version.contentId = content._id;
 
     if(version.get("version")) {
-      calipso.e.pre_emit('CONTENT_VERSION',version);
+      calipso.e.pre_emit('CONTENT_VERSION', version);
     }
-
-    console.log("About to save version ...");
 
     version.save(function(err) {
 
@@ -313,6 +312,7 @@ function revertVersion(req,res,template,block,next) {
 
     ContentVersion.findById(id,function(err,version) {
 
+        
         if(err && !version) {
           calipso.err(err);
           next();
@@ -320,7 +320,7 @@ function revertVersion(req,res,template,block,next) {
         }
 
         // Copy over
-        Content.findById(contentId,function(err,content) {
+        Content.findById(contentId,function(err, content) {
 
             if(err && !content) {
               calipso.err(err)
@@ -328,11 +328,12 @@ function revertVersion(req,res,template,block,next) {
               return;
             }
 
-           calipso.form.mapFields(version.doc,content);
+           calipso.utils.copyMongoObject(version, content, content.schema);
+          
            content.author = req.session.user.username;
            content.set("comment",'Reverted to version: ' + content.updated);
            content.updated = new Date();
-           content.set("version",'Yes');
+           content.set("version", 'Yes');
 
            content.save(function(err) {
              res.redirect('/content/show/' + contentId);

@@ -94,6 +94,7 @@ function mapReduceTagCloud(event,options,next) {
 
   mongoose.connection.db.executeDbCommand(command, function(err, dbres)
   {
+
     // Reset
     calipso.mr.tagcloud = false;
     if (err) {
