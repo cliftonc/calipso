@@ -19,10 +19,10 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu
-  res.menu.admin.addMenuItem({name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
-  res.menu.admin.addMenuItem({name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
-  res.menu.admin.addMenuItem({name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
-  res.menu.admin.addMenuItem({name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
+  res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
+  res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
+  res.menu.admin.addMenuItem(req, {name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
+  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
 
   // Router
   module.router.route(req, res, next);
@@ -325,7 +325,7 @@ function updateUserForm(req, res, template, block, next) {
   var roleSection = 3; // Update if changing sections
 
   if(isAdmin) {
-      res.menu.adminToolbar.addMenuItem({name:'Return',path:'return',url:'/user/profile/'+username,description:'Show user ...',security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Return',path:'return',url:'/user/profile/'+username,description:'Show user ...',security:[]});
   }
 
   var userForm = {
@@ -838,14 +838,14 @@ function userProfile(req, res, template, block, next) {
     }
 
     if(req.session.user && req.session.user.isAdmin) {
-      res.menu.adminToolbar.addMenuItem({name:'List',weight:2,path:'list',url:'/user/list',description:'List users ...',security:[]});
-      res.menu.adminToolbar.addMenuItem({name:'Edit',weight:1,path:'edit',url:'/user/profile/' + username + '/edit',description:'Edit user details ...',security:[]});
-      res.menu.adminToolbar.addMenuItem({name:'Delete',weight:3,path:'delete',url:'/user/profile/' + username + '/delete',description:'Delete account ...',security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:2,path:'list',url:'/user/list',description:'List users ...',security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:1,path:'edit',url:'/user/profile/' + username + '/edit',description:'Edit user details ...',security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:3,path:'delete',url:'/user/profile/' + username + '/delete',description:'Delete account ...',security:[]});
 
       if(u.locked){
-        res.menu.adminToolbar.addMenuItem({name:'Unlock',weight:4,path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
+        res.menu.adminToolbar.addMenuItem(req, {name:'Unlock',weight:4,path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
       } else {
-        res.menu.adminToolbar.addMenuItem({name:'Lock',weight:5,path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
+        res.menu.adminToolbar.addMenuItem(req, {name:'Lock',weight:5,path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
       }
     }
 
@@ -901,7 +901,7 @@ function listUsers(req,res,template,block,next) {
   // Re-retrieve our object
   var User = calipso.lib.mongoose.model('User');
 
-  res.menu.adminToolbar.addMenuItem({name:'Register New User',path:'new',url:'/user/register',description:'Register new user ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Register New User',path:'new',url:'/user/register',description:'Register new user ...',security:[]});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;

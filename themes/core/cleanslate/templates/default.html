@@ -7,10 +7,7 @@
     <title>Clean Slate</title>
 
     <link rel="stylesheet" href="/css/style.css" />
-
-    <% if (user.isAdmin) { %>
     <link rel="stylesheet" href="/css/admin-menu.css" />
-    <% } %>
   
   </head>
   <body>
@@ -30,11 +27,9 @@
       <div id="messages">
         <%- messages %>
       </div>
-       <% if(user.isAdmin) { %>
         <div id="adminToolbar">
           <%- getMenu('adminToolbar') %>
         </div>
-      <% } %>
       <div id="body">
         <!--PAGE_BODY_START-->
         <%- body %>

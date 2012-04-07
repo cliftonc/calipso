@@ -104,8 +104,6 @@ function mapReduceTagCloud(event,options,next) {
 
   });
 
-
-
  };
 
 /**

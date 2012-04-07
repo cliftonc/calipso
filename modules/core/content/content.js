@@ -23,8 +23,13 @@ exports = module.exports = {
  */
 function route(req,res,module,app,next) {
 
-  res.menu.admin.addMenuItem({name:'Content Management',path:'cms',url:'/content',description:'Manage content ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Content',path:'cms/content',url:'/content',description:'Manage content ...',security:[]});
+  var cPerm = calipso.permissions.hasPermission("content:create"),
+      uPerm = calipso.permissions.hasPermission("content:update"),
+      dPerm = calipso.permissions.hasPermission("content:delete"),
+      vPerm = calipso.permissions.hasPermission("content:view");
+
+  res.menu.admin.addMenuItem(req, {name:'Content Management',path:'cms',url:'/content',description:'Manage content ...',permit:vPerm});
+  res.menu.admin.addMenuItem(req, {name:'Content',path:'cms/content',url:'/content',description:'Manage content ...',permit:vPerm});
 
   module.router.route(req,res,next);
 
@@ -42,11 +47,15 @@ function init(module,app,next) {
   calipso.e.addEvent('CONTENT_CREATE_FORM');
   calipso.e.addEvent('CONTENT_UPDATE_FORM');
 
-  // There are dependencies, so we need to track if this is initialised
-  module.initialised = false;
+  calipso.permissions.addPermission("content","Manage content.",true);
 
   calipso.lib.step(
       function defineRoutes() {
+
+        var cPerm = calipso.permissions.hasPermission("content:create"),
+            uPerm = calipso.permissions.hasPermission("content:update"),
+            dPerm = calipso.permissions.hasPermission("content:delete"),
+            vPerm = calipso.permissions.hasPermission("content:view");
 
         // Default routes
         module.router.addRoute('GET /',homePage,{template:'list',block:'content.home'},this.parallel());
@@ -62,14 +71,14 @@ function init(module,app,next) {
         module.router.addRoute("GET /:alias.:format",showAliasedContent,{template:'show',block:'content.show',cache:true},this.parallel());
 
         // Admin operations
-        module.router.addRoute('GET /content',listContent,{admin:true,template:'listAdmin',block:'content.list'},this.parallel());
-        module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,template:'listAdmin',block:'content.list'},this.parallel());
-        module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/new',createContentForm,{admin:true,block:'content.create'},this.parallel());
-        module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{admin:true,template:'show',block:'content.show'},this.parallel());
-        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,block:'content.edit'},this.parallel());
-        module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true},this.parallel());
-        module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());
+        module.router.addRoute('GET /content',listContent,{admin:true,permit:vPerm,template:'listAdmin',block:'content.list'},this.parallel());
+        module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,permit:vPerm,template:'listAdmin',block:'content.list'},this.parallel());
+        module.router.addRoute('POST /content',createContent,{admin:true,permit:cPerm},this.parallel());
+        module.router.addRoute('GET /content/new',createContentForm,{admin:true,permit:vPerm,block:'content.create'},this.parallel());
+        module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{admin:true,permit:vPerm,template:'show',block:'content.show'},this.parallel());
+        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,permit:uPerm,block:'content.edit'},this.parallel());
+        module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true,permit:dPerm},this.parallel());
+        module.router.addRoute('POST /content/:id',updateContent,{admin:true,permit:uPerm},this.parallel());
 
       },
       function done() {
@@ -111,8 +120,6 @@ function init(module,app,next) {
         });
 
         calipso.lib.mongoose.model('Content', Content);
-
-        module.initialised = true;
 
         next();
 
@@ -491,10 +498,16 @@ function editContentForm(req,res,template,block,next) {
 
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
-  res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/content/show/' + id,description:'Show current ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/content/edit/' + id,description:'Edit content ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/content/delete/' + id,description:'Delete content ...',security:[]});
+
+  var cPerm = calipso.permissions.hasPermission("content:create"),
+      uPerm = calipso.permissions.hasPermission("content:update"),
+      dPerm = calipso.permissions.hasPermission("content:delete"),
+      vPerm = calipso.permissions.hasPermission("content:view");
+
+  res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',permit:vPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/content/show/' + id,description:'Show current ...',permit:vPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:3,path:'edit',url:'/content/edit/' + id,description:'Edit content ...',permit:uPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:4,path:'delete',url:'/content/delete/' + id,description:'Delete content ...',permit:dPerm});
 
 
   Content.findById(id, function(err, c) {
@@ -577,7 +590,7 @@ function updateContent(req,res,template,block,next) {
 
                     // Emit pre event
                     // This does not allow you to change the content
-                    calipso.e.pre_emit('CONTENT_CREATE',c,function(c) {
+                    calipso.e.pre_emit('CONTENT_UPDATE',c,function(c) {
 
                       c.save(function(err) {
                         if(err) {
@@ -739,11 +752,16 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   } else {
 
-    res.menu.adminToolbar.addMenuItem({name:'Create',weight:3,path:'new',url:'/content/new',description:'Create content ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/content/show/' + content.id,description:'Show current ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Edit',weight:4,path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Delete',weight:5,path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});
+    var cPerm = calipso.permissions.hasPermission("content:create"),
+        uPerm = calipso.permissions.hasPermission("content:update"),
+        dPerm = calipso.permissions.hasPermission("content:delete"),
+        vPerm = calipso.permissions.hasPermission("content:view");
+
+    res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:3,path:'new',url:'/content/new',description:'Create content ...',permit:cPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',permit:vPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/content/show/' + content.id,description:'Show current ...',permit:vPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:4,path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',permit:uPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:5,path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',permit:dPerm});
 
   }
 
@@ -775,7 +793,10 @@ function listContent(req,res,template,block,next) {
       // Re-retrieve our object
       var Content = calipso.lib.mongoose.model('Content');
 
-      res.menu.adminToolbar.addMenuItem({name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',security:[]});
+      var cPerm = calipso.permissions.hasPermission("content:create"),
+          vPerm = calipso.permissions.hasPermission("content:view");
+
+      res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',permit:cPerm});
 
       var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
@@ -789,7 +810,7 @@ function listContent(req,res,template,block,next) {
 
       var query = new Query();
 
-      if(req.session.user && req.session.user.isAdmin) {
+      if(req.session && req.session.user && vPerm(req.session.user)) {
         // Show all
       } else {
         // Published only if not admin

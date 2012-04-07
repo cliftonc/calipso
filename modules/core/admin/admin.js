@@ -15,13 +15,17 @@ exports = module.exports = {
  */
 function route(req, res, module, app, next) {
 
+  // Config helpers
+  var corePermit = calipso.permissions.hasPermission("admin:core:configuration"),
+      cachePermit = calipso.permissions.hasPermission("admin:core:cache");
+
   // Menu items
-  res.menu.admin.addMenuItem({name:'Administration',path:'admin',url:'/admin',description:'Calipso administration ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Calipso Core',path:'admin/core',url:'/admin',description:'Manage core settings for Calipso ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Configuration Options',path:'admin/core/config',url:'/admin/core/config',description:'Core configuration ...',security:[]});
-  res.menu.admin.addMenuItem({name:'View Languages',path:'admin/core/languages',url:'/admin/core/languages',description:'Languages ...',security:[]});
-  res.menu.admin.addMenuItem({name:'View Cache',path:'admin/core/cache',url:'/admin/core/cache',description:'Cache ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Clear Cache',path:'admin/core/cache/clear',url:'/admin/core/cache/clear',description:'Clear Cache ...',security:[]});
+  res.menu.admin.addMenuItem(req, {name:'Administration',path:'admin',url:'/admin',description:'Calipso administration ...',permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'Calipso Core',path:'admin/core',url:'/admin',description:'Manage core settings for Calipso ...',permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'Configuration Options',path:'admin/core/config',url:'/admin/core/config',description:'Core configuration ...',permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'View Languages',path:'admin/core/languages',url:'/admin/core/languages',description:'Languages ...',permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'View Cache',path:'admin/core/cache',url:'/admin/core/cache',description:'Cache ...',permit:cachePermit});
+  res.menu.admin.addMenuItem(req, {name:'Clear Cache',path:'admin/core/cache/clear',url:'/admin/core/cache/clear',description:'Clear Cache ...',permit:cachePermit});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -40,48 +44,61 @@ function init(module, app, next) {
   // Add listener to config_update
   calipso.e.post('CONFIG_UPDATE',module.name,calipso.reloadConfig);
 
+  calipso.permissions.addPermission("admin:core:configuration","Manage core configuration.");
+  calipso.permissions.addPermission("admin:core:cache","View and clear cache.");
+
   // Admin routes
   calipso.lib.step(
 
   function defineRoutes() {
 
+    // Permissions
+    var corePermit = calipso.permissions.hasPermission("admin:core:configuration"),
+        cachePermit = calipso.permissions.hasPermission("admin:core:cache");
+
     // Core Administration dashboard
     module.router.addRoute('GET /admin', showAdmin, {
       template: 'admin',
       block: 'admin.show',
-      admin: true
+      admin: true,
+      permit: corePermit
     }, this.parallel());
 
     // Core configuration
     module.router.addRoute('GET /admin/core/config', coreConfig, {
       block: 'admin.show',
-      admin: true
+      admin: true,
+      permit: corePermit
     }, this.parallel());
 
     module.router.addRoute('POST /admin/core/config/save', saveAdmin, {
-      admin: true
+      admin: true,
+      permit: corePermit
     }, this.parallel());
 
     module.router.addRoute('GET /admin/core/cache', showCache, {
       admin: true,
       template:'cache',
-      block:'admin.cache'
+      block:'admin.cache',
+      permit: cachePermit
     }, this.parallel());
 
     module.router.addRoute('GET /admin/core/cache/clear', clearCache, {
       admin: true,
       template:'cache',
-      block:'admin.cache'
+      block:'admin.cache',
+      permit: cachePermit
     }, this.parallel());
 
     module.router.addRoute('GET /admin/core/languages', showLanguages, {
       admin: true,
       template:'languages',
       block:'admin.languages',
+      permit: corePermit
     }, this.parallel());
 
 
-    // Default installation routers
+    // Default installation routers - only accessible in install mode
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
     module.router.addRoute('POST /admin/install', install, null, this.parallel());
     module.router.addRoute('POST /admin/installTest/mongo', installMongoTest, null, this.parallel());

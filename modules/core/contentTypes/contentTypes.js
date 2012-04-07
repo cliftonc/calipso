@@ -9,7 +9,25 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, 'lib/calipso')),
   Query = require("mongoose").Query;
 
+/**
+ * Define the routes that this module will repsond to.
+ */
+var routes = [
+  {path:'GET /content/type',fn:listContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:view"),template:'list',block:'content.type.show'},
+  {path:'GET /content/type/list.:format?',fn:listContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:view"),template:'list',block:'content.type.list'},
+  {path:'POST /content/type/create',fn:createContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:create")},
+  {path:'GET /content/type/new',fn:createContentTypeForm,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:create"),block:'content.type.new',template:'form'},
+  {path:'GET /content/type/show/:id.:format?',fn:showContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:view"),template:'show',block:'content.type.show'},
+  {path:'GET /content/type/edit/:id',fn:editContentTypeForm,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:update"),block:'content.type.edit'},
+  {path:'GET /content/type/delete/:id',fn:deleteContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:delete")},
+  {path:'POST /content/type/update/:id',fn:updateContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:update")}
+]
+
+/** 
+ * Exports
+ */
 exports = module.exports = {
+  routes: routes,
   init: init,
   route: route,
   install: install
@@ -24,8 +42,7 @@ function route(req,res,module,app,next) {
   /**
    * Menu items
    */
-  res.menu.admin.addMenuItem({name:'Content Types',path:'cms/type',url:'/content/type',description:'Manage content types ...',security:[]});
-  res.menu.admin.addMenuItem({name:'List Content Types',path:'cms/type',url:'/content/type',description:'List content types ...',security:[]});
+  res.menu.admin.addMenuItem(req, {name:'Content Types',path:'cms/type',url:'/content/type',description:'Manage content types ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
 
   /**
    * Routing and Route Handler
@@ -33,7 +50,6 @@ function route(req,res,module,app,next) {
   module.router.route(req,res,next);
 
 }
-
 
 /**
  *Init
@@ -59,48 +75,30 @@ function init(module,app,next) {
   // Define permissions
   calipso.permissions.addPermission("admin:content:type","Manage content types.",true);
 
-  calipso.lib.step(
-    function defineRoutes() {
+  // Schemea
+  var ContentType = new calipso.lib.mongoose.Schema({
+    contentType:{type: String, required: true, unique: true, "default": 'default', index: true},
+    description:{type: String, required: true, "default": 'Default Content Type'},
+    layout:{type: String, required: true, "default": 'default'},
+    ispublic:{type: Boolean, required: true, "default": true},
+    created: { type: Date, "default": Date.now },
+    updated: { type: Date, "default": Date.now },
+    fields: {type: String, "default":""},
+    templateLanguage:{type: String, required: true, "default": 'html'},
+    viewTemplate:{type: String, "default": ''},
+    listTemplate:{type: String, "default": ''},        
+  });
 
-      // Crud operations
-      module.router.addRoute('GET /content/type',listContentType,{admin:true,template:'list',block:'content.type.show'},this.parallel());
-      module.router.addRoute('GET /content/type/list.:format?',listContentType,{admin:true,template:'list',block:'content.type.list'},this.parallel());
-      module.router.addRoute('POST /content/type/create',createContentType,{admin:true},this.parallel());
-      module.router.addRoute('GET /content/type/new',createContentTypeForm,{admin:true,block:'content.type.new',template:'form'},this.parallel());
-      module.router.addRoute('GET /content/type/show/:id.:format?',showContentType,{admin:true,template:'show',block:'content.type.show'},this.parallel());
-      module.router.addRoute('GET /content/type/edit/:id',editContentTypeForm,{admin:true,block:'content.type.edit'},this.parallel());
-      module.router.addRoute('GET /content/type/delete/:id',deleteContentType,{admin:true},this.parallel());
-      module.router.addRoute('POST /content/type/update/:id',updateContentType,{admin:true},this.parallel());
+  calipso.lib.mongoose.model('ContentType', ContentType);
 
-    },
-    function done() {
+  // Cache the content types in the calipso.data object
+  if(app.config.get('installed')) {
+    storeContentTypes(null,null,function(){});
+  }
 
-      // Schemea
-      var ContentType = new calipso.lib.mongoose.Schema({
-        contentType:{type: String, required: true, unique: true, "default": 'default', index: true},
-        description:{type: String, required: true, "default": 'Default Content Type'},
-        layout:{type: String, required: true, "default": 'default'},
-        ispublic:{type: Boolean, required: true, "default": true},
-        created: { type: Date, "default": Date.now },
-        updated: { type: Date, "default": Date.now },
-        fields: {type: String, "default":""},
-        templateLanguage:{type: String, required: true, "default": 'html'},
-        viewTemplate:{type: String, "default": ''},
-        listTemplate:{type: String, "default": ''},        
-      });
+  module.initialised = true;
+  next();
 
-      calipso.lib.mongoose.model('ContentType', ContentType);
-
-      // Cache the content types in the calipso.data object
-      if(app.config.get('installed')) {
-        storeContentTypes(null,null,function(){});
-      }
-
-      module.initialised = true;
-      next();
-
-    }
-  );
 }
 
 /**
@@ -239,10 +237,10 @@ function editContentTypeForm(req,res,template,block,next) {
   var item;
 
 
-  res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/type/',description:'List all ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'List',path:'list',url:'/content/type/',description:'List all ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',permit:calipso.permissions.hasPermission("admin:content:type:edit")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',permit:calipso.permissions.hasPermission("admin:content:type:delete")});
 
   ContentType.findById(id, function(err, c) {
 
@@ -337,10 +335,10 @@ function showContentType(req,res,template,block,next) {
 
     } else {
 
-      res.menu.adminToolbar.addMenuItem({name:'List',path:'list',url:'/content/type/',description:'List all ...',security:[]});
-      res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',security:[]});
-      res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',security:[]});
-      res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'List',path:'list',url:'/content/type/',description:'List all ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',permit:calipso.permissions.hasPermission("admin:content:type:edit")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',permit:calipso.permissions.hasPermission("admin:content:type:delete")});
 
       item = {id:content._id,type:'content',meta:content.toObject()};
 
@@ -382,7 +380,7 @@ function listContentType(req,res,template,block,next) {
   // Re-retrieve our object
   var ContentType = calipso.lib.mongoose.model('ContentType');
 
-  res.menu.adminToolbar.addMenuItem({name:'New Type',path:'new',url:'/content/type/new',description:'Create content type ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'New Type',path:'new',url:'/content/type/new',description:'Create content type ...',permit:calipso.permissions.hasPermission("admin:content:type:create")});
 
   var format = req.moduleParams.format || 'html';
 

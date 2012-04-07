@@ -16,14 +16,10 @@
     </div>            
     <div id="container">
       <div id="header">
-
         <%- header %>
-
-        <% if(user.isAdmin) { %>
-          <div id="adminToolbar">
-            <%- getMenu('adminToolbar') %>
-          </div>
-        <% } %>
+        <div id="adminToolbar">
+          <%- getMenu('adminToolbar') %>
+        </div>
       </div>
 
       <div id="messages">
