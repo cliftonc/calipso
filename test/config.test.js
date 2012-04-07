@@ -9,7 +9,7 @@ var rootpath = process.cwd() + '/',
     exec = require('child_process').exec,
     path = require('path'),
     assert = require('assert'),
-    sys = require('sys'),
+    util = require('util'),
     should = require('should'),
     Config = require(rootpath + 'lib/Config').Config;
 

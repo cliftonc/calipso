@@ -20,7 +20,7 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  sys = require("sys");
+  util = require('util');
 
 function CronTime(time) {
 
