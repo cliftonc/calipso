@@ -196,7 +196,7 @@ function userDisplay(req, username, next) {
       }
 
     }
-    next(null,responseData);
+    next(null, responseData);
 
   });
 

@@ -1,3 +1,5 @@
+// TODO - THIS NEEDS TO BE REPLACED WITH THE NEW Node 0.5+ multi process, see cliftonc/ted
+
 /**
  * Calipso script for running in clustered mode. Usage: node app-cluster, or
  * NODE_ENV=production node app-cluster

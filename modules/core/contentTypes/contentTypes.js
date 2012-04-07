@@ -493,17 +493,24 @@ function storeContentTypes(event,contentType,next) {
 
   ContentType.find({}).sort('contentType',1).find(function (err, types) {
     if(err || !types) {
+      
       // Don't throw error, just pass back failure.
       calipso.error("Error storing content types in cache: " + err.message);
       return next(contentType);
+
     } else {
+      
       types.forEach(function(type) {
+        
         calipso.data.contentTypes.push(type.contentType);
+
         // If this is part of the start up process, lets compile all the templates
         if(event === null) {
           compileTemplates(null, type, function() {});
         }
+
       });
+
       return next(contentType);
     }
   });
