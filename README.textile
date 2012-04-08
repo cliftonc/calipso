@@ -6,6 +6,12 @@ For additional details, including installation instructions, please visit the ho
 
 If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc), dennis (dennishall) or dale (dtan) and we can suggest some places for you to start.
 
+h3. Update - April 2012
+
+Hi all, apologies for the lack of work recently, but I've moved jobs, got married and had the delivery of our amazing Son!  I'm planning on spending some time getting things back on track, and have moved the devel branch into working mode against v0.6.14+.  That branch needs some work completing, most notably the default theme needs to be fixed, the install re-checked and permissions finished.
+
+Please let me know if you're keen to help, coming back to this after a bit of a break has made me realise that a whole lot of the core needs refactoring to make it easier to test and make the core calipso.js more modular and easy to modify - but there is always work to do!
+
 h3. Quick Install
 
 If you want to try it out as quickly as possible, please install MongoDB, ensure that you have the right compilers installed (for OSX, XCode4 will work, for Ubuntu, the build-essential and libssl-dev packages) and then use NPM:
