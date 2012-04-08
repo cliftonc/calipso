@@ -1,0 +1,25 @@
+<div class="projects-view">
+	<h2>Projects</h2>
+	<table class='tabular'>
+		<tr>
+			<th><%- t('Title') %></th>
+			<th><%- t('Author') %></th>
+			<th><%- t('Updated') %></th>
+			<th><%- t('Description') %></th>
+			<% if (user.isAdmin) { %>
+			<th><%- t('Object') %></th>
+			<% } %>
+		</tr>
+		<% projects.forEach(function(item) { %>
+		<tr class='content-list-item'>
+			<td><a href='/project/<%= item.title %>'><%- item.title %></a></td>
+			<td><%- item.author %></td>
+			<td><%- item.updated %></td>
+			<td><%- item.description %></td>
+			<% if (user.isAdmin) { %>
+			<td><%= JSON.stringify(item) %></th>
+			<% } %>
+		</tr>
+		<% });  %>
+	</table>
+</div>

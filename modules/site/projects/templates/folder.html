@@ -1,0 +1,39 @@
+<div class="folder-view">
+	<h2><%- folder.title %></h2>
+	<span class="small">
+			<i>Created <%- prettyDate(folder.created) %>&nbsp;&nbsp;&nbsp;&nbsp;
+			Last updated <%- prettyDate(folder.updated) %></i>
+	</span>
+	<p><%- folder.description %></p>
+	<% if(!assets.length) { %>
+		<h4>You haven't added anything yet ...</h4>
+		<p>Upload a file to add it to this project</p>
+	<% } else { %>
+		<table class='tabular'>
+			<tr>
+				<th><%- t('Name') %></th>
+				<% if (folder.title != 'Publish') { %>
+				<th>Promote</th>
+				<% } %>
+				<th><%- t('Created') %></th>
+				<th><%- t('Updated') %></th>
+				<% if (user.isAdmin) { %>
+				<th><%- t('Object') %></th>
+				<% } %>
+			</tr>
+			<% assets.forEach(function(item) { %>
+			<tr class='content-list-item'>
+				<td><a href='/proj/<%= project %>/<%= folder.title %>/<%= item.title %>'</a><%- item.title %></td>
+				<% if (folder.title != 'Publish') { %>
+				<td><center><img src="/images/accept.png" style="height:24px;" /></center></td>
+				<% } %>
+				<td><%- item.created %></td>
+				<td><%- item.updated %></td>
+				<% if (user.isAdmin) { %>
+				<td><%= JSON.stringify(item) %></th>
+				<% } %>
+			</tr>
+			<% });  %>
+		</table>
+	<% } %>
+</div>

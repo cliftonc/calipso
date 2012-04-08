@@ -112,7 +112,9 @@ function handleAsset(req, res, next) {
       asset.author = author;
       asset.save(function (err) {
         if (err) {
-          res.send(500, "unable to save bucket " + err.message);
+          res.statusCode = 500;
+          req.flash('error', req.t('Unable to save bucket {error}', {error:err.message}));
+          next();
           return;
         }
         var sreq = k.request(req.method, '', {
@@ -121,7 +123,10 @@ function handleAsset(req, res, next) {
         });
         sreq.on('error', function(err) {
           asset.remove(function () {
-            res.send(500, "unable to create bucket " + err.message);
+            res.statusCode = 500;
+            req.flash('error', req.t('Unable to create bucket {error}', {error:err.message}));
+            next();
+            return;
           });
         }).on('response', function(s3res) {
           for (var v in s3res.headers) {
@@ -143,7 +148,9 @@ function handleAsset(req, res, next) {
       Asset.findOne({alias:copy}, function (err, copyAsset) {
         if (err || !copyAsset) {
           req.resume();
-          res.send(500, "unable to resolve copy source");
+          res.statusCode = 500;
+          req.flash('error', req.t('Unable to resolve copy source {copy}', {copy:copy}));
+          next();
           return;
         }
         req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
@@ -209,7 +216,9 @@ function handleAsset(req, res, next) {
     if(err || !folder) {
       // If we didn't find the folder then it has not been created yet.
       req.resume();
-      res.send(404, 'unable to find parent folder ' + parentFolder);
+      res.statusCode = 404;
+      req.flash('error',req.t('Unable to find parent folder {parentFolder}',{parentFolder:parentFolder}));
+      next();
       return;
     }
     // Search for the asset with this alias.
@@ -217,7 +226,9 @@ function handleAsset(req, res, next) {
       if(err || !asset) {
         if (put || post) {
           if (isFolder && (folder.key === '')) {
-            res.send(500, "this folder is rooted and not storage allocated for parent folder " + parentFolder);
+            res.statusCode = 500;
+            req.flash('error', req.t('This folder is rooted and not storage allocated for parent folder {parentFolder}.', {parentFolder:parentFolder}));
+            next();
             return;
           }
           var s3path = folder.key + fileName;
@@ -254,7 +265,9 @@ function handleAsset(req, res, next) {
             asset.save(function (err) {
               if (err) {
                 req.resume();
-                res.send(500, "unable to save asset " + err.message);
+                res.statusCode = 500;
+                req.flash('error', req.t('Unable to save asset {alias}: {error}', {alias:asset.alias, error:err.message}));
+                next();
                 return;
               }
               if (isFolder) {
@@ -280,7 +293,9 @@ function handleAsset(req, res, next) {
               proj.save(function (err) {
                 if (err) {
                   req.resume();
-                  res.send(500, "unable to create corresponding project " + err.message);
+                  res.statusCode = 500;
+                  req.flash('error', req.t('Unable to create corresponding project: {error}.', {error:err.message}));
+                  next();
                   return;
                 }
                 asset.folder = proj._id;
@@ -292,13 +307,17 @@ function handleAsset(req, res, next) {
           return; // done putting new file
         } else {
           req.resume();
-          res.send(404, "unable to find file " + alias);
+          res.statusCode = 404;
+          req.flash('error', req.t('Unable to find file {alias}.', {alias:alias}));
+          next();
           return; // this file doesn't exist but it's not a put...
         }
       }
       if (asset.isfolder) {
         req.resume();
-        res.send(500, 'existing folder ' + alias);
+        req.flash('error', req.t('This folder already exists {alias}.', {alias:alias}));
+        res.statusCode = 500;
+        next();
         return; // This is a bucket or folder...
       }
       interactWithS3(asset, req, res, next);
@@ -775,6 +794,7 @@ function editAssetForm(req,res,template,block,next) {
 
       // TODO : REDIRECT TO 404
       res.statusCode = 404;
+      req.flash('error', req.t('Unable to find this asset'));
       next();
 
     } else {
@@ -897,6 +917,7 @@ function updateAsset(req,res,template,block,next) {
  */
 function showAsset(req,res,template,block,next,err,asset,format) {
   if(asset.isfolder) {
+    req.flash('error', req.t('This asset refers to a folder and not a file.'));
     res.statusCode = 404;
     next();
     return;
@@ -989,6 +1010,7 @@ function listAssets(req,res,template,block,next) {
         finish();
       } else {
         res.statusCode = 404;
+        req.flash('error', req.t('Unable to find parent folder {alias}: {error}', {alias:alias, error:(err && err.message) || 'Unknown error'}));
         next();
         return;
       }
@@ -1396,6 +1418,7 @@ function getAssetList(query,out,next) {
              calipso.theme.renderItem(out.req,out.res,newTemplate,out.block,{contents:contents},next);
            } else {
              res.statusCode = 404;
+             req.flash('error', req.t('Unable to find rss template.'));
              next();
            }
          }
