@@ -150,14 +150,17 @@ function showProjectByName(req, res, template, block, next) {
   filterPermissions(req.session.user.username, name, 'view', function(allowed){
     if (allowed){
       res.menu.userToolbar.addMenuItem({name:'Add users',path:'new',url:'/projects/users/'+name,description:'Add users to this project ...',security:[]});
-      calipso.lib.assets.findAssets([{isproject:true,title:name}]).run(function(err, project){
+      // Change to find project by alias.
+      calipso.lib.assets.findAssets([{isproject:true,alias:'proj/' + name + '/'}]).run(function(err, project){
         if (err || project === null || !project.length) {
           res.statusCode = 404;
+          req.flash('error', req.t('Unable to find project {name}', {name:name}));
           next();
         } else {
           calipso.lib.assets.findAssets([{isfolder:true,folder:project[0].id}]).run(function(err, folders){
             if(err || folders === null) {
               res.statusCode = 404;
+              req.flash('error', req.t('Unable to find project root folders.'));
               next();
             } else {
               calipso.theme.renderItem(req, res, template, block, {
@@ -169,7 +172,8 @@ function showProjectByName(req, res, template, block, next) {
         }
       });
     } else {
-      res.statusCode = 404;
+      res.statusCode = 403;
+      req.flash('error', req.t('You don\' have permissions to access this project.'));
       next();
     }
   });
@@ -199,12 +203,14 @@ function showFolderByName(req, res, template, block, next) {
   res.menu.primary.addMenuItem({name:'Back', path:'back',url:'/project/'+name+'/', description:'Back to project ...', security:[]});
   filterPermissions(req.session.user.username, name, 'view', function(allowed){
     if (allowed){
-    res.menu.userToolbar.addMenuItem({name:'Add folder',path:'newfolder',url:'/project/'+name+'/'+fname+'/',description:'Add a subfolder ...',security:[]});
-     res.menu.userToolbar.addMenuItem({name:'Add files',path:'newfiles',url:'/upload/'+name+'/'+fname+'/',description:'Upload new files ...',security:[]});
+      res.menu.userToolbar.addMenuItem({name:'Add folder',path:'newfolder',url:'/project/'+name+'/'+fname+'/',description:'Add a subfolder ...',security:[]});
+      res.menu.userToolbar.addMenuItem({name:'Add files',path:'newfiles',url:'/upload/'+name+'/'+fname+'/',description:'Upload new files ...',security:[]});
+      // TODO this is still using fname as the user editable title instead of searching for item by alias.
       calipso.lib.assets.findAssets([{isfolder:true,title:fname}]).run(function(err, folder){
         calipso.lib.assets.listFiles(name, fname, function(err, query){
           if(err || query === null) {
             res.statusCode = 404;
+            req.flash('error', req.t('Unable to find project folder {fname}: {error}.', {error:(err && err.message) || 'Unknown Error', fname:fname}));
             next();
           } else {
             query.run(function(err, assets){
@@ -218,7 +224,8 @@ function showFolderByName(req, res, template, block, next) {
         });
       }); 
     } else {
-      res.statusCode = 404;
+      res.statusCode = 403;
+      req.flash('error', req.t('You don\' have permissions to access this project.'));
       next();
     }
   });
@@ -280,15 +287,21 @@ function createProject(req, res, template, block, next) {
       var returnTo = form.returnTo ? form.returnTo : "";
       createFolder('Archive', form.name, "ai-test2",form.owner, true, false, function(err, asset){
         if(err || !asset) {
-          return res.send(500, err.message);
+          res.statusCode = 500;
+          req.flash('error', req.t('Unable to create Archive folder {error}', {error:(err && err.message) || "Unknown error"}));
+          return next();
         } else {
           createFolder('Work', form.name, "ai-test3", form.owner, true, true, function(err, asset){
             if(err || !asset) {
-              return res.send(500, err.message);
+              res.statusCode = 500;
+              req.flash('error', req.t('Unable to create Work folder {error}', {error:(err && err.message) || "Unknown error"}));
+              return next();
             } else {
               createFolder('Publish', form.name, "ai-test3", form.owner, true, true, function(err, asset){
                 if(err || !asset) {
-                  return res.send(500, err.message);
+                  res.statusCode = 500;
+                  req.flash('error', req.t('Unable to create Publish folder {error}', {error:(err && err.message) || "Unknown error"}));
+                  return next();
                 } else {
                   if(returnTo) {
                     res.redirect(returnTo);
@@ -375,7 +388,8 @@ function newAsset(req, res, template, block, next) {
         calipso.theme.renderItem(req,res,form,block,{},next);
       });
     } else {
-      res.statusCode = 404;
+      res.statusCode = 403;
+      req.flash('error', req.t('You don\' have permissions to access this project.'));
       next();
     }
   });
@@ -391,9 +405,9 @@ function createAsset(req, res, template, block, next) {
       var Asset = calipso.lib.assets.assetModel();
       calipso.lib.assets.findAssets([{isfolder:true,alias:req.formData.url}]).findOne(function(err, folder){
         if (err) {
-          res.send(500, 'problem finding root folder ' + req.formData.url);
-          next();
-          return;
+          res.statusCode = 500;
+          req.flash('error', req.t('Problem finding root folder {folder}: {error}', {folder:req.formData.url, error:err.message}));
+          return next();
         }
         var paths = folder.key.split('/');
         var bucket = paths.splice(0, 1)[0];
@@ -414,6 +428,7 @@ function createAsset(req, res, template, block, next) {
             if (err) {
               res.statusCode = 500;
               calipso.debug('unable to write file ' + file.name);
+              req.flash('error', req.t('Unable to write file {file}: {error}', {file:file.name, error:err.message}));
               next();
               return;
             }
@@ -435,6 +450,7 @@ function createAsset(req, res, template, block, next) {
                 if (err) {
                   res.statusCode = 500;
                   calipso.debug('unable to write file asset ' + file.name + " (file already saved to S3) " + err.message);
+                  req.flash('error', req.t('Unable to write file asset {file}: {error}', {file:file.name, error:err.message}));
                   next();
                   return;
                 }
@@ -537,7 +553,8 @@ function showUsersForm(req, res, template, block, next) {
         });
       }); 
     } else {
-      res.statusCode = 404;
+      res.statusCode = 403;
+      req.flash('error', req.t('You don\' have permissions to access this project.'));
       next();
     }
   });
@@ -560,6 +577,7 @@ function addUsers(req, res, template, block, next) {
           permission.save(function (err) {
             if (err) {
               res.statusCode = 500;
+              req.flash('error', req.t('Unable to save permission record {perm}: {error}', {perm:perm, error:err.message}));
               calipso.debug('unable to set permission "' + perm + '": ' + err.message);
               next();
               return;
