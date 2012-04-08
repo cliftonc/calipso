@@ -60,7 +60,7 @@ function init(module,app,next) {
           method:{type: String, "default":'', required: true},
           args:{type: String, "default":'', required: false}
         });
-        calipso.lib.mongoose.model('ScheduledJob', ScheduledJob);
+        calipso.db.model('ScheduledJob', ScheduledJob);
 
         // Load the exposed job functions into a job function array
         // This scans all the other modules
@@ -87,7 +87,7 @@ function init(module,app,next) {
  */
 function loadJobs(next) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
 
   // Check to see if we already have any jobs.
   // Create a holder for our jobs - DOES THIS STOP EVERYTHING ELSE??!
@@ -194,7 +194,7 @@ function schedulerAdmin(req,res,template,block,next) {
 
     res.menu.adminToolbar.addMenuItem(req, {name:'New Job',path:'new',url:'/scheduler/new',description:'Create new job ...',security:[]});
 
-    var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+    var ScheduledJob = calipso.db.model('ScheduledJob');
 
     // Render json to blocks
     var item = {id:"NA",type:'content',meta:{jobs:calipso.jobs}};
@@ -257,7 +257,7 @@ function createJob(req,res,template,block,next) {
 
     if(form) {
 
-      var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+      var ScheduledJob = calipso.db.model('ScheduledJob');
 
       var job = new ScheduledJob(processForm(form.job));
 
@@ -342,7 +342,7 @@ function processForm(formObject) {
  */
 function editJobForm(req,res,template,block,next) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
 
   var jobName = req.moduleParams.jobName;
   var item;
@@ -397,7 +397,7 @@ function updateJob(req,res,template,block,next) {
 
     if(form) {
 
-      var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+      var ScheduledJob = calipso.db.model('ScheduledJob');
       var jobName = req.moduleParams.jobName;
 
       ScheduledJob.findOne({name:jobName}, function(err, job) {
@@ -474,7 +474,7 @@ function updateJob(req,res,template,block,next) {
  */
 function showJob(req,res,template,block,next,err) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
 
   var jobName = req.moduleParams.jobName;
   var item;
@@ -506,7 +506,7 @@ function showJob(req,res,template,block,next,err) {
  */
 function deleteJob(req,res,template,block,next,err) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
   var jobName = req.moduleParams.jobName;
 
   ScheduledJob.remove({name:jobName}, function(err) {

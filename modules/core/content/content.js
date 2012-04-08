@@ -119,7 +119,7 @@ function init(module,app,next) {
           next();
         });
 
-        calipso.lib.mongoose.model('Content', Content);
+        calipso.db.model('Content', Content);
 
         next();
 
@@ -155,7 +155,7 @@ function getContent(req, options, next) {
     options = calipso.lib._.extend(defaults, options);
   }
 
-  var Content = calipso.lib.mongoose.model('Content');
+  var Content = calipso.db.model('Content');
 
   Content.findOne({alias:options.alias},function (err, c) {
 
@@ -261,8 +261,8 @@ function createContent(req,res,template,block,next) {
 
     if(form) {
 
-          var Content = calipso.lib.mongoose.model('Content');
-          var ContentType = calipso.lib.mongoose.model('ContentType');
+          var Content = calipso.db.model('Content');
+          var ContentType = calipso.db.model('ContentType');
 
           var c = new Content(form.content);
 
@@ -362,7 +362,7 @@ function getForm(req,action,title,contentType,next) {
   form.title = title;
 
   // Get content type
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
 
   ContentType.findOne({contentType:contentType}, function(err, ct) {
 
@@ -492,7 +492,7 @@ function createContentFormByType(req,res,template,block,next) {
  */
 function editContentForm(req,res,template,block,next) {
 
-  var Content = calipso.lib.mongoose.model('Content');
+  var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
   var item;
 
@@ -557,8 +557,8 @@ function updateContent(req,res,template,block,next) {
 
       if(form) {
 
-        var Content = calipso.lib.mongoose.model('Content');
-        var ContentType = calipso.lib.mongoose.model('ContentType');
+        var Content = calipso.db.model('Content');
+        var ContentType = calipso.db.model('ContentType');
 
         var returnTo = form.returnTo ? form.returnTo : "";
         var id = req.moduleParams.id;
@@ -659,7 +659,7 @@ function showAliasedContent(req, res, template, block, next) {
   // Check type
   if(calipso.lib._.any(allowedFormats,function(value) { return value === format; })) {
 
-    var Content = calipso.lib.mongoose.model('Content');
+    var Content = calipso.db.model('Content');
 
     Content.findOne({alias:alias},function (err, content) {
 
@@ -702,7 +702,7 @@ function showAliasedContent(req, res, template, block, next) {
  */
 function showContentByID(req,res,template,block,next) {
 
-  var Content = calipso.lib.mongoose.model('Content');
+  var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
@@ -797,7 +797,7 @@ function showContent(req,res,template,block,next,err,content,format) {
 function listContent(req,res,template,block,next) {
 
       // Re-retrieve our object
-      var Content = calipso.lib.mongoose.model('Content');
+      var Content = calipso.db.model('Content');
 
       var cPerm = calipso.permissions.hasPermission("content:create"),
           vPerm = calipso.permissions.hasPermission("content:view");
@@ -868,7 +868,7 @@ function contentLink(req,content) {
  */
 function getContentList(query,out,next) {
 
-      var Content = calipso.lib.mongoose.model('Content');
+      var Content = calipso.db.model('Content');
       var pager = out.hasOwnProperty('pager') ? out.pager : true;
 
       // If pager is enabled, ignore any override in from
@@ -968,7 +968,7 @@ function getContentList(query,out,next) {
  */
 function deleteContent(req,res,template,block,next) {
 
-  var Content = calipso.lib.mongoose.model('Content');
+  var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
 
   Content.findById(id, function(err, c) {

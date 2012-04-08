@@ -74,7 +74,7 @@ function init(module,app,next) {
           // All other properties are dynamically mapped, hence use of .set / .get
         });
 
-        calipso.lib.mongoose.model('ContentVersion', ContentVersion);
+        calipso.db.model('ContentVersion', ContentVersion);
 
         // Version event listeners
         calipso.e.post('CONTENT_CREATE', module.name, saveVersion);
@@ -126,7 +126,7 @@ function showContent(req,res,template,block,next) {
  */
 function saveVersion(event, content, next) {
 
-    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    var ContentVersion = calipso.db.model('ContentVersion');
 
     // Create version and map fields
     var version = new ContentVersion();
@@ -163,7 +163,7 @@ function showVersion(req,res,template,block,next) {
     var id = req.moduleParams.version;
     var format = req.moduleParams.format || 'html';
 
-    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    var ContentVersion = calipso.db.model('ContentVersion');
 
 
     var vPerm = calipso.permissions.hasPermission("content:versions:view"),
@@ -205,7 +205,7 @@ function diffVersion(req,res,template,block,next) {
     var a = req.moduleParams.a;
     var b = req.moduleParams.b;
 
-    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    var ContentVersion = calipso.db.model('ContentVersion');
 
     ContentVersion.findById(a,function(err,versionA) {
 
@@ -263,7 +263,7 @@ function listVersions(req,res,template,block,next) {
       var id = req.moduleParams.id;
 
       // Re-retrieve our object
-      var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+      var ContentVersion = calipso.db.model('ContentVersion');
 
       var vPerm = calipso.permissions.hasPermission("content:versions:view"),
           dPerm = calipso.permissions.hasPermission("content:versions:diff");      
@@ -307,8 +307,8 @@ function revertVersion(req,res,template,block,next) {
     var id = req.moduleParams.version;
     var format = req.moduleParams.format || 'html';
 
-    var Content = calipso.lib.mongoose.model('Content');
-    var ContentVersion = calipso.lib.mongoose.model('ContentVersion');
+    var Content = calipso.db.model('Content');
+    var ContentVersion = calipso.db.model('ContentVersion');
 
     ContentVersion.findById(id,function(err,version) {
 

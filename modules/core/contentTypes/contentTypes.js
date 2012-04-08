@@ -89,7 +89,7 @@ function init(module,app,next) {
     listTemplate:{type: String, "default": ''},        
   });
 
-  calipso.lib.mongoose.model('ContentType', ContentType);
+  calipso.db.model('ContentType', ContentType);
 
   // Cache the content types in the calipso.data object
   if(app.config.get('installed')) {
@@ -108,7 +108,7 @@ function init(module,app,next) {
 function install(next) {
 
   // Create the default content types
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
 
   calipso.lib.step(
     function createDefaults() {
@@ -177,7 +177,7 @@ function createContentType(req,res,template,block,next) {
 
      if(form) {
 
-      var ContentType = calipso.lib.mongoose.model('ContentType');
+      var ContentType = calipso.db.model('ContentType');
 
       var c = new ContentType(form.contentType);
       c.ispublic = form.contentType.contentType.ispublic === "Yes" ? true : false;
@@ -232,7 +232,7 @@ function createContentTypeForm(req,res,template,block,next) {
  */
 function editContentTypeForm(req,res,template,block,next) {
 
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
   var id = req.moduleParams.id;
   var item;
 
@@ -278,7 +278,7 @@ function updateContentType(req,res,template,block,next) {
 
     if(form) {
 
-      var ContentType = calipso.lib.mongoose.model('ContentType');
+      var ContentType = calipso.db.model('ContentType');
       var id = req.moduleParams.id;
 
       ContentType.findById(id, function(err, c) {
@@ -324,7 +324,7 @@ function showContentType(req,res,template,block,next) {
 
   var item;
 
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
   var id = req.moduleParams.id;
   format = req.moduleParams.format || 'html';
 
@@ -378,7 +378,7 @@ function showContentType(req,res,template,block,next) {
 function listContentType(req,res,template,block,next) {
 
   // Re-retrieve our object
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
 
   res.menu.adminToolbar.addMenuItem(req, {name:'New Type',path:'new',url:'/content/type/new',description:'Create content type ...',permit:calipso.permissions.hasPermission("admin:content:type:create")});
 
@@ -421,7 +421,7 @@ function listContentType(req,res,template,block,next) {
  */
 function deleteContentType(req,res,template,block,next) {
 
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
   var id = req.moduleParams.id;
 
   ContentType.findById(id, function(err, c) {
@@ -486,7 +486,7 @@ function compileTemplates(event, contentType, next) {
  */
 function storeContentTypes(event,contentType,next) {
 
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
 
   delete calipso.data.contentTypes;
   calipso.data.contentTypes = [];

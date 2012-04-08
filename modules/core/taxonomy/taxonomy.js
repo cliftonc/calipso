@@ -47,7 +47,7 @@ function init(module,app,next) {
           "value":{type: Number}
         });
 
-        calipso.lib.mongoose.model('TaxonomyMenu', TaxonomyMenu);
+        calipso.db.model('TaxonomyMenu', TaxonomyMenu);
 
         // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTaxonomy);
@@ -111,7 +111,7 @@ function mapReduceTaxonomy(event,options,next) {
       out: 'taxonomymenus' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
-  mongoose.connection.db.executeDbCommand(command, function(err, dbres)
+  calipso.db.db.executeDbCommand(command, function(err, dbres)
   {
     // Reset
     calipso.mr.taxonomy = false;
@@ -133,7 +133,7 @@ function taxonomy(req,res,template,block,next) {
   return;
 
   // Generate the menu from the taxonomy
-  var TaxonomyMenu = calipso.lib.mongoose.model('TaxonomyMenu');
+  var TaxonomyMenu = calipso.db.model('TaxonomyMenu');
 
   TaxonomyMenu.find({},function (err, tax) {
       // Render the item into the response

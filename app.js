@@ -25,21 +25,15 @@ var rootpath = process.cwd() + '/',
 
 // Local App Variables
 var path = rootpath,
-  theme = 'default',
-  port = process.env.PORT || 3000;
+    theme = 'default',
+    port = process.env.PORT || 3000;
 
 /**
  * Catch All exception handler
  */
-process.on('uncaughtException', function (err) {
-  console.log('Uncaught exception: ' + err + err.stack);
-});
-
-
-/**
- * Placeholder for application
- */
-var app, exports;
+//process.on('uncaughtException', function (err) {
+//  console.log('Uncaught exception: ' + err + err.stack);
+//});
 
 /**
  *  App settings and middleware
@@ -47,6 +41,16 @@ var app, exports;
  *  enable modification by env.
  */
 function bootApplication(next) {
+
+  // Create our express instance, export for later reference
+  var app = express.createServer();
+  app.path = path;
+  app.isCluster = false;
+
+  // Load configuration
+  var Config = require(path + "/lib/Config").Config;
+  app.config = new Config();
+  app.config.init();
 
   app.use(express.methodOverride());
   app.use(express.cookieParser());
@@ -110,31 +114,17 @@ function bootApplication(next) {
   app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
   // Core calipso router
-  app.use(calipso.calipsoRouter(next));
+  app.use(calipso.calipsoRouter(app, function() { next(app) }));
 
 }
 
 /**
  * Initial bootstrapping
  */
-exports.boot = function (next,cluster) {
+exports.boot = function (cluster, next) {
 
-  //Create our express instance, export for later reference
-  app = exports.app = express.createServer();
-  app.path = path;
-  app.isCluster = cluster;
-
-  // Load configuration
-  var Config = require(path + "/lib/Config").Config;
-  app.config = new Config();
-  app.config.init();
-
-  // Load application configuration
-  // theme = app.config.get('themes:front');
   // Bootstrap application
-  bootApplication(function () {
-    next(app);
-  });
+  bootApplication(next);
 
 };
 
@@ -144,7 +134,7 @@ if (!module.parent) {
 
   logo.print();
 
-  exports.boot(function (app) {
+  exports.boot(false, function (app) {
 
     if (app) {
       app.listen(port);

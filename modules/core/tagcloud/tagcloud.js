@@ -39,7 +39,7 @@ function init(module,app,next) {
           "value":{type: Number}
         });
 
-        calipso.lib.mongoose.model('Tag', Tag);
+        calipso.db.model('Tag', Tag);
 
         // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTagCloud);
@@ -92,7 +92,7 @@ function mapReduceTagCloud(event,options,next) {
       out: 'tags' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
-  mongoose.connection.db.executeDbCommand(command, function(err, dbres)
+  calipso.db.db.executeDbCommand(command, function(err, dbres)
   {
 
     // Reset
@@ -112,7 +112,7 @@ function mapReduceTagCloud(event,options,next) {
  */
 function tagCloud(req,res,template,block,next) {
 
-  var Tag = calipso.lib.mongoose.model('Tag');
+  var Tag = calipso.db.model('Tag');
 
   Tag.find({})
    .find(function (err, tags) {

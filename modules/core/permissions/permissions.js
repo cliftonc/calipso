@@ -51,10 +51,10 @@ function init(module, app, next) {
     permission:{type: String, required: true},
     role:{type: String, required: true}
   });
-  calipso.lib.mongoose.model('PermissionRole', PermissionRole);
+  calipso.db.model('PermissionRole', PermissionRole);
 
   loadPermissionRoles(function(err) {
-    next();   
+    next(err);   
   });
 
 }
@@ -65,7 +65,7 @@ function init(module, app, next) {
 function loadPermissionRoles(next) {
  
   var perm = calipso.permissions,
-      PermissionRole = calipso.lib.mongoose.model('PermissionRole'); 
+      PermissionRole = calipso.db.model('PermissionRole'); 
   
   // Clear down first - this may cause strange behaviour to anyone
   // making a request at just this moment ... 
@@ -80,19 +80,15 @@ function loadPermissionRoles(next) {
     perm.addPermissionRole("admin:content:type:view","Contributor");
     perm.addPermissionRole("admin:content:type:create","Contributor");
     perm.addPermissionRole("admin:content:type:delete","Contributor");
-
-perm.addPermissionRole("admin:core:configuration","Contributor");
-    
-perm.addPermissionRole("content:view","Contributor");
-
-perm.addPermissionRole("content:update","Contributor");
-
-perm.addPermissionRole("content:create","Contributor");
-    
-
+    perm.addPermissionRole("admin:core:configuration","Contributor");
+    perm.addPermissionRole("content:view","Contributor");
+    perm.addPermissionRole("content:update","Contributor");
+    perm.addPermissionRole("content:create","Contributor");
+        
     perm.structureAndSort();
 
     next();
+
   });
 
 }
@@ -103,8 +99,8 @@ perm.addPermissionRole("content:create","Contributor");
 function showPermissions(req, res, options, next) {
 
   var structuredPermissions = calipso.permissions.structuredPermissions,
-      Role = calipso.lib.mongoose.model('Role'),
-      PermissionRole = calipso.lib.mongoose.model('PermissionRole');
+      Role = calipso.db.model('Role'),
+      PermissionRole = calipso.db.model('PermissionRole');
 
   Role.find({}).sort('name',1).find(function (err, roles) {
     var output = renderPermissionTable(structuredPermissions, roles);

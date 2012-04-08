@@ -9,13 +9,10 @@
     "url":"http://localhost:3000",
     "modulePath":"./modules",
     "themePath":"./themes",
-    "hookio":{
-      "name":"calipso-hook",
-      "host":"127.0.0.1",
-      "socket":"",
-      "port":9001,
-      "debug":false,
-      "maxListeners":500
+    "cluster": {
+      "workers": 0,
+      "restartWorkers": true,
+      "maximumRestarts": 1
     },
     "events":{
       "maxListeners":500

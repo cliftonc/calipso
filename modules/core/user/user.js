@@ -75,7 +75,7 @@ function init(module, app, next) {
         isAdmin:{type: Boolean, required: true, "default": false},
         isDefault:{type: Boolean, required: true, "default": false}
       });
-      calipso.lib.mongoose.model('Role', Role);
+      calipso.db.model('Role', Role);
 
       var User = new calipso.lib.mongoose.Schema({
         // Single default property
@@ -92,7 +92,7 @@ function init(module, app, next) {
         locked:{type: Boolean, "default":false}
       });
 
-      calipso.lib.mongoose.model('User', User);
+      calipso.db.model('User', User);
       next();
 
       // Load roles into calipso data
@@ -133,7 +133,7 @@ function setCookie(req, res, template, block, next) {
  */
 function storeRoles() {
 
-  var Role = calipso.lib.mongoose.model('Role');
+  var Role = calipso.db.model('Role');
 
   delete calipso.data.roleArray;
   delete calipso.data.roles;
@@ -171,7 +171,7 @@ function userDisplay(req, username, next) {
 
   var isAdmin = (req.session.user && req.session.user.isAdmin);
   var isUser = (req.session.user);
-  var User = calipso.lib.mongoose.model('User');
+  var User = calipso.db.model('User');
   var responseData = {name:'',email:''};
 
   User.findOne({username:username}, function(err, u) {
@@ -320,7 +320,7 @@ function updateUserForm(req, res, template, block, next) {
   res.layout = 'admin';
 
   var isAdmin = (req.session.user && req.session.user.isAdmin);
-  var User = calipso.lib.mongoose.model('User');
+  var User = calipso.db.model('User');
   var username = req.moduleParams.username;
   var roleSection = 3; // Update if changing sections
 
@@ -428,7 +428,7 @@ function updateUserForm(req, res, template, block, next) {
  */
 function lockUser(req, res, template, block, next) {
 
-  var User = calipso.lib.mongoose.model('User');
+  var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
   User.findOne({username:username}, function(err, u) {
@@ -461,7 +461,7 @@ function lockUser(req, res, template, block, next) {
  */
 function unlockUser(req, res, template, block, next) {
 
-  var User = calipso.lib.mongoose.model('User');
+  var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
   User.findOne({username:username}, function(err, u) {
@@ -497,7 +497,7 @@ function updateUserProfile(req, res, template, block, next) {
     if(form) {
 
       var username = req.moduleParams.username;
-      var User = calipso.lib.mongoose.model('User');
+      var User = calipso.db.model('User');
 
       // Quickly check that the user is an admin or it is their account
        if(req.session.user && (req.session.user.isAdmin || req.session.user.username === username)) {
@@ -626,7 +626,7 @@ function loginUser(req, res, template, block, next) {
   calipso.form.process(req, function(form) {
     if(form) {
 
-      var User = calipso.lib.mongoose.model('User');
+      var User = calipso.db.model('User');
       var username = form.user.username;
       var found = false;
 
@@ -695,7 +695,7 @@ function logoutUser(req, res, template, block, next) {
 
   if(req.session && req.session.user) {
 
-    var User = calipso.lib.mongoose.model('User');
+    var User = calipso.db.model('User');
 
     User.findOne({username:req.session.user.username}, function(err, u) {
 
@@ -729,7 +729,7 @@ function registerUser(req, res, template, block, next) {
 
     if(form) {
 
-      var User = calipso.lib.mongoose.model('User');
+      var User = calipso.db.model('User');
 
       // Get the password values and remove from form
       // This ensures they are never stored
@@ -826,7 +826,7 @@ function myProfile(req, res, template, block, next) {
  */
 function userProfile(req, res, template, block, next) {
 
-  var User = calipso.lib.mongoose.model('User');
+  var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
   User.findOne({username:username}, function(err, u) {
@@ -863,7 +863,7 @@ function userProfile(req, res, template, block, next) {
  */
 function deleteUser(req, res, template, block, next) {
 
-  var User = calipso.lib.mongoose.model('User');
+  var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
   User.findOne({username:username}, function(err, u) {
@@ -899,7 +899,7 @@ function userLink(req,user) {
 function listUsers(req,res,template,block,next) {
 
   // Re-retrieve our object
-  var User = calipso.lib.mongoose.model('User');
+  var User = calipso.db.model('User');
 
   res.menu.adminToolbar.addMenuItem(req, {name:'Register New User',path:'new',url:'/user/register',description:'Register new user ...',security:[]});
 
@@ -972,8 +972,8 @@ function listUsers(req,res,template,block,next) {
 function install(next) {
 
   // Create the default content types
-  var Role = calipso.lib.mongoose.model('Role');
-  var User = calipso.lib.mongoose.model('User');
+  var Role = calipso.db.model('Role');
+  var User = calipso.db.model('User');
 
   calipso.lib.step(
 
