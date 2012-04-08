@@ -26,8 +26,6 @@ function route(req, res, module, app, next) {
   res.menu.primary.addMenuItem({name:'Projects',path:'prjs',url:'/projects',description:'Project management...',security:[]});
   res.menu.primary.addMenuItem({name:'Create Project',path:'prjs/newProject',url:'/projects/new',description:'Create a new project ...',security:[]});
   res.menu.primary.addMenuItem({name:'View Projects',path:'prjs/viewProjects',url:'/projects',description:'View current projects ...',security:[]});
-  res.menu.primary.addMenuItem({name:'Publisher',path:'pub',url:'http://publisher.antenna.cc',description:'Publisher ...',security:[]});
-  res.menu.primary.addMenuItem({name:'Staging',path:'staging',url:'http://publisher.staging.antenna.cc',description:'Staging ...',security:[]});
   
   // Routing and Route Handler
   module.router.route(req, res, next);
