@@ -66,11 +66,11 @@ function init(module,app,next) {
 function mapReduceTaxonomy(event,options,next) {
 
   // We need to check if we are already map reducing ...
-  if(calipso.mr.taxonomy) {
+  if(calipso.storage.mr.taxonomy) {
     // TODO : CHECK IF THIS MISSES THINGS ...
     return next();
   }
-  calipso.mr.taxonomy = true;
+  calipso.storage.mr.taxonomy = true;
 
   var mongoose = calipso.lib.mongoose;
 
@@ -114,7 +114,7 @@ function mapReduceTaxonomy(event,options,next) {
   calipso.db.db.executeDbCommand(command, function(err, dbres)
   {
     // Reset
-    calipso.mr.taxonomy = false;
+    calipso.storage.mr.taxonomy = false;
     if (err) {
       // Do Something!!
       calipso.error(err);

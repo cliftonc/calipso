@@ -43,20 +43,20 @@ function init(module,app,next) {
   calipso.e.addEvent('CONTENT_VERSION');
 
   // Permissions
-  calipso.permissions.addPermission("content:versions:view","View content versions.");
-  calipso.permissions.addPermission("content:versions:diff","Diff content versions.");
-  calipso.permissions.addPermission("content:versions:revert","Revert content versions.");
+  calipso.permission.Helper.addPermission("content:versions:view","View content versions.");
+  calipso.permission.Helper.addPermission("content:versions:diff","Diff content versions.");
+  calipso.permission.Helper.addPermission("content:versions:revert","Revert content versions.");
 
   calipso.lib.step(
       function defineRoutes() {
 
-        var vPerm = calipso.permissions.hasPermission("content:versions:view"),
-            dPerm = calipso.permissions.hasPermission("content:versions:diff"),
-            rPerm = calipso.permissions.hasPermission("content:versions:revert");
+        var vPerm = calipso.permission.Helper.hasPermission("content:versions:view"),
+            dPerm = calipso.permission.Helper.hasPermission("content:versions:diff"),
+            rPerm = calipso.permission.Helper.hasPermission("content:versions:revert");
 
 
         // Menus
-        module.router.addRoute('GET /content/show/:id',showContent,{admin:true,permit:vPerm},this.parallel());
+        module.router.addRoute('GET /content/show/:id',showContentVersionsMenu,{admin:true},this.parallel());
 
         // Crud operations
         module.router.addRoute('GET /content/show/:id/versions',listVersions,{admin:true,permit:vPerm,template:'list',block:'content.version'},this.parallel());
@@ -115,8 +115,8 @@ var contentVersionFormSection = {
 /**
  * Show content menu
  */
-function showContent(req,res,template,block,next) {
-  var id = req.moduleParams.id, vPerm = calipso.permissions.hasPermission("content:versions:view");
+function showContentVersionsMenu(req,res,template,block,next) {
+  var id = req.moduleParams.id, vPerm = calipso.permission.Helper.hasPermission("content:versions:view");
   res.menu.adminToolbar.addMenuItem(req, {name:'Versions',permit:vPerm,weight:10,path:'versions',url:'/content/show/' + id + '/versions',description:'Show versions ...',security:[]});
   next();
 }
@@ -166,8 +166,8 @@ function showVersion(req,res,template,block,next) {
     var ContentVersion = calipso.db.model('ContentVersion');
 
 
-    var vPerm = calipso.permissions.hasPermission("content:versions:view"),
-        rPerm = calipso.permissions.hasPermission("content:versions:revert");      
+    var vPerm = calipso.permission.Helper.hasPermission("content:versions:view"),
+        rPerm = calipso.permission.Helper.hasPermission("content:versions:revert");      
 
     res.menu.adminToolbar.addMenuItem(req, {name:'Return',path:'return',permit:vPerm,url:'/content/show/' + contentId + '/versions',description:'Show content ...',security:[]});
     res.menu.adminToolbar.addMenuItem(req, {name:'Revert',path:'revert',permit:rPerm,url:'/content/show/' + contentId + '/version/' + id + '/revert',description:'Revert to this version of content ...',security:[]});
@@ -265,8 +265,8 @@ function listVersions(req,res,template,block,next) {
       // Re-retrieve our object
       var ContentVersion = calipso.db.model('ContentVersion');
 
-      var vPerm = calipso.permissions.hasPermission("content:versions:view"),
-          dPerm = calipso.permissions.hasPermission("content:versions:diff");      
+      var vPerm = calipso.permission.Helper.hasPermission("content:versions:view"),
+          dPerm = calipso.permission.Helper.hasPermission("content:versions:diff");      
 
       res.menu.adminToolbar.addMenuItem(req, {name:'Diff',permit:dPerm,path:'diff',url:'',description:'Diff versions ...',security:[]});
       res.menu.adminToolbar.addMenuItem(req, {name:'Return',permit:vPerm,path:'return',url:'/content/show/' + id,description:'Show content ...',security:[]});

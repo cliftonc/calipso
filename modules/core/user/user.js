@@ -21,7 +21,7 @@ function route(req, res, module, app, next) {
   // Menu
   res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
   res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
-  res.menu.admin.addMenuItem(req, {name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
+  // res.menu.admin.addMenuItem(req, {name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
   res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
 
   // Router
@@ -44,8 +44,8 @@ function init(module, app, next) {
   calipso.e.addEvent('USER_LOGOUT');
 
   // Define permissions
-  calipso.permissions.addPermission("admin:user","Full access to user management.",true);
-  calipso.permissions.addPermission("admin:user:register","Register other users.");
+  calipso.permission.Helper.addPermission("admin:user","Users",true);
+  calipso.permission.Helper.addPermission("admin:user:register","Register other users.");
 
   calipso.lib.step(
 

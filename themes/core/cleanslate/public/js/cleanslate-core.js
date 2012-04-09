@@ -23,6 +23,9 @@ cleanslate = {
       var userDataString = $.cookie('userData') || localStorage.user || '{}';
       var user = JSON.parse(decodeURIComponent(userDataString == 'undefined' ? '{}' : userDataString));
       var userWelcomeOrLoginBox = $('#user-welcome-or-login');
+
+      console.log(user);
+
       if(user.username){
         // logged in
         userWelcomeOrLoginBox.html(
@@ -77,7 +80,6 @@ cleanslate = {
         $.cookie('flashMessage', null);
       }
     })();
-    
     
     // TABS
     // introduced for admin form tabs, but general-purpose enough to belong here.
@@ -162,6 +164,3 @@ cleanslate = {
   } // end of cleanslate.init
   
 }; //end of cleanslate
-
-// since the script block is after all content, call cleanslate.init now
-cleanslate.init();

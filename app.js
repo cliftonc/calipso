@@ -48,7 +48,7 @@ function bootApplication(next) {
   app.isCluster = false;
 
   // Load configuration
-  var Config = require(path + "/lib/Config").Config;
+  var Config = calipso.config; //require(path + "/lib/core/Config").Config;
   app.config = new Config();
   app.config.init();
 

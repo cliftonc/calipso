@@ -58,13 +58,13 @@ function init(module,app,next) {
 function mapReduceTagCloud(event,options,next) {
 
   // We need to check if we are already map reducing ...
-  if(calipso.mr.tagcloud) {
+  if(calipso.storage.mr.tagcloud) {
 
     // TODO : CHECK IF THIS MISSES THINGS ...
     return next();
 
   }
-  calipso.mr.tagcloud = true;
+  calipso.storage.mr.tagcloud = true;
 
   var mongoose = calipso.lib.mongoose;
 
@@ -96,7 +96,7 @@ function mapReduceTagCloud(event,options,next) {
   {
 
     // Reset
-    calipso.mr.tagcloud = false;
+    calipso.storage.mr.tagcloud = false;
     if (err) {
       // Do Something!!
       calipso.error(err);

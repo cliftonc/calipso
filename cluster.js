@@ -37,7 +37,7 @@ function launchServer() {
 
 
       // Load configuration
-      var Config = require(rootpath + "lib/Config").Config,
+      var Config = require(rootpath + "lib/core/Config"),
           config = new Config();  
       config.init();
 
@@ -48,6 +48,7 @@ function launchServer() {
       totalWorkers = config.get('server:cluster:workers') || argv.c;
 
       // Fork workers based on num cpus
+      console.log("Loading ".green + totalWorkers + " workers, please wait ...".green);
       for (var i = 0; i < totalWorkers; i++) {
         forkWorker();
       }

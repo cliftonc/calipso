@@ -13,14 +13,14 @@ var rootpath = process.cwd() + '/',
  * Define the routes that this module will repsond to.
  */
 var routes = [
-  {path:'GET /content/type',fn:listContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:view"),template:'list',block:'content.type.show'},
-  {path:'GET /content/type/list.:format?',fn:listContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:view"),template:'list',block:'content.type.list'},
-  {path:'POST /content/type/create',fn:createContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:create")},
-  {path:'GET /content/type/new',fn:createContentTypeForm,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:create"),block:'content.type.new',template:'form'},
-  {path:'GET /content/type/show/:id.:format?',fn:showContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:view"),template:'show',block:'content.type.show'},
-  {path:'GET /content/type/edit/:id',fn:editContentTypeForm,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:update"),block:'content.type.edit'},
-  {path:'GET /content/type/delete/:id',fn:deleteContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:delete")},
-  {path:'POST /content/type/update/:id',fn:updateContentType,admin:true,permit:calipso.permissions.hasPermission("admin:content:type:update")}
+  {path:'GET /content/type',fn:listContentType,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:view"),template:'list',block:'content.type.show'},
+  {path:'GET /content/type/list.:format?',fn:listContentType,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:view"),template:'list',block:'content.type.list'},
+  {path:'POST /content/type/create',fn:createContentType,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:create")},
+  {path:'GET /content/type/new',fn:createContentTypeForm,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:create"),block:'content.type.new',template:'form'},
+  {path:'GET /content/type/show/:id.:format?',fn:showContentType,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:view"),template:'show',block:'content.type.show'},
+  {path:'GET /content/type/edit/:id',fn:editContentTypeForm,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:update"),block:'content.type.edit'},
+  {path:'GET /content/type/delete/:id',fn:deleteContentType,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:delete")},
+  {path:'POST /content/type/update/:id',fn:updateContentType,admin:true,permit:calipso.permission.Helper.hasPermission("admin:content:type:update")}
 ]
 
 /** 
@@ -42,7 +42,7 @@ function route(req,res,module,app,next) {
   /**
    * Menu items
    */
-  res.menu.admin.addMenuItem(req, {name:'Content Types',path:'cms/type',url:'/content/type',description:'Manage content types ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
+  res.menu.admin.addMenuItem(req, {name:'Content Types',path:'cms/type',url:'/content/type',description:'Manage content types ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
 
   /**
    * Routing and Route Handler
@@ -73,7 +73,7 @@ function init(module,app,next) {
   calipso.e.pre('CONTENT_TYPE_UPDATE',module.name,compileTemplates);
 
   // Define permissions
-  calipso.permissions.addPermission("admin:content:type","Manage content types.",true);
+  calipso.permission.Helper.addPermission("admin:content:type","Content Types",true);
 
   // Schemea
   var ContentType = new calipso.lib.mongoose.Schema({
@@ -237,10 +237,10 @@ function editContentTypeForm(req,res,template,block,next) {
   var item;
 
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'List',path:'list',url:'/content/type/',description:'List all ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
-  res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',permit:calipso.permissions.hasPermission("admin:content:type:edit")});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',permit:calipso.permissions.hasPermission("admin:content:type:delete")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'List',path:'list',url:'/content/type/',description:'List all ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:edit")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:delete")});
 
   ContentType.findById(id, function(err, c) {
 
@@ -335,10 +335,10 @@ function showContentType(req,res,template,block,next) {
 
     } else {
 
-      res.menu.adminToolbar.addMenuItem(req, {name:'List',path:'list',url:'/content/type/',description:'List all ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
-      res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',permit:calipso.permissions.hasPermission("admin:content:type:view")});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',permit:calipso.permissions.hasPermission("admin:content:type:edit")});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',permit:calipso.permissions.hasPermission("admin:content:type:delete")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'List',path:'list',url:'/content/type/',description:'List all ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/content/type/show/' + id,description:'Current item ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:edit")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:delete")});
 
       item = {id:content._id,type:'content',meta:content.toObject()};
 
@@ -380,7 +380,7 @@ function listContentType(req,res,template,block,next) {
   // Re-retrieve our object
   var ContentType = calipso.db.model('ContentType');
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'New Type',path:'new',url:'/content/type/new',description:'Create content type ...',permit:calipso.permissions.hasPermission("admin:content:type:create")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'New Type',path:'new',url:'/content/type/new',description:'Create content type ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:create")});
 
   var format = req.moduleParams.format || 'html';
 

@@ -16,16 +16,18 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Config helpers
-  var corePermit = calipso.permissions.hasPermission("admin:core:configuration"),
-      cachePermit = calipso.permissions.hasPermission("admin:core:cache");
+  var corePermit = calipso.permission.Helper.hasPermission("admin:core:configuration"),
+      modulePermit = calipso.permission.Helper.hasPermission("admin:module:configuration"),
+      cachePermit = calipso.permission.Helper.hasPermission("admin:core:cache");
 
   // Menu items
   res.menu.admin.addMenuItem(req, {name:'Administration',path:'admin',url:'/admin',description:'Calipso administration ...',permit:corePermit});
-  res.menu.admin.addMenuItem(req, {name:'Calipso Core',path:'admin/core',url:'/admin',description:'Manage core settings for Calipso ...',permit:corePermit});
-  res.menu.admin.addMenuItem(req, {name:'Configuration Options',path:'admin/core/config',url:'/admin/core/config',description:'Core configuration ...',permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'Core',path:'admin/core',url:'/admin',description:'Manage core settings for Calipso ...',permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'Configuration',path:'admin/core/config',url:'/admin/core/config',description:'Core configuration ...',permit:corePermit});
   res.menu.admin.addMenuItem(req, {name:'View Languages',path:'admin/core/languages',url:'/admin/core/languages',description:'Languages ...',permit:corePermit});
   res.menu.admin.addMenuItem(req, {name:'View Cache',path:'admin/core/cache',url:'/admin/core/cache',description:'Cache ...',permit:cachePermit});
   res.menu.admin.addMenuItem(req, {name:'Clear Cache',path:'admin/core/cache/clear',url:'/admin/core/cache/clear',description:'Clear Cache ...',permit:cachePermit});
+  res.menu.admin.addMenuItem(req, {name:'Modules',path:'admin/modules',url:'/admin',description:'Manage module settings ...',permit:modulePermit});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -39,13 +41,14 @@ function route(req, res, module, app, next) {
 function init(module, app, next) {
 
   // Initialise administration events - enabled for hook.io  
-  calipso.e.addEvent('CONFIG_UPDATE',{enabled:true,hookio:true}); 
+  calipso.e.addEvent('CONFIG_UPDATE',{enabled:true}); 
 
   // Add listener to config_update
   calipso.e.post('CONFIG_UPDATE',module.name,calipso.reloadConfig);
 
-  calipso.permissions.addPermission("admin:core:configuration","Manage core configuration.");
-  calipso.permissions.addPermission("admin:core:cache","View and clear cache.");
+  calipso.permission.Helper.addPermission("admin:core:configuration","Manage core configuration.");
+  calipso.permission.Helper.addPermission("admin:module:configuration","Manage module configuration.");
+  calipso.permission.Helper.addPermission("admin:core:cache","View and clear cache.");
 
   // Admin routes
   calipso.lib.step(
@@ -53,8 +56,9 @@ function init(module, app, next) {
   function defineRoutes() {
 
     // Permissions
-    var corePermit = calipso.permissions.hasPermission("admin:core:configuration"),
-        cachePermit = calipso.permissions.hasPermission("admin:core:cache");
+    var corePermit = calipso.permission.Helper.hasPermission("admin:core:configuration"),
+        modulePermit = calipso.permission.Helper.addPermission("admin:core:configuration","Manage core configuration."),
+        cachePermit = calipso.permission.Helper.hasPermission("admin:core:cache");
 
     // Core Administration dashboard
     module.router.addRoute('GET /admin', showAdmin, {
@@ -97,6 +101,17 @@ function init(module, app, next) {
       permit: corePermit
     }, this.parallel());
 
+
+    module.router.addRoute('GET /admin/modules', modulesConfig, {
+      admin: true,
+      block:'admin.show',
+      permit: modulePermit
+    }, this.parallel());
+
+    module.router.addRoute('POST /admin/modules/save', saveModulesConfig, {
+      admin: true,
+      permit: modulePermit
+    }, this.parallel());
 
     // Default installation routers - only accessible in install mode
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
@@ -553,8 +568,8 @@ function coreConfig(req, res, template, block, next) {
 
   calipso.data.themes = [];
   calipso.data.adminThemes = []; // TODO
-  for(var themeName in calipso.themes){
-    var theme = calipso.themes[themeName];
+  for(var themeName in calipso.availableThemes){
+    var theme = calipso.availableThemes[themeName];
     if(theme.about.type === "full" || theme.about.type === "frontend") {
       calipso.data.themes.push(themeName);
     }
@@ -650,34 +665,27 @@ function coreConfig(req, res, template, block, next) {
             ]
           },
           {
-            label:'Hook.IO',
-            legend:'Hook.IO',
+            label:'Clustering',
+            legend:'Clustering',
             type:'fieldset',
             fields:[
               {
-                label:'Hook.IO Name',
-                name:'server:hookio:name',
+                label:'Number Workers',
+                description:'Number of workers to start, set to 0 to have Calipso default to number of available cpus.',
+                name:'server:cluster:workers',
                 type:'text'
               }, 
               {
-                label:'Hook.IO Port',
-                name:'server:hookio:port',
-                type:'text'
-              },
-              {
-                label:'Hook.IO Host Name',
-                name:'server:hookio:host',
-                type:'text'
-              },
-              {
-                label:'Hook.IO Debug',
-                name:'server:hookio:debug',
+                label:'Restart Workers',
+                name:'server:cluster:restartWorkers',
+                description:'Automatically restart workers if they die.',
                 type:'checkbox',
                 labelFirst: true
               },
               {
-                label:'Hook.IO Max Listeners',
-                name:'server:hookio:maxListeners',
+                label:'Maximum Restarts',
+                name:'server:cluster:maximumRestarts',
+                description:'Number of failures before it will stop attempting to restart a worker.',
                 type:'text'
               }
             ]
@@ -816,6 +824,141 @@ function coreConfig(req, res, template, block, next) {
 
 }
 
+/**
+ * Show the current configuration
+ * TODO Refactor this to a proper form
+ */
+function modulesConfig(req, res, template, block, next) {
+
+  var moduleName = req.query.module || '';
+  
+  if(!moduleName || !calipso.modules[moduleName]) {
+    req.flash('error','You need to specify a valid module.');
+    res.redirect('/admin');
+    return next();
+  }
+
+  var configForm = {
+    id:'module-config-form',
+    title:'Configure: ' + moduleName,
+    type:'form',
+    method:'POST',
+    action:'/admin/modules/save',
+    tabs:false,
+    fields:[      
+      {
+        label:'',
+        value:moduleName,
+        name:'moduleName',
+        type:'hidden'
+      }
+    ],
+    buttons:[
+      {
+        name:'submit',
+        type:'submit',
+        value:'Save Configuration'
+      },
+     {name:'cancel',type:'button',href:'/admin', value:'Cancel'}
+    ]
+  };
+
+  // Values can come straight off the config.
+  var values = calipso.config.getModuleConfig(moduleName);
+
+  // Fields come from the module
+  var config = calipso.modules[moduleName].fn.config;
+
+  calipso.lib._.keys(config).forEach(function(key) {
+    var field = {};
+    field.label = config[key].label || key;
+    field.name = key;
+
+    if(config[key].type) {
+      
+      field.type = config[key].type;
+
+      // select boxes
+      if(config[key].options) {
+        field.options = config[key].options;
+      }
+
+    } else {
+      // infer from value      
+      if(typeof values[key] === 'boolean') {
+        field.type = 'checkbox';
+        field.labelFirst = true;
+      } else {
+        field.type = 'text';
+      }
+    }
+
+
+    field.description = config[key].description || '';
+    configForm.fields.push(field);
+  })
+  
+  res.layout = 'admin';
+
+  calipso.form.render(configForm, values, req, function(form) {
+    calipso.theme.renderItem(req, res, form, block, {}, next);
+  });
+
+}
+
+
+/**
+ * Save module configuratino
+ */
+function saveModulesConfig(req, res, template, block, next) {
+
+  calipso.form.process(req, function(moduleConfig) {
+
+    if (moduleConfig) {
+
+      var moduleName = moduleConfig.moduleName;
+
+      // Clean the submitted object
+      delete moduleConfig.moduleName
+      delete moduleConfig.submit
+
+      calipso.config.setModuleConfig(moduleName, '', moduleConfig);
+
+      calipso.e.pre_emit('CONFIG_UPDATE',{module: moduleName, config: moduleConfig}, function(config) {
+
+        calipso.config.save(function(err) {
+
+          if(err) {
+            
+            req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
+            res.redirect('/admin/modules?module=' + moduleName);
+            
+          } else {
+            
+            // Set the reload config flag for event handler to pick up
+            calipso.e.post_emit('CONFIG_UPDATE', {module: moduleName, config: moduleConfig}, function(config) {     
+                                                          
+              req.flash('info', req.t('Changes to configuration saved.'));
+              res.redirect('/admin');
+              next();                
+              
+            });
+            
+          }
+        });
+        
+      });
+   
+    } else {
+
+      req.flash('error', req.t('Could not process the updated module configuration.'));
+      res.redirect('/admin');
+      next();
+
+    }
+
+  });
+}
 
 /**
  * Create a form field for a module

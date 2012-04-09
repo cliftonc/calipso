@@ -23,10 +23,10 @@ exports = module.exports = {
  */
 function route(req,res,module,app,next) {
 
-  var cPerm = calipso.permissions.hasPermission("content:create"),
-      uPerm = calipso.permissions.hasPermission("content:update"),
-      dPerm = calipso.permissions.hasPermission("content:delete"),
-      vPerm = calipso.permissions.hasPermission("content:view");
+  var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+      uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+      dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+      vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
   res.menu.admin.addMenuItem(req, {name:'Content Management',path:'cms',url:'/content',description:'Manage content ...',permit:vPerm});
   res.menu.admin.addMenuItem(req, {name:'Content',path:'cms/content',url:'/content',description:'Manage content ...',permit:vPerm});
@@ -47,15 +47,15 @@ function init(module,app,next) {
   calipso.e.addEvent('CONTENT_CREATE_FORM');
   calipso.e.addEvent('CONTENT_UPDATE_FORM');
 
-  calipso.permissions.addPermission("content","Manage content.",true);
+  calipso.permission.Helper.addPermission("content:manage","Content",true);
 
   calipso.lib.step(
       function defineRoutes() {
 
-        var cPerm = calipso.permissions.hasPermission("content:create"),
-            uPerm = calipso.permissions.hasPermission("content:update"),
-            dPerm = calipso.permissions.hasPermission("content:delete"),
-            vPerm = calipso.permissions.hasPermission("content:view");
+        var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+            uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+            dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+            vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
         // Default routes
         module.router.addRoute('GET /',homePage,{template:'list',block:'content.home'},this.parallel());
@@ -75,7 +75,7 @@ function init(module,app,next) {
         module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,permit:vPerm,template:'listAdmin',block:'content.list'},this.parallel());
         module.router.addRoute('POST /content',createContent,{admin:true,permit:cPerm},this.parallel());
         module.router.addRoute('GET /content/new',createContentForm,{admin:true,permit:vPerm,block:'content.create'},this.parallel());
-        module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{admin:true,permit:vPerm,template:'show',block:'content.show'},this.parallel());
+        module.router.addRoute('GET /content/show/:id',showContentByID,{admin:true,permit:vPerm,template:'show',block:'content.show'},this.parallel());
         module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,permit:uPerm,block:'content.edit'},this.parallel());
         module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true,permit:dPerm},this.parallel());
         module.router.addRoute('POST /content/:id',updateContent,{admin:true,permit:uPerm},this.parallel());
@@ -84,12 +84,12 @@ function init(module,app,next) {
       function done() {
 
         // Add dynamic helpers
-        calipso.dynamicHelpers.getContent = function() {
+        calipso.helpers.getContent = function() {
           return getContent;
         }
 
         // Get content list helper
-        calipso.dynamicHelpers.getContentList = function() {
+        calipso.helpers.getContentList = function() {
           return getContentList;
         }
 
@@ -499,10 +499,10 @@ function editContentForm(req,res,template,block,next) {
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
 
-  var cPerm = calipso.permissions.hasPermission("content:create"),
-      uPerm = calipso.permissions.hasPermission("content:update"),
-      dPerm = calipso.permissions.hasPermission("content:delete"),
-      vPerm = calipso.permissions.hasPermission("content:view");
+  var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+      uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+      dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+      vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
   res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',permit:vPerm});
   res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/content/show/' + id,description:'Show current ...',permit:vPerm});
@@ -752,10 +752,10 @@ function showContent(req,res,template,block,next,err,content,format) {
 
   } else {
 
-    var cPerm = calipso.permissions.hasPermission("content:create"),
-        uPerm = calipso.permissions.hasPermission("content:update"),
-        dPerm = calipso.permissions.hasPermission("content:delete"),
-        vPerm = calipso.permissions.hasPermission("content:view");
+    var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+        uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+        dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+        vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
     res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:3,path:'new',url:'/content/new',description:'Create content ...',permit:cPerm});
     res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',permit:vPerm});
@@ -799,8 +799,8 @@ function listContent(req,res,template,block,next) {
       // Re-retrieve our object
       var Content = calipso.db.model('Content');
 
-      var cPerm = calipso.permissions.hasPermission("content:create"),
-          vPerm = calipso.permissions.hasPermission("content:view");
+      var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+          vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
       res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',permit:cPerm});
 
@@ -857,7 +857,7 @@ function listContent(req,res,template,block,next) {
 /**
  * Helper function for link to user
  */
-function contentLink(req,content) {
+function contentLink(req, content) {
   return calipso.link.render({id:content._id,title:req.t('View {content}',{content:content.title}),label:content.title,url:'/content/show/' + content._id});
 }
 
@@ -894,7 +894,7 @@ function getContentList(query,out,next) {
         var qry = Content.find(query).skip(from).limit(limit);
 
         // Add sort
-        qry = calipso.table.sortQuery(qry,out.sortBy);
+        // qry = calipso.table.sortQuery(qry, out.sortBy);
 
         qry.find(function (err, contents) {
 
@@ -903,27 +903,10 @@ function getContentList(query,out,next) {
                   // Render the item into the response
                   if(out.format === 'html') {
 
-                    var table = {id:'content-list',sort:true,cls:'table-admin',
-                        columns:[{name:'_id',sort:'title',label:'Title',fn:contentLink},
-                                {name:'contentType',label:'Type'},
-                                {name:'status',label:'Status'},
-                                {name:'published',label:'Published'}
-                        ],
-                        data:contents,
-                        view:{
-                          pager:true,
-                          from:from,
-                          limit:limit,
-                          total:total,
-                          url:out.req.url,
-                          sort:calipso.table.parseSort(out.sortBy)
-                        }
-                    };
+                  
 
-                    var tableHtml = calipso.table.render(table,out.req);
-
-                    //calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
-                    calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
+                    calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
+                    // calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
 
                   }
 

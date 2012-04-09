@@ -22,7 +22,7 @@ var salt = bcrypt.genSaltSync(10);
  * Check if a string is valid against a hash
  */
 function check(string,hash) {
-  return bcrypt.compare_sync(string, hash);
+  return bcrypt.compareSync(string, hash);
 }
 
 /**

@@ -1126,3 +1126,35 @@ form .section:first-child {
   border-style: solid;
   border-color: black black transparent transparent;
 }
+
+.admin-permissions {
+  border: none !important;
+}
+
+.admin-permissions td, .admin-permissions th {
+  border: none !important;
+}
+
+.perm-header.perm-depth-0 {
+  background-color: #343434;
+  color: white;
+  margin-top: 10px;
+}
+.perm-header.perm-depth-1 {
+  background-color: silver;
+}
+.perm-header.perm-depth-2 {
+  background-color: #efefef;
+}
+
+.perm-description {
+
+}
+.perm-header td {
+  padding: 5px;
+  font-weight: bold;
+}
+.perm-row td {
+  padding: 5px;
+  padding-left: 10px;
+}
