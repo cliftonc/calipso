@@ -39,6 +39,7 @@ function launchServer() {
       // Load configuration
       var Config = require(rootpath + "lib/core/Config"),
           config = new Config();  
+
       config.init();
 
       // Print the logo
@@ -105,7 +106,7 @@ function forkWorker() {
 
         runningWorkers++;
 
-        if(runningWorkers === totalWorkers) {
+        if(runningWorkers === parseInt(totalWorkers)) {
           console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
           console.log("Calipso server running ".green + runningWorkers + " workers, listening on port: ".green + port);
         }
