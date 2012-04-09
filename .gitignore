@@ -16,3 +16,4 @@ docs/coverage.html
 *.gz
 *.sass-cache
 themes/community/
+modules/site/
