@@ -5,7 +5,7 @@ modules/downloaded/*
 modules/custom
 modules/community/*
 modules/site
-modules/ebooq
+modules/private
 media/*
 themes/downloaded/*
 themes/custom/*
@@ -18,4 +18,4 @@ docs/coverage.html
 *.gz
 *.sass-cache
 themes/community/
-themes/ebooq
+themes/private/
