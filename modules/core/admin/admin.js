@@ -331,7 +331,7 @@ function installMongoTest(req, res, template, block, next) {
     var output = {};
 
     if(dbUri) {
-      calipso.mongoConnect(dbUri,true,function(err,connected) {
+      calipso.storage.mongoConnect(dbUri,true,function(err,connected) {
         if(!err) {
           output.status = "OK";
         } else {
@@ -474,7 +474,10 @@ function installModules(req,res,next) {
       },
       user: {
         enabled: true
-      }      
+      },
+      permissions: {
+        enabled: true
+      }
     },
     installStep: 'done'    
   };
@@ -491,7 +494,7 @@ function doInstallation(next) {
     
   // Set the install flag to true, enable db connection
   calipso.config.set('installed',true);
-  calipso.mongoConnect(function(err) {
+  calipso.storage.mongoConnect(function(err) {
 
     if(err) {
       return next(err);
@@ -965,7 +968,7 @@ function saveModulesConfig(req, res, template, block, next) {
  */
 function createModuleFields(formFields) {
 
-  var readonlyModules = ["admin","user","content","contentTypes"]; // Modules that cant be disabled
+  var readonlyModules = ["admin","user","content","contentTypes","permissions"]; // Modules that cant be disabled
   var tempModuleFields = {};
 
   // load up the tempModuleFields (according to module category)

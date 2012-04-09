@@ -29,7 +29,7 @@ function check(string,hash) {
  * Create a hash from string and key / salt
  */
 function hash(string,key) {
-  var hash = bcrypt.encrypt_sync(string,salt);
+  var hash = bcrypt.hashSync(string,salt);
   return hash;
 }
 
