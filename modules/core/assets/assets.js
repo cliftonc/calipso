@@ -501,6 +501,7 @@ function init(module, app, next) {
           for (var i = 0; i < (paths.length - 1); i++) {
             parentFolder += paths[i] + '/';
           }
+          debugger;
           if (isBucket) {
             // Create a new bucket
             // This is a PUT with no alias.
@@ -546,16 +547,20 @@ function init(module, app, next) {
           function interactWithS3(asset) {
             var headers = {};
             headers['x-amz-copy-source'] = copySource;
-            if (copy && /(proj|s3)\//.test(copy)) {
+            if (copySource && /(proj|s3)\//.test(copySource)) {
               Asset.findOne({alias:copySource}, function (err, copyAsset) {
                 if (err || !copyAsset) {
                   return callback(new Error('unable to resolve copy source'));
                 }
-                req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
+                calipso.debug('Rewriting copySource from ' + copySource + ' to /' + copyAsset.key);
+                copySource = '/' + escape(copyAsset.key);
+                headers['x-amz-copy-source'] = copySource;
                 interactWithS3(asset);
               });
               return;
             }
+            if (copySource)
+              headers['Content-Length'] = 0;
             var paths = asset.key.split('/');
             var fileName = paths[paths.length - 1];
             var bucket = paths.splice(0, 1)[0];
@@ -566,12 +571,22 @@ function init(module, app, next) {
             var contentType = mime.lookup(fileName);
             headers['Content-Type'] = contentType;
             headers['Expect'] = '100-continue';
+            calipso.debug('Putting ' + s3key + " with " + JSON.stringify(headers));
             var s3req = k.request('PUT', escape(s3key), headers)
               .on('error', function(err) {
                 callback(err, null);
+                calipso.debug(err);
               })
               .on('response', function(s3res) {
-                return callback(null, asset);
+                var data = "";
+                s3res.on('data', function (chunk) {
+                  data += chunk;
+                });
+                s3res.on('end', function () {
+                  if (s3res.statusCode != 200)
+                    return callback(new Error(data), asset, data);
+                  return callback(null, asset, data);
+                });
               });
               s3req.end();
           }
@@ -656,7 +671,7 @@ function init(module, app, next) {
               if (asset.isfolder) {
                 return callback(null, asset);
               }
-              return interactWithS3(asset, req, res, next);
+              return interactWithS3(asset);
             });
           });
         }
