@@ -328,44 +328,54 @@ function handleAsset(req, res, next) {
 
 function testAssets(req, res, route, next) {
   calipso.debug('testing');
-  calipso.lib.assets.createAsset('proj/project1/archive/testing/', null, 'andy', function (err, asset) {
+  calipso.lib.assets.createAsset({path:'proj/project1/archive/testing/',author:'andy'}, function (err, asset) {
     if (err) {
       return res.send(500, err.message);
     }
     res.write(JSON.stringify(asset) + '\n');
-    calipso.debug('deleting');
-    calipso.lib.assets.deleteAsset('proj/project1/archive/testing/', function (err) {
-      if (err) {
-        res.write("unable to delete folder " + err.message);
-        res.end();
-        return;
-      }
-      res.write("folder deleted\n");
-      calipso.lib.assets.createAsset('s3/ai-test2/project:newproject:archive/', null, 'andy', function (err, asset) {
+    calipso.lib.assets.createAsset({path:'proj/project1/archive/testing/badfile.coffee',copySource:'proj/project1/archive/badFile.coffee',author:'andy'}, function (err, asset) {
+      calipso.debug('deleting');
+      calipso.lib.assets.deleteAsset('proj/project1/archive/testing/badfile.coffee', function (err) {
         if (err) {
-          res.write("unable to create project " + err.message);
+          res.write("unable to delete file badfile.coffee " + err.message);
           res.end();
           return;
         }
-        res.write("created project and root folder\n");
-        calipso.lib.assets.deleteAsset('proj/newproject/archive/', function (err, asset) {
+        calipso.debug('deleting');
+        calipso.lib.assets.deleteAsset('proj/project1/archive/testing/', function (err) {
           if (err) {
-            res.write("unable to delete project special folder " + err.message);
+            res.write("unable to delete folder " + err.message);
             res.end();
             return;
           }
-          res.write("deleted project root folder\n");
-          res.write(JSON.stringify(asset) + '\n');
-          calipso.lib.assets.deleteAsset('proj/newproject/', function (err, asset) {
+          res.write("folder deleted\n");
+          calipso.lib.assets.createAsset({path:'s3/ai-test2/project:newproject:archive/',author:'andy'}, function (err, asset) {
             if (err) {
-              res.write("unable to delete the project itself");
+              res.write("unable to create project " + err.message);
               res.end();
+              return;
             }
-            res.write("deleted project\n")
-            res.write(JSON.stringify(asset) + '\n');
-            res.end();
+            res.write("created project and root folder\n");
+            calipso.lib.assets.deleteAsset('proj/newproject/archive/', function (err, asset) {
+              if (err) {
+                res.write("unable to delete project special folder " + err.message);
+                res.end();
+                return;
+              }
+              res.write("deleted project root folder\n");
+              res.write(JSON.stringify(asset) + '\n');
+              calipso.lib.assets.deleteAsset('proj/newproject/', function (err, asset) {
+                if (err) {
+                  res.write("unable to delete the project itself");
+                  res.end();
+                }
+                res.write("deleted project\n")
+                res.write(JSON.stringify(asset) + '\n');
+                res.end();
+              });
+            })
           });
-        })
+        });
       });
     })
   });
@@ -533,7 +543,7 @@ function init(module, app, next) {
             });
             return;
           }
-          function interactWithS3(asset, req, res, next) {
+          function interactWithS3(asset) {
             var headers = {};
             headers['x-amz-copy-source'] = copySource;
             if (copy && /(proj|s3)\//.test(copy)) {
@@ -542,7 +552,7 @@ function init(module, app, next) {
                   return callback(new Error('unable to resolve copy source'));
                 }
                 req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
-                interactWithS3(asset, req, res, next);
+                interactWithS3(asset);
               });
               return;
             }
@@ -558,7 +568,7 @@ function init(module, app, next) {
             headers['Expect'] = '100-continue';
             var s3req = k.request('PUT', escape(s3key), headers)
               .on('error', function(err) {
-                next(null, err);
+                callback(err, null);
               })
               .on('response', function(s3res) {
                 return callback(null, asset);
@@ -615,7 +625,7 @@ function init(module, app, next) {
                     if (isFolder) {
                       return callback(null, asset);
                     } else
-                      interactWithS3(asset, req, res, next);
+                      interactWithS3(asset);
                   });
                 }
                 if (project) {
