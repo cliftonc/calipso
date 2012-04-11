@@ -8,15 +8,7 @@
     "url": "git://github.com/cliftonc/calipso.git"
   },
   "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
-  "directories": {
-    "lib": "./lib",
-    "conf": "./conf",
-    "modules": "./modules",
-    "themes": "./themes",
-    "support": "./support",
-    "utils": "./utils",
-    "tests": "./tests"
-  },
+  "keywords"      : ["cms", "content management", "server", "mongodb"],
   "engines": {
     "node": "0.6.x"
   },
@@ -50,7 +42,6 @@
     "should": "*"
   },
   "scripts": {
-    "install" : "bash ./bin/install.sh",
     "test" : "expresso -s"
   },
   "bin": { "calipso": "./bin/calipso" }
