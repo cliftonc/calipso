@@ -13,6 +13,7 @@ var rootpath = process.cwd() + '/',
 exports = module.exports = {
   init: init,
   route: route,
+  install: install,
   titleAlias: titleAlias,
   jobs:{scheduledPublish:scheduledPublish},
   contentForm:contentForm
@@ -973,6 +974,47 @@ function deleteContent(req,res,template,block,next) {
 
   });
 }
+
+
+/**
+ * Installation process - asynch
+ * @returns
+ */
+function install(next) {
+
+  // Create the default content types
+  var Content = calipso.db.model('Content');
+
+  var defaults = {
+    status: 'published',
+    author: 'installation',
+    contentType: 'Block Content', // TO DO - this should be a helper function
+    layout: 'default',
+    ispublic: false,
+    created: new Date()
+  }
+
+  // Create all the default content
+  var welcome = JSON.parse(calipso.lib.fs.readFileSync(__dirname + '/defaults/welcome.json')),
+      about = JSON.parse(calipso.lib.fs.readFileSync(__dirname + '/defaults/about-me.json')),
+      article = JSON.parse(calipso.lib.fs.readFileSync(__dirname + '/defaults/article.json')),
+      wc = new Content(calipso.lib._.extend(defaults, welcome)),
+      ac = new Content(calipso.lib._.extend(defaults, about)),
+      art = new Content(calipso.lib._.extend(defaults, article));
+
+  calipso.lib.async.parallel([function(cb) { wc.save(cb) }, function(cb) { ac.save(cb) }, function(cb) { art.save(cb) }], function(err) {
+    
+    // Allow event to fire
+    calipso.e.post_emit('CONTENT_UPDATE',art,function(artc) {});
+
+    // Done
+    calipso.info("Content module installed ... ");
+    next();
+
+  });
+
+}
+
 
 /**
  * Job to publish content that is scheduled

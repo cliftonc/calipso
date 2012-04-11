@@ -213,7 +213,7 @@ function install(req, res, template, block, next) {
   // Process the input from the previous step
   calipso.form.process(req, function(form) {
 
-      if (form) {
+      if (form) { 
         if(form.userStep) {
           // Store the user for later
           calipso.data.adminUser = form.user;
@@ -239,9 +239,9 @@ function install(req, res, template, block, next) {
         case "modules":
           installModules(req,res,localNext);
           break;
-        case "done":
-          installDone(req,res,localNext);
-          break;
+        case "finalise":
+          doInstallation(req,res,localNext);
+          break;     
         default:
           localNext(new Error("A step was specified that is not defined in the install process: " + installStep));
       }
@@ -477,9 +477,15 @@ function installModules(req,res,next) {
       },
       permissions: {
         enabled: true
+      },
+      taxonomy: {
+        enabled: true
+      },
+      tagcloud: {
+        enabled: true
       }
     },
-    installStep: 'done'    
+    installStep: 'finalise'    
   };
 
   calipso.form.render(moduleForm, formValues, req, function(form) {
@@ -488,66 +494,59 @@ function installModules(req,res,next) {
 
 }
 
-function doInstallation(next) {
+function doInstallation(req, res, next) {
 
   // NOTE: User is installed via the user module
     
   // Set the install flag to true, enable db connection
   calipso.config.set('installed',true);
   calipso.storage.mongoConnect(function(err) {
-
+      
     if(err) {
       return next(err);
     }
 
-    // Get a list of all the modules to install 
-    var modulesToInstall = [];
-    for (var module in calipso.modules) {
-      // Check to see if the module is currently enabled, if so install it
-      if (calipso.modules[module].enabled && calipso.modules[module].fn && typeof calipso.modules[module].fn.install === 'function') {
-        modulesToInstall.push(module);
-      }
-    } 
-
     // Note - the admin user is created in the user module install process
-    calipso.lib.step(
-      function installModules() {
-        var group = this.group();
-         modulesToInstall.forEach(function(module){
-          calipso.silly("Installing module " + module);
-          calipso.modules[module].fn.install(group());            
-        });
-      },
-      function saveConfiguration(err) {
+    calipso.lib.step(     
+      function saveConfiguration() {
         // Save configuration to file
-        calipso.silly("Saving configuration ... ");
-        calipso.config.set('installed',true);
+        calipso.info("Saving configuration ... ");
         calipso.config.save(this);        
       },
       function reloadConfiguration() {
-        // This ensures the configuration is applied in cluster mode
+        // This actually re-loads all of the modules
+        calipso.info("Reloading updated configuration ... ");
         calipso.reloadConfig("ADMIN_INSTALL", calipso.config, this);
       },
+      function installModules() {
+
+         // TODO - this should just be part of enabling them the first time!
+
+         var group = this.group();
+
+         // Get a list of all the modules to install 
+         var modulesToInstall = [];
+         for (var module in calipso.modules) {
+           // Check to see if the module is currently enabled, if so install it
+           if (calipso.modules[module].enabled && calipso.modules[module].fn && typeof calipso.modules[module].fn.install === 'function') {
+             modulesToInstall.push(module);
+           }
+         } 
+      
+         modulesToInstall.forEach(function(module){
+          calipso.info("Installing module " + module);
+          calipso.modules[module].fn.install(group());            
+        });
+
+      },
       function done(err) {
+
+        res.redirect("/")
         return next(err);
+
       }
     );
     
-  });
-
-}
-
-
-/**
- * Install Modules - called by install router, not a routing function.
- */
-function installDone(req,res,next) {
-
-  doInstallation(function(err) {
-
-    var template = calipso.modules.admin.templates.install_done;
-    calipso.theme.renderItem(req, res, template, 'admin.install.done', {err:err,calipso:calipso}, next);
-
   });
 
 }

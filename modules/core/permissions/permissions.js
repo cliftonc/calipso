@@ -242,6 +242,6 @@ function updatePermissions(req, res, options, next) {
  * Installation process - asynch
  */
 function install(next) {
-
+  /// Nothign yet
   next();
 }

@@ -4,17 +4,16 @@
 </div>
 
 <div class="sidePanelItem">
-  <!-- Theme / Module driven content -->
+  	<h3><%- t('Navigation') %></h3>
+	<nav class="primary">
+		<%- getMenu('primary') %>
+	</nav>
+</div>
+
+<div class="sidePanelItem">
   <%- tagcloud %>
 </div>
 
 <div class="sidePanelItem">
   <%- side %>
 </div>
-<div class="sidePanelItem ad">
-  <div class="dummy-ad">
-    <!-- replace, up to and including the ".dummy-ad" div, with an actual ad -->
-    [demo ad placement]
-  </div>
-</div>
-

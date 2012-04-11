@@ -14,9 +14,11 @@ exports = module.exports = function(req, options, callback) {
   calipso.lib.step(
     function getContent() {
       options.getBlock(/^scripts.*/,this.parallel());
+      options.getStyles(this.parallel());
+      options.getScripts(this.parallel());
     },
-    function done(err, scripts) {
-      callback(err,{scripts:scripts});
+    function done(err, scripts, styles, moduleScripts) {
+      callback(err,{scripts:scripts, styles:styles, moduleScripts:moduleScripts});
     }
   );
 

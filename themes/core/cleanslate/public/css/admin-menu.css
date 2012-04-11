@@ -51,7 +51,7 @@ html {
 }
 
 /* line 48, ../sass/admin-menu.scss */
-*html #admin-menu li a:hover {
+* html #admin-menu li a:hover {
   color: #fafafa;
 }
 
@@ -78,15 +78,13 @@ html {
   background: -o-linear-gradient(#444444, #111111);
   background: -ms-linear-gradient(#444444, #111111);
   background: linear-gradient(#444444, #111111);
-  -moz-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
   -webkit-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
-  -o-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  -moz-box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
-  -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  -o-border-radius: 5px;
+  -moz-border-radius: 5px;
   -ms-border-radius: 5px;
-  -khtml-border-radius: 5px;
+  -o-border-radius: 5px;
   border-radius: 5px;
 }
 
@@ -102,17 +100,15 @@ html {
   margin: 0;
   padding: 0;
   display: block;
-  -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
   -webkit-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
-  -o-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
+  -moz-box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
   box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
 }
 
 /* line 86, ../sass/admin-menu.scss */
 #admin-menu ul li:last-child {
-  -moz-box-shadow: none;
   -webkit-box-shadow: none;
-  -o-box-shadow: none;
+  -moz-box-shadow: none;
   box-shadow: none;
 }
 
@@ -150,15 +146,13 @@ html {
 #admin-menu ul li:first-child > a {
   -moz-border-radius-topleft: 5px;
   -webkit-border-top-left-radius: 5px;
-  -o-border-top-left-radius: 5px;
   -ms-border-top-left-radius: 5px;
-  -khtml-border-top-left-radius: 5px;
+  -o-border-top-left-radius: 5px;
   border-top-left-radius: 5px;
   -moz-border-radius-topright: 5px;
   -webkit-border-top-right-radius: 5px;
-  -o-border-top-right-radius: 5px;
   -ms-border-top-right-radius: 5px;
-  -khtml-border-top-right-radius: 5px;
+  -o-border-top-right-radius: 5px;
   border-top-right-radius: 5px;
 }
 

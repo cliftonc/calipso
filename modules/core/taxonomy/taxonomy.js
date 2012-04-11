@@ -63,7 +63,7 @@ function init(module,app,next) {
 /**
  * Map reduce function
  */
-function mapReduceTaxonomy(event,options,next) {
+function mapReduceTaxonomy(event, options, next) {
 
   // We need to check if we are already map reducing ...
   if(calipso.storage.mr.taxonomy) {
@@ -127,10 +127,7 @@ function mapReduceTaxonomy(event,options,next) {
 /**
  *Render menu
  */
-function taxonomy(req,res,template,block,next) {
-
-  next();
-  return;
+function taxonomy(req, res, template, block, next) {
 
   // Generate the menu from the taxonomy
   var TaxonomyMenu = calipso.db.model('TaxonomyMenu');

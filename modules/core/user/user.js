@@ -1021,6 +1021,9 @@ function install(next) {
         });
         admin.save(self.parallel());
 
+        // Delete this now to ensure it isn't hanging around;
+        delete calipso.data.adminUser;
+
       } else {
 
         // Fatal error
@@ -1035,7 +1038,7 @@ function install(next) {
         next();
       } else {
         storeRoles();
-        calipso.log("User module installed ... ");
+        calipso.info("User module installed ... ");
         next();
       }
     }

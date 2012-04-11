@@ -68,33 +68,7 @@
     }
   },
   "modules": {
-    "google-analytics": {
-      "enabled":false,
-      "config": {
-        "key":"UA-17607570-4",
-        "anonymize-ip":true,
-        "track-pagespeed":true
-      }
-    },
-    "disqus": {
-      "enabled":false,
-      "config":{
-        "shortname":"calipsojs"
-      }
-    },
     "admin":{
-      "enabled": true
-    },
-    "content":{
-      "enabled": true
-    },
-    "contentTypes": {
-      "enabled": true
-    },
-    "user":{
-      "enabled": true
-    },
-    "taxonomy":{
       "enabled": true
     }
   }

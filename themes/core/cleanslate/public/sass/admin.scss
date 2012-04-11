@@ -97,16 +97,19 @@
     }
 
     h3 {
+      color: #336699;
       font-size: 1.618em;
       letter-spacing: -1px;
     }
 
     h2 {
+      color: #116677;
       font-size: 2.023em;
       letter-spacing: -1px;
     }
 
     h1 {
+      color: #114477;
       font-size: 2.618em;
       letter-spacing: -2px;
     }
@@ -143,7 +146,7 @@
   #admin-body {
     clear: both;
     margin: 0 auto 40px;
-    width: 72%;
+    width: 100%;
       
       .content-item {
         border: 1px solid #fff;
@@ -521,7 +524,7 @@ ul.tabs li.active a:hover {
 label {
   display:inline-block;
   font-weight: bold;
-  width:30%;
+  width:20%;
   text-align:left;
   padding-right:10px;
   vertical-align: top;
@@ -537,22 +540,22 @@ textarea, input[type="text"], input[type="password"], select {
   border-radius: 3px;
   border: 1px solid #999; 
   padding: 1%;
-  width: 66%;
+  width: 70%;
 }
 
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { 
   border-color: #007DFF; 
 }
 textarea {
-  width:65%;
+  width:69%;
   height:200px;
 }
 
 .description {
   color: #777;
-  padding: 2px 0 5px 203px;
+  padding: 2px 0 5px 198px;
   font: italic 11px/1.5em Georgia, serif;
-  max-width: 400px;
+  max-width: 420px;
   display: block;
 }
 

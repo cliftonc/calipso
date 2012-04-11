@@ -131,7 +131,7 @@ function install(next) {
       } else {
         // Cache the content types in the calipso.data object
         storeContentTypes(null,null,function(){});
-        calipso.log("Content types module installed ... ");
+        calipso.info("Content types module installed ... ");
         next();
       }
     }
