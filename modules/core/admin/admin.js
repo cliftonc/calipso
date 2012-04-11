@@ -217,6 +217,7 @@ function install(req, res, template, block, next) {
         if(form.userStep) {
           // Store the user for later
           calipso.data.adminUser = form.user;
+          console.dir(form.user);
         } else {
           // Update the configuration
           updateConfiguration(form);
