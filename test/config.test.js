@@ -9,9 +9,8 @@ var rootpath = process.cwd() + '/',
     exec = require('child_process').exec,
     path = require('path'),
     assert = require('assert'),
-    sys = require('sys'),
     should = require('should'),
-    Config = require(rootpath + 'lib/Config').Config;
+    Config = require(rootpath + 'lib/core/Config');
 
 var defaultConfig = {
   "test":"test"
@@ -34,6 +33,8 @@ exports['I can create a development configuration'] = function() {
 exports['I can add and retrieve configuration'] = function() {
 
     var conf = new Config({env:'development',path:path.join(rootpath,'tmp')});
+    conf.init();
+
     conf.set('test:v1','v1');
     conf.get('test:v1').should.equal('v1');
     conf.set('test:v2','v2');
@@ -48,7 +49,10 @@ exports['I can add and retrieve configuration'] = function() {
 exports['I can use different environments'] = function() {
 
     var confDev = new Config({env:'development',path:path.join(rootpath,'tmp')});
+    confDev.init();
+
     var confTest = new Config({env:'test',path:path.join(rootpath,'tmp')});
+    confTest.init();
 
     confDev.set('test:v1','v1');
     confDev.get('test:v1').should.equal('v1');
@@ -67,8 +71,11 @@ exports['I can use different environments'] = function() {
 exports['I can use the setSave shortcut'] = function() {
 
     var conf = new Config({path:path.join(rootpath,'tmp')});
+    conf.init();
+
     conf.setSave('test:setsave','Yah!',function(err) {
         var confTest = new Config({path:path.join(rootpath,'tmp')});
+        confTest.init();
         confTest.get('test:setsave').should.equal('Yah!');
     });
 

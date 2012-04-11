@@ -4,6 +4,7 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
+  roles = require('./user.roles'),
   Query = require("mongoose").Query;
 
 exports = module.exports = {
@@ -21,8 +22,9 @@ function route(req, res, module, app, next) {
   // Menu
   res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
   res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
-  // res.menu.admin.addMenuItem(req, {name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/roles/list', description: 'Manage roles ...', security: [] });
   res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
+
+  roles.route(req, res, module, app);
 
   // Router
   module.router.route(req, res, next);
@@ -69,14 +71,6 @@ function init(module, app, next) {
     },
     function done() {
 
-      var Role = new calipso.lib.mongoose.Schema({
-        name:{type: String, required: true, unique:true},
-        description:{type: String,"default":''},
-        isAdmin:{type: Boolean, required: true, "default": false},
-        isDefault:{type: Boolean, required: true, "default": false}
-      });
-      calipso.db.model('Role', Role);
-
       var User = new calipso.lib.mongoose.Schema({
         // Single default property
         username:{type: String, required: true, unique:true},
@@ -93,12 +87,9 @@ function init(module, app, next) {
       });
 
       calipso.db.model('User', User);
-      next();
 
-      // Load roles into calipso data
-      if(app.config.get('installed')) {
-        storeRoles();
-      }
+      // Initialise roles
+      roles.init(module, app, next);
 
     }
   )
@@ -126,37 +117,6 @@ function setCookie(req, res, template, block, next) {
   next();
 
 }
-
-
-/**
- * Store content types in calipso.data cache
- */
-function storeRoles() {
-
-  var Role = calipso.db.model('Role');
-
-  delete calipso.data.roleArray;
-  delete calipso.data.roles;
-  calipso.data.roleArray = [];
-  calipso.data.roles = {};
-
-  Role.find({}).sort('name',1).find(function (err, roles) {
-
-    if(err || !roles) {
-      // Don't throw error, just pass back failure.
-      calipso.error(err);
-    }
-
-    // Create a role array and object cache
-    roles.forEach(function(role) {
-      calipso.data.roleArray.push(role.name);
-      calipso.data.roles[role.name] = {description:role.description, isAdmin:role.isAdmin};
-    });
-
-  });
-
-}
-
 
 /**
  * Helper function to get user details respecting their privacy selections
@@ -972,7 +932,6 @@ function listUsers(req,res,template,block,next) {
 function install(next) {
 
   // Create the default content types
-  var Role = calipso.db.model('Role');
   var User = calipso.db.model('User');
 
   calipso.lib.step(
@@ -980,31 +939,6 @@ function install(next) {
     function createDefaults() {
 
       var self = this;
-
-      // Create default roles
-      var r = new Role({
-        name:'Guest',
-        description:'Guest account',
-        isAdmin:false,
-        isDefault:true
-      });
-      r.save(self.parallel());
-
-      var r = new Role({
-        name:'Contributor',
-        description:'Able to create and manage own content items linked to their own user profile area.',
-        isAdmin:false,
-        isDefault:false
-      });
-      r.save(self.parallel());
-
-      var r = new Role({
-        name:'Administrator',
-        description:'Able to manage the entire site.',
-        isAdmin:true,
-        isDefault:false
-      });
-      r.save(self.parallel());
 
       // Create administrative user
       if (calipso.data.adminUser) {
@@ -1019,27 +953,24 @@ function install(next) {
           about:adminUser.about,
           roles:['Administrator']
         });
-        admin.save(self.parallel());
+        admin.save(self());
 
         // Delete this now to ensure it isn't hanging around;
         delete calipso.data.adminUser;
 
       } else {
-
         // Fatal error
-        self.parallel()(new Error("No administrative user details provided through login process!"));
-
+        self()(new Error("No administrative user details provided through login process!"));
       }
 
-    },
+    },  
     function allDone(err) {
       if(err) {
-        calipso.error("User module installed " + err.message);
+        calipso.error("User module failed installation " + err.message);
         next();
       } else {
-        storeRoles();
         calipso.info("User module installed ... ");
-        next();
+        roles.install(next);
       }
     }
   )

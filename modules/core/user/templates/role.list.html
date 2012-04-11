@@ -1,0 +1,25 @@
+<div class="template-module">
+    <h2><%- t('User Roles') %></h2>
+    <table>
+    <tr>
+        <th><%- t('Name') %></th><th><%- t('Description') %></th><th><%- t('Is Admin') %></th><th><%- t('Is Default') %></th>
+    </tr>
+
+    <%
+        items.forEach(function(item) {
+         %>
+	         <tr>
+	        <td><a href='/user/role/show/<%- item._id %>'><%- item.name %></a></td>
+	        <td> <%- item.description %></td>
+	        <td> <%- item.isAdmin ? "Yes" : "No" %></td>
+            <td> <%- item.isDefault ? "Yes" : "No" %></td>
+	        </tr>
+	        <%
+	    });
+
+        if(!items) {
+            %><td colspan='4'><%- t('No roles defined.') %></td><%
+        }
+    %>
+    </table>
+</div>

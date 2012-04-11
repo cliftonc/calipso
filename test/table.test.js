@@ -8,7 +8,7 @@ require.paths.unshift(__dirname + "/../"); //make local application paths access
 var assert = require('assert'),
     sys = require('sys'),
     should = require('should'),
-    table = require('lib/Table');
+    table = require('lib/core/Table');
 
  // Stub request and translate
 var req = {t:function(st) { return st },url:'/'};

@@ -1,0 +1,17 @@
+ <div class='role'>
+    <h1><%- item.name %></h1>
+    <table>
+        <tr>
+            <th><%- t('Name') %></th><td><%- item.name %></td>
+        </tr>
+        <tr>
+            <th><%- t('Description') %></th><td><%- item.description %></td>
+        </tr>
+        <tr>
+            <th><%- t('Is Admin') %></th><td><%- item.isAdmin ? "Yes" : "No" %></td>
+        </tr>
+        <tr>
+            <th><%- t('Is Default') %></th><td><%- item.isDefault ? "Yes" : "No" %></td>
+        </tr>
+    </table>
+</div>

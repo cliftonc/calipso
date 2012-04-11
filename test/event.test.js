@@ -3,12 +3,11 @@
  *  Test must be executed serially as it runs
  *  against an app instance, this is typically executed by the make file
  **/
-require.paths.unshift(__dirname + "/../"); //make local application paths accessible
 
-var assert = require('assert'),
-    sys = require('sys'),
+var rootpath = process.cwd() + '/',
+    assert = require('assert'),
     should = require('should'),
-    event = require('lib/Event');
+    event = require(rootpath + 'lib/core/Event');
 
 /**
  * Tests
