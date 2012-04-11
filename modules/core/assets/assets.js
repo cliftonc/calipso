@@ -113,7 +113,7 @@ function handleAsset(req, res, next) {
       asset.save(function (err) {
         if (err) {
           res.statusCode = 500;
-          req.flash('error', req.t('Unable to save bucket {error}', {error:err.message}));
+          req.flash('error', 'Unable to save bucket ' + err.message);
           next();
           return;
         }
@@ -124,7 +124,7 @@ function handleAsset(req, res, next) {
         sreq.on('error', function(err) {
           asset.remove(function () {
             res.statusCode = 500;
-            req.flash('error', req.t('Unable to create bucket {error}', {error:err.message}));
+            req.flash('error', 'Unable to create bucket ' + err.message);
             next();
             return;
           });
@@ -149,7 +149,7 @@ function handleAsset(req, res, next) {
         if (err || !copyAsset) {
           req.resume();
           res.statusCode = 500;
-          req.flash('error', req.t('Unable to resolve copy source {copy}', {copy:copy}));
+          req.flash('error', 'Unable to resolve copy source ' + copy);
           next();
           return;
         }
@@ -217,7 +217,7 @@ function handleAsset(req, res, next) {
       // If we didn't find the folder then it has not been created yet.
       req.resume();
       res.statusCode = 404;
-      req.flash('error',req.t('Unable to find parent folder {parentFolder}',{parentFolder:parentFolder}));
+      req.flash('error', 'Unable to find parent folder ' + parentFolder);
       next();
       return;
     }
@@ -227,7 +227,7 @@ function handleAsset(req, res, next) {
         if (put || post) {
           if (isFolder && (folder.key === '')) {
             res.statusCode = 500;
-            req.flash('error', req.t('This folder is rooted and not storage allocated for parent folder {parentFolder}.', {parentFolder:parentFolder}));
+            req.flash('error', 'This folder is rooted and not storage allocated for parent folder ' + parentFolder);
             next();
             return;
           }
@@ -266,7 +266,7 @@ function handleAsset(req, res, next) {
               if (err) {
                 req.resume();
                 res.statusCode = 500;
-                req.flash('error', req.t('Unable to save asset {alias}: {error}', {alias:asset.alias, error:err.message}));
+                req.flash('error', 'Unable to save asset ' + asset.alias + ': ' + err.message);
                 next();
                 return;
               }
@@ -294,7 +294,7 @@ function handleAsset(req, res, next) {
                 if (err) {
                   req.resume();
                   res.statusCode = 500;
-                  req.flash('error', req.t('Unable to create corresponding project: {error}.', {error:err.message}));
+                  req.flash('error', 'Unable to create corresponding project: ' + err.message);
                   next();
                   return;
                 }
@@ -308,14 +308,14 @@ function handleAsset(req, res, next) {
         } else {
           req.resume();
           res.statusCode = 404;
-          req.flash('error', req.t('Unable to find file {alias}.', {alias:alias}));
+          req.flash('error', 'Unable to find file ' + alias);
           next();
           return; // this file doesn't exist but it's not a put...
         }
       }
       if (asset.isfolder) {
         req.resume();
-        req.flash('error', req.t('This folder already exists {alias}.', {alias:alias}));
+        req.flash('error', 'This folder already exists ' + alias);
         res.statusCode = 500;
         next();
         return; // This is a bucket or folder...
