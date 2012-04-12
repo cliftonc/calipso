@@ -37,11 +37,11 @@
     "async": "0.1.x"
   },
   "devDependencies": {
-    "expresso": "*",
+    "mocha": "*",
     "should": "*"
   },
   "scripts": {
-    "test" : "expresso -s"
+    "test" : "mocha -R spec"
   },
   "bin": { "calipso": "./bin/calipso" }
 }
