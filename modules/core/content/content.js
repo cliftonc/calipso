@@ -258,7 +258,7 @@ function homePage(req,res,template,block,next) {
  */
 function createContent(req,res,template,block,next) {
 
-  calipso.form.process(req,function(form) {
+  calipso.form.process(req, function(form) {
 
     if(form) {
 

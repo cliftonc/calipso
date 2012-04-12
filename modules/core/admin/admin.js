@@ -7,7 +7,8 @@ var rootpath = process.cwd() + '/',
 
 exports = module.exports = {
   init: init,
-  route: route
+  route: route,
+  first: true // Admin must run before all else
 };
 
 /*
@@ -214,6 +215,7 @@ function install(req, res, template, block, next) {
   calipso.form.process(req, function(form) {
 
       if (form) { 
+
         if(form.userStep) {
           // Store the user for later
           calipso.data.adminUser = form.user;
@@ -582,7 +584,6 @@ function coreConfig(req, res, template, block, next) {
       console.error("Theme " + themeName + " not enabled due to missing type.");
     }
   }
-
 
   var adminForm = {
     id:'admin-form',

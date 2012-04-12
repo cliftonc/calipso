@@ -15,7 +15,6 @@ var rootpath = process.cwd() + '/',
   express = require('express'),
   mongoose = require('mongoose'),
   nodepath = require('path'),
-  form = require('connect-form'),
   stylus = require('stylus'),
   colors = require('colors'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
@@ -52,18 +51,15 @@ function bootApplication(next) {
   app.config = new Config();
   app.config.init();
 
+  app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.responseTime());
 
   // Create dummy session middleware - tag it so we can later replace
-  var temporarySession = function(req, res, next) {
-    req.session = {};
-    next();
-  };
+  var temporarySession = express.session({ secret: "keyboard cat" });
   temporarySession.tag = "session";
   app.use(temporarySession);
-
 
   // Default Theme
   calipso.defaultTheme = app.config.get('themes:default');
@@ -104,11 +100,6 @@ function bootApplication(next) {
   // Core static paths
   app.use(express["static"](path + '/media', {maxAge: 86400000}));
   app.use(express["static"](path + '/lib/client/js', {maxAge: 86400000}));
-
-  // connect-form
-  app.use(form({
-      keepExtensions: app.config.get('libraries:formidable:keepExtensions')
-  }));
 
   // Translation - after static, set to add mode if appropriate
   app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));

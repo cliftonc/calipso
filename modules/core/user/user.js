@@ -103,17 +103,19 @@ function init(module, app, next) {
  * personalized with javascript - a common strategy for aggressive page caching
  * TODO - fix a bug wherein the cookie gets set twice *if* on an admin page
  * TODO - make sure this is the appropriate place for setting this cookie
+ * TODO - need to fix overall what modules do when an earlier one has already issued a 302 ...
  */
 function setCookie(req, res, template, block, next) {
 
-  if(req.session.user){
-    if(!req.cookies.userData){
-      res.cookie('userData', JSON.stringify(req.session.user));
+  if(res.statusCode != 302) {
+    if(req.session.user) {
+      if(!req.cookies.userData){
+       res.cookie('userData', JSON.stringify(req.session.user));
+      }
+    } else {
+      res.clearCookie('userData');
     }
-  } else {
-    res.clearCookie('userData');
   }
-
   next();
 
 }
@@ -627,7 +629,7 @@ function isUserAdmin(user) {
   // Set admin
   var isAdmin = false;
   user.roles.forEach(function(role) {
-    if(calipso.data.roles[role].isAdmin){
+    if(calipso.data.roles[role] && calipso.data.roles[role].isAdmin){
       isAdmin = true;
     }
   })
