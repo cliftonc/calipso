@@ -30,6 +30,7 @@ exports = module.exports = {
       ) ||
       day_diff == 1 && "Yesterday" ||
       day_diff < 7 && day_diff + " days ago" ||
+      day_diff < 31 && Math.ceil( day_diff / 7 ) == 1 && "1 week ago" ||
       day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago"  ||
       day_diff >=31 && calipsoDate.formatDate('D, d M yy', date);
   },
