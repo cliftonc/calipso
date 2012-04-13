@@ -49,64 +49,76 @@ function bootApplication(next) {
   // Load configuration
   var Config = calipso.config; //require(path + "/lib/core/Config").Config;
   app.config = new Config();
-  app.config.init();
+  app.config.init(function(err) {
 
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.cookieParser());
-  app.use(express.responseTime());
+    if(err) return console.error(err.message);
+      
+    // Default Theme
+    calipso.defaultTheme = app.config.get('themes:default');
 
-  // Create dummy session middleware - tag it so we can later replace
-  var temporarySession = express.session({ secret: "keyboard cat" });
-  temporarySession.tag = "session";
-  app.use(temporarySession);
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(express.cookieParser());
+    app.use(express.responseTime());
 
-  // Default Theme
-  calipso.defaultTheme = app.config.get('themes:default');
+    // Create dummy session middleware - tag it so we can later replace    
+    var temporarySession = app.config.get('installed') ? {} : express.session({ secret: "installing calipso is great fun" });
+    temporarySession.tag = "session";
+    app.use(temporarySession);
 
-  // Create holders for theme dependent middleware
-  // These are here because they need to be in the connect stack before the calipso router
-  // THese helpers are re-used when theme switching.
-  app.mwHelpers = {};
+    // Create holders for theme dependent middleware
+    // These are here because they need to be in the connect stack before the calipso router
+    // THese helpers are re-used when theme switching.
+    app.mwHelpers = {};
 
-  // Load placeholder, replaced later
-  if(app.config.get('libraries:stylus:enabled')) {
-    app.mwHelpers.stylusMiddleware = function (themePath) {
-      var mw = stylus.middleware({
-        src: themePath + '/stylus',
-        dest: themePath + '/public',
-        debug: false,
-        compile: function (str, path) { // optional, but recommended
-          return stylus(str)
-            .set('filename', path)
-            .set('warn', app.config.get('libraries:stylus:warn'))
-            .set('compress', app.config.get('libraries:stylus:compress'));
-        }
-      });
-      mw.tag = 'theme.stylus';
+    // Load placeholder, replaced later
+    if(app.config.get('libraries:stylus:enabled')) {
+      app.mwHelpers.stylusMiddleware = function (themePath) {
+        var mw = stylus.middleware({
+          src: themePath + '/stylus',
+          dest: themePath + '/public',
+          debug: false,
+          compile: function (str, path) { // optional, but recommended
+            return stylus(str)
+              .set('filename', path)
+              .set('warn', app.config.get('libraries:stylus:warn'))
+              .set('compress', app.config.get('libraries:stylus:compress'));
+          }
+        });
+        mw.tag = 'theme.stylus';
+        return mw;
+      };
+      app.use(app.mwHelpers.stylusMiddleware(''));
+    }
+    // Static
+    app.mwHelpers.staticMiddleware = function (themePath) {
+      var mw = express["static"](themePath + '/public', {maxAge: 86400000});
+      mw.tag = 'theme.static';
       return mw;
     };
-    app.use(app.mwHelpers.stylusMiddleware(''));
-  }
-  // Static
-  app.mwHelpers.staticMiddleware = function (themePath) {
-    var mw = express["static"](themePath + '/public', {maxAge: 86400000});
-    mw.tag = 'theme.static';
-    return mw;
-  };
-  // Load placeholder, replaced later
-  app.use(app.mwHelpers.staticMiddleware(''));
+    // Load placeholder, replaced later
+    app.use(app.mwHelpers.staticMiddleware(''));
 
-  // Core static paths
-  app.use(express["static"](path + '/media', {maxAge: 86400000}));
-  app.use(express["static"](path + '/lib/client/js', {maxAge: 86400000}));
+    // Core static paths
+    app.use(express["static"](path + '/media', {maxAge: 86400000}));
+    app.use(express["static"](path + '/lib/client/js', {maxAge: 86400000}));
 
-  // Translation - after static, set to add mode if appropriate
-  app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
+    // Translation - after static, set to add mode if appropriate
+    app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
-  // Core calipso router
-  app.use(calipso.calipsoRouter(app, function() { next(app) }));
+    // Core calipso router
+    calipso.init(app, function() { 
+      
+      // Add the calipso mw
+      app.use(calipso.routingFn());
 
+      // return our app refrerence
+      next(app);
+
+    })
+
+  });
+    
 }
 
 /**

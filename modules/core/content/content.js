@@ -85,14 +85,10 @@ function init(module,app,next) {
       function done() {
 
         // Add dynamic helpers
-        calipso.helpers.getContent = function() {
-          return getContent;
-        }
+        calipso.helpers.addHelper('getContent',function() { return getContent; });
 
         // Get content list helper
-        calipso.helpers.getContentList = function() {
-          return getContentList;
-        }
+        calipso.helpers.addHelper('getContentList', function() { return getContentList; });
 
         // Default Content Schema
         var Content = new calipso.lib.mongoose.Schema({

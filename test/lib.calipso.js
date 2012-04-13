@@ -21,13 +21,6 @@ describe('Calipso', function(){
       done();
     });
 
-    it('Dynamic helpers can be loaded', function(done) {
-      var req = {url:'test/url.html', session: {user: { username:'cliftonc'}}}, res = {};
-      calipso.getDynamicHelpers(req, res);
-      req.helpers.user.username.should.equal('cliftonc');
-      done();
-    });
-
   }); 
 
   after(function() {
