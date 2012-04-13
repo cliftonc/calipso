@@ -41,7 +41,7 @@
     "should": "*"
   },
   "scripts": {
-    "test" : "mocha -R spec"
+    "test" : "mocha"
   },
   "bin": { "calipso": "./bin/calipso" }
 }
