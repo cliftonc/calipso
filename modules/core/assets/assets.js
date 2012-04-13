@@ -422,13 +422,13 @@ function init(module, app, next) {
         assetModel: function () {
           return calipso.lib.mongoose.model('Asset');
         },
-        findAssets: function (arguments) {
+        findAssets: function (args) {
           var Asset = calipso.lib.mongoose.model('Asset');
-          return Asset.find.apply(Asset, arguments);
+          return Asset.find.apply(Asset, args);
         },
-        updateAssets: function (arguments) {
+        updateAssets: function (args) {
           var Asset = calipso.lib.mongoose.model('Asset');
-          return Asset.update.apply(Asset, arguments);
+          return Asset.update.apply(Asset, args);
         },
         listProjects: function (callback) {
           var Asset = calipso.lib.mongoose.model('Asset');
