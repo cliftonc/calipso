@@ -16,9 +16,9 @@ site:
 	&& cp -fr docs /tmp/docs \
 	&& git checkout gh-pages \
   	&& cp -fr /tmp/docs/* . \
-    && git add . \
-    && git commit -am 'Automatically updated.' . \
-    && git push origin gh-pages \
+        && git add . \
+        && git commit -am 'Automatically updated by build script.' \
+        && git push origin gh-pages \
 	&& git checkout devel \
     && echo "Pages updated ..."
 
