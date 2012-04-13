@@ -1,0 +1,16 @@
+tmp
+lib-cov
+node_modules
+modules/downloaded/*
+modules/custom
+modules/community/*
+media/*
+themes/downloaded/*
+themes/custom/*
+conf/*.json
+*.pid
+*.log
+*.swp
+*.sock
+*.gz
+*.sass-cache
