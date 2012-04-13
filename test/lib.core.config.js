@@ -25,19 +25,19 @@ describe('Configuration', function(){
   describe('Negative', function(){
     
     it('Invalid configuration type results in an exception', function(done){
-        var conf = new Config({type:'invalid', env:'invalid', 'path': path.join(rootpath,'tmp')});                
+        var conf = new Config({type:'invalid', env:'invalid1', 'path': path.join(rootpath,'tmp')});                
         conf.init(function(err) {          
           err.message.should.equal('Cannot add store with unknown type: invalid');      
           // Delete the development.json
-          fs.unlinkSync(path.join(rootpath,'tmp','invalid.json'));
+          fs.unlinkSync(path.join(rootpath,'tmp','invalid1.json'));
           done();    
         });
     });
 
     it('Invalid default configuration results in an exception', function(done){
-        var conf = new Config({env:'invalid', 'path': path.join(rootpath,'tmp'), 'defaultConfig':'invalid.json'});                
+        var conf = new Config({env:'invalid2', 'path': path.join(rootpath,'tmp'), 'defaultConfig':'invalidDefault.json'});                
         conf.init(function(err) {
-          err.message.should.equal('Unable to load configuration defined in invalid.json, there may be a problem with the default configuration in invalid.json')
+          err.message.should.equal('Unable to load configuration defined in invalid2.json, there may be a problem with the default configuration in invalidDefault.json')
           done()
         })
     });
