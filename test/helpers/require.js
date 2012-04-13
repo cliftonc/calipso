@@ -11,7 +11,7 @@
 module.exports = function(library) {
 
  return process.env.CALIPSO_COV
-  ? require('../../lib-cov/' + library)
-  : require('../../lib/' + library);
+  ? require('../../lib-cov/' + library + '.js')
+  : require('../../lib/' + library + '.js');
 
 }
