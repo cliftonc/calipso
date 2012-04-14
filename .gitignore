@@ -8,6 +8,7 @@ media/*
 themes/downloaded/*
 themes/custom/*
 conf/*.json
+docs/coverage.html
 *.pid
 *.log
 *.swp
