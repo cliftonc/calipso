@@ -908,7 +908,7 @@ function listUsers(req,res,template,block,next) {
           }
         };
 
-        var tableHtml = calipso.table.render(table,req);
+        var tableHtml = calipso.table.render(req, table);
 
         calipso.theme.renderItem(req,res,tableHtml,block,null,next);
 

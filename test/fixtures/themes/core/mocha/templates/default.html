@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="put your site description here">
+    <meta name="keywords" content="put your site keywords here">
+    <title>Clean Slate</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/admin-menu.css" /> 
+    <%- scripts %>
+  </head>
+  <body>
+    <div id="adminMenu">
+      <%- admin %>
+    </div>
+    <div id="container">
+      <div id="header">
+        <%- header %>
+        <nav class="secondary">
+          <%- secondary %>
+        </nav>       
+      </div>
+      <div id="messages">
+        <%- messages %>
+      </div>
+        <div id="adminToolbar">
+          <%- getMenu('adminToolbar') %>
+        </div>
+      <div id="body">
+        <!--PAGE_BODY_START-->
+        <%- body %>
+        <!--PAGE_BODY_END-->
+      </div>
+      <div id="sidePanel">
+        <%- sidePanel %>
+      </div>
+      <div id="footer">
+        <%- footer %>
+      </div>
+    </div>
+  </body>
+</html>

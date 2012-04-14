@@ -6,10 +6,10 @@ test:
 		--reporter $(REPORTER)
 
 test-cov: lib-cov
-	@CALIPSO_COV=1 $(MAKE) test REPORTER=html-cov > docs/coverage.html
+	 @CALIPSO_COV=1 $(MAKE) test REPORTER=html-cov > docs/coverage.html
 
-lib-cov:
-	@jscoverage lib lib-cov
+lib-cov: 
+	 @jscoverage lib lib-cov
 
 site:
 	rm -fr /tmp/docs \

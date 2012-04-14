@@ -2,11 +2,12 @@
  * Mocha test case for core configuration library
  */
 var should = require('should'),
-    fs = require('fs'),
     rootpath = process.cwd() + '/',
     path = require('path'),
-    exec = require('child_process').exec,
-    calipso = require('./helpers/require')('calipso');
+    calipsoHelper = require('./helpers/calipsoHelper'),
+    calipso = calipsoHelper.calipso;
+
+    //calipso = require('./helpers/require')('calipso');
 
 describe('Calipso', function(){
 
@@ -16,9 +17,15 @@ describe('Calipso', function(){
 
   describe('Core', function(){
   
-    it('Calipso has loaded successfully', function(done){      
+    it('Calipso has loaded successfully', function(done) {      
       calipso.loaded.should.equal(true);
       done();
+    });
+
+    it('Calipso can initialise', function(done) {    
+      calipso.init(calipsoHelper.app, function(app) {
+        done();
+      })
     });
 
   }); 

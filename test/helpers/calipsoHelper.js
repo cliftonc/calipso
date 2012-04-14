@@ -2,14 +2,44 @@
  * Setup the bare minimum required for a fully functioning 'calipso' object
  */
 var calipso = require('./require')('calipso'),
-	http = require('http');
+    path = require('path'),
+    fs = require('fs'),
+    rootpath = process.cwd() + '/',
+    Config = require('./require')('core/Config'),
+  	http = require('http');
 
-// Include the express 
-require('express/lib/request');
-require('express/lib/response');
+/** 
+ * Mock application object
+ */
+function MockApp(next) {
 
-var Request = http.IncomingMessage,
-	Response = http.OutgoingMessage;
+	var self = this;
+
+
+	// Configuration - always start with default
+  var defaultConfig = path.join(rootpath,'test','helpers','defaultConfig.json'),
+      mochaConfig = path.join(rootpath,'tmp','mocha.json');
+
+  // Delete if exists
+  fs.unlinkSync(mochaConfig);
+
+  // Create new
+	self.config = new Config({env:'mocha', 'path': path.join(rootpath,'tmp'), 'defaultConfig':defaultConfig});                
+
+	// Middleware helpers
+	self.mwHelpers = {		
+
+	}	
+
+  // Pseudo stack - only middleware that is later overloaded
+  self.stack = [{ handle: { name:'sessionDefault', tag: 'session' }} ];
+
+	// Initialise and return
+	self.config.init(function(err) {
+	  next(self);
+	})
+	
+}
 
 /**
  * Test permissions
@@ -31,11 +61,14 @@ calipso.logging.configureLogging(loggingConfig);
 /**
  * Request 
  */
+require('express/lib/request');
+require('express/lib/response');
+
+var Request = http.IncomingMessage,
+	Response = http.OutgoingMessage;
+
 Request.prototype.t = function(str) { return str };
 
-/**
- * Request helper
- */
 function CreateRequest(url, session) {
 	var req = new Request();
 	req.url = url || '/';
@@ -53,11 +86,14 @@ var requests = {
 }
 
 /**
- * Export all our helpers
+ * Initialise everything and then export
  */
-module.exports = {
-  calipso: calipso,
-  testPermit: calipso.permission.Helper.hasPermission("test:permission"),
-  requests: requests,
-  response: new Response()
-}
+new MockApp(function(app) {
+  module.exports = {
+	  app: app,
+	  calipso: calipso,
+	  testPermit: calipso.permission.Helper.hasPermission("test:permission"),
+	  requests: requests,
+	  response: new Response()
+  }	
+})
