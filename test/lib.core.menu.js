@@ -13,12 +13,11 @@ var should = require('should'),
  * Test data
  */
 var anonMenuBasic = {name:'Public Menu Item',path:'publicpath',url:'/public'};
-var simpleMenuBasic = {name:'Basic Menu Item',path:'simplepath',url:'/bob',permit:testPermit};
-var simpleMenuFull = {name:'Full Menu Item',path:'fullpath',url:'/bill',description:'This is a simple menu',permit:testPermit}
+var simpleMenuBasic = {name:'Basic Menu Item',path:'simplepath',url:'/bob',permit:testPermit, order: 1};
+var simpleMenuFull = {name:'Full Menu Item',path:'fullpath',url:'/bill',description:'This is a simple menu',permit:testPermit, order: 2}
 var childMenuShort = {name:'Short Menu Item',path:'simplepath/child',url:'/bob/child',permit:testPermit};
 var childMenuDeep = {name:'Deep Menu Item',path:'simplepath/a/b',url:'/bob/a/b',permit:testPermit};
 var childMenuDeepLater = {name:'Later Menu Item',path:'simplepath/a/b/c',url:'/bob/a/b/c',permit:testPermit};
-
 
 describe('Menus', function(){
 
@@ -81,6 +80,15 @@ describe('Menus', function(){
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.adminUser;
       tm.addMenuItem(req, simpleMenuBasic);
       should.exist(tm.children[simpleMenuBasic.path])      
+      done();
+
+    });
+
+    it('Admin menus are invisible by default if they have no permit fn defined', function(done){    
+
+      var tm = new Menu('admin'), req = calipsoHelper.requests.testUser;
+      tm.addMenuItem(req, anonMenuBasic);
+      should.not.exist(tm.children[anonMenuBasic.path])      
       done();
 
     });
@@ -158,6 +166,37 @@ describe('Menus', function(){
 
     });
 
+    it('Creating menus with an invalid sort defaults to sorting by item name', function(done){    
+
+      var tm = new Menu('MyMenu','invalid'), req = calipsoHelper.requests.testUser;
+
+      // Add in reverse order to what we expect
+      tm.addMenuItem(req, simpleMenuFull);
+      tm.addMenuItem(req, simpleMenuBasic);
+
+      tm.sortedChildren.should.eql([simpleMenuBasic.path, simpleMenuFull.path])
+             
+      done();
+
+    });
+
+     it('Creating menus with a non string sort sorts by that directly', function(done){    
+
+      var tm = new Menu('MyMenu','order'), req = calipsoHelper.requests.testUser;
+
+      // Add in reverse order to what we expect
+      tm.addMenuItem(req, simpleMenuFull);
+      tm.addMenuItem(req, simpleMenuBasic);
+      
+      tm.sortedChildren.should.eql([simpleMenuBasic.path, simpleMenuFull.path])
+             
+      done();
+
+    });
+
+
+
+
   });
 
   describe('Recursing and displaying menus', function(){
@@ -199,7 +238,7 @@ describe('Menus', function(){
         selected.length.should.equal(2);
         selected[0].should.equal(simpleMenuBasic.path);
         selected[1].should.equal(childMenuShort.path);
-       done();
+        done();
 
     });
 
