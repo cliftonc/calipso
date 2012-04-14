@@ -21,7 +21,11 @@ function MockApp(next) {
       mochaConfig = path.join(rootpath,'tmp','mocha.json');
 
   // Delete if exists
-  fs.unlinkSync(mochaConfig);
+  try {
+  	fs.unlinkSync(mochaConfig);
+  } catch(ex) {
+		// ignore
+  }
 
   // Create new
 	self.config = new Config({env:'mocha', 'path': path.join(rootpath,'tmp'), 'defaultConfig':defaultConfig});                
