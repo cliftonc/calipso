@@ -547,6 +547,7 @@ function init(module, app, next) {
           function interactWithS3(asset) {
             var headers = {};
             headers['x-amz-copy-source'] = copySource;
+            var filesize;
             if (copySource && /(proj|s3)\//.test(copySource)) {
               Asset.findOne({alias:copySource}, function (err, copyAsset) {
                 if (err || !copyAsset) {
@@ -555,6 +556,7 @@ function init(module, app, next) {
                 calipso.debug('Rewriting copySource from ' + copySource + ' to /' + copyAsset.key);
                 copySource = '/' + escape(copyAsset.key);
                 headers['x-amz-copy-source'] = copySource;
+                filesize = copyAsset.size;
                 interactWithS3(asset);
               });
               return;
@@ -613,6 +615,8 @@ function init(module, app, next) {
                 } else {
                   calipso.debug('existing asset ' + path);
                 }
+                if (filesize !== undefined)
+                  asset.size = filesize;
                 var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
                 var project = null;
                 if (match) {
