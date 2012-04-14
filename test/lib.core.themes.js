@@ -8,7 +8,7 @@ var should = require('should'),
     exec = require('child_process').exec,
     Themes = require('./helpers/require')('core/Themes');
 
-describe('Menus', function(){
+describe('Themes', function(){
 
   before(function(){
     // 
