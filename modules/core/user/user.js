@@ -19,11 +19,12 @@ exports = module.exports = {
  */
 function route(req, res, module, app, next) {
 
+  var aPerm = calipso.permission.Helper.hasPermission("admin:user");
+  
   // Menu
-  res.menu.admin.addMenuItem({name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
-  res.menu.admin.addMenuItem({name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
-//  res.menu.admin.addMenuItem({name:'Roles', path: 'admin/security/roles', weight: 10, url: '/admin/role/list', description: 'Manage roles ...', security: [] });
-  res.menu.admin.addMenuItem({name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
+  res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', permit:aPerm });
 
   // Router
   module.router.route(req, res, next);
@@ -216,7 +217,7 @@ function loginPage(req, res, template, block, next) {
 function roleForm(req, res, template, block, next) {
 
   res.layout = 'admin';
-  var Role = calipso.lib.mongoose.model('Role');
+  var Role = calipso.db.model('Role');
 
   function finish(role) {
     // TODO : Use secitons!
@@ -496,7 +497,7 @@ function updateRole(req, res, template, block, next) {
   calipso.form.process(req,function(form) {
     if(form) {
       var role = req.moduleParams.role;
-      var Role = calipso.lib.mongoose.model('Role');
+      var Role = calipso.db.model('Role');
 
       // Quickly check that the user is an admin or it is their account
        if(req.session.user && req.session.user.isAdmin) {
@@ -910,7 +911,7 @@ function userProfile(req, res, template, block, next) {
 }
 
 function deleteRole(req, res, template, block, next) {
-  var Role = calipso.lib.mongoose.model('Role');
+  var Role = calipso.db.model('Role');
   Role.findOne({_id:req.moduleParams.role}, function (err, r) {
     Role.remove({_id:r._id}, function(err) {
       if (err) {
@@ -1043,7 +1044,7 @@ function listUsers(req,res,template,block,next) {
 function listRoles(req,res,template,block,next) {
 
   // Re-retrieve our object
-  var Role = calipso.lib.mongoose.model('Role');
+  var Role = calipso.db.model('Role');
 
   res.menu.adminToolbar.addMenuItem({name:'Register New Role',path:'new',url:'/admin/role/register',description:'Register new role ...',security:[]});
 

@@ -122,7 +122,7 @@ var path = rootpath,
 function bootApplication(next) {
 
   // Create our express instance, export for later reference
-  var app = express.createServer();
+  var app = express.createServer ? express.createServer() : express();
   app.path = function() { return path };
   app.isCluster = false;
 
@@ -138,7 +138,7 @@ function bootApplication(next) {
 
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(express.cookieParser());
+    app.use(express.cookieParser(app.config.get('session:secret')));
     app.use(express.responseTime());
 
     // Create dummy session middleware - tag it so we can later replace    

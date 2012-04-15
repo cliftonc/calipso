@@ -20,8 +20,12 @@ exports = module.exports = {
  */
 function route(req, res, module, app, next) {
   // Menu items
-  res.menu.admin.addMenuItem({name:'Asset Management',path:'asset',url:'/asset',description:'Manage assets ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Asset',path:'asset/content',url:'/asset',description:'Manage assets ...',security:[]});
+
+  var mPerm = calipso.permission.Helper.hasPermission("asset:manage:manage"),
+      vPerm = calipso.permission.Helper.hasPermission("asset:manage:view");
+      
+  res.menu.admin.addMenuItem(req, {name:'Asset Management',path:'asset',url:'/asset',description:'Manage assets ...',permit:mPerm});
+  res.menu.admin.addMenuItem(req, {name:'Asset',path:'asset/content',url:'/asset',description:'Manage assets ...',permit:vPerm});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -97,7 +101,7 @@ function handleAsset(req, res, next) {
     var k = knox({
       'bucket': fileName,
     });
-    var Asset = calipso.lib.mongoose.model('Asset');
+    var Asset = calipso.db.model('Asset');
     if (alias[alias.length - 1] !== '/')
       alias += '/';
     Asset.findOne({isfolder:true,alias:alias}, function (err, asset) {
@@ -212,7 +216,7 @@ function handleAsset(req, res, next) {
     // Now we're setup to read the rest of the request and stream it to S3.
     req.resume();
   }
-  var Asset = calipso.lib.mongoose.model('Asset');
+  var Asset = calipso.db.model('Asset');
   // Search for the folder first
   Asset.findOne({alias:parentFolder}, function(err, folder) {
     if(err || !folder) {
@@ -411,29 +415,27 @@ function init(module, app, next) {
       module.router.addRoute('POST /assets/:id',updateAsset,{admin:true},this.parallel());
     }, function done() {
       // Get asset list helper
-      calipso.dynamicHelpers.getAssetList = function() {
-        return getAssetList;
-      }
+      calipso.helpers.addHelper('getAssetList', function() { return getAssetList; });
       calipso.lib.assets = {
         knox: knox,
         assetModel: function () {
-          return calipso.lib.mongoose.model('Asset');
+          return calipso.db.model('Asset');
         },
         findAssets: function () {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           return Asset.find.apply(Asset, arguments);
         },
         updateAssets: function () {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           return Asset.update.apply(Asset, arguments);
         },
         listProjects: function (callback) {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           var query = Asset.find({isproject:true});
           process.nextTick(function() { callback(null, query); });
         },
         syncFolder: function (folder, callback) {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           var info = null;
           var result = [];
           function realContent(info, asset, atRoot, callback, next) {
@@ -461,7 +463,7 @@ function init(module, app, next) {
               var owner = null;
               var message = null;
               var code = null;
-              var Asset = calipso.lib.mongoose.model('Asset');
+              var Asset = calipso.db.model('Asset');
               parser.addListener('startElement', function(name, attrs) {
                 if (name === 'Error') {
                   property = 'error';
@@ -719,7 +721,7 @@ function init(module, app, next) {
           });
         },
         listFiles: function (project, folder, callback) {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           var url = 'proj/' + project + '/' + folder;
           if (url[url.length - 1] !== '/')
             url += '/';
@@ -732,7 +734,7 @@ function init(module, app, next) {
           });
         },
         deleteAsset: function (path, callback) {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           Asset.findOne({alias:path}, function (err, asset) {
             if (err)
               return callback(err, null);
@@ -851,7 +853,7 @@ function init(module, app, next) {
         },
         //Arguments can be path, copySource, and author
         createAsset: function (options, callback) {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           var path = options.path;
           if (!path) return callback(new Error("Could not create asset. No path specified"), null);
           var copySource = options.copySource;
@@ -878,7 +880,7 @@ function init(module, app, next) {
             var k = knox({
               'bucket': fileName,
             });
-            var Asset = calipso.lib.mongoose.model('Asset');
+            var Asset = calipso.db.model('Asset');
             if (path[alias.length - 1] !== '/')
               path += '/';
             Asset.findOne({isfolder:true, alias:alias}, function (err, asset) {
@@ -987,7 +989,7 @@ function init(module, app, next) {
               } else
                 s3req.end();
           }
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           // Search for the folder first
           Asset.findOne({alias:parentFolder}, function(err, folder) {
             if(err || !folder) {
@@ -1107,8 +1109,8 @@ function init(module, app, next) {
         next();
       });
 
-      calipso.lib.mongoose.model('Asset', Asset);
-      calipso.lib.mongoose.model('AssetPermissions', AssetPermissions);
+      calipso.db.model('Asset', Asset);
+      calipso.db.model('AssetPermissions', AssetPermissions);
       module.initialised = true;
 
       next();
@@ -1200,7 +1202,7 @@ function getForm(req,action,title,asset,next) {
  */
 function editAssetForm(req,res,template,block,next) {
 
-  var Asset = calipso.lib.mongoose.model('Asset');
+  var Asset = calipso.db.model('Asset');
   var id = req.moduleParams.id;
   var item;
 
@@ -1258,7 +1260,7 @@ function updateAsset(req,res,template,block,next) {
 
       if(form) {
 
-        var Asset = calipso.lib.mongoose.model('Asset');
+        var Asset = calipso.db.model('Asset');
 
         var returnTo = form.returnTo ? form.returnTo : "";
         var id = req.moduleParams.id;
@@ -1382,9 +1384,10 @@ function listAssets(req,res,template,block,next) {
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var sortBy = req.moduleParams.sortBy;
   var params = {req:req,res:res,template:template,block:block,format:format,sortBy:sortBy,limit:req.moduleParams.limit,from:req.moduleParams.from};
-  var Asset = calipso.lib.mongoose.model('Asset');
+  var Asset = calipso.db.model('Asset');
 
-  res.menu.adminToolbar.addMenuItem({name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',security:[]});
+  var aPerm = calipso.permission.Helper.hasPermission("admin:user");
+  res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',permit:aPerm});
 
   // alias is the path into the asset
   var alias = [];
@@ -1404,7 +1407,7 @@ function listAssets(req,res,template,block,next) {
   var query = new Query();
   
   function finish() {
-    res.menu.adminToolbar.addMenuItem({name:'Create Bucket',weight:1,path:'new',url:'/assets/new',description:'Create Bucket ...',security:[]});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Create Bucket',weight:1,path:'new',url:'/assets/new',description:'Create Bucket ...',permit:aPerm});
     if(req.session.user && req.session.user.isAdmin) {
       // Show all
     } else {
@@ -1447,7 +1450,7 @@ function listAssets(req,res,template,block,next) {
 };
 
 function syncAssets(req, res, route, next) {
-  var Asset = calipso.lib.mongoose.model('Asset');
+  var Asset = calipso.db.model('Asset');
   var info;
   function realContent(info, asset, atRoot, callback, next) {
     var bucket = '';
@@ -1474,7 +1477,7 @@ function syncAssets(req, res, route, next) {
       var owner = null;
       var message = null;
       var code = null;
-      var Asset = calipso.lib.mongoose.model('Asset');
+      var Asset = calipso.db.model('Asset');
       parser.addListener('startElement', function(name, attrs) {
         if (name === 'Error') {
           property = 'error';
@@ -1746,7 +1749,7 @@ function assetType(req,asset) {
 function getAssetList(query,out,next) {
   var pager = out.hasOwnProperty('pager') ? out.pager : true;
 
-  var Asset = calipso.lib.mongoose.model('Asset');
+  var Asset = calipso.db.model('Asset');
 
   var limit = out.limit ? out.limit : (out.req.moduleParams.limit ? parseInt(out.req.moduleParams.limit) : 20);
   // If pager is enabled, ignore any override in from
@@ -1822,7 +1825,7 @@ function getAssetList(query,out,next) {
                }
            };
 
-           var tableHtml = calipso.table.render(table,out.req);
+           var tableHtml = calipso.table.render(out.req, table);
 
            calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
          }
