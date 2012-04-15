@@ -14,7 +14,8 @@ exports = module.exports = {
     author: 'cliftonc',
     version: '0.3.1',
     home:'http://github.com/cliftonc/calipso'
-  }
+  },
+  last:true
 };
 
 /**
@@ -28,13 +29,12 @@ function route(req,res,module,app,next) {
  *Init
  */
 function init(module,app,next) {
-    module.router.addRoute('GET /secured',routeFn,{admin: true, permit:'test:permission'},next);
+    module.router.addRoute(/.*/,routeFn,{},next);
 };
 
 /**
  * Very basic router Fn
  */
 function routeFn(req, res, template, block, next) {
-  res.statusCode = 200;
   next();
 };

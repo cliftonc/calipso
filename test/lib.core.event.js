@@ -21,7 +21,7 @@ describe('Events', function () {
 
       var ee = new Event.CalipsoEventEmitter();
       ee.init();
-      
+
       var eventCount = 0;
 
       ee.addEvent('TEST');
@@ -56,9 +56,9 @@ describe('Events', function () {
 
       ee.addEvent('TEST');
 
-      var callbackFn = function(err, data) {
-        eventCount++;
-      }
+      var callbackFn = function (err, data) {
+          eventCount++;
+        }
 
       ee.pre('TEST', 'myPreListener', function (event, data, next) {
         eventCount++;
@@ -92,54 +92,58 @@ describe('Events', function () {
 
     it('I can create custom events', function (done) {
 
-        var ee = new Event.CalipsoEventEmitter();
-        ee.init();
-        
-        var eventCount = 0;
+      var ee = new Event.CalipsoEventEmitter();
+      ee.init();
 
-        ee.addEvent('TEST');
+      var eventCount = 0;
 
-        ee.custom('TEST','START','startListener',function(event,data,next) {
-            eventCount++;
-            data.start = "Started";
-            next(data);
-        });
+      ee.addEvent('TEST');
 
-        ee.custom('TEST','FINISH','finishListener',function(event,data,next) {
-            eventCount++;
-            data.finish = "Finished";
-            next(data);
-        });
+      ee.custom('TEST', 'START', 'startListener', function (event, data, next) {
+        eventCount++;
+        data.start = "Started";
+        next(data);
+      });
 
-        ee.custom_emit('TEST', 'START', {data:"data"}, function(data) {
-            data.start.should.equal("Started");
-        });
+      ee.custom('TEST', 'FINISH', 'finishListener', function (event, data, next) {
+        eventCount++;
+        data.finish = "Finished";
+        next(data);
+      });
 
-        ee.custom_emit('TEST', 'FINISH', {data:"data"},function(data) {
-            data.finish.should.equal("Finished");
-        });
+      ee.custom_emit('TEST', 'START', {
+        data: "data"
+      }, function (data) {
+        data.start.should.equal("Started");
+      });
 
-        eventCount.should.equal(2);
+      ee.custom_emit('TEST', 'FINISH', {
+        data: "data"
+      }, function (data) {
+        data.finish.should.equal("Finished");
+      });
 
-        done();
+      eventCount.should.equal(2);
+
+      done();
 
     });
 
     it('I can reload events e.g. after a config reload', function (done) {
 
-        var ee = new Event.CalipsoEventEmitter();
-        ee.init();
+      var ee = new Event.CalipsoEventEmitter();
+      ee.init();
 
-        ee.addEvent('TEST2');  
-        ee.events['TEST2'].should.exist;
-        ee.events['FORM'].should.exist;
+      ee.addEvent('TEST2');
+      ee.events['TEST2'].should.exist;
+      ee.events['FORM'].should.exist;
 
-        // Re-initialise
-        ee.init();
-        ee.events['TEST2'].should.not.exist;
-        ee.events['FORM'].should.exist;
+      // Re-initialise
+      ee.init();
+      ee.events['TEST2'].should.not.exist;
+      ee.events['FORM'].should.exist;
 
-        done();
+      done();
 
     });
 
@@ -149,10 +153,12 @@ describe('Events', function () {
 
     it('I can add a module event listener to a module', function (done) {
 
-      var module = {moduleName: 'test'};
+      var module = {
+        moduleName: 'test'
+      };
 
       Event.addModuleEventListener(module);
-      
+
       module.event._events.should.exist;
       module.event.init_start.should.exist;
       module.event.init_finish.should.exist;
@@ -167,7 +173,28 @@ describe('Events', function () {
 
     it('I can add a module event listener to a request object', function (done) {
 
-      // TODO 
+      var notify = 0, register = 0, req = calipsoHelper.requests.testUser,
+        res = calipsoHelper.response,
+        re = new Event.RequestEventListener({
+          notifyDependencyFn: function() { notify++ }, // Normally to calipso.module.notifyDependenciesOfRoute
+          registerDependenciesFn: function() { register++ } // Normally to calipso.module.registerDependencies
+        });
+
+      re.registerModule(req, res, 'module_a');
+
+      // We should be registered, no notifications.
+      notify.should.equal(0);
+      register.should.equal(1);
+      re.modules.module_a.should.exist;
+
+      // Fire route start
+      re.modules.module_a.route_start();
+      re.modules.module_a.route_finish();
+
+      // Now have notifications
+      notify.should.equal(1);
+      re.modules.module_a.routed.should.equal(true);
+
       done();
 
     });

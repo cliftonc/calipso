@@ -73,20 +73,34 @@ var Request = http.IncomingMessage,
 
 Request.prototype.t = function(str) { return str };
 
-function CreateRequest(url, session) {
+function CreateRequest(url, method, session) {
 	var req = new Request();
+	req.method = method || 'GET';
 	req.url = url || '/';
 	req.session = session || {};
+	req.flashMsgs = [];
+	req.flash = function(type, msg) {		
+		req.flashMsgs.push({type: type, msg: msg});
+	}
 	return req;
 }
 
+
+function CreateResponse() {
+	var res = new Response();
+	res.redirectQueue = [];
+	res.redirect = function(url) {		
+		res.redirectQueue.push(url);
+	}
+	return res;
+}
 /**
  * Default requests and users
  */
 var requests = {
-	anonUser: CreateRequest('/'),
-	testUser: CreateRequest('/', {user: {isAdmin: false, roles: ['Test']}}),
-	adminUser: CreateRequest('/', {user: {isAdmin: true, roles: ['Administrator']}})
+	anonUser: CreateRequest('/','GET'),
+	testUser: CreateRequest('/','GET', {user: {isAdmin: false, roles: ['Test']}}),
+	adminUser: CreateRequest('/secured','GET', {user: {isAdmin: true, roles: ['Administrator']}})
 }
 
 /**
@@ -98,6 +112,6 @@ new MockApp(function(app) {
 	  calipso: calipso,
 	  testPermit: calipso.permission.Helper.hasPermission("test:permission"),
 	  requests: requests,
-	  response: new Response()
+	  response: CreateResponse()
   }	
 })

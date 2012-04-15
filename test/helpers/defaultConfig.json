@@ -70,6 +70,15 @@
   "modules": {
     "module_a":{
       "enabled": true
+    },
+    "module_b":{
+      "enabled": true
+    },
+    "module_first":{
+      "enabled": true
+    },
+    "module_last":{
+      "enabled": true
     }
   }
 }

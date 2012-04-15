@@ -18,7 +18,9 @@ describe('Modules', function(){
   
 
     it('I am a placeholder', function(){    
-      true.should.equal(true);
+
+        // Most of the module tests will be done via lib.calipso, as it has a lot of dependencies on Calipso re. modules.
+        
     });
 
   }); 
