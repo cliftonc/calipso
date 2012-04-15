@@ -87,6 +87,10 @@ describe('Calipso', function(){
 
     });
 
+    it('I can reload the configuration', function(done) {
+      calipso.reloadConfig('RELOAD', {}, done);
+    });
+
   }); 
 
   after(function() {
