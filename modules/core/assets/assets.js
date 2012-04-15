@@ -1383,47 +1383,6 @@ function updateAsset(req,res,template,block,next) {
 
 }
 
-/***
- * Show asset - called by ID or Alias functions preceeding
- */
-function showAsset(req,res,template,block,next,err,asset,format) {
-  if(asset.isfolder) {
-    req.flash('error', req.t('This asset refers to a folder and not a file.'));
-    res.statusCode = 404;
-    next();
-    return;
-  }
-  var k = require('knox').createClient({
-    key: calipso.config.get("s3:key"),
-    secret: calipso.config.get("s3:secret"),
-    bucket: asset.bucket.alias
-  });
-  var fileName = path.basename(asset.alias);
-  var contentType = mime.lookup(fileName);
-  var range = req.header['Range'];
-  var headers = {'response-content-type':contentType};
-  if (range)
-    headers['Range'] = range;
-  knox.get(escape(asset.alias), headers).on('response', function(s3res) {
-    var buffer = new Buffer(0);
-    var headers = {};
-    if (req.url.substring(req.url.length - fileName.length) !== fileName)
-      headers['Content-Disposition'] = 'inline; filename="' + fileName + '"';
-    for (var v in s3res.headers) {
-      headers[v] = s3res.headers[v];
-    }
-    s3res.on('error', function(err) {
-      next();
-    });
-    s3res.on('end', function (chunk) {
-      next();
-    });
-    res.statusCode = 200;
-    res.writeHead(200, headers);
-    s3res.pipe(res);
-  }).end();        // Just return the object
-}
-
 function listAssets(req,res,template,block,next) {  
   var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
@@ -1441,10 +1400,15 @@ function listAssets(req,res,template,block,next) {
     if (req.moduleParams['f' + i])
       alias.push(req.moduleParams['f' + i]);
   }
+  var isfolder = false;
   if (alias.length > 0) {
-    if (alias.length > 0)
-      alias = alias.join('/') + '/';
-    else
+    if (alias.length > 0) {
+      alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
+      if (req.url.substring(req.url.length - 1) == '/') {
+        alias += '/';
+        isfolder = true;
+      }
+    } else
       alias = null;
   } else
     alias = null;
@@ -1472,14 +1436,47 @@ function listAssets(req,res,template,block,next) {
     getAssetList(query,params,next);
   }
   if (alias) {
-    Asset.findOne({alias:alias,isfolder:true}).populate('folder').run(function (err, folder) {
+    Asset.findOne({alias:alias,isfolder:isfolder}).populate('folder').run(function (err, folder) {
       if (!err && folder) {
-        // query for the parent folder
-        query.where('folder', folder._id);
-        // Also return the folder itself to be able to display this as a link to the parent folder.
-        query._conditions = {$or:[query._conditions,{_id:folder.id}]};
-        params.folder = folder;
-        finish();
+        if (!folder.isfolder) {
+          var paths = folder.key.split('/');
+          var k = require('knox').createClient({
+            key: calipso.config.get("s3:key"),
+            secret: calipso.config.get("s3:secret"),
+            bucket: paths.splice(0, 1)[0]
+          });
+          var fileName = path.basename(folder.alias);
+          var contentType = mime.lookup(fileName);
+          var range = req.headers['Range'];
+          var headers = {'response-content-type':contentType};
+          if (range)
+            headers['Range'] = range;
+          k.get(escape(paths.join('/')), headers).on('response', function(s3res) {
+            var headers = {};
+            if (req.url.substring(req.url.length - fileName.length) !== fileName)
+              headers['Content-Disposition'] = 'inline; filename="' + fileName + '"';
+            for (var v in s3res.headers) {
+              headers[v] = s3res.headers[v];
+            }
+            s3res.on('error', function(err) {
+              next();
+            });
+            s3res.on('end', function (chunk) {
+              next();
+            });
+            res.statusCode = 200;
+            res.writeHead(200, headers);
+            s3res.pipe(res);
+          }).end();        // Just return the object
+          return;
+        } else {
+          // query for the parent folder
+          query.where('folder', folder._id);
+          // Also return the folder itself to be able to display this as a link to the parent folder.
+          query._conditions = {$or:[query._conditions,{_id:folder.id}]};
+          params.folder = folder;
+          finish();
+        }
       } else {
         res.statusCode = 404;
         req.flash('error', req.t('Unable to find parent folder {alias}: {error}', {alias:alias, error:(err && err.message) || 'Unknown error'}));
