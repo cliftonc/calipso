@@ -4,7 +4,10 @@ var rootpath = process.cwd() + '/',
   Query = require("mongoose").Query,
   mime = require('mime'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  parse = require('url').parse;
+  parse = require('url').parse,
+  crypto = require('crypto'),
+  fs = require('fs'),
+  knox_mod = require('knox');
 
 exports = module.exports = {
   init: init,
@@ -35,7 +38,7 @@ function knox(options) {
     key: calipso.config.get("s3:key"),
     secret: calipso.config.get("s3:secret")
   }, options);
-  return require('knox').createClient(options);
+  return knox_mod.createClient(options);
 }
 
 var convert = {
@@ -93,7 +96,6 @@ function handleAsset(req, res, next) {
     // This is a PUT with no alias.
     var k = knox({
       'bucket': fileName,
-      'Host': fileName + '.s3.amazonaws.com'
     });
     var Asset = calipso.lib.mongoose.model('Asset');
     if (alias[alias.length - 1] !== '/')
@@ -356,23 +358,18 @@ function testAssets(req, res, route, next) {
               return;
             }
             res.write("created project and root folder\n");
-            calipso.lib.assets.deleteAsset('proj/newproject/archive/', function (err, asset) {
+            calipso.lib.assets.createAsset({path:'proj/newproject/archive/something.txt',copyStream:fs.createReadStream(path.join(__dirname, 'assets.js'))}, function (err, asset) {
               if (err) {
-                res.write("unable to delete project special folder " + err.message);
+                res.write("unable to create sample file " + err.message);
                 res.end();
                 return;
               }
-              res.write("deleted project root folder\n");
-              res.write(JSON.stringify(asset) + '\n');
+              res.write("created sample file using stream\n");
               calipso.lib.assets.deleteAsset('proj/newproject/', function (err, asset) {
-                if (err) {
-                  res.write("unable to delete the project itself");
-                  res.end();
-                }
                 res.write("deleted project\n")
                 res.write(JSON.stringify(asset) + '\n');
                 res.end();
-              });
+              })
             })
           });
         });
@@ -461,21 +458,109 @@ function init(module, app, next) {
                 return callback(new Error("can't delete a bucket for now"), null);
               }
               var paths = asset.key.split('/');
-              var k = knox({
-                'bucket': paths[0],
-                'Host': paths[0] + '.s3.amazonaws.com'
-              });
               // TODO: Implement delete.
-              var s3req = k.request('DELETE', escape(asset.key))
-                .on('error', function(err) {
-                  return callback(new Error('unable to delete ' + err.message), null);
-                })
-                .on('response', function(s3res) {
-                  asset.remove(function (err) {
-                    return callback(err, asset);
-                  });
+              if (asset.isfolder) {
+                var k = knox({
+                  'bucket': paths[0]
                 });
-                s3req.end();
+//                <Delete>
+//                  <Object>
+//                    <Key>SampleDocument.txt</Key>
+//                  </Object>
+//                </Delete>
+                var assetsToDelete = [asset];
+                var folders = [asset];
+                function multiDelete() {
+                  var list = assetsToDelete.splice(0, 1000); // We can only support 1000 at a time.
+                  if (list.length === 0) {
+                    // All done!
+                    return callback(null, asset);
+                  }
+                  var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n','<Delete>'];
+                  var query = [];
+                  list.forEach(function (item) {
+                    xml.push('<Object><Key>', item.key, '</Key></Object>');
+                    query.push(item._id);
+                  });
+                  xml.push('</Delete>');
+                  xml = xml.join('');
+                  var s3req = k.request('POST', '/?delete', {
+                    'Content-Length': xml.length,
+                    'Content-MD5': crypto.createHash('md5').update(xml).digest('base64'),
+                    'Accept:': '*/*',
+                  })
+                    .on('error', function (err) {
+                      return callback(new Error('unable to delete ' + err.message), null);
+                    })
+                    .on('response', function (s3res) {
+                      if (s3res.statusCode !== 200) {
+                        var data = '';
+                        s3res.on('data', function (chunk) {
+                          data += chunk;
+                        });
+                        s3res.on('end', function () {
+                          return callback(new Error('unable to delete file ' + data))
+                        });
+                        s3res.on('error', function (err) {
+                          return callback(new Error('unable to delete file ' + err.message));
+                        });
+                        return;
+                      }
+                      Asset.remove({'_id':{$in:query}}, function (err) {
+                        if (err) {
+                          return callback(new Error('unable to delete folder ' + err.message));
+                        }
+                        multiDelete();
+                      });
+                    });
+                  s3req.write(xml);
+                  s3req.end();
+                }
+                function addFiles() {
+                  var folder = folders.splice(0, 1)[0];
+                  if (!folder) {
+                    // We're all done adding files to the paths list
+                    return multiDelete();
+                  }
+                  Asset.find({folder:folder._id}, function (err, files) {
+                    files.forEach(function (file) {
+                      if (file.isfolder) {
+                        folders.push(file);
+                      }
+                      assetsToDelete.add(file);
+                    });
+                    addFiles();
+                  });
+                }
+                addFiles();
+              } else {
+                var k = knox({
+                  'bucket': paths[0],
+                });
+                var s3req = k.request('DELETE', escape(asset.key))
+                  .on('error', function(err) {
+                    return callback(new Error('unable to delete ' + err.message), null);
+                  })
+                  .on('response', function(s3res) {
+                    if (s3res.statusCode !== 204) {
+                      var data = '';
+                      s3res.on('data', function (chunk) {
+                        data += chunk;
+                      });
+                      s3res.on('end', function () {
+                        return callback(new Error('unable to delete file ' + data))
+                      });
+                      s3res.on('error', function (err) {
+                        return callback(new Error('unable to delete file ' + err.message));
+                      });
+                      return;
+                    }
+                    asset.remove(function (err) {
+                      return callback(err, asset);
+                    });
+                  });
+                  s3req.end();
+              }
             } else {
               asset.remove(function (err) {
                 return callback(err, asset);
@@ -489,6 +574,10 @@ function init(module, app, next) {
           var path = options.path;
           if (!path) return callback(new Error("Could not create asset. No path specified"), null);
           var copySource = options.copySource;
+          var copyStream = options.copyStream;
+          var copyStreamSize = options.copyStreamSize;
+          if (copyStream && !options.copyStreamPaused)
+            copyStream.pause();
           var author = options.author || 'testing';
           var paths = path.split('/');
           var isFolder = paths[paths.length - 1] === '';
@@ -498,16 +587,15 @@ function init(module, app, next) {
           var fileName = paths[paths.length - 1];
           var isBucket = (root === 's3') && (paths.length == 2);
           var parentFolder = '';
+          var filesize;
           for (var i = 0; i < (paths.length - 1); i++) {
             parentFolder += paths[i] + '/';
           }
-          debugger;
           if (isBucket) {
             // Create a new bucket
             // This is a PUT with no alias.
             var k = knox({
               'bucket': fileName,
-              'Host': fileName + '.s3.amazonaws.com'
             });
             var Asset = calipso.lib.mongoose.model('Asset');
             if (path[alias.length - 1] !== '/')
@@ -544,25 +632,39 @@ function init(module, app, next) {
             });
             return;
           }
-          function interactWithS3(asset) {
-            var headers = {};
-            headers['x-amz-copy-source'] = copySource;
-            var filesize;
-            if (copySource && /(proj|s3)\//.test(copySource)) {
-              Asset.findOne({alias:copySource}, function (err, copyAsset) {
-                if (err || !copyAsset) {
-                  return callback(new Error('unable to resolve copy source'));
-                }
-                calipso.debug('Rewriting copySource from ' + copySource + ' to /' + copyAsset.key);
-                copySource = '/' + escape(copyAsset.key);
-                headers['x-amz-copy-source'] = copySource;
-                filesize = copyAsset.size;
-                interactWithS3(asset);
-              });
-              return;
+          function interactWithS3(asset, hasSize, headers) {
+            headers = headers || {};
+            if (copyStream) {
+              if (copyStreamSize) {
+                headers['Content-Length'] = copyStreamSize;
+              } else if (!hasSize) {
+                fs.stat(copyStream.path, function (err, stat) {
+                  if (err)
+                    return callback(new Error('unable to stat stream path ' + copyStream.path));
+                  calipso.debug('Uploading from stream ' + copyStream.path + ' with length ' + stat.size);
+                  headers['Content-Length'] = stat.size;
+                  interactWithS3(asset, true, headers);
+                });
+                return;
+              }
+            } else {
+              headers['x-amz-copy-source'] = copySource;
+              if (copySource && /(proj|s3)\//.test(copySource)) {
+                Asset.findOne({alias:copySource}, function (err, copyAsset) {
+                  if (err || !copyAsset) {
+                    return callback(new Error('unable to resolve copy source'));
+                  }
+                  calipso.debug('Rewriting copySource from ' + copySource + ' to /' + copyAsset.key);
+                  copySource = '/' + escape(copyAsset.key);
+                  headers['x-amz-copy-source'] = copySource;
+                  filesize = copyAsset.size;
+                  interactWithS3(asset);
+                });
+                return;
+              }
+              if (copySource)
+                headers['Content-Length'] = 0;
             }
-            if (copySource)
-              headers['Content-Length'] = 0;
             var paths = asset.key.split('/');
             var fileName = paths[paths.length - 1];
             var bucket = paths.splice(0, 1)[0];
@@ -590,7 +692,19 @@ function init(module, app, next) {
                   return callback(null, asset, data);
                 });
               });
-              s3req.end();
+              if (copyStream) {
+                copyStream.on('data', function (chunk) {
+                  s3req.write(chunk);
+                });
+                copyStream.on('end', function () {
+                  s3req.end();
+                });
+                copyStream.on('error', function (err) {
+                  callback(new Error('Unable to send stream ' + err.message));
+                });
+                copyStream.resume();
+              } else
+                s3req.end();
           }
           var Asset = calipso.lib.mongoose.model('Asset');
           // Search for the folder first
