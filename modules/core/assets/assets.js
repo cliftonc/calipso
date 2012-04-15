@@ -432,6 +432,292 @@ function init(module, app, next) {
           var query = Asset.find({isproject:true});
           process.nextTick(function() { callback(null, query); });
         },
+        syncFolder: function (folder, callback) {
+          var Asset = calipso.lib.mongoose.model('Asset');
+          var info = null;
+          var result = [];
+          function realContent(info, asset, atRoot, callback, next) {
+            var bucket = '';
+            if (asset) {
+              var s = asset.key.split('/');
+              bucket = s[0];
+            }
+            var expat = require('node-expat');
+            var knox = require('knox').createClient({
+              key: calipso.config.get("s3:key"),
+              secret: calipso.config.get("s3:secret"),
+              bucket: bucket
+            });
+            if (info && info.bucket && asset && bucket !== info.bucket) {
+              return next();
+            }
+            knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response', function(s3res){
+              s3res.setEncoding('utf8');
+              var parser = new expat.Parser();
+              var items = [];
+              var item = null;
+              var dirs = {};
+              var property = null;
+              var owner = null;
+              var message = null;
+              var code = null;
+              var Asset = calipso.lib.mongoose.model('Asset');
+              parser.addListener('startElement', function(name, attrs) {
+                if (name === 'Error') {
+                  property = 'error';
+                } else if (name === 'Code') {
+                  property = 'code';
+                } else if (name === 'Message') {
+                  property = 'message';
+                } else if (name === 'Contents' || name == 'Bucket') {
+                  item = {};
+                } else if (name === 'Key') {
+                  property = 'key';
+                } else if (name === 'CreationDate') {
+                  property = 'created';
+                } else if (name === 'LastModified') {
+                  property = 'updated';
+                } else if (name === 'ETag') {
+                  property = 'etag';
+                } else if (name === 'Name') {
+                  property = 'key';
+                } else if (name === 'Size') {
+                  property = 'size';
+                } else if (name === 'DisplayName')
+                  property = 'author';
+              });
+              parser.addListener('endElement', function(name) {
+                if (name === 'Error') {
+                  callback({code:code, message:message}, null, asset);
+                } else if (name === 'Contents' || name == 'Bucket') {
+                  if (!item.author)
+                    item.author = owner;
+                  if (item.key.substring(item.key.length - 1) === '/')
+                    dirs[item.key] = true;
+                  else if (asset) {
+                    var paths = item.key.split('/');
+                    paths.splice(paths.length - 1, 1);
+                    paths = paths.join('/') + '/';
+                    if (!dirs[paths] && paths !== '/') {
+                      var fakeItem = {key:paths,size:0,isfolder:true,author:item.author};
+                      items.push(fakeItem);
+                      dirs[paths] = true;
+                    }
+                  }
+                  items.push(item);
+                  item = null;
+                } else if (name === 'ListBucketResult' || name === 'ListAllMyBucketsResult') {
+                  callback(null, items, asset, atRoot, next);
+                }
+              });
+              parser.addListener('text', function(s) {
+                if (property === 'code')
+                  code = s;
+                if (property === 'message')
+                  message = s;
+                if (property === 'author')
+                  owner = s;
+                if (property && item) {
+                  if (property === 'key') {
+                    if (asset)
+                      item[property] = bucket + '/' + s;
+                    else
+                      item[property] = s + '/';
+                  } else if (property === 'Size') {
+                    if (/\/$/.test(item.Key))
+                      item.IsDirectory = true;
+                    else {
+                      item.IsFile = true;
+                    }
+                    item[property] = s;
+                  } else
+                    item[property] = s;
+                  property = null;
+                }
+              });
+              s3res.on('error', function(err) {
+                callback(err, null, null, next);
+              });
+              buffer = new Buffer('');
+              s3res.on('end', function() {
+                parser.parse(buffer);
+              });
+              s3res.on('data', function(chunk){
+                buffer += chunk;
+              });
+            }).end();
+          };
+          function snarfBucketContent(err, items, parent, atRoot, next) {
+            if (err) {
+              return;
+            }
+            var asset = items.splice(0, 1)[0]; // take the first item
+            if (!asset) {
+              if (next)
+                next(null);
+              return;
+            }
+            var query = {key:asset.key};
+            Asset.findOne(query, function (err, assetFound) {
+              var isNew = false;
+              if (!assetFound) {
+                assetFound = new Asset();
+                isNew = true;
+              }
+              var paths = asset.key.split('/');
+              if (paths[paths.length - 1] === '')
+                paths.splice(paths.length - 1, 1);
+              var fileName = paths[paths.length - 1] || 'Untitled';
+              paths.splice(paths.length - 1, 1);
+              var folderPath = null;
+              if (paths.length > 0)
+                folderPath = paths.join('/') + '/';
+              if (!assetFound.title || assetFound.title === 'undefined') {
+                assetFound.title = (parent === null) ? asset.key : fileName;
+              }
+              assetFound.isfolder = asset.key.substring(asset.key.length - 1) === '/';
+              assetFound.isroot = false;
+              if (!assetFound.isfolder)
+                assetFound.size = asset.size;
+              else
+                assetFound.size = null;
+              assetFound.key = asset.key; // S3 name
+              var project = null;
+              var match = assetFound.key.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
+              assetFound.alias = 's3/' + asset.key;
+              if (match) {
+                assetFound.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == assetFound.key;
+                if (assetFound.isroot) {
+                  project = match[2];
+                  assetFound.isroot = false;
+                  assetFound.title = match[3];
+                  var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
+                  calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
+                  assetFound.alias = newUri;
+                } else {
+                  // For a normal asset that's part of a project rewrite it to say
+                  // {project}/{rootfolder}/{restofuri}
+                  var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
+                  calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
+                  assetFound.alias = newUri;
+                }
+              } else if (/s3\/[^\/]*\/$/.test(assetFound.alias)) {
+                assetFound.isroot = true;
+              }
+              assetFound.author = asset.author;
+              if (assetFound.isbucket) {
+                if (!info || !info.bucket || info.bucket === assetFound.alias) {
+                  var log = (isNew ? 'new ' : 'update ') + ' bucket "' + asset.key + '"';
+                  calipso.debug(log);
+                  result.push(log);
+                }
+              } else if (parent && assetFound.isfolder) {
+                var log = (isNew ? 'new ' : 'update ') + '"' + asset.key + '"';
+                calipso.debug(log);
+                result.push(log);
+              }
+              function saveAsset() {
+                assetFound.save(function (err) {
+                  if (err) {
+                    calipso.error("error:", err)
+                    next();
+                    return;
+                  }
+                  if (parent) {
+                    snarfBucketContent(err, items, parent, atRoot, function (err) {
+                      snarfBucketContent(err, items, parent, false, next);
+                    });
+                  } else {
+                    realContent(info, assetFound, false, snarfBucketContent, function (err) {
+                      snarfBucketContent(err, items, parent, false, next);
+                    });
+                  }
+                });
+              }
+              if (project) {
+                var pq = {isproject:true,alias:'proj/' + project + '/',key:'',isvirtual:true};
+                Asset.findOne(pq, function (e, proj) {
+                  var newProj = false;
+                  if (e || !proj) {
+                    newProj = true;
+                    proj = new Asset(pq);
+                  }
+                  proj.author = asset.author;
+                  proj.title = project;
+                  proj.isroot = true;
+                  proj.isfolder = true;
+                  calipso.debug((newProj ? 'new project ' : 'update project ') + proj.title);
+                  proj.save(function (err) {
+                    if (err) {
+                      calipso.error("error:", err);
+                      next();
+                      return;
+                    }
+                    assetFound.folder = proj._id;
+                    assetFound.isvirtual = true;
+                    saveAsset();
+                  });
+                });
+              } else
+                saveAsset();
+            });
+          }
+          Asset.findOne({alias:folder}, function (err, root) {
+            if (!root) {
+              if (folder !== '') {
+                if (/^proj\/.*\//.test(folder))
+                  return callback(new Error('unable to find ' + folder + ' for sync.'));
+                if (!/^s3\/.*\//.test(folder))
+                  return callback(new Error('unable to recognize ' + folder + ' as a s3 resource.'));
+                var match = folder.match(/^s3\/([^\/]*)\/(.*)$/);
+                if (match) {
+                  info = {bucket:match[1], prefix:match[2]};
+                }
+              }
+            } else
+              folder = root.key;
+            if (p.length > 0) {
+              info = {
+                bucket: p.splice(0, 1)[0],
+                prefix: p.join('/')
+              };
+            } else {
+              info = null;
+            }
+            realContent(info, null, true, snarfBucketContent, function () {
+              Asset.find({isfolder:true}, function (e, folders) {
+                if (e || folders.length == 0) {
+                  doNext();
+                  return;
+                }
+                var wasDone = false;
+                function doNext() {
+                  if (!wasDone) {
+                    callback(null, result);
+                    wasDone = true;
+                  }
+                }
+                function updateFolder(index) {
+                  var folder = folders[index];
+                  var query = folder.isfolder
+                    ? { key:{ $regex:'^' + folder.key + '[^/]+/?$' }, isvirtual:false, isfolder:false }
+                    : { key:{ $regex:'^[^/]+/?$' }, isvirtual: false, isfolder:false };
+                  Asset.update(query, { folder: folder._id }, { multi: true }, function (e, c) {
+                    var log = 'searching "' + folder.key + '" - ' + c;
+                    calipso.debug(log);
+                    result.push(log);
+                    if ((folders.length - 1) == index) {
+                      doNext();
+                    } else {
+                      updateFolder(index + 1);
+                    }
+                  });
+                }
+                updateFolder(0);
+              });
+            });
+          });
+        },
         listFiles: function (project, folder, callback) {
           var Asset = calipso.lib.mongoose.model('Asset');
           var url = 'proj/' + project + '/' + folder;
@@ -463,11 +749,6 @@ function init(module, app, next) {
                 var k = knox({
                   'bucket': paths[0]
                 });
-//                <Delete>
-//                  <Object>
-//                    <Key>SampleDocument.txt</Key>
-//                  </Object>
-//                </Delete>
                 var assetsToDelete = [asset];
                 var folders = [asset];
                 function multiDelete() {
@@ -604,14 +885,14 @@ function init(module, app, next) {
               var author = (req.session && req.session.user) || 'testing';
               if (!asset) {
                 asset = new Asset();
+                asset.title = paths[1];
+                asset.author = author;
                 calipso.debug('create new bucket ' + alias);
               } else
                 calipso.debug('found bucket ' + alias);
               asset.isfolder = true;
               asset.alias = alias;
-              asset.title = paths[1];
               asset.key = paths[1] + '/';
-              asset.author = author;
               asset.save(function (err) {
                 if (err) {
                   return callback(new Error("unable to save bucket " + err.message), null);
