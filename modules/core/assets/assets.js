@@ -1081,8 +1081,9 @@ function init(module, app, next) {
                     }
                     if (isFolder) {
                       return callback(null, asset);
-                    } else
+                    } else {
                       interactWithS3(asset);
+                    }
                   });
                 }
                 if (project) {
