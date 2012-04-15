@@ -148,7 +148,7 @@ function handleAsset(req, res, next) {
     });
     return;
   }
-  function interactWithS3(asset, req, res, next) {
+  function handleAssetInteractWithS3(asset, req, res, next) {
     var copy = req.headers['x-amz-copy-source'];
     if (copy && /(proj|s3)\//.test(copy)) {
       Asset.findOne({alias:copy}, function (err, copyAsset) {
@@ -160,7 +160,7 @@ function handleAsset(req, res, next) {
           return;
         }
         req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
-        interactWithS3(asset, req, res, next);
+        handleAssetInteractWithS3(asset, req, res, next);
       });
       return;
     }
@@ -267,7 +267,7 @@ function handleAsset(req, res, next) {
               asset.alias = newUri;
             }
           }
-          function saveAsset() {
+          function handleAssetSaveAsset() {
             asset.save(function (err) {
               if (err) {
                 req.resume();
@@ -280,7 +280,7 @@ function handleAsset(req, res, next) {
                 req.resume();
                 res.send(200, 'created folder ' + alias);
               } else
-                interactWithS3(asset, req, res, next);
+                handleAssetInteractWithS3(asset, req, res, next);
             });
           }
           if (project) {
@@ -305,11 +305,11 @@ function handleAsset(req, res, next) {
                   return;
                 }
                 asset.folder = proj._id;
-                saveAsset();
+                handleAssetSaveAsset();
               })
             });
           } else
-            saveAsset();
+            handleAssetSaveAsset();
           return; // done putting new file
         } else {
           req.resume();
@@ -326,7 +326,7 @@ function handleAsset(req, res, next) {
         next();
         return; // This is a bucket or folder...
       }
-      interactWithS3(asset, req, res, next);
+      handleAssetInteractWithS3(asset, req, res, next);
       return;
     });
   });
@@ -851,10 +851,49 @@ function init(module, app, next) {
             }
           });
         },
-        //Arguments can be path, copySource, and author
+        updateParents: function (asset, author, callback) {
+          if (asset.folder) {
+            var Asset = calipso.db.model('Asset');
+            Asset.findOne({_id:asset.folder}, function (err, folder) {
+              if (err || !folder) {
+                return callback(new Error('unable to find parent folder ' + (err ? err.message : '')), folder);
+              }
+              folder.updated = new Date();
+              folder.author = author;
+              folder.save(function (err) {
+                if (err) {
+                  return callback(new Error('unable to update parent folder ' + err.message), folder);
+                }
+                updateParents(folder, author, callback);
+              })
+            })
+          } else
+            callback(null, null);
+        },
+        // Arguments
+        // path: The destination path ('s3/<bucket>/<key>' or 'proj/<projectname>/<rootfolder>/<key>')
+        //  Alternative for s3 URL
+        //   bucket: The name of the bucket
+        //   key: The file key
+        //  Alternative for project URL
+        //   project: The name of the project
+        //   root: The name of the root folder
+        //   key: The file key (within the root '[<subfolder>/]<filename>')
+        // copyStream: Stream to copy asset from
+        //  copyStreamSize: Size of stream or we'll stat stream.path
+        //  copyStreamPaused: True if the stream is already paused (otherwise we'll pause it)
+        // copySource: asset alias to copy the file from (resolved to s3 URL)
+        // author: the author to use
         createAsset: function (options, callback) {
           var Asset = calipso.db.model('Asset');
           var path = options.path;
+          if (!path) {
+            if (options.bucket) {
+              path = 's3/' + options.bucket + '/' + options.key;
+            } else if (options.project) {
+              path = 'proj/' + options.project + '/' + options.root + '/' + options.key;
+            }
+          }
           if (!path) return callback(new Error("Could not create asset. No path specified"), null);
           var copySource = options.copySource;
           var copyStream = options.copyStream;
@@ -1208,10 +1247,11 @@ function editAssetForm(req,res,template,block,next) {
 
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
-  res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/s3/' + id,description:'Download actual file ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/assets/' + id,description:'Edit asset ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',security:[]});
+  var aPerm = calipso.permission.Helper.hasPermission("admin:user");
+  res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',permit:aPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/s3/' + id,description:'Download actual file ...',permit:aPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:3,path:'edit',url:'/assets/' + id,description:'Edit asset ...',permit:aPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',permit:aPerm});
 
 
   Asset.findById(id).populate('folder').run(function(err, c) {
@@ -1304,18 +1344,19 @@ function updateAsset(req,res,template,block,next) {
                       next();
 
                     } else {
+                      calipso.lib.assets.updateParents(c.folder, function (err) {
+                        req.flash('info',req.t('Content saved.'));
 
-                      req.flash('info',req.t('Content saved.'));
-
-                      // Raise CONTENT_CREATE event
-                      calipso.e.post_emit('CONTENT_UPDATE',c,function(c) {
-                        if(returnTo) {
-                          res.redirect(returnTo);
-                        } else {
-                          // use the reference to the originally id deifned by req.moduleParams.id
-                          res.redirect('/s3/' + id);
-                        }
-                        next();
+                        // Raise CONTENT_CREATE event
+                        calipso.e.post_emit('CONTENT_UPDATE',c,function(c) {
+                          if(returnTo) {
+                            res.redirect(returnTo);
+                          } else {
+                            // use the reference to the originally id deifned by req.moduleParams.id
+                            res.redirect('/s3/' + id);
+                          }
+                          next();
+                        });
                       });
 
                     }
