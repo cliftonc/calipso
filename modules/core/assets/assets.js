@@ -269,18 +269,20 @@ function handleAsset(req, res, next) {
           }
           function handleAssetSaveAsset() {
             asset.save(function (err) {
-              if (err) {
-                req.resume();
-                res.statusCode = 500;
-                req.flash('error', 'Unable to save asset ' + asset.alias + ': ' + err.message);
-                next();
-                return;
-              }
-              if (isFolder) {
-                req.resume();
-                res.send(200, 'created folder ' + alias);
-              } else
-                handleAssetInteractWithS3(asset, req, res, next);
+              calipso.lib.assets.updateParents(asset, author, function (err) {
+                if (err) {
+                  req.resume();
+                  res.statusCode = 500;
+                  req.flash('error', 'Unable to save asset ' + asset.alias + ': ' + err.message);
+                  next();
+                  return;
+                }
+                if (isFolder) {
+                  req.resume();
+                  res.send(200, 'created folder ' + alias);
+                } else
+                  handleAssetInteractWithS3(asset, req, res, next);
+              });
             });
           }
           if (project) {
@@ -1248,6 +1250,7 @@ function editAssetForm(req,res,template,block,next) {
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
   var aPerm = calipso.permission.Helper.hasPermission("admin:user");
+
   res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',permit:aPerm});
   res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/s3/' + id,description:'Download actual file ...',permit:aPerm});
   res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:3,path:'edit',url:'/assets/' + id,description:'Edit asset ...',permit:aPerm});
