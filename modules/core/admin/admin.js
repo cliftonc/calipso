@@ -17,9 +17,9 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Config helpers
-  var corePermit = calipso.permission.Helper.hasPermission("admin:core:configuration"),
-      modulePermit = calipso.permission.Helper.hasPermission("admin:module:configuration"),
-      cachePermit = calipso.permission.Helper.hasPermission("admin:core:cache");
+  var corePermit = "admin:core:configuration",
+      modulePermit = "admin:module:configuration",
+      cachePermit = "admin:core:cache";
 
   // Menu items
   res.menu.admin.addMenuItem(req, {name:'Administration',path:'admin',url:'/admin',description:'Calipso administration ...',permit:corePermit});
@@ -57,16 +57,16 @@ function init(module, app, next) {
   function defineRoutes() {
 
     // Permissions
-    var corePermit = calipso.permission.Helper.hasPermission("admin:core:configuration"),
-        modulePermit = calipso.permission.Helper.addPermission("admin:core:configuration","Manage core configuration."),
-        cachePermit = calipso.permission.Helper.hasPermission("admin:core:cache");
+    var corePermit = "admin:core:configuration",
+        modulePermit = "admin:module:configuration",
+        cachePermit = "admin:core:cache";
 
     // Core Administration dashboard
     module.router.addRoute('GET /admin', showAdmin, {
       template: 'admin',
       block: 'admin.show',
       admin: true,
-      permit: corePermit
+      permit: corePermit,
     }, this.parallel());
 
     // Core configuration

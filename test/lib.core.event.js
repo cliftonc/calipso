@@ -14,11 +14,70 @@ describe('Events', function(){
     // 
   });
 
-  describe('Core', function(){
-  
+  describe('General Events', function(){
+    
+    it('I can create pre and post event emitters and emit an event, with no asynchronous callback', function(done){ 
+       
+      var ee = new Event.CalipsoEventEmitter();
+      var eventCount = 0;
 
-    it('I am a placeholder', function(){    
-      true.should.equal(true);
+      ee.addEvent('TEST');
+
+      ee.pre('TEST','myPreListener',function(event,data) {
+          eventCount++;
+      });
+
+      ee.post('TEST','myPostListener',function(event,data) {
+          eventCount++;
+      });
+
+      ee.pre_emit('TEST',{data:"data"});
+      ee.post_emit('TEST',{data:"data"});
+
+      eventCount.should.equal(2);
+
+      done();
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
+    });
+
+    it('', function(){    
+      
     });
 
   }); 
