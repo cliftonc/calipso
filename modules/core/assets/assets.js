@@ -425,6 +425,10 @@ function init(module, app, next) {
           var Asset = calipso.lib.mongoose.model('Asset');
           return Asset.find.apply(Asset, arguments);
         },
+        findOneAsset: function () {
+          var Asset = calipso.lib.mongoose.model('Asset');
+          return Asset.findOne.apply(Asset, arguments);
+        },
         updateAssets: function () {
           var Asset = calipso.lib.mongoose.model('Asset');
           return Asset.update.apply(Asset, arguments);
@@ -851,9 +855,39 @@ function init(module, app, next) {
             }
           });
         },
+        assureFolder: function (folderPath, author, callback) {
+          var Asset = (calipso.db || calipso.lib.mongoose).model('Asset');
+          calipso.debug('assureFolder: Searching for ' + folderPath);
+          Asset.findOne({alias:folderPath}, function (err, folder) {
+            if (err)
+              return callback(err, null);
+            if (!folder) {
+              var s = folderPath.split('/');
+              s.splice(-2, 2, ['']);
+              var parentFolder = s.join('/');
+              calipso.debug('Searching for parent folder ' + parentFolder);
+              calipso.lib.assets.assureFolder(parentFolder, author, function (err, superFolder) {
+                if (err)
+                  return callback(err, null);
+                if (!superFolder)
+                  return callback(new Error('Unable to find or automatically create ' + folderPath));
+                var folderName = folderPath.replace(superFolder.alias, '');
+                var folder = new Asset({alias:folderPath,key:superFolder.key + folderName,title:folderName,author:author,folder:superFolder._id});
+                folder.save(function (err) {
+                  if (err)
+                    return callback(err, null);
+                  callback(null, folder);
+                });
+              });
+            } else if (folder.key === '')
+              return callback(new Error('This is a project root without a root folder path ' + folderPath));
+            else
+              return callback(null, folder);
+          });
+        },
         updateParents: function (asset, author, callback) {
           if (asset.folder) {
-            var Asset = calipso.db.model('Asset');
+            var Asset = (calipso.db || calipso.lib.mongoose).model('Asset');
             Asset.findOne({_id:asset.folder}, function (err, folder) {
               if (err || !folder) {
                 return callback(new Error('unable to find parent folder ' + (err ? err.message : '')), folder);
@@ -980,6 +1014,7 @@ function init(module, app, next) {
                   copySource = '/' + escape(copyAsset.key);
                   headers['x-amz-copy-source'] = copySource;
                   filesize = copyAsset.size;
+                  calipso.debug('Copying file size from original resource ' + filesize);
                   interactWithS3(asset);
                 });
                 return;
@@ -1030,7 +1065,7 @@ function init(module, app, next) {
           }
           var Asset = calipso.lib.mongoose.model('Asset');
           // Search for the folder first
-          Asset.findOne({alias:parentFolder}, function(err, folder) {
+          calipso.lib.assets.assureFolder(parentFolder, author, function(err, folder) {
             if(err || !folder) {
               // If we didn't find the folder then it has not been created yet.
               return callback(new Error('unable to find parent folder ' + parentFolder), null);
