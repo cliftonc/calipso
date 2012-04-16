@@ -7,8 +7,8 @@
   "server": {
     "name":"Calipso",
     "url":"http://localhost:3000",
-    "modulePath":"./test/fixtures/modules",
-    "themePath":"./test/fixtures/themes",
+    "modulePath":"test/fixtures/modules",
+    "themePath":"test/fixtures/themes",
     "cluster": {
       "workers": 0,
       "restartWorkers": true,

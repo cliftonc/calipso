@@ -4,6 +4,7 @@
 var calipso = require('./require')('calipso'),
 	path = require('path'),
 	fs = require('fs'),
+	colors = require('colors'),
 	rootpath = process.cwd() + '/',
 	Config = require('./require')('core/Config'),
 	http = require('http');
@@ -18,6 +19,9 @@ function MockApp(next) {
 
 	// Configuration - always start with default
 	var defaultConfig = path.join(rootpath, 'test', 'helpers', 'defaultConfig.json');
+
+	var statusMsg = '\r\nBase path @ '.grey + rootpath.cyan + '\r\nUsing config @ '.grey + defaultConfig.cyan;
+	console.log(statusMsg);
 
 	// Create new
 	self.config = new Config({
