@@ -44,6 +44,7 @@ describe('Calipso', function(){
 
       routeFn(req, res, function(err) {
         response.should.equal(1);
+        console.dir(res.outputStack);
         res.outputStack.should.eql(['module_first','module_b','module_last']);
         done();
       })
