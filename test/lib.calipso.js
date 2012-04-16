@@ -35,6 +35,7 @@ describe('Calipso', function(){
           response = 0,
           routeFn = calipso.routingFn();
 
+      req.url = '/';
       res.outputStack = [];
 
       // Over ride the res.end and increment our counter
@@ -44,7 +45,6 @@ describe('Calipso', function(){
 
       routeFn(req, res, function(err) {
         response.should.equal(1);
-        console.dir(res.outputStack);
         res.outputStack.should.eql(['module_first','module_b','module_last']);
         done();
       })
