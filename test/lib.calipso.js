@@ -4,14 +4,17 @@
 var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
+    fs = require('fs'),
     calipsoHelper = require('./helpers/calipsoHelper'),
-    calipso = calipsoHelper.calipso;
+    calipso = calipsoHelper.calipso,
+    mochaConfig = path.join(rootpath,'tmp','mocha.json');
 
     //calipso = require('./helpers/require')('calipso');
 
 describe('Calipso', function(){
 
   before(function(done){
+      try { fs.unlinkSync(mochaConfig); } catch(ex) { /** ignore **/ }
       calipso.init(calipsoHelper.app, function(app) {
         done();
       })
@@ -21,6 +24,7 @@ describe('Calipso', function(){
   
     it('Calipso has loaded successfully', function(done) {      
       calipso.loaded.should.equal(true);
+      calipso.lib._.keys(calipso.modules).should.eql(['module_a','module_b', 'module_first', 'module_last'])
       calipso.modules.should.exist;
       done();
     });
@@ -32,6 +36,8 @@ describe('Calipso', function(){
           response = 0,
           routeFn = calipso.routingFn();
 
+      res.outputStack = [];
+
       // Over ride the res.end and increment our counter
       res.end = function(content) {
         response++;
@@ -39,6 +45,31 @@ describe('Calipso', function(){
 
       routeFn(req, res, function(err) {
         response.should.equal(1);
+        res.outputStack.should.eql(['module_first','module_b','module_last']);
+        done();
+      })
+
+    });
+
+    it('I can send a mock request through to an invalid route and get a 404', function(done) {    
+      
+      var req = calipsoHelper.requests.testUser,
+          res = calipsoHelper.response,
+          response = 0,
+          routeFn = calipso.routingFn();
+
+      req.url = '/invalid.html';
+      res.outputStack = [];
+
+      // Over ride the res.end and increment our counter
+      res.end = function(content) {
+        response++;
+      }
+
+      routeFn(req, res, function(err) {
+        response.should.equal(1);
+        res.statusCode.should.equal(404);
+        res.outputStack.should.eql(['module_first','module_last']);
         done();
       })
 
@@ -51,6 +82,9 @@ describe('Calipso', function(){
           response = 0,
           routeFn = calipso.routingFn();
 
+      req.url = '/secured';
+      res.outputStack = [];
+
       // Over ride the res.end and increment our counter
       res.end = function(content) {
         response++; 
@@ -58,6 +92,7 @@ describe('Calipso', function(){
 
       routeFn(req, res, function(err) {
         response.should.equal(1);
+        res.outputStack.should.eql(['module_first','module_a','module_last']);
         done();
       })
 
@@ -71,6 +106,7 @@ describe('Calipso', function(){
           routeFn = calipso.routingFn();
 
       req.url = '/secured';
+      res.outputStack = [];
 
       // Over ride the res.end and increment our counter
       res.end = function(content) {
@@ -78,6 +114,7 @@ describe('Calipso', function(){
       }
 
       routeFn(req, res, function(err) {
+        res.outputStack.should.eql(['module_first','module_last']);
         req.flashMsgs[0].type.should.equal('error');
         res.redirectQueue.length.should.equal(1);
         res.redirectQueue[0].should.equal('/');
@@ -88,13 +125,17 @@ describe('Calipso', function(){
     });
 
     it('I can reload the configuration', function(done) {
-      calipso.reloadConfig('RELOAD', {}, done);
+      calipso.reloadConfig('RELOAD', {}, function(err) {
+        calipso.modules.should.exist;
+        calipso.lib._.keys(calipso.modules).should.eql(['module_a','module_b', 'module_first', 'module_last'])
+        done();
+      });
     });
 
   }); 
 
   after(function() {
-    
+    try { fs.unlinkSync(mochaConfig); } catch(ex) { /** ignore **/ }
   })
 
 });

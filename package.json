@@ -41,7 +41,7 @@
     "should": "*"
   },
   "scripts": {
-    "test" : "mocha"
+    "test" : "mocha -t 5000 -s 500"
   },
   "bin": { "calipso": "./bin/calipso" }
 }

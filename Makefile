@@ -3,7 +3,7 @@ REPORTER = spec
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
-		--reporter $(REPORTER)
+		--reporter $(REPORTER) -t 5000 -s 500
 
 test-cov: lib-cov
 	  @CALIPSO_COV=1 $(MAKE) test REPORTER=html-cov > docs/coverage.html

@@ -36,5 +36,6 @@ function init(module,app,next) {
  * Very basic router Fn
  */
 function routeFn(req, res, template, block, next) {
+  res.outputStack.push('module_first');
   next();
 };
