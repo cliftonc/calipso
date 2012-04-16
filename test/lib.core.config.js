@@ -39,7 +39,7 @@ describe('Configuration', function(){
     it('Invalid default configuration results in an exception', function(done){
         var conf = new Config({env:'invalid2', 'path': path.join(rootpath,'tmp'), 'defaultConfig':'invalidDefault.json'});                
         conf.init(function(err) {
-          err.message.should.equal('Unable to load configuration defined in invalid2.json, there may be a problem with the default configuration in invalidDefault.json')
+          err.message.should.equal('Unable to load configuration defined in invalid2.json, there may be a problem with the default configuration in invalidDefault.json, reason: ENOENT, no such file or directory \'invalidDefault.json\'')
           done()
         })
     });
