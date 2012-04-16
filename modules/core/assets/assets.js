@@ -822,7 +822,7 @@ function init(module, app, next) {
                       if (file.isfolder) {
                         folders.push(file);
                       }
-                      assetsToDelete.add(file);
+                      assetsToDelete.push(file);
                     });
                     addFiles();
                   });
