@@ -24,7 +24,6 @@ describe('Calipso', function(){
   
     it('Calipso has loaded successfully', function(done) {      
       calipso.loaded.should.equal(true);
-      calipso.lib._.keys(calipso.modules).should.eql(['module_a','module_b', 'module_first', 'module_last'])
       calipso.modules.should.exist;
       done();
     });
@@ -127,7 +126,6 @@ describe('Calipso', function(){
     it('I can reload the configuration', function(done) {
       calipso.reloadConfig('RELOAD', {}, function(err) {
         calipso.modules.should.exist;
-        calipso.lib._.keys(calipso.modules).should.eql(['module_a','module_b', 'module_first', 'module_last'])
         done();
       });
     });
