@@ -36,7 +36,6 @@ function init(module,app,next) {
  * Very basic router Fn
  */
 function routeFn(req, res, template, block, next) {
-  console.dir('MODULE B ROUTED!');
   res.outputStack.push('module_b');
   res.statusCode = 200;
   next();

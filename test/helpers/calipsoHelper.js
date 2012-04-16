@@ -23,8 +23,9 @@ function MockApp(next) {
 	// Configuration - always start with default
 	var defaultConfig = path.join(rootpath, 'test', 'helpers', 'defaultConfig.json');
 
+
 	var statusMsg = '\r\nBase path: '.grey + rootpath.cyan + '\r\nUsing config: '.grey + defaultConfig.cyan + '\r\nIn environment: '.grey + (process.env.NODE_ENV || 'development').cyan;
-	console.log(statusMsg);
+	if(!process.env.CALIPSO_COV) console.log(statusMsg);
 
 	// Always delete any left over config
     try { fs.unlinkSync(mochaConfig); } catch(ex) { /** ignore **/ }
@@ -64,7 +65,7 @@ function MockApp(next) {
 	self.config.init(function (err) {
 		
 		if(err) console.log('Config error: '.grey + err.message.red);
-		console.log('Config loaded: '.grey + self.config.file.cyan);
+		if(!process.env.CALIPSO_COV) console.log('Config loaded: '.grey + self.config.file.cyan);
 		next(self);
 
 	})
