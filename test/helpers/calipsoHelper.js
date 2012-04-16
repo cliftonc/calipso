@@ -10,10 +10,12 @@ var calipso = require('./require')('calipso'),
 	http = require('http'),
 	mochaConfig = path.join(rootpath,'tmp','mocha.json');
 
+// Create the tmp folder if it doesnt' exist
+try { fs.mkdirSync(path.join(rootpath,'tmp')) } catch(ex) {};
+
 /** 
  * Mock application object
  */
-
 function MockApp(next) {
 
 	var self = this;
