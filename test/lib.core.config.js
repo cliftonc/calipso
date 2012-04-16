@@ -156,9 +156,11 @@ describe('Configuration', function(){
   });
 
   after(function() {
-    fs.unlinkSync(path.join(rootpath,'tmp','default.json'));
-    fs.unlinkSync(path.join(rootpath,'tmp','development.json'));
-    fs.unlinkSync(path.join(rootpath,'tmp','test.json'));
+    try { fs.unlinkSync(path.join(rootpath,'tmp','default.json')); } catch(ex) {};
+    try { fs.unlinkSync(path.join(rootpath,'tmp','development.json')); } catch(ex) {};
+    try { fs.unlinkSync(path.join(rootpath,'tmp','test.json')); } catch(ex) {};
+    try { fs.unlinkSync(path.join(rootpath,'tmp','invalid.json')); } catch(ex) {};
+    try { fs.unlinkSync(path.join(rootpath,'tmp',process.env.NODE_ENV + '.json')); } catch(ex) {};
   })
 
 });

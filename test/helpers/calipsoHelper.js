@@ -7,7 +7,8 @@ var calipso = require('./require')('calipso'),
 	colors = require('colors'),
 	rootpath = process.cwd() + '/',
 	Config = require('./require')('core/Config'),
-	http = require('http');
+	http = require('http'),
+	mochaConfig = path.join(rootpath,'tmp','mocha.json');
 
 /** 
  * Mock application object
@@ -20,12 +21,15 @@ function MockApp(next) {
 	// Configuration - always start with default
 	var defaultConfig = path.join(rootpath, 'test', 'helpers', 'defaultConfig.json');
 
-	var statusMsg = '\r\nBase path @ '.grey + rootpath.cyan + '\r\nUsing config @ '.grey + defaultConfig.cyan;
+	var statusMsg = '\r\nBase path: '.grey + rootpath.cyan + '\r\nUsing config: '.grey + defaultConfig.cyan + '\r\nIn environment: '.grey + (process.env.NODE_ENV || 'development').cyan;
 	console.log(statusMsg);
+
+	// Always delete any left over config
+    try { fs.unlinkSync(mochaConfig); } catch(ex) { /** ignore **/ }
 
 	// Create new
 	self.config = new Config({
-		env: 'mocha',
+		'env': 'mocha',
 		'path': path.join(rootpath, 'tmp'),
 		'defaultConfig': defaultConfig
 	});
@@ -56,7 +60,11 @@ function MockApp(next) {
 
 	// Initialise and return
 	self.config.init(function (err) {
+		
+		if(err) console.log('Config error: '.grey + err.message.red);
+		console.log('Config loaded: '.grey + self.config.file.cyan);
 		next(self);
+
 	})
 
 }

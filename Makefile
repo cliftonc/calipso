@@ -2,7 +2,7 @@
 REPORTER = spec
 
 test:
-	@NODE_ENV=test ./node_modules/.bin/mocha \
+	@NODE_ENV=mocha ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) -t 5000 -s 500
 
 test-cov: lib-cov
