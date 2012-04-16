@@ -411,6 +411,16 @@ function init(module, app, next) {
         block: 'content.list',
         admin: true
       }, this.parallel());
+      module.router.addRoute('PUT /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
+        template: 'listAdmin',
+        block: 'content.list',
+        admin: true
+      }, this.parallel());
+      module.router.addRoute('DELETE /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
+        template: 'listAdmin',
+        block: 'content.list',
+        admin: true
+      }, this.parallel());
       module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true}, this.parallel());
       module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
       module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true},this.parallel());
@@ -1401,6 +1411,7 @@ function listAssets(req,res,template,block,next) {
       alias.push(req.moduleParams['f' + i]);
   }
   var isfolder = false;
+  var postFilename = '';
   if (alias.length > 0) {
     if (alias.length > 0) {
       alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
@@ -1412,7 +1423,15 @@ function listAssets(req,res,template,block,next) {
       alias = null;
   } else
     alias = null;
-
+  if (/PUT|DELETE/.test(req.method) && !isfolder) {
+    req.pause();
+    var s = alias.split('/');
+    postFilename = s[s.length - 1];
+    s[s.length - 1] = '';
+    alias = s.join('/');
+    isfolder = true;
+    calipso.debug(req.method + ' against folder ' + alias + ' with file ' + postFilename);   
+  }
   var query = new Query();
   
   function finish() {
@@ -1437,21 +1456,30 @@ function listAssets(req,res,template,block,next) {
   }
   if (alias) {
     Asset.findOne({alias:alias,isfolder:isfolder}).populate('folder').run(function (err, folder) {
+      console.log(folder);
       if (!err && folder) {
-        if (!folder.isfolder) {
+        if (!folder.isfolder || postFilename) {
           var paths = folder.key.split('/');
           var k = require('knox').createClient({
             key: calipso.config.get("s3:key"),
             secret: calipso.config.get("s3:secret"),
             bucket: paths.splice(0, 1)[0]
           });
-          var fileName = path.basename(folder.alias);
+          var fileName = null;
+          if (postFilename) {
+            fileName = postFilename;
+            paths[paths.length - 1] = postFilename;
+          }
           var contentType = mime.lookup(fileName);
           var range = req.headers['Range'];
           var headers = {'response-content-type':contentType};
+          if (postFilename && (req.method == 'PUT')) {
+            headers['Content-Length'] = req.headers['content-length'];
+            console.log(headers);
+          }
           if (range)
             headers['Range'] = range;
-          k.get(escape(paths.join('/')), headers).on('response', function(s3res) {
+          var s3req = k.request(req.method, escape(paths.join('/')), headers).on('response', function(s3res) {
             var headers = {};
             if (req.url.substring(req.url.length - fileName.length) !== fileName)
               headers['Content-Disposition'] = 'inline; filename="' + fileName + '"';
@@ -1463,11 +1491,35 @@ function listAssets(req,res,template,block,next) {
             });
             s3res.on('end', function (chunk) {
               next();
-            });
+            });              
             res.statusCode = 200;
             res.writeHead(200, headers);
             s3res.pipe(res);
-          }).end();        // Just return the object
+          });
+          if (/GET|DELETE/.test(req.method))
+            s3req.end();        // Just return the object
+          else {
+            console.log('piping request');
+            req.on('data', function (chunk) {
+              s3req.write(chunk);
+              console.log(chunk);
+            });
+            req.on('error', function (err) {
+              res.statusCode = 500;
+              req.flash('error', req.t('Problem uploading data ' + err.message));
+              console.log(err);
+            });
+            req.on('abort', function () {
+              res.statusCode = 500;
+              req.flash('error', req.t('Upload stream was aborted.'));
+              console.log('abort');
+            });
+            req.on('end', function () {
+              console.log('end');
+              s3req.end();
+            });
+            req.resume();
+          }
           return;
         } else {
           // query for the parent folder
