@@ -18,6 +18,12 @@
         }
       }
     },
+    "admin": {
+      "layout": {
+        "template": "default.html",
+        "copyFrom": "default"
+      }
+    },
     "home": {
       "layout": {
         "template": "default.html",
