@@ -884,7 +884,7 @@ function init(module, app, next) {
                 if (!superFolder)
                   return callback(new Error('Unable to find or automatically create ' + folderPath));
                 var folderName = folderPath.replace(superFolder.alias, '');
-                var folder = new Asset({alias:folderPath,key:superFolder.key + folderName,title:folderName,author:author,folder:superFolder._id});
+                var folder = new Asset({alias:folderPath,key:superFolder.key + folderName,title:folderName,author:author,folder:superFolder._id,isfolder:true});
                 folder.save(function (err) {
                   if (err)
                     return callback(err, null);
