@@ -879,7 +879,6 @@ function init(module, app, next) {
               var title = folderAsset.title;
               if (title[title.length - 1] === '/') {
                 title = title.substring(0, title.length - 1);
-                console.log(title);
               }
               path.splice(0, 0, title); // Add the current title to the front of the path.
               if (folderAsset.isproject || folderAsset.isbucket) {
@@ -1075,7 +1074,7 @@ function init(module, app, next) {
                 s3req.end();
           }
           function finalize() {
-            var Asset = calipso.lib.mongoose.model('Asset');
+            var Asset = (calipso.db || calipso.lib.mongoose).model('Asset');
             // Search for the folder first
             calipso.lib.assets.assureFolder(parentFolder, author, function(err, folder) {
               if(err || !folder) {
@@ -1526,7 +1525,6 @@ function listAssets(req,res,template,block,next) {
   }
   if (alias) {
     Asset.findOne({alias:alias,isfolder:isfolder}).populate('folder').run(function (err, folder) {
-      console.log(folder);
       if (!err && folder) {
         if (!folder.isfolder || postFilename) {
           var paths = folder.key.split('/');
@@ -1545,7 +1543,6 @@ function listAssets(req,res,template,block,next) {
           var headers = {'response-content-type':contentType};
           if (postFilename && (req.method == 'PUT')) {
             headers['Content-Length'] = req.headers['content-length'];
-            console.log(headers);
           }
           if (range)
             headers['Range'] = range;
@@ -1569,23 +1566,18 @@ function listAssets(req,res,template,block,next) {
           if (/GET|DELETE/.test(req.method))
             s3req.end();        // Just return the object
           else {
-            console.log('piping request');
             req.on('data', function (chunk) {
               s3req.write(chunk);
-              console.log(chunk);
             });
             req.on('error', function (err) {
               res.statusCode = 500;
               req.flash('error', req.t('Problem uploading data ' + err.message));
-              console.log(err);
             });
             req.on('abort', function () {
               res.statusCode = 500;
               req.flash('error', req.t('Upload stream was aborted.'));
-              console.log('abort');
             });
             req.on('end', function () {
-              console.log('end');
               s3req.end();
             });
             req.resume();
