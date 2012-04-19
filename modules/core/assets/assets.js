@@ -1208,36 +1208,46 @@ function init(module, app, next) {
             return callback(new Error('You must specify the destination'));
           if (!options.author)
             return callback(new Error('You must specify the author'));
+          if (options.source[options.source.length - 1] === '/' && options.destination[options.destination.length - 1] !== '/')
+            return callback(new Error('When copying multiple items the destination must be a folder.'));
+          var sourceDepth = options.source.split('/').length;
           var Asset = calipso.lib.mongoose.model('Asset');
-          var itemsToCopy = null;
+          var itemsToCopy = [];
           var itemsCopied = [];
           var oldAssets = [];
           function doCopy() {
-            if (!itemsToCopy)
-              return callback(null, {"destination":itemsCopied, "source":oldAssets});
-            var item = itemsToCopy.splice(0, 1)[0];
-            if (!item)
-              return callback(null, {"destination":itemsCopied, "source":oldAssets});
-            var dest = item.alias.replace(options.source, options.destination);
-            this.createAsset({copySource:item.alias,path:dest,author:options.author}, function (err, newAsset) {
-              itemsCopied.push(newAsset);
-              oldAssets.push(item);
-              doCopy();
-            });
+            while (true) {
+              if (!itemsToCopy)
+                return callback(null, {"destination":itemsCopied, "source":oldAssets});
+              var item = itemsToCopy.splice(0, 1)[0];
+              if (!item)
+                return callback(null, {"destination":itemsCopied, "source":oldAssets});
+              if (item.isfolder) {
+                if ((options.maxDepth === undefined) || (item.alias.split('/').length - sourceDepth) < options.maxDepth) {
+                  Asset.find({folder:asset._id}, function (err, items) {
+                    items.forEach(function (item) {
+                      itemsToCopy.push(item);
+                    });
+                    doCopy();
+                  });
+                  return;
+                }
+              } else {
+                var dest = item.alias.replace(options.source, options.destination);
+                this.createAsset({copySource:item.alias,path:dest,author:options.author}, function (err, newAsset) {
+                  itemsCopied.push(newAsset);
+                  oldAssets.push(item);
+                  doCopy();
+                });
+                return;
+              }
+            }
           }
+          var sourceFolders = [];
           Asset.findOne({alias:options.source}, function (err, asset) {
             if (err)
               return callback(err, null);
-            if (asset.isfolder) {
-              if (options.destination[options.destination.length - 1] != '/')
-                return callback(new Error('When copying multiple items the destination must be a folder.'));
-              Asset.find({folder:asset._id}, function (err, items) {
-                itemsToCopy = items;
-                doCopy();
-              });
-            } else {
-              itemsToCopy = [asset];
-            }
+            itemsToCopy.push(asset);
           });
         }
       };
