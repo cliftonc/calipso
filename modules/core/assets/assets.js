@@ -1199,8 +1199,13 @@ function init(module, app, next) {
             return callback(new Error('You must specify the destination'));
           if (!options.author)
             return callback(new Error('You must specify the author'));
-          if (options.source[options.source.length - 1] === '/' && options.destination[options.destination.length - 1] !== '/')
-            return callback(new Error('When copying multiple items the destination must be a folder.'));
+          var destination = options.destination;
+          if (options.source[options.source.length - 1] === '/') {
+            if (options.destination[options.destination.length - 1] !== '/')
+              return callback(new Error('When copying multiple items the destination must be a folder.'));
+            var sourcePaths = options.source.split('/');
+            destination = destination + sourcePaths[sourcePaths.length - 2] + '/';
+          }
           var sourceDepth = options.source.split('/').length;
           var Asset = calipso.lib.mongoose.model('Asset');
           var itemsToCopy = [];
@@ -1214,7 +1219,7 @@ function init(module, app, next) {
             var item = itemsToCopy.splice(0, 1)[0];
             if (!item)
               return callback(null, {"destination":itemsCopied, "source":oldAssets});
-            var dest = item.alias.replace(options.source, options.destination);
+            var dest = item.alias.replace(options.source, destination);
             calipso.lib.assets.createAsset({copySource:item.alias,path:dest,author:options.author}, function (err, newAsset) {
               itemsCopied.push(newAsset);
               oldAssets.push(item);
