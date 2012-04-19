@@ -1190,7 +1190,9 @@ function init(module, app, next) {
         // options.destination (for example proj/<projectname>/<rootfolder>/<folder...>/)
         // options.maxDepth (undefined or number)
         // callback(err, {source:[array of source assets], destination:[array of destination assets]} or null on error);
-        copyAssets: function(options, callback) {
+        // optional progress callback (err, ['copy', sourceAsset, destinationAsset]);
+        // optional progress callback (err, ['gather', sourceFolderAsset, [sourceAssets in folder]]);
+        copyAssets: function(options, callback, progress) {
           if (!options.source)
             return callback(new Error('You must specify the source.'));
           if (!options.destination)
@@ -1202,41 +1204,63 @@ function init(module, app, next) {
           var sourceDepth = options.source.split('/').length;
           var Asset = calipso.lib.mongoose.model('Asset');
           var itemsToCopy = [];
+          var sourceFolders = [];
           var itemsCopied = [];
           var oldAssets = [];
+          
           function doCopy() {
-            while (true) {
-              if (!itemsToCopy)
-                return callback(null, {"destination":itemsCopied, "source":oldAssets});
-              var item = itemsToCopy.splice(0, 1)[0];
-              if (!item)
-                return callback(null, {"destination":itemsCopied, "source":oldAssets});
-              if (item.isfolder) {
-                if ((options.maxDepth === undefined) || (item.alias.split('/').length - sourceDepth) < options.maxDepth) {
-                  Asset.find({folder:asset._id}, function (err, items) {
-                    items.forEach(function (item) {
-                      itemsToCopy.push(item);
-                    });
-                    doCopy();
-                  });
-                  return;
-                }
-              } else {
-                var dest = item.alias.replace(options.source, options.destination);
-                this.createAsset({copySource:item.alias,path:dest,author:options.author}, function (err, newAsset) {
-                  itemsCopied.push(newAsset);
-                  oldAssets.push(item);
-                  doCopy();
-                });
-                return;
-              }
-            }
+            if (!itemsToCopy)
+              return callback(null, {"destination":itemsCopied, "source":oldAssets});
+            var item = itemsToCopy.splice(0, 1)[0];
+            if (!item)
+              return callback(null, {"destination":itemsCopied, "source":oldAssets});
+            var dest = item.alias.replace(options.source, options.destination);
+            calipso.lib.assets.createAsset({copySource:item.alias,path:dest,author:options.author}, function (err, newAsset) {
+              itemsCopied.push(newAsset);
+              oldAssets.push(item);
+              doCopy();
+              calipso.debug('copyAssets copied ' + item.alias + ' to ' + newAsset.alias);
+              if (typeof progress === 'function')
+                progress(null, ['copy', item, newAsset]);
+            });
           }
-          var sourceFolders = [];
+          
+          function doGather() {
+            var hasFolder = false;
+            if (!sourceFolders)
+              return doCopy();
+            var sourceFolder = sourceFolders.splice(0, 1)[0];
+            if (!sourceFolder)
+              return doCopy();
+            Asset.find({folder:sourceFolder._id}, function (err, items) {
+              if (err)
+                return callback(err, null);
+              calipso.debug('copyAssets gathered ' + items.count + ' assets in folder ' + sourceFolder.alias);
+              if (typeof progress === 'function')
+                progress(null, ['gather', asset, items]);
+              items.forEach(function (item) {
+                if (item.isfolder) {
+                  if ((options.maxDepth === undefined) || (item.alias.split('/').length - sourceDepth) < options.maxDepth)
+                    sourceFolders.push(item);
+                  else
+                    calipso.debug('copyAssets skipping folder ' + item.alias + ' because of depth limit');
+                } else
+                  itemsToCopy.push(item);
+              });
+              doGather();
+            });
+          }
+          
           Asset.findOne({alias:options.source}, function (err, asset) {
             if (err)
               return callback(err, null);
-            itemsToCopy.push(asset);
+            if (asset.isfolder) {
+              sourceFolders.push(asset);
+              doGather();
+            } else {
+              itemsToCopy.push(asset);
+              doCopy();
+            }
           });
         }
       };
