@@ -1185,6 +1185,49 @@ function init(module, app, next) {
               headers['Content-Length'] = 0;
           }
           finalize();
+        },
+        // options.source (for example proj/<projectname>/<rootfolder>/<folder...>/ or proj/<projectname>/<rootfolder>/<folder...>/<file>)
+        // options.destination (for example proj/<projectname>/<rootfolder>/<folder...>/)
+        // options.maxDepth (undefined or number)
+        // callback(err, {source:[array of source assets], destination:[array of destination assets]} or null on error);
+        copyAssets: function(options, callback) {
+          if (!options.source)
+            return callback(new Error('You must specify the source.'));
+          if (!options.destination)
+            return callback(new Error('You must specify the destination'));
+          if (!options.author)
+            return callback(new Error('You must specify the author'));
+          var Asset = calipso.lib.mongoose.model('Asset');
+          var itemsToCopy = null;
+          var itemsCopied = [];
+          var oldAssets = [];
+          function doCopy() {
+            if (!itemsToCopy)
+              return callback(null, {"destination":itemsCopied, "source":oldAssets});
+            var item = itemsToCopy.splice(0, 1)[0];
+            if (!item)
+              return callback(null, {"destination":itemsCopied, "source":oldAssets});
+            var dest = item.alias.replace(options.source, options.destination);
+            this.createAsset({copySource:item.alias,path:dest,author:options.author}, function (err, newAsset) {
+              itemsCopied.push(newAsset);
+              oldAssets.push(item);
+              doCopy();
+            });
+          }
+          Asset.findOne({alias:options.source}, function (err, asset) {
+            if (err)
+              return callback(err, null);
+            if (asset.isfolder) {
+              if (options.destination[options.destination.length - 1] != '/')
+                return callback(new Error('When copying multiple items the destination must be a folder.'));
+              Asset.find({folder:asset._id}, function (err, items) {
+                itemsToCopy = items;
+                doCopy();
+              });
+            } else {
+              itemsToCopy = [asset];
+            }
+          });
         }
       };
 
