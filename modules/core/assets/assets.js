@@ -903,7 +903,7 @@ function init(module, app, next) {
                 var folderName = folderPath.replace(superFolder.alias, '');
                 folderName = folderName.substring(0, folderName.length - 1);
                 calipso.debug('New folder with title equal to ' + folderName);
-                var folder = new Asset({alias:folderPath,key:superFolder.key + folderName,title:folderName,author:author,folder:superFolder._id,isfolder:true});
+                var folder = new Asset({alias:folderPath,key:superFolder.key + folderName + '/',title:folderName,author:author,folder:superFolder._id,isfolder:true});
                 folder.save(function (err) {
                   if (err)
                     return callback(err, null);
