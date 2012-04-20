@@ -1236,6 +1236,90 @@ function init(module, app, next) {
           }
           finalize();
         },
+        handleFormUpload: function(req, res, form, redirect, next) {
+          // req.uploadedFiles.file[0].name - Original filename
+          // req.uploadedFiles.file[0].path - Path to tmp
+          // req.uploadedFiles.url - Path to destination
+          var author = ((req.session.user && req.session.user.username) || 'nobody');
+          var Asset = calipso.lib.assets.assetModel();
+          calipso.lib.assets.findAssets({isfolder:true,alias:req.formData.url}).findOne(function(err, folder){
+            if (err) {
+              res.statusCode = 500;
+              req.flash('error', req.t('Problem finding root folder {folder}: {error}', {folder:req.formData.url, error:err.message}));
+              return next();
+            }
+            var paths = folder.key.split('/');
+            var bucket = paths.splice(0, 1)[0];
+            var client = calipso.lib.assets.knox({ bucket:bucket });
+            function sendFile() {
+              if (req.uploadedFiles.file.length === 0) {
+                res.redirect(redirect);
+                return;
+              }
+              var file = req.uploadedFiles.file.splice(0, 1)[0];
+              if (typeof file.name === 'string' && file.name.search(/\/\.$/) != -1){
+                sendFile();
+                return;
+              }
+              var stream = fs.createReadStream(file.path);
+              // This already has a trailing '/' after the join.
+              var s3Key = paths.join('/') + file.name;
+              if (file.name.indexOf('/') != -1){
+                var removeStructure = file.name.split('/');
+                file.justName = removeStructure[removeStructure.length - 1];
+              }
+              var fileKey = bucket + '/' + s3Key;
+              client.putStream(stream, escape(s3Key), function (err) {
+                if (err) {
+                  res.statusCode = 500;
+                  calipso.debug('unable to write file ' + file.name);
+                  req.flash('error', req.t('Unable to write file {file}: {error}', {file:file.name, error:err.message}));
+                  next();
+                  return;
+                }
+                var parent = (req.formData.url + file.name).split('/');
+                parent[parent.length - 1] = ''; // Remove filename
+                calipso.lib.assets.assureFolder(parent.join('/'), author, function (err, realFolder) {
+                  if (err) {
+                    res.statusCode = 500;
+                    calipso.debug('unable to get associated parent folder ' + file.name);
+                    req.flash('error', req.t('Unable to write file {file}: {error}', {file:file.name, error:err.message}));
+                    next();
+                    return; 
+                  }
+                  Asset.findOne({alias:req.formData.url + file.name, key:fileKey}, function (err, asset) {
+                    if (asset == null) {
+                      asset = new Asset();
+                      calipso.debug('uploading new asset ' + fileKey);
+                    } else {
+                      calipso.debug('re-uploading existing asset ' + fileKey);
+                    }
+                    var stat = fs.statSync(file.path);
+                    asset.title = file.justName || file.name;
+                    asset.size = stat.size;
+                    asset.alias = req.formData.url + file.name;
+                    asset.folder = realFolder._id;
+                    asset.key = fileKey;
+                    asset.author = author;
+                    asset.save(function (err) {
+                      if (err) {
+                        res.statusCode = 500;
+                        calipso.debug('unable to write file asset ' + file.name + " (file already saved to S3) " + err.message);
+                        req.flash('error', req.t('Unable to write file asset {file}: {error}', {file:file.name, error:err.message}));
+                        next();
+                        return;
+                      }
+                      res.statusCode = 200;
+                      calipso.debug('file ' + file.name + ' uploaded');
+                      sendFile();
+                    });
+                  });
+                });
+              });
+            }
+            sendFile();
+          });
+        },
         // options.source (for example proj/<projectname>/<rootfolder>/<folder...>/ or proj/<projectname>/<rootfolder>/<folder...>/<file>)
         // options.destination (for example proj/<projectname>/<rootfolder>/<folder...>/)
         // options.maxDepth (undefined or number)
