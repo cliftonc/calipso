@@ -744,114 +744,153 @@ function init(module, app, next) {
               return callback(err, null);
             if (!asset)
               return callback(new Error('unable to find asset to delete ' + path), null);
-            if (asset.key !== '') {
-              if (asset.key.indexOf('/') === (asset.key.length - 1)) {
-                // This is a bucket!
-                return callback(new Error("can't delete a bucket for now"), null);
-              }
-              var paths = asset.key.split('/');
-              // TODO: Implement delete.
-              if (asset.isfolder) {
-                var k = knox({
-                  'bucket': paths[0]
-                });
-                var assetsToDelete = [asset];
-                var folders = [asset];
-                function multiDelete() {
-                  var list = assetsToDelete.splice(0, 1000); // We can only support 1000 at a time.
-                  if (list.length === 0) {
-                    // All done!
-                    return callback(null, asset);
+            // TODO: Implement delete.
+            if (asset.isfolder) {
+              // Get the bucket of the folder if there is one.
+              var paths = asset.key !== '' ? asset.key.split('/') : [''];
+              var bucket = paths[0];
+              var assetsToDelete = {};
+              
+              // This is a list of assets just containing the folder
+              assetsToDelete[bucket] = [asset];
+
+              // The list of folders is just the one asset for now
+              // Accumulate folders here
+              var folders = [asset];
+              
+              function multiDelete() {
+                var bucket = null;
+                var list = null;
+                for (bucket in assetsToDelete) {
+                  if (bucket !== '') {
+                    list = assetsToDelete[bucket].splice(0, 1000); // Pop off the first 1000 assets for one of the buckets.
+                    if (assetsToDelete[bucket].length == 0)
+                      delete assetsToDelete[bucket]; // If we're done with the bucket then remove it from here.
+                    break;
                   }
-                  var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n','<Delete>'];
-                  var query = [];
-                  list.forEach(function (item) {
-                    xml.push('<Object><Key>', item.key, '</Key></Object>');
-                    query.push(item._id);
+                }
+                if (!list) {
+                  bucket = '';
+                  if (assetsToDelete['']) {
+                    // If we didn't find any bucket related resources anymore then check for non-bucket related ones.
+                    list = assetsToDelete[''].splice(0, 1000); // We can only support 1000 at a time.
+                    if (assetsToDelete[''].length == 0)
+                      delete assetsToDelete[''];
+                  }
+                }
+                if (!list || list.length === 0) {
+                  // All done!
+                  return callback(null, asset);
+                }
+                var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n','<Delete>'];
+                var query = [];
+                list.forEach(function (item) {
+                  var paths = item.key.split('/');
+                  paths.splice(0, 1);
+                  paths = paths.join('/');
+                  if (bucket !== '') {
+                    calipso.debug('Deleting Bucket ' + bucket + ' Key ' + paths);
+                    xml.push('<Object><Key>', paths, '</Key></Object>');
+                  }
+                  query.push(item._id);
+                });
+                xml.push('</Delete>');
+                xml = xml.join('');
+                if (bucket !== '') {
+                  var k = knox({
+                    'bucket': bucket
                   });
-                  xml.push('</Delete>');
-                  xml = xml.join('');
                   var s3req = k.request('POST', '/?delete', {
                     'Content-Length': xml.length,
                     'Content-MD5': crypto.createHash('md5').update(xml).digest('base64'),
                     'Accept:': '*/*',
-                  })
-                    .on('error', function (err) {
-                      return callback(new Error('unable to delete ' + err.message), null);
-                    })
-                    .on('response', function (s3res) {
-                      if (s3res.statusCode !== 200) {
-                        var data = '';
-                        s3res.on('data', function (chunk) {
-                          data += chunk;
-                        });
-                        s3res.on('end', function () {
-                          return callback(new Error('unable to delete file ' + data))
-                        });
-                        s3res.on('error', function (err) {
-                          return callback(new Error('unable to delete file ' + err.message));
-                        });
-                        return;
-                      }
-                      Asset.remove({'_id':{$in:query}}, function (err) {
-                        if (err) {
-                          return callback(new Error('unable to delete folder ' + err.message));
-                        }
-                        multiDelete();
-                      });
-                    });
-                  s3req.write(xml);
-                  s3req.end();
-                }
-                function addFiles() {
-                  var folder = folders.splice(0, 1)[0];
-                  if (!folder) {
-                    // We're all done adding files to the paths list
-                    return multiDelete();
-                  }
-                  Asset.find({folder:folder._id}, function (err, files) {
-                    files.forEach(function (file) {
-                      if (file.isfolder) {
-                        folders.push(file);
-                      }
-                      assetsToDelete.push(file);
-                    });
-                    addFiles();
-                  });
-                }
-                addFiles();
-              } else {
-                var k = knox({
-                  'bucket': paths[0],
-                });
-                var s3req = k.request('DELETE', escape(asset.key))
-                  .on('error', function(err) {
+                  }).on('error', function (err) {
+                    calipso.debug('Unable to delete file (s3 error) ' + err.message);
                     return callback(new Error('unable to delete ' + err.message), null);
-                  })
-                  .on('response', function(s3res) {
-                    if (s3res.statusCode !== 204) {
+                  }).on('response', function (s3res) {
+                    if (s3res.statusCode !== 200) {
                       var data = '';
                       s3res.on('data', function (chunk) {
                         data += chunk;
                       });
                       s3res.on('end', function () {
+                        calipso.debug('Unable to delete file (s3 error) ' + data);
                         return callback(new Error('unable to delete file ' + data))
                       });
                       s3res.on('error', function (err) {
+                        calipso.debug('Unable to delete file (s3 error) ' + err.message);
                         return callback(new Error('unable to delete file ' + err.message));
                       });
                       return;
                     }
-                    asset.remove(function (err) {
-                      return callback(err, asset);
+                    Asset.remove({'_id':{$in:query}}, function (err) {
+                      if (err) {
+                        calipso.debug('Unable to delete folder ' + err.message);
+                        return callback(new Error('unable to delete folder ' + err.message));
+                      }
+                      multiDelete();
                     });
                   });
+                  s3req.write(xml);
                   s3req.end();
+                } else {
+                  Asset.remove({'_id':{$in:query}}, function (err) {
+                    if (err) {
+                      calipso.debug('Unable to delete folder database items ' + err.message);
+                      return callback(new Error('unable to delete folder ' + err.message));
+                    }
+                    multiDelete();
+                  });
+                }
               }
+              function addFiles() {
+                var folder = folders.splice(0, 1)[0];
+                if (!folder) {
+                  // We're all done adding files to the paths list
+                  return multiDelete();
+                }
+                Asset.find({folder:folder._id}, function (err, files) {
+                  files.forEach(function (file) {
+                    if (file.isfolder) {
+                      folders.push(file);
+                    }
+                    var paths = file.key !== '' ? file.key.split('/') : [''];
+                    var bucket = paths[0];
+                    if (!assetsToDelete[bucket])
+                      assetsToDelete[bucket] = [];
+                    assetsToDelete[bucket].push(file);
+                  });
+                  addFiles();
+                });
+              }
+              addFiles();
             } else {
-              asset.remove(function (err) {
-                return callback(err, asset);
+              var k = knox({
+                'bucket': paths[0],
               });
+              var s3req = k.request('DELETE', escape(asset.key))
+                .on('error', function(err) {
+                  return callback(new Error('unable to delete ' + err.message), null);
+                })
+                .on('response', function(s3res) {
+                  if (s3res.statusCode !== 204) {
+                    var data = '';
+                    s3res.on('data', function (chunk) {
+                      data += chunk;
+                    });
+                    s3res.on('end', function () {
+                      return callback(new Error('unable to delete file ' + data))
+                    });
+                    s3res.on('error', function (err) {
+                      return callback(new Error('unable to delete file ' + err.message));
+                    });
+                    return;
+                  }
+                  asset.remove(function (err) {
+                    return callback(err, asset);
+                  });
+                });
+                s3req.end();
             }
           });
         },
