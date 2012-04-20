@@ -148,7 +148,7 @@ function handleAsset(req, res, next) {
     });
     return;
   }
-  function handleAssetInteractWithS3(asset, req, res, next) {
+  function handleAssetInteractWithS3(asset, req, res, next, bypass) {
     var copy = req.headers['x-amz-copy-source'];
     if (copy && /(proj|s3)\//.test(copy)) {
       Asset.findOne({alias:copy}, function (err, copyAsset) {
@@ -161,6 +161,22 @@ function handleAsset(req, res, next) {
         }
         req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
         handleAssetInteractWithS3(asset, req, res, next);
+      });
+      return;
+    }
+    var user = req.session.user ? req.session.user.username : '';
+    if (!bypass && asset.author != user && asset.isPrivate && !asset.isfolder && !asset.isproject && !asset.isroot) {
+      var AssetPermissions = calipso.lib.mongoose.model('AssetPermissions');
+      var project = asset.alias.split('/')[1];
+      AssetPermissions.find({project:project, user:user, action:'view'},function(err, entry){
+        if (err || entry === null || !entry.length){
+          req.resume();
+          res.write('This asset is private.');
+          res.end();
+          return;
+        } else {
+          handleAssetInteractWithS3(asset, req, res, next, true)
+        }
       });
       return;
     }
@@ -1420,6 +1436,7 @@ function init(module, app, next) {
         author: {type: String, required: true},
         etag: {type: String, "default":''},
         tags: [String],
+        isPrivate: {type: Boolean, required: true, "default": true},
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
       });
