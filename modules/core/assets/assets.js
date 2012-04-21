@@ -166,7 +166,7 @@ function handleAsset(req, res, next) {
     }
     var user = req.session.user ? req.session.user.username : '';
     if (!bypass && asset.author != user && asset.isPrivate && !asset.isfolder && !asset.isproject && !asset.isroot) {
-      var AssetPermissions = calipso.lib.mongoose.model('AssetPermissions');
+      var AssetPermissions = calipso.db.model('AssetPermissions');
       var project = asset.alias.split('/')[1];
       AssetPermissions.find({project:project, user:user, action:'view'},function(err, entry){
         if (err || entry === null || !entry.length){
@@ -359,14 +359,14 @@ function testAssets(req, res, route, next) {
     res.write(JSON.stringify(asset) + '\n');
     calipso.lib.assets.createAsset({path:'proj/project1/archive/testing/badfile.coffee',copySource:'proj/project1/archive/badFile.coffee',author:'andy'}, function (err, asset) {
       calipso.debug('deleting');
-      calipso.lib.assets.deleteAsset('proj/project1/archive/testing/badfile.coffee', function (err) {
+      calipso.lib.assets.deleteAsset('proj/project1/archive/testing/badfile.coffee', 'andy', function (err) {
         if (err) {
           res.write("unable to delete file badfile.coffee " + err.message);
           res.end();
           return;
         }
         calipso.debug('deleting');
-        calipso.lib.assets.deleteAsset('proj/project1/archive/testing/', function (err) {
+        calipso.lib.assets.deleteAsset('proj/project1/archive/testing/', 'andy', function (err) {
           if (err) {
             res.write("unable to delete folder " + err.message);
             res.end();
@@ -387,7 +387,7 @@ function testAssets(req, res, route, next) {
                 return;
               }
               res.write("created sample file using stream\n");
-              calipso.lib.assets.deleteAsset('proj/newproject/', function (err, asset) {
+              calipso.lib.assets.deleteAsset('proj/newproject/', 'andy', function (err, asset) {
                 res.write("deleted project\n")
                 res.write(JSON.stringify(asset) + '\n');
                 res.end();
@@ -765,14 +765,16 @@ function init(module, app, next) {
             callback(err, query);
           });
         },
-        deleteAsset: function (path, callback) {
+        deleteAsset: function (path, author, callback) {
           var Asset = calipso.db.model('Asset');
-          Asset.findOne({alias:path}, function (err, asset) {
+          var rootFolder = null;
+          Asset.findOne({alias:path}).populate('folder').run(function (err, asset) {
             if (err)
               return callback(err, null);
             if (!asset)
               return callback(new Error('unable to find asset to delete ' + path), null);
             // TODO: Implement delete.
+            rootFolder = asset.folder;
             if (asset.isfolder) {
               // Get the bucket of the folder if there is one.
               var paths = asset.key !== '' ? asset.key.split('/') : [''];
@@ -785,7 +787,6 @@ function init(module, app, next) {
               // The list of folders is just the one asset for now
               // Accumulate folders here
               var folders = [asset];
-              
               function multiDelete() {
                 var bucket = null;
                 var list = null;
@@ -807,8 +808,17 @@ function init(module, app, next) {
                   }
                 }
                 if (!list || list.length === 0) {
-                  // All done!
-                  return callback(null, asset);
+                  if (rootFolder) {
+                    rootFolder.updated = new Date();
+                    rootFolder.author = author;
+                    rootFolder.save(function (err) {
+                      calipso.lib.assets.updateParents(rootFolder, author, function (err) {
+                        return callback(null, asset);                  
+                      });
+                    });
+                    return;
+                  } else
+                    return callback(null, asset);
                 }
                 var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n','<Delete>'];
                 var query = [];
@@ -924,7 +934,7 @@ function init(module, app, next) {
         },
         // This will return an array of "titles" as we traverse the path.
         folderPath: function (folder, callback) {
-          var Asset = (calipso.db || calipso.lib.mongoose).model('Asset');
+          var Asset = calipso.db.model('Asset');
           var path = [];
           function searchFolder(folder) {
             Asset.findOne({alias:folder, isfolder:true}).populate('folder').run(function (err, folderAsset) {
@@ -951,7 +961,7 @@ function init(module, app, next) {
           searchFolder(folder.alias ? folder.alias : folder);
         },
         assureFolder: function (folderPath, author, callback) {
-          var Asset = (calipso.db || calipso.lib.mongoose).model('Asset');
+          var Asset = calipso.db.model('Asset');
           calipso.debug('assureFolder: Searching for ' + folderPath);
           Asset.findOne({alias:folderPath}, function (err, folder) {
             if (err)
@@ -984,7 +994,7 @@ function init(module, app, next) {
         },
         updateParents: function (asset, author, callback) {
           if (asset.folder) {
-            var Asset = (calipso.db || calipso.lib.mongoose).model('Asset');
+            var Asset = calipso.db.model('Asset');
             Asset.findOne({_id:asset.folder}, function (err, folder) {
               if (err || !folder) {
                 return callback(new Error('unable to find parent folder ' + (err ? err.message : '')), folder);
@@ -995,7 +1005,7 @@ function init(module, app, next) {
                 if (err) {
                   return callback(new Error('unable to update parent folder ' + err.message), folder);
                 }
-                updateParents(folder, author, callback);
+                calipso.lib.assets.updateParents(folder, author, callback);
               })
             })
           } else
@@ -1129,7 +1139,7 @@ function init(module, app, next) {
                 s3req.end();
           }
           function finalize() {
-            var Asset = (calipso.db || calipso.lib.mongoose).model('Asset');
+            var Asset = calipso.db.model('Asset');
             // Search for the folder first
             calipso.lib.assets.assureFolder(parentFolder, author, function(err, folder) {
               if(err || !folder) {
@@ -1175,14 +1185,18 @@ function init(module, app, next) {
                     }
                   }
                   function saveAsset() {
+                    asset.updated = new Date();
+                    asset.author = author;
                     asset.save(function (err) {
                       if (err) {
                         return callback(new Error("unable to save asset " + err.message), null);
                       }
-                      if (isFolder) {
-                        return callback(null, asset);
-                      } else
-                        interactWithS3(asset);
+                      calipso.lib.assets.updateParents(asset, author, function (err) {
+                        if (isFolder) {
+                          return callback(null, asset);
+                        } else
+                          interactWithS3(asset);
+                      });
                     });
                   }
                   if (project) {
@@ -1253,26 +1267,27 @@ function init(module, app, next) {
           finalize();
         },
         handleFormUpload: function(req, res, form, redirect, next) {
-          // req.uploadedFiles.file[0].name - Original filename
-          // req.uploadedFiles.file[0].path - Path to tmp
-          // req.uploadedFiles.url - Path to destination
+          // req.files.file[0].name - Original filename
+          // req.files.file[0].path - Path to tmp
+          // req.files.url - Path to destination
+          console.log(form);
           var author = ((req.session.user && req.session.user.username) || 'nobody');
           var Asset = calipso.lib.assets.assetModel();
-          calipso.lib.assets.findAssets({isfolder:true,alias:req.formData.url}).findOne(function(err, folder){
+          calipso.lib.assets.findAssets({isfolder:true,alias:form.url}).findOne(function(err, folder){
             if (err) {
               res.statusCode = 500;
-              req.flash('error', req.t('Problem finding root folder {folder}: {error}', {folder:req.formData.url, error:err.message}));
+              req.flash('error', req.t('Problem finding root folder {folder}: {error}', {folder:form.url, error:err.message}));
               return next();
             }
             var paths = folder.key.split('/');
             var bucket = paths.splice(0, 1)[0];
             var client = calipso.lib.assets.knox({ bucket:bucket });
             function sendFile() {
-              if (req.uploadedFiles.file.length === 0) {
+              if (req.files.file.length === 0) {
                 res.redirect(redirect);
                 return;
               }
-              var file = req.uploadedFiles.file.splice(0, 1)[0];
+              var file = req.files.file.splice(0, 1)[0];
               if (typeof file.name === 'string' && file.name.search(/\/\.$/) != -1){
                 sendFile();
                 return;
@@ -1293,7 +1308,7 @@ function init(module, app, next) {
                   next();
                   return;
                 }
-                var parent = (req.formData.url + file.name).split('/');
+                var parent = (form.url + file.name).split('/');
                 parent[parent.length - 1] = ''; // Remove filename
                 calipso.lib.assets.assureFolder(parent.join('/'), author, function (err, realFolder) {
                   if (err) {
@@ -1303,17 +1318,18 @@ function init(module, app, next) {
                     next();
                     return; 
                   }
-                  Asset.findOne({alias:req.formData.url + file.name, key:fileKey}, function (err, asset) {
+                  Asset.findOne({alias:form.url + file.name, key:fileKey}, function (err, asset) {
                     if (asset == null) {
                       asset = new Asset();
                       calipso.debug('uploading new asset ' + fileKey);
                     } else {
+                      asset.updated = new Date();
                       calipso.debug('re-uploading existing asset ' + fileKey);
                     }
                     var stat = fs.statSync(file.path);
                     asset.title = file.justName || file.name;
                     asset.size = stat.size;
-                    asset.alias = req.formData.url + file.name;
+                    asset.alias = form.url + file.name;
                     asset.folder = realFolder._id;
                     asset.key = fileKey;
                     asset.author = author;
@@ -1325,9 +1341,11 @@ function init(module, app, next) {
                         next();
                         return;
                       }
-                      res.statusCode = 200;
-                      calipso.debug('file ' + file.name + ' uploaded');
-                      sendFile();
+                      calipso.lib.assets.updateParents(asset, author, function (err) {
+                        res.statusCode = 200;
+                        calipso.debug('file ' + file.name + ' uploaded');
+                        sendFile();
+                      });
                     });
                   });
                 });
@@ -1357,7 +1375,7 @@ function init(module, app, next) {
             destination = destination + sourcePaths[sourcePaths.length - 2] + '/';
           }
           var sourceDepth = options.source.split('/').length;
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           var itemsToCopy = [];
           var sourceFolders = [];
           var itemsCopied = [];
@@ -1649,7 +1667,7 @@ function updateAsset(req,res,template,block,next) {
                       next();
 
                     } else {
-                      calipso.lib.assets.updateParents(c.folder, function (err) {
+                      calipso.lib.assets.updateParents(c.folder, req.session.user.username, function (err) {
                         req.flash('info',req.t('Content saved.'));
 
                         // Raise CONTENT_CREATE event
