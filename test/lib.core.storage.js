@@ -4,27 +4,90 @@
 var should = require('should'),
     fs = require('fs'),
     rootpath = process.cwd() + '/',
-    path = require('path'),
-    exec = require('child_process').exec,
+    path = require('path'),    
+    calipsoHelper = require('./helpers/calipsoHelper'),
+    calipso = calipsoHelper.calipso,
+    dbUri,
     Storage = require('./helpers/require')('core/Storage');
 
 describe('Storage', function(){
 
-  before(function(){
-    // 
+  before(function(done) {
+      // Initialise calipso, set installed to false
+      calipsoHelper.calipso.loaded.should.equal(true);
+      calipso.config.set('installed',false);
+      dbUri = calipso.config.get('database:uri'); 
+      done();
   });
 
   describe('Core', function(){
-  
 
-    it('I am a placeholder', function(){    
-      true.should.equal(true);
+    it('I can connect to local mongodb in install mode', function(done){    
+      Storage.mongoConnect('mongodb://localhost/mocha', true, function(err, connected) {
+        should.not.exist(err);
+        connected.should.equal(false); 
+        done();
+      });
     });
+
+    it('Connecting to an invalid server in install mode results in an error', function(done){    
+      Storage.mongoConnect('mongodb://invalid/mocha', true, function(err, connected) {
+        err.should.exist; // Dont check content as this is from Mongoose and may change
+        connected.should.equal(false);
+        done();
+      });
+    });
+
+    it('If not installed, it doesnt actually connect using just mongoConnect but doesnt raise an error', function(done){        
+      Storage.mongoConnect(function(err, connected) {
+        should.not.exist(err);
+        connected.should.equal(false);
+        done();  
+      });
+    });
+
+    it('If installed, it does actually connect using just mongoConnect', function(done){        
+
+      calipso.config.set('installed',true);      
+      Storage.mongoConnect(function(err, connected) {
+        should.not.exist(err);
+        connected.should.equal(true);
+        done();  
+      });
+
+    });
+
+     it('If it cant find the session middleware to replace, it fails', function(done){        
+
+      calipso.config.set('installed',true); 
+      calipso.app.stack = [];     
+      Storage.mongoConnect(function(err, connected) {
+        should.exist(err);
+        err.message.should.equal('Unable to load the MongoDB backed session, please check your session and db configuration');
+        connected.should.equal(false);
+        done();  
+      });
+      
+    });
+    
+
+    it('If the installed and the server doesnt exist, it fails', function(done){        
+
+      calipso.config.set('installed',true);       
+      calipso.config.set('database:uri','mongodb://invalid/mocha'); 
+
+      Storage.mongoConnect(function(err, connected) {
+        should.exist(err);
+        connected.should.equal(false);
+        done();  
+      });
+      
+    });
+  
 
   }); 
 
   after(function() {
-    
   })
 
 });
