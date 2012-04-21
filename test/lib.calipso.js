@@ -39,7 +39,7 @@ describe('Calipso', function(){
       res.outputStack = [];
 
       // Over ride the res.end and increment our counter
-      res.end = function(content) {
+      res.send = function(content) {
         response++;
       }
 
@@ -62,7 +62,7 @@ describe('Calipso', function(){
       res.outputStack = [];
 
       // Over ride the res.end and increment our counter
-      res.end = function(content) {
+      res.send = function(content) {
         response++;
       }
 
@@ -87,15 +87,15 @@ describe('Calipso', function(){
       res.outputStack = [];
 
       // Over ride the res.end and increment our counter
-      res.end = function(content) {
+      res.send = function(content) {
         responseContent = content;
         response++; 
       }
 
-      routeFn(req, res, function(err) {
+      routeFn(req, res, function(err) { 
         response.should.equal(1);
         res.outputStack.should.eql(['module_first','module_a','module_last']);
-        responseContent.should.include('Test Template: world');
+        responseContent.should.include('world');
         done();
       })
 
@@ -111,12 +111,7 @@ describe('Calipso', function(){
       req.url = '/secured';
       res.outputStack = [];
 
-      // Over ride the res.end and increment our counter
-      res.end = function(content) {
-        response++; 
-      }
-
-      routeFn(req, res, function(err) {
+      routeFn(req, res, function(err) {        
         res.outputStack.should.eql(['module_first','module_last']);
         req.flashMsgs[0].type.should.equal('error');
         res.redirectQueue.length.should.equal(1);

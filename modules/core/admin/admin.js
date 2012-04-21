@@ -324,7 +324,6 @@ function installMongoTest(req, res, template, block, next) {
   if (calipso.config.get('installed')) {
       res.format = "json";
       res.end(JSON.stringify({status:"Invalid Request"}),"UTF-8");
-      return next();      
   }
 
   calipso.form.process(req,function(form) {
@@ -342,14 +341,12 @@ function installMongoTest(req, res, template, block, next) {
         }
         res.format = "json";
         res.end(JSON.stringify(output),"UTF-8");
-        next();
       });      
     } else {
       output.status = "FAILED";
       output.message= "You need to provide a valid database uri, in the format described.";      
       res.format = "json";
       res.end(JSON.stringify(output),"UTF-8");
-      next();
     }
 
   });
@@ -402,7 +399,6 @@ function installUserTest(req, res, template, block, next) {
   if (calipso.config.get('installed')) {
       res.format = "json";
       res.end(JSON.stringify({status:"Invalid Request"}),"UTF-8");
-      return next();      
   }
 
 
@@ -438,7 +434,6 @@ function installUserTest(req, res, template, block, next) {
     }
     res.format = "json";
     res.end(JSON.stringify(output),"UTF-8");
-    next();
 
   });
   

@@ -125,6 +125,13 @@ function CreateResponse() {
 	res.redirectQueue = [];
 	res.redirect = function (url) {
 		res.redirectQueue.push(url);
+		res.finished = false;
+	}
+	res.end = function(content, type) {
+		res.body = content;
+	}	
+	res.send = function(content) {
+		res.body = content;
 	}
 	return res;
 }
