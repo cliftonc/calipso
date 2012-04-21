@@ -15,8 +15,6 @@ describe('Storage', function(){
   before(function(done) {
       // Initialise calipso, set installed to false
       calipsoHelper.calipso.loaded.should.equal(true);
-      calipso.config.set('installed',false);
-      dbUri = calipso.config.get('database:uri'); 
       done();
   });
 
