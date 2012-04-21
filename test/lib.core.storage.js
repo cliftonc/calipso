@@ -13,8 +13,6 @@ var should = require('should'),
 describe('Storage', function(){
 
   before(function(done) {
-      // Initialise calipso, set installed to false
-      calipsoHelper.calipso.loaded.should.equal(true);
       done();
   });
 

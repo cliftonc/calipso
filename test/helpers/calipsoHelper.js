@@ -6,7 +6,7 @@ var calipso = require('./require')('calipso'),
 	fs = require('fs'),
 	colors = require('colors'),
 	rootpath = process.cwd() + '/',
-	Config = require('./require')('core/Config'),
+	Config = require('./require')('core/Configuration'),
 	http = require('http'),
 	mochaConfig = path.join(rootpath,'tmp','mocha.json');
 
@@ -22,7 +22,6 @@ function MockApp(next) {
 
 	// Configuration - always start with default
 	var defaultConfig = path.join(rootpath, 'test', 'helpers', 'defaultConfig.json');
-
 
 	var statusMsg = '\r\nBase path: '.grey + rootpath.cyan + '\r\nUsing config: '.grey + defaultConfig.cyan + '\r\nIn environment: '.grey + (process.env.NODE_ENV || 'development').cyan;
 	if(!process.env.CALIPSO_COV) console.log(statusMsg);
