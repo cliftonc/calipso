@@ -37,7 +37,7 @@ function launchServer() {
 
 
       // Load configuration
-      var Config = require(rootpath + "lib/core/Config"),
+      var Config = require(rootpath + "lib/core/Configuration"),
           config = new Config();  
 
       config.init();

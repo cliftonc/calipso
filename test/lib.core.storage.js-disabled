@@ -13,6 +13,7 @@ var should = require('should'),
 describe('Storage', function(){
 
   before(function(done) {
+      //  These have been disabled due to the linked dependency on calipso itself.
       done();
   });
 

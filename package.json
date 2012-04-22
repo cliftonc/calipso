@@ -10,7 +10,7 @@
   "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
   "keywords"      : ["cms", "content management", "server", "mongodb"],
   "engines": {
-    "node": "0.6.x"
+    "node": "0.6.x|0.7.x"
   },
   "dependencies": {
     "express": "2.5.x",
