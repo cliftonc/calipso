@@ -1270,7 +1270,6 @@ function init(module, app, next) {
           // req.files.file[0].name - Original filename
           // req.files.file[0].path - Path to tmp
           // req.files.url - Path to destination
-          console.log(form);
           var author = ((req.session.user && req.session.user.username) || 'nobody');
           var Asset = calipso.lib.assets.assetModel();
           calipso.lib.assets.findAssets({isfolder:true,alias:form.url}).findOne(function(err, folder){
