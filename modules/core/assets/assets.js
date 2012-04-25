@@ -775,9 +775,9 @@ function init(module, app, next) {
               return callback(new Error('unable to find asset to delete ' + path), null);
             // TODO: Implement delete.
             rootFolder = asset.folder;
+            var paths = asset.key !== '' ? asset.key.split('/') : [''];
             if (asset.isfolder) {
               // Get the bucket of the folder if there is one.
-              var paths = asset.key !== '' ? asset.key.split('/') : [''];
               var bucket = paths[0];
               var assetsToDelete = {};
               
@@ -1273,7 +1273,7 @@ function init(module, app, next) {
           var author = ((req.session.user && req.session.user.username) || 'nobody');
           var Asset = calipso.lib.assets.assetModel();
           calipso.lib.assets.findAssets({isfolder:true,alias:form.url}).findOne(function(err, folder){
-            if (err) {
+            if (err || !folder) {
               res.statusCode = 500;
               req.flash('error', req.t('Problem finding root folder {folder}: {error}', {folder:form.url, error:err.message}));
               return next();
@@ -1281,6 +1281,9 @@ function init(module, app, next) {
             var paths = folder.key.split('/');
             var bucket = paths.splice(0, 1)[0];
             var client = calipso.lib.assets.knox({ bucket:bucket });
+            if (!(req.files.file instanceof Array)) {
+              req.files.file = [req.files.file];
+            }
             function sendFile() {
               if (req.files.file.length === 0) {
                 res.redirect(redirect);
