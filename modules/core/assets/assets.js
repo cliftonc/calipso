@@ -417,7 +417,8 @@ function init(module, app, next) {
     function defineRoutes() {
       calipso.app.stack.forEach(function(middleware,key) {
         if (middleware.handle.tag === 'assets') {
-          middleware.handle = handleAsset;
+          //middleware.handle = handleAsset;
+          //middleware.handle.tag = 'assets';
         }
       });
       // Admin operations
@@ -1779,10 +1780,12 @@ function listAssets(req,res,template,block,next) {
           if (postFilename) {
             fileName = postFilename;
             paths[paths.length - 1] = postFilename;
+          } else {
+          	fileName = paths[paths.length - 1];
           }
           var contentType = mime.lookup(fileName);
           var range = req.headers['Range'];
-          var headers = {'response-content-type':contentType};
+          var headers = {'Response-Content-Type':contentType};
           if (postFilename && (req.method == 'PUT')) {
             headers['Content-Length'] = req.headers['content-length'];
           }
@@ -1795,6 +1798,8 @@ function listAssets(req,res,template,block,next) {
             for (var v in s3res.headers) {
               headers[v] = s3res.headers[v];
             }
+            if (contentType)
+            	headers['Content-Type'] = contentType;
             s3res.on('error', function(err) {
               next();
             });
