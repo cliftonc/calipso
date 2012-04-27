@@ -428,6 +428,11 @@ function init(module, app, next) {
         block: 'content.list',
         admin: true
       }, this.parallel());
+      module.router.addRoute('GET /pub/:production?/:filename?', listAssets, {
+        template: 'listAdmin',
+        block: 'content.list',
+        admin: true
+      }, this.parallel());
       module.router.addRoute('PUT /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
@@ -992,6 +997,26 @@ function init(module, app, next) {
             else
               return callback(null, folder);
           });
+        },
+        encodeUrl: function (asset, user) {
+					var encrypt = crypto.createCipher('aes-192-ecb', calipso.config.get('session:secret'));
+					var str = user + '|' + asset.id.toString();
+					var production = encrypt.update(str, 'utf8', 'hex');
+					production += encrypt.final('hex');
+					var url = '/pub/' + production;
+					var paths = asset.alias.split('/');
+					url += '/' + paths[paths.length - 1];
+					console.log(str, calipso.config.get('session:secret'), url);
+					return url;
+        },
+        decodeUrl: function (token) {
+					var encrypt = crypto.createDecipher('aes-192-ecb', calipso.config.get('session:secret'));
+					var output = encrypt.update(token, 'hex', 'utf8');
+					output += encrypt.final('utf8');
+					var s = output.split('|');
+					var info = { user:s[0], id:s[1] };
+					console.log(calipso.config.get('session:secret'), token, output, info);
+					return info;
         },
         updateParents: function (asset, author, callback) {
           if (asset.folder) {
@@ -1583,14 +1608,11 @@ function editAssetForm(req,res,template,block,next) {
   Asset.findById(id).populate('folder').run(function(err, c) {
 
     if(err || c === null) {
-
       // TODO : REDIRECT TO 404
       res.statusCode = 404;
       req.flash('error', req.t('Unable to find this asset'));
       next();
-
     } else {
-
       // Create the form
       getForm(req,"/assets/" + id,req.t("Edit Asset ... "),c,function(form) {
         // Default values
@@ -1608,11 +1630,8 @@ function editAssetForm(req,res,template,block,next) {
             calipso.theme.renderItem(req,res,form,block,{},next);
           });
         });
-
       });
-
     }
-
   });
 
 }
@@ -1625,7 +1644,6 @@ function updateAsset(req,res,template,block,next) {
    calipso.form.process(req,function(form) {
 
       if(form) {
-
         var Asset = calipso.db.model('Asset');
 
         var returnTo = form.returnTo ? form.returnTo : "";
@@ -1684,13 +1702,9 @@ function updateAsset(req,res,template,block,next) {
                           next();
                         });
                       });
-
                     }
-
                   });
-
                 });
-
               }
           } else {
             req.flash('error',req.t('Could not locate asset, it may have been deleted by another user or there has been an error.'));
@@ -1698,9 +1712,7 @@ function updateAsset(req,res,template,block,next) {
             next();
           }
         });
-
       }
-
     });
 
 }
@@ -1715,35 +1727,44 @@ function listAssets(req,res,template,block,next) {
   var aPerm = calipso.permission.Helper.hasPermission("admin:user");
   res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',permit:aPerm});
 
-  // alias is the path into the asset
-  var alias = [];
-  var root = null;
-  for (var i = 1; i < 10; i++) {
-    if (req.moduleParams['f' + i])
-      alias.push(req.moduleParams['f' + i]);
-  }
+	var user = req.session && req.session.user && req.session.user.username;
+	var productionId = null;
   var isfolder = false;
-  var postFilename = '';
-  if (alias.length > 0) {
-    if (alias.length > 0) {
-      alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
-      if (req.url.substring(req.url.length - 1) == '/') {
-        alias += '/';
-        isfolder = true;
-      }
-    } else
-      alias = null;
-  } else
-    alias = null;
-  if (/PUT|DELETE/.test(req.method) && !isfolder) {
-    req.pause();
-    var s = alias.split('/');
-    postFilename = s[s.length - 1];
-    s[s.length - 1] = '';
-    alias = s.join('/');
-    isfolder = true;
-    calipso.debug(req.method + ' against folder ' + alias + ' with file ' + postFilename);   
-  }
+	if (req.moduleParams.production) {
+		var info = calipso.lib.assets.decodeUrl(req.moduleParams.production);
+		user = info.user;
+		productionId = info.id;
+	} else {
+		// alias is the path into the asset
+		var alias = [];
+		var root = null;
+		for (var i = 1; i < 10; i++) {
+			if (req.moduleParams['f' + i])
+				alias.push(req.moduleParams['f' + i]);
+		}
+		var postFilename = '';
+		if (alias.length > 0) {
+			if (alias.length > 0) {
+				alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
+				if (req.url.substring(req.url.length - 1) == '/') {
+					alias += '/';
+					isfolder = true;
+				}
+			} else
+				alias = null;
+		} else
+			alias = null;
+
+		if (/PUT|DELETE/.test(req.method) && !isfolder) {
+			req.pause();
+			var s = alias.split('/');
+			postFilename = s[s.length - 1];
+			s[s.length - 1] = '';
+			alias = s.join('/');
+			isfolder = true;
+			calipso.debug(req.method + ' against folder ' + alias + ' with file ' + postFilename);   
+		}
+	}
   var query = new Query();
   
   function finish() {
@@ -1766,8 +1787,8 @@ function listAssets(req,res,template,block,next) {
     // Re-retrieve our object
     getAssetList(query,params,next);
   }
-  if (alias) {
-    Asset.findOne({alias:alias,isfolder:isfolder}).populate('folder').run(function (err, folder) {
+  if (alias || productionId) {
+    Asset.findOne({$or:[{alias:alias,isfolder:isfolder},{_id:productionId}]}).populate('folder').run(function (err, folder) {
       if (!err && folder) {
         if (!folder.isfolder || postFilename) {
           var paths = folder.key.split('/');
