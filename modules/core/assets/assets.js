@@ -1359,6 +1359,7 @@ function init(module, app, next) {
                     }
                     var stat = fs.statSync(file.path);
                     asset.title = file.justName || file.name;
+                    asset.fileType = file.type || '';
                     asset.size = stat.size;
                     asset.alias = form.url + file.name;
                     asset.folder = realFolder._id;
@@ -1486,6 +1487,7 @@ function init(module, app, next) {
         etag: {type: String, "default":''},
         tags: [String],
         isPrivate: {type: Boolean, required: true, "default": true},
+        fileType: {type: String, required: false},
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
       });
