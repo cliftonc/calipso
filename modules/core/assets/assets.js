@@ -1082,6 +1082,7 @@ function init(module, app, next) {
           var isBucket = (root === 's3') && (paths.length == 2);
           var parentFolder = '';
           var filesize = null;
+          var fileType = '';
           for (var i = 0; i < (paths.length - 1); i++) {
             parentFolder += paths[i] + '/';
           }
@@ -1194,6 +1195,7 @@ function init(module, app, next) {
                   if (filesize !== null) {
                     asset.size = filesize;
                   }
+                  asset.fileType = fileType;
                   var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
                   var project = null;
                   if (match) {
@@ -1284,6 +1286,7 @@ function init(module, app, next) {
                 copySource = '/' + escape(copyAsset.key);
                 headers['x-amz-copy-source'] = copySource;
                 filesize = copyAsset.size;
+                fileType = copyAsset.fileType;
                 calipso.debug('Copying file size from original resource ' + filesize);
                 headers['Content-Length'] = 0;
                 finalize();
@@ -2027,6 +2030,7 @@ function syncAssets(req, res, route, next) {
       else
         assetFound.size = null;
       assetFound.key = asset.key; // S3 name
+      assetFound.fileType = asset.fileType;
       var project = null;
       var match = assetFound.key.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
       assetFound.alias = 's3/' + asset.key;
