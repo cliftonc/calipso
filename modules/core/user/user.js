@@ -703,7 +703,7 @@ function loginUser(req, res, template, block, next) {
         }
 
         if(res.statusCode != 302) {
-          res.redirect('back');
+          res.redirect(calipso.config.get('server:loginPath') || 'back');
           return;
         }
         next();

@@ -618,7 +618,12 @@ function coreConfig(req, res, template, block, next) {
             name:'server:name',
             type:'text'
           },
-           {
+          {
+            label:'Login Path',
+            name:'server:loginPath',
+            type:'text'
+          },
+          {
             label:'Modules Location',
             name:'server:modulePath',
             type:'text'
