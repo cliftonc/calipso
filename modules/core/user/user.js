@@ -390,7 +390,6 @@ function updateUserForm(req, res, template, block, next) {
   } else {
     req.flash('error',req.t('You are not authorised to perform that action.'));
     res.redirect('/');
-    next();
     return;
   }
 
@@ -442,6 +441,7 @@ function lockUser(req, res, template, block, next) {
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
       res.redirect('/user/list');
+      return;
     }
 
     u.locked = true;
@@ -475,6 +475,7 @@ function unlockUser(req, res, template, block, next) {
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
       res.redirect('/user/list');
+      return;
     }
 
     u.locked = false;
@@ -505,7 +506,6 @@ function updateRole(req, res, template, block, next) {
        } else {
          req.flash('error',req.t('You are not authorised to perform that action.'));
          res.redirect('/');
-         next();
          return;
        }
 
@@ -522,7 +522,6 @@ function updateRole(req, res, template, block, next) {
         if (role.name === 'Administrator' || role.name === 'Contributor' || role.name === 'Guest') {
           req.flash('error', req.t('You cannot edit the default calipso roles.'));
           res.redirect('/admin/role/list');
-          next();
           return;
         }
         if (role.name === 'Administrator' || role.name === 'Contributor' || role.name === 'Guest') {
@@ -558,7 +557,6 @@ function updateUserProfile(req, res, template, block, next) {
        } else {
          req.flash('error',req.t('You are not authorised to perform that action.'));
          res.redirect('/');
-         next();
          return;
        }
 
@@ -629,6 +627,7 @@ function updateUserProfile(req, res, template, block, next) {
           req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
           if(res.statusCode != 302) {
             res.redirect('/');
+            return;
           }
           next();
           return;
@@ -642,6 +641,7 @@ function updateUserProfile(req, res, template, block, next) {
             if(res.statusCode != 302) {
               // Redirect to old page
               res.redirect('/user/profile/' + username + '/edit');
+              return;
             }
 
           } else {
@@ -657,6 +657,7 @@ function updateUserProfile(req, res, template, block, next) {
 
             // Redirect to new page
             res.redirect('/user/profile/' + u.username);
+            return;
 
           }
           // If not already redirecting, then redirect
@@ -703,6 +704,7 @@ function loginUser(req, res, template, block, next) {
 
         if(res.statusCode != 302) {
           res.redirect('back');
+          return;
         }
         next();
         return;
@@ -758,6 +760,7 @@ function logoutUser(req, res, template, block, next) {
         calipso.e.post_emit('USER_LOGOUT',u);
         if(res.statusCode != 302) {
           res.redirect('back');
+          return;
         }
         next();
 
@@ -768,7 +771,6 @@ function logoutUser(req, res, template, block, next) {
   } else {
     // Fail quietly
     res.redirect('back');
-    next();
   }
 
 }
@@ -841,12 +843,14 @@ function registerUser(req, res, template, block, next) {
           req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
           if(res.statusCode != 302 && !res.noRedirect) {
             res.redirect('back');
+            return;
           }
         } else {
           calipso.e.post_emit('USER_CREATE',u);
           if(!res.noRedirect) {
             req.flash('info',req.t('Profile created, you can now login using this account.'));
             res.redirect('/user/profile/' + u.username);
+            return;
           }
         }
 
@@ -917,9 +921,11 @@ function deleteRole(req, res, template, block, next) {
       if (err) {
         req.flash('info', req.t('Unable to delete the role because {mst}', {msg:err.message}));
         res.redirect("/admin/role/list");
+        return;
       } else {
         req.flash('info', req.t("The role has now been deleted."));
         res.redirect('/admin/role/list');
+        return;
       }
       next();
     });
@@ -942,10 +948,12 @@ function deleteUser(req, res, template, block, next) {
       if(err) {
         req.flash('info',req.t('Unable to delete the user because {msg}',{msg:err.message}));
         res.redirect("/user/list");
+        return;
       } else {
         calipso.e.post_emit('USER_DELETE',u);
         req.flash('info',req.t('The user has now been deleted.'));
         res.redirect("/user/list");
+        return;
       }
       next();
     });
