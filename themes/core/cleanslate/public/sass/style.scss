@@ -515,6 +515,25 @@ form .section:first-child {border:0;}
   background:#1993A8;
 }
 
+#formPopup {
+  position:absolute;
+  display:inline;
+  left:20%;
+  top:10%;
+  width:60%;
+  height:auto;
+  max-height:80%;
+  padding:1em;
+  overflow:scroll;
+  @include background(#ededed);
+  @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+  @include border-radius(7px);
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  display:none;
+
+}
+
 /**
  * Non-semantic helper classes: please define your styles before this section.
  */
