@@ -521,8 +521,7 @@ form .section:first-child {border:0;}
   left:20%;
   top:10%;
   width:60%;
-  height:auto;
-  max-height:80%;
+  height:80%;
   padding:1em;
   overflow:scroll;
   @include background(#ededed);
