@@ -132,7 +132,7 @@ function bootApplication(next) {
   app.config.init(function(err) {
 
     if(err) return console.error(err.message);
-      
+
     // Default Theme
     calipso.defaultTheme = app.config.get('themes:default');
 
@@ -141,16 +141,10 @@ function bootApplication(next) {
     app.use(express.cookieParser(app.config.get('session:secret')));
     app.use(express.responseTime());
 
-    // Create dummy session middleware - tag it so we can later replace    
+    // Create dummy session middleware - tag it so we can later replace
     var temporarySession = app.config.get('installed') ? {} : express.session({ secret: "installing calipso is great fun" });
     temporarySession.tag = "session";
     app.use(temporarySession);
-
-    var temporaryAssets = function(req, res, next) {
-      next();
-    };
-    temporaryAssets.tag = "assets";
-    app.use(temporaryAssets);
 
     // Create holders for theme dependent middleware
     // These are here because they need to be in the connect stack before the calipso router
@@ -193,8 +187,8 @@ function bootApplication(next) {
     app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
     // Core calipso router
-    calipso.init(app, function() { 
-      
+    calipso.init(app, function() {
+
       // Add the calipso mw
       app.use(calipso.routingFn());
 
@@ -204,7 +198,7 @@ function bootApplication(next) {
     })
 
   });
-    
+
 }
 
 /**

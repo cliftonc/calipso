@@ -45,311 +45,6 @@ function knox(options) {
   return knox_mod.createClient(options);
 }
 
-var convert = {
-  'content-type': 'Content-Type',
-  'content-length': 'Content-Length',
-  'expect': 'Expect'
-};
-
-// Main asset router.
-// PUT (project/{path}|bucket|bucket/{path})
-// GET (project/{path}|bucket{path}
-// DELETE (project/{path}|bucket|bucket/{path})
-function handleAsset(req, res, next) {
-  // parse url
-  var url = parse(req.url)
-    , pt = decodeURIComponent(url.pathname)
-    , type;
-  if (!/^\/(proj|s3)\//.test(pt)) {
-    return next();
-  }
-  // Pause incoming stream for now. We might need to read it for POST or PUT.
-  req.pause();
-  // Completion for Asset.find()
-  var maxAge = 0
-    , ranges = req.headers.range
-    , head = 'HEAD' == req.method
-    , get = 'GET' == req.method
-    , put = 'PUT' == req.method
-    , post = 'POST' == req.method
-    , del = 'DELETE' == req.method
-    , done;
-  // ignore non-GET requests
-  if (!get && !head && !put && !post && !del) {
-    return next();
-  }
-
-  // parse url
-  var url = parse(req.url)
-    , alias = decodeURIComponent(url.pathname).substring(1)
-    , type;
-  var paths = alias.split('/');
-  var isFolder = paths[paths.length - 1] === '';
-  var root = paths[0];
-  if (isFolder)
-    paths.splice(paths.length - 1, 1);
-  var fileName = paths[paths.length - 1];
-  var isBucket = (root === 's3') && (paths.length == 2);
-  var parentFolder = '';
-  for (var i = 0; i < (paths.length - 1); i++) {
-    parentFolder += paths[i] + '/';
-  }
-  if (put && isBucket) {
-    //TODO need to reimplement this so buckets get created by admin package.
-    // Create a new bucket
-    // This is a PUT with no alias.
-    var k = knox({
-      'bucket': fileName,
-    });
-    var Asset = calipso.db.model('Asset');
-    if (alias[alias.length - 1] !== '/')
-      alias += '/';
-    Asset.findOne({isfolder:true,alias:alias}, function (err, asset) {
-      var author = (req.session && req.session.user) || 'testing';
-      if (!asset) {
-        asset = new Asset();
-        calipso.debug('create new bucket ' + alias);
-      } else
-        calipso.debug('found bucket ' + alias);
-      asset.isfolder = true;
-      asset.alias = alias;
-      asset.title = paths[1];
-      asset.key = paths[1] + '/';
-      asset.author = author;
-      asset.save(function (err) {
-        if (err) {
-          res.statusCode = 500;
-          req.flash('error', 'Unable to save bucket ' + err.message);
-          next();
-          return;
-        }
-        var sreq = k.request(req.method, '', {
-          'Content-Length': '0',
-          'x-amz-acl': 'private'
-        });
-        sreq.on('error', function(err) {
-          asset.remove(function () {
-            res.statusCode = 500;
-            req.flash('error', 'Unable to create bucket ' + err.message);
-            next();
-            return;
-          });
-        }).on('response', function(s3res) {
-          for (var v in s3res.headers) {
-            if (/x-amz/.test(v) || v === 'server')
-              continue;
-            res.setHeader(v, s3res.headers[v]);
-          }
-          res.statusCode = s3res.statusCode;
-          s3res.pipe(res);
-          req.resume();
-        }).end();
-      });
-    });
-    return;
-  }
-  function handleAssetInteractWithS3(asset, req, res, next, bypass) {
-    var copy = req.headers['x-amz-copy-source'];
-    if (copy && /(proj|s3)\//.test(copy)) {
-      Asset.findOne({alias:copy}, function (err, copyAsset) {
-        if (err || !copyAsset) {
-          req.resume();
-          res.statusCode = 500;
-          req.flash('error', 'Unable to resolve copy source ' + copy);
-          next();
-          return;
-        }
-        req.headers['x-amz-copy-source'] = '/' + escape(copyAsset.key);
-        handleAssetInteractWithS3(asset, req, res, next);
-      });
-      return;
-    }
-    var user = req.session.user ? req.session.user.username : '';
-    if (!bypass && asset.author != user && asset.isPrivate && !asset.isfolder && !asset.isproject && !asset.isroot) {
-      var AssetPermissions = calipso.db.model('AssetPermissions');
-      var project = asset.alias.split('/')[1];
-      AssetPermissions.find({project:project, user:user, action:'view'},function(err, entry){
-        if (err || entry === null || !entry.length){
-          req.resume();
-          res.write('This asset is private.');
-          res.end();
-          return;
-        } else {
-          handleAssetInteractWithS3(asset, req, res, next, true)
-        }
-      });
-      return;
-    }
-    var paths = asset.key.split('/');
-    var fileName = paths[paths.length - 1];
-    var bucket = paths.splice(0, 1)[0];
-    var k = knox({
-      bucket: bucket
-    });
-    var s3key = paths.join('/');
-    var contentType = mime.lookup(fileName);
-    var headers = {'Content-Type':contentType,Expect: '100-continue'};
-    for (var v in req.headers) {
-      if (/x-amz-/i.test(v)) {
-        headers[v] = req.headers[v];
-      } else if (convert[v]) {
-        headers[convert[v]] = req.headers[v];
-      }
-    }
-    var s3req = k.request(req.method, escape(s3key), headers)
-      .on('error', function(err) {
-        next(null, err);
-      })
-      .on('response', function(s3res) {
-        for (var v in s3res.headers) {
-          if (/x-amz/.test(v) || v === 'server')
-            continue;
-          res.setHeader(v, s3res.headers[v]);
-        }
-        res.statusCode = s3res.statusCode;
-        s3res.pipe(res);
-      });
-    if (!get && !del && !head) {
-      req
-        .on('abort', function() {
-          calipso.debug('abort');
-          next(null);
-        })
-        .on('error', function(err){
-          calipso.debug('error');
-          next(null, err);
-        })
-        .on('data', function(chunk){
-          s3req.write(chunk);
-        })
-        .on('end', function(){
-          calipso.debug('end');
-          s3req.end();
-        });
-    } else {
-      s3req.end();
-    }
-    // Now we're setup to read the rest of the request and stream it to S3.
-    req.resume();
-  }
-  var Asset = calipso.db.model('Asset');
-  // Search for the folder first
-  Asset.findOne({alias:parentFolder}, function(err, folder) {
-    if(err || !folder) {
-      // If we didn't find the folder then it has not been created yet.
-      req.resume();
-      res.statusCode = 404;
-      req.flash('error', 'Unable to find parent folder ' + parentFolder);
-      next();
-      return;
-    }
-    // Search for the asset with this alias.
-    Asset.findOne({alias:alias, folder:folder._id}).run(function(err, asset) {
-      if(err || !asset) {
-        if (put || post) {
-          if (isFolder && (folder.key === '')) {
-            res.statusCode = 500;
-            req.flash('error', 'This folder is rooted and not storage allocated for parent folder ' + parentFolder);
-            next();
-            return;
-          }
-          var s3path = folder.key + fileName;
-          var author = (req.session && req.session.user) || 'testing';
-          if (isFolder)
-            s3path += '/';
-          if (!asset) {
-            calipso.debug('new asset ' + alias);
-            asset = new Asset({isfolder:isFolder,
-              key:s3path, folder:folder._id, alias:alias, title:fileName, author:author});
-          } else {
-            calipso.debug('existing asset ' + alias);
-          }
-          var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
-          var project = null;
-          if (match) {
-            asset.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == s3path;
-            if (asset.isroot) {
-              project = match[2];
-              asset.isroot = false;
-              asset.title = match[3];
-              var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-              calipso.debug("rewriting uri from " + s3path + " to " + newUri);
-              asset.alias = newUri;
-            } else {
-              // For a normal asset that's part of a project rewrite it to say
-              // {project}/{rootfolder}/{restofuri}
-              var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-              calipso.debug("rewriting uri from " + asset.key + " to " + newUri);
-              asset.alias = newUri;
-            }
-          }
-          function handleAssetSaveAsset() {
-            asset.save(function (err) {
-              calipso.lib.assets.updateParents(asset, author, function (err) {
-                if (err) {
-                  req.resume();
-                  res.statusCode = 500;
-                  req.flash('error', 'Unable to save asset ' + asset.alias + ': ' + err.message);
-                  next();
-                  return;
-                }
-                if (isFolder) {
-                  req.resume();
-                  res.send(200, 'created folder ' + alias);
-                } else
-                  handleAssetInteractWithS3(asset, req, res, next);
-              });
-            });
-          }
-          if (project) {
-            // Search and create project first
-            var q = {isproject:true, alias:'proj/' + project + '/'};
-            Asset.findOne(q, function (err, proj) {
-              if (!proj) {
-                calipso.debug('new project proj/' + project + '/');
-                proj = new Asset(q);
-              } else
-                calipso.debug('existing project proj/' + project + '/');
-              proj.key = '';
-              proj.author = author;
-              proj.title = project;
-              proj.isfolder = true;
-              proj.save(function (err) {
-                if (err) {
-                  req.resume();
-                  res.statusCode = 500;
-                  req.flash('error', 'Unable to create corresponding project: ' + err.message);
-                  next();
-                  return;
-                }
-                asset.folder = proj._id;
-                handleAssetSaveAsset();
-              })
-            });
-          } else
-            handleAssetSaveAsset();
-          return; // done putting new file
-        } else {
-          req.resume();
-          res.statusCode = 404;
-          req.flash('error', 'Unable to find file ' + alias);
-          next();
-          return; // this file doesn't exist but it's not a put...
-        }
-      }
-      if (asset.isfolder) {
-        req.resume();
-        req.flash('error', 'This folder already exists ' + alias);
-        res.statusCode = 500;
-        next();
-        return; // This is a bucket or folder...
-      }
-      handleAssetInteractWithS3(asset, req, res, next);
-      return;
-    });
-  });
-}
-
 function testAssets(req, res, route, next) {
   calipso.debug('testing');
   calipso.lib.assets.createAsset({path:'proj/project1/archive/testing/',author:'andy'}, function (err, asset) {
@@ -415,14 +110,10 @@ function init(module, app, next) {
   // Admin routes
   calipso.lib.step(
     function defineRoutes() {
-      calipso.app.stack.forEach(function(middleware,key) {
-        if (middleware.handle.tag === 'assets') {
-          //middleware.handle = handleAsset;
-          //middleware.handle.tag = 'assets';
-        }
-      });
+  	  var isAdmin = calipso.permission.Helper.hasPermission("admin:user");
+
       // Admin operations
-      module.router.addRoute('GET /assettest', testAssets, {admin:true}, this.parallel());
+      //module.router.addRoute('GET /assettest', testAssets, {admin:true, permit:isAdmin}, this.parallel());
       module.router.addRoute('GET /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
@@ -436,17 +127,19 @@ function init(module, app, next) {
       module.router.addRoute('PUT /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
+        admin: true,
+        permit: isAdmin
       }, this.parallel());
       module.router.addRoute('DELETE /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
+        admin: true,
+        permit: isAdmin
       }, this.parallel());
-      module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true}, this.parallel());
-      module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
-      module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true},this.parallel());
-      module.router.addRoute('POST /assets/:id',updateAsset,{admin:true},this.parallel());
+      module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true, permit:isAdmin}, this.parallel());
+      module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit',permit:isAdmin},this.parallel());
+      module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true,permit:isAdmin},this.parallel());
+      module.router.addRoute('POST /assets/:id',updateAsset,{admin:true, permit:isAdmin},this.parallel());
     }, function done() {
       // Get asset list helper
       calipso.helpers.addHelper('getAssetList', function() { return getAssetList; });
