@@ -110,32 +110,38 @@ function init(module, app, next) {
   // Admin routes
   calipso.lib.step(
     function defineRoutes() {
+  	  var isAdmin = calipso.permission.Helper.hasPermission("admin:user");
+
       // Admin operations
-      module.router.addRoute('GET /assettest', testAssets, {admin:true}, this.parallel());
+      module.router.addRoute('GET /assettest', testAssets, {admin:true, permit:isAdmin}, this.parallel());
       module.router.addRoute('GET /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
+        admin: true,
+        permit: isAdmin
       }, this.parallel());
       module.router.addRoute('GET /pub/:production?/:filename?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
+        admin: true,
+        permit: isAdmin,
       }, this.parallel());
       module.router.addRoute('PUT /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
+        admin: true,
+        permit: isAdmin,
       }, this.parallel());
       module.router.addRoute('DELETE /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
+        admin: true,
+        permit: isAdmin
       }, this.parallel());
-      module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true}, this.parallel());
-      module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit'},this.parallel());
-      module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true},this.parallel());
-      module.router.addRoute('POST /assets/:id',updateAsset,{admin:true},this.parallel());
+      module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true, permit:isAdmin}, this.parallel());
+      module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit',permit:isAdmin},this.parallel());
+      module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true,permit:isAdmin},this.parallel());
+      module.router.addRoute('POST /assets/:id',updateAsset,{admin:true, permit:isAdmin},this.parallel());
     }, function done() {
       // Get asset list helper
       calipso.helpers.addHelper('getAssetList', function() { return getAssetList; });
