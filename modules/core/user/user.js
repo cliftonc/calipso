@@ -544,6 +544,9 @@ function updateRole(req, res, template, block, next) {
  * Update user
  */
 function updateUserProfile(req, res, template, block, next) {
+  // Updating a profile through forms can set the username to 'false'
+  // Use moduleParams until this is patched.
+  var uname = !req.session.user.isAdmin ? req.moduleParams.username : null;
 
   calipso.form.process(req,function(form) {
     if(form) {
@@ -572,7 +575,7 @@ function updateUserProfile(req, res, template, block, next) {
       User.findOne({username:username}, function(err, u) {
 
         u.fullname = form.user.fullname;
-        u.username = form.user.username;
+        u.username = uname || form.user.username;
         u.email = form.user.email;
         u.language = form.user.language;
         u.about = form.user.about;
