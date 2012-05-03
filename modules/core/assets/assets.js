@@ -113,24 +113,22 @@ function init(module, app, next) {
   	  var isAdmin = calipso.permission.Helper.hasPermission("admin:user");
 
       // Admin operations
-      module.router.addRoute('GET /assettest', testAssets, {admin:true, permit:isAdmin}, this.parallel());
+      //module.router.addRoute('GET /assettest', testAssets, {admin:true, permit:isAdmin}, this.parallel());
       module.router.addRoute('GET /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true,
-        permit: isAdmin
+        admin: true
       }, this.parallel());
       module.router.addRoute('GET /pub/:production?/:filename?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true,
-        permit: isAdmin,
+        admin: true
       }, this.parallel());
       module.router.addRoute('PUT /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
         admin: true,
-        permit: isAdmin,
+        permit: isAdmin
       }, this.parallel());
       module.router.addRoute('DELETE /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
