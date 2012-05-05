@@ -13,8 +13,8 @@
     "node": "0.6.x || 0.7.x"
   },
   "dependencies": {
-    "express": "git://github.com/visionmedia/express.git",
-    "connect": "2.0.0",
+    "express": "3.0.x",
+    "connect": "2.0.x",
     "ejs": "0.6.x",
     "jade": "0.20.x",
     "stylus": "0.23.x",
@@ -35,7 +35,7 @@
     "rimraf":"2.0.x",
     "nconf":"0.5.x",
     "async": "0.1.x",
-    "hook.io": "0.8.7-1"
+    "hook.io": "0.8.x"
   },
   "devDependencies": {
     "mocha": "*",
