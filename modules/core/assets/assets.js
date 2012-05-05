@@ -128,7 +128,7 @@ function init(module, app, next) {
         template: 'listAdmin',
         block: 'content.list',
         admin: true,
-        permit: isAdmin
+        permit: null
       }, this.parallel());
       module.router.addRoute('DELETE /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
@@ -723,7 +723,7 @@ function init(module, app, next) {
                 return callback(new Error('unable to find parent folder ' + (err ? err.message : '')), folder);
               }
               folder.updated = new Date();
-              folder.author = author;
+              folder.updated_by = author;
               folder.save(function (err) {
                 if (err) {
                   return callback(new Error('unable to update parent folder ' + err.message), folder);
@@ -871,102 +871,99 @@ function init(module, app, next) {
               }
               // Search for the asset with this alias.
               Asset.findOne({alias:path, folder:folder._id}).run(function(err, asset) {
-                if(err || !asset) {
-                  if (isFolder && (folder.key === '')) {
-                    return callback(new Error("this folder is rooted and not storage allocated for parent folder " + parentFolder), null);
-                  }
-                  var s3path = folder.key + fileName;
-                  if (isFolder)
-                    s3path += '/';
-                  if (!asset) {
-                    calipso.debug('new asset ' + path);
-                    asset = new Asset({isfolder:isFolder,
-                      key:s3path, folder:folder._id, alias:path, title:fileName, author:author});
-                  } else {
-                    calipso.debug('existing asset ' + path);
-                  }
-                  if (filesize !== null) {
-                    asset.size = filesize;
-                  }
-                  asset.fileType = fileType;
-                  var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
-                  var project = null;
-                  if (match) {
-                    asset.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == s3path;
-                    if (asset.isroot) {
-                      project = match[2];
-                      asset.isroot = false;
-                      asset.title = match[3];
-                      var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-                      calipso.debug("rewriting uri from " + s3path + " to " + newUri);
-                      asset.alias = newUri;
-                    } else {
-                      // For a normal asset that's part of a project rewrite it to say
-                      // {project}/{rootfolder}/{restofuri}
-                      var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-                      calipso.debug("rewriting uri from " + asset.key + " to " + newUri);
-                      asset.alias = newUri;
-                    }
-                  }
-                  function saveAsset() {
-                    asset.updated = new Date();
-                    asset.author = author;
-                    asset.save(function (err) {
-                      if (err) {
-                        return callback(new Error("unable to save asset " + err.message), null);
-                      }
-                      calipso.lib.assets.updateParents(asset, author, function (err) {
-                        if (isFolder) {
-                          return callback(null, asset);
-                        } else
-                          interactWithS3(asset);
-                      });
-                    });
-                  }
-                  if (project) {
-                    // Search and create project first
-                    var q = {isproject:true, alias:'proj/' + project + '/'};
-                    Asset.findOne(q, function (err, proj) {
-                      if (!proj) {
-                        calipso.debug('new project proj/' + project + '/');
-                        proj = new Asset(q);
-                      } else
-                        calipso.debug('existing project proj/' + project + '/');
-                      proj.key = '';
-                      proj.author = author;
-                      proj.title = project;
-                      proj.isfolder = true;
-                      proj.save(function (err) {
-                        if (err) {
-                          return callback(new Error("unable to create corresponding project " + err.message), null);
-                        }
-                        asset.folder = proj._id;
-                        saveAsset();
-                      })
-                    });
-                  } else
-                    saveAsset();
-                  return; // done putting new file
-                }
-                if (asset.isfolder) {
-                  return callback(null, asset);
-                }
-                return interactWithS3(asset);
+                if (err)
+                	return callback(err, asset);
+                if (asset) {
+									if (asset.isfolder) {
+										return callback(null, asset);
+									}
+								}
+								if (isFolder && (folder.key === '')) {
+									return callback(new Error("this folder is rooted and not storage allocated for parent folder " + parentFolder), null);
+								}
+								var s3path = folder.key + fileName;
+								if (isFolder)
+									s3path += '/';
+								if (!asset) {
+									calipso.debug('new asset ' + path);
+									asset = new Asset({isfolder:isFolder,
+										key:s3path, folder:folder._id, alias:path, title:fileName, author:author});
+								} else {
+									calipso.debug('existing asset ' + path);
+								}
+								if (filesize !== null) {
+									asset.size = filesize;
+								}
+								asset.fileType = fileType;
+								var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
+								var project = null;
+								if (match) {
+									asset.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == s3path;
+									if (asset.isroot) {
+										project = match[2];
+										asset.isroot = false;
+										asset.title = match[3];
+										var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
+										calipso.debug("rewriting uri from " + s3path + " to " + newUri);
+										asset.alias = newUri;
+									} else {
+										// For a normal asset that's part of a project rewrite it to say
+										// {project}/{rootfolder}/{restofuri}
+										var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
+										calipso.debug("rewriting uri from " + asset.key + " to " + newUri);
+										asset.alias = newUri;
+									}
+								}
+								function saveAsset() {
+									asset.updated = new Date();
+									asset.author = author;
+									asset.save(function (err) {
+										if (err) {
+											return callback(new Error("unable to save asset " + err.message), null);
+										}
+										calipso.lib.assets.updateParents(asset, author, function (err) {
+											if (isFolder) {
+												return callback(null, asset);
+											} else
+												interactWithS3(asset);
+										});
+									});
+								}
+								if (project) {
+									// Search and create project first
+									var q = {isproject:true, alias:'proj/' + project + '/'};
+									Asset.findOne(q, function (err, proj) {
+										if (!proj) {
+											calipso.debug('new project proj/' + project + '/');
+											proj = new Asset(q);
+										} else
+											calipso.debug('existing project proj/' + project + '/');
+										proj.key = '';
+										proj.author = author;
+										proj.title = project;
+										proj.isfolder = true;
+										proj.save(function (err) {
+											if (err) {
+												return callback(new Error("unable to create corresponding project " + err.message), null);
+											}
+											asset.folder = proj._id;
+											saveAsset();
+										})
+									});
+								} else
+									saveAsset();
+								return; // done putting new file
               });
             });
           }
           if (copyStream) {
             if (copyStreamSize) {
               headers['Content-Length'] = copyStreamSize;
-            } else if (!hasSize) {
-              fs.stat(copyStream.path, function (err, stat) {
-                if (err)
-                  return callback(new Error('unable to stat stream path ' + copyStream.path));
-                calipso.debug('Uploading from stream ' + copyStream.path + ' with length ' + stat.size);
-                headers['Content-Length'] = stat.size;
-               finalize();
-              });
-              return;
+              filesize = copyStreamSize;
+            } else {
+              var stat = fs.statSync(copyStream.path);
+              headers['Content-Length'] = stat.size;
+              filesize = stat.size;
             }
           } else {
             headers['x-amz-copy-source'] = copySource;
@@ -1186,6 +1183,7 @@ function init(module, app, next) {
         fileType: {type: String, required: false},
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
+        updated_by: {type: String},
       });
       var AssetPermissions = new calipso.lib.mongoose.Schema({
         project: {type: String, required: true},
@@ -1457,7 +1455,6 @@ function listAssets(req,res,template,block,next) {
       alias = null;
 
     if (/PUT|DELETE/.test(req.method) && !isfolder) {
-      req.pause();
       var s = alias.split('/');
       postFilename = s[s.length - 1];
       s[s.length - 1] = '';
@@ -1492,6 +1489,7 @@ function listAssets(req,res,template,block,next) {
     Asset.findOne({$or:[{alias:alias,isfolder:isfolder},{_id:productionId}]}).populate('folder').run(function (err, folder) {
       if (!err && folder) {
         if (!folder.isfolder || postFilename) {
+        	var folderAlias = folder.alias;
           var paths = folder.key.split('/');
           var k = require('knox').createClient({
             key: calipso.config.get("s3:key"),
@@ -1510,9 +1508,30 @@ function listAssets(req,res,template,block,next) {
           var headers = {'Response-Content-Type':contentType};
           if (postFilename && (req.method == 'PUT')) {
             headers['Content-Length'] = req.headers['content-length'];
+            headers['Content-Type'] = contentType;
           }
+          console.log(headers);
           if (range)
             headers['Range'] = range;
+          if (/PUT/.test(req.method)) {
+          	calipso.lib.assets.createAsset({
+          		path:folderAlias + postFilename,
+          		copyStream:req,
+          		copyStreamPaused:true,
+          		copyStreamSize:req.headers['content-length'],
+          		author:user
+          	}, function (err, asset) {
+          		if (err) {
+          			res.statusCode = 500;
+          			req.flash('error', req.t('Unable to create asset ' + folderAlias + postFilename));
+          			calipso.error('Unable to create asset ' + err.message);
+          			return;
+          		}
+          		res.statusCode = 200;
+          		res.end('Your file ' + postFilename + ' was saved to ' + folderAlias);
+          	});
+          	return;
+          }
           var s3req = k.request(req.method, escape(paths.join('/')), headers).on('response', function(s3res) {
             var headers = {};
             if (req.url.substring(req.url.length - fileName.length) !== fileName)
@@ -1523,34 +1542,18 @@ function listAssets(req,res,template,block,next) {
             if (contentType)
               headers['Content-Type'] = contentType;
             s3res.on('error', function(err) {
+            	console.log(err);
               next();
             });
             s3res.on('end', function (chunk) {
+            	console.log('ending request');
               next();
             });
             res.statusCode = 200;
             res.writeHead(200, headers);
             s3res.pipe(res);
           });
-          if (/GET|DELETE/.test(req.method))
-            s3req.end();        // Just return the object
-          else {
-            req.on('data', function (chunk) {
-              s3req.write(chunk);
-            });
-            req.on('error', function (err) {
-              res.statusCode = 500;
-              req.flash('error', req.t('Problem uploading data ' + err.message));
-            });
-            req.on('abort', function () {
-              res.statusCode = 500;
-              req.flash('error', req.t('Upload stream was aborted.'));
-            });
-            req.on('end', function () {
-              s3req.end();
-            });
-            req.resume();
-          }
+          s3req.end();        // Just return the object
           return;
         } else {
           // query for the parent folder
