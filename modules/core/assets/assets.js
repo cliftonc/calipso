@@ -7,6 +7,7 @@ var rootpath = process.cwd() + '/',
   parse = require('url').parse,
   crypto = require('crypto'),
   fs = require('fs'),
+  jsdom = require('jsdom').jsdom,
   knox_mod = require('knox');
 
 exports = module.exports = {
@@ -697,7 +698,7 @@ function init(module, app, next) {
               return callback(null, folder);
           });
         },
-        encodeUrl: function (asset, user) {
+        encodeUrl: function (asset, user, headers) {
           var encrypt = crypto.createCipher('aes-192-ecb', calipso.config.get('session:secret'));
           var str = user + '|' + asset.id.toString();
           var production = encrypt.update(str, 'utf8', 'hex');
@@ -705,6 +706,9 @@ function init(module, app, next) {
           var url = '/pub/' + production;
           var paths = asset.alias.split('/');
           url += '/' + paths[paths.length - 1];
+          if (headers && headers['host']) {
+          	url = 'https://' + headers['host'] + url;
+          }
           return url;
         },
         decodeUrl: function (token) {
@@ -776,6 +780,8 @@ function init(module, app, next) {
           var parentFolder = '';
           var filesize = null;
           var fileType = '';
+          var width = null;
+          var height = null;
           for (var i = 0; i < (paths.length - 1); i++) {
             parentFolder += paths[i] + '/';
           }
@@ -827,8 +833,7 @@ function init(module, app, next) {
               bucket: bucket
             });
             var s3key = paths.join('/');
-            var contentType = mime.lookup(fileName);
-            headers['Content-Type'] = contentType;
+            headers['Content-Type'] = asset.fileType;
             headers['Expect'] = '100-continue';
             calipso.debug('Putting ' + s3key + " with " + JSON.stringify(headers));
             var s3req = k.request('PUT', escape(s3key), headers)
@@ -894,6 +899,8 @@ function init(module, app, next) {
 								if (filesize !== null) {
 									asset.size = filesize;
 								}
+								if (!fileType)
+			            fileType = mime.lookup(fileName);
 								asset.fileType = fileType;
 								var match = s3path.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
 								var project = null;
@@ -914,9 +921,37 @@ function init(module, app, next) {
 										asset.alias = newUri;
 									}
 								}
-								function saveAsset() {
+								function saveAsset(ignoreWidth) {
+									console.log(fileType);
+									if (/image\//.test(fileType) && !ignoreWidth) {
+										if (!width && !height && !copySource) {
+											if (copyStream && copyStream.path) {
+												try {
+													var imagemagick = require('imagemagick');
+													imagemagick.identify(copyStream.path, function (err, info) {
+														if (err) {
+															calipso.debug('Unable to analyze image ' + err.message);
+														}
+														if (info) {
+															asset.width = info.width;
+															asset.height = info.height;
+															asset.depth = info.depth;
+															asset.format = info.format;
+														}
+														saveAsset(true);
+													});
+													return;
+												}
+												catch (e) {
+													console.log(e);
+												}
+											}
+										}
+									}
 									asset.updated = new Date();
-									asset.author = author;
+									if (!asset.author)
+										asset.author = author;
+									asset.updated_by = author;
 									asset.save(function (err) {
 										if (err) {
 											return callback(new Error("unable to save asset " + err.message), null);
@@ -939,7 +974,9 @@ function init(module, app, next) {
 										} else
 											calipso.debug('existing project proj/' + project + '/');
 										proj.key = '';
-										proj.author = author;
+										if (!proj.author)
+											proj.author = author;
+										proj.updated_by = author;
 										proj.title = project;
 										proj.isfolder = true;
 										proj.save(function (err) {
@@ -977,6 +1014,8 @@ function init(module, app, next) {
                 headers['x-amz-copy-source'] = copySource;
                 filesize = copyAsset.size;
                 fileType = copyAsset.fileType;
+                width = copyAsset.width;
+                height = copyAsset.height;
                 calipso.debug('Copying file size from original resource ' + filesize);
                 headers['Content-Length'] = 0;
                 finalize();
@@ -1017,65 +1056,18 @@ function init(module, app, next) {
                 return;
               }
               var stream = fs.createReadStream(file.path);
-              // This already has a trailing '/' after the join.
-              var s3Key = paths.join('/') + file.name;
-              if (file.name.indexOf('/') != -1){
-                var removeStructure = file.name.split('/');
-                file.justName = removeStructure[removeStructure.length - 1];
-              }
-              var fileKey = bucket + '/' + s3Key;
-              client.putStream(stream, escape(s3Key), function (err) {
-                if (err) {
-                  res.statusCode = 500;
-                  calipso.debug('unable to write file ' + file.name);
+              // Refactor to use createAsset routine.
+              calipso.lib.assets.createAsset({path:folder.alias + file.name, copyStream:stream, author: author}, function (err, asset) {
+              	if (err) {
+              		res.statusCode = 500;
+              		calipso.debug('unable to write file ' + file.name);
                   req.flash('error', req.t('Unable to write file {file}: {error}', {file:file.name, error:err.message}));
                   next();
                   return;
-                }
-                var parent = (form.url + file.name).split('/');
-                parent[parent.length - 1] = ''; // Remove filename
-                calipso.lib.assets.assureFolder(parent.join('/'), author, function (err, realFolder) {
-                  if (err) {
-                    res.statusCode = 500;
-                    calipso.debug('unable to get associated parent folder ' + file.name);
-                    req.flash('error', req.t('Unable to write file {file}: {error}', {file:file.name, error:err.message}));
-                    next();
-                    return;
-                  }
-                  Asset.findOne({alias:form.url + file.name, key:fileKey}, function (err, asset) {
-                    if (asset == null) {
-                      asset = new Asset();
-                      calipso.debug('uploading new asset ' + fileKey);
-                    } else {
-                      asset.updated = new Date();
-                      calipso.debug('re-uploading existing asset ' + fileKey);
-                    }
-                    var stat = fs.statSync(file.path);
-                    asset.title = file.justName || file.name;
-                    asset.fileType = file.type || '';
-                    asset.size = stat.size;
-                    asset.alias = form.url + file.name;
-                    asset.folder = realFolder._id;
-                    asset.key = fileKey;
-                    asset.author = author;
-                    asset.save(function (err) {
-                      if (err) {
-                        res.statusCode = 500;
-                        calipso.debug('unable to write file asset ' + file.name + " (file already saved to S3) " + err.message);
-                        req.flash('error', req.t('Unable to write file asset {file}: {error}', {file:file.name, error:err.message}));
-                        next();
-                        return;
-                      }
-                      calipso.lib.assets.updateParents(asset, author, function (err) {
-                        res.statusCode = 200;
-                        calipso.debug('file ' + file.name + ' uploaded');
-                        sendFile();
-                      });
-                    });
-                  });
-                });
+              	}
+              	sendFile(); // send the next file
               });
-            }
+						}
             sendFile();
           });
         },
@@ -1184,6 +1176,10 @@ function init(module, app, next) {
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
         updated_by: {type: String},
+        width: {type: Number},
+        height: {type: Number},
+        format: {type: String},
+        depth: {type: Number}
       });
       var AssetPermissions = new calipso.lib.mongoose.Schema({
         project: {type: String, required: true},
@@ -1442,13 +1438,24 @@ function listAssets(req,res,template,block,next) {
         alias.push(req.moduleParams['f' + i]);
     }
     var postFilename = '';
+    var outputList = null;
     if (alias.length > 0) {
       if (alias.length > 0) {
-        alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
-        if (req.url.substring(req.url.length - 1) == '/') {
-          alias += '/';
-          isfolder = true;
-        }
+      	if (alias[alias.length - 1] === '_list') {
+      		alias[alias.length - 1] = '';
+      		alias = alias.join('/');
+      		isfolder = true;
+      		if (req.moduleParams.format)
+      			outputList = req.moduleParams.format;
+      		else
+	      		outputList = 'json';
+      	} else {
+					alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
+					if (req.url.substring(req.url.length - 1) == '/') {
+						alias += '/';
+						isfolder = true;
+					}
+				}
       } else
         alias = null;
     } else
@@ -1487,7 +1494,115 @@ function listAssets(req,res,template,block,next) {
   }
   if (alias || productionId) {
     Asset.findOne({$or:[{alias:alias,isfolder:isfolder},{_id:productionId}]}).populate('folder').run(function (err, folder) {
+    	function cloneAsset(asset, user) {
+				var clone = {};
+				if (!asset.isfolder)
+					clone.url = calipso.lib.assets.encodeUrl(asset, user, req.headers);
+				clone.description = asset.description;
+				clone.title = asset.title;
+				clone.author = asset.author;
+				clone.updated = asset.updated;
+				clone.created = asset.created;
+				clone.updated_by = asset.updated_by;
+				if (asset.fileType)
+					clone.fileType = asset.fileType;
+				if (asset.width)
+					clone.width = asset.width;
+				if (asset.height)
+					clone.height = asset.height;
+				if (asset.depth)
+					clone.depth = asset.depth;
+				if (asset.format)
+					clone.format = asset.format;
+				return clone;
+    	}
       if (!err && folder) {
+      	if (outputList) {
+      		var folderClone = cloneAsset(folder);
+      		folder.children = [];
+      		folderClone.children = folder.children;
+      		function populateChildren(folder, callback) {
+      			if (folder.childAssets) {
+      				var child = folder.childAssets.splice(0, 1)[0];
+      				if (!child) {
+      					delete folder.childAssets;
+      					return callback(null, null);
+      				}
+	      			var clone = cloneAsset(child, user);
+    					folder.children.push(clone);
+      				if (child.isfolder) {
+      					child.children = [];
+      					clone.children = child.children;
+      					return populateChildren(child, callback);
+      				} else {
+      					return populateChildren(folder, callback);
+      				}
+      			}
+	      		Asset.find({folder:folder._id}, function (err, assets) {
+	      			if (err) return next(err);
+	      			folder.childAssets = assets;
+	      			populateChildren(folder, callback);
+  	    		});
+  	    	}
+  	    	return populateChildren(folder, function (err, f) {
+						if (outputList === 'json') {
+							res.write(JSON.stringify(folderClone));
+							return res.end();
+						} else if (outputList === 'xml') {
+							var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n'];
+							function xmlEscape(str) {
+								if (!str)
+									return '';
+								if (!(str instanceof String))
+									return str.toString();
+								str = str.replace('&', '&amp;');
+								str = str.replace('"', '&quot;');
+								str = str.replace('<', '&lt;');
+								str = str.replace('<', '&gt;');
+								return str;
+							}
+							function append(asset) {
+								if (asset.children)
+									xml.push('<Folder ');
+								else
+									xml.push('<File ');
+								xml.push('description="', xmlEscape(asset.description), '" ');
+								xml.push('title="', xmlEscape(asset.title), '" ');
+								if (asset.url)
+									xml.push('url="', xmlEscape(asset.url), '" ');
+								if (asset.width)
+									xml.push('width="', xmlEscape(asset.width), '" ');
+								if (asset.height)
+									xml.push('height="', xmlEscape(asset.height), '" ');
+								if (asset.depth)
+									xml.push('depth="', xmlEscape(asset.depth), '" ');
+								if (asset.height)
+									xml.push('format="', xmlEscape(asset.format), '" ');
+								if (asset.fileType)
+									xml.push('fileType="', xmlEscape(asset.fileType), '" ');
+								xml.push('author="', xmlEscape(asset.author), '" ');
+								xml.push('updated_by="', xmlEscape(asset.updated_by), '" ');
+								xml.push('updated="', xmlEscape(asset.updated), '" ');
+								xml.push('created="', xmlEscape(asset.updated), '" ');
+								if (asset.children) {
+									xml.push('>');
+									asset.children.forEach(function (child) {
+										append(child);
+									});
+									xml.push('</Folder>');
+								} else
+									xml.push('/>');
+							}
+							append(folderClone);
+							console.log(req);
+							res.write(xml.join(''));
+							res.end();
+						} else {
+							res.statusCode = 500;
+							next();
+						}
+					});
+      	}
         if (!folder.isfolder || postFilename) {
         	var folderAlias = folder.alias;
           var paths = folder.key.split('/');
@@ -1510,7 +1625,6 @@ function listAssets(req,res,template,block,next) {
             headers['Content-Length'] = req.headers['content-length'];
             headers['Content-Type'] = contentType;
           }
-          console.log(headers);
           if (range)
             headers['Range'] = range;
           if (/PUT/.test(req.method)) {
@@ -1542,11 +1656,10 @@ function listAssets(req,res,template,block,next) {
             if (contentType)
               headers['Content-Type'] = contentType;
             s3res.on('error', function(err) {
-            	console.log(err);
+            	calipso.error(err.message);
               next();
             });
             s3res.on('end', function (chunk) {
-            	console.log('ending request');
               next();
             });
             res.statusCode = 200;
