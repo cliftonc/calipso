@@ -154,7 +154,7 @@ function init(module, app, next) {
           return Asset.find.apply(Asset, arguments);
         },
         findOneAsset: function () {
-          var Asset = calipso.lib.mongoose.model('Asset');
+          var Asset = calipso.db.model('Asset');
           return Asset.findOne.apply(Asset, arguments);
         },
         updateAssets: function () {
@@ -922,7 +922,6 @@ function init(module, app, next) {
 									}
 								}
 								function saveAsset(ignoreWidth) {
-									console.log(fileType);
 									if (/image\//.test(fileType) && !ignoreWidth) {
 										if (!width && !height && !copySource) {
 											if (copyStream && copyStream.path) {
@@ -943,7 +942,7 @@ function init(module, app, next) {
 													return;
 												}
 												catch (e) {
-													console.log(e);
+													calipso.error('Unable to analyze image ' + e.message);
 												}
 											}
 										}
@@ -1070,6 +1069,40 @@ function init(module, app, next) {
 						}
             sendFile();
           });
+        },
+        checkPermission: function (alias, username, action, callback) {
+        	if (!username)
+        		return callback(null, false);
+					var User = calipso.db.model('User');
+					User.findOne({username:username}, function(err, u) {
+						if (err)
+							return callback(err, false);
+						var isAdmin = false;
+						u.roles.forEach(function(role) {
+							if (calipso.data.roles[role] && calipso.data.roles[role].isAdmin)
+								isAdmin = true;
+						});
+						if (/^s3\//.test(alias)) {
+							callback(null, isAdmin);
+						} else if (/^proj\//.test(alias)) {
+							var paths = alias.split('/');
+							paths = paths.splice(0, 3);
+							paths[2] = '';
+							calipso.lib.assets.findOneAsset({isproject:true, alias: paths.join('/')}, function (err, project) {
+								if (project.author === username || isAdmin)
+									return callback(null, true);
+								else {
+									var AssetPermissions = calipso.db.model('AssetPermissions');
+									AssetPermissions.findOne({project:project.title, user:username, action:action},function(err, entry){
+										if (err)
+											return callback(err, false);
+										callback(null, !!entry);
+									});
+								}
+							});
+						} else
+							callback(new Error('Invalid type of alias ' + alias), false);
+					});
         },
         // options.source (for example proj/<projectname>/<rootfolder>/<folder...>/ or proj/<projectname>/<rootfolder>/<folder...>/<file>)
         // options.destination (for example proj/<projectname>/<rootfolder>/<folder...>/)
@@ -1461,7 +1494,9 @@ function listAssets(req,res,template,block,next) {
     } else
       alias = null;
 
+		var perm = 'view';
     if (/PUT|DELETE/.test(req.method) && !isfolder) {
+    	perm = 'add';
       var s = alias.split('/');
       postFilename = s[s.length - 1];
       s[s.length - 1] = '';
@@ -1470,6 +1505,7 @@ function listAssets(req,res,template,block,next) {
       calipso.debug(req.method + ' against folder ' + alias + ' with file ' + postFilename);
     }
   }
+
   var query = new Query();
 
   function finish() {
@@ -1504,6 +1540,8 @@ function listAssets(req,res,template,block,next) {
 				clone.updated = asset.updated;
 				clone.created = asset.created;
 				clone.updated_by = asset.updated_by;
+				if (!clone.updated_by)
+					clone.updated_by = clone.author;
 				if (asset.fileType)
 					clone.fileType = asset.fileType;
 				if (asset.width)
@@ -1518,90 +1556,103 @@ function listAssets(req,res,template,block,next) {
     	}
       if (!err && folder) {
       	if (outputList) {
-      		var folderClone = cloneAsset(folder);
-      		folder.children = [];
-      		folderClone.children = folder.children;
-      		function populateChildren(folder, callback) {
-      			if (folder.childAssets) {
-      				var child = folder.childAssets.splice(0, 1)[0];
-      				if (!child) {
-      					delete folder.childAssets;
-      					return callback(null, null);
-      				}
-	      			var clone = cloneAsset(child, user);
-    					folder.children.push(clone);
-      				if (child.isfolder) {
-      					child.children = [];
-      					clone.children = child.children;
-      					return populateChildren(child, callback);
-      				} else {
-      					return populateChildren(folder, callback);
-      				}
-      			}
-	      		Asset.find({folder:folder._id}, function (err, assets) {
-	      			if (err) return next(err);
-	      			folder.childAssets = assets;
-	      			populateChildren(folder, callback);
-  	    		});
-  	    	}
-  	    	return populateChildren(folder, function (err, f) {
-						if (outputList === 'json') {
-							res.write(JSON.stringify(folderClone));
-							return res.end();
-						} else if (outputList === 'xml') {
-							var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n'];
-							function xmlEscape(str) {
-								if (!str)
-									return '';
-								if (!(str instanceof String))
-									return str.toString();
-								str = str.replace('&', '&amp;');
-								str = str.replace('"', '&quot;');
-								str = str.replace('<', '&lt;');
-								str = str.replace('<', '&gt;');
-								return str;
-							}
-							function append(asset) {
-								if (asset.children)
-									xml.push('<Folder ');
-								else
-									xml.push('<File ');
-								xml.push('description="', xmlEscape(asset.description), '" ');
-								xml.push('title="', xmlEscape(asset.title), '" ');
-								if (asset.url)
-									xml.push('url="', xmlEscape(asset.url), '" ');
-								if (asset.width)
-									xml.push('width="', xmlEscape(asset.width), '" ');
-								if (asset.height)
-									xml.push('height="', xmlEscape(asset.height), '" ');
-								if (asset.depth)
-									xml.push('depth="', xmlEscape(asset.depth), '" ');
-								if (asset.height)
-									xml.push('format="', xmlEscape(asset.format), '" ');
-								if (asset.fileType)
-									xml.push('fileType="', xmlEscape(asset.fileType), '" ');
-								xml.push('author="', xmlEscape(asset.author), '" ');
-								xml.push('updated_by="', xmlEscape(asset.updated_by), '" ');
-								xml.push('updated="', xmlEscape(asset.updated), '" ');
-								xml.push('created="', xmlEscape(asset.updated), '" ');
-								if (asset.children) {
-									xml.push('>');
-									asset.children.forEach(function (child) {
-										append(child);
-									});
-									xml.push('</Folder>');
-								} else
-									xml.push('/>');
-							}
-							append(folderClone);
-							console.log(req);
-							res.write(xml.join(''));
-							res.end();
-						} else {
+					calipso.lib.assets.checkPermission(alias, user, perm, function (err, allowed) {
+						if (err) {
 							res.statusCode = 500;
-							next();
+							return next();
 						}
+						if (!allowed) {
+							res.statusCode = 403;
+							req.flash('error', req.t('You are not allowed to view this resource {alias}', {alias:alias}));
+							return next();
+						}
+						var folderClone = cloneAsset(folder);
+						folder.children = [];
+						folderClone.children = folder.children;
+						function populateChildren(folder, callback) {
+							if (folder.childAssets) {
+								var child = folder.childAssets.splice(0, 1)[0];
+								if (!child) {
+									delete folder.childAssets;
+									return callback(null, null);
+								}
+								var clone = cloneAsset(child, user);
+								folder.children.push(clone);
+								if (child.isfolder) {
+									child.children = [];
+									clone.children = child.children;
+									return populateChildren(child, callback);
+								} else {
+									return populateChildren(folder, callback);
+								}
+							}
+							Asset.find({folder:folder._id}, function (err, assets) {
+								if (err) return next(err);
+								folder.childAssets = assets;
+								populateChildren(folder, callback);
+							});
+						}
+						return populateChildren(folder, function (err, f) {
+							if (outputList === 'json') {
+								res.write(JSON.stringify(folderClone));
+								return res.end();
+							} else if (outputList === 'xml') {
+								var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n'];
+								function xmlEscape(str) {
+									if (!str)
+										return '';
+									if (str instanceof Date)
+										return str.toJSON();
+									if (!(str instanceof String))
+										return str.toString();
+									str = str.replace('&', '&amp;');
+									str = str.replace('"', '&quot;');
+									str = str.replace('<', '&lt;');
+									str = str.replace('<', '&gt;');
+									return str;
+								}
+								function append(asset) {
+									if (asset.children)
+										xml.push('<Folder ');
+									else
+										xml.push('<File ');
+									xml.push('description="', xmlEscape(asset.description), '" ');
+									xml.push('title="', xmlEscape(asset.title), '" ');
+									if (asset.url)
+										xml.push('url="', xmlEscape(asset.url), '" ');
+									if (asset.width)
+										xml.push('width="', xmlEscape(asset.width), '" ');
+									if (asset.height)
+										xml.push('height="', xmlEscape(asset.height), '" ');
+									if (asset.depth)
+										xml.push('depth="', xmlEscape(asset.depth), '" ');
+									if (asset.height)
+										xml.push('format="', xmlEscape(asset.format), '" ');
+									if (asset.fileType)
+										xml.push('fileType="', xmlEscape(asset.fileType), '" ');
+									xml.push('author="', xmlEscape(asset.author), '" ');
+									xml.push('updated_by="', xmlEscape(asset.updated_by), '" ');
+									xml.push('updated="', xmlEscape(asset.updated), '" ');
+									xml.push('created="', xmlEscape(asset.updated), '" ');
+									if (asset.children) {
+										xml.push('>');
+										asset.children.forEach(function (child) {
+											append(child);
+										});
+										xml.push('</Folder>');
+									} else
+										xml.push('/>');
+								}
+								append(folderClone);
+								res.write(xml.join(''));
+								res.end();
+							} else {
+								res.statusCode = 500;
+								next();
+							}
+						});
 					});
+					return;
       	}
         if (!folder.isfolder || postFilename) {
         	var folderAlias = folder.alias;
@@ -1628,45 +1679,73 @@ function listAssets(req,res,template,block,next) {
           if (range)
             headers['Range'] = range;
           if (/PUT/.test(req.method)) {
-          	calipso.lib.assets.createAsset({
-          		path:folderAlias + postFilename,
-          		copyStream:req,
-          		copyStreamPaused:true,
-          		copyStreamSize:req.headers['content-length'],
-          		author:user
-          	}, function (err, asset) {
-          		if (err) {
-          			res.statusCode = 500;
-          			req.flash('error', req.t('Unable to create asset ' + folderAlias + postFilename));
-          			calipso.error('Unable to create asset ' + err.message);
-          			return;
-          		}
-          		res.statusCode = 200;
-          		res.end('Your file ' + postFilename + ' was saved to ' + folderAlias);
-          	});
-          	return;
+          	Asset.findOne({alias:folderAlias + postFilename}, function (err, existingAsset) {
+          		if (existingAsset)
+          			perm = 'modify';
+
+							calipso.lib.assets.checkPermission(alias, user, perm, function (err, allowed) {
+								if (err) {
+									res.statusCode = 500;
+									return next();
+								}
+								if (!allowed) {
+									res.statusCode = 403;
+									req.flash('error', req.t('You are not allowed to modify this resource {alias}', {alias:alias}));
+									return next();
+								}
+								calipso.lib.assets.createAsset({
+									path:folderAlias + postFilename,
+									copyStream:req,
+									copyStreamPaused:true,
+									copyStreamSize:req.headers['content-length'],
+									author:user
+								}, function (err, asset) {
+									if (err) {
+										res.statusCode = 500;
+										req.flash('error', req.t('Unable to create asset ' + folderAlias + postFilename));
+										calipso.error('Unable to create asset ' + err.message);
+										return;
+									}
+									res.statusCode = 200;
+									res.end('Your file ' + postFilename + ' was saved to ' + folderAlias);
+								});
+							});
+
+							return;
+						});
           }
-          var s3req = k.request(req.method, escape(paths.join('/')), headers).on('response', function(s3res) {
-            var headers = {};
-            if (req.url.substring(req.url.length - fileName.length) !== fileName)
-              headers['Content-Disposition'] = 'inline; filename="' + fileName + '"';
-            for (var v in s3res.headers) {
-              headers[v] = s3res.headers[v];
-            }
-            if (contentType)
-              headers['Content-Type'] = contentType;
-            s3res.on('error', function(err) {
-            	calipso.error(err.message);
-              next();
-            });
-            s3res.on('end', function (chunk) {
-              next();
-            });
-            res.statusCode = 200;
-            res.writeHead(200, headers);
-            s3res.pipe(res);
-          });
-          s3req.end();        // Just return the object
+  				calipso.lib.assets.checkPermission(alias, user, perm, function (err, allowed) {
+						if (err) {
+							res.statusCode = 500;
+							return next();
+						}
+						if (!allowed) {
+							res.statusCode = 403;
+							req.flash('error', req.t('You are not allowed to view this resource {alias}', {alias:alias}));
+							return next();
+						}
+						var s3req = k.request(req.method, escape(paths.join('/')), headers).on('response', function(s3res) {
+							var headers = {};
+							if (req.url.substring(req.url.length - fileName.length) !== fileName)
+								headers['Content-Disposition'] = 'inline; filename="' + fileName + '"';
+							for (var v in s3res.headers) {
+								headers[v] = s3res.headers[v];
+							}
+							if (contentType)
+								headers['Content-Type'] = contentType;
+							s3res.on('error', function(err) {
+								calipso.error(err.message);
+								next();
+							});
+							s3res.on('end', function (chunk) {
+								next();
+							});
+							res.statusCode = 200;
+							res.writeHead(200, headers);
+							s3res.pipe(res);
+						});
+						s3req.end();        // Just return the object
+					});
           return;
         } else {
           // query for the parent folder
