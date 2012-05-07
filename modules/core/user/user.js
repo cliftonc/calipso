@@ -750,7 +750,7 @@ function createUserSession(req, res, user, next) {
  * Logout
  */
 function logoutUser(req, res, template, block, next) {
-
+  var returnTo = req.moduleParams.returnto || null
   if(req.session && req.session.user) {
 
     var User = calipso.db.model('User');
@@ -762,7 +762,7 @@ function logoutUser(req, res, template, block, next) {
         // Check for error
         calipso.e.post_emit('USER_LOGOUT',u);
         if(res.statusCode != 302) {
-          res.redirect('back');
+          res.redirect(returnTo || 'back');
           return;
         }
         next();
