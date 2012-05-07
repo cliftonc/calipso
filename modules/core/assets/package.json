@@ -6,7 +6,8 @@
   "homepage": "http://calip.so",
   "dependencies": {
     "knox": "git://github.com/richtera/knox.git",
-    "node-expat": "~1.4.1"
+    "node-expat": "~1.4.1",
+    "imagemagick": "~0.1.2"
   },
   "repository": {
     "type": "git",

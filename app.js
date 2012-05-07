@@ -137,6 +137,8 @@ function bootApplication(next) {
     calipso.defaultTheme = app.config.get('themes:default');
 
     app.use(express.bodyParser());
+    // Pause requests if they were not parsed to allow PUT and POST with custom mime types
+    app.use(function (req, res, next) { if (!req._body) { req.pause(); } next(); });
     app.use(express.methodOverride());
     app.use(express.cookieParser(app.config.get('session:secret')));
     app.use(express.responseTime());
