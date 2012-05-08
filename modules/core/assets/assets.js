@@ -1458,6 +1458,7 @@ function listAssets(req,res,template,block,next) {
   var user = req.session && req.session.user && req.session.user.username;
   var productionId = null;
   var isfolder = false;
+  var perm = 'view';
   if (req.moduleParams.production) {
     var info = calipso.lib.assets.decodeUrl(req.moduleParams.production);
     user = info.user;
@@ -1494,7 +1495,6 @@ function listAssets(req,res,template,block,next) {
     } else
       alias = null;
 
-		var perm = 'view';
     if (/PUT|DELETE/.test(req.method) && !isfolder) {
     	perm = 'add';
       var s = alias.split('/');
@@ -1683,7 +1683,7 @@ function listAssets(req,res,template,block,next) {
           		if (existingAsset)
           			perm = 'modify';
 
-							calipso.lib.assets.checkPermission(alias, user, perm, function (err, allowed) {
+							calipso.lib.assets.checkPermission(folderAlias, user, perm, function (err, allowed) {
 								if (err) {
 									res.statusCode = 500;
 									return next();
@@ -1714,7 +1714,7 @@ function listAssets(req,res,template,block,next) {
 							return;
 						});
           }
-  				calipso.lib.assets.checkPermission(alias, user, perm, function (err, allowed) {
+  				calipso.lib.assets.checkPermission(folderAlias, user, perm, function (err, allowed) {
 						if (err) {
 							res.statusCode = 500;
 							return next();
