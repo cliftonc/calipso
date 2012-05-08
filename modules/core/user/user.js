@@ -843,7 +843,11 @@ function registerUser(req, res, template, block, next) {
       u.save(function(err) {
 
         if(err) {
-          req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
+          var msg = err.message;
+          if (err.code === 11000) {
+            msg = "a user has already registered with that email";
+          }
+          req.flash('error',req.t('Could not save user because {msg}.',{msg:msg}));
           if(res.statusCode != 302 && !res.noRedirect) {
             res.redirect('back');
             return;
