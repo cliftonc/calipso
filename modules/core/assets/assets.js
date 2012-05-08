@@ -151,6 +151,7 @@ function init(module, app, next) {
         },
         findAssets: function () {
           var Asset = calipso.db.model('Asset');
+          if(typeof arguments === 'object' && arguments[0]) arguments[0]['hidden'] = {$ne:true};
           return Asset.find.apply(Asset, arguments);
         },
         findOneAsset: function () {
@@ -630,6 +631,40 @@ function init(module, app, next) {
                 });
                 s3req.end();
             }
+          });
+        },
+        hideAsset: function (path, author, callback) {
+          var Asset = calipso.db.model('Asset');
+          var rootFolder = null;
+          Asset.findOne({alias:path}).populate('folder').run(function (err, asset) {
+            if (err)
+              return callback(err, null);
+            if (!asset)
+              return callback(new Error('unable to find asset to hide ' + path), null);
+            var query;
+            if (asset.isfolder){
+              query = new RegExp('^' + asset.alias);
+            } else {
+              query = asset.alias;
+            }
+            calipso.lib.assets.findAssets({alias:query}, function(err, assets){
+              if (err)
+                return callback(err, null);
+              function hide (assets) {
+                if (!assets || !assets.length) {
+                  return callback(null);
+                }
+                var a = assets.splice(0, 1)[0];
+                a.hidden = true;
+                calipso.debug("Hiding asset: " + a.alias);
+                a.save(function (err) {
+                  if (err)
+                    return callback(err, null);
+                  hide(assets);
+                });
+              }
+              hide(assets);
+            });
           });
         },
         // This will return an array of "titles" as we traverse the path.
@@ -1205,6 +1240,7 @@ function init(module, app, next) {
         etag: {type: String, "default":''},
         tags: [String],
         isPrivate: {type: Boolean, required: true, "default": true},
+        hidden: {type: Boolean, required: true, "default": false},
         fileType: {type: String, required: false},
         created: { type: Date, "default": Date.now },
         updated: { type: Date, "default": Date.now },
