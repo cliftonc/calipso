@@ -752,6 +752,49 @@ function coreConfig(req, res, template, block, next) {
         ]
       },
       {
+        id:'form-section-mail',
+        label:'Mail',
+        fields:[
+          {
+            label:'SMTP Server',
+            name:'mail:host',
+            type:'text'
+          },
+          {
+            label:'Port',
+            name:'mail:port',
+            type:'text'
+          },
+          {
+            label:'Domain',
+            name:'mail:domain',
+            type:'text'
+          },
+          {
+            label:'Authentication',
+            name:'mail:authentication',
+            type:'checkbox',
+            labelFirst:true
+          },
+          {
+            label:'SSL',
+            name:'mail:ssl',
+            type:'checkbox',
+            labelFirst:true
+          },
+          {
+            label:'Username',
+            name:'mail:username',
+            type:'text'
+          },
+          {
+            label:'Password',
+            name:'mail:password',
+            type:'password'
+          }
+        ]
+      },
+      {
         id:'form-section-logging',
         label:'Logging',
         fields:[
@@ -837,7 +880,7 @@ function coreConfig(req, res, template, block, next) {
   // Values can come straight off the config.
   var values = calipso.config;
 
-  var adminModuleFields = adminForm.sections[6].fields;
+  var adminModuleFields = adminForm.sections[7].fields;
   createModuleFields(adminModuleFields);
   
   res.layout = 'admin';
