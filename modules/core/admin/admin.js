@@ -41,8 +41,8 @@ function route(req, res, module, app, next) {
  */
 function init(module, app, next) {
 
-  // Initialise administration events - enabled for hook.io  
-  calipso.e.addEvent('CONFIG_UPDATE',{enabled:true}); 
+  // Initialise administration events - enabled for hook.io
+  calipso.e.addEvent('CONFIG_UPDATE',{enabled:true});
 
   // Add listener to config_update
   calipso.e.post('CONFIG_UPDATE',module.name,calipso.reloadConfig);
@@ -204,7 +204,7 @@ function install(req, res, template, block, next) {
     next();
     return;
   }
-  
+
   // Ensure we are using the install layout
   res.layout = "install";
 
@@ -214,7 +214,7 @@ function install(req, res, template, block, next) {
   // Process the input from the previous step
   calipso.form.process(req, function(form) {
 
-      if (form) { 
+      if (form) {
 
         if(form.userStep) {
           // Store the user for later
@@ -243,7 +243,7 @@ function install(req, res, template, block, next) {
           break;
         case "finalise":
           doInstallation(req,res,localNext);
-          break;     
+          break;
         default:
           localNext(new Error("A step was specified that is not defined in the install process: " + installStep));
       }
@@ -265,7 +265,7 @@ function install(req, res, template, block, next) {
  * Installation welcome screen - called by install router, not a routing function.
  */
 function updateConfiguration(values) {
-    
+
   // Update config for all the values, do not save now
   for(value in values) {
     if(value !== 'installStep' && value !== 'userStep' && value !== 'returnTo' && value !== 'submit')
@@ -327,7 +327,7 @@ function installMongoTest(req, res, template, block, next) {
   }
 
   calipso.form.process(req,function(form) {
-    
+
     var dbUri = form.dbUri;
     var output = {};
 
@@ -341,10 +341,10 @@ function installMongoTest(req, res, template, block, next) {
         }
         res.format = "json";
         res.end(JSON.stringify(output),"UTF-8");
-      });      
+      });
     } else {
       output.status = "FAILED";
-      output.message= "You need to provide a valid database uri, in the format described.";      
+      output.message= "You need to provide a valid database uri, in the format described.";
       res.format = "json";
       res.end(JSON.stringify(output),"UTF-8");
     }
@@ -371,8 +371,8 @@ function installUser(req,res,next) {
         {label:'Full Name', name:'user[fullname]', type:'text'},
         {label:'Email', name:'user[email]', cls:'email', type:'text'},
         {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
-        {label:'Password', name:'user[password]', cls:'password', type:'password'},        
-        {label:'Repeat Password', name:'user[check_password]', cls: 'check_password', type:'password'},  
+        {label:'Password', name:'user[password]', cls:'password', type:'password'},
+        {label:'Repeat Password', name:'user[check_password]', cls: 'check_password', type:'password'},
         {label:'',name:'installStep',type:'hidden'},
         {label:'',name:'userStep',type:'hidden'}
       ],
@@ -403,32 +403,32 @@ function installUserTest(req, res, template, block, next) {
 
 
   calipso.form.process(req,function(form) {
-        
+
     // Check to see if new passwords match
     var err;
-    
+
     if(form.password != form.check_password) {
       err = new Error(req.t('Your passwords do not match.'));
     }
 
     // Check to see if new passwords are blank
     if(form.password === '') {
-      err = new Error(req.t('Your password cannot be blank.'));        
+      err = new Error(req.t('Your password cannot be blank.'));
     }
-    
+
     if(form.username === '') {
-      err = new Error(req.t('Your username cannot be blank.'));        
-    }    
+      err = new Error(req.t('Your username cannot be blank.'));
+    }
 
     // Check to see if new passwords are blank
     if(form.email === '') {
-      err = new Error(req.t('Your email cannot be blank.'));        
+      err = new Error(req.t('Your email cannot be blank.'));
     }
 
     var output = {};
     if(err) {
       output.status = "FAILED";
-      output.message= "There was a problem because: " + err.message;          
+      output.message= "There was a problem because: " + err.message;
     } else {
       output.status = "OK";
     }
@@ -436,7 +436,7 @@ function installUserTest(req, res, template, block, next) {
     res.end(JSON.stringify(output),"UTF-8");
 
   });
-  
+
 }
 
 /**
@@ -456,7 +456,7 @@ function installModules(req,res,next) {
 
   //Add the modules
   moduleForm.fields = createModuleFields(moduleForm.fields);
-  
+
   // Defaults
   var formValues = {
     modules: {
@@ -482,7 +482,7 @@ function installModules(req,res,next) {
         enabled: true
       }
     },
-    installStep: 'finalise'    
+    installStep: 'finalise'
   };
 
   calipso.form.render(moduleForm, formValues, req, function(form) {
@@ -494,21 +494,21 @@ function installModules(req,res,next) {
 function doInstallation(req, res, next) {
 
   // NOTE: User is installed via the user module
-    
+
   // Set the install flag to true, enable db connection
   calipso.config.set('installed',true);
   calipso.storage.mongoConnect(function(err) {
-      
+
     if(err) {
       return next(err);
     }
 
     // Note - the admin user is created in the user module install process
-    calipso.lib.step(     
+    calipso.lib.step(
       function saveConfiguration() {
         // Save configuration to file
         calipso.info("Saving configuration ... ");
-        calipso.config.save(this);        
+        calipso.config.save(this);
       },
       function reloadConfiguration() {
         // This actually re-loads all of the modules
@@ -521,18 +521,18 @@ function doInstallation(req, res, next) {
 
          var group = this.group();
 
-         // Get a list of all the modules to install 
+         // Get a list of all the modules to install
          var modulesToInstall = [];
          for (var module in calipso.modules) {
            // Check to see if the module is currently enabled, if so install it
            if (calipso.modules[module].enabled && calipso.modules[module].fn && typeof calipso.modules[module].fn.install === 'function') {
              modulesToInstall.push(module);
            }
-         } 
-      
+         }
+
          modulesToInstall.forEach(function(module){
           calipso.info("Installing module " + module);
-          calipso.modules[module].fn.install(group());            
+          calipso.modules[module].fn.install(group());
         });
 
       },
@@ -543,7 +543,7 @@ function doInstallation(req, res, next) {
 
       }
     );
-    
+
   });
 
 }
@@ -653,7 +653,7 @@ function coreConfig(req, res, template, block, next) {
           {
             label:'Add Unknown Terms',
             name:'i18n:additive',
-            type:'checkbox',  
+            type:'checkbox',
             labelFirst: true
           }
         ]
@@ -698,7 +698,7 @@ function coreConfig(req, res, template, block, next) {
                 description:'Number of workers to start, set to 0 to have Calipso default to number of available cpus.',
                 name:'server:cluster:workers',
                 type:'text'
-              }, 
+              },
               {
                 label:'Restart Workers',
                 name:'server:cluster:restartWorkers',
@@ -745,10 +745,10 @@ function coreConfig(req, res, template, block, next) {
             type:'select',
             options: calipso.data.adminThemes,
             description:'Administration theme [NOT YET IMPLEMENTED]'
-          },{            
+          },{
             name:'theme:default',
             type:'hidden'
-          }          
+          }
         ]
       },
       {
@@ -791,6 +791,13 @@ function coreConfig(req, res, template, block, next) {
             label:'Password',
             name:'mail:password',
             type:'password'
+          },
+          {
+            label:'Base64',
+            name:'mail:base64',
+            description:'Use Base64 encoding for username & password?',
+            type:'checkbox',
+            labelFirst:true
           }
         ]
       },
@@ -882,7 +889,7 @@ function coreConfig(req, res, template, block, next) {
 
   var adminModuleFields = adminForm.sections[7].fields;
   createModuleFields(adminModuleFields);
-  
+
   res.layout = 'admin';
 
   calipso.form.render(adminForm, values, req, function(form) {
@@ -898,7 +905,7 @@ function coreConfig(req, res, template, block, next) {
 function modulesConfig(req, res, template, block, next) {
 
   var moduleName = req.query.module || '';
-  
+
   if(!moduleName || !calipso.modules[moduleName]) {
     req.flash('error','You need to specify a valid module.');
     res.redirect('/admin');
@@ -912,7 +919,7 @@ function modulesConfig(req, res, template, block, next) {
     method:'POST',
     action:'/admin/modules/save',
     tabs:false,
-    fields:[      
+    fields:[
       {
         label:'',
         value:moduleName,
@@ -942,7 +949,7 @@ function modulesConfig(req, res, template, block, next) {
     field.name = key;
 
     if(config[key].type) {
-      
+
       field.type = config[key].type;
 
       // select boxes
@@ -951,7 +958,7 @@ function modulesConfig(req, res, template, block, next) {
       }
 
     } else {
-      // infer from value      
+      // infer from value
       if(typeof values[key] === 'boolean') {
         field.type = 'checkbox';
         field.labelFirst = true;
@@ -964,7 +971,7 @@ function modulesConfig(req, res, template, block, next) {
     field.description = config[key].description || '';
     configForm.fields.push(field);
   })
-  
+
   res.layout = 'admin';
 
   calipso.form.render(configForm, values, req, function(form) {
@@ -996,26 +1003,26 @@ function saveModulesConfig(req, res, template, block, next) {
         calipso.config.save(function(err) {
 
           if(err) {
-            
+
             req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
             res.redirect('/admin/modules?module=' + moduleName);
-            
+
           } else {
-            
+
             // Set the reload config flag for event handler to pick up
-            calipso.e.post_emit('CONFIG_UPDATE', {module: moduleName, config: moduleConfig}, function(config) {     
-                                                          
+            calipso.e.post_emit('CONFIG_UPDATE', {module: moduleName, config: moduleConfig}, function(config) {
+
               req.flash('info', req.t('Changes to configuration saved.'));
               res.redirect('/admin');
-              next();                
-              
+              next();
+
             });
-            
+
           }
         });
-        
+
       });
-   
+
     } else {
 
       req.flash('error', req.t('Could not process the updated module configuration.'));
@@ -1036,11 +1043,11 @@ function createModuleFields(formFields) {
   var tempModuleFields = {};
 
   // load up the tempModuleFields (according to module category)
-  for(var moduleName in calipso.modules) {    
+  for(var moduleName in calipso.modules) {
 
     var cM = {};
-    var module = calipso.modules[moduleName];       
-    
+    var module = calipso.modules[moduleName];
+
     if(module.about) {
       var moduleDisplayName = module.about.label ? module.about.label : module.about.name;
 
@@ -1053,19 +1060,19 @@ function createModuleFields(formFields) {
       }
       cM.description = module.about ? module.about.description : '<span class="error">' + moduleName + ' is missing its package.json file</span>';
 
-      //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);    
-      tempModuleFields[module.type] = tempModuleFields[module.type] || [];      
-      tempModuleFields[module.type].push(cM);  
-      
+      //adminModuleFields[moduleFieldMap[module.type]].fields.push(cM);
+      tempModuleFields[module.type] = tempModuleFields[module.type] || [];
+      tempModuleFields[module.type].push(cM);
+
     } else {
-      
+
       calipso.error("Module: " + moduleName + " @ " + module.path + ", appears to be invalid, it will not be shown in the configuration form.");
-      
+
     }
-    
+
   }
 
-  for(moduleType in tempModuleFields) {      
+  for(moduleType in tempModuleFields) {
     var moduleTypeFields = tempModuleFields[moduleType];
     // "Site" modules fieldset will only show up if there are any to show.
     if(moduleTypeFields.length){
@@ -1115,30 +1122,30 @@ function saveAdmin(req, res, template, block, next) {
 
         // Update the configuration
         updateConfiguration(config);
-        // updateEnabledModules(config);     
+        // updateEnabledModules(config);
 
         calipso.config.save(function(err) {
           if(err) {
-            
+
             req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
             res.redirect('/admin/core/config');
-            
+
           } else {
-            
+
             // Set the reload config flag for event handler to pick up
-            calipso.e.post_emit('CONFIG_UPDATE',config,function(config) {       
-                                              
+            calipso.e.post_emit('CONFIG_UPDATE',config,function(config) {
+
               req.flash('info', req.t('Changes to configuration saved.'));
               res.redirect('/admin');
-              next();                
-              
+              next();
+
             });
-            
+
           }
         });
-        
+
       });
-   
+
     } else {
 
       req.flash('error', req.t('Could not process the updated configuration.'));
@@ -1162,11 +1169,11 @@ function updateEnabledModules(form) {
  * Display the cache
  */
 function showCache(req,res,template,block,next) {
-    
+
   calipso.theme.renderItem(req, res, template, block, {
     cache: calipso.cache.cache
   },next);
-  
+
 }
 
 

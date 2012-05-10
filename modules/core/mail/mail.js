@@ -55,11 +55,17 @@ function init(module, app, next) {
     event: {type: String, required: false}   // TODO - Allow multiple events to send an email
   });
   calipso.db.model('MailTemplate', MailTemplate);
+  bindEvents();
+  next();
+}
+
+function bindEvents(){
+  calipso.debug("Binding events for mail handler ...");
   MailTemplate = calipso.db.model('MailTemplate');
   MailTemplate.find().run(function(err, mailTemplates){
     if (err || !mailTemplates) {
-      req.flash('error',req.t('A problem occurred while retrieving your templates.'));
-      return next();
+      calipso.debug('A problem occurred while retrieving your templates.');
+      return;
     }
     mailTemplates.forEach(function(mt){
       calipso.e.post(mt.event, module.name, function(e, data){
@@ -72,13 +78,54 @@ function init(module, app, next) {
       });
     });
   });
-  next();
 }
 
-function sendMail(template){
-
+function sendMail(templates, data){
+  if(!templates || !templates.length){
+    return;
+  }
+  var template = templates.splice(0,1)[0];
+  var User = calipso.db.model('User');
+  User.findById(template.to, function(err, user){
+    if(err || !user){
+      return sendMail(templates, data);
+    }
+    var host = calipso.config.get("mail:host");
+    var port = calipso.config.get("mail:port");
+    var domain = calipso.config.get("mail:domain");
+    var authentication = calipso.config.get("mail:authentication") ? 'login' : '';
+    var ssl = calipso.config.get("mail:ssl");
+    var base64 = calipso.config.get("mail:base64")
+    var username = calipso.config.get("mail:username");
+    var password = calipso.config.get("mail:password");
+    if (base64) {
+      username = (new Buffer(username)).toString("base64");
+      password = (new Buffer(password)).toString("base64")
+    }
+    mail.send({
+      host : host,                      // smtp server hostname
+      port : port,                      // smtp server port
+      domain : domain,                  // domain used by client to identify itself to server
+      to : user.email,
+      from : "admin@antenna.cc",
+      subject : template.subject,
+      body: template.body + JSON.stringify(data),
+      authentication : authentication,  // 'login' is supported; anything else is no auth
+      ssl: ssl,                         // true/false
+      username : username,              // Account username
+      password : password               // Account password
+    },
+    function(err, result){
+        if(err){
+          calipso.debug(err);
+        } else {
+          calipso.debug(result);
+        }
+        sendMail(templates, data);
+    });
+  });
 }
- 
+
 /**
  * Show mail templates
  */
