@@ -117,9 +117,9 @@ function sendMail(templates, data){
     },
     function(err, result){
         if(err){
-          calipso.debug(err);
+          calipso.debug("Error in mail.js: " + err);
         } else {
-          calipso.debug(result);
+          calipso.debug("Email sent with result: " + result);
         }
         sendMail(templates, data);
     });
@@ -258,8 +258,10 @@ function newMailTemplate(req, res, options, next) {
         body:form.body
       });
       mt.save(function(err){
-        res.redirect('/admin/mail/show');
-        return next(err);
+        calipso.reloadConfig(mailTemplate.event, null, function(){
+          res.redirect('/admin/mail/show');
+          return next(err);
+        }); // Reinitialize calipso to pick up new event bindings
       });
     });
   });
@@ -387,8 +389,10 @@ function editMailTemplate(req, res, options, next) {
         mailTemplate.subject = form.subject;
         mailTemplate.body = form.body;
         mailTemplate.save(function(err){
-          res.redirect('/admin/mail/show');
-          return next(err);
+          calipso.reloadConfig(mailTemplate.event, null, function(){
+            res.redirect('/admin/mail/show');
+            return next(err);
+          }); // Reinitialize calipso to pick up new event bindings
         });
       });
     });
@@ -403,8 +407,10 @@ function deleteMailTemplate(req, res, options, next) {
       return next();
     }
     mailTemplate.remove(function(err){
-      res.redirect('/admin/mail/show');
-      return next(err);
+      calipso.reloadConfig(mailTemplate.event, null, function(){
+        res.redirect('/admin/mail/show');
+        return next(err);
+      }); // Reinitialize calipso to pick up new event bindings
     });
   });
 }
