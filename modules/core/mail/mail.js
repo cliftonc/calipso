@@ -108,7 +108,7 @@ function sendMail(templates, data){
       password = (new Buffer(password)).toString("base64");
     }
     var body = mustache.to_html(template.body, {
-      touser: user.username || '-',
+      toUser: user.username || '-',
       servername: calipso.config.get('server:name'),
       address: calipso.config.get('server:url'),
       data: data
@@ -231,7 +231,8 @@ function newMailTemplateForm(req, res, options, next) {
         {
           label:'Body',
           name:'body',
-          type:'textarea'
+          type:'textarea',
+          description:"Available tags are toUser, servername, address, and data. See http://mustache.github.com for more info."
         }
       ],
       buttons:[
@@ -331,7 +332,8 @@ function editMailTemplateForm(req, res, options, next) {
         {
           label:'Body',
           name:'body',
-          type:'textarea'
+          type:'textarea',
+          description:"Available tags are toUser, servername, address, and data. See http://mustache.github.com for more info."
         },
         {
           name:'id',
