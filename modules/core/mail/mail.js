@@ -94,10 +94,13 @@ function sendMail(templates, data){
     var port = calipso.config.get("mail:port");
     var domain = calipso.config.get("mail:domain");
     var authentication = calipso.config.get("mail:authentication") ? 'login' : '';
-    var ssl = calipso.config.get("mail:ssl");
+    var ssl = calipso.config.get("mail:ssl") == true ? true : false;
     var base64 = calipso.config.get("mail:base64")
     var username = calipso.config.get("mail:username");
     var password = calipso.config.get("mail:password");
+    if (!host || !port || !domain || !username || !password ){
+      return;
+    }
     if (base64) {
       username = (new Buffer(username)).toString("base64");
       password = (new Buffer(password)).toString("base64")
