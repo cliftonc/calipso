@@ -5,6 +5,7 @@ var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   Query = require("mongoose").Query,
+  mustache = require("mailer/vendor/mustache"),
   mail = require("mailer");
 
 /**
@@ -52,7 +53,7 @@ function init(module, app, next) {
     to: {type: calipso.lib.mongoose.Schema.ObjectId, ref: 'User', required: true},
     subject: {type: String, required: true, "defualt": ''},
     body: {type: String, required: true, "default": ''},
-    event: {type: String, required: false}   // TODO - Allow multiple events to send an email
+    event: {type: String, required: false}
   });
   calipso.db.model('MailTemplate', MailTemplate);
   bindEvents();
@@ -93,6 +94,7 @@ function sendMail(templates, data){
     var host = calipso.config.get("mail:host");
     var port = calipso.config.get("mail:port");
     var domain = calipso.config.get("mail:domain");
+    var from = calipso.config.get("mail:from");
     var authentication = calipso.config.get("mail:authentication") ? 'login' : '';
     var ssl = calipso.config.get("mail:ssl") == true ? true : false;
     var base64 = calipso.config.get("mail:base64")
@@ -103,20 +105,26 @@ function sendMail(templates, data){
     }
     if (base64) {
       username = (new Buffer(username)).toString("base64");
-      password = (new Buffer(password)).toString("base64")
+      password = (new Buffer(password)).toString("base64");
     }
+    var body = mustache.to_html(template.body, {
+      touser: user.username || '-',
+      servername: calipso.config.get('server:name'),
+      address: calipso.config.get('server:url'),
+      data: data
+    });
     mail.send({
-      host : host,                      // smtp server hostname
-      port : port,                      // smtp server port
-      domain : domain,                  // domain used by client to identify itself to server
-      to : user.email,
-      from : "admin@antenna.cc",
-      subject : template.subject,
-      body: template.body + JSON.stringify(data),
-      authentication : authentication,  // 'login' is supported; anything else is no auth
+      host: host,                      // smtp server hostname
+      port: port,                      // smtp server port
+      domain: domain,                  // domain used by client to identify itself to server
+      to: user.email,
+      from: from,
+      subject: template.subject,
+      body: body,
+      authentication: authentication,  // 'login' is supported; anything else is no auth
       ssl: ssl,                         // true/false
-      username : username,              // Account username
-      password : password               // Account password
+      username: username,              // Account username
+      password: password               // Account password
     },
     function(err, result){
         if(err){

@@ -783,6 +783,11 @@ function coreConfig(req, res, template, block, next) {
             labelFirst:true
           },
           {
+            label:'From',
+            name:'mail:from',
+            type:'text'
+          },
+          {
             label:'Username',
             name:'mail:username',
             type:'text'
