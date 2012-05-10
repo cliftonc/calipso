@@ -258,7 +258,7 @@ function newMailTemplate(req, res, options, next) {
         body:form.body
       });
       mt.save(function(err){
-        calipso.reloadConfig(mailTemplate.event, null, function(){
+        calipso.reloadConfig(mt.event, null, function(){
           res.redirect('/admin/mail/show');
           return next(err);
         }); // Reinitialize calipso to pick up new event bindings
