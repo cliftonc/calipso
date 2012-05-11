@@ -50,7 +50,7 @@ function init(module, app, next) {
 
   var MailTemplate = new calipso.lib.mongoose.Schema({
     name: {type: String, required: true, "default": ''},
-    to: {type: calipso.lib.mongoose.Schema.ObjectId, ref: 'User', required: true},
+    to: {type: String, ref: 'User', required: true},
     subject: {type: String, required: true, "defualt": ''},
     body: {type: String, required: true, "default": ''},
     event: {type: String, required: false}
@@ -62,7 +62,7 @@ function init(module, app, next) {
 
 function bindEvents(){
   calipso.debug("Binding events for mail handler ...");
-  MailTemplate = calipso.db.model('MailTemplate');
+  var MailTemplate = calipso.db.model('MailTemplate');
   MailTemplate.find().run(function(err, mailTemplates){
     if (err || !mailTemplates) {
       calipso.debug('A problem occurred while retrieving your templates.');
@@ -85,55 +85,75 @@ function sendMail(templates, data){
   if(!templates || !templates.length){
     return;
   }
-  var template = templates.splice(0,1)[0];
   var User = calipso.db.model('User');
-  User.findById(template.to, function(err, user){
-    if(err || !user){
+  var template = templates.splice(0,1)[0];
+  var query;
+  if(template.to === 'Everyone'){
+    query = {};
+  } else if(template.to === 'Administrators'){
+    query = {roles:  'Administrator'};
+  } else if(template.to === 'Target'){
+    query = {username:data.username || data.author};
+  } else {
+    query = {id:template.to};
+  }
+  User.find(query, function(err, users){
+    if(err || !users){
       return sendMail(templates, data);
     }
-    var host = calipso.config.get("mail:host");
-    var port = calipso.config.get("mail:port");
-    var domain = calipso.config.get("mail:domain");
-    var from = calipso.config.get("mail:from");
-    var authentication = calipso.config.get("mail:authentication") ? 'login' : '';
-    var ssl = calipso.config.get("mail:ssl") == true ? true : false;
-    var base64 = calipso.config.get("mail:base64")
-    var username = calipso.config.get("mail:username");
-    var password = calipso.config.get("mail:password");
-    if (!host || !port || !domain || !username || !password ){
-      return;
+    function parseUsers(users){
+      if(!users || !users.length){
+        return sendMail(templates, data);
+      }
+      var user = users.splice(0,1)[0];
+      toUser(user, template, data, function(){
+        parseUsers(users);
+      });
     }
-    if (base64) {
-      username = (new Buffer(username)).toString("base64");
-      password = (new Buffer(password)).toString("base64");
-    }
-    var body = mustache.to_html(template.body, {
-      toUser: user.username || '-',
-      servername: calipso.config.get('server:name'),
-      address: calipso.config.get('server:url'),
-      data: data
-    });
-    mail.send({
-      host: host,                      // smtp server hostname
-      port: port,                      // smtp server port
-      domain: domain,                  // domain used by client to identify itself to server
-      to: user.email,
-      from: from,
-      subject: template.subject,
-      body: body,
-      authentication: authentication,  // 'login' is supported; anything else is no auth
-      ssl: ssl,                         // true/false
-      username: username,              // Account username
-      password: password               // Account password
-    },
-    function(err, result){
-        if(err){
-          calipso.debug("Error in mail.js: " + err);
-        } else {
-          calipso.debug("Email sent with result: " + result);
-        }
-        sendMail(templates, data);
-    });
+    parseUsers(users);
+  });
+}
+
+function toUser(user, template, data, callback) {
+  var host = calipso.config.get("mail:host");
+  var port = calipso.config.get("mail:port");
+  var domain = calipso.config.get("mail:domain");
+  var base64 = calipso.config.get("mail:base64")
+  var username = calipso.config.get("mail:username");
+  var password = calipso.config.get("mail:password");
+  if (!host || !port || !domain || !username || !password ){
+    return;
+  }
+  if (base64) {
+    username = (new Buffer(username)).toString("base64");
+    password = (new Buffer(password)).toString("base64");
+  }
+  var body = mustache.to_html(template.body, {
+    toUser: user.username || '-',
+    servername: calipso.config.get('server:name'),
+    address: calipso.config.get('server:url'),
+    data: data
+  });
+  mail.send({
+    host: host,                      // smtp server hostname
+    port: port,                      // smtp server port
+    domain: domain,                  // domain used by client to identify itself to server
+    to: user.email,
+    from: calipso.config.get("mail:from"),
+    subject: template.subject,
+    body: body,
+    authentication: calipso.config.get("mail:authentication") ? 'login' : '',
+    ssl: calipso.config.get("mail:ssl") == true ? true : false,                         // true/false
+    username: username,              // Account username
+    password: password               // Account password
+  },
+  function(err, result){
+      if(err){
+        calipso.debug("Error in mail.js: " + err);
+      } else {
+        calipso.debug("Email sent with result: " + result);
+      }
+      callback();
   });
 }
 
@@ -163,11 +183,20 @@ function showMailTemplates(req, res, options, next) {
       } else {
         var mt = mailTemplates.splice(0,1)[0];
         User.findById(mt.to, function(err, user){
-          if(err || !user) return;
+          var to;
+          if (err || !user) {
+            if(mt.to != 'Everyone' && mt.to != 'Administrators' && mt.to != 'Target'){
+              req.flash('error',req.t('You must specify a valid recipient.'));
+              return next();
+            }
+            to = mt.to;
+          } else {
+            to = user.id;
+          }
           parsedTemplates.push({
             name:mt.name,
             event:mt.event,
-            to:user.email,
+            to:to,
             subject:mt.subject,
             body:mt.body,
             id:mt.id
@@ -185,65 +214,7 @@ function showMailTemplates(req, res, options, next) {
  */
 function newMailTemplateForm(req, res, options, next) {
   var template = calipso.modules.mail.templates.newTemplate;
-  var User = calipso.db.model('User');
-  var eventArray = [];
-  eventArray.push('');
-  for (key in calipso.e.events) {
-    eventArray.push(key);
-  }
-  eventArray.sort();
-  User.find( function(err, users) {
-    var emailArray = [];
-    users.forEach(function(user) {
-      emailArray.push(user.email);
-    });
-    var form = {
-      id:'content-type-form',
-      title:'Add new mail template ...',
-      type:'form',
-      method:'POST',
-      action:'/admin/mail/new',
-      tabs:false,
-      fields:[
-        {
-          label:'Name',
-          name:'name',
-          type:'text'
-        },
-        {
-          label:'Event',
-          name:'event',
-          type:'select',
-          options: function(){ return eventArray;}
-        },
-        {
-          label:'To',
-          name:'to',
-          type:'select',
-          options: function(){ return emailArray;}
-
-        },
-        {
-          label:'Subject',
-          name:'subject',
-          type:'text'
-        },
-        {
-          label:'Body',
-          name:'body',
-          type:'textarea',
-          description:"Available tags are toUser, servername, address, and data. See http://mustache.github.com for more info."
-        }
-      ],
-      buttons:[
-        {
-          name:'submit',
-          type:'submit',
-          value:'Done'
-        }
-      ]
-    };
-
+  getMailTemplateForm('new', null, function(form){
     calipso.form.render(form, null, req, function(form) {
       calipso.theme.renderItem(req, res, template, 'content.new-mail-template', {form:form}, next);
     });
@@ -258,14 +229,20 @@ function newMailTemplate(req, res, options, next) {
       return next();
     }
     User.findOne({email:form.to}, function(err, user){
+      var to;
       if (err || !user) {
-        req.flash('error',req.t('You must specify a valid recipient.'));
-        return next();
+        if(form.to != 'Everyone' && form.to != 'Administrators' && form.to != 'Target'){
+          req.flash('error',req.t('You must specify a valid recipient.'));
+          return next();
+        }
+        to = form.to;
+      } else {
+        to = user.id;
       }
       var mt = new MailTemplate({
         name:form.name,
         event:form.event,
-        to:user.id,
+        to:to,
         subject:form.subject,
         body:form.body
       });
@@ -287,88 +264,27 @@ function editMailTemplateForm(req, res, options, next) {
     req.flash('error',req.t('You must specifiy a template to edit.'));
     return next();
   }
-  var eventArray = [];
-  eventArray.push('');
-  for (key in calipso.e.events) {
-    eventArray.push(key);
-  }
-  eventArray.sort();
-  User.find( function(err, users) {
-    var emailArray = [];
-    users.forEach(function(user) {
-      emailArray.push(user.email);
-    });
-    var form = {
-      id:'content-type-form',
-      title:'Edit mail template ...',
-      type:'form',
-      method:'POST',
-      action:'/admin/mail/edit/'+id,
-      tabs:false,
-      fields:[
-        {
-          label:'Name',
-          name:'name',
-          type:'text',
-          description:'The name of template ...'
-        },
-        {
-          label:'Event',
-          name:'event',
-          type:'select',
-          options: function(){ return eventArray;}
-        },
-        {
-          label:'To',
-          name:'to',
-          type:'select',
-          options: function(){ return emailArray;}
-        },
-        {
-          label:'Subject',
-          name:'subject',
-          type:'text'
-        },
-        {
-          label:'Body',
-          name:'body',
-          type:'textarea',
-          description:"Available tags are toUser, servername, address, and data. See http://mustache.github.com for more info."
-        },
-        {
-          name:'id',
-          type:'hidden',
-          value:id
-        }
-      ],
-      buttons:[
-        {
-          name:'submit',
-          type:'submit',
-          value:'Done'
-        },
-        {
-          name:'delete',
-          type:'button',
-          value:'Delete',
-          href:'/admin/mail/delete/' + id
-        }
-      ]
-    };
+  getMailTemplateForm('edit', id, function(form){
     MailTemplate.findById(id, function(err, mailTemplate){
       if(err || !mailTemplate) {
         req.flash('error',req.t('That template does not exist.'));
         return next();
       }
       User.findById(mailTemplate.to, function(err, user){
-        if(err) {
-          req.flash('error',req.t('A problem occured while retrieving this form.'));
-          return next();
+        var to;
+        if (err || !user) {
+          if(mailTemplate.to != 'Everyone' && mailTemplate.to != 'Administrators' && mailTemplate.to != 'Target'){
+            req.flash('error',req.t('A problem occured while retrieving this form.'));
+            return next();
+          }
+          to = mailTemplate.to;
+        } else {
+          to = user.id;
         }
         var values = {};
         values.name = mailTemplate.name;
-        values.event = eventArray.indexOf(mailTemplate.event) != -1 ? mailTemplate.event : eventArray[0];
-        values.to = emailArray.indexOf(user.email) != -1 ? user.email : emailArray[0];
+        values.event = mailTemplate.event;
+        values.to = to;
         values.subject = mailTemplate.subject;
         values.body = mailTemplate.body;
         calipso.form.render(form, values, req, function(form) {
@@ -392,13 +308,19 @@ function editMailTemplate(req, res, options, next) {
         return next();
       }
       User.findOne({email:form.to}, function(err, user){
+        var to;
         if (err || !user) {
-          req.flash('error',req.t('You must specify a valid recipient.'));
-          return next();
+          if(form.to != 'Everyone' && form.to != 'Administrators' && form.to != 'Target'){
+            req.flash('error',req.t('You must specify a valid recipient.'));
+            return next();
+          }
+          to = form.to;
+        } else {
+          to = user.id;
         }
         mailTemplate.name = form.name || mailTemplate.name;
         mailTemplate.event = form.event;
-        mailTemplate.to = user.id;
+        mailTemplate.to = to;
         mailTemplate.subject = form.subject;
         mailTemplate.body = form.body;
         mailTemplate.save(function(err){
@@ -425,5 +347,82 @@ function deleteMailTemplate(req, res, options, next) {
         return next(err);
       }); // Reinitialize calipso to pick up new event bindings
     });
+  });
+}
+
+function getMailTemplateForm(type, id, callback) {
+  var User = calipso.db.model('User');
+  var eventArray = [];
+  eventArray.push('');
+  for (key in calipso.e.events) {
+    eventArray.push(key);
+  }
+  eventArray.sort();
+  User.find( function(err, users) {
+    var emailArray = [];
+    emailArray.push('Everyone', 'Administrators', 'Target');
+    users.forEach(function(user) {
+      emailArray.push(user.email);
+    });
+    var form = {
+      id:'content-type-form',
+      title: type === 'new' ? 'Add new mail template ...' : 'Edit mail template ...',
+      type:'form',
+      method:'POST',
+      action: type === 'new' ? '/admin/mail/new' : '/admin/mail/edit/'+id,
+      tabs:false,
+      fields:[
+        {
+          label:'Name',
+          name:'name',
+          type:'text'
+        },
+        {
+          label:'Event',
+          name:'event',
+          type:'select',
+          options: function(){ return eventArray;}
+        },
+        {
+          label:'To',
+          name:'to',
+          type:'select',
+          options: function(){ return emailArray;}
+
+        },
+        {
+          label:'Subject',
+          name:'subject',
+          type:'text'
+        },
+        {
+          label:'Body',
+          name:'body',
+          type:'textarea',
+          description:"Available tags are toUser, servername, address, and data. See http://mustache.github.com for more info."
+        }
+      ],
+      buttons:[
+        {
+          name:'submit',
+          type:'submit',
+          value:'Done'
+        }
+      ]
+    };
+    if (type != 'new') {
+      form.buttons.push({
+        name:'delete',
+        type:'button',
+        value:'Delete',
+        href:'/admin/mail/delete/' + id
+      });
+      form.fields.push({
+        name:'id',
+        type:'hidden',
+        value:id
+      });
+    }
+    callback(form);
   });
 }
