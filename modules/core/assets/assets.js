@@ -118,18 +118,14 @@ function init(module, app, next) {
       module.router.addRoute('GET /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
       }, this.parallel());
       module.router.addRoute('GET /pub/:production?/:filename?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true
       }, this.parallel());
       module.router.addRoute('PUT /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
         block: 'content.list',
-        admin: true,
-        permit: null
       }, this.parallel());
       module.router.addRoute('DELETE /asset/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?.:format?', listAssets, {
         template: 'listAdmin',
@@ -137,6 +133,10 @@ function init(module, app, next) {
         admin: true,
         permit: isAdmin
       }, this.parallel());
+      module.router.addRoute('GET /assets/addfolder/:f1?/:f2?/:f3?/:f4?/:f6?/:f8?/:f9?/:f10?', addFolder, {admin:true, block: 'content.list', permit:isAdmin}, this.parallel());
+      module.router.addRoute('POST /assets/addfolder/:f1?/:f2?/:f3?/:f4?/:f6?/:f8?/:f9?/:f10?', addFolder, {admin:true, permit:isAdmin}, this.parallel());
+      module.router.addRoute('GET /assets/upload/:f1?/:f2?/:f3?/:f4?/:f6?/:f8?/:f9?/:f10?', uploadAsset, {admin:true, block: 'content.list', permit:isAdmin}, this.parallel());
+      module.router.addRoute('POST /assets/upload/:f1?/:f2?/:f3?/:f4?/:f6?/:f8?/:f9?/:f10?', uploadAsset, {admin:true, permit:isAdmin}, this.parallel());
       module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true, permit:isAdmin}, this.parallel());
       module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit',permit:isAdmin},this.parallel());
       module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true,permit:isAdmin},this.parallel());
@@ -1070,7 +1070,7 @@ function init(module, app, next) {
           calipso.lib.assets.findAssets({isfolder:true,alias:form.url}).findOne(function(err, folder){
             if (err || !folder) {
               res.statusCode = 500;
-              req.flash('error', req.t('Problem finding root folder {folder}: {error}', {folder:form.url, error:err.message}));
+              req.flash('error', req.t('Problem finding root folder {folder}: {error}', {folder:form.url, error:err ? err.message : "Unknown error"}));
               return next();
             }
             var paths = folder.key.split('/');
@@ -1332,6 +1332,236 @@ function titleAlias(title) {
 }
 
 /**
+	* Put up form to add a folder
+	*/
+function addFolder(req,res,template,block,next) {
+	// alias is the path into the asset
+	var alias = [];
+	var root = null;
+	for (var i = 1; i < 10; i++) {
+		if (req.moduleParams['f' + i])
+			alias.push(req.moduleParams['f' + i]);
+	}
+	var postFilename = '';
+	var outputList = null;
+	if (alias.length > 0) {
+		if (alias.length > 0) {
+			if (alias[alias.length - 1] === '_list') {
+				alias[alias.length - 1] = '';
+				alias = alias.join('/');
+				isfolder = true;
+				if (req.moduleParams.format)
+					outputList = req.moduleParams.format;
+				else
+					outputList = 'json';
+			} else {
+				alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
+				if (req.url.substring(req.url.length - 1) == '/') {
+					alias += '/';
+					isfolder = true;
+				}
+			}
+		} else
+			alias = "";
+	} else
+		alias = "";
+
+	var perm = 'add';
+	calipso.lib.assets.findOneAsset({alias:alias}, function (err, asset) {
+		if (asset)
+			perm = 'modify';
+
+		calipso.lib.assets.checkPermission(alias, req.session.user.username, perm, function (err, allowed) {
+			if (allowed) {
+				if (req.method === 'POST') {
+					calipso.form.process(req, function(form) {
+						if (form) {
+							calipso.lib.assets.createAsset({path:alias + form.name + '/', author:req.session.user.username}, function (err, asset) {
+								res.redirect('/asset/' + alias + form.name + '/');
+							});
+						} else {
+							req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
+							next();
+						}
+					});
+					return;
+  			}
+				var form = {
+					id:'content-type-form',
+					title:'Add new folder ...',
+					type:'form',
+					method:'POST',
+					action:'/assets/addfolder/' + alias,
+					tabs:false,
+					fields:[
+						{
+							label:'Name',
+							name:'name',
+							type:'text',
+							description:'The name of your folder ...'
+						}
+					],
+					buttons:[
+						{
+							name:'submit',
+							type:'submit',
+							value:'Add Folder'
+						}
+					]
+				};
+				calipso.form.render(form, null, req, function(form) {
+					calipso.theme.renderItem(req,res,form,block,{},next);
+				});
+			} else {
+				res.statusCode = 403;
+				req.flash('error', req.t('You don\' have permissions to access this project.'));
+				next();
+			}
+		});
+	});
+}
+
+/**
+  * Upload file or files
+  */
+function uploadAsset(req,res,template,block,next) {
+	// alias is the path into the asset
+	var alias = [];
+	var root = null;
+	for (var i = 1; i < 10; i++) {
+		if (req.moduleParams['f' + i])
+			alias.push(req.moduleParams['f' + i]);
+	}
+	var postFilename = '';
+	var outputList = null;
+	if (alias.length > 0) {
+		if (alias.length > 0) {
+			if (alias[alias.length - 1] === '_list') {
+				alias[alias.length - 1] = '';
+				alias = alias.join('/');
+				isfolder = true;
+				if (req.moduleParams.format)
+					outputList = req.moduleParams.format;
+				else
+					outputList = 'json';
+			} else {
+				alias = alias.join('/') + (req.moduleParams.format ? '.' + req.moduleParams.format : '');
+				if (req.url.substring(req.url.length - 1) == '/') {
+					alias += '/';
+					isfolder = true;
+				}
+			}
+		} else
+			alias = "";
+	} else
+		alias = "";
+	var perm = 'add';
+	calipso.lib.assets.findOneAsset({alias:alias}, function (err, asset) {
+		if (asset)
+			perm = 'modify';
+
+		calipso.lib.assets.checkPermission(alias, req.session.user.username, perm, function (err, allowed) {
+			if (allowed) {
+				if (req.method === 'POST') {
+					calipso.form.process(req, function(form) {
+						if (form) {
+							var redirect = '/asset/' + form.container;
+							calipso.lib.assets.handleFormUpload(req, res, form, redirect, next);
+						} else {
+							req.flash('info',req.t('Woah there, slow down. You should stick with the forms ...'));
+							next();
+						}
+					});
+					return;
+  			}
+				if (req.moduleParams.directory) {
+					fields = [
+						{
+							label:'File',
+							name:'file',
+							type:'file',
+							description:'The folder to be uploaded ...',
+							directory:'true'
+						},
+						{
+							name:'url',
+							type:'hidden',
+							value: alias
+						},
+						{
+							name:'container',
+							type:'hidden',
+							value: alias
+						},
+						{ // If we send a filename in here then we prefer this filename to the one in the upload mime file.
+							name:'name',
+							type:'hidden',
+							value: ''
+						}
+					];
+				} else {
+					fields = [
+						{
+							label:'File',
+							name:'file',
+							type:'file',
+							description:'The file(s) to be uploaded ...',
+							multiple:'true'
+						},
+						{
+							name:'url',
+							type:'hidden',
+							value: alias
+						},
+						{
+							name:'container',
+							type:'hidden',
+							value: alias
+						},
+						{ // If we send a filename in here then we prefer this filename to the one in the upload mime file.
+							name:'name',
+							type:'hidden',
+							value: ''
+						}
+					];
+				}
+				var form = {
+					id:'content-type-form',
+					title:'Add new asset ...',
+					type:'form',
+					method:'POST',
+					action:'/assets/upload/' + alias,
+					tabs:false,
+					fields:fields,
+					buttons:[
+						{
+							name:'upload',
+							type:'submit',
+							value:'Upload'
+						}
+					]
+				};
+				// Default values
+				var values = {
+					content: {
+						contentType:"Asset"
+					},
+					owner:req.session.user.username,
+				};
+
+				calipso.form.render(form, values, req, function(form) {
+					calipso.theme.renderItem(req,res,form,block,{},next);
+				});
+			} else {
+				res.statusCode = 403;
+				req.flash('error', req.t('You don\' have permissions to access this project.'));
+				next();
+			}
+		});
+	});
+}
+
+/**
  * Create the form based on the fields defined in the content type
  * Enable switching of title etc. from create to edit
  */
@@ -1488,9 +1718,6 @@ function listAssets(req,res,template,block,next) {
   var params = {req:req,res:res,template:template,block:block,format:format,sortBy:sortBy,limit:req.moduleParams.limit,from:req.moduleParams.from};
   var Asset = calipso.db.model('Asset');
 
-  var aPerm = calipso.permission.Helper.hasPermission("admin:user");
-  res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',permit:aPerm});
-
   var user = req.session && req.session.user && req.session.user.username;
   var productionId = null;
   var isfolder = false;
@@ -1545,7 +1772,15 @@ function listAssets(req,res,template,block,next) {
   var query = new Query();
 
   function finish() {
-    res.menu.adminToolbar.addMenuItem(req, {name:'Create Bucket',weight:1,path:'new',url:'/assets/new',description:'Create Bucket ...',permit:aPerm});
+		var aPerm = calipso.permission.Helper.hasPermission("admin:user");
+		var p = alias ? alias : "";
+    if (alias === null)
+    	res.menu.adminToolbar.addMenuItem(req, {name:'Create Bucket',weight:1,path:'new',url:'/assets/new',description:'Create Bucket ...',permit:aPerm});
+    else {
+			res.menu.adminToolbar.addMenuItem(req, {name:'Add folder',path:'newfolder',url:'/assets/addfolder/'+p,description:'Add a subfolder ...',popup:true,permit:aPerm});
+			res.menu.adminToolbar.addMenuItem(req, {name:'Upload files',path:'uploadfiles',url:'/assets/upload/'+p,description:'Upload new files ...',popup:true,permit:aPerm});
+			res.menu.adminToolbar.addMenuItem(req, {name:'Upload folder',path:'uploadfolder',url:'/assets/upload/'+p+'?directory=true',description:'Upload new folder ...',popup:true,permit:aPerm});
+    }
     if(req.session.user && req.session.user.isAdmin) {
       // Show all
     } else {
@@ -2146,7 +2381,7 @@ function getAssetList(query,out,next) {
                      else if (out.folder.folder && out.folder.folder.isproject)
                        return calipso.link.render({id:out.folder.alias,title:req.t('View parent project {parent}', {parent:out.folder.folder.title}),label:'Parent Folder',url:'/asset/' + out.folder.folder.alias});
                      else if (out.folder.folder && out.folder.folder.isfolder)
-                       return calipso.link.render({id:out.folder.alias,title:req.t('View parent folder {parent}', {parent:out.folder.folder.title}),label:'Parent Folder',url:'/asset/' + asset.bucket.alias + '/' + out.folder.folder.alias});
+                       return calipso.link.render({id:out.folder.alias,title:req.t('View parent folder {parent}', {parent:out.folder.folder.title}),label:'Parent Folder',url:'/asset/' + out.folder.folder.alias});
                    }
                    if (asset.isproject)
                      return calipso.link.render({id:asset.alias,title:req.t('View project {asset}',{asset:asset.title}),label:asset.title,url:'/asset/' + asset.alias});
@@ -2163,7 +2398,7 @@ function getAssetList(query,out,next) {
                     if (asset.isproject)
                       return asset.title;
                     else
-                      return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/'+asset.alias});
+                      return calipso.link.render({id:file,title:req.t('View file {asset}',{asset:asset.title}),label:file,url:'/asset/'+asset.alias});
                   }},
                  {name:'isfolder',label:'Type',fn:assetType},
                  {name:'key',label:'S3 Key'},
