@@ -1220,6 +1220,45 @@ function init(module, app, next) {
               doCopy();
             }
           });
+        },
+        checkBasicAuth: function(req, res, callback) {
+          // If header exists.
+          if("authorization" in req.headers) {
+            var header = req.headers.authorization;
+            var clientUserString = header.split(" ")[1];
+
+            // Searching for user in user list.
+            if(clientUserString) {
+              var clientUser = (new Buffer(clientUserString, 'base64')).toString('utf8').split(":");
+              var clientUserName = clientUser[0];
+              var clientPasswordHash = clientUser[1];
+
+              var User = calipso.db.model('User');
+
+              User.findOne({username:clientUserName},function (err, user) {
+                // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
+                // TO BE REMOVED In later version
+                if(user && calipso.lib.crypto.check(clientPasswordHash,user.hash) || (user && user.hash === '')) {
+                  if(!user.locked) {
+                    calipso.e.post_emit('USER_LOGIN',user);
+                    return calipso.lib.user.createUserSession(req, res, user, function(err) {
+                      if(err) calipso.error("Error saving session: " + err);
+                      callback(err, user);
+                    });
+                  }
+                }
+                callback(new Error('Unable to authenticate user'), user);
+              });
+            }
+          }
+          callback(new Error('No authentication provided'), null);
+        },
+        askBasicAuth: function(req, res) {
+          var header = "Basic realm=\"" + this.realm + "\"";
+          res.setHeader("WWW-Authenticate", header);
+          res.writeHead(401);
+          res.end("<!DOCTYPE html>\n<html><head><title>401 Unauthorized</title></head><body><h1>401 "
+            + "Unauthorized</h1><p>This page requires authorization.</p></body></html>");
         }
       };
 
@@ -1724,6 +1763,12 @@ function listAssets(req,res,template,block,next) {
   var perm = 'view';
   if (req.moduleParams.production) {
     var info = calipso.lib.assets.decodeUrl(req.moduleParams.production);
+    if (!user)
+      return calipso.lib.assets.checkBasicAuth(req, res, function (err, user) {
+        if (err)
+          return calipso.lib.assets.askBasicAuth(req, res);
+        listAssets(req, res, template, block, next);
+      });
     user = info.user;
     productionId = info.id;
   } else {

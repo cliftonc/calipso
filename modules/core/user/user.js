@@ -746,6 +746,8 @@ function createUserSession(req, res, user, next) {
   });
 }
 
+calipso.lib.user = {createUserSession:createUserSession};
+
 /**
  * Logout
  */
