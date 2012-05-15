@@ -1124,7 +1124,7 @@ function init(module, app, next) {
 							paths = paths.splice(0, 3);
 							paths[2] = '';
 							calipso.lib.assets.findOneAsset({isproject:true, alias: paths.join('/')}, function (err, project) {
-								if (project.author === username || isAdmin)
+								if (project.author === username || isAdmin || !project.isPrivate)
 									return callback(null, true);
 								else {
 									var AssetPermissions = calipso.db.model('AssetPermissions');
