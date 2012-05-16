@@ -742,7 +742,7 @@ function init(module, app, next) {
           var paths = asset.alias.split('/');
           url += '/' + ((headers && headers['filename']) || paths[paths.length - 1]);
           if (headers && headers['host']) {
-          	url = 'https://' + headers['host'] + url;
+          	url = 'http://' + headers['host'] + url;
           }
           return url;
         },
