@@ -191,7 +191,7 @@ function showMailTemplates(req, res, options, next) {
             }
             to = mt.to;
           } else {
-            to = user.id;
+            to = user.email;
           }
           parsedTemplates.push({
             name:mt.name,
@@ -279,7 +279,7 @@ function editMailTemplateForm(req, res, options, next) {
           }
           to = mailTemplate.to;
         } else {
-          to = user.id;
+          to = user.email;
         }
         var values = {};
         values.name = mailTemplate.name;
