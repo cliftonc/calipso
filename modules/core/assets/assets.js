@@ -740,7 +740,7 @@ function init(module, app, next) {
           production += encrypt.final('hex');
           var url = '/pub/' + production;
           var paths = asset.alias.split('/');
-          url += '/' + paths[paths.length - 1];
+          url += '/' + ((headers && headers['filename']) || paths[paths.length - 1]);
           if (headers && headers['host']) {
           	url = 'https://' + headers['host'] + url;
           }
@@ -1761,6 +1761,8 @@ function listAssets(req,res,template,block,next) {
   var productionId = null;
   var isfolder = false;
   var perm = 'view';
+	var postFilename = '';
+	var outputList = null;
   if (req.moduleParams.production) {
     var info = calipso.lib.assets.decodeUrl(req.moduleParams.production);
     if (!user)
@@ -1771,6 +1773,10 @@ function listAssets(req,res,template,block,next) {
       });
     user = info.user;
     productionId = info.id;
+    if (req.moduleParams.filename === '_list.json')
+    	outputList = 'json';
+    else if (req.moduleParams.filename === '_list.xml')
+    	outputList = 'xml';
   } else {
     // alias is the path into the asset
     var alias = [];
@@ -1779,8 +1785,6 @@ function listAssets(req,res,template,block,next) {
       if (req.moduleParams['f' + i])
         alias.push(req.moduleParams['f' + i]);
     }
-    var postFilename = '';
-    var outputList = null;
     if (alias.length > 0) {
       if (alias.length > 0) {
       	if (alias[alias.length - 1] === '_list') {
@@ -1872,7 +1876,7 @@ function listAssets(req,res,template,block,next) {
     	}
       if (!err && folder) {
       	if (outputList) {
-					calipso.lib.assets.checkPermission(alias, user, perm, function (err, allowed) {
+					calipso.lib.assets.checkPermission(folder.alias, user, perm, function (err, allowed) {
 						if (err) {
 							res.statusCode = 500;
 							return next();
