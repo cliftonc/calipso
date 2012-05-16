@@ -1235,7 +1235,7 @@ function init(module, app, next) {
 
               var User = calipso.db.model('User');
 
-              User.findOne({username:clientUserName},function (err, user) {
+              return User.findOne({username:clientUserName},function (err, user) {
                 // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
                 // TO BE REMOVED In later version
                 if(user && calipso.lib.crypto.check(clientPasswordHash,user.hash) || (user && user.hash === '')) {
@@ -1764,11 +1764,13 @@ function listAssets(req,res,template,block,next) {
 	var postFilename = '';
 	var outputList = null;
   if (req.moduleParams.production) {
+  	var modParams = {production:req.moduleParams.production,filename:req.moduleParams.filename};
     var info = calipso.lib.assets.decodeUrl(req.moduleParams.production);
     if (!user)
       return calipso.lib.assets.checkBasicAuth(req, res, function (err, user) {
         if (err)
           return calipso.lib.assets.askBasicAuth(req, res);
+        req.moduleParams = modParams;
         listAssets(req, res, template, block, next);
       });
     user = info.user;
