@@ -1860,6 +1860,7 @@ function listAssets(req,res,template,block,next) {
 				clone.updated = asset.updated;
 				clone.created = asset.created;
 				clone.updated_by = asset.updated_by;
+				clone.guid = asset.id.toString();
 				if (!clone.updated_by)
 					clone.updated_by = clone.author;
 				if (asset.fileType)
@@ -1950,6 +1951,8 @@ function listAssets(req,res,template,block,next) {
 										xml.push('format="', xmlEscape(asset.format), '" ');
 									if (asset.fileType)
 										xml.push('fileType="', xmlEscape(asset.fileType), '" ');
+									if (asset.guid)
+										xml.push('guid="', xmlEscape(asset.guid), '" ');
 									xml.push('author="', xmlEscape(asset.author), '" ');
 									xml.push('updated_by="', xmlEscape(asset.updated_by), '" ');
 									xml.push('updated="', xmlEscape(asset.updated), '" ');
