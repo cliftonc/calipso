@@ -741,9 +741,7 @@ function init(module, app, next) {
           var url = '/pub/' + production;
           var paths = asset.alias.split('/');
           url += '/' + ((headers && headers['filename']) || paths[paths.length - 1]);
-          if (headers && headers['host']) {
-          	url = 'http://' + headers['host'] + url;
-          }
+          url = calipso.config.get('server:url') + url;
           return url;
         },
         decodeUrl: function (token) {
