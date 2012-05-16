@@ -50,7 +50,7 @@ function init(module, app, next) {
 
   var MailTemplate = new calipso.lib.mongoose.Schema({
     name: {type: String, required: true, "default": ''},
-    to: {type: String, ref: 'User', required: true},
+    to: {type: String, required: true},
     subject: {type: String, required: true, "defualt": ''},
     body: {type: String, required: true, "default": ''},
     event: {type: String, required: false}
