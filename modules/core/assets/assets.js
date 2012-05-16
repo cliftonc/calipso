@@ -740,7 +740,7 @@ function init(module, app, next) {
           production += encrypt.final('hex');
           var url = '/pub/' + production;
           var paths = asset.alias.split('/');
-          url += '/' + ((headers && headers['filename']) || paths[paths.length - 1]);
+          url += '/' + escape(((headers && headers['filename']) || paths[paths.length - 1]));
           url = calipso.config.get('server:url') + url;
           return url;
         },
