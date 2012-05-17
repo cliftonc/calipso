@@ -17,7 +17,7 @@ var routes = [
     {path: 'POST /admin/mail/new', fn: newMailTemplate, permit:{}, admin:true},
     {path: 'GET /admin/mail/edit/:id', fn: editMailTemplateForm, permit:{}, admin:true},
     {path: 'POST /admin/mail/edit/:id', fn: editMailTemplate, permit:{}, admin:true},
-    {path: 'GET /admin/mail/delete/:id', fn: deleteMailTemplate, permit:{}, admin:true},
+    {path: 'GET /admin/mail/delete/:id', fn: deleteMailTemplateForm, permit:{}, admin:true},
     {path: 'POST /admin/mail/delete/:id', fn: deleteMailTemplate, permit:{}, admin:true}
   ];
 
@@ -51,8 +51,8 @@ function init(module, app, next) {
   var MailTemplate = new calipso.lib.mongoose.Schema({
     name: {type: String, required: true, "default": ''},
     to: {type: String, required: true},
-    subject: {type: String, required: true, "defualt": ''},
-    body: {type: String, required: true, "default": ''},
+    subject: {type: String, required: false, "defualt": ''},
+    body: {type: String, required: false, "default": ''},
     event: {type: String, required: false}
   });
   calipso.db.model('MailTemplate', MailTemplate);
@@ -69,6 +69,7 @@ function bindEvents(){
       return;
     }
     mailTemplates.forEach(function(mt){
+      if (!mt.event) return;
       calipso.e.post(mt.event, module.name, function(e, data){
         MailTemplate.find({event:e.substring(5)}, function(err, mts){
           if(err || !mts){
@@ -247,6 +248,10 @@ function newMailTemplate(req, res, options, next) {
         body:form.body
       });
       mt.save(function(err){
+        if (err) {
+          req.flash('error',req.t('You must fill in the required fields.' + err));
+          return next();
+        }
         calipso.reloadConfig(mt.event, null, function(){
           res.redirect('/admin/mail/show');
           return next(err);
@@ -324,6 +329,10 @@ function editMailTemplate(req, res, options, next) {
         mailTemplate.subject = form.subject;
         mailTemplate.body = form.body;
         mailTemplate.save(function(err){
+          if (err) {
+            req.flash('error',req.t('You must fill in the required fields.' + err));
+            return next();
+          }
           calipso.reloadConfig(mailTemplate.event, null, function(){
             res.redirect('/admin/mail/show');
             return next(err);
@@ -333,19 +342,73 @@ function editMailTemplate(req, res, options, next) {
     });
   });
 }
-function deleteMailTemplate(req, res, options, next) {
-  var MailTemplate = calipso.db.model('MailTemplate');
+function deleteMailTemplateForm(req, res, options, next) {
   var id = req.moduleParams.id;
-  MailTemplate.findById(id, function(err, mailTemplate){
+  var template = calipso.modules.mail.templates.newTemplate;
+  var MailTemplate = calipso.db.model('MailTemplate');
+  if (!id) {
+    req.flash('error',req.t('The template you were deleting cannot be found.'));
+    return next();
+  }
+  MailTemplate.findById(id, function (err, mailTemplate) {
     if(err || !mailTemplate) {
       req.flash('error',req.t('The template you were deleting cannot be found.'));
       return next();
     }
-    mailTemplate.remove(function(err){
-      calipso.reloadConfig(mailTemplate.event, null, function(){
-        res.redirect('/admin/mail/show');
-        return next(err);
-      }); // Reinitialize calipso to pick up new event bindings
+    var form = {
+      id:'content-type-form',
+      title:'Are you sure you want to do this?',
+      description:'This action cannot be undone.',
+      type:'form',
+      method:'POST',
+      action:'/admin/mail/delete/' + id,
+      tabs:false,
+      fields:[
+        {
+          label:'Deleting',
+          description: mailTemplate.name,
+          name:'id',
+          type:'hidden',
+          value:mailTemplate.id
+        },
+      ],
+      buttons:[
+        {
+          name:'delete',
+          type:'submit',
+          value:'Delete'
+        },
+        {
+          name:'cancel',
+          type:'button',
+          href:'/admin/mail/edit/' + id,
+          value:'Cancel'
+        }
+      ]
+    };
+    calipso.form.render(form, null, req, function(form) {
+      calipso.theme.renderItem(req, res, template, 'content.new-mail-template', {form:form}, next);
+    });
+  });
+}
+function deleteMailTemplate(req, res, options, next) {
+  var MailTemplate = calipso.db.model('MailTemplate');
+  calipso.form.process(req, function(form) {
+    if (!form) {
+      req.flash('error',req.t('The template you were deleting cannot be found.'));
+      return next();
+    }
+    MailTemplate.findById(form.id, function (err, mailTemplate){
+      if (err || !mailTemplate) {
+        req.flash('error',req.t('The template you were deleting cannot be found.'));
+        return next();
+      }
+      mailTemplate.remove(function(err){
+        calipso.reloadConfig(mailTemplate.event, null, function(){
+          res.redirect('/admin/mail/show');
+          return next(err);
+        }); // Reinitialize calipso to pick up new event bindings
+      });
     });
   });
 }

@@ -20,7 +20,7 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   var aPerm = calipso.permission.Helper.hasPermission("admin:user");
-  
+
   // Menu
   res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', permit:aPerm });
   res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', permit:aPerm });
@@ -245,7 +245,7 @@ function roleForm(req, res, template, block, next) {
       calipso.theme.renderItem(req, res, form, block, {}, next);
     });
   }
-  
+
   if (req.moduleParams.role) {
     Role.findOne({_id:req.moduleParams.role}, function(err, role) {
       finish(role);
@@ -531,7 +531,7 @@ function updateRole(req, res, template, block, next) {
         role.save(function (err) {
           if (err)
             req.flash('error', req.t('There was an error {err}', {err:err}));
-          
+
         })
         res.redirect('/admin/role/list');
       });
@@ -752,7 +752,7 @@ calipso.lib.user = {createUserSession:createUserSession};
  * Logout
  */
 function logoutUser(req, res, template, block, next) {
-  var returnTo = req.moduleParams.returnto || null
+  var returnTo = req.moduleParams.returnto || null;
   if(req.session && req.session.user) {
 
     var User = calipso.db.model('User');
@@ -775,7 +775,7 @@ function logoutUser(req, res, template, block, next) {
 
   } else {
     // Fail quietly
-    res.redirect('back');
+    res.redirect(returnTo || 'back');
   }
 
 }
@@ -1162,7 +1162,7 @@ function install(next) {
         self()(new Error("No administrative user details provided through login process!"));
       }
 
-    },  
+    },
     function allDone(err) {
       if(err) {
         calipso.error("User module failed installation " + err.message);
