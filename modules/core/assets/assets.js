@@ -733,14 +733,14 @@ function init(module, app, next) {
               return callback(null, folder);
           });
         },
-        encodeUrl: function (asset, user, headers) {
+        encodeUrl: function (asset, session, options) {
           var encrypt = crypto.createCipher('aes-192-ecb', calipso.config.get('session:secret'));
-          var str = user + '|' + asset.id.toString();
+          var str = '' + ((session && session.id) || '') + '|' + asset.id.toString();
           var production = encrypt.update(str, 'utf8', 'hex');
           production += encrypt.final('hex');
           var url = '/pub/' + production;
           var paths = asset.alias.split('/');
-          url += '/' + escape(((headers && headers['filename']) || paths[paths.length - 1]));
+          url += '/' + escape(((options && options['filename']) || paths[paths.length - 1]));
           url = calipso.config.get('server:url') + url;
           return url;
         },
@@ -749,7 +749,7 @@ function init(module, app, next) {
           var output = encrypt.update(token, 'hex', 'utf8');
           output += encrypt.final('utf8');
           var s = output.split('|');
-          var info = { user:s[0], id:s[1] };
+          var info = { sessionId:s[0], id:s[1] };
           return info;
         },
         updateParents: function (asset, author, callback) {
@@ -1764,14 +1764,33 @@ function listAssets(req,res,template,block,next) {
   if (req.moduleParams.production) {
   	var modParams = {production:req.moduleParams.production,filename:req.moduleParams.filename};
     var info = calipso.lib.assets.decodeUrl(req.moduleParams.production);
-    if (!user)
-      return calipso.lib.assets.checkBasicAuth(req, res, function (err, user) {
-        if (err)
-          return calipso.lib.assets.askBasicAuth(req, res);
-        req.moduleParams = modParams;
-        listAssets(req, res, template, block, next);
-      });
-    user = info.user;
+    if (!user) {
+    	if (info.sessionId === '') {
+				return calipso.lib.assets.checkBasicAuth(req, res, function (err, user) {
+					if (err)
+						return calipso.lib.assets.askBasicAuth(req, res);
+					user = req.session.username;
+					req.moduleParams = modParams;
+					listAssets(req, res, template, block, next);
+				});
+    	} else
+				return calipso.app.sessionStore.get(info.sessionId, function(err, sess) {
+					console.log(sess);
+					if (sess) {
+						calipso.app.sessionStore.createSession(req, sess);
+						user = req.session.username;
+						req.moduleParams = modParams;
+						listAssets(req, res, template, block, next);
+					} else
+						calipso.lib.assets.checkBasicAuth(req, res, function (err, user) {
+							if (err)
+								return calipso.lib.assets.askBasicAuth(req, res);
+							user = req.session.username;
+							req.moduleParams = modParams;
+							listAssets(req, res, template, block, next);
+						});
+				});
+		}
     productionId = info.id;
     if (req.moduleParams.filename === '_list.json')
     	outputList = 'json';
@@ -1853,7 +1872,7 @@ function listAssets(req,res,template,block,next) {
     	function cloneAsset(asset, user) {
 				var clone = {};
 				if (!asset.isfolder)
-					clone.url = calipso.lib.assets.encodeUrl(asset, user, req.headers);
+					clone.url = calipso.lib.assets.encodeUrl(asset, req.session, req.headers);
 				clone.description = asset.description;
 				clone.title = asset.title;
 				clone.author = asset.author;
