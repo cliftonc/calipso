@@ -7,8 +7,7 @@
   "dependencies": {
     "knox": "git://github.com/richtera/knox.git",
     "node-expat": "~1.4.1",
-    "imagemagick": "~0.1.2",
-    "jsdom": "~0.2.14"
+    "imagemagick": "~0.1.2"
   },
   "repository": {
     "type": "git",

@@ -7,7 +7,6 @@ var rootpath = process.cwd() + '/',
   parse = require('url').parse,
   crypto = require('crypto'),
   fs = require('fs'),
-  jsdom = require('jsdom').jsdom,
   knox_mod = require('knox');
 
 exports = module.exports = {
