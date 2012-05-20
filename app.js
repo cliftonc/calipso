@@ -8,6 +8,86 @@
  *
  */
 
+var req = require('express/lib/request');
+
+ var flashFormatters = req.flashFormatters = {
+   s: function(val){
+     return String(val);
+   }
+ };
+
+ /**
+  * Queue flash `msg` of the given `type`.
+  *
+  * Examples:
+  *
+  *      req.flash('info', 'email sent');
+  *      req.flash('error', 'email delivery failed');
+  *      req.flash('info', 'email re-sent');
+  *      // => 2
+  *
+  *      req.flash('info');
+  *      // => ['email sent', 'email re-sent']
+  *
+  *      req.flash('info');
+  *      // => []
+  *
+  *      req.flash();
+  *      // => { error: ['email delivery failed'], info: [] }
+  *
+  * Formatting:
+  *
+  * Flash notifications also support arbitrary formatting support.
+  * For example you may pass variable arguments to `req.flash()`
+  * and use the %s specifier to be replaced by the associated argument:
+  *
+  *     req.flash('info', 'email has been sent to %s.', userName);
+  *
+  * To add custom formatters use the `exports.flashFormatters` object.
+  *
+  * @param {String} type
+  * @param {String} msg
+  * @return {Array|Object|Number}
+  * @api public
+  */
+
+  function miniMarkdown(str){
+    return String(str)
+      .replace(/(__|\*\*)(.*?)\1/g, '<strong>$2</strong>')
+      .replace(/(_|\*)(.*?)\1/g, '<em>$2</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  };
+
+ req.flash = function(type, msg){
+   if (this.session === undefined) throw Error('req.flash() requires sessions');
+   var msgs = this.session.flash = this.session.flash || {};
+   if (type && msg) {
+     var i = 2
+       , args = arguments
+       , formatters = this.app.flashFormatters || {};
+     formatters.__proto__ = flashFormatters;
+     msg = miniMarkdown(msg);
+     msg = msg.replace(/%([a-zA-Z])/g, function(_, format){
+       var formatter = formatters[format];
+       if (formatter) return formatter(utils.escape(args[i++]));
+     });
+     return (msgs[type] = msgs[type] || []).push(msg);
+   } else if (type) {
+     var arr = msgs[type];
+     delete msgs[type];
+     return arr || [];
+   } else {
+     this.session.flash = {};
+     return msgs;
+   }
+ };
+
+var sys;
+try {
+  sys = require('util');
+} catch (e) {
+  sys = require('sys');
+}
 
 var rootpath = process.cwd() + '/',
   path = require('path'),
@@ -40,8 +120,8 @@ var path = rootpath,
 function bootApplication(next) {
 
   // Create our express instance, export for later reference
-  var app = express.createServer();
-  app.path = path;
+  var app = express.createServer ? express.createServer() : express();
+  app.path = function() { return path };
   app.isCluster = false;
 
   // Load configuration
@@ -55,8 +135,10 @@ function bootApplication(next) {
     calipso.defaultTheme = app.config.get('themes:default');
 
     app.use(express.bodyParser());
+    // Pause requests if they were not parsed to allow PUT and POST with custom mime types
+    app.use(function (req, res, next) { if (!req._body) { req.pause(); } next(); });
     app.use(express.methodOverride());
-    app.use(express.cookieParser());
+    app.use(express.cookieParser(app.config.get('session:secret')));
     app.use(express.responseTime());
 
     // Create dummy session middleware - tag it so we can later replace
