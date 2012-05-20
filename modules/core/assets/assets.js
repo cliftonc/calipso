@@ -2079,7 +2079,18 @@ function listAssets(req,res,template,block,next) {
 							});
 							res.statusCode = 200;
 							res.writeHead(200, headers);
-							s3res.pipe(res);
+							s3res.on('data', function (chunk) {
+							  console.log('chunk ' + paths.join('/') + ' ' + chunk.length);
+							  res.write(chunk);
+							});
+							s3res.on('error', function(err) {
+							  calipso.error(err.message);
+							  next();
+							});
+							s3res.on('end', function () {
+							  console.log('end ' + paths.join('/'));
+							  res.end();
+							});
 							req.resume();
 						});
 						s3req.end();        // Just return the object
