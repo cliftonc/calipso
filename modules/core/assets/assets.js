@@ -1774,7 +1774,6 @@ function listAssets(req,res,template,block,next) {
 				});
     	} else
 				return calipso.app.sessionStore.get(info.sessionId, function(err, sess) {
-					console.log(sess);
 					if (sess) {
 						calipso.app.sessionStore.createSession(req, sess);
 						user = req.session.username;
