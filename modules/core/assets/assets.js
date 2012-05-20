@@ -2078,12 +2078,10 @@ function listAssets(req,res,template,block,next) {
 								calipso.error(err.message);
 								next();
 							});
-							s3res.on('end', function (chunk) {
-								next();
-							});
 							res.statusCode = 200;
 							res.writeHead(200, headers);
 							s3res.pipe(res);
+							req.resume();
 						});
 						s3req.end();        // Just return the object
 					});
