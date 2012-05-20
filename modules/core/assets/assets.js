@@ -2080,7 +2080,6 @@ function listAssets(req,res,template,block,next) {
 							res.statusCode = 200;
 							res.writeHead(200, headers);
 							s3res.on('data', function (chunk) {
-							  console.log('chunk ' + paths.join('/') + ' ' + chunk.length);
 							  res.write(chunk);
 							});
 							s3res.on('error', function(err) {
@@ -2088,7 +2087,6 @@ function listAssets(req,res,template,block,next) {
 							  next();
 							});
 							s3res.on('end', function () {
-							  console.log('end ' + paths.join('/'));
 							  res.end();
 							});
 							req.resume();
