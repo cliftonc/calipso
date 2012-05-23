@@ -1,0 +1,7 @@
+<% contents.forEach(function(item) { %>
+<div class='content-list-item content-list-item-<%- item.status %> content-type-<%- item.contentType %>'>
+    <h2><a href='/<%= item.alias %>.html'><%- item.title %></a></h2>
+    <p><%- item.teaser %> ... <a href='/<%= item.alias %>.html'>more</a></p>
+</div>
+<% });  %>
+<%- pager %>
