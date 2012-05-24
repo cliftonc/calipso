@@ -824,10 +824,8 @@ function init(module, app, next) {
           var fileName = paths[paths.length - 1];
           var isBucket = (root === 's3') && (paths.length == 2);
           var parentFolder = '';
-          var filesize = null;
-          var fileType = '';
-          var width = null;
-          var height = null;
+          var assetCopy = null;
+          var fileType = null;
           for (var i = 0; i < (paths.length - 1); i++) {
             parentFolder += paths[i] + '/';
           }
@@ -942,8 +940,12 @@ function init(module, app, next) {
 								} else {
 									calipso.debug('existing asset ' + path);
 								}
-								if (filesize !== null) {
-									asset.size = filesize;
+								if (assetCopy) {
+									for (var v in assetCopy) {
+										if (v === 'id' || v === '_id' || v === 'alias' || v === 'key' || v === 'folder' || assetCopy[v] === undefined)
+											continue;
+										asset[v] = assetCopy[v];
+									}
 								}
 								if (!fileType)
 			            fileType = mime.lookup(fileName);
@@ -969,7 +971,7 @@ function init(module, app, next) {
 								}
 								function saveAsset(ignoreWidth) {
 									if (/image\//.test(fileType) && !ignoreWidth) {
-										if (!width && !height && !copySource) {
+										if (!asset.width && !asset.height && !copySource) {
 											if (copyStream && copyStream.path) {
 												try {
 													var imagemagick = require('imagemagick');
@@ -1057,11 +1059,13 @@ function init(module, app, next) {
                 calipso.debug('Rewriting copySource from ' + copySource + ' to /' + copyAsset.key);
                 copySource = '/' + escape(copyAsset.key);
                 headers['x-amz-copy-source'] = copySource;
-                filesize = copyAsset.size;
-                fileType = copyAsset.fileType;
-                width = copyAsset.width;
-                height = copyAsset.height;
-                calipso.debug('Copying file size from original resource ' + filesize);
+                assetCopy = copyAsset.toObject();
+                delete assetCopy.id;
+                delete assetCopy.folder;
+                delete assetCopy.key;
+                delete assetCopy.alias;
+                fileType = assetCopy.fileType;
+                calipso.debug('Copying file size from original resource ' + assetCopy.size);
                 headers['Content-Length'] = 0;
                 finalize();
               });
@@ -1313,13 +1317,12 @@ function init(module, app, next) {
         format: {type: String},
         depth: {type: Number},
         customType: {type: String},
-        customIndex: {type:Number},
         customSort: {type:String},
-        customLink: {type:String},
-        customFlag1: {type: Boolean},
-        customFlag2: {type: Boolean},
-        customFlag3: {type: Boolean},
-        customFlag4: {type: Boolean}
+        customLink: {type:String, "default":""},
+        customFlag1: {type: Boolean, "default":false},
+        customFlag2: {type: Boolean, "default":false},
+        customFlag3: {type: Boolean, "default":false},
+        customFlag4: {type: Boolean, "default":false}
       });
       var AssetPermissions = new calipso.lib.mongoose.Schema({
         project: {type: String, required: true},
@@ -1330,6 +1333,10 @@ function init(module, app, next) {
       // Set post hook to enable simple etag generation
       Asset.pre('save', function (next) {
         this.etag = calipso.lib.crypto.etag(this.title + this.description + this.key);
+        if (!this.customSort)
+        	this.customSort = this.title;
+        if (!this.customType && this.fileType)
+        	this.customType = this.fileType.split('/')[0];
         next();
       });
 
@@ -1369,13 +1376,12 @@ function assetForm(asset) {
           	label:'Custom Fields',
           	fields:[
           				{label:'Custom Type',name:'asset[customType]', type:'text',description:'Value of customType field.'},
-          				{label:'Custom Index',name:'asset[customIndex]', type:'text',description:'Value of customIndex field.'},
           				{label:'Custom Sort',name:'asset[customSort]', type:'text',description:'Value of customSort field.'},
           				{label:'Custom Link',name:'asset[customLink]', type:'text',description:'Value of customLink field.'},
-          				{label:'Custom Flag 1',name:'asset[customFlag1]', type:'text',description:'Value of customFlag1 field.'},
-          				{label:'Custom Flag 2',name:'asset[customFlag2]', type:'text',description:'Value of customFlag2 field.'},
-          				{label:'Custom Flag 3',name:'asset[customFlag3]', type:'text',description:'Value of customFlag3 field.'},
-          				{label:'Custom Flag 4',name:'asset[customFlag4]', type:'text',description:'Value of customFlag4 field.'},
+          				{label:'Custom Flag 1',name:'asset[customFlag1]', type:'checkbox',description:'Value of customFlag1 field.'},
+          				{label:'Custom Flag 2',name:'asset[customFlag2]', type:'checkbox',description:'Value of customFlag2 field.'},
+          				{label:'Custom Flag 3',name:'asset[customFlag3]', type:'checkbox',description:'Value of customFlag3 field.'},
+          				{label:'Custom Flag 4',name:'asset[customFlag4]', type:'checkbox',description:'Value of customFlag4 field.'},
           	]
           },{
           	id:'form-section-mediaInfo',
@@ -1994,8 +2000,10 @@ function listAssets(req,res,template,block,next) {
 				if (asset.format)
 					clone.format = asset.format;
 				for (var k in asset) {
-					if (k.test(/^custom/) && asset[k] !== undefined) {
+					if (/^custom/.test(k)) {
 						clone[k] = asset[k];
+						if (clone[k] === undefined)
+							clone[k] = '';
 					}
 				}
 				return clone;
@@ -2032,7 +2040,7 @@ function listAssets(req,res,template,block,next) {
 									return populateChildren(folder, callback);
 								}
 							}
-							Asset.find({folder:folder._id}, function (err, assets) {
+							Asset.find({folder:folder._id}).sort('customSort',1,'title',1).run(function (err, assets) {
 								if (err) return next(err);
 								folder.childAssets = assets;
 								populateChildren(folder, callback);
@@ -2045,12 +2053,12 @@ function listAssets(req,res,template,block,next) {
 							} else if (outputList === 'xml') {
 								var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n'];
 								function xmlEscape(str) {
-									if (!str)
-										return '';
 									if (str instanceof Date)
 										return str.toJSON();
 									if (!(str instanceof String))
 										return str.toString();
+									if (!str)
+										return str;
 									str = str.replace('&', '&amp;');
 									str = str.replace('"', '&quot;');
 									str = str.replace('<', '&lt;');
