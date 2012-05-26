@@ -2455,6 +2455,9 @@ function getAssetList(query,out,next) {
                  }},
                  {name:'alias',label:'Alias',fn:function(req, asset) {
                     var file = asset.alias;
+                   if (asset.id === (out.folder && out.folder.id)) {
+                   	 return calipso.link.render({id:asset.alias,title:req.t('Get folder list'),label:asset.title,url:calipso.lib.assets.encodeUrl(asset, null, {filename:'_list.xml'})});
+                   }
                     if (out.path)
                       file = file.replace(out.path, '');
                     if (asset.isbucket)
