@@ -12,7 +12,21 @@ var rootpath = process.cwd() + '/',
 exports = module.exports = {
   init: init,
   route: route,
-  assetForm: assetForm
+  assetForm: assetForm,
+  config: {
+      s3key: {
+        "default": "",
+        "label": "S3 Access Key",
+        "type": "text",
+        "description": "This is the S3 Access Key the module will use to communicate with S3."
+      },
+      s3secret: {
+      	"default": "",
+      	"label": "S3 Secret Key",
+      	"type": "password",
+      	"description": "This is the S3 Secret Key the module will use to communicate with S3."
+      }
+  }
 };
 
 /*
@@ -39,8 +53,8 @@ function invalidateBuckets()
 // Standard knox interface with the correct key and secret.
 function knox(options) {
   options = calipso.lib._.extend({
-    key: calipso.config.get("s3:key"),
-    secret: calipso.config.get("s3:secret")
+    key: calipso.config.getModuleConfig("assets", "s3key"),
+    secret: calipso.config.getModuleConfig("assets", "s3secret")
   }, options);
   return knox_mod.createClient(options);
 }
@@ -137,9 +151,9 @@ function init(module, app, next) {
       module.router.addRoute('GET /assets/upload/:f1?/:f2?/:f3?/:f4?/:f6?/:f8?/:f9?/:f10?', uploadAsset, {admin:true, block: 'content.list', permit:isAdmin}, this.parallel());
       module.router.addRoute('POST /assets/upload/:f1?/:f2?/:f3?/:f4?/:f6?/:f8?/:f9?/:f10?', uploadAsset, {admin:true, permit:isAdmin}, this.parallel());
       module.router.addRoute('GET /assets/sync/:f1?/:f2?/:f3?/:f4?/:f5?/:f6?/:f8?/:f9?/:f10?', syncAssets, {admin:true, permit:isAdmin}, this.parallel());
-      module.router.addRoute('GET /assets/:id',editAssetForm,{admin:true,block:'content.edit',permit:isAdmin},this.parallel());
-      module.router.addRoute('GET /assets/delete/:id',deleteAsset,{admin:true,permit:isAdmin},this.parallel());
-      module.router.addRoute('POST /assets/:id',updateAsset,{admin:true, permit:isAdmin},this.parallel());
+      module.router.addRoute('GET /assets/:id',editAssetForm,{block:'content.edit'},this.parallel());
+      module.router.addRoute('POST /assets/:id',updateAsset,{block:'content.edit'},this.parallel());
+      module.router.addRoute('GET /assets/delete/:id',deleteAsset,{block:'content.edit'},this.parallel());
     }, function done() {
       // Get asset list helper
       calipso.helpers.addHelper('getAssetList', function() { return getAssetList; });
@@ -166,10 +180,9 @@ function init(module, app, next) {
           var query = Asset.find({isproject:true});
           process.nextTick(function() { callback(null, query); });
         },
-        syncFolder: function (folder, callback) {
+        syncFolder: function (folder, callback, progress) {
           var Asset = calipso.db.model('Asset');
           var info = null;
-          var result = [];
           function realContent(info, asset, atRoot, callback, next) {
             var bucket = '';
             if (asset) {
@@ -178,12 +191,18 @@ function init(module, app, next) {
             }
             var expat = require('node-expat');
             var knox = require('knox').createClient({
-              key: calipso.config.get("s3:key"),
-              secret: calipso.config.get("s3:secret"),
+              key: calipso.config.getModuleConfig("assets", "s3key"),
+              secret: calipso.config.getModuleConfig("assets", "s3secret"),
               bucket: bucket
             });
             if (info && info.bucket && asset && bucket !== info.bucket) {
               return next();
+            }
+            if (progress) {
+            	if (bucket)
+	            	progress('Listing S3 bucket ' + bucket + ' with prefix ' + (info && info.prefix) || '/');
+	            else
+	            	progress('Listing all S3 buckets');
             }
             knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response', function(s3res){
               s3res.setEncoding('utf8');
@@ -310,7 +329,6 @@ function init(module, app, next) {
                 assetFound.title = (parent === null) ? asset.key : fileName;
               }
               assetFound.isfolder = asset.key.substring(asset.key.length - 1) === '/';
-              assetFound.isroot = false;
               if (!assetFound.isfolder)
                 assetFound.size = asset.size;
               else
@@ -318,38 +336,54 @@ function init(module, app, next) {
               assetFound.key = asset.key; // S3 name
               var project = null;
               var match = assetFound.key.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
-              assetFound.alias = 's3/' + asset.key;
+              var newAlias = 's3/' + asset.key;
               if (match) {
-                assetFound.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == assetFound.key;
+              	var newRoot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == assetFound.key;
+              	if (assetFound.isroot !== newRoot)
+	                assetFound.isroot = newRoot;
                 if (assetFound.isroot) {
                   project = match[2];
-                  assetFound.isroot = false;
                   assetFound.title = match[3];
                   var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-                  calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
-                  assetFound.alias = newUri;
+                  //calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
+                  if (newAlias !== newUri)
+	                  newAlias = newUri;
                 } else {
                   // For a normal asset that's part of a project rewrite it to say
                   // {project}/{rootfolder}/{restofuri}
                   var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-                  calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
-                  assetFound.alias = newUri;
+                  //calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
+                  if (newAlias !== newUri)
+	                  newAlias = newUri;
                 }
-              } else if (/s3\/[^\/]*\/$/.test(assetFound.alias)) {
-                assetFound.isroot = true;
+              } else if (/s3\/[^\/]*\/$/.test(newAlias)) {
+              	if (!assetFound.isroot)
+	                assetFound.isroot = true;
               }
-              assetFound.author = asset.author;
-              if (assetFound.isbucket) {
-                if (!info || !info.bucket || info.bucket === assetFound.alias) {
-                  var log = (isNew ? 'new ' : 'update ') + ' bucket "' + asset.key + '"';
-                  calipso.debug(log);
-                  result.push(log);
-                }
-              } else if (parent && assetFound.isfolder) {
-                var log = (isNew ? 'new ' : 'update ') + '"' + asset.key + '"';
-                calipso.debug(log);
-                result.push(log);
-              }
+							if (newAlias !== assetFound.alias)
+								assetFound.alias = newAlias;
+							if (assetFound.author !== asset.author)
+	              assetFound.author = asset.author;
+              var diffs = assetFound._dirty();
+              if (diffs.length != 0) {
+              	var output = [];
+              	diffs.forEach(function (diff) {
+              		output.push(diff.path + ' = ' + diff.value);
+              	});
+								if (assetFound.isbucket) {
+									if (!info || !info.bucket || info.bucket === assetFound.alias) {
+										var log = (isNew ? 'new ' : 'update ') + ' bucket "' + asset.key + '" ' + output.join(', ');
+										calipso.debug(log);
+										if (progress)
+											progress(log);
+									}
+								} else if (parent && assetFound.isfolder) {
+									var log = (isNew ? 'new ' : 'update ') + '"' + asset.key + '" ' + output.join(', ');
+									calipso.debug(log);
+									if (progress)
+										progress(log);
+								}
+							}
               function saveAsset() {
                 assetFound.save(function (err) {
                   if (err) {
@@ -369,57 +403,121 @@ function init(module, app, next) {
                 });
               }
               if (project) {
-                var pq = {isproject:true,alias:'proj/' + project + '/',key:'',isvirtual:true};
-                Asset.findOne(pq, function (e, proj) {
-                  var newProj = false;
-                  if (e || !proj) {
-                    newProj = true;
-                    proj = new Asset(pq);
-                  }
-                  proj.author = asset.author;
-                  proj.title = project;
-                  proj.isroot = true;
-                  proj.isfolder = true;
-                  calipso.debug((newProj ? 'new project ' : 'update project ') + proj.title);
-                  proj.save(function (err) {
-                    if (err) {
-                      calipso.error("error:", err);
-                      next();
-                      return;
-                    }
-                    assetFound.folder = proj._id;
-                    assetFound.isvirtual = true;
-                    saveAsset();
-                  });
-                });
-              } else
-                saveAsset();
+                var pq = {isproject:true,alias:'proj/' + project + '/',key:''};
+                Asset.find(pq, function (e, projs) {
+                	function removeDupProjs() {
+                		if (projs.length > 1) {
+                			var proj = projs.splice(1, 1)[0];
+                			return proj.remove(function (err) {
+                				removeDupProjs();
+                			});
+                		}
+                		saveProj();
+                	}
+                	function saveProj() {
+                		var proj = projs[0];
+										var newProj = false;
+										if (e || !proj) {
+											newProj = true;
+											proj = new Asset(pq);
+										}
+										proj.author = asset.author;
+										proj.title = project;
+										proj.isroot = true;
+										proj.isfolder = true;
+										if (proj._dirty().length !== 0) {
+											calipso.debug((newProj ? 'new project ' : 'update project ') + proj.title);
+											proj.save(function (err) {
+												if (err) {
+													calipso.error("error:", err);
+													next();
+													return;
+												}
+												assetFound.folder = proj._id;
+												assetFound.isvirtual = true;
+												saveAsset();
+											});
+										} else
+											saveAsset();
+									}
+									removeDupProjs();
+								});
+              } else {
+              	var paths = assetFound.alias.split('/');
+              	var keys = assetFound.key.split('/');
+              	if (assetFound.isfolder) {
+              		paths.splice(paths.length - 2, 2, '');
+              		keys.splice(keys.length - 2, 2, '');
+              	} else {
+              		paths.splice(paths.length - 1, 1, '');
+              		keys.splice(keys.length - 1, 1, '');
+              	}
+              	if (keys.length < 2)
+              		keys = null;
+              	if (paths.length > 2) {
+									Asset.findOne({alias:paths.join('/'), isfolder:true}, function (err, ourFolder) {
+										if (err) {
+											if (progress)
+												progress('Error while looking for parent folder ' + paths.join('/') + ': ' + err.message);
+											return callback(err, null);
+										}
+										if (!ourFolder) {
+											calipso.debug('Didn\'t find folder ' + paths.join('/') + ' which should contains ' + assetFound.alias);
+											if (progress)
+												progress('Adding missing folder ' + paths.join('/'));
+											ourFolder = new Asset({isfolder:true,alias:paths.join('/'),key:keys.join('/'),title:paths[paths.length - 2],author:assetFound.author});
+											return ourFolder.save(function (err) {
+												if (progress && err)
+													process('Error while saving folder ' + ourFolder.alias + ': ' + err.message);
+												if (err)
+													return callback(err, null);
+												saveAsset();
+											});
+										}
+										saveAsset();
+									});
+								} else
+									saveAsset();
+              }
             });
           }
-          Asset.findOne({alias:folder}, function (err, root) {
-            if (!root) {
-              if (folder !== '') {
-                if (/^proj\/.*\//.test(folder))
-                  return callback(new Error('unable to find ' + folder + ' for sync.'));
-                if (!/^s3\/.*\//.test(folder))
-                  return callback(new Error('unable to recognize ' + folder + ' as a s3 resource.'));
-                var match = folder.match(/^s3\/([^\/]*)\/(.*)$/);
-                if (match) {
-                  info = {bucket:match[1], prefix:match[2]};
-                }
-              }
-            } else
-              folder = root.key;
-            if (p.length > 0) {
-              info = {
-                bucket: p.splice(0, 1)[0],
-                prefix: p.join('/')
-              };
-            } else {
-              info = null;
-            }
+          if (folder && folder.alias)
+          	folder = folder.alias;
+          if (folder) {
+						Asset.findOne({alias:folder}, function (err, root) {
+							if (!root) {
+								if (folder !== '') {
+									if (/^proj\/.*\//.test(folder)) {
+										console.debug('unable to find ' + folder + ' for sync.');
+										return callback(new Error('unable to find ' + folder + ' for sync.'));
+									}
+									if (!/^s3\/.*\//.test(folder)) {
+										console.debug('unable to find ' + folder + ' as a s3 resource.');
+										return callback(new Error('unable to recognize ' + folder + ' as a s3 resource.'));
+									}
+									var match = folder.match(/^s3\/([^\/]*)\/(.*)$/);
+									if (match) {
+										info = {bucket:match[1], prefix:match[2]};
+									}
+								}
+							} else
+								folder = root.key;
+							if (p.length > 0) {
+								info = {
+									bucket: p.splice(0, 1)[0],
+									prefix: p.join('/')
+								};
+							} else {
+								info = null;
+							}
+							rootSnarfer(info);
+						});
+					} else {
+						rootSnarfer(null);
+					}
+          function rootSnarfer(info) {
             realContent(info, null, true, snarfBucketContent, function () {
-              Asset.find({isfolder:true}, function (e, folders) {
+              Asset.find({isfolder:true}).limit(10000).run(function (e, folders) {
                 if (e || folders.length == 0) {
                   doNext();
                   return;
@@ -427,30 +525,30 @@ function init(module, app, next) {
                 var wasDone = false;
                 function doNext() {
                   if (!wasDone) {
-                    callback(null, result);
+                    callback(null, null);
                     wasDone = true;
                   }
                 }
                 function updateFolder(index) {
                   var folder = folders[index];
-                  var query = folder.isfolder
-                    ? { key:{ $regex:'^' + folder.key + '[^/]+/?$' }, isvirtual:false, isfolder:false }
-                    : { key:{ $regex:'^[^/]+/?$' }, isvirtual: false, isfolder:false };
-                  Asset.update(query, { folder: folder._id }, { multi: true }, function (e, c) {
-                    var log = 'searching "' + folder.key + '" - ' + c;
-                    calipso.debug(log);
-                    result.push(log);
-                    if ((folders.length - 1) == index) {
-                      doNext();
-                    } else {
-                      updateFolder(index + 1);
-                    }
-                  });
-                }
+                  var query = { alias:{ $regex:'^' + folder.alias + '[^/]+/?$' } };
+                  Asset.count(query, function (e, count) {
+										Asset.update(query, { folder: folder._id }, { multi: true }, function (e, c) {
+											var log = 'updating files in "' + folder.alias + '" - ' + c + ' was ' + count;
+											if (progress && (c !== count))
+												progress(log);
+											if ((folders.length - 1) == index) {
+												doNext();
+											} else {
+												updateFolder(index + 1);
+											}
+										});
+									});
+								}
                 updateFolder(0);
               });
             });
-          });
+          }
         },
         listFiles: function (project, folder, callback) {
           var Asset = calipso.db.model('Asset');
@@ -810,10 +908,8 @@ function init(module, app, next) {
           var fileName = paths[paths.length - 1];
           var isBucket = (root === 's3') && (paths.length == 2);
           var parentFolder = '';
-          var filesize = null;
-          var fileType = '';
-          var width = null;
-          var height = null;
+          var assetCopy = null;
+          var fileType = null;
           for (var i = 0; i < (paths.length - 1); i++) {
             parentFolder += paths[i] + '/';
           }
@@ -928,8 +1024,12 @@ function init(module, app, next) {
 								} else {
 									calipso.debug('existing asset ' + path);
 								}
-								if (filesize !== null) {
-									asset.size = filesize;
+								if (assetCopy) {
+									for (var v in assetCopy) {
+										if (v === 'id' || v === '_id' || v === 'alias' || v === 'key' || v === 'folder' || assetCopy[v] === undefined)
+											continue;
+										asset[v] = assetCopy[v];
+									}
 								}
 								if (!fileType)
 			            fileType = mime.lookup(fileName);
@@ -940,22 +1040,26 @@ function init(module, app, next) {
 									asset.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == s3path;
 									if (asset.isroot) {
 										project = match[2];
-										asset.isroot = false;
+										if (!asset.isroot)
+											asset.isroot = true;
 										asset.title = match[3];
 										var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-										calipso.debug("rewriting uri from " + s3path + " to " + newUri);
-										asset.alias = newUri;
+										//calipso.debug("rewriting uri from " + s3path + " to " + newUri);
+										if (asset.alias !== newUri)
+											asset.alias = newUri;
 									} else {
 										// For a normal asset that's part of a project rewrite it to say
 										// {project}/{rootfolder}/{restofuri}
+										asset.isroot = false;
 										var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-										calipso.debug("rewriting uri from " + asset.key + " to " + newUri);
-										asset.alias = newUri;
+										//calipso.debug("rewriting uri from " + asset.key + " to " + newUri);
+										if (asset.alias !== newUri)
+											asset.alias = newUri;
 									}
 								}
 								function saveAsset(ignoreWidth) {
 									if (/image\//.test(fileType) && !ignoreWidth) {
-										if (!width && !height && !copySource) {
+										if (!asset.width && !asset.height && !copySource) {
 											if (copyStream && copyStream.path) {
 												try {
 													var imagemagick = require('imagemagick');
@@ -964,10 +1068,14 @@ function init(module, app, next) {
 															calipso.debug('Unable to analyze image ' + err.message);
 														}
 														if (info) {
-															asset.width = info.width;
-															asset.height = info.height;
-															asset.depth = info.depth;
-															asset.format = info.format;
+															if (asset.width !== info.width)
+																asset.width = info.width;
+															if (asset.height !== info.height)
+																asset.height = info.height;
+															if (asset.depth !== info.depth)
+																asset.depth = info.depth;
+															if (asset.format !== info.format)
+																asset.format = info.format;
 														}
 														saveAsset(true);
 													});
@@ -982,7 +1090,8 @@ function init(module, app, next) {
 									asset.updated = new Date();
 									if (!asset.author)
 										asset.author = author;
-									asset.updated_by = author;
+									if (asset.updated_by !== author)
+										asset.updated_by = author;
 									asset.save(function (err) {
 										if (err) {
 											return callback(new Error("unable to save asset " + err.message), null);
@@ -1043,11 +1152,13 @@ function init(module, app, next) {
                 calipso.debug('Rewriting copySource from ' + copySource + ' to /' + copyAsset.key);
                 copySource = '/' + escape(copyAsset.key);
                 headers['x-amz-copy-source'] = copySource;
-                filesize = copyAsset.size;
-                fileType = copyAsset.fileType;
-                width = copyAsset.width;
-                height = copyAsset.height;
-                calipso.debug('Copying file size from original resource ' + filesize);
+                assetCopy = copyAsset.toObject();
+                delete assetCopy.id;
+                delete assetCopy.folder;
+                delete assetCopy.key;
+                delete assetCopy.alias;
+                fileType = assetCopy.fileType;
+                calipso.debug('Copying file size from original resource ' + assetCopy.size);
                 headers['Content-Length'] = 0;
                 finalize();
               });
@@ -1118,8 +1229,21 @@ function init(module, app, next) {
 							callback(null, isAdmin);
 						} else if (/^proj\//.test(alias)) {
 							var paths = alias.split('/');
+							if (action === 'delete') {
+								if (paths[2] === 'Archive') {
+									// Can't delete anything in the archive folder.
+									return callback(null, false);
+								}
+							}
 							paths = paths.splice(0, 3);
 							paths[2] = '';
+							if (action === 'delete') {
+								if (paths.join('/') === alias) {
+									// Can't delete the whole project since it's not really a folder.
+									return callback(null, false);
+								}
+								action = 'modify';
+							}
 							calipso.lib.assets.findOneAsset({isproject:true, alias: paths.join('/')}, function (err, project) {
 								if (project.author === username || isAdmin || !project.isPrivate)
 									return callback(null, true);
@@ -1284,7 +1408,15 @@ function init(module, app, next) {
         width: {type: Number},
         height: {type: Number},
         format: {type: String},
-        depth: {type: Number}
+        depth: {type: Number},
+        showupAs: {type: String},
+        customType: {type: String},
+        customSort: {type:String},
+        customLink: {type:String, "default":""},
+        customFlag1: {type: Boolean, "default":false},
+        customFlag2: {type: Boolean, "default":false},
+        customFlag3: {type: Boolean, "default":false},
+        customFlag4: {type: Boolean, "default":false}
       });
       var AssetPermissions = new calipso.lib.mongoose.Schema({
         project: {type: String, required: true},
@@ -1295,6 +1427,10 @@ function init(module, app, next) {
       // Set post hook to enable simple etag generation
       Asset.pre('save', function (next) {
         this.etag = calipso.lib.crypto.etag(this.title + this.description + this.key);
+        if (!this.customSort)
+        	this.customSort = this.title;
+        if (!this.customType && this.fileType)
+        	this.customType = this.fileType.split('/')[0];
         next();
       });
 
@@ -1311,15 +1447,18 @@ function assetForm(asset) {
   var url = "";
   if (asset && !asset.isfolder) {
     var alias = asset.alias;
-    url = '<h5></br><a href="' + alias + '">' + alias + '</a>';
-    if (!asset.isproject)
-      url += '</br>s3://' + asset.key + '</h5>';
+    url = '<h5></br><a href="/asset/' + alias + '">/asset/' + alias + '</a>';
+    url += '</br>s3://' + asset.key + '</h5>';
   }
       return {id:'content-form',title:'Create Content ...',type:'form',method:'POST',action:'/assets',tabs:true,
           sections:[{
             id:'form-section-content',
             label:'Content',
-            fields:[
+            fields:asset.isfolder ? [
+                    {label:'Parent Tag',name:'asset[showupAs]',type:'text',description:'XML tag or tag field to add to parent items when aliasing contents of this folder into the parent.'},
+                    {label:'Title',name:'asset[title]',type:'text',description:'Title to appear for this piece of content.' + url},
+                    {label:'Description',name:'asset[description]',type:'textarea',description:'Enter some short text that describes the content, appears in lists.'},
+                   ] : [
                     {label:'Title',name:'asset[title]',type:'text',description:'Title to appear for this piece of content.' + url},
                     {label:'Description',name:'asset[description]',type:'textarea',description:'Enter some short text that describes the content, appears in lists.'},
                    ]
@@ -1330,6 +1469,28 @@ function assetForm(asset) {
                     {label:'Taxonomy',name:'asset[taxonomy]',type:'text',description:'Enter the menu heirarchy, e.g. "welcome/about"'},
                     {label:'Tags',name:'asset[tags]',type:'text',description:'Enter comma delimited tags to help manage this content.'},
                    ]
+          },{
+          	id:'form-section-custom',
+          	label:'Custom Fields',
+          	fields:[
+          				{label:'Custom Type',name:'asset[customType]', type:'text',description:'Value of customType field.'},
+          				{label:'Custom Sort',name:'asset[customSort]', type:'text',description:'Value of customSort field.'},
+          				{label:'Custom Link',name:'asset[customLink]', type:'text',description:'Value of customLink field.'},
+          				{label:'Custom Flag 1',name:'asset[customFlag1]', type:'checkbox',description:'Value of customFlag1 field.'},
+          				{label:'Custom Flag 2',name:'asset[customFlag2]', type:'checkbox',description:'Value of customFlag2 field.'},
+          				{label:'Custom Flag 3',name:'asset[customFlag3]', type:'checkbox',description:'Value of customFlag3 field.'},
+          				{label:'Custom Flag 4',name:'asset[customFlag4]', type:'checkbox',description:'Value of customFlag4 field.'},
+          	]
+          },{
+          	id:'form-section-mediaInfo',
+          	label:'Media Information',
+          	fields:[
+          		{label:'File Type',name:'asset[fieldType]', type:'text', description:'Mime type (fileType field)'},
+          		{label:'Image Type',name:'asset[format]', type:'text', description:'Image type (format field from imagemagick)'},
+          		{label:'Width', name:'asset[width]', type:'text', description:'Width of image (width field from imagemagick)'},
+          		{label:'Height', name:'asset[height]', type:'text', description:'Height of image (height field from imagemagick)'},
+          		{label:'Depth', name:'asset[depth]', type:'text', description:'Depth of image (depth field from imagemagick)'}
+          	]
           }
           ],
           fields:[
@@ -1623,44 +1784,58 @@ function editAssetForm(req,res,template,block,next) {
 
   var Asset = calipso.db.model('Asset');
   var id = req.moduleParams.id;
+  if (id === 'sync')
+  	return next();
   var item;
 
-  var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
+  var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "/assets/" + id;
 
   var aPerm = calipso.permission.Helper.hasPermission("admin:user");
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/asset/',description:'List all ...',permit:aPerm});
-  res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/s3/' + id,description:'Download actual file ...',permit:aPerm});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:3,path:'edit',url:'/assets/' + id,description:'Edit asset ...',permit:aPerm});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',permit:aPerm});
-
-
   Asset.findById(id).populate('folder').run(function(err, c) {
-
     if(err || c === null) {
       // TODO : REDIRECT TO 404
       res.statusCode = 404;
       req.flash('error', req.t('Unable to find this asset'));
-      next();
+      return next();
     } else {
-      // Create the form
-      getForm(req,"/assets/" + id,req.t("Edit Asset ... "),c,function(form) {
-        // Default values
-        var values = {asset: c};
-
-        // Fix for content type being held in meta field
-        // TODO this has a bad smell
-        values.returnTo = returnTo;
-
-        res.layout = 'admin';
-
-        // Test!
-        calipso.e.pre_emit('ASSET_UPDATE_FORM', form, function(form) {
-          calipso.form.render(form,values,req,function(form) {
-            calipso.theme.renderItem(req,res,form,block,{},next);
-          });
-        });
-      });
+			calipso.lib.assets.checkPermission(c.alias, req.session.user.username, 'modify', function (err, allowed) {
+				if (!allowed) {
+					res.status = 403;
+					req.flash('error', req.t('You\'re not allowed to edit this asset'));
+					return next();
+				}
+				var parent = c.folder ? c.folder.alias : '';
+				if (calipso.modules['projects']) {
+					var paths = parent.split('/');
+					paths[0] = '/project';
+					parent = paths.join('/');
+				} else {
+					parent = '/asset/' + parent;
+				}
+				res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:parent,description:'List all ...',permit:aPerm});
+				res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/asset/' + c.alias,description:'Download actual file ...',permit:aPerm});
+				res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:3,path:'edit',url:'/assets/' + c.id,description:'Edit asset ...',permit:aPerm});
+				res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:4,path:'delete',url:'/assets/delete/' + id,description:'Delete asset ...',permit:aPerm});
+				// Create the form
+				getForm(req,"/assets/" + id,req.t("Edit Asset ... "),c,function(form) {
+					// Default values
+					var values = {asset: c};
+	
+					// Fix for content type being held in meta field
+					// TODO this has a bad smell
+					values.returnTo = returnTo;
+	
+					res.layout = 'admin';
+	
+					// Test!
+					calipso.e.pre_emit('ASSET_UPDATE_FORM', form, function(form) {
+						calipso.form.render(form,values,req,function(form) {
+							calipso.theme.renderItem(req,res,form,block,{},next);
+						});
+					});
+				});
+			});
     }
   });
 
@@ -1670,7 +1845,6 @@ function editAssetForm(req,res,template,block,next) {
  * Update Asset - from form submission
  */
 function updateAsset(req,res,template,block,next) {
-
    calipso.form.process(req,function(form) {
 
       if(form) {
@@ -1681,64 +1855,107 @@ function updateAsset(req,res,template,block,next) {
 
         Asset.findById(id, function(err, c) {
           if (c) {
-
+						calipso.lib.assets.checkPermission(c.alias, req.session.user.username, 'modify', function (err, allowed) {
+							if (!allowed) {
+								res.statusCode = 403;
+                req.flash('error',req.t('You\'re not allowed to edit this asset.'));
+                return next();
+							}
               // Default mapper
               calipso.form.mapFields(form.asset,c);
-
               // Fields that are mapped specifically
               c.updated = new Date();
-              c.alias = form.asset.alias ? form.asset.alias : titleAlias(c.title);
-              c.tags = form.asset.tags ? form.asset.tags.replace(/[\s]+/g, "").split(",") : [];
+              c.updated_by = req.session.user.username;
+//              c.alias = form.asset.alias ? form.asset.alias : titleAlias(c.title);
+//              c.tags = form.asset.tags ? form.asset.tags.replace(/[\s]+/g, "").split(",") : [];
 
-              if(err || c.isbucket === undefined) {
-                req.flash('error',req.t('Could not save content as I was unable to locate content type {type}.',{type:form.content.contentType}));
-                res.redirect('/asset');
-                next();
-              } else {
+							// Emit pre event
+							// This does not allow you to change the content
+							calipso.e.pre_emit('ASSET_UPDATE',c,function(c) {
 
-                // Emit pre event
-                // This does not allow you to change the content
-                calipso.e.pre_emit('CONTENT_CREATE',c,function(c) {
+								c.save(function(err) {
+									if(err) {
 
-                  c.save(function(err) {
-                    if(err) {
+										var errorMsg = '';
+										if(err.errors) {
+											for(var error in err.errors) {
+												errorMessage = error + " " + err.errors[error] + '\r\n';
+											}
+										} else {
+											errorMessage = err.message;
+										}
+										req.flash('error',req.t('Could not update content because {msg}',{msg:errorMessage}));
+										if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+											res.redirect('back');
+										}
+										next();
 
-                      var errorMsg = '';
-                      if(err.errors) {
-                        for(var error in err.errors) {
-                          errorMessage = error + " " + err.errors[error] + '\r\n';
-                        }
-                      } else {
-                        errorMessage = err.message;
-                      }
-                      req.flash('error',req.t('Could not update content because {msg}',{msg:errorMessage}));
-                      if(res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
-                        res.redirect('back');
-                      }
-                      next();
+									} else {
+										calipso.lib.assets.updateParents(c.folder, req.session.user.username, function (err) {
+											req.flash('info',req.t('Content saved.'));
 
-                    } else {
-                      calipso.lib.assets.updateParents(c.folder, req.session.user.username, function (err) {
-                        req.flash('info',req.t('Content saved.'));
-
-                        // Raise CONTENT_CREATE event
-                        calipso.e.post_emit('CONTENT_UPDATE',c,function(c) {
-                          if(returnTo) {
-                            res.redirect(returnTo);
-                          } else {
-                            // use the reference to the originally id deifned by req.moduleParams.id
-                            res.redirect('/s3/' + id);
-                          }
-                          next();
-                        });
-                      });
-                    }
-                  });
-                });
-              }
+											// Raise CONTENT_CREATE event
+											calipso.e.post_emit('CONTENT_UPDATE',c,function(c) {
+												if(returnTo) {
+													res.redirect(returnTo);
+												} else {
+													// use the reference to the originally id deifned by req.moduleParams.id
+													res.redirect('/s3/' + id);
+												}
+												next();
+											});
+										});
+									}
+								});
+							});
+            });
           } else {
             req.flash('error',req.t('Could not locate asset, it may have been deleted by another user or there has been an error.'));
             res.redirect('/asset');
+            next();
+          }
+        });
+      }
+    });
+
+}
+
+function deleteAsset(req,res,template,block,next) {
+   calipso.form.process(req,function(form) {
+
+      if(form) {
+        var Asset = calipso.db.model('Asset');
+
+        var returnTo = form.returnTo ? form.returnTo : "";
+        var id = req.moduleParams.id;
+
+        Asset.findById(id).populate('folder').run(function(err, c) {
+          if (c) {
+						calipso.lib.assets.checkPermission(c.alias, req.session.user.username, 'delete', function (err, allowed) {
+							if (!allowed) {
+								res.statusCode = 403;
+                req.flash('error',req.t('You\'re not allowed to delete this asset.'));
+                return next();
+							}
+							calipso.lib.assets.deleteAsset(c.alias, function (err) {
+								if (err) {
+									req.flash('error', req.t('Could not delete assets because {msg}', {msg:err.message}));
+									if (res.statusCode != 302) {
+										res.redirect('back');
+									}
+									return next();
+								}
+								req.flash('info', req.t('Asset deleted'));
+								if (c.folder)
+									res.redirect('/assets/' + c.folder.id);
+								else
+									res.redirect('/assets/');
+								next();
+							});
+            });
+          } else {
+            req.flash('error',req.t('Could not locate asset, it may have been deleted by another user or there has been an error.'));
+            res.redirect('/assets/');
             next();
           }
         });
@@ -1878,6 +2095,7 @@ function listAssets(req,res,template,block,next) {
 				clone.created = asset.created;
 				clone.updated_by = asset.updated_by;
 				clone.guid = asset.id.toString();
+				clone.isfolder = asset.isfolder;
 				if (!clone.updated_by)
 					clone.updated_by = clone.author;
 				if (asset.fileType)
@@ -1890,6 +2108,15 @@ function listAssets(req,res,template,block,next) {
 					clone.depth = asset.depth;
 				if (asset.format)
 					clone.format = asset.format;
+				if (asset.showupAs)
+					clone.showupAs = asset.showupAs;
+				for (var k in asset) {
+					if (/^custom/.test(k)) {
+						clone[k] = asset[k];
+						if (clone[k] === undefined)
+							clone[k] = '';
+					}
+				}
 				return clone;
     	}
       if (!err && folder) {
@@ -1904,45 +2131,83 @@ function listAssets(req,res,template,block,next) {
 							req.flash('error', req.t('You are not allowed to view this resource {alias}', {alias:alias}));
 							return next();
 						}
-						var folderClone = cloneAsset(folder);
-						folder.children = [];
-						folderClone.children = folder.children;
-						function populateChildren(folder, callback) {
+						function populateChildren(parent, folder, callback) {
 							if (folder.childAssets) {
 								var child = folder.childAssets.splice(0, 1)[0];
 								if (!child) {
 									delete folder.childAssets;
-									return callback(null, null);
+									return callback(null, folder);
 								}
-								var clone = cloneAsset(child, user);
-								folder.children.push(clone);
+								if (!folder.children)
+									folder.children = [];
+								folder.children.push(child);
 								if (child.isfolder) {
-									child.children = [];
-									clone.children = child.children;
-									return populateChildren(child, callback);
+									child.tag = 'Folder';
+									return populateChildren(folder, child, function (err, child) {
+										populateChildren(parent, folder, callback);
+									});
 								} else {
-									return populateChildren(folder, callback);
+									child.tag = 'File';
+									return populateChildren(parent, folder, callback);
 								}
 							}
-							Asset.find({folder:folder._id}, function (err, assets) {
+							Asset.find({folder:folder.guid}).sort('customSort',1,'title',1).run(function (err, assets) {
 								if (err) return next(err);
-								folder.childAssets = assets;
-								populateChildren(folder, callback);
+								folder.childAssets = [];
+								assets.forEach(function (asset) {
+									folder.childAssets.push(cloneAsset(asset, user));
+								});
+								populateChildren(parent, folder, function (err, folder) {
+									function sortFunction(x, y) {
+										x = x.customSort || x.customLink || x.title || '';
+										y = y.customSort || y.customLink || y.title || '';
+										if (x === y) return 0;
+										return x < y ? -1 : 1;
+									}
+									folder.children.sort(sortFunction);
+									if (folder.showupAs && parent) {
+										var index = parent.children.indexOf(folder);
+										parent.children.splice(index, 1); // remove this folder out of the parent.
+										folder.children.forEach(function (item) {
+											var found = false;
+											parent.children.some(function (parChild) {
+												if ((parChild.customLink || parChild.customSort) === (item.customLink || item.customSort)) {
+													found = true;
+													if (!parChild.children)
+														parChild.children = [];
+													parChild.children.push(item);
+													item.tag = folder.showupAs;
+													return true;
+												}
+												return false;
+											});
+											if (!found) {
+												item.tag = folder.showupAs;
+												var parChild = {tag:'Fake',children:[item],customLink:item.customLink,customSort:item.customSort,title:item.title};
+												parent.children.push(parChild);
+												parent.children.sort(sortFunction);
+											}
+										});										
+									}
+									callback(null, folder);
+								});
 							});
 						}
-						return populateChildren(folder, function (err, f) {
+						var folderClone = cloneAsset(folder, user);
+						folderClone.tag = 'Folder';
+						return populateChildren(null, folderClone, function (err, f) {
 							if (outputList === 'json') {
 								res.write(JSON.stringify(folderClone));
 								return res.end();
 							} else if (outputList === 'xml') {
 								var xml = ['<?xml version="1.0" encoding="UTF-8"?>\n'];
 								function xmlEscape(str) {
-									if (!str)
-										return '';
 									if (str instanceof Date)
 										return str.toJSON();
 									if (!(str instanceof String))
 										return str.toString();
+									if (!str)
+										return str;
 									str = str.replace('&', '&amp;');
 									str = str.replace('"', '&quot;');
 									str = str.replace('<', '&lt;');
@@ -1950,36 +2215,18 @@ function listAssets(req,res,template,block,next) {
 									return str;
 								}
 								function append(asset) {
-									if (asset.children)
-										xml.push('<Folder ');
-									else
-										xml.push('<File ');
-									xml.push('description="', xmlEscape(asset.description), '" ');
-									xml.push('title="', xmlEscape(asset.title), '" ');
-									if (asset.url)
-										xml.push('url="', xmlEscape(asset.url), '" ');
-									if (asset.width)
-										xml.push('width="', xmlEscape(asset.width), '" ');
-									if (asset.height)
-										xml.push('height="', xmlEscape(asset.height), '" ');
-									if (asset.depth)
-										xml.push('depth="', xmlEscape(asset.depth), '" ');
-									if (asset.height)
-										xml.push('format="', xmlEscape(asset.format), '" ');
-									if (asset.fileType)
-										xml.push('fileType="', xmlEscape(asset.fileType), '" ');
-									if (asset.guid)
-										xml.push('guid="', xmlEscape(asset.guid), '" ');
-									xml.push('author="', xmlEscape(asset.author), '" ');
-									xml.push('updated_by="', xmlEscape(asset.updated_by), '" ');
-									xml.push('updated="', xmlEscape(asset.updated), '" ');
-									xml.push('created="', xmlEscape(asset.updated), '" ');
+									xml.push('<' + asset.tag + ' ');
+									for (var v in asset) {
+										if (v === 'children')
+											continue;
+										xml.push(v + '="', xmlEscape(asset[v]), '" ');
+									}
 									if (asset.children) {
 										xml.push('>');
 										asset.children.forEach(function (child) {
 											append(child);
 										});
-										xml.push('</Folder>');
+										xml.push('</' + asset.tag + '>');
 									} else
 										xml.push('/>');
 								}
@@ -1998,8 +2245,8 @@ function listAssets(req,res,template,block,next) {
         	var folderAlias = folder.alias;
           var paths = folder.key.split('/');
           var k = require('knox').createClient({
-            key: calipso.config.get("s3:key"),
-            secret: calipso.config.get("s3:secret"),
+            key: calipso.config.getModuleConfig("assets", "s3key"),
+            secret: calipso.config.getModuleConfig("assets", "s3secret"),
             bucket: paths.splice(0, 1)[0]
           });
           var fileName = null;
@@ -2117,277 +2364,18 @@ function listAssets(req,res,template,block,next) {
 };
 
 function syncAssets(req, res, route, next) {
-  var Asset = calipso.db.model('Asset');
-  var info;
-  function realContent(info, asset, atRoot, callback, next) {
-    var bucket = '';
-    if (asset) {
-      var s = asset.key.split('/');
-      bucket = s[0];
-    }
-    var expat = require('node-expat');
-    var knox = require('knox').createClient({
-      key: calipso.config.get("s3:key"),
-      secret: calipso.config.get("s3:secret"),
-      bucket: bucket
-    });
-    if (info && info.bucket && asset && bucket !== info.bucket) {
-      return next();
-    }
-    knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response', function(s3res){
-      s3res.setEncoding('utf8');
-      var parser = new expat.Parser();
-      var items = [];
-      var item = null;
-      var dirs = {};
-      var property = null;
-      var owner = null;
-      var message = null;
-      var code = null;
-      var Asset = calipso.db.model('Asset');
-      parser.addListener('startElement', function(name, attrs) {
-        if (name === 'Error') {
-          property = 'error';
-        } else if (name === 'Code') {
-          property = 'code';
-        } else if (name === 'Message') {
-          property = 'message';
-        } else if (name === 'Contents' || name == 'Bucket') {
-          item = {};
-        } else if (name === 'Key') {
-          property = 'key';
-        } else if (name === 'CreationDate') {
-          property = 'created';
-        } else if (name === 'LastModified') {
-          property = 'updated';
-        } else if (name === 'ETag') {
-          property = 'etag';
-        } else if (name === 'Name') {
-          property = 'key';
-        } else if (name === 'Size') {
-          property = 'size';
-        } else if (name === 'DisplayName')
-          property = 'author';
-      });
-      parser.addListener('endElement', function(name) {
-        if (name === 'Error') {
-          callback({code:code, message:message}, null, asset);
-        } else if (name === 'Contents' || name == 'Bucket') {
-          if (!item.author)
-            item.author = owner;
-          if (item.key.substring(item.key.length - 1) === '/')
-            dirs[item.key] = true;
-          else if (asset) {
-            var paths = item.key.split('/');
-            paths.splice(paths.length - 1, 1);
-            paths = paths.join('/') + '/';
-            if (!dirs[paths] && paths !== '/') {
-              var fakeItem = {key:paths,size:0,isfolder:true,author:item.author};
-              items.push(fakeItem);
-              dirs[paths] = true;
-            }
-          }
-          items.push(item);
-          item = null;
-        } else if (name === 'ListBucketResult' || name === 'ListAllMyBucketsResult') {
-          callback(null, items, asset, atRoot, next);
-        }
-      });
-      parser.addListener('text', function(s) {
-        if (property === 'code')
-          code = s;
-        if (property === 'message')
-          message = s;
-        if (property === 'author')
-          owner = s;
-        if (property && item) {
-          if (property === 'key') {
-            if (asset)
-              item[property] = bucket + '/' + s;
-            else
-              item[property] = s + '/';
-          } else if (property === 'Size') {
-            if (/\/$/.test(item.Key))
-              item.IsDirectory = true;
-            else {
-              item.IsFile = true;
-            }
-            item[property] = s;
-          } else
-            item[property] = s;
-          property = null;
-        }
-      });
-      s3res.on('error', function(err) {
-        callback(err, null, null, next);
-      });
-      buffer = new Buffer('');
-      s3res.on('end', function() {
-        parser.parse(buffer);
-      });
-      s3res.on('data', function(chunk){
-        buffer += chunk;
-      });
-    }).end();
-  };
-  function snarfBucketContent(err, items, parent, atRoot, next) {
-    if (err) {
-      return;
-    }
-    var asset = items.splice(0, 1)[0]; // take the first item
-    if (!asset) {
-      if (next)
-        next(null);
-      return;
-    }
-    var query = {key:asset.key};
-    Asset.findOne(query, function (err, assetFound) {
-      var isNew = false;
-      if (!assetFound) {
-        assetFound = new Asset();
-        isNew = true;
-      }
-      var paths = asset.key.split('/');
-      if (paths[paths.length - 1] === '')
-        paths.splice(paths.length - 1, 1);
-      var fileName = paths[paths.length - 1] || 'Untitled';
-      paths.splice(paths.length - 1, 1);
-      var folderPath = null;
-      if (paths.length > 0)
-        folderPath = paths.join('/') + '/';
-      if (!assetFound.title || assetFound.title === 'undefined') {
-        assetFound.title = (parent === null) ? asset.key : fileName;
-      }
-      assetFound.isfolder = asset.key.substring(asset.key.length - 1) === '/';
-      assetFound.isroot = false;
-      if (!assetFound.isfolder)
-        assetFound.size = asset.size;
-      else
-        assetFound.size = null;
-      assetFound.key = asset.key; // S3 name
-      assetFound.fileType = asset.fileType;
-      var project = null;
-      var match = assetFound.key.match(/^([^\/]*)\/project:([^\-\/]*):([^\-\/]*)(\/.*)?$/);
-      assetFound.alias = 's3/' + asset.key;
-      if (match) {
-        assetFound.isroot = (match[1] + '/project:' + match[2] + ':' + match[3] + '/') == assetFound.key;
-        if (assetFound.isroot) {
-          project = match[2];
-          assetFound.isroot = false;
-          assetFound.title = match[3];
-          var newUri = 'proj/' + match[2] + '/' + match[3] + '/';
-          calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
-          assetFound.alias = newUri;
-        } else {
-          // For a normal asset that's part of a project rewrite it to say
-          // {project}/{rootfolder}/{restofuri}
-          var newUri = 'proj/' + match[2] + '/' + match[3] + (match[4] ? match[4] : '');
-          calipso.debug("rewriting uri from " + assetFound.key + " to " + newUri);
-          assetFound.alias = newUri;
-        }
-      } else if (/s3\/[^\/]*\/$/.test(assetFound.alias)) {
-        assetFound.isroot = true;
-      }
-      assetFound.author = asset.author;
-      if (assetFound.isbucket) {
-        if (!info || !info.bucket || info.bucket === assetFound.alias)
-          res.write((isNew ? 'new ' : 'update ') + ' bucket "' + asset.key + '"\n');
-      } else if (parent && assetFound.isfolder) {
-        res.write((isNew ? 'new ' : 'update ') + '"' + asset.key + '"\n');
-      }
-      function saveAsset() {
-        assetFound.save(function (err) {
-          if (err) {
-            calipso.error("error:", err)
-            next();
-            return;
-          }
-          if (parent) {
-            snarfBucketContent(err, items, parent, atRoot, function (err) {
-              snarfBucketContent(err, items, parent, false, next);
-            });
-          } else {
-            realContent(info, assetFound, false, snarfBucketContent, function (err) {
-              snarfBucketContent(err, items, parent, false, next);
-            });
-          }
-        });
-      }
-      if (project) {
-        var pq = {isproject:true,alias:'proj/' + project + '/',key:'',isvirtual:true};
-        Asset.findOne(pq, function (e, proj) {
-          var newProj = false;
-          if (e || !proj) {
-            newProj = true;
-            proj = new Asset(pq);
-          }
-          proj.author = asset.author;
-          proj.title = project;
-          proj.isroot = true;
-          proj.isfolder = true;
-          calipso.debug((newProj ? 'new project ' : 'update project ') + proj.title);
-          proj.save(function (err) {
-            if (err) {
-              calipso.error("error:", err);
-              next();
-              return;
-            }
-            assetFound.folder = proj._id;
-            assetFound.isvirtual = true;
-            saveAsset();
-          });
-        });
-      } else
-        saveAsset();
-    });
-  }
-
   var p = [];
   for (var i = 1; i < 10; i++) {
     if (req.moduleParams['f' + i])
       p.push(req.moduleParams['f' + i]);
   }
-
-  if (p.length > 0) {
-    info = {
-      bucket: p.splice(0, 1)[0],
-      prefix: p.join('/')
-    };
-  } else {
-    info = null;
-  }
-
-  realContent(info, null, true, snarfBucketContent, function () {
-    Asset.find({isfolder:true}, function (e, folders) {
-      if (e || folders.length == 0) {
-        doNext();
-        return;
-      }
-      var wasDone = false;
-      function doNext() {
-        if (!wasDone) {
-          res.end();
-          next();
-          wasDone = true;
-        }
-      }
-      function updateFolder(index) {
-        var folder = folders[index];
-        var query = folder.isfolder
-          ? { key:{ $regex:'^' + folder.key + '[^/]+/?$' }, isvirtual:false, isfolder:false }
-          : { key:{ $regex:'^[^/]+/?$' }, isvirtual: false, isfolder:false };
-        Asset.update(query, { folder: folder._id }, { multi: true }, function (e, c) {
-          res.write('searching "' + folder.key + '" - ' + c + '\n');
-          if ((folders.length - 1) == index) {
-            doNext();
-          } else {
-            updateFolder(index + 1);
-          }
-        });
-      }
-      updateFolder(0);
-    });
-  });
+  res.write('<html><body><ul>');
+	calipso.lib.assets.syncFolder(p.join('/'), function (err, out) {
+		res.write('</ul></body></html>');
+		res.end();
+	}, function (prog) {
+		res.write('<li>' + prog + '</li>');
+	});
 }
 
 /**
@@ -2467,6 +2455,9 @@ function getAssetList(query,out,next) {
                  }},
                  {name:'alias',label:'Alias',fn:function(req, asset) {
                     var file = asset.alias;
+                   if (asset.id === (out.folder && out.folder.id)) {
+                   	 return calipso.link.render({id:asset.alias,title:req.t('Get folder list'),label:asset.title,url:calipso.lib.assets.encodeUrl(asset, null, {filename:'_list.xml'})});
+                   }
                     if (out.path)
                       file = file.replace(out.path, '');
                     if (asset.isbucket)

@@ -25,7 +25,65 @@ var routes = [
 exports = module.exports = {
   init: init,
   route: route,
-  routes: routes
+  routes: routes,
+  config: {
+      host: {
+        "default": "",
+        "label": "SMTP Server",
+        "type": "text",
+        "description": "This is the SMTP server IP or DNS name."
+      },
+      port: {
+        "default": "",
+        "label": "SMTP Port",
+        "type": "text",
+        "description": "This is the SMTP server port to use."
+      },
+      domain: {
+        "default": "",
+        "label": "Domain",
+        "type": "text",
+        "description": "This is the domain name."
+      },
+      authentication: {
+        "default": false,
+        "label": "Authentication",
+        "type": "checkbox",
+        "labelFirst": true,
+        "description": "Does this SMPT server require authentication"
+      },
+      ssl: {
+        "default": false,
+        "label": "SSL",
+        "type": "checkbox",
+        "labelFirst": true,
+        "description": "Should we use SSL to connect to the SMTP server."
+      },
+      from: {
+        "default": "",
+        "label": "From",
+        "type": "text",
+        "description": "This is the email address the email is being sent from."
+      },
+      username: {
+        "default": "",
+        "label": "Username",
+        "type": "text",
+        "description": "This is the username to use when authenticating to the SMTP server."
+      },
+      password: {
+        "default": "",
+        "label": "Password",
+        "type": "password",
+        "description": "This is the password to use to authenticating to the SMTP server."
+      },
+      base64: {
+        "default": false,
+        "label": "Base 64 Auth",
+        "type": "checkbox",
+        "description": "Use base64 encoding for username and password."
+      }
+  }
 };
 
 /**
@@ -116,12 +174,12 @@ function sendMail(templates, data){
 }
 
 function toUser(user, template, data, callback) {
-  var host = calipso.config.get("mail:host");
-  var port = calipso.config.get("mail:port");
-  var domain = calipso.config.get("mail:domain");
-  var base64 = calipso.config.get("mail:base64")
-  var username = calipso.config.get("mail:username");
-  var password = calipso.config.get("mail:password");
+  var host = calipso.config.getModuleConfig("mail", "host");
+  var port = calipso.config.getModuleConfig("mail", "port");
+  var domain = calipso.config.getModuleConfig("mail", "domain");
+  var base64 = calipso.config.getModuleConfig("mail", "base64")
+  var username = calipso.config.getModuleConfig("mail", "username");
+  var password = calipso.config.getModuleConfig("mail", "password");
   if (!host || !port || !domain || !username || !password ){
     return;
   }
@@ -140,11 +198,11 @@ function toUser(user, template, data, callback) {
     port: port,                      // smtp server port
     domain: domain,                  // domain used by client to identify itself to server
     to: user.email,
-    from: calipso.config.get("mail:from"),
+    from: calipso.config.getModuleConfig("mail", "from"),
     subject: template.subject,
     body: body,
-    authentication: calipso.config.get("mail:authentication") ? 'login' : '',
-    ssl: calipso.config.get("mail:ssl") == true ? true : false,                         // true/false
+    authentication: calipso.config.getModuleConfig("mail", "authentication") ? 'login' : '',
+    ssl: calipso.config.getModuleConfig("mail", "ssl") == true ? true : false,                         // true/false
     username: username,              // Account username
     password: password               // Account password
   },
