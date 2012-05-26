@@ -589,27 +589,6 @@ function coreConfig(req, res, template, block, next) {
     tabs:true,
     sections:[
       {
-        id:'form-section-assets',
-        label:'Assets',
-        fields:[
-          {
-            label:'S3 Access Key',
-            name:'s3:key',
-            type:'text'
-          },
-           {
-            label:'S3 Secret Key',
-            name:'s3:secret',
-            type:'password'
-          },
-           {
-            label:'S3 Bucket',
-            name:'s3:bucket',
-            type:'text'
-          }
-        ]
-      },
-      {
         id:'form-section-core',
         label:'Site',
         fields:[
@@ -762,61 +741,6 @@ function coreConfig(req, res, template, block, next) {
         ]
       },
       {
-        id:'form-section-mail',
-        label:'Mail',
-        fields:[
-          {
-            label:'SMTP Server',
-            name:'mail:host',
-            type:'text'
-          },
-          {
-            label:'Port',
-            name:'mail:port',
-            type:'text'
-          },
-          {
-            label:'Domain',
-            name:'mail:domain',
-            type:'text'
-          },
-          {
-            label:'Authentication',
-            name:'mail:authentication',
-            type:'checkbox',
-            labelFirst:true
-          },
-          {
-            label:'SSL',
-            name:'mail:ssl',
-            type:'checkbox',
-            labelFirst:true
-          },
-          {
-            label:'From',
-            name:'mail:from',
-            type:'text'
-          },
-          {
-            label:'Username',
-            name:'mail:username',
-            type:'text'
-          },
-          {
-            label:'Password',
-            name:'mail:password',
-            type:'password'
-          },
-          {
-            label:'Base64',
-            name:'mail:base64',
-            description:'Use Base64 encoding for username & password?',
-            type:'checkbox',
-            labelFirst:true
-          }
-        ]
-      },
-      {
         id:'form-section-logging',
         label:'Logging',
         fields:[
@@ -902,7 +826,7 @@ function coreConfig(req, res, template, block, next) {
   // Values can come straight off the config.
   var values = calipso.config;
 
-  var adminModuleFields = adminForm.sections[7].fields;
+  var adminModuleFields = adminForm.sections[5].fields;
   createModuleFields(adminModuleFields);
 
   res.layout = 'admin';
