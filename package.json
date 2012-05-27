@@ -13,8 +13,8 @@
     "node": "0.6.x || 0.7.x"
   },
   "dependencies": {
-    "express": "2.5.x",
-    "connect": "1.8.x",
+    "express": "3.0.x",
+    "connect": "2.0.x",
     "ejs": "0.6.x",
     "jade": "0.20.x",
     "stylus": "0.23.x",
@@ -34,7 +34,8 @@
     "zipfile":"0.3.x",
     "rimraf":"2.0.x",
     "nconf":"0.5.x",
-    "async": "0.1.x"
+    "async": "0.1.x",
+    "hook.io": "0.8.x"
   },
   "devDependencies": {
     "mocha": "*",

@@ -131,7 +131,8 @@ module.exports = function (options) {
 
   MONGOSTORE.get = function (sid, cb) {
     _default(cb);
-    _collection.findOne({_id: sid}, function (err, data) {
+    var curr = Date.now();
+    _collection.findOne({$or:[{_id: sid, expires: null},{_id: sid, expires: {'$gt': curr}}]}, function (err, data) {
       try {
         if (data) {
           cb(null, JSON.parse(data.session.toString()));

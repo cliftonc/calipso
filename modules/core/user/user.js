@@ -19,12 +19,12 @@ exports = module.exports = {
  */
 function route(req, res, module, app, next) {
 
-  // Menu
-  res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', security: [] });
-  res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', security: [] });
-  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', security: [] });
+  var aPerm = calipso.permission.Helper.hasPermission("admin:user");
 
-  roles.route(req, res, module, app);
+  // Menu
+  res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', permit:aPerm });
 
   // Router
   module.router.route(req, res, next);
@@ -57,6 +57,11 @@ function init(module, app, next) {
       module.router.addRoute('GET /user/login', loginPage, { end: false, template: 'loginPage', block: 'content' }, this.parallel());
       module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
       module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
+      module.router.addRoute('GET /admin/role/register',roleForm,{end:false,admin:true,block:'content'},this.parallel());
+      module.router.addRoute('GET /admin/role/list',listRoles,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
+      module.router.addRoute('GET /admin/roles/:role?',roleForm,{end:false,admin:true,block:'content'},this.parallel());
+      module.router.addRoute('POST /admin/roles/:role?', updateRole,{block:'content'},this.parallel());
+      module.router.addRoute('GET /admin/roles/:role/delete', deleteRole,{admin:true},this.parallel());
       module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
       module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
       module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
@@ -209,6 +214,45 @@ function loginPage(req, res, template, block, next) {
 
 };
 
+function roleForm(req, res, template, block, next) {
+
+  res.layout = 'admin';
+  var Role = calipso.db.model('Role');
+
+  function finish(role) {
+    // TODO : Use secitons!
+    if (req.session.user.isAdmin && role && (role.name != 'Guest') && (role.name != 'Administrator') && (role.name != 'Contributor')) {
+      res.menu.adminToolbar.addMenuItem({name:'Delete Role',path:'return',url:'/admin/roles/' + role._id + '/delete',description:'Delete role ...',security:[]});
+    }
+    var roleForm = {
+      id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/admin/roles/' + (role && role._id ? role._id : ""),
+      sections:[{
+        id:'form-section-core',
+        label:'The New Role',
+        fields:[
+          {label:'Role Name', name:'role[name]', type:'text', description:'Enter the name of the role.'},
+          {label:'Description', name:'role[description]', type:'text', description:'Enter the description of the role.'},
+          {label:'Is Default', name:'role[isDefault]', type:'checkbox', description:'Is this a default role.'},
+          {label:'Is Admin', name:'role[isAdmin]', type:'checkbox', description:'Is a user with this role an admin.'}
+        ],
+      }],
+      buttons:[
+        {name:'submit', type:'submit', value:'Register'}
+      ]
+    };
+
+    calipso.form.render(roleForm, {role:role}, req, function(form) {
+      calipso.theme.renderItem(req, res, form, block, {}, next);
+    });
+  }
+
+  if (req.moduleParams.role) {
+    Role.findOne({_id:req.moduleParams.role}, function(err, role) {
+      finish(role);
+    });
+  } else
+    finish(null);
+};
 
 /**
  * Register form
@@ -346,7 +390,6 @@ function updateUserForm(req, res, template, block, next) {
   } else {
     req.flash('error',req.t('You are not authorised to perform that action.'));
     res.redirect('/');
-    next();
     return;
   }
 
@@ -398,6 +441,7 @@ function lockUser(req, res, template, block, next) {
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
       res.redirect('/user/list');
+      return;
     }
 
     u.locked = true;
@@ -431,6 +475,7 @@ function unlockUser(req, res, template, block, next) {
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
       res.redirect('/user/list');
+      return;
     }
 
     u.locked = false;
@@ -449,11 +494,59 @@ function unlockUser(req, res, template, block, next) {
 
 }
 
+function updateRole(req, res, template, block, next) {
+  calipso.form.process(req,function(form) {
+    if(form) {
+      var role = req.moduleParams.role;
+      var Role = calipso.db.model('Role');
+
+      // Quickly check that the user is an admin or it is their account
+       if(req.session.user && req.session.user.isAdmin) {
+         // We're ok
+       } else {
+         req.flash('error',req.t('You are not authorised to perform that action.'));
+         res.redirect('/');
+         return;
+       }
+
+      Role.findOne({_id:role}, function(err, role) {
+        var role = null;
+        if (err || !role) {
+          role = new Role(form.role);
+        } else {
+          role.name = form.role.name;
+          role.isDefault = form.role.isDefault;
+          role.isAdmin = form.role.isAdmin;
+          role.description = form.role.description;
+        }
+        if (role.name === 'Administrator' || role.name === 'Contributor' || role.name === 'Guest') {
+          req.flash('error', req.t('You cannot edit the default calipso roles.'));
+          res.redirect('/admin/role/list');
+          return;
+        }
+        if (role.name === 'Administrator' || role.name === 'Contributor' || role.name === 'Guest') {
+          req.flash('error', req.t('You cannot name any new roles identical to the default calipso roles.'));
+          return roleForm(req, res, template, block, next);
+        }
+        role.save(function (err) {
+          if (err)
+            req.flash('error', req.t('There was an error {err}', {err:err}));
+
+        })
+        res.redirect('/admin/role/list');
+      });
+    } else
+      res.redirect('/admin/role/list');
+  });
+}
 
 /**
  * Update user
  */
 function updateUserProfile(req, res, template, block, next) {
+  // Updating a profile through forms can set the username to 'false'
+  // Use moduleParams until this is patched.
+  var uname = !req.session.user.isAdmin ? req.moduleParams.username : null;
 
   calipso.form.process(req,function(form) {
     if(form) {
@@ -467,7 +560,6 @@ function updateUserProfile(req, res, template, block, next) {
        } else {
          req.flash('error',req.t('You are not authorised to perform that action.'));
          res.redirect('/');
-         next();
          return;
        }
 
@@ -483,7 +575,7 @@ function updateUserProfile(req, res, template, block, next) {
       User.findOne({username:username}, function(err, u) {
 
         u.fullname = form.user.fullname;
-        u.username = form.user.username;
+        u.username = uname || form.user.username;
         u.email = form.user.email;
         u.language = form.user.language;
         u.about = form.user.about;
@@ -538,6 +630,7 @@ function updateUserProfile(req, res, template, block, next) {
           req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
           if(res.statusCode != 302) {
             res.redirect('/');
+            return;
           }
           next();
           return;
@@ -551,6 +644,7 @@ function updateUserProfile(req, res, template, block, next) {
             if(res.statusCode != 302) {
               // Redirect to old page
               res.redirect('/user/profile/' + username + '/edit');
+              return;
             }
 
           } else {
@@ -566,6 +660,7 @@ function updateUserProfile(req, res, template, block, next) {
 
             // Redirect to new page
             res.redirect('/user/profile/' + u.username);
+            return;
 
           }
           // If not already redirecting, then redirect
@@ -611,7 +706,8 @@ function loginUser(req, res, template, block, next) {
         }
 
         if(res.statusCode != 302) {
-          res.redirect('back');
+          res.redirect(calipso.config.get('server:loginPath') || 'back');
+          return;
         }
         next();
         return;
@@ -650,11 +746,13 @@ function createUserSession(req, res, user, next) {
   });
 }
 
+calipso.lib.user = {createUserSession:createUserSession};
+
 /**
  * Logout
  */
 function logoutUser(req, res, template, block, next) {
-
+  var returnTo = req.moduleParams.returnto || null;
   if(req.session && req.session.user) {
 
     var User = calipso.db.model('User');
@@ -666,7 +764,8 @@ function logoutUser(req, res, template, block, next) {
         // Check for error
         calipso.e.post_emit('USER_LOGOUT',u);
         if(res.statusCode != 302) {
-          res.redirect('back');
+          res.redirect(returnTo || 'back');
+          return;
         }
         next();
 
@@ -676,8 +775,7 @@ function logoutUser(req, res, template, block, next) {
 
   } else {
     // Fail quietly
-    res.redirect('back');
-    next();
+    res.redirect(returnTo || 'back');
   }
 
 }
@@ -747,15 +845,21 @@ function registerUser(req, res, template, block, next) {
       u.save(function(err) {
 
         if(err) {
-          req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
+          var msg = err.message;
+          if (err.code === 11000) {
+            msg = "a user has already registered with that email";
+          }
+          req.flash('error',req.t('Could not save user because {msg}.',{msg:msg}));
           if(res.statusCode != 302 && !res.noRedirect) {
             res.redirect('back');
+            return;
           }
         } else {
           calipso.e.post_emit('USER_CREATE',u);
           if(!res.noRedirect) {
             req.flash('info',req.t('Profile created, you can now login using this account.'));
             res.redirect('/user/profile/' + u.username);
+            return;
           }
         }
 
@@ -819,7 +923,23 @@ function userProfile(req, res, template, block, next) {
 
 }
 
-
+function deleteRole(req, res, template, block, next) {
+  var Role = calipso.db.model('Role');
+  Role.findOne({_id:req.moduleParams.role}, function (err, r) {
+    Role.remove({_id:r._id}, function(err) {
+      if (err) {
+        req.flash('info', req.t('Unable to delete the role because {mst}', {msg:err.message}));
+        res.redirect("/admin/role/list");
+        return;
+      } else {
+        req.flash('info', req.t("The role has now been deleted."));
+        res.redirect('/admin/role/list');
+        return;
+      }
+      next();
+    });
+  });
+}
 /**
  * Delete user
  */
@@ -837,10 +957,12 @@ function deleteUser(req, res, template, block, next) {
       if(err) {
         req.flash('info',req.t('Unable to delete the user because {msg}',{msg:err.message}));
         res.redirect("/user/list");
+        return;
       } else {
         calipso.e.post_emit('USER_DELETE',u);
         req.flash('info',req.t('The user has now been deleted.'));
         res.redirect("/user/list");
+        return;
       }
       next();
     });
@@ -853,6 +975,12 @@ function deleteUser(req, res, template, block, next) {
  */
 function userLink(req,user) {
   return calipso.link.render({id:user._id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});
+}
+
+function roleLink(req,role) {
+  if (role.name === 'Guest' || role.name === 'Administrator' || role.name === 'Contributor')
+    return role.name;
+  return calipso.link.render({id:role._id,title:req.t('View {role}',{role:role.name}),label:role.name,url:'/admin/roles/' + role._id});
 }
 
 /**
@@ -927,6 +1055,75 @@ function listUsers(req,res,template,block,next) {
   });
 };
 
+/**
+ * List all content types
+ */
+function listRoles(req,res,template,block,next) {
+
+  // Re-retrieve our object
+  var Role = calipso.db.model('Role');
+
+  res.menu.adminToolbar.addMenuItem({name:'Register New Role',path:'new',url:'/admin/role/register',description:'Register new role ...',security:[]});
+
+  var format = req.moduleParams.format ? req.moduleParams.format : 'html';
+  var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
+  var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 5;
+  var sortBy = req.moduleParams.sortBy;
+
+  var query = new Query();
+
+  // Initialise the block based on our content
+  Role.count(query, function (err, count) {
+
+    var total = count;
+
+    var qry = Role.find(query).skip(from).limit(limit);
+
+    // Add sort
+    qry = calipso.table.sortQuery(qry,sortBy);
+
+    qry.find(function (err, roles) {
+
+      // Render the item into the response
+      if(format === 'html') {
+
+        var table = {
+          id:'user-list',sort:true,cls:'table-admin',
+          columns:[
+            {name:'_id',sort:'name',label:'Role',fn:roleLink},
+            {name:'description',label:'Description'},
+            {name:'isAdmin',label:'Is Admin'},
+            {name:'isDefault',label:'Is Default'}
+          ],
+          data:roles,
+          view:{
+            pager:true,
+            from:from,
+            limit:limit,
+            total:total,
+            url:req.url,
+            sort:calipso.table.parseSort(sortBy)
+          }
+        };
+
+        var tableHtml = calipso.table.render(table,req);
+
+        calipso.theme.renderItem(req,res,tableHtml,block,null,next);
+
+      }
+
+      if(format === 'json') {
+        res.format = format;
+        res.send(roles.map(function(u) {
+          return u.toObject();
+        }));
+        next();
+      }
+
+    });
+
+  });
+};
 
 /**
  * Installation process - asynch
@@ -965,7 +1162,7 @@ function install(next) {
         self()(new Error("No administrative user details provided through login process!"));
       }
 
-    },  
+    },
     function allDone(err) {
       if(err) {
         calipso.error("User module failed installation " + err.message);
