@@ -21,9 +21,9 @@
     "node": "0.6.x"
   },
   "dependencies": {
-    "express": "git://github.com/visionmedia/express.git",
-    "formidable": "1.0.x"
-    "connect": "2.0.0",
+    "express": "3.0.x",
+    "formidable": "1.0.x",
+    "connect": "2.2.x",
     "ejs": "0.6.x",
     "jade": "0.20.x",
     "stylus": "0.23.x",
@@ -43,7 +43,6 @@
     "colors":"0.6.x",
     "bcrypt": "0.7.x",
     "semver":"1.0.x",
-    "hook.io":"git://github.com/richtera/hook.io.git",
     "zipfile":"0.3.x",
     "rimraf":"2.0.x",
     "nconf":"0.5.x",
