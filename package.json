@@ -1,20 +1,29 @@
 {
   "name": "calipso",
   "description": "A NodeJS CMS",
-  "version": "0.3.3",
+  "version": "0.3.0",
   "homepage": "http://calip.so",
   "repository": {
     "type": "git",
     "url": "git://github.com/cliftonc/calipso.git"
   },
   "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
-  "keywords"      : ["cms", "content management", "server", "mongodb"],
+  "directories": {
+    "lib": "./lib",
+    "conf": "./conf",
+    "modules": "./modules",
+    "themes": "./themes",
+    "support": "./support",
+    "utils": "./utils",
+    "tests": "./tests"
+  },
   "engines": {
-    "node": "0.6.x || 0.7.x"
+    "node": "0.6.x"
   },
   "dependencies": {
-    "express": "3.0.x",
-    "connect": "2.0.x",
+    "express": "git://github.com/visionmedia/express.git",
+    "formidable": "1.0.x"
+    "connect": "2.0.0",
     "ejs": "0.6.x",
     "jade": "0.20.x",
     "stylus": "0.23.x",
@@ -22,27 +31,32 @@
     "mongoose": "2.5.x",
     "connect-mongodb": "1.1.x",
     "winston": "0.5.x",
+    "mongodb": "0.9.x",
+    "connect-form": "0.2.x",
     "qs": "0.4.x",
     "request":"2.9.x",
     "pool":"0.4.x",
     "mime":"1.2.x",
+    "cluster": "0.7.x",
     "step": "0.0.x",
     "optimist":"0.3.x",
     "colors":"0.6.x",
     "bcrypt": "0.7.x",
     "semver":"1.0.x",
+    "hook.io":"git://github.com/richtera/hook.io.git",
     "zipfile":"0.3.x",
     "rimraf":"2.0.x",
     "nconf":"0.5.x",
     "async": "0.1.x",
-    "hook.io": "0.8.x"
+    "hook.io": "0.8.7-2"
   },
   "devDependencies": {
-    "mocha": "*",
+    "expresso": "*",
     "should": "*"
   },
   "scripts": {
-    "test" : "NODE_ENV=mocha mocha -t 10000 -s 200"
+    "install" : "bash ./bin/install.sh",
+    "test" : "expresso -s"
   },
   "bin": { "calipso": "./bin/calipso" }
 }
