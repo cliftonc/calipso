@@ -13,14 +13,12 @@ var rootpath = process.cwd() + '/',
   path = require('path'),
   fs = require('fs'),
   express = require('express'),
-  mongoose = require('mongoose'),
   nodepath = require('path'),
   stylus = require('stylus'),
   colors = require('colors'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   translate = require(path.join(rootpath, 'i18n/translate')),
-  logo = require(path.join(rootpath, 'logo')),
-  mongoStore = require(path.join(rootpath, 'support/connect-mongodb'));
+  logo = require(path.join(rootpath, 'logo'));
 
 // Local App Variables
 var path = rootpath,
