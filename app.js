@@ -52,7 +52,7 @@ function bootApplication(next) {
   app.config.init(function(err) {
 
     if(err) return console.error(err.message);
-      
+
     // Default Theme
     calipso.defaultTheme = app.config.get('themes:default');
 
@@ -61,7 +61,7 @@ function bootApplication(next) {
     app.use(express.cookieParser());
     app.use(express.responseTime());
 
-    // Create dummy session middleware - tag it so we can later replace    
+    // Create dummy session middleware - tag it so we can later replace
     var temporarySession = app.config.get('installed') ? {} : express.session({ secret: "installing calipso is great fun" });
     temporarySession.tag = "session";
     app.use(temporarySession);
@@ -107,8 +107,8 @@ function bootApplication(next) {
     app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
     // Core calipso router
-    calipso.init(app, function() { 
-      
+    calipso.init(app, function() {
+
       // Add the calipso mw
       app.use(calipso.routingFn());
 
@@ -118,7 +118,7 @@ function bootApplication(next) {
     })
 
   });
-    
+
 }
 
 /**
@@ -140,10 +140,11 @@ if (!module.parent) {
   exports.boot(false, function (app) {
 
     if (app) {
-      app.listen(port);
-      console.log("Calipso version: ".green + app.about.version);
-      console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
-      console.log("Calipso server listening on port: ".green + app.address().port);
+      app.listen(port, function () {
+        console.log("Calipso version: ".green + app.about.version);
+        console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
+        console.log("Calipso server listening on port: ".green + app.address().port);
+      });
     } else {
       console.log("\r\nCalipso terminated ...\r\n".grey);
       process.exit();
