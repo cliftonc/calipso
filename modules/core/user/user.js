@@ -953,8 +953,8 @@ function install(next) {
           fullname:adminUser.fullname,
           hash:calipso.lib.crypto.hash(adminUser.password,calipso.config.get('session:secret')),
           email:adminUser.email,
-          language: adminUser.language,
-          about: '',
+          language:adminUser.language,
+          about:'',
           roles:['Administrator']
         });
         admin.save(self());
