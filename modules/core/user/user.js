@@ -950,9 +950,11 @@ function install(next) {
         // Create a new user
         var admin = new User({
           username:adminUser.username,
+          fullname:adminUser.fullname,
           hash:calipso.lib.crypto.hash(adminUser.password,calipso.config.get('session:secret')),
           email:adminUser.email,
-          about:adminUser.about,
+          language: adminUser.language,
+          about: '',
           roles:['Administrator']
         });
         admin.save(self());
