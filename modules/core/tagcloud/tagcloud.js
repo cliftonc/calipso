@@ -90,18 +90,19 @@ function mapReduceTagCloud(event,options,next) {
       out: 'tags' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
-  calipso.db.db.executeDbCommand(command, function(err, dbres)
-  {
+  // Figure out with juggling
+  // calipso.db.db.executeDbCommand(command, function(err, dbres)
+  // {
 
-    // Reset
-    calipso.storage.mr.tagcloud = false;
-    if (err) {
-      // Do Something!!
-      calipso.error(err);
-    }
+  //   // Reset
+  //   calipso.storage.mr.tagcloud = false;
+  //   if (err) {
+  //     // Do Something!!
+  //     calipso.error(err);
+  //   }
     return next();
 
-  });
+  //});
 
  };
 

@@ -100,7 +100,7 @@ function showPermissions(req, res, options, next) {
       Role = calipso.db.model('Role'),
       PermissionRole = calipso.db.model('PermissionRole');
 
-  Role.find({}).sort('name',1).find(function (err, roles) {
+  Role.all({sort:'name'}, function (err, roles) {
     var output = renderPermissionTable(structuredPermissions, roles);
     calipso.theme.renderItem(req, res, options.templateFn, options.block, {output: output}, next);
   });

@@ -2,7 +2,8 @@
   "version":"0.3.0",
   "installed":true,
   "database": {
-    "uri":"mongodb://localhost/calipso"
+    "type": "redis",
+    "configuration":{}
   },
   "server": {
     "name":"Calipso",

@@ -19,34 +19,42 @@ describe('Storage', function(){
 
   describe('Core', function(){
 
-    it('I can connect to local mongodb in install mode', function(done){    
-      Storage.mongoConnect('mongodb://localhost/mocha', true, function(err, connected) {
+    // it('I can connect to local mongodb in install mode', function(done){    
+    //   Storage.connect('mongodb://localhost/mocha', true, function(err, connected) {
+    //     should.not.exist(err);
+    //     connected.should.equal(false); 
+    //     done();
+    //   });
+    // });
+
+    it('I can create in-memory database in install mode', function(done){    
+      Storage.connect('memory', {}, true, function(err, connected) {
         should.not.exist(err);
-        connected.should.equal(false); 
+        connected.should.equal(true); 
         done();
       });
     });
 
-    it('Connecting to an invalid server in install mode results in an error', function(done){    
-      Storage.mongoConnect('mongodb://invalid/mocha', true, function(err, connected) {
-        err.should.exist; // Dont check content as this is from Mongoose and may change
-        connected.should.equal(false);
-        done();
-      });
-    });
+    // it('Connecting to an invalid server in install mode results in an error', function(done){    
+    //   Storage.connect('mongodb',{host:'nonexistant'}, true, function(err, connected) {
+    //     err.should.exist;
+    //     connected.should.equal(false);
+    //     done();
+    //   });
+    // });
 
-    it('If not installed, it doesnt actually connect using just mongoConnect but doesnt raise an error', function(done){        
-      Storage.mongoConnect(function(err, connected) {
+    it('If not installed, it doesnt actually connect using just connect but doesnt raise an error', function(done){        
+      Storage.connect(function(err, connected) {
         should.not.exist(err);
         connected.should.equal(false);
         done();  
       });
     });
 
-    it('If installed, it does actually connect using just mongoConnect', function(done){        
+    it('If installed, it does actually connect using just connect', function(done){        
 
       calipso.config.set('installed',true);      
-      Storage.mongoConnect(function(err, connected) {
+      Storage.connect(function(err, connected) {
         should.not.exist(err);
         connected.should.equal(true);
         done();  
@@ -58,9 +66,9 @@ describe('Storage', function(){
 
       calipso.config.set('installed',true); 
       calipso.app.stack = [];     
-      Storage.mongoConnect(function(err, connected) {
+      Storage.connect(function(err, connected) {
         should.exist(err);
-        err.message.should.equal('Unable to load the MongoDB backed session, please check your session and db configuration');
+        err.message.should.equal('Unable to load the Database backed session, please check your session and db configuration');
         connected.should.equal(false);
         done();  
       });
@@ -71,9 +79,10 @@ describe('Storage', function(){
     it('If the installed and the server doesnt exist, it fails', function(done){        
 
       calipso.config.set('installed',true);       
-      calipso.config.set('database:uri','mongodb://invalid/mocha'); 
+      calipso.config.set('database:type','mongodb'); 
+      calipso.config.set('database:configuration:host','invalid/mocha'); 
 
-      Storage.mongoConnect(function(err, connected) {
+      Storage.connect(function(err, connected) {
         should.exist(err);
         connected.should.equal(false);
         done();  

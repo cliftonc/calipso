@@ -178,7 +178,7 @@ function getContent(req, options, next) {
 
           var text = c[options.property] || req.t("Invalid content property: {property}",{property:options.property});
           if(options.clickEdit && req.session && req.session.user && req.session.user.isAdmin) {
-            text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
+            text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c.id + "'>" +
             text + "</span>";
           }
 
@@ -309,7 +309,7 @@ function createContent(req,res,template,block,next) {
                         if(returnTo) {
                           res.redirect(returnTo);
                         } else {
-                          res.redirect('/content/show/' + c._id);
+                          res.redirect('/content/show/' + c.id);
                         }
                         next();
                       });
@@ -359,10 +359,10 @@ function getForm(req,action,title,contentType,next) {
   // Get content type
   var ContentType = calipso.db.model('ContentType');
 
-  ContentType.findOne({contentType:contentType}, function(err, ct) {
+  ContentType.findOne({where:{contentType:contentType}}, function(err, ct) {
 
     // Add any fields
-    if(!err && ct && ct.get("fields")) { // FIX as this added later, get is 'safer' if not existing in document
+    if(!err && ct && ct["fields"]) { // FIX as this added later, get is 'safer' if not existing in document
 
       var fields = [];
 
@@ -505,7 +505,7 @@ function editContentForm(req,res,template,block,next) {
   res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:4,path:'delete',url:'/content/delete/' + id,description:'Delete content ...',permit:dPerm});
 
 
-  Content.findById(id, function(err, c) {
+  Content.find(id, function(err, c) {
 
     if(err || c === null) {
 
@@ -558,7 +558,7 @@ function updateContent(req,res,template,block,next) {
         var returnTo = form.returnTo ? form.returnTo : "";
         var id = req.moduleParams.id;
 
-        Content.findById(id, function(err, c) {
+        Content.find(id, function(err, c) {
           if (c) {
 
               // Default mapper
@@ -656,7 +656,7 @@ function showAliasedContent(req, res, template, block, next) {
 
     var Content = calipso.db.model('Content');
 
-    Content.findOne({alias:alias},function (err, content) {
+    Content.findOne({where:{alias:alias}},function (err, content) {
 
         if(err || !content) {
           // Create content if it doesn't exist
@@ -674,7 +674,7 @@ function showAliasedContent(req, res, template, block, next) {
               next(err);
             } else {
               // Add the user display details to content
-              content.set('displayAuthor',userDetails);
+              content.displayAuthor = userDetails;
               showContent(req,res,template,block,next,err,content,format);
             }
           });
@@ -701,7 +701,7 @@ function showContentByID(req,res,template,block,next) {
   var id = req.moduleParams.id;
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
-  Content.findById(id, function(err, content) {
+  Content.find(id, function(err, content) {
 
     // Error locating content
     if(err) {
@@ -719,7 +719,7 @@ function showContentByID(req,res,template,block,next) {
             next(err);
           } else {
             // Add the user display details to content
-            content.set('displayAuthor',userDetails);
+            content.displayAuthor = userDetails;
             showContent(req,res,template,block,next,err,content,format);
           }
 
@@ -809,18 +809,18 @@ function listContent(req,res,template,block,next) {
       var t3 = req.moduleParams.t3 ? req.moduleParams.t3 : '';
       var t4 = req.moduleParams.t4 ? req.moduleParams.t4 : '';
 
-      var query = new Query();
+      var query = {where:{}};
 
       if(req.session && req.session.user && vPerm(req.session.user)) {
         // Show all
       } else {
         // Published only if not admin
-        query.where('status','published');
+        query.where.status = 'published';
       }
 
       if(tag) {
         res.layout = "tagLanding" // Enable landing page layout to be created for a tag view
-        query.where('tags',tag);
+        query.where.tags = tag;
       }
 
       // Taxonomy tags
@@ -840,7 +840,7 @@ function listContent(req,res,template,block,next) {
       }
 
       if(taxonomy) {
-        query.where('taxonomy',new RegExp(taxonomy));
+        query.where.taxonomy = new RegExp(taxonomy);
       }
 
     // Get the content list
@@ -853,7 +853,7 @@ function listContent(req,res,template,block,next) {
  * Helper function for link to user
  */
 function contentLink(req, content) {
-  return calipso.link.render({id:content._id,title:req.t('View {content}',{content:content.title}),label:content.title,url:'/content/show/' + content._id});
+  return calipso.link.render({id:content.id,title:req.t('View {content}',{content:content.title}),label:content.title,url:'/content/show/' + content.id});
 }
 
 /**
@@ -886,12 +886,10 @@ function getContentList(query,out,next) {
           pagerHtml = calipso.lib.pager.render(from,limit,total,out.req.url);
         }
 
-        var qry = Content.find(query).skip(from).limit(limit);
-
         // Add sort
         // qry = calipso.table.sortQuery(qry, out.sortBy);
 
-        qry.find(function (err, contents) {
+        var qry = Content.all({skip:from,limit:limit}, function (err, contents) {
 
                 if(out && out.res) {
 
@@ -949,12 +947,12 @@ function deleteContent(req,res,template,block,next) {
   var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
 
-  Content.findById(id, function(err, c) {
+  Content.find(id, function(err, c) {
 
     // Raise CONTENT_CREATE event
     calipso.e.pre_emit('CONTENT_DELETE',c);
 
-    Content.remove({_id:id}, function(err) {
+    c.destroy(function(err) {
       if(err) {
         req.flash('info',req.t('Unable to delete the content because {msg}',{msg:err.message}));
         res.redirect("/");

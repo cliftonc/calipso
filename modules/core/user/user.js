@@ -4,8 +4,7 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  roles = require('./user.roles'),
-  Query = require("mongoose").Query;
+  roles = require('./user.roles');
 
 exports = module.exports = {
   init: init,
@@ -643,7 +642,7 @@ function createUserSession(req, res, user, next) {
   var isAdmin = isUserAdmin(user);
 
   // Create session
-  req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
+  req.session.user = {username:user.username, isAdmin:isAdmin, id:user.id,language:user.language,roles:user.roles};
   req.session.save(function(err) {
     next(err);
   });
@@ -832,7 +831,7 @@ function deleteUser(req, res, template, block, next) {
     // Raise USER_DELETE event
     calipso.e.pre_emit('USER_DELETE',u);
 
-    User.remove({_id:u._id}, function(err) {
+    u.destroy(function(err) {
       if(err) {
         req.flash('info',req.t('Unable to delete the user because {msg}',{msg:err.message}));
         res.redirect("/user/list");
@@ -851,7 +850,7 @@ function deleteUser(req, res, template, block, next) {
  * Helper function for link to user
  */
 function userLink(req,user) {
-  return calipso.link.render({id:user._id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});
+  return calipso.link.render({id:user.id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});
 }
 
 /**
@@ -869,19 +868,15 @@ function listUsers(req,res,template,block,next) {
   var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 5;
   var sortBy = req.moduleParams.sortBy;
 
-  var query = new Query();
-
   // Initialise the block based on our content
-  User.count(query, function (err, count) {
+  User.count({}, function (err, count) {
 
     var total = count;
 
-    var qry = User.find(query).skip(from).limit(limit);
-
     // Add sort
-    qry = calipso.table.sortQuery(qry,sortBy);
+    //qry = calipso.table.sortQuery(qry,sortBy);
 
-    qry.find(function (err, users) {
+    var qry = User.all({limit:limit,skip:from}, function (err, users) {
 
       // Render the item into the response
       if(format === 'html') {
@@ -889,7 +884,7 @@ function listUsers(req,res,template,block,next) {
         var table = {
           id:'user-list',sort:true,cls:'table-admin',
           columns:[
-            {name:'_id',sort:'username',label:'User',fn:userLink},
+            {name:'id',sort:'username',label:'User',fn:userLink},
             {name:'fullname',label:'Full Name'},
             {name:'roles',label:'Roles',sortable:false},
             {name:'email',label:'Email',fn:function(req,row) {
