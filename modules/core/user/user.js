@@ -71,7 +71,7 @@ function init(module, app, next) {
     },
     function done() {
 
-      var User = new calipso.lib.mongoose.Schema({
+      var User = calipso.db.define('User', {
         // Single default property
         username:{type: String, required: true, unique:true},
         fullname:{type: String, required: false},
@@ -82,11 +82,9 @@ function init(module, app, next) {
         showEmail:{type: String, "default":'registered'},
         about:{type: String},
         language:{type: String, "default":'en'},
-        roles:[String],
+        roles:{type: Array},
         locked:{type: Boolean, "default":false}
       });
-
-      calipso.db.model('User', User);
 
       // Initialise roles
       roles.init(module, app, next);
@@ -136,7 +134,7 @@ function userDisplay(req, username, next) {
   var User = calipso.db.model('User');
   var responseData = {name:'',email:''};
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
 
@@ -592,12 +590,13 @@ function loginUser(req, res, template, block, next) {
       var username = form.user.username;
       var found = false;
 
-      User.findOne({username:username},function (err, user) {
+      User.findOne({where: {username:username}},function (err, user) {
 
         // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
         // TO BE REMOVED In later version
         if(user && calipso.lib.crypto.check(form.user.password,user.hash) || (user && user.hash === '')) {
-          if(!user.locked) {
+          // JugglingDB type error. Need to get this fixed
+          if(!user.locked || user.locked == "false") {
             found = true;
             calipso.e.post_emit('USER_LOGIN',user);
             createUserSession(req, res, user, function(err) {
@@ -933,7 +932,7 @@ function listUsers(req,res,template,block,next) {
  */
 function install(next) {
 
-  // Create the default content types
+  // Create the default content users
   var User = calipso.db.model('User');
 
   calipso.lib.step(

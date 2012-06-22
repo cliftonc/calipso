@@ -33,13 +33,11 @@ function init(module,app,next) {
       function done() {
 
         // Define our tag clouds
-        var Tag = new calipso.lib.mongoose.Schema({
+        var Tag = calipso.db.define('Tag', {
           // Tag name is in _ID from MR
           "_id":{type:String},
           "value":{type: Number}
         });
-
-        calipso.db.model('Tag', Tag);
 
         // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTagCloud);
@@ -114,8 +112,7 @@ function tagCloud(req,res,template,block,next) {
 
   var Tag = calipso.db.model('Tag');
 
-  Tag.find({})
-   .find(function (err, tags) {
+  Tag.all({}, function (err, tags) {
 
       // Render the item into the response
       calipso.theme.renderItem(req,res,template,block,{tags:tags},next);

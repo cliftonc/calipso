@@ -23,13 +23,13 @@
 </div>
 
 <div class="admin-body">
-  <h2><%= t("Step 1: Configure MongoDB") %></h2>
+  <h2><%= t("Step 1: Configure Database") %></h2>
 
-  <div id="mongo-status" style="display: none;">
+  <div id="db-status" style="display: none;">
 
   </div>
   
-  <p>To store content, we need to connect to MongoDB. Please provide the location of your database here:
+  <p>To store content, we need to connect to a database:
 
   <%- form %>
   <footer class="admin-install-links">
@@ -45,27 +45,27 @@
       
           if(window.jQuery){
             
-            // Ajax request to /admin/install/mongo/test
-            function checkMongo() {
+            // Ajax request to /admin/install/db/test
+            function checkDb() {
               
-              $('#mongo-status').show();
-              $('.submit').html("Connecting to MongoDB ...").addClass("loading");
+              $('#db-status').show();
+              $('.submit').html("Connecting to Database ...").addClass("loading");
               
-              var dbUri = $(".database-uri").val();
-              var postData = {"dbUri":dbUri};
+              var type = $(".database-type").val();
+              var postData = {"type":type};
               
               $.ajax({
                 type: "POST",
-                url: "/admin/installTest/mongo",
+                url: "/admin/installTest/db",
                 dataType:"json",
                 data:postData,
                 success: function(res){
                   if(res.status === "OK") {
                     setTimeout(function() {
-                      $('#install-mongo-form').submit();
+                      $('#install-db-form').submit();
                     }, 1500);
                   } else {
-                    $('#mongo-status').html("<div class='error'>MongoDB connection failed, please check the details and try again.</div>");
+                    $('#db-status').html("<div class='error'>Database connection failed, please check the details and try again.</div>");
                     $('.submit').html("Create Database").addClass("loading");
                   }
                 }
@@ -74,7 +74,7 @@
       
             $('#form-submit').click(function(event) {
               event.preventDefault();
-              checkMongo();
+              checkDb();
             });
           
           } else {

@@ -2,7 +2,11 @@
   "version":"0.3.0",
   "installed":false,
   "database": {
-    "uri":"mongodb://localhost/calipso"
+    "type": "memory",
+    "configuration": {
+      "database": "calipso"
+    },
+    "logQueries": false
   },
   "server": {
     "name":"Calipso",

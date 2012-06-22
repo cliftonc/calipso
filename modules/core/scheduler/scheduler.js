@@ -186,7 +186,7 @@ function enableScheduler(req,res,template,block,next) {
 
 /**
  * Admin interface to job list
- * This uses the currently loaded job list from the calipso cache, not the MongoDB list
+ * This uses the currently loaded job list from the calipso cache, not the Database list
  * If any external processes are creating jobs they will not appear without the module
  * being reloaded
  */
@@ -297,7 +297,7 @@ function createJob(req,res,template,block,next) {
 }
 
 /**
- * Process form variables and convert to form suitable for storing against mongoose object
+ * Process form variables and convert to form suitable for storing against database object
  * Extracted out due to the common conversion of crontime form elements to cron time field
  */
 function processForm(formObject) {

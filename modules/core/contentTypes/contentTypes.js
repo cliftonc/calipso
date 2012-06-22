@@ -76,7 +76,7 @@ function init(module,app,next) {
   calipso.permission.Helper.addPermission("admin:content:type","Content Types",true);
 
   // Schemea
-  var ContentType = new calipso.lib.mongoose.Schema({
+  var ContentType = calipso.db.define('ContentType', {
     contentType:{type: String, required: true, unique: true, "default": 'default', index: true},
     description:{type: String, required: true, "default": 'Default Content Type'},
     layout:{type: String, required: true, "default": 'default'},
@@ -88,8 +88,6 @@ function init(module,app,next) {
     viewTemplate:{type: String, "default": ''},
     listTemplate:{type: String, "default": ''},        
   });
-
-  calipso.db.model('ContentType', ContentType);
 
   // Cache the content types in the calipso.data object
   if(app.config.get('installed')) {
@@ -491,7 +489,7 @@ function storeContentTypes(event,contentType,next) {
   delete calipso.data.contentTypes;
   calipso.data.contentTypes = [];
 
-  ContentType.find({}).sort('contentType',1).find(function (err, types) {
+  ContentType.all({order: 'contentType'}, function (err, types) {
     if(err || !types) {
       
       // Don't throw error, just pass back failure.

@@ -33,7 +33,7 @@
   <%- form %>
 
   <footer class="admin-install-links">
-    <a class="button back" href="?installStep=mongodb"><%= t("Change Database") %></a>
+    <a class="button back" href="?installStep=db"><%= t("Change Database") %></a>
     <a id="form-submit" class="button next" href="#"><%= t("Create Admin") %></a>
   </footer>
 
@@ -45,7 +45,7 @@
     
     if(window.jQuery){
 
-      // Ajax request to /admin/install/mongo/test
+      // Ajax request to /admin/install/user/test
       function checkUser() {
         
         $('#user-status').show();

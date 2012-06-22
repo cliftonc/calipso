@@ -52,13 +52,12 @@ function init(module, app, next) {
     calipso.lib.async.map(routes, function(options, next) { module.router.addRoute(options, next) }, function(err, data) {
 
         // Done adding routes
-        var Role = new calipso.lib.mongoose.Schema({
+        var Role = calipso.db.define('Role', {
           name:{type: String, required: true, unique:true},
           description:{type: String,"default":''},
           isAdmin:{type: Boolean, required: true, "default": false},
           isDefault:{type: Boolean, required: true, "default": false}
         });
-        calipso.db.model('Role', Role);
 
       // Load roles into calipso data
       if(app.config.get('installed')) {
@@ -87,7 +86,7 @@ function storeRoles(event, data, next) {
   calipso.data.roleArray = [];
   calipso.data.roles = {};
 
-  Role.find({}).sort('name',1).find(function (err, roles) {
+  Role.all({order: 'name'}, function (err, roles) {
 
     if(err || !roles) {
       // Don't throw error, just pass back failure.

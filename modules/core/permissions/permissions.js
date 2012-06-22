@@ -53,11 +53,10 @@ function init(module, app, next) {
   calipso.permission.Helper.addPermission("admin:permission:configuration","Manage role based permissions.");
 
 
-  var PermissionRole = new calipso.lib.mongoose.Schema({
+  var PermissionRole = calipso.db.define('PermissionRole', {
     permission:{type: String, required: true},
     role:{type: String, required: true}
   });
-  calipso.db.model('PermissionRole', PermissionRole);
 
   loadPermissionRoles(function(err) {
     next(err);   
@@ -78,7 +77,7 @@ function loadPermissionRoles(next) {
   perm.clearPermissionRoles();
 
   // Load the permissions
-  PermissionRole.find({}).sort('permission',1).sort('role',1).find(function (err, prs) {
+  PermissionRole.all({order: 'permission'}, function (err, prs) {
 
     prs.forEach(function(pr) {
       perm.addPermissionRole(pr.permission, pr.role);

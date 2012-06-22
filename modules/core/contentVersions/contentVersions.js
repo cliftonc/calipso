@@ -131,7 +131,7 @@ function saveVersion(event, content, next) {
     // Create version and map fields
     var version = new ContentVersion();
 
-    calipso.utils.copyMongoObject(content, version, content.schema);
+    calipso.utils.copyDbObject(content, version, content.schema);
     version.contentId = content._id;
 
     if(version.get("version")) {
@@ -328,7 +328,7 @@ function revertVersion(req,res,template,block,next) {
               return;
             }
 
-           calipso.utils.copyMongoObject(version, content, content.schema);
+           calipso.utils.copyDbObject(version, content, content.schema);
           
            content.author = req.session.user.username;
            content.set("comment",'Reverted to version: ' + content.updated);

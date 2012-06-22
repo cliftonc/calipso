@@ -117,7 +117,7 @@ function init(module, app, next) {
     // Default installation routers - only accessible in install mode
     module.router.addRoute('GET /admin/install', install, null, this.parallel());
     module.router.addRoute('POST /admin/install', install, null, this.parallel());
-    module.router.addRoute('POST /admin/installTest/mongo', installMongoTest, null, this.parallel());
+    module.router.addRoute('POST /admin/installTest/db', installDbTest, null, this.parallel());
     module.router.addRoute('POST /admin/installTest/user', installUserTest, null, this.parallel());
 
   }, function done() {
@@ -232,8 +232,8 @@ function install(req, res, template, block, next) {
         case "welcome":
           installWelcome(req,res,localNext);
           break;
-        case "mongodb":
-          installMongo(req,res,localNext);
+        case "db":
+          installDb(req,res,localNext);
           break;
         case "user":
           installUser(req,res,localNext);
@@ -288,38 +288,47 @@ function installWelcome(req,res,next) {
 }
 
 /**
- * Installation mongodb - called by install router, not a routing function.
+ * Installation db - called by install router, not a routing function.
  */
-function installMongo(req,res,next) {
+function installDb(req,res,next) {
 
   // Manually grab the template
-  var template = calipso.modules.admin.templates.install_mongo;
+  var template = calipso.modules.admin.templates.install_db;
 
   // Create the form
-  var mongoForm = {id:'install-mongo-form',title:'',type:'form',method:'POST',action:'/admin/install',
+  var dbForm = {id:'install-db-form',title:'',type:'form',method:'POST',action:'/admin/install',
         fields:[
-          {label:'MongoDB URI',name:'database:uri',cls:'database-uri', type:'text',description:'Enter the database URI, in the form: mongodb://servername:port/database'},
+          {label:'Type', name:'database:type',cls:'database-type', type:'select', options:['mongodb','mongoose','postgres','mysql','riak','redis','couchdb','memory']}, // TODO : Select based on available
+          {label:'Host',name:'database:configuration:host',cls:'database-host', type:'text',description:'Enter the database hostname'},
+          {label:'Port',name:'database:configuration:port',cls:'database-port', type:'text',description:'Enter the database port'},
+          {label:'Username',name:'database:configuration:user',cls:'database-user', type:'text',description:'Enter the database username'},
+          {label:'Password',name:'database:configuration:password',cls:'database-password', type:'text',description:'Enter the database password'},
+          {label:'Database',name:'database:configuration:database',cls:'database-database', type:'text',description:'Enter the database name'},
           {label:'',name:'installStep',type:'hidden'}
         ],
         buttons:[]}; // Submitted via template
 
   var formValues = {
     database: {
-        uri: calipso.config.get('database:uri')
+        type: calipso.config.get('database:type'),
+        host: calipso.config.get('database:configuration:host'),
+        port: calipso.config.get('database:configuration:port'),
+        user: calipso.config.get('database:configuration:user'),
+        password: calipso.config.get('database:configuration:password'),
+        database: calipso.config.get('database:configuration:database')
     },
     'installStep':'user'
   }
 
-  calipso.form.render(mongoForm, formValues, req, function(form) {
-      calipso.theme.renderItem(req, res, template, 'admin.install.mongo', {form:form}, next);
+  calipso.form.render(dbForm, formValues, req, function(form) {
+      calipso.theme.renderItem(req, res, template, 'admin.install.db', {form:form}, next);
   });
-
 }
 
 /**
- * Function to enable ajax testing of the mongo configuration
+ * Function to enable ajax testing of the db configuration
  */
-function installMongoTest(req, res, template, block, next) {
+function installDbTest(req, res, template, block, next) {
 
   if (calipso.config.get('installed')) {
       res.format = "json";
@@ -327,27 +336,22 @@ function installMongoTest(req, res, template, block, next) {
   }
 
   calipso.form.process(req,function(form) {
-    
-    var dbUri = form.dbUri;
+
+    var dbType = form.type;
+    var config = form;
+    delete config.type;
     var output = {};
 
-    if(dbUri) {
-      calipso.storage.mongoConnect(dbUri,true,function(err,connected) {
-        if(!err) {
-          output.status = "OK";
-        } else {
-          output.status = "FAILED";
-          output.message= "Failed to connect to MongoDB because: " + err.message;
-        }
-        res.format = "json";
-        res.end(JSON.stringify(output),"UTF-8");
-      });      
-    } else {
-      output.status = "FAILED";
-      output.message= "You need to provide a valid database uri, in the format described.";      
+    calipso.storage.connect(dbType,config,true,function(err,connected) {
+      if(!err) {
+        output.status = "OK";
+      } else {
+        output.status = "FAILED";
+        output.message= "Failed to connect to database because: " + err.message;
+      }
       res.format = "json";
       res.end(JSON.stringify(output),"UTF-8");
-    }
+    });
 
   });
 }
@@ -392,7 +396,7 @@ function installUser(req,res,next) {
 }
 
 /**
- * Function to enable ajax testing of the mongo configuration
+ * Function to enable ajax testing of the db configuration
  */
 function installUserTest(req, res, template, block, next) {
 
@@ -497,7 +501,7 @@ function doInstallation(req, res, next) {
     
   // Set the install flag to true, enable db connection
   calipso.config.set('installed',true);
-  calipso.storage.mongoConnect(function(err) {
+  calipso.storage.connect(function(err) {
       
     if(err) {
       return next(err);
@@ -532,7 +536,13 @@ function doInstallation(req, res, next) {
       
          modulesToInstall.forEach(function(module){
           calipso.info("Installing module " + module);
-          calipso.modules[module].fn.install(group());            
+          try {
+            calipso.modules[module].fn.install(group());
+          }
+          catch (err) {
+            calipso.error("Module '"+module+ "' was unable to be installed... Reason: "+err.message);
+          }
+          
         });
 
       },

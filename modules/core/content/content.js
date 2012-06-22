@@ -91,32 +91,30 @@ function init(module,app,next) {
         calipso.helpers.addHelper('getContentList', function() { return getContentList; });
 
         // Default Content Schema
-        var Content = new calipso.lib.mongoose.Schema({
-          title:{type: String, required: true, "default": ''},
-          teaser:{type: String, required: false, "default": ''},
-          taxonomy:{type: String, "default":''},
-          content:{type: String, required: false, "default":''},
-          status:{type: String, required: false, "default":'draft', index: true},
-          alias:{type: String, required: true, index: true},
-          author:{type: String, required: true},
-          etag:{type: String, "default":''},
-          tags:[String],
-          published: { type: Date },
-          scheduled: { type: Date },
-          created: { type: Date, "default": Date.now },
-          updated: { type: Date, "default": Date.now },
-          contentType:{type: String},  // Copy from content type
-          layout:{type: String},       // Copy from content type
-          ispublic:{type: Boolean, index: true}    // Copy from content type
+        var Content = calipso.db.define('Content', {
+          title:        {type: String, required: true, "default": ''},
+          teaser:       {type: String, required: false, "default": ''},
+          taxonomy:     {type: String, "default":''},
+          content:      {type: String, required: false, "default":''},
+          status:       {type: String, required: false, "default":'draft', index: true},
+          alias:        {type: String, required: true, index: true},
+          author:       {type: String, required: true},
+          etag:         {type: String, "default":''},
+          tags:         {type: Array},
+          published:    { type: Date },
+          scheduled:    { type: Date },
+          created:      { type: Date, "default": Date.now },
+          updated:      { type: Date, "default": Date.now },
+          contentType:  {type: String},  // Copy from content type
+          layout:       {type: String},       // Copy from content type
+          ispublic:     {type: Boolean, index: true}    // Copy from content type
         });
 
         // Set post hook to enable simple etag generation
-        Content.pre('save', function (next) {
+        Content.beforeSave = function (next) {
           this.etag = calipso.lib.crypto.etag(this.title + this.teaser + this.content);
           next();
-        });
-
-        calipso.db.model('Content', Content);
+        };
 
         next();
 
@@ -154,7 +152,7 @@ function getContent(req, options, next) {
 
   var Content = calipso.db.model('Content');
 
-  Content.findOne({alias:options.alias},function (err, c) {
+  Content.findOne({where:{alias:options.alias}},function (err, c) {
 
       if(err || !c) {
 
@@ -178,7 +176,7 @@ function getContent(req, options, next) {
 
         if(options.property) {
 
-          var text = c.get(options.property) || req.t("Invalid content property: {property}",{property:options.property});
+          var text = c[options.property] || req.t("Invalid content property: {property}",{property:options.property});
           if(options.clickEdit && req.session && req.session.user && req.session.user.isAdmin) {
             text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
             text + "</span>";
