@@ -1,5 +1,6 @@
 /**
  * Baseline translation file
+ * Author: Kristian Lunde, www.klunde.net
  * Created: 29-June-2012 14:38 GMT
  */
 exports.language = {
