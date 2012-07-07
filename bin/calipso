@@ -120,14 +120,14 @@ function runLauncher(appLauncher) {
  * Check if we are running from the library folder (or something cloned out of github)
  **/
 function isLibrary() {
-  return nodepath.existsSync(path + '/bin/calipso');
+  return nodefs.existsSync(path + '/bin/calipso');
 }
 
 /**
  * Check if .calipso exists
  **/
 function isCalipso() {
-  return nodepath.existsSync(path + '/.calipso');
+  return nodefs.existsSync(path + '/.calipso');
 }
 
 /**
@@ -137,7 +137,7 @@ function isCalipso() {
  */
 function runScript(scriptLauncher) {
 
-  if(!nodepath.existsSync(path + '/scripts/'+ scriptLauncher.name)) {
+  if(!nodefs.existsSync(path + '/scripts/'+ scriptLauncher.name)) {
     scriptLauncher.name = 'help';
     scriptLauncher.params = [];
   }
