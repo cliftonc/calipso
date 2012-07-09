@@ -30,7 +30,7 @@ var argv = require('optimist')
  * path = directory script being run from
  * calipsoPath = calipso library installation path
  **/
-var path = fs.realpathSync('.');
+var path = fs.realpathSync('.').replace(/\s/g,'\\ ');
 var calipsoPath = __dirname + "/../";
 var step = require('step');
 
@@ -251,7 +251,7 @@ function createApplicationAt(path) {
  * Run the install shell script
  */
 function runInstall(path) {
-
+  path = path.replace(/\\\s/g, ' ');
   exec('./bin/siteInstall.sh', { timeout: 60000, cwd:path }, function (error, stdout, stderr) {
       console.log(stdout);
       console.log(stderr);
