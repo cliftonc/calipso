@@ -220,10 +220,17 @@ if (!module.parent) {
   exports.boot(false, function (app) {
 
     if (app) {
-      app.listen(port, function () {
+      var out = app.listen(port, function () {
         console.log("Calipso version: ".green + app.about.version);
         console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
-        console.log("Calipso server listening on port: ".green + app.address().port);
+        if (app.address)
+          console.log("Calipso server listening on port: ".green + app.address().port);
+        else
+          console.log("Calipso server listening on port: ".green + port);
+      });
+      process.nextTick(function () {
+        if (out && out.address && out.address().port !== port)
+          console.log("Calipso server listening on port: ".red + out.address().port);
       });
     } else {
       console.log("\r\nCalipso terminated ...\r\n".grey);
