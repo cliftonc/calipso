@@ -6,7 +6,9 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    Utils = require('./helpers/require')('core/Utils');
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    Utils = require('../lib/core/Utils', true);
 
 describe('Utils', function(){
 

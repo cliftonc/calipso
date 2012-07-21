@@ -6,7 +6,9 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    Configuration = require('./helpers/require')('core/Configuration'),
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    Configuration = require('../lib/core/Configuration', true),
     defaultConfig = {
       "test":"test",
       "modules": {

@@ -6,7 +6,9 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    Form = require('./helpers/require')('core/Form');
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    Form = require('../lib/core/Form', true);
 
 describe('Forms', function(){
 

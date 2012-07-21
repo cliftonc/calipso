@@ -6,7 +6,9 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    Helpers = require('./helpers/require')('core/Menu');
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    Helpers = require('../lib/core/Menu', true);
 
 describe('Menus', function(){
 

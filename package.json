@@ -50,12 +50,12 @@
     "hook.io": "0.8.x"
   },
   "devDependencies": {
-    "expresso": "*",
-    "should": "*"
+    "mocha": "*",
+    "jscoverage": "*"
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",
-    "test" : "expresso -s"
+    "test" : "make test"
   },
   "bin": { "calipso": "./bin/calipso" }
 }

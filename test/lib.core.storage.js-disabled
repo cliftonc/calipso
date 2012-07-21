@@ -4,11 +4,13 @@
 var should = require('should'),
     fs = require('fs'),
     rootpath = process.cwd() + '/',
-    path = require('path'),    
-    calipsoHelper = require('./helpers/calipsoHelper'),
+    path = require('path'),
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    calipsoHelper = require('./helpers/calipsoHelper', true),
     calipso = calipsoHelper.calipso,
     dbUri,
-    Storage = require('./helpers/require')('core/Storage');
+    Storage = require('core/Storage', true);
 
 describe('Storage', function(){
 

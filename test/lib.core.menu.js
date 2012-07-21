@@ -4,10 +4,12 @@
 var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
-    calipsoHelper = require('./helpers/calipsoHelper'),
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    calipsoHelper = require('./helpers/calipsoHelper', true),
     calipso = calipsoHelper.calipso,
     testPermit = calipsoHelper.testPermit,
-    Menu = require('./helpers/require')('core/Menu');
+    Menu = require('../lib/core/Menu', true);
 
 /**
  * Test data
