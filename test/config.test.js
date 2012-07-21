@@ -11,7 +11,7 @@ var rootpath = process.cwd() + '/',
     assert = require('assert'),
     sys = require('sys'),
     should = require('should'),
-    Config = require(rootpath + 'lib/Config').Config;
+    Config = require(rootpath + 'lib/core/Configuration').Config;
 
 var defaultConfig = {
   "test":"test"

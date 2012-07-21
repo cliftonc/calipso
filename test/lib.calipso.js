@@ -100,12 +100,12 @@ describe('Calipso', function(){
     });
 
     it('I can send a mock admin request through and fail as a test user.', function(done) {
-
       var req = calipsoHelper.requests.anonUser,
           res = calipsoHelper.response,
           response = 0,
           routeFn = calipso.routingFn();
 
+      req.cookies = {};
       req.url = '/secured';
       res.outputStack = [];
 
