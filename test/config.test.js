@@ -11,7 +11,7 @@ var rootpath = process.cwd() + '/',
     assert = require('assert'),
     sys = require('sys'),
     should = require('should'),
-    Config = require(rootpath + 'lib/core/Configuration').Config;
+    Config = require(rootpath + 'lib/core/Configuration');
 
 var defaultConfig = {
   "test":"test"
@@ -34,15 +34,16 @@ exports['I can create a development configuration'] = function() {
 exports['I can add and retrieve configuration'] = function() {
 
     var conf = new Config({env:'development',path:path.join(rootpath,'tmp')});
-    conf.set('test:v1','v1');
-    conf.get('test:v1').should.equal('v1');
-    conf.set('test:v2','v2');
-    conf.get('test:v2').should.equal('v2');
-
-    var test = conf.get('test');
-    test.v1.should.equal('v1');
-    test.v2.should.equal('v2');
-
+    conf.init(function() {
+      conf.set('test:v1','v1');
+      conf.get('test:v1').should.equal('v1');
+      conf.set('test:v2','v2');
+      conf.get('test:v2').should.equal('v2');
+  
+      var test = conf.get('test');
+      test.v1.should.equal('v1');
+      test.v2.should.equal('v2');
+    });
 };
 
 exports['I can use different environments'] = function() {
@@ -50,28 +51,33 @@ exports['I can use different environments'] = function() {
     var confDev = new Config({env:'development',path:path.join(rootpath,'tmp')});
     var confTest = new Config({env:'test',path:path.join(rootpath,'tmp')});
 
-    confDev.set('test:v1','v1');
-    confDev.get('test:v1').should.equal('v1');
-    confDev.save(function(err) {
-        (fs.existsSync || path.existsSync)(confDev.file);
+    confDev.init(function () {
+      confDev.set('test:v1','v1');
+      confDev.get('test:v1').should.equal('v1');
+      confDev.save(function(err) {
+          (fs.existsSync || path.existsSync)(confDev.file);
+      });
     });
-
-    confTest.set('test:v1','v1');
-    confTest.get('test:v1').should.equal('v1');
-    confTest.save(function(err) {
-        (fs.existsSync || path.existsSync)(confTest.file);
+    confTest.init(function () {
+      confTest.set('test:v1','v1');
+      confTest.get('test:v1').should.equal('v1');
+      confTest.save(function(err) {
+          (fs.existsSync || path.existsSync)(confTest.file);
+      });
     });
-
 };
 
 exports['I can use the setSave shortcut'] = function() {
 
     var conf = new Config({path:path.join(rootpath,'tmp')});
-    conf.setSave('test:setsave','Yah!',function(err) {
-        var confTest = new Config({path:path.join(rootpath,'tmp')});
-        confTest.get('test:setsave').should.equal('Yah!');
+    conf.init(function () {
+      conf.setSave('test:setsave','Yah!',function(err) {
+          var confTest = new Config({path:path.join(rootpath,'tmp')});
+          confTest.init(function () {
+            confTest.get('test:setsave').should.equal('Yah!');
+          });
+      });
     });
-
 };
 
 
