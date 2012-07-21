@@ -1,0 +1,13 @@
+<!-- List Mail Templates -->
+<div class='mail-templates'>
+<h2>Mail Templates</h2>
+<% mailTemplates.forEach(function(item) { %>
+  <div class='mail-template'>
+  	<h4><a href='/admin/mail/edit/<%= item.id %>'><span class='mail-name'>Name: <%- item.name %></span></a></h4>
+  	<p class='mail-event'>Event: <%- item.event %></p>
+  	<p class='mail-to'>To: <%- item.to %></p>
+  	<p class='mail-subject'>Subject: <%- item.subject %></p>
+  	<pre class='mail-body'>Body: <%- escape(item.body) %></pre>
+  </div>
+<% }); %>
+</div>

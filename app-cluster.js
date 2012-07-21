@@ -1,42 +1,132 @@
-// TODO - THIS NEEDS TO BE REPLACED WITH THE NEW Node 0.5+ multi process, see cliftonc/ted
+/**
+ *  Master server process
+ *  Initialises a number of instances of the app, based on the number of CPU's it detects
+ *  is available.
+ *  
+ *  First arg is the port
+ *  Second arg is the num worker threads;
+ *  
+ *  e.g. node server 3000 8 
+ *  
+ */
+// Dependencies
+var rootpath = process.cwd() + '/',
+    cluster = require('cluster'),
+    path = require('path'),
+    logo = require(path.join(rootpath, 'logo')),
+    colors = require('colors'),
+    port = process.env.PORT || 3000,
+    restarts = 0,
+    totalWorkers = 0,
+    runningWorkers = 0;
+
+var argv = processArgs();
+
+launchServer();
 
 /**
- * Calipso script for running in clustered mode. Usage: node app-cluster, or
- * NODE_ENV=production node app-cluster
+ * Launch server instance, initially master, then each worker instance is forked.
+ * All instances share same config.
  */
-var cluster = require('cluster');
-var port = process.env.PORT || 3000;
-var path = __dirname;
-var app;
+function launchServer() {             
+
+  // Check if we are the master process
+  if (cluster.isMaster) {
+
+    //require('./app').boot(function (app) {
+
+
+      // Load configuration
+      var Config = require(rootpath + "lib/core/Configuration"),
+          config = new Config();  
+
+      config.init();
+
+      // Print the logo
+      logo.print();
+
+      // Set the number of workers
+      totalWorkers = config.get('server:cluster:workers') || argv.c;
+
+      // Fork workers based on num cpus
+      console.log("Loading ".green + totalWorkers + " workers, please wait ...".green);
+      for (var i = 0; i < totalWorkers; i++) {
+        forkWorker();
+      }
+  
+      // Log worker death
+      // TODO : Auto restart with number of retries
+      cluster.on('death', function(worker) {
+
+    	  console.error('worker ' + worker.pid + ' died ...');
+        
+        // Manage restarting of workers
+        if(config.get('server:cluster:restartWorkers')) {
+          if(restarts > config.get('server:cluster:maximumRestarts')) {
+            console.error('Maximum number of restarts reached, not restarting this worker.'.red);
+          } else {
+            restarts++;
+            forkWorker();
+          }
+        } 
+
+      });
+
+    //});
+
+  } else {
+
+    // We are a child worker, so bootstrap the app.
+    require(rootpath + 'app').boot(true, function (app) {
+
+  	  //logger.info("Worker [" + argv.m.cyan + "] with pid " + (process.pid + "").grey + " online.");    
+      app.listen(port);
+
+      process.send({ cmd: 'workerStarted', pid: process.pid, port: port });
+
+    });
+
+  }
+
+}
 
 /**
- * Create an instance of calipso via the normal App,
+ * Helper function to fork a worker, we need to reset the counter in the master thread
+ * hence the messaging back, also deal with messaging around job management from worker threads.
  */
-require('./app').boot(function (app) {
+function forkWorker() {
+  
+  var worker = cluster.fork();
 
-  /**
-   * TODO: Check to ensure that the logs and pids folders exist before launching
-   */
+  worker.on('message', function(msg) {
 
-  cluster(app)
-    .set('working directory', path)
-    .set('socket path', path)
-    .in('development')
-    .set('workers', 3)
-    .use(cluster.logger(path + '/logs', 'debug'))
-    .use(cluster.debug())
-    .use(cluster.pidfiles(path + '/pids'))
-    .use(cluster.stats({ connections: true, lightRequests: true }))
-    .in('test')
-    .set('workers', 3)
-    .use(cluster.logger(path + '/logs', 'warning'))
-    .use(cluster.pidfiles(path + '/pids'))
-    .in('production')
-    .set('workers', 3)
-    .use(cluster.logger(path + '/logs'))
-    .use(cluster.pidfiles(path + '/pids'))
-    .in('all')
-    .listen(port);
+    if (msg.cmd) {
+      
+      if(msg.cmd == 'workerStarted') {
 
+        runningWorkers++;
 
-},true);
+        if(runningWorkers === parseInt(totalWorkers)) {
+          console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
+          console.log("Calipso server running ".green + runningWorkers + " workers, listening on port: ".green + port);
+        }
+
+      }
+
+    }
+
+  });
+
+}
+
+/**
+ * Process command line arguments using optimist
+ */
+function processArgs() {
+  return require('optimist')
+            .usage('Launch Calipso in Clustered Mode\nUsage: $0')
+            .describe('c', 'Number of CPUs')
+            .alias('c', 'cpu')
+            .default('c', require('os').cpus().length)
+            .argv;
+}

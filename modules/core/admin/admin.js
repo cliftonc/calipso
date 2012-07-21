@@ -607,6 +607,11 @@ function coreConfig(req, res, template, block, next) {
             name:'server:name',
             type:'text'
           },
+          {
+            label:'Login Path',
+            name:'server:loginPath',
+            type:'text'
+          },
            {
             label:'Modules Location',
             name:'server:modulePath',
@@ -620,6 +625,16 @@ function coreConfig(req, res, template, block, next) {
            {
             label:'Server URL',
             name:'server:url',
+            type:'text'
+          },
+          {
+            label:'Session Secret',
+            name:'session:secret',
+            type:'password'
+          },
+          {
+            label:'Session Max Age (seconds)',
+            name:'session:maxAge',
             type:'text'
           }
         ]

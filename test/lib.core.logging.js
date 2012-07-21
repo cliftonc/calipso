@@ -6,7 +6,9 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    logging = require('./helpers/require')('core/Logging');
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    logging = require('../lib/core/Logging', true);
 
 describe('Logging', function(){
 

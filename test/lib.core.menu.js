@@ -4,10 +4,12 @@
 var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
-    calipsoHelper = require('./helpers/calipsoHelper'),
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    calipsoHelper = require('./helpers/calipsoHelper', true),
     calipso = calipsoHelper.calipso,
     testPermit = calipsoHelper.testPermit,
-    Menu = require('./helpers/require')('core/Menu');
+    Menu = require('../lib/core/Menu', true);
 
 /**
  * Test data
@@ -28,82 +30,82 @@ describe('Menus', function(){
 
   describe('Creating items with correct permissons', function(){
 
-    it('I can create a menu, it has default sortby and is root.', function(done){    
+    it('I can create a menu, it has default sortby and is root.', function(done){
         var tm = new Menu('MyMenu');
         tm.name.should.equal('MyMenu');
         tm.type.should.equal('root');
         done();
     });
 
-    it('I can create a menu, with different sort by', function(done){    
+    it('I can create a menu, with different sort by', function(done){
       var tm = new Menu('OtherMenu','key');
       tm.name.should.equal('OtherMenu');
       done();
     });
 
-    it('I can add a menu item with no permission and it is visible to everyone', function(done){    
+    it('I can add a menu item with no permission and it is visible to everyone', function(done){
 
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.anonUser;
       tm.addMenuItem(req, anonMenuBasic);
-      should.exist(tm.children[anonMenuBasic.path])      
+      should.exist(tm.children[anonMenuBasic.path])
       tm.children[anonMenuBasic.path].name.should.equal(anonMenuBasic.name);
       tm.children[anonMenuBasic.path].url.should.equal(anonMenuBasic.url);
       tm.children[anonMenuBasic.path].path.should.equal(anonMenuBasic.path);
-      
+
       done();
 
     });
 
-    it('I can add a menu item and it is added to the menu correctly when user has the correct permission', function(done){    
+    it('I can add a menu item and it is added to the menu correctly when user has the correct permission', function(done){
 
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
       tm.addMenuItem(req, simpleMenuBasic);
-      should.exist(tm.children[simpleMenuBasic.path])      
+      should.exist(tm.children[simpleMenuBasic.path])
       tm.children[simpleMenuBasic.path].name.should.equal(simpleMenuBasic.name);
       tm.children[simpleMenuBasic.path].url.should.equal(simpleMenuBasic.url);
-      tm.children[simpleMenuBasic.path].path.should.equal(simpleMenuBasic.path);      
+      tm.children[simpleMenuBasic.path].path.should.equal(simpleMenuBasic.path);
       done();
 
     });
 
-    it('Adding a menu item without the correct permission does not add the menu item', function(done){    
+    it('Adding a menu item without the correct permission does not add the menu item', function(done){
 
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.anonUser;
       tm.addMenuItem(req, simpleMenuBasic);
-      should.not.exist(tm.children[simpleMenuBasic.path])      
+      should.not.exist(tm.children[simpleMenuBasic.path])
       done();
 
     });
 
-    it('Administrators can see all menu items', function(done){    
+    it('Administrators can see all menu items', function(done){
 
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.adminUser;
       tm.addMenuItem(req, simpleMenuBasic);
-      should.exist(tm.children[simpleMenuBasic.path])      
+      should.exist(tm.children[simpleMenuBasic.path])
       done();
 
     });
 
-    it('Admin menus are invisible by default if they have no permit fn defined', function(done){    
+    it('Admin menus are invisible by default if they have no permit fn defined', function(done){
 
       var tm = new Menu('admin'), req = calipsoHelper.requests.testUser;
       tm.addMenuItem(req, anonMenuBasic);
-      should.not.exist(tm.children[anonMenuBasic.path])      
+      should.not.exist(tm.children[anonMenuBasic.path])
       done();
 
     });
 
-    it('I can add the same menu twice without adverse effects', function(done){  
-    
+    it('I can add the same menu twice without adverse effects', function(done){
+
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
 
       tm.addMenuItem(req, simpleMenuBasic);
       tm.addMenuItem(req, simpleMenuBasic);
-      
+
       tm.children[simpleMenuBasic.path].name.should.equal(simpleMenuBasic.name);
       tm.children[simpleMenuBasic.path].url.should.equal(simpleMenuBasic.url);
-      tm.children[simpleMenuBasic.path].path.should.equal(simpleMenuBasic.path);   
-            
+      tm.children[simpleMenuBasic.path].path.should.equal(simpleMenuBasic.path);
+
       done();
 
     });
@@ -113,7 +115,7 @@ describe('Menus', function(){
   describe('Creating hierarchical menus', function(){
 
     it('I can add a menu with a heirarchical path and get a hierarchy', function(done){
-    
+
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
 
       tm.addMenuItem(req, simpleMenuBasic);
@@ -123,15 +125,15 @@ describe('Menus', function(){
       tm.children.simplepath.children.child.name.should.equal(childMenuShort.name);
 
       // Check parent still matches parent url
-     tm.children.simplepath.url.should.equal(simpleMenuBasic.url);   
-      
+     tm.children.simplepath.url.should.equal(simpleMenuBasic.url);
+
      done();
 
     });
 
 
-    it('I can add a menu with an overlapping heirarchical path and get a hierarchy', function(done){   
-    
+    it('I can add a menu with an overlapping heirarchical path and get a hierarchy', function(done){
+
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
 
       tm.addMenuItem(req, simpleMenuBasic);
@@ -143,13 +145,13 @@ describe('Menus', function(){
       tm.children.simplepath.children.a.children.b.name.should.equal(childMenuDeep.name);
 
       // Check parent has still has first child url, it is not updated by second menu
-      tm.children.simplepath.url.should.equal(simpleMenuBasic.url); 
+      tm.children.simplepath.url.should.equal(simpleMenuBasic.url);
       done();
 
     });
 
-   
-    it('Creating menus in the wrong order is ok, they get updated', function(done){    
+
+    it('Creating menus in the wrong order is ok, they get updated', function(done){
 
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
 
@@ -161,12 +163,12 @@ describe('Menus', function(){
 
       // Check that parent url is set correctly
       tm.children.simplepath.url.should.equal(simpleMenuBasic.url);
-       
+
       done();
 
     });
 
-    it('Creating menus with an invalid sort defaults to sorting by item name', function(done){    
+    it('Creating menus with an invalid sort defaults to sorting by item name', function(done){
 
       var tm = new Menu('MyMenu','invalid'), req = calipsoHelper.requests.testUser;
 
@@ -175,21 +177,21 @@ describe('Menus', function(){
       tm.addMenuItem(req, simpleMenuBasic);
 
       tm.sortedChildren.should.eql([simpleMenuBasic.path, simpleMenuFull.path])
-             
+
       done();
 
     });
 
-     it('Creating menus with a non string sort sorts by that directly', function(done){    
+     it('Creating menus with a non string sort sorts by that directly', function(done){
 
       var tm = new Menu('MyMenu','order'), req = calipsoHelper.requests.testUser;
 
       // Add in reverse order to what we expect
       tm.addMenuItem(req, simpleMenuFull);
       tm.addMenuItem(req, simpleMenuBasic);
-      
+
       tm.sortedChildren.should.eql([simpleMenuBasic.path, simpleMenuFull.path])
-             
+
       done();
 
     });
@@ -201,7 +203,7 @@ describe('Menus', function(){
 
   describe('Recursing and displaying menus', function(){
 
-     it('I can recursively scan the menu tree', function(done){    
+     it('I can recursively scan the menu tree', function(done){
 
       var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
       tm.addMenuItem(req, simpleMenuBasic);
@@ -222,7 +224,7 @@ describe('Menus', function(){
 
     });
 
-    it('I can highlight selected menu items in a tree based on current url matching', function(done){    
+    it('I can highlight selected menu items in a tree based on current url matching', function(done){
 
         var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
 
@@ -242,8 +244,8 @@ describe('Menus', function(){
 
     });
 
-    it('I can render a menu as html', function(done){    
-    
+    it('I can render a menu as html', function(done){
+
         var tm = new Menu('MyMenu'), req = calipsoHelper.requests.testUser;
 
         tm.addMenuItem(req, simpleMenuBasic);
@@ -254,17 +256,17 @@ describe('Menus', function(){
         // Mock request object
         var html = tm.render(req);
 
-        html.should.include("MyMenu");
-        
+        html.should.match(/MyMenu/);
+
         done();
 
-    }); 
+    });
 
 
-  }); 
+  });
 
   after(function() {
-    
+
   })
 
 });

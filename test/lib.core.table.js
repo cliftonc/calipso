@@ -5,9 +5,11 @@ var should = require('should'),
     fs = require('fs'),
     rootpath = process.cwd() + '/',
     path = require('path'),
-    calipsoHelper = require('./helpers/calipsoHelper'),
+    calipsoHelper = require('./helpers/calipsoHelper', true),
     calipso = calipsoHelper.calipso,
-    table = require('./helpers/require')('core/Table');
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    table = require('../lib/core/Table', true);
 
 var table1 = {id:'1',
               cls:'my-table',
@@ -32,22 +34,22 @@ describe('Table', function(){
   });
 
   describe('Core', function(){
-  
 
-    it('I can create a table and render it', function(){    
-        
+
+    it('I can create a table and render it', function(){
+
         var req = calipsoHelper.requests.testUser,
             output = table.render(req, table1);
 
-        output.should.include('my-table');
-        output.should.include('/data');
+        output.should.match(/my-table/);
+        output.should.match(/\/data/);
 
     });
 
-  }); 
+  });
 
   after(function() {
-    
+
   })
 
 });

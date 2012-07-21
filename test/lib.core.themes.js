@@ -6,7 +6,9 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    Themes = require('./helpers/require')('core/Themes');
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    Themes = require('../lib/core/Themes', true);
 
 describe('Themes', function(){
 

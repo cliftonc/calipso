@@ -6,7 +6,9 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    date = require('./helpers/require')('core/Date');
+    jsc = require('jscoverage'),
+    require = jsc.require(module), // rewrite require function
+    date = require('../lib/core/Date', true);
 
 describe('Date', function(){
 
