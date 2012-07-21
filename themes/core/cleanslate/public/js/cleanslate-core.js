@@ -143,7 +143,32 @@ cleanslate = {
       location = baseUrl + (newSearch ? '?'+newSearch : '') + l.hash;
       
     });
-    
+
+    // Popup forms
+    (function doForms(){
+      var formArray = $(".popupMenu");
+      $("#container").append("<div id='formPopup'></div>");
+      var formPopup = $("#formPopup");
+      formArray.each(function(index){
+        var form = $(formArray[index]);
+        form.click(function(e){
+          e.preventDefault();
+          var el = $(this);
+          $.get(el.attr('href'), function(text){
+              var start = '<!--PAGE_BODY_START-->';
+              var end = '<!--PAGE_BODY_END-->';
+              if(text.length && text.indexOf(start)>-1 && text.indexOf(end)>-1){
+                var html = '<div class="close"></div>' + text.split(start)[1].split(end)[0];
+                formPopup.html(html).show();
+                formPopup.find('input')[0].focus();
+                formPopup.find('.close').click(function(){
+                  formPopup.toggle();
+                });
+              }
+            });
+        });
+      });
+    })();
     
     // DOUBLE CLICK TO EDIT CONTENT
     // todo - should check if user.isAdmin, or if the user is the author of the content

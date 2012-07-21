@@ -1,0 +1,12 @@
+{
+  "name": "static",
+  "label": "Static",
+  "description": "Static content handler.",
+  "version": "0.0.1",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso.git"
+  },
+  "author": "Geoffrey Johnson"
+}
