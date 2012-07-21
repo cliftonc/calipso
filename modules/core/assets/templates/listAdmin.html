@@ -1,0 +1,16 @@
+<table class='tabular'>
+<tr>
+<th><%- t('Key') %></th>
+<th><%- t('Size') %></th>
+<th><%- t('Owner') %></th>
+</tr>
+<% contents.forEach(function(item) { %>
+<tr class='content-list-item'>
+    <td><a href='/asset/show/<%= item.Key %>'><%- item.Key %></a></td>
+    <td><%- item.Key %></td>
+    <td><%- item.Size %></td>
+    <td><%- item.Owner %></td>
+</tr>
+<% });  %>
+</table>
+<%- pager %>

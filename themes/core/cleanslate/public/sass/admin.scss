@@ -12,7 +12,7 @@
 // 5. Misc.
 // ---------------------------------------------- //
 
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
+@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
 
 @import "compass/reset";
 @import "compass/css3";
@@ -505,6 +505,24 @@ ul.tabs li.active a:hover {
   margin: 0;
 }
 
+.mail-templates {
+  .mail-template {
+    display: block;
+    margin: 1em;
+    padding: 1em;
+    @include background(#ededed);
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+    border: 1px solid #aaa;
+    border-color: #aaa #999 #888;
+    @include border-radius(7px);
+    .mail-subject {
+      font-style:italic;
+    }
+    .mail-body {
+      word-wrap:break-word;
+    }
+  }
+}
 
 // 5. Form Elements
 // ----------------------------------------//

@@ -4,6 +4,8 @@ node_modules
 modules/downloaded/*
 modules/custom
 modules/community/*
+modules/site
+modules/private
 media/*
 themes/downloaded/*
 themes/custom/*
@@ -15,3 +17,5 @@ docs/coverage.html
 *.sock
 *.gz
 *.sass-cache
+themes/community/
+themes/private/
