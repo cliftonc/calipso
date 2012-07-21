@@ -45,7 +45,7 @@
     "semver":"1.0.x",
     "zipfile":"0.3.x",
     "rimraf":"2.0.x",
-    "nconf":"0.5.x",
+    "nconf":"0.6.x",
     "async": "0.1.x",
     "hook.io": "0.8.x"
   },
