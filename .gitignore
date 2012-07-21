@@ -1,10 +1,17 @@
+conf
 tmp
 lib-cov
 node_modules
 modules/downloaded
 modules/custom
+modules/community
+modules/private
+modules/site
 themes/downloaded
 themes/custom
+themes/community
+themes/private
+themes/site
 *.pid
 *.log
 *.swp
