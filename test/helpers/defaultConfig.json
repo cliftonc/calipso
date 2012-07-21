@@ -2,7 +2,7 @@
   "version":"0.3.0",
   "installed":true,
   "database": {
-    "type": "redis",
+    "type": "mongodb",
     "configuration":{}
   },
   "server": {

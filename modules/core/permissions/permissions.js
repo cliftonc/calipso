@@ -3,8 +3,7 @@
  */
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query;
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 /**
  * Routes this module will respond to
@@ -191,11 +190,11 @@ function updatePermissions(req, res, options, next) {
 
 
       // Delete all the existing permissions
-      PermissionRole.find({}).find(function (err, prs) {
+      PermissionRole.all({}, function (err, prs) {
 
           // Delete all
           calipso.lib.async.map(prs, function(permission, next) {
-            PermissionRole.remove({_id: permission._id}, function(err) {
+            permission.destroy(function(err) {
               next(err);
             })
           }, function(err) {

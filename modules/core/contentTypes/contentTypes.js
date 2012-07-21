@@ -6,8 +6,7 @@
 
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query;
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 /**
  * Define the routes that this module will repsond to.

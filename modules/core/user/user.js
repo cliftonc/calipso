@@ -347,7 +347,7 @@ function updateUserForm(req, res, template, block, next) {
     return;
   }
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     // Allow admins to register other admins
     if(req.session.user && req.session.user.isAdmin) {
@@ -390,7 +390,7 @@ function lockUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
@@ -423,7 +423,7 @@ function unlockUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
@@ -477,7 +477,7 @@ function updateUserProfile(req, res, template, block, next) {
       var old_password = form.user.old_password;
       delete form.user.old_password;
 
-      User.findOne({username:username}, function(err, u) {
+      User.findOne({where:{username:username}}, function(err, u) {
 
         u.fullname = form.user.fullname;
         u.username = form.user.username;
@@ -589,7 +589,7 @@ function loginUser(req, res, template, block, next) {
       var username = form.user.username;
       var found = false;
 
-      User.findOne({where: {username:username}},function (err, user) {
+      User.findOne({where:{username:username}},function (err, user) {
 
         // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
         // TO BE REMOVED In later version
@@ -609,9 +609,10 @@ function loginUser(req, res, template, block, next) {
         }
 
         if(res.statusCode != 302) {
-          res.redirect('back');
+          //res.redirect('back');
         }
         next();
+        
         return;
       });
 
@@ -626,6 +627,7 @@ function loginUser(req, res, template, block, next) {
 function isUserAdmin(user) {
   // Set admin
   var isAdmin = false;
+  if (!user.roles) return isAdmin;
   user.roles.forEach(function(role) {
     if(calipso.data.roles[role] && calipso.data.roles[role].isAdmin){
       isAdmin = true;
@@ -657,7 +659,7 @@ function logoutUser(req, res, template, block, next) {
 
     var User = calipso.db.model('User');
 
-    User.findOne({username:req.session.user.username}, function(err, u) {
+    User.findOne({where:{username:req.session.user.username}}, function(err, u) {
 
       req.session.user = null;
       req.session.save(function(err) {
@@ -789,7 +791,7 @@ function userProfile(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
       req.flash('error',req.t('Could not locate user: {user}',{user:username}));
@@ -826,7 +828,7 @@ function deleteUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     // Raise USER_DELETE event
     calipso.e.pre_emit('USER_DELETE',u);

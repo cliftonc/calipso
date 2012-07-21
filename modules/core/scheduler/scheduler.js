@@ -52,7 +52,7 @@ function init(module,app,next) {
       function done() {
 
         // Ensure we have the job schema defined
-        var ScheduledJob = new calipso.lib.mongoose.Schema({
+        var ScheduledJob = calipso.db.define('ScheduledJob', {
           name:{type: String, required: true, unique: true},
           cronTime:{type: String, "default":'* * * * * *',required: true},
           enabled:{type: Boolean, "default":false, required: true},
@@ -60,7 +60,6 @@ function init(module,app,next) {
           method:{type: String, "default":'', required: true},
           args:{type: String, "default":'', required: false}
         });
-        calipso.db.model('ScheduledJob', ScheduledJob);
 
         // Load the exposed job functions into a job function array
         // This scans all the other modules
@@ -93,7 +92,7 @@ function loadJobs(next) {
   // Create a holder for our jobs - DOES THIS STOP EVERYTHING ELSE??!
   calipso.jobs = {};
 
-  ScheduledJob.find({}, function(err, jobs) {
+  ScheduledJob.all({}, function(err, jobs) {
 
         jobs.forEach(function(job) {
 
@@ -355,7 +354,7 @@ function editJobForm(req,res,template,block,next) {
   res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
 
-  ScheduledJob.findOne({name:jobName}, function(err, job) {
+  ScheduledJob.findOne({where:{name:jobName}}, function(err, job) {
 
     if(err || job === null) {
 
@@ -400,7 +399,7 @@ function updateJob(req,res,template,block,next) {
       var ScheduledJob = calipso.db.model('ScheduledJob');
       var jobName = req.moduleParams.jobName;
 
-      ScheduledJob.findOne({name:jobName}, function(err, job) {
+      ScheduledJob.findOne({where:{name:jobName}}, function(err, job) {
 
         if(err) {
           calipso.error(err);
@@ -484,14 +483,14 @@ function showJob(req,res,template,block,next,err) {
   res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
 
-  ScheduledJob.findOne({name:jobName}, function(err, job) {
+  ScheduledJob.findOne({where:{name:jobName}}, function(err, job) {
 
     if(err || job === null) {
       res.redirect("/scheduler");
       next();
       return;
     } else {
-        item = {id:job._id,type:'job',meta:job.toObject()};
+        item = {id:job.id,type:'job',meta:job.toObject()};
     }
 
     calipso.theme.renderItem(req,res,template,block,{item:item},next);
@@ -509,15 +508,22 @@ function deleteJob(req,res,template,block,next,err) {
   var ScheduledJob = calipso.db.model('ScheduledJob');
   var jobName = req.moduleParams.jobName;
 
-  ScheduledJob.remove({name:jobName}, function(err) {
+  ScheduledJob.findOne({where:{name:jobName}}, function(err, job) {
     if(err) {
       req.flash('info',req.t('Unable to delete the job {job} because {msg}.', {job:jobName,msg:err.message}));
       res.redirect("/scheduler");
     } else {
-      calipso.jobs[jobName].disable() // Disable it
-      delete calipso.jobs[jobName];   // 'Delete' it - GC will get it later ???
-      req.flash('info',req.t('Job {job} has now been deleted.',{job:jobName}));
-      res.redirect("/scheduler");
+      job.destroy(function(err) {
+        if(err) {
+          req.flash('info',req.t('Unable to delete the job {job} because {msg}.', {job:jobName,msg:err.message}));
+          res.redirect("/scheduler");
+        } else {
+          calipso.jobs[jobName].disable() // Disable it
+          delete calipso.jobs[jobName];   // 'Delete' it - GC will get it later ???
+          req.flash('info',req.t('Job {job} has now been deleted.',{job:jobName}));
+          res.redirect("/scheduler");
+        }
+      })
     }
     next();
   });

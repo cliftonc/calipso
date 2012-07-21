@@ -302,7 +302,7 @@ function installDb(req,res,next) {
           {label:'Host',name:'database:configuration:host',cls:'database-host', type:'text',description:'Enter the database hostname'},
           {label:'Port',name:'database:configuration:port',cls:'database-port', type:'text',description:'Enter the database port'},
           {label:'Username',name:'database:configuration:user',cls:'database-user', type:'text',description:'Enter the database username'},
-          {label:'Password',name:'database:configuration:password',cls:'database-password', type:'text',description:'Enter the database password'},
+          {label:'Password',name:'database:configuration:password',cls:'database-password', type:'password',description:'Enter the database password'},
           {label:'Database',name:'database:configuration:database',cls:'database-database', type:'text',description:'Enter the database name'},
           {label:'',name:'installStep',type:'hidden'}
         ],

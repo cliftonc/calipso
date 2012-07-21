@@ -6,7 +6,6 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query,
   utils = require('connect').utils,
   merge = utils.merge;
 
@@ -268,7 +267,7 @@ function createContent(req,res,template,block,next) {
           var returnTo = form.returnTo ? form.returnTo : "";
 
           // Get content type
-          ContentType.findOne({contentType:form.content.contentType}, function(err, contentType) {
+          ContentType.findOne({where:{contentType:form.content.contentType}}, function(err, contentType) {
 
 
               if(err || !contentType) {
@@ -570,7 +569,7 @@ function updateContent(req,res,template,block,next) {
               c.tags = form.content.tags ? form.content.tags.replace(/[\s]+/g, "").split(",") : [];
 
               // Get content type
-              ContentType.findOne({contentType:form.content.contentType}, function(err, contentType) {
+              ContentType.findOne({where:{contentType:form.content.contentType}}, function(err, contentType) {
 
                   if(err || !contentType) {
                     req.flash('error',req.t('Could not save content as I was unable to locate content type {type}.',{type:form.content.contentType}));
