@@ -20,6 +20,11 @@
   "engines": {
     "node": "0.6.x"
   },
+  "devDependencies": {
+    "mocha": "*",
+    "jscoverage": "*",
+    "should": "*"
+  },
   "dependencies": {
     "express": "3.0.x",
     "formidable": "1.0.x",
@@ -49,13 +54,9 @@
     "async": "0.1.x",
     "hook.io": "0.8.x"
   },
-  "devDependencies": {
-    "mocha": "*",
-    "jscoverage": "*"
-  },
   "scripts": {
     "install" : "bash ./bin/install.sh",
-    "test" : "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 5000 -s 500"
+    "test" : "NODE_ENV=mocha mocha --reporter spec -t 5000 -s 500"
   },
   "bin": { "calipso": "./bin/calipso" }
 }
