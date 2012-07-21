@@ -18,7 +18,7 @@
     "tests": "./tests"
   },
   "engines": {
-    "node": "0.4.x"
+    "node": "0.4.x || 0.5.x"
   },
   "dependencies": {
     "express": "2.4.x",
