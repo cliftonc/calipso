@@ -21,10 +21,15 @@ test-cov:
 	rm -rf lib-cov
 
 site:
-	rm -fr /tmp/docs \
-	&& cp -fr docs /tmp/docs \
-	&& git checkout gh-pages \
-  	&& cp -fr /tmp/docs/* . \
-    && echo "Pages updated ..."
+	-mkdir ./tmp
+	cd ./tmp \
+	&& git clone git@github.com:cliftonc/calipso.git -b gh-pages gh-pages \
+	&& cp ../docs/* ./gh-pages \
+	&& cd ./gh-pages \
+	&& git commit -a -m "Update Pages" \
+	&& git push \
+	&& cd .. \
+	&& rm -rf gh-pages \
+	&& echo "Pages Updated"
 
 .PHONY: site test test-cov test-debug test-debug-brk lib-cov
