@@ -8,39 +8,109 @@
  *
  */
 
+var req = require('express/lib/request');
+
+ var flashFormatters = req.flashFormatters = {
+   s: function(val){
+     return String(val);
+   }
+ };
+
+ /**
+  * Queue flash `msg` of the given `type`.
+  *
+  * Examples:
+  *
+  *      req.flash('info', 'email sent');
+  *      req.flash('error', 'email delivery failed');
+  *      req.flash('info', 'email re-sent');
+  *      // => 2
+  *
+  *      req.flash('info');
+  *      // => ['email sent', 'email re-sent']
+  *
+  *      req.flash('info');
+  *      // => []
+  *
+  *      req.flash();
+  *      // => { error: ['email delivery failed'], info: [] }
+  *
+  * Formatting:
+  *
+  * Flash notifications also support arbitrary formatting support.
+  * For example you may pass variable arguments to `req.flash()`
+  * and use the %s specifier to be replaced by the associated argument:
+  *
+  *     req.flash('info', 'email has been sent to %s.', userName);
+  *
+  * To add custom formatters use the `exports.flashFormatters` object.
+  *
+  * @param {String} type
+  * @param {String} msg
+  * @return {Array|Object|Number}
+  * @api public
+  */
+
+  function miniMarkdown(str){
+    return String(str)
+      .replace(/(__|\*\*)(.*?)\1/g, '<strong>$2</strong>')
+      .replace(/(_|\*)(.*?)\1/g, '<em>$2</em>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  };
+
+ req.flash = function(type, msg){
+   if (this.session === undefined) throw Error('req.flash() requires sessions');
+   var msgs = this.session.flash = this.session.flash || {};
+   if (type && msg) {
+     var i = 2
+       , args = arguments
+       , formatters = this.app.flashFormatters || {};
+     formatters.__proto__ = flashFormatters;
+     msg = miniMarkdown(msg);
+     msg = msg.replace(/%([a-zA-Z])/g, function(_, format){
+       var formatter = formatters[format];
+       if (formatter) return formatter(utils.escape(args[i++]));
+     });
+     return (msgs[type] = msgs[type] || []).push(msg);
+   } else if (type) {
+     var arr = msgs[type];
+     delete msgs[type];
+     return arr || [];
+   } else {
+     this.session.flash = {};
+     return msgs;
+   }
+ };
+
+var sys;
+try {
+  sys = require('util');
+} catch (e) {
+  sys = require('sys');
+}
+
 var rootpath = process.cwd() + '/',
   path = require('path'),
   fs = require('fs'),
   express = require('express'),
-  mongoose = require('mongoose'),
-  sys = require('sys'),
   nodepath = require('path'),
-  form = require('connect-form'),
   stylus = require('stylus'),
   colors = require('colors'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   translate = require(path.join(rootpath, 'i18n/translate')),
-  logo = require(path.join(rootpath, 'logo')),
-  mongoStore = require(path.join(rootpath, 'support/connect-mongodb'));
+  logo = require(path.join(rootpath, 'logo'));
 
 // Local App Variables
 var path = rootpath,
-  theme = 'default',
-  port = process.env.PORT || 3000,
-  version = "0.2.3";
+    theme = 'default',
+    port = process.env.PORT || 3000;
 
 /**
  * Catch All exception handler
  */
-process.on('uncaughtException', function (err) {
-  console.log('Uncaught exception: ' + err + err.stack);
-});
-
-
-/**
- * Placeholder for application
- */
-var app, exports;
+//process.on('uncaughtException', function (err) {
+//  console.log('Uncaught exception: ' + err + err.stack);
+//});
 
 /**
  *  App settings and middleware
@@ -49,99 +119,95 @@ var app, exports;
  */
 function bootApplication(next) {
 
-  app.use(express.methodOverride());
-  app.use(express.cookieParser());
-  app.use(express.responseTime());
-  app.use(express.session({ secret: 'calipso', store: mongoStore({ url: app.set('db-uri') }) }));
+  // Create our express instance, export for later reference
+  var app = express.createServer ? express.createServer() : express();
+  app.path = function() { return path };
+  app.isCluster = false;
 
-  // Default Theme
-  calipso.defaultTheme = require(path + '/conf/configuration.js').getDefaultTheme();
+  // Load configuration
+  var Config = calipso.configuration; //require(path + "/lib/core/Config").Config;
+  app.config = new Config();
+  app.config.init(function(err) {
 
-  // Create holders for theme dependent middleware
-  // These are here because they need to be in the connect stack before the calipso router
-  // THese helpers are re-used when theme switching.
-  app.mwHelpers = {};
+    if(err) return console.error(err.message);
 
-  // Stylus
-  app.mwHelpers.stylusMiddleware = function (themePath) {
-    var mw = stylus.middleware({
-      src: themePath + '/stylus', // .styl files are located in `views/stylesheets`
-      dest: themePath + '/public', // .styl resources are compiled `/stylesheets/*.css`
-      debug: false,
-      compile: function (str, path) { // optional, but recommended
-        return stylus(str)
-          .set('filename', path)
-          .set('warn', true)
-          .set('compress', true);
-      }
-    });
-    mw.tag = 'theme.stylus';
-    return mw;
-  };
-  // Load placeholder, replaced later
-  app.use(app.mwHelpers.stylusMiddleware(''));
+    // Default Theme
+    calipso.defaultTheme = app.config.get('themes:default');
 
-  // Static
-  app.mwHelpers.staticMiddleware = function (themePath) {
-    var mw = express["static"](themePath + '/public', {maxAge: 86400000});
-    mw.tag = 'theme.static';
-    return mw;
-  };
-  // Load placeholder, replaced later
-  app.use(app.mwHelpers.staticMiddleware(''));
+    app.use(express.bodyParser());
+    // Pause requests if they were not parsed to allow PUT and POST with custom mime types
+    app.use(function (req, res, next) { if (!req._body) { req.pause(); } next(); });
+    app.use(express.methodOverride());
+    app.use(express.cookieParser(app.config.get('session:secret')));
+    app.use(express.responseTime());
 
-  // Media paths
-  app.use(express["static"](path + '/media', {maxAge: 86400000}));
+    // Create dummy session middleware - tag it so we can later replace
+    var temporarySession = app.config.get('installed') ? {} : express.session({ secret: "installing calipso is great fun" });
+    temporarySession.tag = "session";
+    app.use(temporarySession);
 
-  // connect-form
-  app.use(form({
-    keepExtensions: true
-  }));
+    // Create holders for theme dependent middleware
+    // These are here because they need to be in the connect stack before the calipso router
+    // THese helpers are re-used when theme switching.
+    app.mwHelpers = {};
 
-  // Translation - after static, set to add mode if appropriate
-  app.use(translate.translate(app.set('config').language, app.set('language-add')));
+    // Load placeholder, replaced later
+    if(app.config.get('libraries:stylus:enabled')) {
+      app.mwHelpers.stylusMiddleware = function (themePath) {
+        var mw = stylus.middleware({
+          src: themePath + '/stylus',
+          dest: themePath + '/public',
+          debug: false,
+          compile: function (str, path) { // optional, but recommended
+            return stylus(str)
+              .set('filename', path)
+              .set('warn', app.config.get('libraries:stylus:warn'))
+              .set('compress', app.config.get('libraries:stylus:compress'));
+          }
+        });
+        mw.tag = 'theme.stylus';
+        return mw;
+      };
+      app.use(app.mwHelpers.stylusMiddleware(''));
+    }
+    // Static
+    app.mwHelpers.staticMiddleware = function (themePath) {
+      var mw = express["static"](themePath + '/public', {maxAge: 86400000});
+      mw.tag = 'theme.static';
+      return mw;
+    };
+    // Load placeholder, replaced later
+    app.use(app.mwHelpers.staticMiddleware(''));
 
-  // Core calipso router
-  app.use(calipso.calipsoRouter(next));
+    // Core static paths
+    app.use(express["static"](path + '/media', {maxAge: 86400000}));
+    app.use(express["static"](path + '/lib/client/js', {maxAge: 86400000}));
+
+    // Translation - after static, set to add mode if appropriate
+    app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
+
+    // Core calipso router
+    calipso.init(app, function() {
+
+      // Add the calipso mw
+      app.use(calipso.routingFn());
+
+      // return our app refrerence
+      next(app);
+
+    })
+
+  });
 
 }
 
 /**
  * Initial bootstrapping
  */
-exports.boot = function (next) {
+exports.boot = function (cluster, next) {
 
-  //Create our express instance, export for later reference
-  app = exports.app = express.createServer();
-  app.path = path;
-  app.version = version;
-
-  // Import configuration
-  require(path + '/conf/configuration.js')(app, function (err) {
-
-    if (err) {
-
-      // Add additional detail to know errors
-      switch (err.code) {
-      case "ECONNREFUSED":
-        console.log("Unable to connect to the specified database: ".red + app.set('db-uri'));
-        break;
-      default:
-        console.log("Fatal unknown error: ".magenta + err);
-      }
-      next();
-
-    } else {
-
-      // Load application configuration
-      theme = app.set('config').theme;
-      // Bootstrap application
-      bootApplication(function () {
-        next(app);
-      });
-    }
-
-  });
+  // Bootstrap application
+  bootApplication(next);
 
 };
 
@@ -151,13 +217,21 @@ if (!module.parent) {
 
   logo.print();
 
-  exports.boot(function (app) {
+  exports.boot(false, function (app) {
 
     if (app) {
-      app.listen(port);
-      console.log("Calipso version: ".green + app.version);
-      console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
-      console.log("Calipso server listening on port: ".green + app.address().port);
+      var out = app.listen(port, function () {
+        console.log("Calipso version: ".green + app.about.version);
+        console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
+        if (app.address)
+          console.log("Calipso server listening on port: ".green + app.address().port);
+        else
+          console.log("Calipso server listening on port: ".green + port);
+      });
+      process.nextTick(function () {
+        if (out && out.address && out.address().port !== port)
+          console.log("Calipso server listening on port: ".red + out.address().port);
+      });
     } else {
       console.log("\r\nCalipso terminated ...\r\n".grey);
       process.exit();

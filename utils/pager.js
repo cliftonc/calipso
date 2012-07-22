@@ -12,7 +12,8 @@ exports = module.exports = {
     var currentPage = skip/limit + 1;
     var result = "", resultStart = "<div class='pager'>", start, finish;
     var selectedClass = 'page-selected';
-    var visiblePages = 5;    
+    var visiblePages = 5;
+    var i;    
     
     // Remember how many we have
     var totalPageLinks = 0;

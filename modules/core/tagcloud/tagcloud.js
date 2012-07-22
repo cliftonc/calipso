@@ -8,28 +8,22 @@ var rootpath = process.cwd() + '/',
 
 exports = module.exports = {
   init: init,
-  route: route
+  route: route,
+  depends:['content']
 };
 
 /**
  *Router
  */
 function route(req,res,module,app,next) {
-
-      // Route
-      module.router.route(req,res,next);
-
+  // Route
+  module.router.route(req,res,next);
 };
 
 /**
  *Init
  */
 function init(module,app,next) {
-
-  if(!calipso.modules.content.initialised) {
-    process.nextTick(function() { init(module,app,next); });
-    return;
-  }
 
     // Any pre-route config
   calipso.lib.step(
@@ -45,7 +39,7 @@ function init(module,app,next) {
           "value":{type: Number}
         });
 
-        calipso.lib.mongoose.model('Tag', Tag);
+        calipso.db.model('Tag', Tag);
 
         // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTagCloud);
@@ -64,13 +58,13 @@ function init(module,app,next) {
 function mapReduceTagCloud(event,options,next) {
 
   // We need to check if we are already map reducing ...
-  if(calipso.mr.tagcloud) {
+  if(calipso.storage.mr.tagcloud) {
 
     // TODO : CHECK IF THIS MISSES THINGS ...
     return next();
 
   }
-  calipso.mr.tagcloud = true;
+  calipso.storage.mr.tagcloud = true;
 
   var mongoose = calipso.lib.mongoose;
 
@@ -98,10 +92,11 @@ function mapReduceTagCloud(event,options,next) {
       out: 'tags' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
-  mongoose.connection.db.executeDbCommand(command, function(err, dbres)
+  calipso.db.db.executeDbCommand(command, function(err, dbres)
   {
+
     // Reset
-    calipso.mr.tagcloud = false;
+    calipso.storage.mr.tagcloud = false;
     if (err) {
       // Do Something!!
       calipso.error(err);
@@ -110,8 +105,6 @@ function mapReduceTagCloud(event,options,next) {
 
   });
 
-
-
  };
 
 /**
@@ -119,7 +112,7 @@ function mapReduceTagCloud(event,options,next) {
  */
 function tagCloud(req,res,template,block,next) {
 
-  var Tag = calipso.lib.mongoose.model('Tag');
+  var Tag = calipso.db.model('Tag');
 
   Tag.find({})
    .find(function (err, tags) {
@@ -128,7 +121,5 @@ function tagCloud(req,res,template,block,next) {
       calipso.theme.renderItem(req,res,template,block,{tags:tags},next);
 
    });
-
-
 
 };

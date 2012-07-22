@@ -1,0 +1,7 @@
+{
+	"alias":"welcome",
+	"title":"Welcome Message",
+	"teaser": "Default welcome message",
+	"tags":"welcome, message, default",
+	"content": "<h3>Welcome!</h3><p>This is the default welcome message, this is just a content block that is editable after logging in.</p>"
+}

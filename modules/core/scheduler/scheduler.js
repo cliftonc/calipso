@@ -23,7 +23,7 @@ function route(req,res,module,app,next) {
        * Menu items
        */
       //res.menu.admin.primary.push({name:req.t('Scheduler'),url:'/scheduler',regexp:/scheduler/});
-      res.menu.admin.addMenuItem({name:'Scheduled Jobs',path:'admin/core/scheduler',url:'/scheduler',description:'Manage scheduled jobs ...',security:[]});
+      res.menu.admin.addMenuItem(req, {name:'Scheduled Jobs',path:'admin/core/scheduler',url:'/scheduler',description:'Manage scheduled jobs ...',security:[]});
 
       /**
        * Routes
@@ -60,7 +60,7 @@ function init(module,app,next) {
           method:{type: String, "default":'', required: true},
           args:{type: String, "default":'', required: false}
         });
-        calipso.lib.mongoose.model('ScheduledJob', ScheduledJob);
+        calipso.db.model('ScheduledJob', ScheduledJob);
 
         // Load the exposed job functions into a job function array
         // This scans all the other modules
@@ -87,7 +87,7 @@ function init(module,app,next) {
  */
 function loadJobs(next) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
 
   // Check to see if we already have any jobs.
   // Create a holder for our jobs - DOES THIS STOP EVERYTHING ELSE??!
@@ -192,9 +192,9 @@ function enableScheduler(req,res,template,block,next) {
  */
 function schedulerAdmin(req,res,template,block,next) {
 
-    res.menu.adminToolbar.addMenuItem({name:'New Job',path:'new',url:'/scheduler/new',description:'Create new job ...',security:[]});
+    res.menu.adminToolbar.addMenuItem(req, {name:'New Job',path:'new',url:'/scheduler/new',description:'Create new job ...',security:[]});
 
-    var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+    var ScheduledJob = calipso.db.model('ScheduledJob');
 
     // Render json to blocks
     var item = {id:"NA",type:'content',meta:{jobs:calipso.jobs}};
@@ -215,7 +215,7 @@ var jobCronTimeDescription = "Examples:<br/>"
 
 var jobForm = {id:'job-form',title:'',type:'form',method:'POST',action:'/scheduler',fields:[
                   {label:'Name',name:'job[name]',description:'Enter a unique name for the job',type:'text'},
-                  {label:'CRON Time',name:'job[cronTime]',description:jobCronTimeDescription,type:'cronTime'},
+                  {label:'CRON Time',name:'job[cronTime]',description:jobCronTimeDescription,type:'crontime'},
                   {label:'Enabled',name:'job[enabled]',type:'select',description:'Enable or disable the job',options:["Yes","No"]},
                   {label:'Job Function',name:'job[moduleMethod]',description:'Select the job function to run as per this schedule',type:'select',options:function() { return calipso.data.jobFunctions }},
                   {label:'Arguments',name:'job[args]',description:'Enter the arguments (as per the job function)',type:'textarea'}
@@ -257,7 +257,7 @@ function createJob(req,res,template,block,next) {
 
     if(form) {
 
-      var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+      var ScheduledJob = calipso.db.model('ScheduledJob');
 
       var job = new ScheduledJob(processForm(form.job));
 
@@ -342,7 +342,7 @@ function processForm(formObject) {
  */
 function editJobForm(req,res,template,block,next) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
 
   var jobName = req.moduleParams.jobName;
   var item;
@@ -350,11 +350,11 @@ function editJobForm(req,res,template,block,next) {
   //res.menu.admin.secondary.push({name:req.t('New Job'),parentUrl:'/scheduler',url:'/scheduler/new'});
   //res.menu.admin.secondary.push({name:req.t('Edit Job'),parentUrl:'/scheduler',url:'/scheduler/edit/' + jobName});
 
-  res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/scheduler/show/' + jobName,description:'Current item ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/scheduler/show/' + jobName,description:'Current item ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
-  
+
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 
     if(err || job === null) {
@@ -397,7 +397,7 @@ function updateJob(req,res,template,block,next) {
 
     if(form) {
 
-      var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+      var ScheduledJob = calipso.db.model('ScheduledJob');
       var jobName = req.moduleParams.jobName;
 
       ScheduledJob.findOne({name:jobName}, function(err, job) {
@@ -474,16 +474,16 @@ function updateJob(req,res,template,block,next) {
  */
 function showJob(req,res,template,block,next,err) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
 
   var jobName = req.moduleParams.jobName;
   var item;
-  
-  res.menu.adminToolbar.addMenuItem({name:'View',path:'show',url:'/scheduler/show/' + jobName,description:'Current item ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
 
-  
+  res.menu.adminToolbar.addMenuItem(req, {name:'View',path:'show',url:'/scheduler/show/' + jobName,description:'Current item ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/scheduler/edit/' + jobName,description:'Edit schedule ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/scheduler/delete/' + jobName,description:'Delete schedule ...',security:[]});
+
+
   ScheduledJob.findOne({name:jobName}, function(err, job) {
 
     if(err || job === null) {
@@ -506,7 +506,7 @@ function showJob(req,res,template,block,next,err) {
  */
 function deleteJob(req,res,template,block,next,err) {
 
-  var ScheduledJob = calipso.lib.mongoose.model('ScheduledJob');
+  var ScheduledJob = calipso.db.model('ScheduledJob');
   var jobName = req.moduleParams.jobName;
 
   ScheduledJob.remove({name:jobName}, function(err) {

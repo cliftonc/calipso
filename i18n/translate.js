@@ -10,10 +10,10 @@ var rootpath = process.cwd() + '/',
  * Query string parameters will always take precedent over user session
  *
  */
-module.exports.translate = function(configLanguage,addMode) {
+module.exports.translate = function(configLanguage,enabledLanguages,addMode) {
 
   // Default to english
-  var languages = ['en']; // Always contains english
+  var languages = enabledLanguages || ['en']; // Always contains english
   var languageCache = cacheLanguages([], languages);
 
   return function(req, res, next) {
@@ -23,7 +23,7 @@ module.exports.translate = function(configLanguage,addMode) {
 
     // add our loaded languages to the request object
     req.languages = languages;
-    
+
     // Add the translate function to the request object
     req.t = req.translate = function(englishString, values) {
 

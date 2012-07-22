@@ -14,7 +14,8 @@ exports = module.exports = {
     author: 'cliftonc',
     version: '0.1.1',
     home:'http://github.com/cliftonc/calipso'
-  }
+  },
+  depends:['content']
 };
 
 /**
@@ -32,15 +33,10 @@ function route(req,res,module,app,next) {
  */
 function init(module,app,next) {
 
-  if(!calipso.modules.content.initialised) {
-    process.nextTick(function() { init(module,app,next); });
-    return;
-  }
-
     // Any pre-route config
   calipso.lib.step(
       function defineRoutes() {
-        module.router.addRoute(/.*/,taxonomy,{end:false},this.parallel());
+        module.router.addRoute(/.*/,taxonomy,{},this.parallel());
       },
       function done() {
 
@@ -51,9 +47,9 @@ function init(module,app,next) {
           "value":{type: Number}
         });
 
-        calipso.lib.mongoose.model('TaxonomyMenu', TaxonomyMenu);
-        
-        // Register for events  
+        calipso.db.model('TaxonomyMenu', TaxonomyMenu);
+
+        // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTaxonomy);
         calipso.e.post('CONTENT_UPDATE',module.name,mapReduceTaxonomy);
         calipso.e.post('CONTENT_DELETE',module.name,mapReduceTaxonomy);
@@ -67,14 +63,14 @@ function init(module,app,next) {
 /**
  * Map reduce function
  */
-function mapReduceTaxonomy(event,options,next) {
+function mapReduceTaxonomy(event, options, next) {
 
   // We need to check if we are already map reducing ...
-  if(calipso.mr.taxonomy) {
+  if(calipso.storage.mr.taxonomy) {
     // TODO : CHECK IF THIS MISSES THINGS ...
-    return next();    
+    return next();
   }
-  calipso.mr.taxonomy = true;
+  calipso.storage.mr.taxonomy = true;
 
   var mongoose = calipso.lib.mongoose;
 
@@ -84,7 +80,7 @@ function mapReduceTaxonomy(event,options,next) {
       return;
    }
 
-   // Not public or draft      
+   // Not public or draft
    if(!this.ispublic || this.status === "draft") return;
 
    var taxArr = this.taxonomy.split("/");
@@ -115,10 +111,10 @@ function mapReduceTaxonomy(event,options,next) {
       out: 'taxonomymenus' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
-  mongoose.connection.db.executeDbCommand(command, function(err, dbres)
+  calipso.db.db.executeDbCommand(command, function(err, dbres)
   {
     // Reset
-    calipso.mr.taxonomy = false;
+    calipso.storage.mr.taxonomy = false;
     if (err) {
       // Do Something!!
       calipso.error(err);
@@ -131,18 +127,16 @@ function mapReduceTaxonomy(event,options,next) {
 /**
  *Render menu
  */
-function taxonomy(req,res,template,block,next) {
+function taxonomy(req, res, template, block, next) {
 
   // Generate the menu from the taxonomy
-  var TaxonomyMenu = calipso.lib.mongoose.model('TaxonomyMenu');
+  var TaxonomyMenu = calipso.db.model('TaxonomyMenu');
 
-  TaxonomyMenu.find({})
-   .find(function (err, tax) {
+  TaxonomyMenu.find({},function (err, tax) {
       // Render the item into the response
-
       tax.forEach(function(item) {
-          //TODO: This needs to be improved!        
-          res.menu.primary.addMenuItem({name:item._id,path:item._id,url:'/section/' + item._id,description:'Link ...',security:[]});
+          //TODO: This needs to be improved!
+          res.menu.primary.addMenuItem(req, {name:item._id,path:item._id,url:'/section/' + item._id,description:'Link ...',security:[]});
       });
       next();
    });

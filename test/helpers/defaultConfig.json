@@ -1,0 +1,84 @@
+{
+  "version":"0.3.0",
+  "installed":true,
+  "database": {
+    "uri":"mongodb://localhost/calipso"
+  },
+  "server": {
+    "name":"Calipso",
+    "url":"http://localhost:3000",
+    "modulePath":"test/fixtures/modules",
+    "themePath":"test/fixtures/themes",
+    "cluster": {
+      "workers": 0,
+      "restartWorkers": true,
+      "maximumRestarts": 1
+    },
+    "events":{
+      "maxListeners":500
+    }
+  },
+  "calipso": {
+    "repo": {
+      "url":"http://calip.so/repo/api",
+      "defaultVersion":"master"
+    }
+  },
+  "performance": {
+    "cache":{
+        "enabled":false,
+        "ttl":600
+    },
+    "watchFiles":true
+  },
+  "session":{
+    "secret":"calipso"
+  },
+  "theme": {
+    "default":"mocha",
+    "front":"mocha",
+    "admin":"mocha"
+  },
+  "i18n": {
+    "language":"en",
+    "additive":true
+  },
+  "logging": {
+    "console": {
+        "enabled": false,
+        "level": "silly",
+        "timestamp":true,
+        "colorize":true
+      },
+      "file": {
+        "enabled": false,
+        "level": "info",
+        "filepath": "logs/calipso.log",
+        "timestamp":true
+      }
+  },
+  "libraries":{
+    "stylus":{
+      "enable":false,
+      "warn":true,
+      "compress":false
+    },
+    "formidable":{
+      "keepExtensions":true
+    }
+  },
+  "modules": {
+    "module_a":{
+      "enabled": true
+    },
+    "module_b":{
+      "enabled": true
+    },
+    "module_first":{
+      "enabled": true
+    },
+    "module_last":{
+      "enabled": true
+    }
+  }
+}

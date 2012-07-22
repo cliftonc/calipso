@@ -9,56 +9,48 @@
       "layout": {
         "template": "default.html",
         "sections": {
-          "scripts": {"template": "scripts.html"},
-          "styles": {"template": "styles.html"},
+          "header": {"template": "header.html", "cache":true},
+          "scripts": {"template": "scripts.html", "cache":true},
+          "styles": {"template": "styles.html","cache":true},
           "admin": {"menu": "admin", "template": "adminMenu.html"},
           "primary": {"menu": "primary", "template": "primaryMenu.html"},
-          "secondary": {"template": "secondaryMenu.html"},
+          "secondary": {"template": "secondaryMenu.html","cache":true},
           "messages": {"template": "messages.html"},
           "body": {"template": "body.html"},
           "sidePanel": {"template": "sidePanel.html"},
-          "footer": {"template": "footer.html"}
+          "footer": {"template": "footer.html","cache":true}
         }
       }
     },
     "home": {
       "layout": {
+        "template": "default.html",
         "copyFrom": "default",
         "sections": {
-          "body": {"template": "body.html"}
-        }
-      }
-    },
-    "blogLanding": {
-      "layout": {
-        "copyFrom": "default",
-        "sections": {
-          "body": {"template": "body.html"}
+          "body": {"template": "body.html", "cache": true}
         }
       }
     },
     "admin": {
       "layout": {
         "template": "admin.html",
+        "copyFrom": "default",
         "sections": {
           "scripts": {"template": "scripts.html"},
-          "styles": {"template": "styles.html"},
-          "admin": {"menu": "admin", "template": "adminMenu.html"},
-          "primary": {"menu": "primary", "template": "primaryMenu.html"},
-          "secondary": {"template": "secondaryMenu.html"},
-          "messages": {"template": "messages.html"},
           "body": {"template": "body.html"},
-          "footer": {"template": "footer.html"}
+          "footer": {"template": "footer.html"},
+          "sidePanel": {"disable":true}
         }
       }
     },
-    "preview": {
+    "install": {
       "layout": {
-        "template": "preview.html",
+        "template": "install.html",    
+        "copyFrom": "default",
         "sections": {
-          "scripts": {"template": "scripts.html"},
-          "styles": {"template": "styles.html"},
-          "body": {"template": "body.html"}
+          "body": {"template": "body.html"},
+          "footer": {"template": "footer.html"},
+          "sidePanel": {"disable":true}
         }
       }
     },

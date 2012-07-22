@@ -6,13 +6,14 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query, 
-  utils = require('connect').utils, 
+  Query = require("mongoose").Query,
+  utils = require('connect').utils,
   merge = utils.merge;
 
 exports = module.exports = {
   init: init,
   route: route,
+  install: install,
   titleAlias: titleAlias,
   jobs:{scheduledPublish:scheduledPublish},
   contentForm:contentForm
@@ -23,8 +24,13 @@ exports = module.exports = {
  */
 function route(req,res,module,app,next) {
 
-  res.menu.admin.addMenuItem({name:'Content Management',path:'cms',url:'/content',description:'Manage content ...',security:[]});
-  res.menu.admin.addMenuItem({name:'Content',path:'cms/content',url:'/content',description:'Manage content ...',security:[]});
+  var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+      uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+      dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+      vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
+
+  res.menu.admin.addMenuItem(req, {name:'Content Management',path:'cms',url:'/content',description:'Manage content ...',permit:vPerm});
+  res.menu.admin.addMenuItem(req, {name:'Content',path:'cms/content',url:'/content',description:'Manage content ...',permit:vPerm});
 
   module.router.route(req,res,next);
 
@@ -42,11 +48,15 @@ function init(module,app,next) {
   calipso.e.addEvent('CONTENT_CREATE_FORM');
   calipso.e.addEvent('CONTENT_UPDATE_FORM');
 
-  // There are dependencies, so we need to track if this is initialised
-  module.initialised = false;
+  calipso.permission.Helper.addPermission("content:manage","Content",true);
 
   calipso.lib.step(
       function defineRoutes() {
+
+        var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+            uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+            dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+            vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
         // Default routes
         module.router.addRoute('GET /',homePage,{template:'list',block:'content.home'},this.parallel());
@@ -62,62 +72,23 @@ function init(module,app,next) {
         module.router.addRoute("GET /:alias.:format",showAliasedContent,{template:'show',block:'content.show',cache:true},this.parallel());
 
         // Admin operations
-        module.router.addRoute('GET /content',listContent,{admin:true,template:'listAdmin',block:'content.list'},this.parallel());
-        module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,template:'listAdmin',block:'content.list'},this.parallel());
-        module.router.addRoute('POST /content',createContent,{admin:true},this.parallel());
-        module.router.addRoute('GET /content/new',createContentForm,{admin:true,block:'content.create'},this.parallel());
-        module.router.addRoute('GET /content/show/:id.:format?',showContentByID,{admin:true,template:'show',block:'content.show'},this.parallel());
-        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,block:'content.edit'},this.parallel());
-        module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true},this.parallel());
-        module.router.addRoute('POST /content/:id',updateContent,{admin:true},this.parallel());
+        module.router.addRoute('GET /content',listContent,{admin:true,permit:vPerm,template:'listAdmin',block:'content.list'},this.parallel());
+        module.router.addRoute('GET /content/list.:format?',listContent,{admin:true,permit:vPerm,template:'listAdmin',block:'content.list'},this.parallel());
+        module.router.addRoute('POST /content',createContent,{admin:true,permit:cPerm},this.parallel());
+        module.router.addRoute('GET /content/new',createContentForm,{admin:true,permit:vPerm,block:'content.create'},this.parallel());
+        module.router.addRoute('GET /content/show/:id',showContentByID,{admin:true,permit:vPerm,template:'show',block:'content.show'},this.parallel());
+        module.router.addRoute('GET /content/edit/:id',editContentForm,{admin:true,permit:uPerm,block:'content.edit'},this.parallel());
+        module.router.addRoute('GET /content/delete/:id',deleteContent,{admin:true,permit:dPerm},this.parallel());
+        module.router.addRoute('POST /content/:id',updateContent,{admin:true,permit:uPerm},this.parallel());
 
       },
       function done() {
 
         // Add dynamic helpers
-        calipso.dynamicHelpers.getContent = function() {
-
-          return function(req,alias,next) {
-
-            var Content = calipso.lib.mongoose.model('Content');
-
-            Content.findOne({alias:alias},function (err, content) {
-                if(err || !content) {
-
-                  var text = req.t("Click to create") + ": " +
-                  " <a title='" + req.t("Click to create") + " ...' href='/content/new?" +
-                  "type=Block%20Content" +
-                  "&alias=" + alias +
-                  "&teaser=Content%20for%20" + alias +
-                  "&returnTo=" + req.url +
-                  "'>" + alias +"</a>";
-
-                  // Don't throw error, just pass back failure.
-                  next(null,text);
-
-                } else {
-
-                  var text;
-                  if(req.session && req.session.user && req.session.user.isAdmin) {
-                    text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + content._id + "'>" +
-                      content.content + "</span>"
-                  } else {
-                    text = content.content;
-                  }
-
-                  next(null,text);
-
-                }
-            });
-
-          }
-
-        }
+        calipso.helpers.addHelper('getContent',function() { return getContent; });
 
         // Get content list helper
-        calipso.dynamicHelpers.getContentList = function() {
-          return getContentList;
-        }
+        calipso.helpers.addHelper('getContentList', function() { return getContentList; });
 
         // Default Content Schema
         var Content = new calipso.lib.mongoose.Schema({
@@ -125,8 +96,8 @@ function init(module,app,next) {
           teaser:{type: String, required: false, "default": ''},
           taxonomy:{type: String, "default":''},
           content:{type: String, required: false, "default":''},
-          status:{type: String, required: false, "default":'draft'},
-          alias:{type: String, required: true},
+          status:{type: String, required: false, "default":'draft', index: true},
+          alias:{type: String, required: true, index: true},
           author:{type: String, required: true},
           etag:{type: String, "default":''},
           tags:[String],
@@ -136,7 +107,7 @@ function init(module,app,next) {
           updated: { type: Date, "default": Date.now },
           contentType:{type: String},  // Copy from content type
           layout:{type: String},       // Copy from content type
-          ispublic:{type: Boolean}    // Copy from content type
+          ispublic:{type: Boolean, index: true}    // Copy from content type
         });
 
         // Set post hook to enable simple etag generation
@@ -145,14 +116,88 @@ function init(module,app,next) {
           next();
         });
 
-        calipso.lib.mongoose.model('Content', Content);
-
-        module.initialised = true;
+        calipso.db.model('Content', Content);
 
         next();
 
       }
   );
+}
+
+/**
+ * Helper function
+ *
+ * Second property can be string or object, if string it is the alias.
+ *
+ * If object it is:
+ *
+ *  alias: string key for alias
+ *  property: property to extract from content, if supplied callback is string
+ *  clickCreate: true|false - if not found, add click to create html
+ *  clickEdit: true|false - wrap the property in a click to edit html
+ *
+ * callback
+ *
+ *    err - any errors
+ *    text | object (text is returned if a property is supplied, otherwise object).
+ *
+ */
+function getContent(req, options, next) {
+
+  // Check to see if we just want content property by alias
+  if(typeof options === "string") {
+    options = {alias:options, property:"content", clickCreate:true, clickEdit:true};
+  } else {
+    var defaults = {alias:'', property:"", clickCreate:true, clickEdit:true};
+    options = calipso.lib._.extend(defaults, options);
+  }
+
+  var Content = calipso.db.model('Content');
+
+  Content.findOne({alias:options.alias},function (err, c) {
+
+      if(err || !c) {
+
+        var text;
+        if(options.clickCreate) {
+          text = "<a title='" + req.t("Click to create") + " ...' href='/content/new?" +
+          "type=Block%20Content" +
+          "&alias=" + options.alias +
+          "&teaser=Content%20for%20" + options.alias +
+          "&returnTo=" + req.url +
+          "'>" + req.t("Click to create content with alias: {alias} ...",{alias: options.alias}) + "</a>";
+        } else {
+          text = req.t("Content with alias {alias} not found ...",{alias: options.alias});
+        }
+
+        // Don't throw error, just pass back failure.
+        next(null,text);
+
+
+      } else {
+
+        if(options.property) {
+
+          var text = c.get(options.property) || req.t("Invalid content property: {property}",{property:options.property});
+          if(options.clickEdit && req.session && req.session.user && req.session.user.isAdmin) {
+            text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
+            text + "</span>";
+          }
+
+          next(null, text);
+
+        } else {
+
+          // Just return the object
+          next(null, c);
+        }
+
+      }
+
+  });
+
+
+
 }
 
 /**
@@ -191,7 +236,8 @@ function contentForm() {
             {label:'',name:'returnTo',type:'hidden'}
           ],
           buttons:[
-               {name:'submit',type:'submit',value:'Save Content'}
+               {name:'submit',type:'submit',value:'Save Content'},
+               {name:'cancel',type:'button',href:'/content', value:'Cancel'}
           ]};
 }
 
@@ -208,13 +254,12 @@ function homePage(req,res,template,block,next) {
  */
 function createContent(req,res,template,block,next) {
 
-  calipso.form.process(req,function(form) {
+  calipso.form.process(req, function(form) {
 
     if(form) {
 
-          var Content = calipso.lib.mongoose.model('Content');
-          var ContentType = calipso.lib.mongoose.model('ContentType');
-
+          var Content = calipso.db.model('Content');
+          var ContentType = calipso.db.model('ContentType');
 
           var c = new Content(form.content);
 
@@ -314,7 +359,7 @@ function getForm(req,action,title,contentType,next) {
   form.title = title;
 
   // Get content type
-  var ContentType = calipso.lib.mongoose.model('ContentType');
+  var ContentType = calipso.db.model('ContentType');
 
   ContentType.findOne({contentType:contentType}, function(err, ct) {
 
@@ -363,7 +408,7 @@ function createContentForm(req,res,template,block,next) {
     var type = "Article";         // Hard coded default TODO fix
 
     // Create the form
-    var form = {id:'content-type-form',title:'Create Content ...',type:'form',method:'GET',action:'/content/new',
+    var form = {id:'content-type-form',title:'Create Content ...',type:'form',method:'GET',action:'/content/new',tabs:false,
           fields:[
             {label:'Type',name:'type',type:'select',options:function() { return calipso.data.contentTypes },description:'Select the type of content you want to create ...'},
             {label:'',name:'alias',type:'hidden'},
@@ -379,7 +424,7 @@ function createContentForm(req,res,template,block,next) {
     // Default values
     var values = {
         content: {
-          contentType:type,
+          contentType:type
         },
         alias:alias,
         teaser:teaser,
@@ -444,16 +489,22 @@ function createContentFormByType(req,res,template,block,next) {
  */
 function editContentForm(req,res,template,block,next) {
 
-  var Content = calipso.lib.mongoose.model('Content');
+  var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
   var item;
 
   var returnTo = req.moduleParams.returnTo ? req.moduleParams.returnTo : "";
 
-  res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/content/show/' + id,description:'Show current ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Edit',weight:3,path:'edit',url:'/content/edit/' + id,description:'Edit content ...',security:[]});
-  res.menu.adminToolbar.addMenuItem({name:'Delete',weight:4,path:'delete',url:'/content/delete/' + id,description:'Delete content ...',security:[]});
+
+  var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+      uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+      dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+      vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
+
+  res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',permit:vPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/content/show/' + id,description:'Show current ...',permit:vPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:3,path:'edit',url:'/content/edit/' + id,description:'Edit content ...',permit:uPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:4,path:'delete',url:'/content/delete/' + id,description:'Delete content ...',permit:dPerm});
 
 
   Content.findById(id, function(err, c) {
@@ -480,7 +531,7 @@ function editContentForm(req,res,template,block,next) {
         res.layout = 'admin';
 
         // Test!
-        calipso.e.pre_emit('CONTENT_UPDATE_FORM',form,function(form) {
+        calipso.e.pre_emit('CONTENT_UPDATE_FORM', form, function(form) {
           calipso.form.render(form,values,req,function(form) {
             calipso.theme.renderItem(req,res,form,block,{},next);
           });
@@ -503,8 +554,8 @@ function updateContent(req,res,template,block,next) {
 
       if(form) {
 
-        var Content = calipso.lib.mongoose.model('Content');
-        var ContentType = calipso.lib.mongoose.model('ContentType');
+        var Content = calipso.db.model('Content');
+        var ContentType = calipso.db.model('ContentType');
 
         var returnTo = form.returnTo ? form.returnTo : "";
         var id = req.moduleParams.id;
@@ -536,7 +587,7 @@ function updateContent(req,res,template,block,next) {
 
                     // Emit pre event
                     // This does not allow you to change the content
-                    calipso.e.pre_emit('CONTENT_CREATE',c,function(c) {
+                    calipso.e.pre_emit('CONTENT_UPDATE',c,function(c) {
 
                       c.save(function(err) {
                         if(err) {
@@ -596,44 +647,50 @@ function updateContent(req,res,template,block,next) {
 /**
  * Locate content based on its alias
  */
-function showAliasedContent(req,res,template,block,next) {
+function showAliasedContent(req, res, template, block, next) {
 
-  var format = req.url.match(/\.json/g) ? "json" : "html";
+  var allowedFormats = ["html","json"];
+  var format = req.moduleParams.format ? req.moduleParams.format : 'html';
+  var alias = req.moduleParams.alias;
 
-  var alias = req.url
-                  .replace(/^\//, "")
-                  .replace(/\.html/, "")
-                  .replace(/\.json/, "")
-                  .replace(/(\?.*)$/, "")
+  // Check type
+  if(calipso.lib._.any(allowedFormats,function(value) { return value === format; })) {
 
-  var Content = calipso.lib.mongoose.model('Content');
+    var Content = calipso.db.model('Content');
 
-  Content.findOne({alias:alias},function (err, content) {
+    Content.findOne({alias:alias},function (err, content) {
 
-      if(err || !content) {
-        // Create content if it doesn't exist
-        if(req.session.user && req.session.user.isAdmin) {
-          res.redirect("/content/new?alias=" + alias + "&type=Article") // TODO - make this configurable
-        } else {
-          res.statusCode = 404;
-        }
-        next();
-
-      } else {
-
-        calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {
-          if(err) {
-            next(err);
+        if(err || !content) {
+          // Create content if it doesn't exist
+          if(req.session.user && req.session.user.isAdmin) {
+            res.redirect("/content/new?alias=" + alias + "&type=Article") // TODO - make this configurable
           } else {
-            // Add the user display details to content
-            content.set('displayAuthor',userDetails);
-            showContent(req,res,template,block,next,err,content,format);
+            res.statusCode = 404;
           }
-        });
+          next();
 
-      }
+        } else {
 
-  });
+          calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {
+            if(err) {
+              next(err);
+            } else {
+              // Add the user display details to content
+              content.set('displayAuthor',userDetails);
+              showContent(req,res,template,block,next,err,content,format);
+            }
+          });
+
+        }
+
+    });
+
+  } else {
+
+    // Invalid format, just return nothing
+    next();
+
+  }
 
 }
 
@@ -642,12 +699,11 @@ function showAliasedContent(req,res,template,block,next) {
  */
 function showContentByID(req,res,template,block,next) {
 
-  var Content = calipso.lib.mongoose.model('Content');
+  var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
   Content.findById(id, function(err, content) {
-
     // Error locating content
     if(err) {
       res.statusCode = 500;
@@ -658,7 +714,6 @@ function showContentByID(req,res,template,block,next) {
 
     // Content found
     if(content) {
-
       calipso.modules.user.fn.userDisplay(req,content.author,function(err, userDetails) {
           if(err) {
             next(err);
@@ -685,32 +740,39 @@ function showContentByID(req,res,template,block,next) {
  * Show content - called by ID or Alias functions preceeding
  */
 function showContent(req,res,template,block,next,err,content,format) {
-
-  var item;
-
   if(err || !content) {
 
-    item = {title:"Not Found!",content:"Sorry, I couldn't find that content!"};
+    content = {title:"Not Found!",content:"Sorry, I couldn't find that content!",displayAuthor:{name:"Unknown"}};
 
   } else {
 
-    res.menu.adminToolbar.addMenuItem({name:'Create',weight:3,path:'new',url:'/content/new',description:'Create content ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'View',weight:2,path:'show',url:'/content/show/' + content.id,description:'Show current ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Edit',weight:4,path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',security:[]});
-    res.menu.adminToolbar.addMenuItem({name:'Delete',weight:5,path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',security:[]});
+    var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+        uPerm = calipso.permission.Helper.hasPermission("content:manage:update"),
+        dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
+        vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
-
-    item = content.toObject();
+    res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:3,path:'new',url:'/content/new',description:'Create content ...',permit:cPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:1,path:'list',url:'/content/',description:'List all ...',permit:vPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'View',weight:2,path:'show',url:'/content/show/' + content.id,description:'Show current ...',permit:vPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:4,path:'edit',url:'/content/edit/' + content.id,description:'Edit content ...',permit:uPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:5,path:'delete',url:'/content/delete/' + content.id,description:'Delete content ...',permit:dPerm});
 
   }
 
   // Set the page layout to the content type
   if(format === "html") {
+
     if(content) {
+
+      // Change the layout
       res.layout = content.layout ? content.layout : "default";
+
+      // Override of the template
+      template = calipso.theme.cache.contentTypes[content.contentType] && calipso.theme.cache.contentTypes[content.contentType].view ? calipso.theme.cache.contentTypes[content.contentType].view : template; 
+
     }
-    calipso.theme.renderItem(req,res,template,block,{item:item},next);
+    calipso.theme.renderItem(req,res,template,block,{content:content.toObject()},next);
+
   }
 
   if(format === "json") {
@@ -728,9 +790,12 @@ function showContent(req,res,template,block,next,err,content,format) {
 function listContent(req,res,template,block,next) {
 
       // Re-retrieve our object
-      var Content = calipso.lib.mongoose.model('Content');
+      var Content = calipso.db.model('Content');
 
-      res.menu.adminToolbar.addMenuItem({name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',security:[]});
+      var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
+          vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
+
+      res.menu.adminToolbar.addMenuItem(req, {name:'Create',weight:1,path:'new',url:'/content/new',description:'Create content ...',permit:cPerm});
 
       var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
@@ -744,7 +809,7 @@ function listContent(req,res,template,block,next) {
 
       var query = new Query();
 
-      if(req.session.user && req.session.user.isAdmin) {
+      if(req.session && req.session.user && vPerm(req.session.user)) {
         // Show all
       } else {
         // Published only if not admin
@@ -785,7 +850,7 @@ function listContent(req,res,template,block,next) {
 /**
  * Helper function for link to user
  */
-function contentLink(req,content) {
+function contentLink(req, content) {
   return calipso.link.render({id:content._id,title:req.t('View {content}',{content:content.title}),label:content.title,url:'/content/show/' + content._id});
 }
 
@@ -796,7 +861,7 @@ function contentLink(req,content) {
  */
 function getContentList(query,out,next) {
 
-      var Content = calipso.lib.mongoose.model('Content');
+      var Content = calipso.db.model('Content');
       var pager = out.hasOwnProperty('pager') ? out.pager : true;
 
       // If pager is enabled, ignore any override in from
@@ -822,7 +887,7 @@ function getContentList(query,out,next) {
         var qry = Content.find(query).skip(from).limit(limit);
 
         // Add sort
-        qry = calipso.table.sortQuery(qry,out.sortBy);
+        // qry = calipso.table.sortQuery(qry, out.sortBy);
 
         qry.find(function (err, contents) {
 
@@ -831,27 +896,10 @@ function getContentList(query,out,next) {
                   // Render the item into the response
                   if(out.format === 'html') {
 
-                    var table = {id:'content-list',sort:true,cls:'table-admin',
-                        columns:[{name:'_id',sort:'title',label:'Title',fn:contentLink},
-                                {name:'contentType',label:'Type'},
-                                {name:'status',label:'Status'},
-                                {name:'published',label:'Published'}
-                        ],
-                        data:contents,
-                        view:{
-                          pager:true,
-                          from:from,
-                          limit:limit,
-                          total:total,
-                          url:out.req.url,
-                          sort:calipso.table.parseSort(out.sortBy)
-                        }
-                    };
+                  
 
-                    var tableHtml = calipso.table.render(table,out.req);
-
-                    //calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
-                    calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
+                    calipso.theme.renderItem(out.req,out.res,out.template,out.block,{contents:contents, pager: pagerHtml},next);
+                    // calipso.theme.renderItem(out.req,out.res,tableHtml,out.block,null,next);
 
                   }
 
@@ -896,7 +944,7 @@ function getContentList(query,out,next) {
  */
 function deleteContent(req,res,template,block,next) {
 
-  var Content = calipso.lib.mongoose.model('Content');
+  var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
 
   Content.findById(id, function(err, c) {
@@ -918,6 +966,47 @@ function deleteContent(req,res,template,block,next) {
 
   });
 }
+
+
+/**
+ * Installation process - asynch
+ * @returns
+ */
+function install(next) {
+
+  // Create the default content types
+  var Content = calipso.db.model('Content');
+
+  var defaults = {
+    status: 'published',
+    author: 'installation',
+    contentType: 'Block Content', // TO DO - this should be a helper function
+    layout: 'default',
+    ispublic: false,
+    created: new Date()
+  }
+
+  // Create all the default content
+  var welcome = JSON.parse(calipso.lib.fs.readFileSync(__dirname + '/defaults/welcome.json')),
+      about = JSON.parse(calipso.lib.fs.readFileSync(__dirname + '/defaults/about-me.json')),
+      article = JSON.parse(calipso.lib.fs.readFileSync(__dirname + '/defaults/article.json')),
+      wc = new Content(calipso.lib._.extend(defaults, welcome)),
+      ac = new Content(calipso.lib._.extend(defaults, about)),
+      art = new Content(calipso.lib._.extend(defaults, article));
+
+  calipso.lib.async.parallel([function(cb) { wc.save(cb) }, function(cb) { ac.save(cb) }, function(cb) { art.save(cb) }], function(err) {
+    
+    // Allow event to fire
+    calipso.e.post_emit('CONTENT_UPDATE',art,function(artc) {});
+
+    // Done
+    calipso.info("Content module installed ... ");
+    next();
+
+  });
+
+}
+
 
 /**
  * Job to publish content that is scheduled

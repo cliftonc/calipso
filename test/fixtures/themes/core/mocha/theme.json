@@ -1,0 +1,37 @@
+{
+  "name": "mocha",
+  "type": "full",
+  "description": "Used as a test fixture only",
+  "version": "0.3.1",
+  "author": "Clifton Cunningham",
+  "layouts": {
+    "default": {
+      "layout": {
+        "template": "default.html",
+        "sections": {
+          "header": {"template": "header.html", "cache":true},
+          "admin": {"menu": "admin", "template": "adminMenu.html"},
+          "primary": {"menu": "primary", "template": "primaryMenu.html"},
+          "body": {"template": "body.html"},
+          "sidePanel": {"template": "sidePanel.html"},
+          "footer": {"template": "footer.html","cache":true}
+        }
+      }
+    },
+    "admin": {
+      "layout": {
+        "template": "default.html",
+        "copyFrom": "default"
+      }
+    },
+    "home": {
+      "layout": {
+        "template": "default.html",
+        "copyFrom": "default",
+        "sections": {
+          "body": {"template": "body.html", "cache": true}
+        }
+      }
+    }
+  }
+}

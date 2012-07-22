@@ -1,0 +1,798 @@
+// ---------------------------------------------- //
+// Name: admin.css
+// Author: Nate Hunzaker, from work by Dennis Hall
+// ---------------------------------------------- //
+// Table of Contents:
+// ---------------------------------------------- //
+// 1. General
+// 2. Typography
+// 3. Layout
+// 4. Tables
+// 5. Form Elements
+// 5. Misc.
+// ---------------------------------------------- //
+
+@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
+
+@import "compass/reset";
+@import "compass/css3";
+
+
+// 1. General
+// ------------------------------------------ //
+
+  html {
+    background: #fff;
+  }
+
+  body {
+    background: #fff;
+    font: normal 0.875em/1em sans-serif;
+  }
+
+
+// 2. Typography
+// ------------------------------------------ //
+
+  // Using a Modular Scale of 16/20 using the golden ratio:
+  // http://modularscale.com/scale/?px1=16&px2=20&ra1=1.618&ra2=0
+  
+  // General
+
+    body {
+      background: #fff;
+      color: #444;
+      font: 400 0.875em/1.618em "Helvetica", serif;
+      min-width: 700px;
+      text-shadow: 0 1px 1px #fff;
+      height: 100%;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:link, a:visited {
+      color: #222;
+    }
+
+    ul, ol, dl {
+      margin: 0 0 0 1.618em;
+      padding: 0;
+    }
+
+    ol li {
+      list-style: decimal;
+    }
+
+    p {
+      margin: 0 0 2.618em;
+    }
+
+    strong, b {
+      color: #222;
+      font-weight: 600;
+    }
+
+    i, em {
+      font-style: italic;
+    }
+
+  // Headings
+    h1,h2,h3,h4,h5,h6 {
+      color: #222;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 600;
+      line-height: 1.618em;
+      margin-bottom: 15px;
+      text-shadow: 0 1px 1px #fff;  // An easy way to anti-alias text
+    }
+
+    h6, h5 {
+      font-size: 1em;
+    }
+
+    h4 {
+      font-size: 1.25em;
+    }
+
+    h3 {
+      color: #336699;
+      font-size: 1.618em;
+      letter-spacing: -1px;
+    }
+
+    h2 {
+      color: #116677;
+      font-size: 2.023em;
+      letter-spacing: -1px;
+    }
+
+    h1 {
+      color: #114477;
+      font-size: 2.618em;
+      letter-spacing: -2px;
+    }
+
+
+// 3. Layout
+// ----------------------------------------//
+  
+
+  #container {
+    margin: 0 auto;
+    width: 980px;
+  }
+
+  #header {
+    
+    border-bottom: 1px solid #d9d9d9;
+    margin: 20px auto 40px;
+    overflow: hidden;
+
+    h1 {
+      float: left;
+    }
+  }
+
+  #body {
+    width:660px;
+    float:left;
+    margin:0 20px 20px 0;
+    min-height:100px;
+    _display:inline;
+  }
+
+  #admin-body {
+    clear: both;
+    margin: 0 auto 40px;
+    width: 100%;
+      
+      .content-item {
+        border: 1px solid #fff;
+        padding: 25px;
+        position: relative;
+        outline: 0;
+        
+        @include border-radius(2px);
+        @include box-shadow(0 1px 8px rgba(0,0,0,0.25), inset 0 0 10px #f8f8f8 );
+          
+          h2 {
+            line-height: 1em;
+            padding: 10px;
+
+            @include border-radius(2px);
+          }
+
+          .by, .status, .created, .tags {
+            font-style: italic;
+            font-family: Georgia, serif;
+            margin: 1em;
+          }
+
+          .content {
+            border: 1px solid transparent;
+            clear: left;
+            margin-top: 2em;
+            padding: 10px;
+
+            @include border-radius(2px);
+          }
+      }
+  }
+
+  #footer {
+    border-top: 1px solid #d9d9d9;
+    clear: both;
+    overflow: hidden;
+    padding: 25px 0;
+    text-align: center;
+  }
+
+
+// 5. Misc
+// ----------------------------------------//
+
+  #form-section-modules .fieldset-fields {
+    padding: 5px 0 20px;
+  }
+
+  #form-section-modules legend {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+
+  #form-section-modules legend {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  #form-section-modules div.form-item {
+    float: left;
+    clear:none !important;
+    width: 50%;
+    margin-bottom: 10px;
+    height: 50px;
+    overflow: none;
+  }
+
+  #form-section-modules .checkbox {
+    margin-left: 0;
+  }
+  #form-section-modules .description {
+    padding-left: 22px;
+  }
+
+  .admin-page {
+    
+    h2 {
+      margin-bottom: 1.5em;
+    }
+
+    .admin-dashboard-col1, .admin-dashboard-col2 {
+      
+      padding: 10px;
+
+      @include box-shadow(0 1px 3px #d9d9d9);
+      @include border-radius(4px);
+    }
+  }
+
+  .admin-dashboard-col1 {
+    float: left;
+    width: 45%;
+    display: inline;
+    border: solid 1px silver;
+  }
+
+  .admin-dashboard-col2 {
+    display: inline;
+    float: right;
+    width: 45%;
+    border: solid 1px silver;
+  }
+
+  .admin-dashboard-clear {
+    clear: both;
+    height: 15px;
+  }
+
+// 4. Tables
+// ---------------------------------------//
+
+  table {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 0;
+    border-collapse: collapse;
+    font-size: 13px;
+        
+        th, td {
+          padding: 10px 15px;
+          line-height: 18px;
+          text-align: left;
+
+          text-transform: capitalize;
+        }
+
+        tbody tr {
+          
+          border-bottom: 1px solid #d9d9d9;
+          
+            &:nth-child(odd) {
+              background: #f3f3f3;
+            }
+
+            &:hover {
+              background: lighten(#8dbdd8, 20%);
+              border-width: 1px 0;
+              border-color: #8dbdd8;
+                
+                td {
+                  border-color: #8dbdd8;
+                }
+            }
+        }
+        
+        th {
+          padding-top: 9px;
+          font-weight: bold;
+          vertical-align: middle;
+          border-bottom: 1px solid #DDD;
+        }      
+
+        th + th, td + td {
+          border-left: 1px solid #d9d9d9;
+        }
+  }
+
+.sortable {
+  background: url(../images/sort.gif) center right no-repeat; 
+  padding-right:16px; 
+  cursor:pointer;
+}
+.sorted-asc {
+  background: lighten(#8dbdd8, 20%) url(../images/asc.gif) center right no-repeat;
+  border-color: #8dbdd8;
+}
+.sorted-desc {
+  background: lighten(#8dbdd8, 40%) url(../images/desc.gif) center right no-repeat;
+  border-color: #8dbdd8;
+}
+
+a.pager-page {
+  padding: 3px;
+  border: solid 1px silver;
+}
+span.pager-page {
+  padding: 3px;
+  background: silver;
+}
+.tabular {
+  clear: both;
+}
+
+#adminToolbar {
+  position: relative;
+  top: 20px;
+  float: right;
+      
+    ul, li {
+      margin: 0; 
+      list-style:none; 
+      list-style-image: none; 
+    }
+
+    ul {
+      text-align: right;
+    }
+
+    li {
+
+      @include inline-block;
+
+        a:link, a:visited {
+          background: #d9d9d9;
+          border: 1px solid #aaa;
+          border-color: #aaa #999 #888;
+          color: #000;
+          cursor: pointer;
+          
+          font-size: 14px;
+          font-weight: 400;
+          
+          margin: 0 20px 0 0;
+          padding: 8px 16px;
+          text-shadow: 0 1px 0 #fff;
+          text-decoration: none;
+
+          @include inline-block();
+          @include background( linear-gradient(#ededed, #d9d9d9) );
+          @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+          @include border-radius(7px);
+            
+            &:hover, &:focus, &.loading {
+              background: #2F5163;
+              border-color: #333;
+              color: #fff;
+              text-shadow: 0 1px 1px #111;
+              @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
+              @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+            }
+
+            &:active {
+              border-color: #000;
+              @include box-shadow( inset 0 0 8px #000 );
+            }
+
+            &.loading {
+              background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
+              @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+              padding-left: 40px;
+            }
+        }
+        
+        &:last-child {
+          border: 0;
+        }
+    }
+}
+
+#adminToolbar li ul {
+  display:none;
+  float:left;
+  clear:left;
+  position:absolute;
+  background:#1993A8;
+}
+
+// Tabs
+// ----------------------------------------//
+
+ul.tabs {
+  height: 32px;
+}
+
+ul.tabs li {
+  float: left;
+  height: 31px;
+  line-height: 31px;
+  border: 1px solid #999;
+  margin: 0 5px -1px 0;
+  background: #e0e0e0;
+  overflow: hidden;
+  position: relative;
+
+  @include border-top-radius(5px);
+
+  @include box-shadow(inset 0 0 10px rgba(0,0,0,0.25));
+}
+
+ul.tabs li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+  font-size: 0.875em;
+  padding: 0 20px;
+  border: 1px solid #eee;
+  outline: none;
+ 
+  @include border-top-radius(5px);
+}
+
+ul.tabs li a:hover {
+  background: #ccc;
+}
+ul.tabs li.active,
+ul.tabs li.active a:hover {
+  background: #fff;
+  border-bottom: 1px solid #fff;
+  @include box-shadow(none);
+}
+.tab-container {
+  background: #fff;
+  border: 1px solid #999;
+  clear: both;
+  padding: 0 20px;
+
+  @include border-radius(4px);
+}
+
+.tab-content {
+  padding: 20px 0 10px;
+    
+    h3, h4 {
+      background: #2F5163;
+      border: 1px solid darken(#2F5163, 10%);
+      color: #fff;
+      font-size: 1.25em;
+      left: -30px;
+      position: relative;
+      padding: 5px 15px;
+      float: left;
+
+      text-shadow: 0 1px 1px darken(#2F5163, 30%);
+      text-transform: capitalize;
+
+      @include border-right-radius(8px);
+      @include border-top-left-radius(8px);
+
+      @include box-shadow( inset 0 1px 0 rgba(255,255,255,0.25), 1px 1px 3px #ccc);
+        
+        &:after {
+          content: ' ';  
+          position: absolute;  
+          width: 0;  
+          height: 0;  
+          left: 0px;  
+          top: 100%;  
+          border-width: 5px 4px;  
+          border-style: solid;  
+          border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;  
+        }
+    }
+}
+
+.tab-content img {
+  float: left;
+  margin: 0 20px 20px 0;
+  padding: 5px;
+}
+.tab-container .actions {
+  margin: 0;
+}
+
+.mail-templates {
+  .mail-template {
+    display: block;
+    margin: 1em;
+    padding: 1em;
+    @include background(#ededed);
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+    border: 1px solid #aaa;
+    border-color: #aaa #999 #888;
+    @include border-radius(7px);
+    .mail-subject {
+      font-style:italic;
+    }
+    .mail-body {
+      word-wrap:break-word;
+    }
+  }
+}
+
+// 5. Form Elements
+// ----------------------------------------//
+
+.form-item {
+  border-top: 1px solid #d9d9d9;
+  clear: both;
+  margin: 20px 0;
+  padding: 10px 0 0;
+}
+
+.fieldset-fields {
+  clear: both;
+  margin-bottom: 60px;
+}
+
+label {
+  display:inline-block;
+  font-weight: bold;
+  width:20%;
+  text-align:left;
+  padding-right:10px;
+  vertical-align: top;
+}
+
+label.for-checkable {
+  width:auto;
+  text-align:left;
+  padding:0 0 0 10px;
+}
+
+textarea, input[type="text"], input[type="password"], select { 
+  border-radius: 3px;
+  border: 1px solid #999; 
+  padding: 1%;
+  width: 70%;
+}
+
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { 
+  border-color: #007DFF; 
+}
+textarea {
+  width:69%;
+  height:200px;
+}
+
+.description {
+  color: #777;
+  padding: 2px 0 5px 198px;
+  font: italic 11px/1.5em Georgia, serif;
+  max-width: 420px;
+  display: block;
+}
+
+.button, button, input[type="submit"], a.submit {
+
+  background: #d9d9d9;
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  color: #000;
+  cursor: pointer;
+  
+  font-size: 14px;
+  font-weight: 400;
+  
+  margin: 0 20px 0 0;
+  padding: 8px 16px;
+  text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
+
+  @include inline-block();
+  @include background( linear-gradient(#ededed, #d9d9d9) );
+  @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
+  @include border-radius(7px);
+    
+    &:hover, &:focus, &.loading {
+      background: #2F5163;
+      border-color: #333;
+      color: #fff;
+      text-shadow: 0 1px 1px #111;
+      @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
+      @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+    }
+
+    &:active {
+      border-color: #000;
+      @include box-shadow( inset 0 0 8px #000 );
+    }
+
+    &.loading {
+      background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
+      @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
+      padding-left: 40px;
+    }
+
+}
+
+input.date {width:3em;}
+input.date-day,
+input.time {width:2em;}
+
+select.date.date-month {
+  width: 42%;
+}
+
+input.checkbox, input.radio {margin-left:160px;}
+input.labelFirst {margin-left:auto;}
+form .section {margin:0 0 20px;}
+form .section:first-child {border:0;}
+.actions {clear:both;padding:20px 0 20px 20px;border-top:1px solid #ccc;margin:10px 0 0; height: 35px;}
+.actions input {
+  float: right;
+}
+
+.log-in-or-register {float:right;}
+.link-divider { width: 0; height: 1.2em; overflow: hidden; display: inline-block; border-right: 1px solid #000; margin: 0 5px; }
+#user-login {position: absolute;right:0;top:30px;display:none;border: 1px solid #ccc;box-shadow:0 2px 4px #333;}
+#user-login form {padding:20px;background:#eee;}
+#user-welcome-or-login h2 {display:none;}
+#user-welcome-or-login label {padding:0;text-align:left;width:auto;}
+#user-welcome-or-login input {width:180px;}
+#user-welcome-or-login .form-field {margin:0 0 2px;}
+#user-welcome-or-login .actions {margin:0;padding:0;border:0;}
+#user-welcome-or-login .actions a {display: none;}
+#user-welcome-or-login input[type="submit"] {width:auto;padding:3px 8px;font-size:inherit;font-weight:normal;}
+
+#user-login:before,
+#user-login:after {
+  content: "";
+  position: absolute;
+  z-index: 998;
+  top: -8px;
+  right: 78px;
+  margin-left: -8px;
+  border-top: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #eee;
+}
+
+#user-login:after {
+  border-bottom: 9px solid #ccc;
+  top: -9px;
+  z-index: 997;
+}
+
+/* general 'close' button - round with an 'x',
+   actually a multiplication sign:  `&times;` `&#215;`  `&#xD7;`  `×`  */
+.close {
+  display: block;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  text-align: center;
+  overflow: hidden;
+  background: #aaa;
+  color: #aaa;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.close:before {
+  content: "\D7";
+  color: #000;
+  display: block;
+  text-align: center;
+  font-weight: normal;
+  width: 16px;
+  position: absolute;
+  top: -1px;
+  left: 0;
+  font-size: 13px;
+  line-height: 16px;
+  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+}
+
+
+
+/* messages [info, success, warning, error] */
+#messages {
+  clear: both;
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+#messages ul {
+  list-style:none;
+}
+.info,
+.success,
+.warning,
+.error {
+  border: 1px solid;
+  margin: 0 0 20px;
+  padding: 10px 15px;
+  background-repeat: no-repeat;
+  background-position: 10px 6px;  
+
+  text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+
+  @include border-radius(8px);
+  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
+}
+.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+  border-color: darken(#BDE5F8, 10%);
+}
+.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}
+.error {
+  color: #D8000C;
+  background-color: #F6D6D6;
+}
+
+.sidePanelItem {margin:0 0 10px;}
+
+.language-wrap {
+  
+  border: 1px solid #d9d9d9;
+  padding: 20px;
+  margin: 0 0 40px;
+
+  @include box-shadow(0 1px 4px #d9d9d9);
+    
+    pre {
+      clear: both;
+      white-space: wrap;
+    }
+  
+    h3, h4 {
+      background: #2F5163;
+      border: 1px solid darken(#2F5163, 10%);
+      color: #fff;
+      font-size: 1.25em;
+      left: -30px;
+      position: relative;
+      padding: 5px 15px;
+      float: left;
+
+      text-shadow: 0 1px 1px darken(#2F5163, 30%);
+      text-transform: capitalize;
+
+      @include border-right-radius(8px);
+      @include border-top-left-radius(8px);
+
+      @include box-shadow( inset 0 1px 0 rgba(255,255,255,0.25), 1px 1px 3px #ccc);
+        
+        &:after {
+          content: ' ';  
+          position: absolute;  
+          width: 0;  
+          height: 0;  
+          left: 0px;  
+          top: 100%;  
+          border-width: 5px 4px;  
+          border-style: solid;  
+          border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;  
+        }
+    }
+}

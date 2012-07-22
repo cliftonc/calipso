@@ -1,0 +1,7 @@
+{
+	"alias":"about-me",
+	"title":"About Me",
+	"teaser": "About Me",
+	"tags":"about me, default",
+	"content": "<h3>About Me</h3><p>Double click here when logged in to edit this text that describes you in all your glory ...</p>"
+}

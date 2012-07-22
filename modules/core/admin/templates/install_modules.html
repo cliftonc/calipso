@@ -1,0 +1,55 @@
+<div id="header">
+
+  <div class="form-steps three-form-steps clearfix">
+    <ul>
+      <li class="step1 valid">
+        <div class="form-step-name">
+          <%= t("Setup Database") %>
+        </div>
+      </li>
+      <li class="step2 valid">
+        <div class="form-step-name">
+          <%= t("Create Admin") %>
+        </div>
+      </li>
+      <li class="step3 current">
+        <div class="form-step-name">
+          <%= t("Add Features") %>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</div>
+<div class='admin-body'>
+  
+  <h2><%= t("Add Features") %></h2>
+  <p> You can add additional functionality to your blog by enabling <strong>modules</strong>. Some modules, such as your administration panel, are required. However you can choose in include others:
+  
+  <%- form %>
+  
+  <footer class="admin-install-links">
+    <a class="button back" href="?installStep=user"><%= t("Change Admin") %></a>
+    <a id="form-submit" class="submit" href="#"><%= t("Save Configuration and Install") %></a>
+  </footer>
+
+  <script>
+    (function L() {
+      
+      if(window.jQuery){
+
+        $('.step3').addClass("current")
+        $(".form-steps ul li").filter(" .step2, .step1").addClass("valid");
+
+        $('#form-submit').click(function(e) {
+          e.preventDefault();
+          $('#form-submit').html("Generating site ...").addClass("loading");
+          $('#install-modules-form').submit();
+        });
+      } else {
+        setTimeout(L, 50);
+      }
+      
+    })();
+  </script>
+</div>

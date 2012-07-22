@@ -5,7 +5,9 @@
     <meta name="description" content="put your site description here">
     <meta name="keywords" content="put your site keywords here">
     <title>Clean Slate</title>
-    <%- styles %>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/admin-menu.css" /> 
     <%- scripts %>
   </head>
   <body>
@@ -14,24 +16,21 @@
     </div>
     <div id="container">
       <div id="header">
-        <h1><a href="/">Site Name</a></h1>
+        <%- header %>
         <nav class="secondary">
           <%- secondary %>
-        </nav>
-        <nav class="primary">
-          <%- primary %>
-        </nav>
+        </nav>       
       </div>
       <div id="messages">
         <%- messages %>
       </div>
-       <% if(user.isAdmin) { %>
         <div id="adminToolbar">
           <%- getMenu('adminToolbar') %>
         </div>
-      <% } %>
       <div id="body">
+        <!--PAGE_BODY_START-->
         <%- body %>
+        <!--PAGE_BODY_END-->
       </div>
       <div id="sidePanel">
         <%- sidePanel %>

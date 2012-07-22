@@ -1,0 +1,12 @@
+{
+  "name": "module_first",
+  "label": "FIRST Sample Module",
+  "description": "Module used for testing only.",
+  "version": "0.3.1",
+  "homepage": "http://calip.so",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cliftonc/calipso.git"
+  },
+  "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"  
+}

@@ -1,0 +1,8 @@
+ <div class='asset-item'>
+    <h2><a href='/<%= content.alias %>.html'><%- content.title %></a></h2>
+    <p class='by'>By <a href='/user/profile/<%- content.author %>'><%- content.displayAuthor.name %></a></small>
+    <p class='status'><%- content.status %></p>
+    <p class='created'><%- t('Published') + ': ' + prettyDate(content.published) %> / <%- t('Last Updated') + ': ' + prettyDate(content.updated) %></p>
+    <p class='tags'><%- content.tags %></p>
+    <p class='asset'><%- content.asset %></p>
+</div>

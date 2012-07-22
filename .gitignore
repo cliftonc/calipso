@@ -2,8 +2,6 @@ conf
 tmp
 lib-cov
 node_modules
-modules/downloaded
-modules/custom
 modules/community
 modules/private
 modules/site
@@ -12,8 +10,11 @@ themes/custom
 themes/community
 themes/private
 themes/site
+media/*
+conf/*.json
 *.pid
 *.log
 *.swp
 *.sock
 *.gz
+*.sass-cache
