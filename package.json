@@ -27,7 +27,7 @@
   "dependencies": {
     "express": "3.0.x",
     "formidable": "1.0.x",
-    "connect": "2.2.x",
+    "connect": "2.3.x",
     "ejs": "0.6.x",
     "jade": "0.20.x",
     "stylus": "0.28.x",
