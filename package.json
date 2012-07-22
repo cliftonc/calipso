@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "jscoverage": "*",
     "should": "*"
   },
   "dependencies": {
