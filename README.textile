@@ -6,7 +6,7 @@ For additional details, including installation instructions, please visit the ho
 
 If you would like to contribute, please take a look at the issues list as this will have the most up to date view of work that needs to be done for the next minor release.  Otherwise, please just pm myself (cliftonc), dennis (dennishall) or dale (dtan) and we can suggest some places for you to start.
 
-!https://secure.travis-ci.org/cliftonc/calipso.png?branch=devel(Build Status)!:http://travis-ci.org/cliftonc/calipso
+!https://secure.travis-ci.org/cliftonc/calipso.png?branch=master(Build Status)!:http://travis-ci.org/cliftonc/calipso
 
 h3. Quick Install
 
@@ -88,3 +88,6 @@ h3. Contributors
  * "Jerad Bitner":https://github.com/sirkitree
  * "Martin Moen":https://github.com/botto
  * "dale tan":https://github.com/dtan
+ * "Nate Hunzaker":https://github.com/nhunzaker
+ * "Andreas Richter":https://github.com/richtera
+
