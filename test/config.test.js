@@ -11,14 +11,8 @@ var rootpath = process.cwd() + '/',
     assert = require('assert'),
     sys = require('sys'),
     should = require('should'),
-    jsc = require('jscoverage'),
-    require = jsc.require(module); // rewrite require function
-    Config = require(rootpath + 'lib/core/Configuration', true);
+    Config = require('./helpers/require')('core/Configuration');
 
-    process.on('exit',function(){
-      jsc.coverage();
-    });
-      
 var defaultConfig = {
   "test":"test"
 };

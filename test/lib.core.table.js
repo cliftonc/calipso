@@ -5,11 +5,9 @@ var should = require('should'),
     fs = require('fs'),
     rootpath = process.cwd() + '/',
     path = require('path'),
-    calipsoHelper = require('./helpers/calipsoHelper', true),
+    calipsoHelper = require('./helpers/calipsoHelper'),
     calipso = calipsoHelper.calipso,
-    jsc = require('jscoverage'),
-    require = jsc.require(module), // rewrite require function
-    table = require('../lib/core/Table', true);
+    table = require('./helpers/require')('core/Table', true);
 
 var table1 = {id:'1',
               cls:'my-table',

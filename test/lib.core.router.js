@@ -6,9 +6,7 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    jsc = require('jscoverage'),
-    require = jsc.require(module), // rewrite require function
-    Router = require('../lib/core/Router', true);
+    Router = require('./helpers/require')('core/Router');
 
 describe('Router', function(){
 

@@ -5,8 +5,7 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     fs = require('fs'),
-    jsc = require('jscoverage'),
-    calipsoHelper = require('./helpers/calipsoHelper', true),
+    calipsoHelper = require('./helpers/calipsoHelper'),
     calipso = calipsoHelper.calipso,
     mochaConfig = path.join(rootpath,'tmp','mocha.json');
 

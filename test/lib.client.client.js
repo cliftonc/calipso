@@ -5,11 +5,9 @@ var should = require('should'),
     fs = require('fs'),
     rootpath = process.cwd() + '/',
     path = require('path'),
-    jsc = require('jscoverage');
-    require = jsc.require(module), // rewrite require function
-    calipsoHelper = require('./helpers/calipsoHelper', true),
+    calipsoHelper = require('./helpers/calipsoHelper'),
     calipso = calipsoHelper.calipso,
-    Client = require('../lib/client/Client.js', true);
+    Client = require('./helpers/require')('client/Client');
 
 describe('Client', function(){
 

@@ -8,7 +8,7 @@ var should = require('should'),
     exec = require('child_process').exec,
     jsc = require('jscoverage'),
     require = jsc.require(module), // rewrite require function
-    Helpers = require('../lib/core/Menu', true);
+    Helpers = require('./helpers/require')('core/Menu');
 
 describe('Menus', function(){
 

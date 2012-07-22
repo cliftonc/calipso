@@ -5,11 +5,9 @@ var should = require('should'),
   fs = require('fs'),
   rootpath = process.cwd() + '/',
   path = require('path'),
-  jsc = require('jscoverage'),
-  require = jsc.require(module), // rewrite require function
   calipsoHelper = require('./helpers/calipsoHelper', true),
   calipso = calipsoHelper.calipso;
-  Event = require('../lib/core/Event', true);
+  Event = require('./helpers/require')('core/Event');
 
 describe('Events', function () {
 

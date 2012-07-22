@@ -1,12 +1,14 @@
 /**
  * Setup the bare minimum required for a fully functioning 'calipso' object
  */
-var calipso = require('./require')('calipso'),
+var jsc = require('jscoverage'),
+	require = jsc.require(module), // rewrite require function
+	calipso = require('./require', true)('calipso'),
 	path = require('path'),
 	fs = require('fs'),
 	colors = require('colors'),
 	rootpath = process.cwd() + '/',
-	Config = require('./require')('core/Configuration'),
+	Config = require('./require', true)('core/Configuration'),
 	http = require('http'),
 	mochaConfig = path.join(rootpath,'tmp','mocha.json');
 

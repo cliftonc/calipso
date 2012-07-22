@@ -6,9 +6,7 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    jsc = require('jscoverage'),
-    require = jsc.require(module), // rewrite require function
-    Blocks = require('../lib/core/Blocks', true);
+    Blocks = require('./helpers/require')('core/Blocks');
 
 describe('Blocks', function(){
 

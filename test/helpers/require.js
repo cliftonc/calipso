@@ -8,10 +8,14 @@
  * The path is always relative to the lib folder, and this approach only works for core Calipso libraries.
  * 
  */
-module.exports = function(library) {
-
- return process.env.CALIPSO_COV
-  ? require('../../lib-cov/' + library + '.js')
-  : require('../../lib/' + library + '.js');
-
+if (process.env.CALIPSO_COV) {
+  var jsc = require('jscoverage'),
+  require = jsc.require(module); // rewrite require function
+  module.exports = function (library) {
+    return require('../../lib-cov/' + library);
+  }
+} else {
+  module.exports = function (library) {
+    return require('../../lib/' + library);
+  }
 }

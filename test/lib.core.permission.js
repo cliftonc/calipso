@@ -6,9 +6,7 @@ var should = require('should'),
     rootpath = process.cwd() + '/',
     path = require('path'),
     exec = require('child_process').exec,
-    jsc = require('jscoverage'),
-    require = jsc.require(module), // rewrite require function
-    Permission = require('../lib/core/Permission', true);
+    Permission = require('./helpers/require')('core/Permission', true);
 
 describe('Permissions', function(){
 

@@ -1,23 +1,24 @@
 
 REPORTER = spec
+MOCHA_FLAGS = -t 5000 -s 500
 
 test:
 	@NODE_ENV=mocha ./node_modules/.bin/mocha \
-		--reporter $(REPORTER) -t 5000 -s 500
+		--reporter $(REPORTER) $(MOCHA_FLAGS)
 
 test-debug-brk:
 	@NODE_ENV=mocha ./node_modules/.bin/mocha \
-		--reporter $(REPORTER) -t 5000 -s 500  --debug-brk
+		--reporter $(REPORTER) $(MOCHA_FLAGS) --debug-brk
 
 test-debug:
 	@NODE_ENV=mocha ./node_modules/.bin/mocha \
-		--reporter $(REPORTER) -t 5000 -s 500  --debug
+		--reporter $(REPORTER) $(MOCHA_FLAGS) --debug
 
-test-cov: lib-cov
-	  @CALIPSO_COV=1 $(MAKE) test REPORTER=html-cov > docs/coverage.html
-
-lib-cov: 
-	 @jscoverage lib lib-cov
+test-cov:
+	-rm -rf lib-cov
+	jscoverage --no-highlight lib lib-cov
+	-NODE_ENV=mocha CALIPSO_COV=1 ./node_modules/.bin/mocha --reporter html-cov -t 5000 -s 500 > docs/coverage.html
+	rm -rf lib-cov
 
 site:
 	rm -fr /tmp/docs \
@@ -26,4 +27,4 @@ site:
   	&& cp -fr /tmp/docs/* . \
     && echo "Pages updated ..."
 
-.PHONY: site test
+.PHONY: site test test-cov test-debug test-debug-brk lib-cov

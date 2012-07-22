@@ -8,7 +8,7 @@ var should = require('should'),
     exec = require('child_process').exec,
     jsc = require('jscoverage'),
     require = jsc.require(module), // rewrite require function
-    Module = require('../lib/core/Module', true);
+    Module = require('./helpers/require')('core/Module');
 
 describe('Modules', function(){
 
