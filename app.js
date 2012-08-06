@@ -153,22 +153,24 @@ function bootApplication(next) {
 
     // Load placeholder, replaced later
     if(app.config.get('libraries:stylus:enabled')) {
-      app.mwHelpers.stylusMiddleware = function (themePath) {
-        var mw = stylus.middleware({
-          src: themePath + '/stylus',
-          dest: themePath + '/public',
-          debug: false,
-          compile: function (str, path) { // optional, but recommended
-            return stylus(str)
-              .set('filename', path)
-              .set('warn', app.config.get('libraries:stylus:warn'))
-              .set('compress', app.config.get('libraries:stylus:compress'));
-          }
-        });
-        mw.tag = 'theme.stylus';
-        return mw;
-      };
-      app.use(app.mwHelpers.stylusMiddleware(''));
+      if ((fs.existsSync || path.existsSync)(themePatch + '/stylus')) {
+        app.mwHelpers.stylusMiddleware = function (themePath) {
+          var mw = stylus.middleware({
+            src: themePath + '/stylus',
+            dest: themePath + '/public',
+            debug: false,
+            compile: function (str, path) { // optional, but recommended
+              return stylus(str)
+                .set('filename', path)
+                .set('warn', app.config.get('libraries:stylus:warn'))
+                .set('compress', app.config.get('libraries:stylus:compress'));
+            }
+          });
+          mw.tag = 'theme.stylus';
+          return mw;
+        };
+        app.use(app.mwHelpers.stylusMiddleware(''));
+      }
     }
     // Static
     app.mwHelpers.staticMiddleware = function (themePath) {
