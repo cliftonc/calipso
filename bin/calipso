@@ -1,3 +1,10 @@
 #!/bin/sh
 DIR=`dirname $0`
-NODE_PATH="${DIR}/.." node "${DIR}/../lib/calipso-cli.js" $*
+if [ -f "${DIR}/../lib/calipso-cli.js" ]
+then
+# This is when the calipso source is the current directory
+  NODE_PATH="${DIR}/.." node "${DIR}/../lib/calipso-cli.js" $*
+else
+# This is when calipso is installed with npm install -g
+  NODE_PATH="${DIR}/.." node "${DIR}/../lib/node_modules/calipso/lib/calipso-cli.js" $*
+fi

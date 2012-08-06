@@ -1,7 +1,7 @@
 {
   "name": "calipso",
   "description": "A NodeJS CMS",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage": "http://calip.so",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "tests": "./tests"
   },
   "engines": {
-    "node": "0.6.x"
+    "node": ">=0.6||>=0.8"
   },
   "devDependencies": {
     "mocha": "*",
