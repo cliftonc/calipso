@@ -1,7 +1,7 @@
 {
   "name": "calipso",
   "description": "A NodeJS CMS",
-  "version": "0.3.2",
+  "version": "0.3.5",
   "homepage": "http://calip.so",
   "repository": {
     "type": "git",
@@ -51,7 +51,10 @@
     "rimraf":"2.0.x",
     "nconf":"0.6.x",
     "async": "0.1.x",
-    "hook.io": "0.8.x"
+    "hook.io": "0.8.x",
+    "knox": "0.0.x",
+    "node-expat": "1.4.x",
+    "imagemagick": "0.1.x"
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",

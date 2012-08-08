@@ -4,11 +4,6 @@
   "description": "Support for external assets in S3.",
   "version": "0.2.0",
   "homepage": "http://calip.so",
-  "dependencies": {
-    "knox": "0.0.x",
-    "node-expat": "1.4.x",
-    "imagemagick": "0.1.x"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/richtera/calipso.git"
