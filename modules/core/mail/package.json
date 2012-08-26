@@ -4,9 +4,6 @@
   "description": "Support for email notifications.",
   "version": "0.0.1",
   "homepage": "http://calip.so",
-  "dependencies": {
-    "mailer": "~0.6.4"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/richtera/calipso.git"
