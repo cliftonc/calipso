@@ -163,12 +163,15 @@ var requests = {
 /**
  * Initialise everything and then export
  */
-new MockApp(function (app) {
-	module.exports = {
-		app: app,
-		calipso: calipso,
-		testPermit: calipso.permission.Helper.hasPermission("test:permission"),
-		requests: requests,
-		response: CreateResponse()
-	}
-})
+module.exports.finalize = function (next) {
+  if (module.exports.app)
+    return next(null, module.exports);
+  new MockApp(function (app) {
+    module.exports.app = app;
+    module.exports.calipso = calipso;
+    module.exports.testPermit = calipso.permission.Helper.hasPermission("test:permission"),
+    module.exports.requests = requests;
+    module.exports.response = CreateResponse();
+    next(null, module.exports);
+  });
+};
