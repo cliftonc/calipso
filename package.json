@@ -21,8 +21,8 @@
     "node": ">=0.6||>=0.8"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*"
+    "mocha": "~1.4.2",
+    "should": "~1.1.0"
   },
   "dependencies": {
     "express": "3.0.x",
