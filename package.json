@@ -59,7 +59,7 @@
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",
-    "test" : "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 5000 -s 500"
+    "test" : "NODE_DEBUG=module NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 5000 -s 500"
   },
   "bin": { "calipso": "./bin/calipso" }
 }
