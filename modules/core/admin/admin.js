@@ -734,10 +734,36 @@ function coreConfig(req, res, template, block, next) {
             type:'select',
             options: calipso.data.adminThemes,
             description:'Administration theme [NOT YET IMPLEMENTED]'
-          },{            
+          },
+          {            
             name:'theme:default',
             type:'hidden'
-          }          
+          },
+          {
+            label:'Stylus Middleware',
+            legend:'Stylus Middleware',
+            type:'fieldset',
+            fields:[
+              {
+                label:'Enable Stylus',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:enable'
+              },
+              {
+                label:'Show Warnings',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:warn'
+              },
+              {
+                label:'Compress CSS',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:compress'
+              }
+            ]
+          }    
         ]
       },
       {
