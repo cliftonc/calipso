@@ -98,7 +98,67 @@ var rootpath = process.cwd() + '/',
   colors = require('colors'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   translate = require(path.join(rootpath, 'i18n/translate')),
-  logo = require(path.join(rootpath, 'logo'));
+  logo = require(path.join(rootpath, 'logo')),
+  everyauth = require("everyauth");
+
+var conf = {
+  google: {
+    clientId: '3335216477.apps.googleusercontent.com',
+    clientSecret: 'PJMW_uP39nogdu0WpBuqMhtB'
+  }
+  , fb: {
+        appId: '111565172259433'
+      , appSecret: '85f7e0a0cc804886180b887c1f04a3c1'
+    }
+  , twit: {
+        consumerKey: 'JLCGyLzuOK1BjnKPKGyQ'
+      , consumerSecret: 'GNqKfPqtzOcsCtFbGTMqinoATHvBcy1nzCTimeA9M0'
+    }
+};
+
+everyauth.debug = true;
+
+everyauth.everymodule
+  .findUserById( function (req, id, callback) {
+    var User = calipso.db.model('User');
+    User.findById(id, function (err, user) {
+      req.session.user = user;
+      callback(err, user);
+    });
+  });
+
+function calipsoFindOrCreateUser(username, promise) {
+  var User = calipso.db.model('User');
+  function finishUser(sess, user) {
+    if (!sess._pending) return promise.fulfill(user);
+    return calipso.lib.user.createUserSession(sess._pending, null, user, function(err) {
+      if(err) { calipso.error("Error saving session: " + err); return promise.fail(err); }
+      promise.fulfill(user);
+    });
+  }
+  
+  User.findOne({username:username}, function (err, user) {
+    if (err) return promise.fail(err);
+    if (user) return promise.fulfill(user);
+    var u = new User({
+      username: 'google:' + googleUser.email,
+      fullname: googleUser.name,
+      email: googleUser.email,
+      hash: 'external:auth'
+    });
+    u.roles = ['Guest']; // Todo - need to make sure guest role can't be deleted?
+    
+    calipso.e.pre_emit('USER_CREATE',u);
+
+    u.save(function(err) {
+      if (err) return promise.fail(err);
+      calipso.e.post_emit('USER_CREATE',u);
+      // If not already redirecting, then redirect
+      finishUser(sess, u);
+    });
+  });
+  return promise;
+}
 
 // Local App Variables
 var path = rootpath,
@@ -145,12 +205,70 @@ function bootApplication(next) {
     var temporarySession = app.config.get('installed') ? {} : express.session({ secret: "installing calipso is great fun" });
     temporarySession.tag = "session";
     app.use(temporarySession);
-
+    
     // Create holders for theme dependent middleware
     // These are here because they need to be in the connect stack before the calipso router
     // THese helpers are re-used when theme switching.
     app.mwHelpers = {};
 
+    calipso.auth = {password: app.config.get('server:authentication:password')};
+
+    var appId = app.config.get('server:authentication:facebookAppId');
+    var appSecret = app.config.get('server:authentication:facebookAppSecret');    
+    if (appId && appSecret) {
+      calipso.auth.facebook = true;
+      everyauth
+        .facebook
+          .appId(appId)
+          .appSecret(appSecret)
+          .findOrCreateUser( function (session, accessToken, accessTokenExtra, fbUserMetadata) {
+            console.log(fbUserMetadata);
+          })
+          .redirectPath('/');
+    }
+    
+    var consumerKey = app.config.get('server:authentication:twitterConsumerKey');
+    var consumerSecret = app.config.get('server:authentication:twitterConsumerSecret');
+    if (consumerKey && consumerSecret) {
+      calipso.auth.twitter = true;
+      everyauth
+        .twitter
+          .consumerKey(consumerKey)
+          .consumerSecret(consumerSecret)
+          .findOrCreateUser( function (sess, accessToken, accessSecret, twitUser) {
+            console.log(twitUser);
+          })
+          .redirectPath('/');
+    }
+  
+    var clientId = app.config.get('server:authentication:googleClientId');
+    var clientSecret = app.config.get('server:authentication:googleClientSecret');
+    if (clientId && clientSecret) {
+      calipso.auth.google = true;
+      everyauth.google
+        .appId(clientId)
+        .appSecret(clientSecret)
+        .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
+        .getSession( function (req) {
+          if (!req.session)
+            req.session = { _pending: req };
+          return req.session;
+        })
+        .findOrCreateUser( function (sess, accessToken, extra, googleUser) {
+          googleUser.refreshToken = extra.refresh_token;
+          googleUser.expiresIn = extra.expires_in;
+          
+          var promise = this.Promise();
+      
+          return calipsoFindOrCreateUser('google:' + googleUser.email, promise);
+        })
+        .redirectPath('/');
+    }
+    
+    app.use(everyauth.middleware());
+
+    console.log(calipso.auth);
+    
     // Load placeholder, replaced later
     if(app.config.get('libraries:stylus:enable')) {
       console.log('enabling stylus');

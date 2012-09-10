@@ -718,6 +718,78 @@ function coreConfig(req, res, template, block, next) {
         ]
       },
       {
+        id:'form-section-authentication',
+        label:'Authentication',
+        fields:[
+          { label:'Password Login and Registration',
+            legend:'Password Login and Registration',
+            type:'fieldset',
+            fields: [
+              {
+                label:'Enable password authentication and registration',
+                type:'checkbox',
+                name:'server:authentication:password',
+                defaultValue:true
+              }
+            ]
+          },
+          { label:'Facebook Authentication',
+            legend:'Set this information to enable Facebook Authentication',
+            type:'fieldset',
+            fields:[
+              {
+                label:'AppId',
+                description:'Set AppId and Secret to enable facebook authentication',
+                name:'server:authentication:facebookAppId',
+                type:'password'
+              },
+              {
+                label:'AppSecret',
+                description:'AppSecret for this application to allow facebook authentication',
+                name:'server:authentication:facebookAppSecret',
+                type:'password'
+              }
+            ]
+          },
+          { label:'Google Authentication',
+            legend:'Set this information to enable Google Authentication',
+            type:'fieldset',
+            fields: [
+              {
+                label:'ClientId',
+                description:'Set ClientId and ClientSecret to enable google authentication',
+                name:'server:authentication:googleClientId',
+                type:'password'
+              },
+              {
+                label:'ClientSecret',
+                description:'ClientSecret for this application to allow google authentication',
+                name:'server:authentication:googleClientSecret',
+                type:'password'
+              }
+            ]
+          },
+          { label:'Twitter Authentication',
+            legend:'Set this information to enable Twitter Authentication',
+            type:'fieldset',
+            fields: [
+              {
+                label:'Twitter ConsumerKey',
+                description:'Set ConsumerKey and ConsumerSecret to allow twitter authentication',
+                name:'server:authentication:twitterConsumerKey',
+                type:'password'
+              },
+              {
+                label:'Twitter ConsumerSecret',
+                description:'ConsumerSecret for this application to allow twitter authentication',
+                name:'server:authentication:twitterConsumerSecret',
+                type:'password'
+              }
+            ]
+          }
+        ]
+      },
+      {
         id:'form-section-theme',
         label:'Theme',
         fields:[

@@ -601,3 +601,7 @@ form .section:first-child {border:0;}
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3{ page-break-after: avoid; }
 }
+
+.googleicon { display:block; padding-left:20px; padding-bottom:2px; padding-top:2px; background: url(../images/google.ico) center left no-repeat; }
+.twittericon { display:block; padding-left:20px; padding-bottom:2px; padding-top:2px; background: url(../images/twitter.ico) center left no-repeat; }
+.facebookicon { display:block; padding-left:20px; padding-bottom:2px; padding-top:2px; background: url(../images/facebook.ico) center left no-repeat; }

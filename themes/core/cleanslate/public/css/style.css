@@ -1,5 +1,5 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
-/* line 17, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -21,45 +21,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 20, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 20, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 body {
   line-height: 1;
 }
 
-/* line 22, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 24, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 26, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 28, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 101, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 101, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 30, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 114, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 114, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
@@ -327,7 +327,7 @@ textarea {
   -o-border-radius: 7px;
   border-radius: 7px;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 .button, button, input[type="submit"], a.submit {
   *display: inline;
 }
@@ -725,7 +725,7 @@ form .section:first-child {
   vertical-align: middle;
   *vertical-align: auto;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 #adminToolbar li {
   *display: inline;
 }
@@ -762,7 +762,7 @@ form .section:first-child {
   -o-border-radius: 7px;
   border-radius: 7px;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 #adminToolbar li a:link, #adminToolbar li a:visited {
   *display: inline;
 }
@@ -814,11 +814,35 @@ form .section:first-child {
   background: #1993A8;
 }
 
+/* line 518, ../sass/style.scss */
+#formPopup {
+  position: absolute;
+  display: inline;
+  left: 20%;
+  top: 10%;
+  width: 60%;
+  height: 80%;
+  padding: 1em;
+  overflow: scroll;
+  background: #ededed;
+  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -moz-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+  border-radius: 7px;
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  display: none;
+}
+
 /**
  * Non-semantic helper classes: please define your styles before this section.
  */
 /* For image replacement */
-/* line 523, ../sass/style.scss */
+/* line 541, ../sass/style.scss */
 .ir {
   display: block;
   text-indent: -99in;
@@ -830,7 +854,7 @@ form .section:first-child {
 
 /* Hide for both screenreaders and browsers:
    css-discuss.incutio.com/wiki/Screenreader_Visibility */
-/* line 527, ../sass/style.scss */
+/* line 545, ../sass/style.scss */
 .hidden {
   display: none;
   visibility: hidden;
@@ -838,7 +862,7 @@ form .section:first-child {
 
 /* Hide only visually, but have it available for screenreaders: by Jon Neal.
   www.webaim.org/techniques/css/invisiblecontent/  &  j.mp/visuallyhidden */
-/* line 531, ../sass/style.scss */
+/* line 549, ../sass/style.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -851,7 +875,7 @@ form .section:first-child {
 }
 
 /* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: drupal.org/node/897638 */
-/* line 534, ../sass/style.scss */
+/* line 552, ../sass/style.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -863,26 +887,26 @@ form .section:first-child {
 }
 
 /* Hide visually and from screenreaders, but maintain layout */
-/* line 537, ../sass/style.scss */
+/* line 555, ../sass/style.scss */
 .invisible {
   visibility: hidden;
 }
 
 /* The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements in most situations.
    nicolasgallagher.com/micro-clearfix-hack/ */
-/* line 542, ../sass/style.scss */
+/* line 560, ../sass/style.scss */
 .clearfix:before,
 .clearfix:after {
   content: "";
   display: table;
 }
 
-/* line 543, ../sass/style.scss */
+/* line 561, ../sass/style.scss */
 .clearfix:after {
   clear: both;
 }
 
-/* line 544, ../sass/style.scss */
+/* line 562, ../sass/style.scss */
 .clearfix {
   zoom: 1;
 }
@@ -906,7 +930,7 @@ form .section:first-child {
  * Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/
  */
 @media print {
-  /* line 572, ../sass/style.scss */
+  /* line 590, ../sass/style.scss */
   * {
     background: transparent !important;
     color: black !important;
@@ -916,46 +940,46 @@ form .section:first-child {
   }
 
   /* Black prints faster: sanbeiji.com/archives/953 */
-  /* line 574, ../sass/style.scss */
+  /* line 592, ../sass/style.scss */
   a, a:visited {
     color: #444 !important;
     text-decoration: underline;
   }
 
-  /* line 575, ../sass/style.scss */
+  /* line 593, ../sass/style.scss */
   a[href]:after {
     content: " (" attr(href) ")";
   }
 
-  /* line 576, ../sass/style.scss */
+  /* line 594, ../sass/style.scss */
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
 
-  /* line 577, ../sass/style.scss */
+  /* line 595, ../sass/style.scss */
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
     content: "";
   }
 
   /* Don't show links for images, or javascript/internal links */
-  /* line 578, ../sass/style.scss */
+  /* line 596, ../sass/style.scss */
   pre, blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
 
-  /* line 579, ../sass/style.scss */
+  /* line 597, ../sass/style.scss */
   thead {
     display: table-header-group;
   }
 
   /* css-discuss.incutio.com/wiki/Printing_Tables */
-  /* line 580, ../sass/style.scss */
+  /* line 598, ../sass/style.scss */
   tr, img {
     page-break-inside: avoid;
   }
 
-  /* line 581, ../sass/style.scss */
+  /* line 599, ../sass/style.scss */
   img {
     max-width: 100% !important;
   }
@@ -964,14 +988,40 @@ form .section:first-child {
     margin: 0.5cm;
 }
 
-  /* line 583, ../sass/style.scss */
+  /* line 601, ../sass/style.scss */
   p, h2, h3 {
     orphans: 3;
     widows: 3;
   }
 
-  /* line 584, ../sass/style.scss */
+  /* line 602, ../sass/style.scss */
   h2, h3 {
     page-break-after: avoid;
   }
+}
+/* line 605, ../sass/style.scss */
+.googleicon {
+  display: block;
+  padding-left: 20px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  background: url(../images/google.ico) center left no-repeat;
+}
+
+/* line 606, ../sass/style.scss */
+.twittericon {
+  display: block;
+  padding-left: 20px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  background: url(../images/twitter.ico) center left no-repeat;
+}
+
+/* line 607, ../sass/style.scss */
+.facebookicon {
+  display: block;
+  padding-left: 20px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  background: url(../images/facebook.ico) center left no-repeat;
 }
