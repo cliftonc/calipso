@@ -101,21 +101,6 @@ var rootpath = process.cwd() + '/',
   logo = require(path.join(rootpath, 'logo')),
   everyauth = require("everyauth");
 
-var conf = {
-  google: {
-    clientId: '3335216477.apps.googleusercontent.com',
-    clientSecret: 'PJMW_uP39nogdu0WpBuqMhtB'
-  }
-  , fb: {
-        appId: '111565172259433'
-      , appSecret: '85f7e0a0cc804886180b887c1f04a3c1'
-    }
-  , twit: {
-        consumerKey: 'JLCGyLzuOK1BjnKPKGyQ'
-      , consumerSecret: 'GNqKfPqtzOcsCtFbGTMqinoATHvBcy1nzCTimeA9M0'
-    }
-};
-
 everyauth.debug = true;
 
 everyauth.everymodule
@@ -215,7 +200,8 @@ function bootApplication(cluster, next) {
     app.mwHelpers = {};
 
     calipso.auth = {password: app.config.get('server:authentication:password')};
-
+    everyauth.myHostname(app.config.get('server:url'));
+    
     var appId = app.config.get('server:authentication:facebookAppId');
     var appSecret = app.config.get('server:authentication:facebookAppSecret');    
     if (appId && appSecret) {
