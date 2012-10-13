@@ -22,7 +22,10 @@ var rootpath = process.cwd() + '/',
 
 var argv = processArgs();
 
-launchServer();
+if (module.parent)
+  module.exports.launchServer = launchServer;
+else
+  launchServer();
 
 /**
  * Launch server instance, initially master, then each worker instance is forked.
@@ -43,6 +46,7 @@ function launchServer() {
       config.init();
 
       // Print the logo
+      console.log("ismaster!!!!");
       logo.print();
 
       // Set the number of workers

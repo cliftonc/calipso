@@ -117,12 +117,12 @@ var path = rootpath,
  *  Any of these can be added into the by environment configuration files to
  *  enable modification by env.
  */
-function bootApplication(next) {
+function bootApplication(cluster, next) {
 
   // Create our express instance, export for later reference
   var app = express();
   app.path = function() { return path };
-  app.isCluster = false;
+  app.isCluster = cluster;
 
   // Load configuration
   var Config = calipso.configuration; //require(path + "/lib/core/Config").Config;
@@ -209,7 +209,7 @@ function bootApplication(next) {
 exports.boot = function (cluster, next) {
 
   // Bootstrap application
-  bootApplication(next);
+  bootApplication(cluster, next);
 
 };
 
