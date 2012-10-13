@@ -200,7 +200,6 @@ function bootApplication(cluster, next) {
     app.mwHelpers = {};
 
     calipso.auth = {password: app.config.get('server:authentication:password')};
-    everyauth.myHostname(app.config.get('server:url'));
     
     var appId = app.config.get('server:authentication:facebookAppId');
     var appSecret = app.config.get('server:authentication:facebookAppSecret');    
@@ -208,6 +207,7 @@ function bootApplication(cluster, next) {
       calipso.auth.facebook = true;
       everyauth
         .facebook
+          .myHostname(app.config.get('server:url'))
           .appId(appId)
           .appSecret(appSecret)
           .findOrCreateUser( function (session, accessToken, accessTokenExtra, fbUserMetadata) {
@@ -222,6 +222,7 @@ function bootApplication(cluster, next) {
       calipso.auth.twitter = true;
       everyauth
         .twitter
+          .myHostname(app.config.get('server:url'))
           .apiHost('https://api.twitter.com/1')
           .consumerKey(consumerKey)
           .consumerSecret(consumerSecret)
@@ -239,6 +240,7 @@ function bootApplication(cluster, next) {
     if (clientId && clientSecret) {
       calipso.auth.google = true;
       everyauth.google
+        .myHostname(app.config.get('server:url'))
         .appId(clientId)
         .appSecret(clientSecret)
         .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
