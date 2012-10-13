@@ -175,14 +175,14 @@ function userFields() {
       {label:'Username', name:'user[username]', type:'text'},
       {label:'Password', name:'user[password]', type:'password'}
   ];
-  if (true /* enable google */) {
+  if (calipso.auth.google) {
     fields.push({name:'google',text:'Use Google Login', type:'link', href:'/auth/google', cls:'googleicon'});
   }
-  if (true /* enable twitter */) {
-    fields.push({name:'twitter',text:'Use Twitter Login', type:'link', href:'/auth/facebook', cls:'facebookicon'});
+  if (calipso.auth.twitter) {
+    fields.push({name:'twitter',text:'Use Twitter Login', type:'link', href:'/auth/twitter', cls:'twittericon'});
   }
-  if (true /* enable facebook */) {
-    fields.push({name:'facebook',text:'Use Facebook Login', type:'link', href:'/auth/twitter', cls:'twittericon'});
+  if (calipso.auth.facebook) {
+    fields.push({name:'facebook',text:'Use Facebook Login', type:'link', href:'/auth/facebook', cls:'facebookicon'});
   }
   return fields;
 }

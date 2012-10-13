@@ -127,23 +127,26 @@ everyauth.everymodule
     });
   });
 
-function calipsoFindOrCreateUser(username, promise) {
+function calipsoFindOrCreateUser(user, sess, promise) {
   var User = calipso.db.model('User');
-  function finishUser(sess, user) {
-    if (!sess._pending) return promise.fulfill(user);
-    return calipso.lib.user.createUserSession(sess._pending, null, user, function(err) {
-      if(err) { calipso.error("Error saving session: " + err); return promise.fail(err); }
+  function finishUser(user) {
+    if (sess) {
+      if (!sess._pending) return promise.fulfill(user);
+      return calipso.lib.user.createUserSession(sess._pending, null, user, function(err) {
+        if(err) { calipso.error("Error saving session: " + err); return promise.fail(err); }
+        promise.fulfill(user);
+      });
+    } else
       promise.fulfill(user);
-    });
   }
   
-  User.findOne({username:username}, function (err, user) {
+  User.findOne({username:user.username}, function (err, u) {
     if (err) return promise.fail(err);
-    if (user) return promise.fulfill(user);
-    var u = new User({
-      username: 'google:' + googleUser.email,
-      fullname: googleUser.name,
-      email: googleUser.email,
+    if (u) return promise.fulfill(u);
+    u = new User({
+      username: user.username,
+      fullname: user.name,
+      email: user.email,
       hash: 'external:auth'
     });
     u.roles = ['Guest']; // Todo - need to make sure guest role can't be deleted?
@@ -154,7 +157,7 @@ function calipsoFindOrCreateUser(username, promise) {
       if (err) return promise.fail(err);
       calipso.e.post_emit('USER_CREATE',u);
       // If not already redirecting, then redirect
-      finishUser(sess, u);
+      finishUser(u);
     });
   });
   return promise;
@@ -233,10 +236,14 @@ function bootApplication(next) {
       calipso.auth.twitter = true;
       everyauth
         .twitter
+          .apiHost('https://api.twitter.com/1')
           .consumerKey(consumerKey)
           .consumerSecret(consumerSecret)
           .findOrCreateUser( function (sess, accessToken, accessSecret, twitUser) {
-            console.log(twitUser);
+            var promise = this.Promise();
+      
+            return calipsoFindOrCreateUser({username:'twitter:' + twitUser.screen_name,
+              email:twitUser.screen_name + '@twitter.com', name:twitUser.name}, sess, promise);
           })
           .redirectPath('/');
     }
@@ -260,7 +267,8 @@ function bootApplication(next) {
           
           var promise = this.Promise();
       
-          return calipsoFindOrCreateUser('google:' + googleUser.email, promise);
+          return calipsoFindOrCreateUser({username:'google:' + googleUser.email,
+            email:googleUser.email, name:googleUser.name}, sess, promise);
         })
         .redirectPath('/');
     }
