@@ -210,7 +210,7 @@ function bootApplication(cluster, next) {
           .myHostname(app.config.get('server:url'))
           .appId(appId)
           .appSecret(appSecret)
-          .findOrCreateUser( function (session, accessToken, accessTokenExtra, fbUserMetadata) {
+          .findOrCreateUser( function (sess, accessToken, accessTokenExtra, fbUserMetadata) {
             var promise = this.Promise();
       
             return calipsoFindOrCreateUser({username:'facebook:' + fbUserMetadata.username,
