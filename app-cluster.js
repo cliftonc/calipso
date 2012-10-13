@@ -46,7 +46,6 @@ function launchServer() {
       config.init();
 
       // Print the logo
-      console.log("ismaster!!!!");
       logo.print();
 
       // Set the number of workers
