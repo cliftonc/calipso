@@ -211,7 +211,10 @@ function bootApplication(cluster, next) {
           .appId(appId)
           .appSecret(appSecret)
           .findOrCreateUser( function (session, accessToken, accessTokenExtra, fbUserMetadata) {
-            console.log(fbUserMetadata);
+            var promise = this.Promise();
+      
+            return calipsoFindOrCreateUser({username:'facebook:' + fbUserMetadata.username,
+              email:fbUserMetadata.username + '@facebook.com', name:fbUserMetadata.name}, sess, promise);
           })
           .redirectPath('/');
     }
