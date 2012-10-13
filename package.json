@@ -55,7 +55,8 @@
     "knox": "0.0.x",
     "node-expat": "1.4.x",
     "imagemagick": "0.1.x",
-    "mailer": "~0.6.4"
+    "mailer": "~0.6.4",
+    "everyauth": "0.3.x"
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",
