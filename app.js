@@ -209,6 +209,11 @@ function bootApplication(cluster, next) {
       everyauth
         .facebook
           .myHostname(app.config.get('server:url'))
+          .getSession( function (req) {
+            if (!req.session)
+              req.session = { _pending: req };
+            return req.session;
+          })
           .appId(appId)
           .appSecret(appSecret)
           .findOrCreateUser( function (sess, accessToken, accessTokenExtra, fbUserMetadata) {
@@ -226,6 +231,11 @@ function bootApplication(cluster, next) {
       calipso.auth.twitter = true;
       everyauth
         .twitter
+          .getSession( function (req) {
+            if (!req.session)
+              req.session = { _pending: req };
+            return req.session;
+          })
           .myHostname(app.config.get('server:url'))
           .apiHost('https://api.twitter.com/1')
           .consumerKey(consumerKey)
@@ -269,14 +279,12 @@ function bootApplication(cluster, next) {
 
     // Load placeholder, replaced later
     if(app.config.get('libraries:stylus:enable')) {
-      console.log('enabling stylus');
       app.mwHelpers.stylusMiddleware = function (themePath) {
         var mw = stylus.middleware({
           src: themePath + '/stylus',
           dest: themePath + '/public',
           debug: false,
           compile: function (str, path) { // optional, but recommended
-            console.log(str, path);
             return stylus(str)
               .set('filename', path)
               .set('warn', app.config.get('libraries:stylus:warn'))
