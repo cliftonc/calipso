@@ -46,7 +46,6 @@
     "optimist":"0.3.x",
     "colors":"0.6.x",
     "semver":"1.0.x",
-    "zipfile":"0.3.x",
     "rimraf":"2.0.x",
     "nconf":"0.6.x",
     "async": "0.1.x",
@@ -58,7 +57,8 @@
     "bcrypt": "0.7.x",
     "knox": "0.0.x",
     "node-expat": "1.4.x",
-    "imagemagick": "0.1.x"
+    "imagemagick": "0.1.x",
+    "zipfile":"0.3.x"
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",
