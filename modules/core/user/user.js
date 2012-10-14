@@ -171,10 +171,10 @@ function userDisplay(req, username, next) {
 }
 
 function userFields() {
-  var fields = [
+  var fields = calipso.auth.password ? [
       {label:'Username', name:'user[username]', type:'text'},
       {label:'Password', name:'user[password]', type:'password'}
-  ];
+  ] : [];
   if (calipso.auth.google) {
     fields.push({name:'google',text:'Use Google Login', type:'link', href:'/auth/google', cls:'googleicon'});
   }
@@ -192,13 +192,20 @@ function userFields() {
  */
 function loginForm(req, res, template, block, next) {
   var fields = userFields();
-  var userForm = {
-    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
-    fields:fields,
-    buttons:[
+  var buttons = calipso.auth.password ?
+    [
       {name:'submit', type:'submit', value:'Login'},
       {name:'register', type:'link', href:'/user/register', value:'Register'}
     ]
+    :
+    [
+      {name:'submit', type:'submit', value:'Login'}
+    ];
+    
+  var userForm = {
+    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
+    fields:fields,
+    buttons:buttons
   };
 
   calipso.form.render(userForm, null, req, function(form) {

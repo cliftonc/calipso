@@ -721,20 +721,21 @@ function coreConfig(req, res, template, block, next) {
         id:'form-section-authentication',
         label:'Authentication',
         fields:[
-          { label:'Password Login and Registration',
-            legend:'Password Login and Registration',
+          { label:'Password Login and Registration (changes require a restart of calipso)',
+            legend:'Password Login and Registration (changes require a restart of calipso)',
             type:'fieldset',
             fields: [
               {
                 label:'Enable password authentication and registration',
                 type:'checkbox',
                 name:'server:authentication:password',
+                description:'Please make sure you have made an external user (google, facebook or twitter an admin account) so you don\'t lose access to your system.',
                 defaultValue:true
               }
             ]
           },
-          { label:'Facebook Authentication',
-            legend:'Set this information to enable Facebook Authentication',
+          { label:'Facebook Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Facebook Authentication (changes require a restart of calipso)',
             type:'fieldset',
             fields:[
               {
@@ -751,8 +752,8 @@ function coreConfig(req, res, template, block, next) {
               }
             ]
           },
-          { label:'Google Authentication',
-            legend:'Set this information to enable Google Authentication',
+          { label:'Google Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Google Authentication (changes require a restart of calipso)',
             type:'fieldset',
             fields: [
               {
@@ -775,8 +776,8 @@ function coreConfig(req, res, template, block, next) {
               }
             ]
           },
-          { label:'Twitter Authentication',
-            legend:'Set this information to enable Twitter Authentication',
+          { label:'Twitter Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Twitter Authentication (changes require a restart of calipso)',
             type:'fieldset',
             fields: [
               {

@@ -1,7 +1,9 @@
 <div id="user-welcome-or-login">
   <a href="/user/login"><%= t('Log In') %></a>
-  <span class="link-divider">|</span>
-  <a href="/user/register"><%= t('Register') %></a>
+  <% if (config.get('server:authentication:password')) { %>
+    <span class="link-divider">|</span>
+    <a href="/user/register"><%= t('Register') %></a>
+  <% } %>
 </div>
 <div id="searchForm">
   <%- searchForm %>
