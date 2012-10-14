@@ -745,7 +745,8 @@ function isUserAdmin(user) {
     if(calipso.data.roles[role] && calipso.data.roles[role].isAdmin){
       isAdmin = true;
     }
-  })
+  });
+  console.log(user, isAdmin);
   return isAdmin;
 }
 
