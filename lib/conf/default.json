@@ -4,6 +4,9 @@
   "database": {
     "uri":"mongodb://localhost/calipso"
   },
+  "authentication": {
+    "password": true
+  },
   "server": {
     "name":"Calipso",
     "url":"http://localhost:3000",

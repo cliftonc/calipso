@@ -89,7 +89,7 @@ describe('Configuration', function(){
         confTest.set('test:v1','v1');
         confTest.get('test:v1').should.equal('v1');
         confTest.save(function(err) {
-            path.existsSync(confTest.file);
+            (fs.existsSync || path.existsSync)(confTest.file);
             done();
         });        
       });

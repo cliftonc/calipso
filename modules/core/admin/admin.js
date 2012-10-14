@@ -718,6 +718,91 @@ function coreConfig(req, res, template, block, next) {
         ]
       },
       {
+        id:'form-section-authentication',
+        label:'Authentication',
+        fields:[
+          { label:'Password Login and Registration (changes require a restart of calipso)',
+            legend:'Password Login and Registration (changes require a restart of calipso)',
+            type:'fieldset',
+            fields: [
+              {
+                label:'Enable password authentication and registration',
+                type:'checkbox',
+                name:'server:authentication:password',
+                description:'Please make sure you have made an external user (google, facebook or twitter an admin account) so you don\'t lose access to your system.',
+                defaultValue:true
+              }
+            ]
+          },
+          { label:'Facebook Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Facebook Authentication (changes require a restart of calipso)',
+            type:'fieldset',
+            fields:[
+              {
+                label:'AppId',
+                description:'Set AppId and Secret to enable facebook authentication',
+                name:'server:authentication:facebookAppId',
+                type:'password'
+              },
+              {
+                label:'AppSecret',
+                description:'AppSecret for this application to allow facebook authentication',
+                name:'server:authentication:facebookAppSecret',
+                type:'password'
+              }
+            ]
+          },
+          { label:'Google Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Google Authentication (changes require a restart of calipso)',
+            type:'fieldset',
+            fields: [
+              {
+                label:'ClientId',
+                description:'Set ClientId and ClientSecret to enable google authentication',
+                name:'server:authentication:googleClientId',
+                type:'password'
+              },
+              {
+                label:'ClientSecret',
+                description:'ClientSecret for this application to allow google authentication',
+                name:'server:authentication:googleClientSecret',
+                type:'password'
+              },
+              {
+                label:'Google Callback',
+                description:'Callback URL for google authentication',
+                type:'readonlytext',
+                value: calipso.config.get('server:url') + '/auth/google/callback'
+              }
+            ]
+          },
+          { label:'Twitter Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Twitter Authentication (changes require a restart of calipso)',
+            type:'fieldset',
+            fields: [
+              {
+                label:'Twitter ConsumerKey',
+                description:'Set ConsumerKey and ConsumerSecret to allow twitter authentication',
+                name:'server:authentication:twitterConsumerKey',
+                type:'password'
+              },
+              {
+                label:'Twitter ConsumerSecret',
+                description:'ConsumerSecret for this application to allow twitter authentication',
+                name:'server:authentication:twitterConsumerSecret',
+                type:'password'
+              },
+              {
+                label:'Twitter Callback',
+                description:'Callback URL for twitter authentication',
+                type:'readonlytext',
+                value: calipso.config.get('server:url') + '/auth/twitter/callback'
+              }
+            ]
+          }
+        ]
+      },
+      {
         id:'form-section-theme',
         label:'Theme',
         fields:[
@@ -734,10 +819,36 @@ function coreConfig(req, res, template, block, next) {
             type:'select',
             options: calipso.data.adminThemes,
             description:'Administration theme [NOT YET IMPLEMENTED]'
-          },{            
+          },
+          {            
             name:'theme:default',
             type:'hidden'
-          }          
+          },
+          {
+            label:'Stylus Middleware',
+            legend:'Stylus Middleware',
+            type:'fieldset',
+            fields:[
+              {
+                label:'Enable Stylus',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:enable'
+              },
+              {
+                label:'Show Warnings',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:warn'
+              },
+              {
+                label:'Compress CSS',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:compress'
+              }
+            ]
+          }    
         ]
       },
       {
@@ -826,7 +937,7 @@ function coreConfig(req, res, template, block, next) {
   // Values can come straight off the config.
   var values = calipso.config;
 
-  var adminModuleFields = adminForm.sections[5].fields;
+  var adminModuleFields = adminForm.sections[6].fields;
   createModuleFields(adminModuleFields);
   
   res.layout = 'admin';

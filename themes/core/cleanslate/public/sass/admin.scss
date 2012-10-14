@@ -554,11 +554,17 @@ label.for-checkable {
   padding:0 0 0 10px;
 }
 
-textarea, input[type="text"], input[type="password"], select { 
+textarea, input[type="text"], input[type="password"], select, .readonlytext { 
   border-radius: 3px;
   border: 1px solid #999; 
   padding: 1%;
   width: 70%;
+}
+
+.readonlytext {
+  display: inline-block;
+  border: 1px solid #eee; 
+  padding: 0.75%;
 }
 
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { 

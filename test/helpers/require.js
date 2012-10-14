@@ -9,8 +9,6 @@
  * 
  */
 if (process.env.CALIPSO_COV) {
-  var jsc = require('jscoverage'),
-  require = jsc.require(module); // rewrite require function
   module.exports = function (library) {
     return require('../../lib-cov/' + library);
   }

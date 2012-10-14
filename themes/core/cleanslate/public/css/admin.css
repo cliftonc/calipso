@@ -1,5 +1,6 @@
+@charset "UTF-8";
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
-/* line 17, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -21,45 +22,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 20, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 20, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 body {
   line-height: 1;
 }
 
-/* line 22, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 24, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 26, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 28, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 101, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 101, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 30, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 114, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 114, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
@@ -432,7 +433,7 @@ span.pager-page {
   vertical-align: middle;
   *vertical-align: auto;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 #adminToolbar li {
   *display: inline;
 }
@@ -469,7 +470,7 @@ span.pager-page {
   -o-border-radius: 7px;
   border-radius: 7px;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 #adminToolbar li a:link, #adminToolbar li a:visited {
   *display: inline;
 }
@@ -660,7 +661,33 @@ ul.tabs li.active a:hover {
   margin: 0;
 }
 
-/* line 512, ../sass/admin.scss */
+/* line 509, ../sass/admin.scss */
+.mail-templates .mail-template {
+  display: block;
+  margin: 1em;
+  padding: 1em;
+  background: #ededed;
+  -webkit-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  -moz-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+  border-radius: 7px;
+}
+/* line 518, ../sass/admin.scss */
+.mail-templates .mail-template .mail-subject {
+  font-style: italic;
+}
+/* line 521, ../sass/admin.scss */
+.mail-templates .mail-template .mail-body {
+  word-wrap: break-word;
+}
+
+/* line 530, ../sass/admin.scss */
 .form-item {
   border-top: 1px solid #d9d9d9;
   clear: both;
@@ -668,13 +695,13 @@ ul.tabs li.active a:hover {
   padding: 10px 0 0;
 }
 
-/* line 519, ../sass/admin.scss */
+/* line 537, ../sass/admin.scss */
 .fieldset-fields {
   clear: both;
   margin-bottom: 60px;
 }
 
-/* line 524, ../sass/admin.scss */
+/* line 542, ../sass/admin.scss */
 label {
   display: inline-block;
   font-weight: bold;
@@ -684,33 +711,40 @@ label {
   vertical-align: top;
 }
 
-/* line 533, ../sass/admin.scss */
+/* line 551, ../sass/admin.scss */
 label.for-checkable {
   width: auto;
   text-align: left;
   padding: 0 0 0 10px;
 }
 
-/* line 539, ../sass/admin.scss */
-textarea, input[type="text"], input[type="password"], select {
+/* line 557, ../sass/admin.scss */
+textarea, input[type="text"], input[type="password"], select, .readonlytext {
   border-radius: 3px;
   border: 1px solid #999;
   padding: 1%;
   width: 70%;
 }
 
-/* line 546, ../sass/admin.scss */
+/* line 564, ../sass/admin.scss */
+.readonlytext {
+  display: inline-block;
+  border: 1px solid #eee;
+  padding: 0.75%;
+}
+
+/* line 570, ../sass/admin.scss */
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
   border-color: #007DFF;
 }
 
-/* line 549, ../sass/admin.scss */
+/* line 573, ../sass/admin.scss */
 textarea {
   width: 69%;
   height: 200px;
 }
 
-/* line 554, ../sass/admin.scss */
+/* line 578, ../sass/admin.scss */
 .description {
   color: #777;
   padding: 2px 0 5px 198px;
@@ -719,7 +753,7 @@ textarea {
   display: block;
 }
 
-/* line 562, ../sass/admin.scss */
+/* line 586, ../sass/admin.scss */
 .button, button, input[type="submit"], a.submit {
   background: #d9d9d9;
   border: 1px solid #aaa;
@@ -752,11 +786,11 @@ textarea {
   -o-border-radius: 7px;
   border-radius: 7px;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, ../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 .button, button, input[type="submit"], a.submit {
   *display: inline;
 }
-/* line 583, ../sass/admin.scss */
+/* line 607, ../sass/admin.scss */
 .button:hover, .button:focus, .button.loading, button:hover, button:focus, button.loading, input[type="submit"]:hover, input[type="submit"]:focus, input[type="submit"].loading, a.submit:hover, a.submit:focus, a.submit.loading {
   background: #2F5163;
   border-color: #333;
@@ -772,14 +806,14 @@ textarea {
   background: -ms-linear-gradient(#3f6d86, #2f5163);
   background: linear-gradient(#3f6d86, #2f5163);
 }
-/* line 592, ../sass/admin.scss */
+/* line 616, ../sass/admin.scss */
 .button:active, button:active, input[type="submit"]:active, a.submit:active {
   border-color: #000;
   -webkit-box-shadow: inset 0 0 8px black;
   -moz-box-shadow: inset 0 0 8px black;
   box-shadow: inset 0 0 8px black;
 }
-/* line 597, ../sass/admin.scss */
+/* line 621, ../sass/admin.scss */
 .button.loading, button.loading, input[type="submit"].loading, a.submit.loading {
   background: #2f5163 url("/images/loader.gif") 15px 50% no-repeat;
   background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
@@ -791,43 +825,43 @@ textarea {
   padding-left: 40px;
 }
 
-/* line 605, ../sass/admin.scss */
+/* line 629, ../sass/admin.scss */
 input.date {
   width: 3em;
 }
 
-/* line 607, ../sass/admin.scss */
+/* line 631, ../sass/admin.scss */
 input.date-day,
 input.time {
   width: 2em;
 }
 
-/* line 609, ../sass/admin.scss */
+/* line 633, ../sass/admin.scss */
 select.date.date-month {
   width: 42%;
 }
 
-/* line 613, ../sass/admin.scss */
+/* line 637, ../sass/admin.scss */
 input.checkbox, input.radio {
   margin-left: 160px;
 }
 
-/* line 614, ../sass/admin.scss */
+/* line 638, ../sass/admin.scss */
 input.labelFirst {
   margin-left: auto;
 }
 
-/* line 615, ../sass/admin.scss */
+/* line 639, ../sass/admin.scss */
 form .section {
   margin: 0 0 20px;
 }
 
-/* line 616, ../sass/admin.scss */
+/* line 640, ../sass/admin.scss */
 form .section:first-child {
   border: 0;
 }
 
-/* line 617, ../sass/admin.scss */
+/* line 641, ../sass/admin.scss */
 .actions {
   clear: both;
   padding: 20px 0 20px 20px;
@@ -836,17 +870,17 @@ form .section:first-child {
   height: 35px;
 }
 
-/* line 618, ../sass/admin.scss */
+/* line 642, ../sass/admin.scss */
 .actions input {
   float: right;
 }
 
-/* line 622, ../sass/admin.scss */
+/* line 646, ../sass/admin.scss */
 .log-in-or-register {
   float: right;
 }
 
-/* line 623, ../sass/admin.scss */
+/* line 647, ../sass/admin.scss */
 .link-divider {
   width: 0;
   height: 1.2em;
@@ -856,7 +890,7 @@ form .section:first-child {
   margin: 0 5px;
 }
 
-/* line 624, ../sass/admin.scss */
+/* line 648, ../sass/admin.scss */
 #user-login {
   position: absolute;
   right: 0;
@@ -866,47 +900,47 @@ form .section:first-child {
   box-shadow: 0 2px 4px #333;
 }
 
-/* line 625, ../sass/admin.scss */
+/* line 649, ../sass/admin.scss */
 #user-login form {
   padding: 20px;
   background: #eee;
 }
 
-/* line 626, ../sass/admin.scss */
+/* line 650, ../sass/admin.scss */
 #user-welcome-or-login h2 {
   display: none;
 }
 
-/* line 627, ../sass/admin.scss */
+/* line 651, ../sass/admin.scss */
 #user-welcome-or-login label {
   padding: 0;
   text-align: left;
   width: auto;
 }
 
-/* line 628, ../sass/admin.scss */
+/* line 652, ../sass/admin.scss */
 #user-welcome-or-login input {
   width: 180px;
 }
 
-/* line 629, ../sass/admin.scss */
+/* line 653, ../sass/admin.scss */
 #user-welcome-or-login .form-field {
   margin: 0 0 2px;
 }
 
-/* line 630, ../sass/admin.scss */
+/* line 654, ../sass/admin.scss */
 #user-welcome-or-login .actions {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-/* line 631, ../sass/admin.scss */
+/* line 655, ../sass/admin.scss */
 #user-welcome-or-login .actions a {
   display: none;
 }
 
-/* line 632, ../sass/admin.scss */
+/* line 656, ../sass/admin.scss */
 #user-welcome-or-login input[type="submit"] {
   width: auto;
   padding: 3px 8px;
@@ -914,7 +948,7 @@ form .section:first-child {
   font-weight: normal;
 }
 
-/* line 635, ../sass/admin.scss */
+/* line 659, ../sass/admin.scss */
 #user-login:before,
 #user-login:after {
   content: "";
@@ -929,7 +963,7 @@ form .section:first-child {
   border-bottom: 8px solid #eee;
 }
 
-/* line 648, ../sass/admin.scss */
+/* line 672, ../sass/admin.scss */
 #user-login:after {
   border-bottom: 9px solid #ccc;
   top: -9px;
@@ -938,7 +972,7 @@ form .section:first-child {
 
 /* general 'close' button - round with an 'x',
    actually a multiplication sign:  `&times;` `&#215;`  `&#xD7;`  `×`  */
-/* line 656, ../sass/admin.scss */
+/* line 680, ../sass/admin.scss */
 .close {
   display: block;
   position: absolute;
@@ -957,7 +991,7 @@ form .section:first-child {
   cursor: pointer;
 }
 
-/* line 673, ../sass/admin.scss */
+/* line 697, ../sass/admin.scss */
 .close:before {
   content: "\D7";
   color: #000;
@@ -974,7 +1008,7 @@ form .section:first-child {
 }
 
 /* messages [info, success, warning, error] */
-/* line 691, ../sass/admin.scss */
+/* line 715, ../sass/admin.scss */
 #messages {
   clear: both;
   position: absolute;
@@ -984,12 +1018,12 @@ form .section:first-child {
   overflow: hidden;
 }
 
-/* line 699, ../sass/admin.scss */
+/* line 723, ../sass/admin.scss */
 #messages ul {
   list-style: none;
 }
 
-/* line 705, ../sass/admin.scss */
+/* line 729, ../sass/admin.scss */
 .info,
 .success,
 .warning,
@@ -1010,37 +1044,37 @@ form .section:first-child {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-/* line 717, ../sass/admin.scss */
+/* line 741, ../sass/admin.scss */
 .info {
   color: #00529B;
   background-color: #BDE5F8;
   border-color: #8fd3f3;
 }
 
-/* line 722, ../sass/admin.scss */
+/* line 746, ../sass/admin.scss */
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;
 }
 
-/* line 726, ../sass/admin.scss */
+/* line 750, ../sass/admin.scss */
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
 }
 
-/* line 730, ../sass/admin.scss */
+/* line 754, ../sass/admin.scss */
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
 }
 
-/* line 735, ../sass/admin.scss */
+/* line 759, ../sass/admin.scss */
 .sidePanelItem {
   margin: 0 0 10px;
 }
 
-/* line 737, ../sass/admin.scss */
+/* line 761, ../sass/admin.scss */
 .language-wrap {
   border: 1px solid #d9d9d9;
   padding: 20px;
@@ -1049,12 +1083,12 @@ form .section:first-child {
   -moz-box-shadow: 0 1px 4px #d9d9d9;
   box-shadow: 0 1px 4px #d9d9d9;
 }
-/* line 745, ../sass/admin.scss */
+/* line 769, ../sass/admin.scss */
 .language-wrap pre {
   clear: both;
   white-space: wrap;
 }
-/* line 750, ../sass/admin.scss */
+/* line 774, ../sass/admin.scss */
 .language-wrap h3, .language-wrap h4 {
   background: #2F5163;
   border: 1px solid #1f3540;
@@ -1085,7 +1119,7 @@ form .section:first-child {
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
 }
-/* line 768, ../sass/admin.scss */
+/* line 792, ../sass/admin.scss */
 .language-wrap h3:after, .language-wrap h4:after {
   content: ' ';
   position: absolute;

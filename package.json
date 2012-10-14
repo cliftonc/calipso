@@ -1,7 +1,7 @@
 {
   "name": "calipso",
   "description": "A NodeJS CMS",
-  "version": "0.3.6",
+  "version": "0.3.12",
   "homepage": "http://calip.so",
   "repository": {
     "type": "git",
@@ -21,15 +21,15 @@
     "node": ">=0.6||>=0.8"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*"
+    "mocha": "~1.4.2",
+    "should": "~1.1.0"
   },
   "dependencies": {
     "express": "3.0.x",
     "formidable": "1.0.x",
     "connect": "2.3.x",
     "ejs": "0.6.x",
-    "jade": "0.20.x",
+    "jade": "0.27.x",
     "stylus": "0.28.x",
     "underscore":"1.3.x",
     "mongoose": "2.5.x",
@@ -55,11 +55,12 @@
     "knox": "0.0.x",
     "node-expat": "1.4.x",
     "imagemagick": "0.1.x",
-    "mailer": "~0.6.4"
+    "mailer": "~0.6.4",
+    "everyauth": "0.3.x"
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",
-    "test" : "NODE_ENV=mocha mocha --reporter spec -t 5000 -s 500"
+    "test" : "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 5000 -s 500"
   },
   "bin": { "calipso": "./bin/calipso" }
 }

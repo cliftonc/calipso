@@ -9,7 +9,7 @@ var rootpath = process.cwd() + '/',
     exec = require('child_process').exec,
     path = require('path'),
     assert = require('assert'),
-    sys = require('sys'),
+    sys = require(/^v0\.[012]/.test(process.version) ? "sys" : "util"),
     should = require('should'),
     Config = require('./helpers/require')('core/Configuration');
 

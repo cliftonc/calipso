@@ -1,3 +1,5 @@
 *.sock
 logs/*
 pids/*
+conf/development.json
+conf/production.json

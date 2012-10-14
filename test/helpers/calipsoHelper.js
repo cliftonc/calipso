@@ -1,16 +1,9 @@
 /**
  * Setup the bare minimum required for a fully functioning 'calipso' object
  */
-if (process.env.CALIPSO_COV) {
-	var jsc = require('jscoverage'),
-	require = jsc.require(module); // rewrite require function
-	calipso = require('./require', true)('calipso'),
-	Config = require('./require', true)('core/Configuration');
-} else {
-	var calipso = require('./require')('calipso'),
-	Config = require('./require')('core/Configuration');
-}
-	var path = require('path'),
+var calipso = require('./require')('calipso'),
+	Config = require('./require')('core/Configuration'),
+	path = require('path'),
 	fs = require('fs'),
 	colors = require('colors'),
 	rootpath = process.cwd() + '/',
@@ -163,12 +156,15 @@ var requests = {
 /**
  * Initialise everything and then export
  */
-new MockApp(function (app) {
-	module.exports = {
-		app: app,
-		calipso: calipso,
-		testPermit: calipso.permission.Helper.hasPermission("test:permission"),
-		requests: requests,
-		response: CreateResponse()
-	}
-})
+module.exports.finalize = function (next) {
+  if (module.exports.app)
+    return next(null, module.exports);
+  new MockApp(function (app) {
+    module.exports.app = app;
+    module.exports.calipso = calipso;
+    module.exports.testPermit = calipso.permission.Helper.hasPermission("test:permission"),
+    module.exports.requests = requests;
+    module.exports.response = CreateResponse();
+    next(null, module.exports);
+  });
+};

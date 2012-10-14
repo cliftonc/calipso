@@ -5,7 +5,8 @@ var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   roles = require('./user.roles'),
-  Query = require("mongoose").Query;
+  Query = require("mongoose").Query,
+  everyauth = require("everyauth");
 
 exports = module.exports = {
   init: init,
@@ -44,7 +45,7 @@ function init(module, app, next) {
   calipso.e.addEvent('USER_UNLOCK');
   calipso.e.addEvent('USER_LOGIN');
   calipso.e.addEvent('USER_LOGOUT');
-
+  
   // Define permissions
   calipso.permission.Helper.addPermission("admin:user","Users",true);
   calipso.permission.Helper.addPermission("admin:user:register","Register other users.");
@@ -169,21 +170,42 @@ function userDisplay(req, username, next) {
 
 }
 
+function userFields() {
+  var fields = calipso.auth.password ? [
+      {label:'Username', name:'user[username]', type:'text'},
+      {label:'Password', name:'user[password]', type:'password'}
+  ] : [];
+  if (calipso.auth.google) {
+    fields.push({name:'google',text:'Use Google Login', type:'link', href:'/auth/google', cls:'googleicon'});
+  }
+  if (calipso.auth.twitter) {
+    fields.push({name:'twitter',text:'Use Twitter Login', type:'link', href:'/auth/twitter', cls:'twittericon'});
+  }
+  if (calipso.auth.facebook) {
+    fields.push({name:'facebook',text:'Use Facebook Login', type:'link', href:'/auth/facebook', cls:'facebookicon'});
+  }
+  return fields;
+}
+
 /**
  * Login form
  */
 function loginForm(req, res, template, block, next) {
-
-  var userForm = {
-    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
-    fields:[
-      {label:'Username', name:'user[username]', type:'text'},
-      {label:'Password', name:'user[password]', type:'password'}
-    ],
-    buttons:[
+  var fields = userFields();
+  var buttons = calipso.auth.password ?
+    [
       {name:'submit', type:'submit', value:'Login'},
       {name:'register', type:'link', href:'/user/register', value:'Register'}
     ]
+    :
+    [
+      {name:'submit', type:'submit', value:'Login'}
+    ];
+    
+  var userForm = {
+    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
+    fields:fields,
+    buttons:buttons
   };
 
   calipso.form.render(userForm, null, req, function(form) {
@@ -196,13 +218,10 @@ function loginForm(req, res, template, block, next) {
  * Login form
  */
 function loginPage(req, res, template, block, next) {
-
+  var fields = userFields();
   var userForm = {
     id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
-    fields:[
-      {label:'Username', name:'user[username]', type:'text'},
-      {label:'Password', name:'user[password]', type:'password'}
-    ],
+    fields:fields,
     buttons:[
       {name:'submit', type:'submit', value:'Login'}
     ]
@@ -329,6 +348,7 @@ function updateUserForm(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
   var roleSection = 3; // Update if changing sections
+  var passwordSection = 1; // Update if changing sections
 
   if(isAdmin) {
       res.menu.adminToolbar.addMenuItem(req, {name:'Return',path:'return',url:'/user/profile/'+username,description:'Show user ...',security:[]});
@@ -416,6 +436,9 @@ function updateUserForm(req, res, template, block, next) {
     } else {
       // remove the section
       delete userForm.sections[roleSection];
+    }
+    if (u.hash === 'external:auth') {
+      delete userForm.sections[passwordSection];
     }
 
     var values = {user:u};
@@ -728,7 +751,7 @@ function isUserAdmin(user) {
     if(calipso.data.roles[role] && calipso.data.roles[role].isAdmin){
       isAdmin = true;
     }
-  })
+  });
   return isAdmin;
 }
 
@@ -736,9 +759,7 @@ function isUserAdmin(user) {
  * Create session object for logged in user
  */
 function createUserSession(req, res, user, next) {
-
   var isAdmin = isUserAdmin(user);
-
   // Create session
   req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
   req.session.save(function(err) {
@@ -756,7 +777,8 @@ function logoutUser(req, res, template, block, next) {
   if(req.session && req.session.user) {
 
     var User = calipso.db.model('User');
-
+    if (req.logout)
+      req.logout();
     User.findOne({username:req.session.user.username}, function(err, u) {
 
       req.session.user = null;
