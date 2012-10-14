@@ -202,6 +202,10 @@ function bootApplication(cluster, next) {
     calipso.auth = {password: app.config.get('server:authentication:password')
       , migrate2pbkdf2: app.config.get('server:authentication:migrate2pbkdf2')
     };
+    if (calipso.auth.password === undefined)
+      calipso.auth.password = true;
+    if (calipso.auth.migrate2pbkdf2 === undefined)
+      calipso.auth.migrate2pbkdf2 = false;
     
     var appId = app.config.get('server:authentication:facebookAppId');
     var appSecret = app.config.get('server:authentication:facebookAppSecret');    
