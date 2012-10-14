@@ -430,7 +430,6 @@ function updateUserForm(req, res, template, block, next) {
       // remove the section
       delete userForm.sections[roleSection];
     }
-    console.log(u);
     if (u.hash === 'external:auth') {
       delete userForm.sections[passwordSection];
     }
@@ -753,9 +752,7 @@ function isUserAdmin(user) {
  * Create session object for logged in user
  */
 function createUserSession(req, res, user, next) {
-console.log(user);
   var isAdmin = isUserAdmin(user);
-console.log(isAdmin);
   // Create session
   req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
   req.session.save(function(err) {

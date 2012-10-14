@@ -107,10 +107,7 @@ var rootpath = process.cwd() + '/',
 everyauth.everymodule
   .findUserById( function (req, id, callback) {
     var User = calipso.db.model('User');
-    User.findById(id, function (err, user) {
-      req.session.user = user;
-      callback(err, user);
-    });
+    User.findById(id, callback);
   });
 
 function calipsoFindOrCreateUser(user, sess, promise) {
@@ -118,7 +115,9 @@ function calipsoFindOrCreateUser(user, sess, promise) {
   function finishUser(user) {
     if (sess) {
       if (!sess._pending) return promise.fulfill(user);
-      return calipso.lib.user.createUserSession(sess._pending, null, user, function(err) {
+      var req = sess._pending;
+      delete sess._pending;
+      return calipso.lib.user.createUserSession(req, null, user, function(err) {
         if(err) { calipso.error("Error saving session: " + err); return promise.fail(err); }
         promise.fulfill(user);
       });
@@ -128,7 +127,7 @@ function calipsoFindOrCreateUser(user, sess, promise) {
   
   User.findOne({username:user.username}, function (err, u) {
     if (err) return promise.fail(err);
-    if (u) return promise.fulfill(u);
+    if (u) return finishUser(u);
     u = new User({
       username: user.username,
       fullname: user.name,
@@ -212,6 +211,8 @@ function bootApplication(cluster, next) {
           .getSession( function (req) {
             if (!req.session)
               req.session = { _pending: req };
+            else
+              req.session._pending = req;
             return req.session;
           })
           .appId(appId)
@@ -234,6 +235,8 @@ function bootApplication(cluster, next) {
           .getSession( function (req) {
             if (!req.session)
               req.session = { _pending: req };
+            else
+              req.session._pending = req;
             return req.session;
           })
           .myHostname(app.config.get('server:url'))
@@ -253,19 +256,22 @@ function bootApplication(cluster, next) {
     var clientSecret = app.config.get('server:authentication:googleClientSecret');
     if (clientId && clientSecret) {
       calipso.auth.google = true;
-      everyauth.google
-        .myHostname(app.config.get('server:url'))
-        .appId(clientId)
-        .appSecret(clientSecret)
-        .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
-        .getSession( function (req) {
-          if (!req.session)
-            req.session = { _pending: req };
-          return req.session;
-        })
-        .findOrCreateUser( function (sess, accessToken, extra, googleUser) {
-          googleUser.refreshToken = extra.refresh_token;
-          googleUser.expiresIn = extra.expires_in;
+      everyauth
+        .google
+          .myHostname(app.config.get('server:url'))
+          .appId(clientId)
+          .appSecret(clientSecret)
+          .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
+          .getSession( function (req) {
+            if (!req.session)
+              req.session = { _pending: req };
+            else
+              req.session._pending = req;
+            return req.session;
+          })
+          .findOrCreateUser( function (sess, accessToken, extra, googleUser) {
+            googleUser.refreshToken = extra.refresh_token;
+            googleUser.expiresIn = extra.expires_in;
           
           var promise = this.Promise();
       
