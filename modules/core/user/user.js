@@ -746,7 +746,6 @@ function isUserAdmin(user) {
       isAdmin = true;
     }
   });
-  console.log(user, isAdmin);
   return isAdmin;
 }
 
@@ -754,9 +753,9 @@ function isUserAdmin(user) {
  * Create session object for logged in user
  */
 function createUserSession(req, res, user, next) {
-
+console.log(user);
   var isAdmin = isUserAdmin(user);
-
+console.log(isAdmin);
   // Create session
   req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
   req.session.save(function(err) {
