@@ -766,6 +766,12 @@ function coreConfig(req, res, template, block, next) {
                 description:'ClientSecret for this application to allow google authentication',
                 name:'server:authentication:googleClientSecret',
                 type:'password'
+              },
+              {
+                label:'Google Callback',
+                description:'Callback URL for google authentication',
+                type:'readonlytext',
+                value: calipso.config.get('server:url') + '/auth/google/callback'
               }
             ]
           },
@@ -784,6 +790,12 @@ function coreConfig(req, res, template, block, next) {
                 description:'ConsumerSecret for this application to allow twitter authentication',
                 name:'server:authentication:twitterConsumerSecret',
                 type:'password'
+              },
+              {
+                label:'Twitter Callback',
+                description:'Callback URL for twitter authentication',
+                type:'readonlytext',
+                value: calipso.config.get('server:url') + '/auth/twitter/callback'
               }
             ]
           }

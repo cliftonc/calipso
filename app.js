@@ -101,7 +101,8 @@ var rootpath = process.cwd() + '/',
   logo = require(path.join(rootpath, 'logo')),
   everyauth = require("everyauth");
 
-everyauth.debug = true;
+// To enable everyauth debugging.
+//everyauth.debug = true;
 
 everyauth.everymodule
   .findUserById( function (req, id, callback) {
