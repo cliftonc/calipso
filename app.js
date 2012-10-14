@@ -199,7 +199,9 @@ function bootApplication(cluster, next) {
     // THese helpers are re-used when theme switching.
     app.mwHelpers = {};
 
-    calipso.auth = {password: app.config.get('server:authentication:password')};
+    calipso.auth = {password: app.config.get('server:authentication:password')
+      , migrate2pbkdf2: app.config.get('server:authentication:migrate2pbkdf2')
+    };
     
     var appId = app.config.get('server:authentication:facebookAppId');
     var appSecret = app.config.get('server:authentication:facebookAppSecret');    

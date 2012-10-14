@@ -45,18 +45,20 @@
     "step": "0.0.x",
     "optimist":"0.3.x",
     "colors":"0.6.x",
-    "bcrypt": "0.7.x",
     "semver":"1.0.x",
     "zipfile":"0.3.x",
     "rimraf":"2.0.x",
     "nconf":"0.6.x",
     "async": "0.1.x",
     "hook.io": "0.8.x",
-    "knox": "0.0.x",
-    "node-expat": "1.4.x",
-    "imagemagick": "0.1.x",
     "mailer": "~0.6.4",
     "everyauth": "0.3.x"
+  },
+  "optionalDependencies": {
+    "bcrypt": "0.7.x",
+    "knox": "0.0.x",
+    "node-expat": "1.4.x",
+    "imagemagick": "0.1.x"
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",

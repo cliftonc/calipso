@@ -5,7 +5,8 @@
     "uri":"mongodb://localhost/calipso"
   },
   "authentication": {
-    "password": true
+    "password": true,
+    "migrate2pbkdf2": false
   },
   "server": {
     "name":"Calipso",

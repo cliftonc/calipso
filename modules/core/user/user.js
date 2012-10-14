@@ -596,6 +596,15 @@ function updateUserProfile(req, res, template, block, next) {
       delete form.user.old_password;
 
       User.findOne({username:username}, function(err, u) {
+        if(err) {
+          req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
+          if(res.statusCode != 302) {
+            res.redirect('/');
+            return;
+          }
+          next();
+          return;
+        }
 
         u.fullname = form.user.fullname;
         u.username = uname || form.user.username;
@@ -621,75 +630,78 @@ function updateUserProfile(req, res, template, block, next) {
         if(old_password) {
 
           // Check to see if old password is valid
-          if(!calipso.lib.crypto.check(old_password,u.hash)) {
-            if(u.hash != '') {
+          calipso.lib.crypto.check(old_password,u.hash, function (err, ok) {
+            if(u.hash != '' && !ok) {
               req.flash('error',req.t('Your old password was invalid.'));
               res.redirect('back');
               return;
             }
-          }
 
-          // Check to see if new passwords match
-          if(new_password != repeat_password) {
-            req.flash('error',req.t('Your new passwords do not match.'));
-            res.redirect('back');
-            return;
-          }
-
-          // Check to see if new passwords are blank
-          if(new_password === '') {
-            req.flash('error',req.t('Your password cannot be blank.'));
-            res.redirect('back');
-            return;
-          }
-
-          // Create the hash
-          u.hash = calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'));
-          u.password = ''; // Temporary for migration to hash, remove later
-
-        }
-
-        if(err) {
-          req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
-          if(res.statusCode != 302) {
-            res.redirect('/');
-            return;
-          }
-          next();
-          return;
-        }
-
-        calipso.e.pre_emit('USER_UPDATE',u);
-        u.save(function(err) {
-          if(err) {
-
-            req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
-            if(res.statusCode != 302) {
-              // Redirect to old page
-              res.redirect('/user/profile/' + username + '/edit');
+            // Check to see if new passwords match
+            if(new_password != repeat_password) {
+              req.flash('error',req.t('Your new passwords do not match.'));
+              res.redirect('back');
               return;
             }
-
-          } else {
-
-            calipso.e.post_emit('USER_UPDATE',u);
-
-            // Update session details if your account
-            if(req.session.user && (req.session.user.username === username)) { // Allows for name change
-              createUserSession(req, res, u, function(err) {
-                if(err) calipso.error("Error saving session: " + err);
-              });
+  
+            // Check to see if new passwords are blank
+            if(new_password === '') {
+              req.flash('error',req.t('Your password cannot be blank.'));
+              res.redirect('back');
+              return;
             }
-
-            // Redirect to new page
-            res.redirect('/user/profile/' + u.username);
-            return;
-
-          }
-          // If not already redirecting, then redirect
-          next();
-        });
-
+  
+            u.password = ''; // Temporary for migration to hash, remove later
+            // Create the hash
+            calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'), function (err, hash) {
+              if (err) {
+                req.flash('error', req.t('Could not hash password because {msg}.', {msg:err.message}));
+                if(res.statusCode != 302) {
+                  res.redirect('/');
+                  return;
+                }
+                next();
+                return;
+              }
+              u.hash = hash;
+              saveUser();
+            });
+          });
+        } else {
+          saveUser();
+        }
+        function saveUser() {
+          calipso.e.pre_emit('USER_UPDATE',u);
+          u.save(function(err) {
+            if(err) {
+  
+              req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
+              if(res.statusCode != 302) {
+                // Redirect to old page
+                res.redirect('/user/profile/' + username + '/edit');
+                return;
+              }
+  
+            } else {
+  
+              calipso.e.post_emit('USER_UPDATE',u);
+  
+              // Update session details if your account
+              if(req.session.user && (req.session.user.username === username)) { // Allows for name change
+                createUserSession(req, res, u, function(err) {
+                  if(err) calipso.error("Error saving session: " + err);
+                });
+              }
+  
+              // Redirect to new page
+              res.redirect('/user/profile/' + u.username);
+              return;
+  
+            }
+            // If not already redirecting, then redirect
+            next();
+          });
+        }
       });
     }
   });
@@ -711,29 +723,28 @@ function loginUser(req, res, template, block, next) {
       var found = false;
 
       User.findOne({username:username},function (err, user) {
+        if(user) {
+          calipso.lib.crypto.check(form.user.password,user.hash, function (err, ok) {
+            if(user && !user.locked && ok) {
+              found = true;
+              calipso.e.post_emit('USER_LOGIN',user);
+              createUserSession(req, res, user, function(err) {
+                if(err) calipso.error("Error saving session: " + err);
+              });
+            }
 
-        // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
-        // TO BE REMOVED In later version
-        if(user && calipso.lib.crypto.check(form.user.password,user.hash) || (user && user.hash === '')) {
-          if(!user.locked) {
-            found = true;
-            calipso.e.post_emit('USER_LOGIN',user);
-            createUserSession(req, res, user, function(err) {
-              if(err) calipso.error("Error saving session: " + err);
-            });
-          }
+            if(!found) {
+              req.flash('error',req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
+            }
+  
+            if(res.statusCode != 302) {
+              res.redirect(calipso.config.get('server:loginPath') || 'back');
+              return;
+            }
+            next();
+            return;
+          });
         }
-
-        if(!found) {
-          req.flash('error',req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
-        }
-
-        if(res.statusCode != 302) {
-          res.redirect(calipso.config.get('server:loginPath') || 'back');
-          return;
-        }
-        next();
-        return;
       });
 
     }
@@ -860,36 +871,47 @@ function registerUser(req, res, template, block, next) {
       }
 
       // Create the hash
-      u.hash = calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'));
-
-      calipso.e.pre_emit('USER_CREATE',u);
-
-      u.save(function(err) {
-
-        if(err) {
-          var msg = err.message;
-          if (err.code === 11000) {
-            msg = "a user has already registered with that email";
-          }
-          req.flash('error',req.t('Could not save user because {msg}.',{msg:msg}));
+      calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'), function (err, hash) {
+        if (err) {
+          req.flash('error',req.t('Could not hash user password because {msg}.',{msg:msg}));
           if(res.statusCode != 302 && !res.noRedirect) {
             res.redirect('back');
             return;
           }
-        } else {
-          calipso.e.post_emit('USER_CREATE',u);
-          if(!res.noRedirect) {
-            req.flash('info',req.t('Profile created, you can now login using this account.'));
-            res.redirect('/user/profile/' + u.username);
-            return;
-          }
+          next(err);
         }
-
-        // If not already redirecting, then redirect
-        next(err);
-
+        u.hash = hash;
+        saveUser();
       });
 
+      function saveUser() {
+        calipso.e.pre_emit('USER_CREATE',u);
+        u.save(function(err) {
+  
+          if(err) {
+            var msg = err.message;
+            if (err.code === 11000) {
+              msg = "a user has already registered with that email";
+            }
+            req.flash('error',req.t('Could not save user because {msg}.',{msg:msg}));
+            if(res.statusCode != 302 && !res.noRedirect) {
+              res.redirect('back');
+              return;
+            }
+          } else {
+            calipso.e.post_emit('USER_CREATE',u);
+            if(!res.noRedirect) {
+              req.flash('info',req.t('Profile created, you can now login using this account.'));
+              res.redirect('/user/profile/' + u.username);
+              return;
+            }
+          }
+  
+          // If not already redirecting, then redirect
+          next(err);
+  
+        });
+      }
     }
 
   });
@@ -1170,13 +1192,18 @@ function install(next) {
         var admin = new User({
           username:adminUser.username,
           fullname:adminUser.fullname,
-          hash:calipso.lib.crypto.hash(adminUser.password,calipso.config.get('session:secret')),
           email:adminUser.email,
           language:adminUser.language,
           about:'',
           roles:['Administrator']
         });
-        admin.save(self());
+        calipso.lib.crypto.hash(adminUser.password,calipso.config.get('session:secret'), function (err, hash) {
+          if (err) {
+            return self()(err);
+          }
+          admin.hash = hash;
+          admin.save(self());
+        }),
 
         // Delete this now to ensure it isn't hanging around;
         delete calipso.data.adminUser;

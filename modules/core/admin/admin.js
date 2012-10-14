@@ -729,9 +729,15 @@ function coreConfig(req, res, template, block, next) {
                 label:'Enable password authentication and registration',
                 type:'checkbox',
                 name:'server:authentication:password',
-                description:'Please make sure you have made an external user (google, facebook or twitter an admin account) so you don\'t lose access to your system.',
-                defaultValue:true
-              }
+                description:'Please make sure you have made an external user (google, facebook or twitter an admin account) so you don\'t lose access to your system.'
+              },
+              {
+                label:'Enable password migration to pbkdf2 hash',
+                type:'checkbox',
+                name:'server:authentication:migrate2pbkdf2',
+                description:'As new people create password hashes they will be converted to pbkdf2 hashes.'
+              },
+              
             ]
           },
           { label:'Facebook Authentication (changes require a restart of calipso)',

@@ -1357,18 +1357,21 @@ function init(module, app, next) {
               var User = calipso.db.model('User');
 
               return User.findOne({username:clientUserName},function (err, user) {
-                // Check if the user hash is ok, or if there is no hash (supports transition from password to hash)
-                // TO BE REMOVED In later version
-                if(user && calipso.lib.crypto.check(clientPasswordHash,user.hash) || (user && user.hash === '')) {
-                  if(!user.locked) {
-                    calipso.e.post_emit('USER_LOGIN',user);
-                    return calipso.lib.user.createUserSession(req, res, user, function(err) {
-                      if(err) calipso.error("Error saving session: " + err);
-                      callback(err, user);
-                    });
-                  }
+                if (err) {
+									return callback(new Error('Unable to authenticate user'), null);
                 }
-                callback(new Error('Unable to authenticate user'), user);
+                if(user) {
+                	calipso.lib.crypto.check(clientPasswordHash, user.hash, function (err, ok) {
+										if(!user.locked && ok) {
+											calipso.e.post_emit('USER_LOGIN',user);
+											return calipso.lib.user.createUserSession(req, res, user, function(err) {
+												if(err) calipso.error("Error saving session: " + err);
+												callback(err, user);
+											});
+										}
+										callback(new Error('Unable to authenticate user'), user);
+                	});
+                }
               });
             }
           }
