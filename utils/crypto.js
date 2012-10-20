@@ -67,7 +67,6 @@ function hash(string,key,cb) {
   crypto.pbkdf2(string, salt, iterations, keylength, function (err, derivedKey) {
     if (err) return cb(err);
     items[1] = new Buffer(derivedKey).toString('base64');
-    console.log(items);
     cb(err, items.join(':'));
   });
   
