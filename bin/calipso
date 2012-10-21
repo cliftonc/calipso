@@ -1,5 +1,6 @@
-#!env sh
-DIR=`dirname "$0"`
+#!/usr/bin/env sh -x
+DIRC=`echo "$0" | sed -e 's/\\\\/\\//g'`
+DIR=`dirname "$DIRC"`
 if [ -f "${DIR}/../lib/calipso-cli.js" ]
 then
 # This is when the calipso source is the current directory
