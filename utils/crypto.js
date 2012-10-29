@@ -17,14 +17,14 @@ module.exports = exports = {
  * Unsure why this can be here, and does not need to be stored.
  * TODO - Figure out how this works
  */
-var salt = null;
+var globalSalt = null;
 
 function loadBCrypt() {
   if (!bcrypt && !triedbcrypt) {
     triedbcrypt = true;
     try {
       bcrypt = require("bcrypt");
-      salt = bcrypt.genSaltSync(10);
+      globalSalt = bcrypt.genSaltSync(10);
       calipso.silly('NOTE: bcrypt is available.');
     }
     catch (e) {
@@ -60,7 +60,7 @@ function check(string,hash,cb) {
 function hash(string,key,cb) {
   loadBCrypt();
   if (bcrypt && !calipso.auth.migrate2pbkdf2) {
-    cb(null, bcrypt.hashSync(string,key));
+    cb(null, bcrypt.hashSync(string,globalSalt));
   }
   var salt = new Buffer(key);
   var items = [salt.toString('base64'), null];
