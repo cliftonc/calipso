@@ -15,7 +15,7 @@ var rootpath = process.cwd() + '/',
     path = require('path'),
     logo = require(path.join(rootpath, 'logo')),
     colors = require('colors'),
-    port = process.env.PORT || 3000,
+    port = process.env.PORT || 3000 || process.argv.port,
     restarts = 0,
     totalWorkers = 0,
     runningWorkers = 0;
@@ -31,8 +31,9 @@ else
  * Launch server instance, initially master, then each worker instance is forked.
  * All instances share same config.
  */
-function launchServer() {             
-
+function launchServer(inPort) {
+  if (inPort)
+    port = inPort;
   // Check if we are the master process
   if (cluster.isMaster) {
 
