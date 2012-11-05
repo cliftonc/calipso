@@ -36,7 +36,7 @@ Since node v0.5.3 has removed <code>require.paths</code>, in order to
 <code>require(‘lib/calipso’)</code>, you must include the following to
 your file:
 
-```javascript
+```js
         var rootpath = process.cwd() + '/',
           path = require('path'),
           calipso = require(path.join(rootpath, 'lib/calipso'));
