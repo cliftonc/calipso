@@ -23,10 +23,12 @@ MongoDB, ensure that you have the right compilers installed (for OSX,
 XCode4 will work, for Ubuntu, the build-essential and libssl-dev
 packages) and then use NPM:
 
+```sh
         npm install calipso -g
         calipso site /var/www/MySite
         cd /var/www/MySite
         calipso server
+```
 
 #### Using node v0.5.3 and later
 
@@ -34,10 +36,11 @@ Since node v0.5.3 has removed <code>require.paths</code>, in order to
 <code>require(‘lib/calipso’)</code>, you must include the following to
 your file:
 
+```node
         var rootpath = process.cwd() + '/',
           path = require('path'),
           calipso = require(path.join(rootpath, 'lib/calipso'));
-
+```
     That also goes for including anything that is based on the root path of the project directory.
 
 ### Development Steps
@@ -57,9 +60,10 @@ your file:
 
 #### Commands That Run Anywhere
 
+```sh
         calipso                            : Show this help file.
         calipso site <name|folder>         : Create site in folder.
-
+```
 
 #### Commands That Run In Site Folder
 
@@ -67,6 +71,7 @@ The most important of these at the moment is ‘modules check’ (this will
 ensure that all modules have all of their dependencies installed via
 npm), and should be run on site install.
 
+```sh
         calipso install                    : Re-run site install.
 
         calipso cluster --port=3000        : Run as cluster.
@@ -82,6 +87,7 @@ npm), and should be run on site install.
         calipso themes list                : List installed themes.
         calipso themes uninstall *theme    : Remove theme (delete from disk)
         calipso themes download *url       : Download (url: http://, gh: cliftonc/calipso-site-theme, repo: calipso-site).
+```
 
 ### Contributors
 
