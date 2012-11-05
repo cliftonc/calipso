@@ -37,9 +37,9 @@ Since node v0.5.3 has removed <code>require.paths</code>, in order to
 your file:
 
 ```js
-        var rootpath = process.cwd() + '/',
-          path = require('path'),
-          calipso = require(path.join(rootpath, 'lib/calipso'));
+var rootpath = process.cwd() + '/',
+  path = require('path'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 ```
     That also goes for including anything that is based on the root path of the project directory.
 
