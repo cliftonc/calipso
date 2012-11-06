@@ -972,6 +972,7 @@ function install(next) {
 
   // Create the default content types
   var Content = calipso.db.model('Content');
+debugger;
 
   var defaults = {
     status: 'published',
