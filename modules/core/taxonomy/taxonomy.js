@@ -41,13 +41,11 @@ function init(module,app,next) {
       function done() {
 
         // Define our taxonomy
-        var TaxonomyMenu = new calipso.lib.mongoose.Schema({
+        var TaxonomyMenu = calipso.db.define('TaxonomyMenu', {
           // Tag name is in _ID from MR
           "_id":{type:String},
           "value":{type: Number}
         });
-
-        calipso.db.model('TaxonomyMenu', TaxonomyMenu);
 
         // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTaxonomy);
@@ -111,16 +109,17 @@ function mapReduceTaxonomy(event, options, next) {
       out: 'taxonomymenus' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
-  calipso.db.db.executeDbCommand(command, function(err, dbres)
-  {
-    // Reset
-    calipso.storage.mr.taxonomy = false;
-    if (err) {
-      // Do Something!!
-      calipso.error(err);
-    }
+  // Figure out with juggling
+  // calipso.db.db.executeDbCommand(command, function(err, dbres)
+  // {
+  //   // Reset
+  //   calipso.storage.mr.taxonomy = false;
+  //   if (err) {
+  //     // Do Something!!
+  //     calipso.error(err);
+  //   }
     return next();
-  });
+  //});
 
 };
 
@@ -132,7 +131,7 @@ function taxonomy(req, res, template, block, next) {
   // Generate the menu from the taxonomy
   var TaxonomyMenu = calipso.db.model('TaxonomyMenu');
 
-  TaxonomyMenu.find({},function (err, tax) {
+  TaxonomyMenu.all({},function (err, tax) {
       // Render the item into the response
       tax.forEach(function(item) {
           //TODO: This needs to be improved!

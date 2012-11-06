@@ -239,7 +239,7 @@ th, td {
 }
 
 /* line 179, ../sass/installation.scss */
-#install-mongo-form, #install-user-form, #install-modules-form {
+#install-db-form, #install-user-form, #install-modules-form {
   background: #fff;
   border: 1px solid #d9d9d9;
   padding: 0 20px 20px;
@@ -251,7 +251,7 @@ th, td {
   border-radius: 5px;
 }
 /* line 184, ../sass/installation.scss */
-#install-mongo-form h4, #install-user-form h4, #install-modules-form h4 {
+#install-db-form h4, #install-user-form h4, #install-modules-form h4 {
   background: #2F5163;
   border: 1px solid #1f3540;
   color: #fff;
@@ -286,7 +286,7 @@ th, td {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
 }
 /* line 202, ../sass/installation.scss */
-#install-mongo-form h4:after, #install-user-form h4:after, #install-modules-form h4:after {
+#install-db-form h4:after, #install-user-form h4:after, #install-modules-form h4:after {
   content: ' ';
   position: absolute;
   width: 0;

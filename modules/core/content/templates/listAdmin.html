@@ -8,7 +8,7 @@
 </tr>
 <% contents.forEach(function(item) { %>
 <tr class='content-list-item content-list-item-<%- item.status %> content-type-<%- item.contentType %>'>
-    <td><a href='/content/show/<%= item._id %>'><%- item.title %></a></td>
+    <td><a href='/content/show/<%= item.id %>'><%- item.title %></a></td>
     <td><%- item.contentType %></td>
     <td><%- item.author %></td>
     <td><%- prettyDate(item.published) %></td>

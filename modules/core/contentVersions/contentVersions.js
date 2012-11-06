@@ -7,7 +7,6 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require('mongoose').Query,
   diff = require('./support/jsdiff');
 
 exports = module.exports = {
@@ -69,12 +68,10 @@ function init(module,app,next) {
       function done() {
 
         // Schema
-        var ContentVersion = new calipso.lib.mongoose.Schema({
+        var ContentVersion = new calipso.db.define('ContentVersion', {
           contentId:{type: String}
           // All other properties are dynamically mapped, hence use of .set / .get
         });
-
-        calipso.db.model('ContentVersion', ContentVersion);
 
         // Version event listeners
         calipso.e.post('CONTENT_CREATE', module.name, saveVersion);
@@ -131,10 +128,10 @@ function saveVersion(event, content, next) {
     // Create version and map fields
     var version = new ContentVersion();
 
-    calipso.utils.copyMongoObject(content, version, content.schema);
-    version.contentId = content._id;
+    calipso.utils.copyDbObject(content, version, content.schema);
+    version.contentId = content.id;
 
-    if(version.get("version")) {
+    if(version.version) {
       calipso.e.pre_emit('CONTENT_VERSION', version);
     }
 
@@ -172,7 +169,7 @@ function showVersion(req,res,template,block,next) {
     res.menu.adminToolbar.addMenuItem(req, {name:'Return',path:'return',permit:vPerm,url:'/content/show/' + contentId + '/versions',description:'Show content ...',security:[]});
     res.menu.adminToolbar.addMenuItem(req, {name:'Revert',path:'revert',permit:rPerm,url:'/content/show/' + contentId + '/version/' + id + '/revert',description:'Revert to this version of content ...',security:[]});
 
-    ContentVersion.findById(id,function(err,version) {
+    ContentVersion.find(id,function(err,version) {
 
         if(err && !version) {
           calipso.err(err);
@@ -207,10 +204,10 @@ function diffVersion(req,res,template,block,next) {
 
     var ContentVersion = calipso.db.model('ContentVersion');
 
-    ContentVersion.findById(a,function(err,versionA) {
+    ContentVersion.find(a,function(err,versionA) {
 
         if(!err && versionA) {
-          ContentVersion.findById(b,function(err,versionB) {
+          ContentVersion.find(b,function(err,versionB) {
               if(!err && versionB) {
                 // TODO : Use a proper HTML diff parser ... this only works for non-HTML
 
@@ -273,12 +270,10 @@ function listVersions(req,res,template,block,next) {
 
       var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
-      var query = new Query({contentId:id});
+      var query = new Query();
 
       // Initialise the block based on our content
-      ContentVersion.find(query)
-        .sort('updated', -1)
-        .find(function (err, versions) {
+      ContentVersion.find({where:{contentId:id}, sort:'updated'}, function (err, versions) {
 
               // Render the item into the response
               if(format === 'html') {
@@ -310,7 +305,7 @@ function revertVersion(req,res,template,block,next) {
     var Content = calipso.db.model('Content');
     var ContentVersion = calipso.db.model('ContentVersion');
 
-    ContentVersion.findById(id,function(err,version) {
+    ContentVersion.find(id,function(err,version) {
 
         
         if(err && !version) {
@@ -320,7 +315,7 @@ function revertVersion(req,res,template,block,next) {
         }
 
         // Copy over
-        Content.findById(contentId,function(err, content) {
+        Content.find(contentId,function(err, content) {
 
             if(err && !content) {
               calipso.err(err)
@@ -328,12 +323,12 @@ function revertVersion(req,res,template,block,next) {
               return;
             }
 
-           calipso.utils.copyMongoObject(version, content, content.schema);
+           calipso.utils.copyDbObject(version, content, content.schema);
           
            content.author = req.session.user.username;
-           content.set("comment",'Reverted to version: ' + content.updated);
+           content.comment = 'Reverted to version: ' + content.updated;
            content.updated = new Date();
-           content.set("version", 'Yes');
+           content.version = 'Yes';
 
            content.save(function(err) {
              res.redirect('/content/show/' + contentId);

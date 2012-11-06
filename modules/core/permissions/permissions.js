@@ -3,8 +3,7 @@
  */
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query;
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 /**
  * Routes this module will respond to
@@ -53,11 +52,10 @@ function init(module, app, next) {
   calipso.permission.Helper.addPermission("admin:permission:configuration","Manage role based permissions.");
 
 
-  var PermissionRole = new calipso.lib.mongoose.Schema({
+  var PermissionRole = calipso.db.define('PermissionRole', {
     permission:{type: String, required: true},
     role:{type: String, required: true}
   });
-  calipso.db.model('PermissionRole', PermissionRole);
 
   loadPermissionRoles(function(err) {
     next(err);   
@@ -78,7 +76,7 @@ function loadPermissionRoles(next) {
   perm.clearPermissionRoles();
 
   // Load the permissions
-  PermissionRole.find({}).sort('permission',1).sort('role',1).find(function (err, prs) {
+  PermissionRole.all({order: 'permission'}, function (err, prs) {
 
     prs.forEach(function(pr) {
       perm.addPermissionRole(pr.permission, pr.role);
@@ -101,7 +99,7 @@ function showPermissions(req, res, options, next) {
       Role = calipso.db.model('Role'),
       PermissionRole = calipso.db.model('PermissionRole');
 
-  Role.find({}).sort('name',1).find(function (err, roles) {
+  Role.all({sort:'name'}, function (err, roles) {
     var output = renderPermissionTable(structuredPermissions, roles);
     calipso.theme.renderItem(req, res, options.templateFn, options.block, {output: output}, next);
   });
@@ -192,11 +190,11 @@ function updatePermissions(req, res, options, next) {
 
 
       // Delete all the existing permissions
-      PermissionRole.find({}).find(function (err, prs) {
+      PermissionRole.all({}, function (err, prs) {
 
           // Delete all
           calipso.lib.async.map(prs, function(permission, next) {
-            PermissionRole.remove({_id: permission._id}, function(err) {
+            permission.destroy(function(err) {
               next(err);
             })
           }, function(err) {

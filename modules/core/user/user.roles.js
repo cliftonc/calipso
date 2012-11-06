@@ -4,7 +4,6 @@
  */
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  Query = require("mongoose").Query,
   calipso = require(path.join(rootpath, 'lib/calipso'));
 
 module.exports = {
@@ -52,13 +51,12 @@ function init(module, app, next) {
     calipso.lib.async.map(routes, function(options, next) { module.router.addRoute(options, next) }, function(err, data) {
 
         // Done adding routes
-        var Role = new calipso.lib.mongoose.Schema({
+        var Role = calipso.db.define('Role', {
           name:{type: String, required: true, unique:true},
           description:{type: String,"default":''},
           isAdmin:{type: Boolean, required: true, "default": false},
           isDefault:{type: Boolean, required: true, "default": false}
         });
-        calipso.db.model('Role', Role);
 
       // Load roles into calipso data
       if(app.config.get('installed')) {
@@ -87,7 +85,7 @@ function storeRoles(event, data, next) {
   calipso.data.roleArray = [];
   calipso.data.roles = {};
 
-  Role.find({}).sort('name',1).find(function (err, roles) {
+  Role.all({order: 'name'}, function (err, roles) {
 
     if(err || !roles) {
       // Don't throw error, just pass back failure.
@@ -197,7 +195,7 @@ function editRoleForm(req,res,template,block,next) {
   res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/user/role/edit/' + id,description:'Edit role ...',permit:calipso.permission.Helper.hasPermission("admin:user:role:edit")});
   res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/user/role/delete/' + id,description:'Delete role ...',permit:calipso.permission.Helper.hasPermission("admin:user:role:delete")});
 
-  Role.findById(id, function(err, c) {
+  Role.find(id, function(err, c) {
 
     if(err || c === null) {
 
@@ -235,7 +233,7 @@ function updateRole(req,res,template,block,next) {
       var Role = calipso.db.model('Role');
       var id = req.moduleParams.id;
 
-      Role.findById(id, function(err, c) {
+      Role.find(id, function(err, c) {
         if (!err && c) {
 
           calipso.form.mapFields(form.role,c);
@@ -282,7 +280,7 @@ function showRole(req,res,template,block,next) {
   var id = req.moduleParams.id;
   format = req.moduleParams.format || 'html';
 
-  Role.findById(id, function(err, role) {
+  Role.find(id, function(err, role) {
 
     if(err || role === null) {
 
@@ -329,16 +327,12 @@ function listRole(req,res,template,block,next) {
 
   var format = req.moduleParams.format || 'html';
 
-  var query = new Query();
-
   // Initialise the block based on our content
-  Role.count(query, function (err, count) {
+  Role.count({}, function (err, count) {
 
     var total = count;
 
-    Role.find(query)
-      .sort('role', 1)
-      .find(function (err, roles) {
+    Role.all({sort:'role'}, function (err, roles) {
 
         // Render the item into the response
         if(format === 'html') {
@@ -369,11 +363,11 @@ function deleteRole(req,res,template,block,next) {
   var Role = calipso.db.model('Role');
   var id = req.moduleParams.id;
 
-  Role.findById(id, function(err, c) {
+  Role.find(id, function(err, c) {
 
     calipso.e.pre_emit('USER_ROLE_DELETE',c);
 
-    Role.remove({_id:id}, function(err) {
+    c.destroy(function(err) {
       if(err) {
         req.flash('info',req.t('Unable to delete the role because {msg}.',{msg:err.message}));
         res.redirect("/user/role");

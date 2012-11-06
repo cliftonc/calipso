@@ -6,8 +6,7 @@
 
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  Query = require("mongoose").Query;
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 
 /**
  * Define the routes that this module will repsond to.
@@ -76,7 +75,7 @@ function init(module,app,next) {
   calipso.permission.Helper.addPermission("admin:content:type","Content Types",true);
 
   // Schemea
-  var ContentType = new calipso.lib.mongoose.Schema({
+  var ContentType = calipso.db.define('ContentType', {
     contentType:{type: String, required: true, unique: true, "default": 'default', index: true},
     description:{type: String, required: true, "default": 'Default Content Type'},
     layout:{type: String, required: true, "default": 'default'},
@@ -88,8 +87,6 @@ function init(module,app,next) {
     viewTemplate:{type: String, "default": ''},
     listTemplate:{type: String, "default": ''},        
   });
-
-  calipso.db.model('ContentType', ContentType);
 
   // Cache the content types in the calipso.data object
   if(app.config.get('installed')) {
@@ -340,7 +337,7 @@ function showContentType(req,res,template,block,next) {
       res.menu.adminToolbar.addMenuItem(req, {name:'Edit',path:'edit',url:'/content/type/edit/' + id,description:'Edit content type ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:edit")});
       res.menu.adminToolbar.addMenuItem(req, {name:'Delete',path:'delete',url:'/content/type/delete/' + id,description:'Delete content type ...',permit:calipso.permission.Helper.hasPermission("admin:content:type:delete")});
 
-      item = {id:content._id,type:'content',meta:content.toObject()};
+      item = {id:content.id,type:'content',meta:content.toObject()};
 
     }
 
@@ -384,16 +381,12 @@ function listContentType(req,res,template,block,next) {
 
   var format = req.moduleParams.format || 'html';
 
-  var query = new Query();
-
   // Initialise the block based on our content
-  ContentType.count(query, function (err, count) {
+  ContentType.count({}, function (err, count) {
 
     var total = count;
 
-    ContentType.find(query)
-      .sort('contentType', 1)
-      .find(function (err, contents) {
+    ContentType.all({sort:'contentType'}, function (err, contents) {
 
         // Render the item into the response
         if(format === 'html') {
@@ -428,7 +421,7 @@ function deleteContentType(req,res,template,block,next) {
 
     calipso.e.pre_emit('CONTENT_TYPE_DELETE',c);
 
-    ContentType.remove({_id:id}, function(err) {
+    c.destroy(function(err) {
       if(err) {
         req.flash('info',req.t('Unable to delete the content type because {msg}.',{msg:err.message}));
         res.redirect("/content/type");
@@ -491,7 +484,7 @@ function storeContentTypes(event,contentType,next) {
   delete calipso.data.contentTypes;
   calipso.data.contentTypes = [];
 
-  ContentType.find({}).sort('contentType',1).find(function (err, types) {
+  ContentType.all({order: 'contentType'}, function (err, types) {
     if(err || !types) {
       
       // Don't throw error, just pass back failure.

@@ -33,13 +33,11 @@ function init(module,app,next) {
       function done() {
 
         // Define our tag clouds
-        var Tag = new calipso.lib.mongoose.Schema({
+        var Tag = calipso.db.define('Tag', {
           // Tag name is in _ID from MR
           "_id":{type:String},
           "value":{type: Number}
         });
-
-        calipso.db.model('Tag', Tag);
 
         // Register for events
         calipso.e.post('CONTENT_CREATE',module.name,mapReduceTagCloud);
@@ -92,18 +90,19 @@ function mapReduceTagCloud(event,options,next) {
       out: 'tags' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
-  calipso.db.db.executeDbCommand(command, function(err, dbres)
-  {
+  // Figure out with juggling
+  // calipso.db.db.executeDbCommand(command, function(err, dbres)
+  // {
 
-    // Reset
-    calipso.storage.mr.tagcloud = false;
-    if (err) {
-      // Do Something!!
-      calipso.error(err);
-    }
+  //   // Reset
+  //   calipso.storage.mr.tagcloud = false;
+  //   if (err) {
+  //     // Do Something!!
+  //     calipso.error(err);
+  //   }
     return next();
 
-  });
+  //});
 
  };
 
@@ -114,8 +113,7 @@ function tagCloud(req,res,template,block,next) {
 
   var Tag = calipso.db.model('Tag');
 
-  Tag.find({})
-   .find(function (err, tags) {
+  Tag.all({}, function (err, tags) {
 
       // Render the item into the response
       calipso.theme.renderItem(req,res,template,block,{tags:tags},next);

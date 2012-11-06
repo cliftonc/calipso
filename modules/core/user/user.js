@@ -77,7 +77,7 @@ function init(module, app, next) {
     },
     function done() {
 
-      var User = new calipso.lib.mongoose.Schema({
+      var User = calipso.db.define('User', {
         // Single default property
         username:{type: String, required: true, unique:true},
         fullname:{type: String, required: false},
@@ -88,11 +88,9 @@ function init(module, app, next) {
         showEmail:{type: String, "default":'registered'},
         about:{type: String},
         language:{type: String, "default":'en'},
-        roles:[String],
+        roles:{type: Array},
         locked:{type: Boolean, "default":false}
       });
-
-      calipso.db.model('User', User);
 
       // Initialise roles
       roles.init(module, app, next);
@@ -142,7 +140,7 @@ function userDisplay(req, username, next) {
   var User = calipso.db.model('User');
   var responseData = {name:'',email:''};
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
 
@@ -413,7 +411,7 @@ function updateUserForm(req, res, template, block, next) {
     return;
   }
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     // Allow admins to register other admins
     if(req.session.user && req.session.user.isAdmin) {
@@ -459,7 +457,7 @@ function lockUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
@@ -493,7 +491,7 @@ function unlockUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
       req.flash('error',req.t('There was an error unlocking that user account.'));
@@ -595,7 +593,7 @@ function updateUserProfile(req, res, template, block, next) {
       var old_password = form.user.old_password;
       delete form.user.old_password;
 
-      User.findOne({username:username}, function(err, u) {
+      User.findOne({where:{username:username}}, function(err, u) {
         if(err) {
           req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
           if(res.statusCode != 302) {
@@ -722,7 +720,7 @@ function loginUser(req, res, template, block, next) {
       var username = form.user.username;
       var found = false;
 
-      User.findOne({username:username},function (err, user) {
+      User.findOne({where:{username:username}},function (err, user) {
         if(user) {
           calipso.lib.crypto.check(form.user.password,user.hash, function (err, ok) {
             if(user && !user.locked && ok) {
@@ -758,6 +756,7 @@ function loginUser(req, res, template, block, next) {
 function isUserAdmin(user) {
   // Set admin
   var isAdmin = false;
+  if (!user.roles) return isAdmin;
   user.roles.forEach(function(role) {
     if(calipso.data.roles[role] && calipso.data.roles[role].isAdmin){
       isAdmin = true;
@@ -772,7 +771,7 @@ function isUserAdmin(user) {
 function createUserSession(req, res, user, next) {
   var isAdmin = isUserAdmin(user);
   // Create session
-  req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
+  req.session.user = {username:user.username, isAdmin:isAdmin, id:user.id,language:user.language,roles:user.roles};
   req.session.save(function(err) {
     next(err);
   });
@@ -790,7 +789,7 @@ function logoutUser(req, res, template, block, next) {
     var User = calipso.db.model('User');
     if (req.logout)
       req.logout();
-    User.findOne({username:req.session.user.username}, function(err, u) {
+    User.findOne({where:{username:req.session.user.username}}, function(err, u) {
 
       req.session.user = null;
       req.session.save(function(err) {
@@ -939,7 +938,7 @@ function userProfile(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     if(err || !u) {
       req.flash('error',req.t('Could not locate user: {user}',{user:username}));
@@ -992,12 +991,12 @@ function deleteUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({where:{username:username}}, function(err, u) {
 
     // Raise USER_DELETE event
     calipso.e.pre_emit('USER_DELETE',u);
 
-    User.remove({_id:u._id}, function(err) {
+    u.destroy(function(err) {
       if(err) {
         req.flash('info',req.t('Unable to delete the user because {msg}',{msg:err.message}));
         res.redirect("/user/list");
@@ -1018,7 +1017,7 @@ function deleteUser(req, res, template, block, next) {
  * Helper function for link to user
  */
 function userLink(req,user) {
-  return calipso.link.render({id:user._id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});
+  return calipso.link.render({id:user.id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});
 }
 
 function roleLink(req,role) {
@@ -1042,19 +1041,15 @@ function listUsers(req,res,template,block,next) {
   var limit = req.moduleParams.limit ? parseInt(req.moduleParams.limit) : 5;
   var sortBy = req.moduleParams.sortBy;
 
-  var query = new Query();
-
   // Initialise the block based on our content
-  User.count(query, function (err, count) {
+  User.count({}, function (err, count) {
 
     var total = count;
 
-    var qry = User.find(query).skip(from).limit(limit);
-
     // Add sort
-    qry = calipso.table.sortQuery(qry,sortBy);
+    //qry = calipso.table.sortQuery(qry,sortBy);
 
-    qry.find(function (err, users) {
+    var qry = User.all({limit:limit,skip:from}, function (err, users) {
 
       // Render the item into the response
       if(format === 'html') {
@@ -1062,7 +1057,7 @@ function listUsers(req,res,template,block,next) {
         var table = {
           id:'user-list',sort:true,cls:'table-admin',
           columns:[
-            {name:'_id',sort:'username',label:'User',fn:userLink},
+            {name:'id',sort:'username',label:'User',fn:userLink},
             {name:'fullname',label:'Full Name'},
             {name:'roles',label:'Roles',sortable:false},
             {name:'email',label:'Email',fn:function(req,row) {
@@ -1174,7 +1169,7 @@ function listRoles(req,res,template,block,next) {
  */
 function install(next) {
 
-  // Create the default content types
+  // Create the default content users
   var User = calipso.db.model('User');
 
   calipso.lib.step(
