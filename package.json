@@ -1,7 +1,7 @@
 {
   "name": "calipso",
   "description": "A NodeJS CMS",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "homepage": "http://calip.so",
   "repository": {
     "type": "git",
