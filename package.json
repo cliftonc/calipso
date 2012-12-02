@@ -51,14 +51,14 @@
     "async": "0.1.x",
     "hook.io": "0.8.x",
     "mailer": "~0.6.4",
-    "everyauth": "0.3.x"
+    "everyauth": "0.3.x",
+    "adm-zip":"0.1.x"
   },
   "optionalDependencies": {
     "bcrypt": "0.7.x",
     "knox": "0.0.x",
-    "node-expat": "1.4.x",
-    "imagemagick": "0.1.x",
-    "zipfile":"0.3.x"
+    "node-expat": "git://github.com/astro/node-expat.git",
+    "imagemagick": "0.1.x"
   },
   "scripts": {
     "install" : "bash ./bin/install.sh",
