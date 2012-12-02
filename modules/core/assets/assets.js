@@ -189,7 +189,7 @@ function init(module, app, next) {
               var s = asset.key.split('/');
               bucket = s[0];
             }
-            var expat = require('node-expat');
+            var nodeXml = require('node-xml');
             var knox = require('knox').createClient({
               key: calipso.config.getModuleConfig("assets", "s3key"),
               secret: calipso.config.getModuleConfig("assets", "s3secret"),
@@ -206,7 +206,6 @@ function init(module, app, next) {
             }
             knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response', function(s3res){
               s3res.setEncoding('utf8');
-              var parser = new expat.Parser();
               var items = [];
               var item = null;
               var dirs = {};
@@ -215,85 +214,87 @@ function init(module, app, next) {
               var message = null;
               var code = null;
               var Asset = calipso.db.model('Asset');
-              parser.addListener('startElement', function(name, attrs) {
-                if (name === 'Error') {
-                  property = 'error';
-                } else if (name === 'Code') {
-                  property = 'code';
-                } else if (name === 'Message') {
-                  property = 'message';
-                } else if (name === 'Contents' || name == 'Bucket') {
-                  item = {};
-                } else if (name === 'Key') {
-                  property = 'key';
-                } else if (name === 'CreationDate') {
-                  property = 'created';
-                } else if (name === 'LastModified') {
-                  property = 'updated';
-                } else if (name === 'ETag') {
-                  property = 'etag';
-                } else if (name === 'Name') {
-                  property = 'key';
-                } else if (name === 'Size') {
-                  property = 'size';
-                } else if (name === 'DisplayName')
-                  property = 'author';
-              });
-              parser.addListener('endElement', function(name) {
-                if (name === 'Error') {
-                  callback({code:code, message:message}, null, asset);
-                } else if (name === 'Contents' || name == 'Bucket') {
-                  if (!item.author)
-                    item.author = owner;
-                  if (item.key.substring(item.key.length - 1) === '/')
-                    dirs[item.key] = true;
-                  else if (asset) {
-                    var paths = item.key.split('/');
-                    paths.splice(paths.length - 1, 1);
-                    paths = paths.join('/') + '/';
-                    if (!dirs[paths] && paths !== '/') {
-                      var fakeItem = {key:paths,size:0,isfolder:true,author:item.author};
-                      items.push(fakeItem);
-                      dirs[paths] = true;
-                    }
-                  }
-                  items.push(item);
-                  item = null;
-                } else if (name === 'ListBucketResult' || name === 'ListAllMyBucketsResult') {
-                  callback(null, items, asset, atRoot, next);
-                }
-              });
-              parser.addListener('text', function(s) {
-                if (property === 'code')
-                  code = s;
-                if (property === 'message')
-                  message = s;
-                if (property === 'author')
-                  owner = s;
-                if (property && item) {
-                  if (property === 'key') {
-                    if (asset)
-                      item[property] = bucket + '/' + s;
-                    else
-                      item[property] = s + '/';
-                  } else if (property === 'Size') {
-                    if (/\/$/.test(item.Key))
-                      item.IsDirectory = true;
-                    else {
-                      item.IsFile = true;
-                    }
-                    item[property] = s;
-                  } else
-                    item[property] = s;
-                  property = null;
-                }
-              });
+              var parser = new nodeXml.SaxParser(function (cb) {
+								cb.onStartElementNS(function(name, attrs, prefix, uri, namespaces) {
+									if (name === 'Error') {
+										property = 'error';
+									} else if (name === 'Code') {
+										property = 'code';
+									} else if (name === 'Message') {
+										property = 'message';
+									} else if (name === 'Contents' || name == 'Bucket') {
+										item = {};
+									} else if (name === 'Key') {
+										property = 'key';
+									} else if (name === 'CreationDate') {
+										property = 'created';
+									} else if (name === 'LastModified') {
+										property = 'updated';
+									} else if (name === 'ETag') {
+										property = 'etag';
+									} else if (name === 'Name') {
+										property = 'key';
+									} else if (name === 'Size') {
+										property = 'size';
+									} else if (name === 'DisplayName')
+										property = 'author';
+								});
+								cb.onEndElementNS(function(name, prefix, uri) {
+									if (name === 'Error') {
+										callback({code:code, message:message}, null, asset);
+									} else if (name === 'Contents' || name == 'Bucket') {
+										if (!item.author)
+											item.author = owner;
+										if (item.key.substring(item.key.length - 1) === '/')
+											dirs[item.key] = true;
+										else if (asset) {
+											var paths = item.key.split('/');
+											paths.splice(paths.length - 1, 1);
+											paths = paths.join('/') + '/';
+											if (!dirs[paths] && paths !== '/') {
+												var fakeItem = {key:paths,size:0,isfolder:true,author:item.author};
+												items.push(fakeItem);
+												dirs[paths] = true;
+											}
+										}
+										items.push(item);
+										item = null;
+									} else if (name === 'ListBucketResult' || name === 'ListAllMyBucketsResult') {
+										callback(null, items, asset, atRoot, next);
+									}
+								});
+								cb.onCharacters(function(s) {
+									if (property === 'code')
+										code = s;
+									if (property === 'message')
+										message = s;
+									if (property === 'author')
+										owner = s;
+									if (property && item) {
+										if (property === 'key') {
+											if (asset)
+												item[property] = bucket + '/' + s;
+											else
+												item[property] = s + '/';
+										} else if (property === 'Size') {
+											if (/\/$/.test(item.Key))
+												item.IsDirectory = true;
+											else {
+												item.IsFile = true;
+											}
+											item[property] = s;
+										} else
+											item[property] = s;
+										property = null;
+									}
+								});
+							});
               s3res.on('error', function(err) {
                 callback(err, null, null, next);
               });
               buffer = new Buffer('');
               s3res.on('end', function() {
-                parser.parse(buffer);
+                parser.parseString(buffer.toString());
               });
               s3res.on('data', function(chunk){
                 buffer += chunk;
