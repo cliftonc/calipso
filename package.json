@@ -41,7 +41,6 @@
     "request":"2.9.x",
     "pool":"0.4.x",
     "mime":"1.2.x",
-    "cluster": "0.7.x",
     "step": "0.0.x",
     "optimist":"0.3.x",
     "colors":"0.6.x",

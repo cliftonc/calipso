@@ -8,7 +8,8 @@
  *
  */
 
-var req = require('express/lib/request');
+var req = require('express/lib/request'),
+    utils = require('express/lib/utils');
 
  var flashFormatters = req.flashFormatters = {
    s: function(val){
@@ -98,7 +99,7 @@ var rootpath = process.cwd() + '/',
   calipso = require(nodepath.join(rootpath, 'lib/calipso')),
   translate = require(nodepath.join(rootpath, 'i18n/translate')),
   logo = require(nodepath.join(rootpath, 'logo')),
-  everyauth = require("everyauth");
+  everyauth = require('everyauth');
 
 // To enable everyauth debugging.
 //everyauth.debug = true;
