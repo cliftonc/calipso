@@ -20,32 +20,58 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="admin.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/core/admin/admin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="logo.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logo.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="0" selection-start="611" selection-end="611" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app-cluster.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app-cluster.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="58" column="48" selection-start="2237" selection-end="2237" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="42" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0">
+            <state line="100" column="35" selection-start="2765" selection-end="2765" vertical-scroll-proportion="-5.4414225">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/modules/core/user/user.js">
+      <file leaf-file-name="JasmineAdapter-1.1.2.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JasmineAdapter-1.1.2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="726" column="0" selection-start="24675" selection-end="24675" vertical-scroll-proportion="0.33333334">
+            <state line="117" column="4" selection-start="2727" selection-end="2727" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="development.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/conf/development.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="14" selection-start="734" selection-end="734" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1354882935000" expanded="true" signature="255:669" placeholder="{&quot;workers&quot;: 0...}" />
-                <marker date="1354882935000" expanded="true" signature="734:853" placeholder="{&quot;maxListeners&quot;: 500...}" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -58,6 +84,7 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
+    <option name="SYNC_SETTING" value="DONT" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -65,12 +92,19 @@
       <list>
         <option value="$PROJECT_DIR$/conf/development.json" />
         <option value="$PROJECT_DIR$/modules/core/user/user.js" />
+        <option value="$PROJECT_DIR$/test/lib.calipso.js" />
+        <option value="$PROJECT_DIR$/lib/core/Configuration.js" />
+        <option value="$PROJECT_DIR$/logo.js" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
+  <component name="NamedScopeManager">
+    <scope name="Calipso" pattern="file:*&amp;&amp;!file:logs/*&amp;&amp;!file:modules/community//*&amp;&amp;!file:*//templates//*&amp;&amp;!file:node_modules//*" />
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="112" />
-    <option name="y" value="147" />
+    <option name="x" value="75" />
+    <option name="y" value="22" />
     <option name="width" value="1435" />
     <option name="height" value="1005" />
   </component>
@@ -81,10 +115,16 @@
           <State>
             <id />
           </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>JsTestDriverJavaScript</id>
+          </State>
         </expanded-state>
         <selected-state>
           <State>
-            <id>CoffeeScript</id>
+            <id>JasmineAdapterSupport</id>
           </State>
         </selected-state>
       </profile-state>
@@ -116,7 +156,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -188,6 +227,28 @@
               <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -205,13 +266,14 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="options.lastSelected" value="project.propVCSSupport.VCSs.Git" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app.js" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -259,26 +321,46 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="112" y="147" width="1435" height="1005" extended-state="0" />
-    <editor active="false" />
+    <frame x="75" y="22" width="1435" height="1005" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.6062323" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.49716714" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.60067874" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39932126" sideWeight="0.49433428" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39932126" sideWeight="0.49150142" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39932126" sideWeight="0.48866856" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39932126" sideWeight="0.5007082" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39932126" sideWeight="0.50354105" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.49716714" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -336,37 +418,148 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/modules/community/screenswiki/public/js/prettify/prettify.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="233" selection-start="17417" selection-end="17417" vertical-scroll-proportion="0.7121535">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/hook.io/node_modules/socket.io-client/lib/vendor/web-socket-js/flash-src/com/hurlant/crypto/tls/BulkCiphers.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="20" selection-start="3233" selection-end="3233" vertical-scroll-proportion="0.43568465">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="14" selection-start="177" selection-end="177" vertical-scroll-proportion="0.33195022">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/community/screenswiki/public/js/jquery-1.4.4.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="277" selection-start="644" selection-end="644" vertical-scroll-proportion="0.030549899">
+          <folding>
+            <marker date="1352057040000" expanded="false" signature="11499:11532" placeholder="..." />
+            <marker date="1352057040000" expanded="false" signature="13294:13304" placeholder="..." />
+            <marker date="1352057040000" expanded="false" signature="13394:13416" placeholder="..." />
+            <marker date="1352057040000" expanded="false" signature="75319:75412" placeholder="..." />
+            <marker date="1352057040000" expanded="false" signature="75445:75538" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/client/js/jquery-1.7.2.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="17740" selection-start="50205" selection-end="50205" vertical-scroll-proportion="0.061099797">
+          <folding>
+            <marker date="1344288888000" expanded="false" signature="17421:17452" placeholder="..." />
+            <marker date="1344288888000" expanded="false" signature="20576:20586" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/jscoverage/tests/javascript.expected/javascript-with.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="0" selection-start="763" selection-end="763" vertical-scroll-proportion="0.6639511">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/jade/testing/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="204" selection-end="204" vertical-scroll-proportion="0.14880952">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/everyauth/node_modules/openid/openid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="724" column="35" selection-start="17974" selection-end="17974" vertical-scroll-proportion="0.31771895">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/mysql/test/unit/legacy/test-parser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="57" selection-start="1308" selection-end="1308" vertical-scroll-proportion="0.31746033">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/downloaded/calipso/public/js/prettify/lang-apollo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="441" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.030549899">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/core/admin/admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="611" selection-end="611" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JasmineAdapter-1.1.2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="4" selection-start="2727" selection-end="2727" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app-cluster.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/development.json">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="14" selection-start="734" selection-end="734" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1354882935000" expanded="true" signature="255:669" placeholder="{&quot;workers&quot;: 0...}" />
-            <marker date="1354882935000" expanded="true" signature="734:853" placeholder="{&quot;maxListeners&quot;: 500...}" />
-          </folding>
+        <state line="58" column="48" selection-start="2237" selection-end="2237" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="42" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0">
+        <state line="100" column="35" selection-start="2765" selection-end="2765" vertical-scroll-proportion="-5.4414225">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/core/user/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="726" column="0" selection-start="24675" selection-end="24675" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <last-edited>Calipso</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+          <order>
+            <scope name="Calipso" />
+          </order>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
 

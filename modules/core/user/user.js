@@ -212,7 +212,7 @@ function loginForm(req, res, template, block, next) {
     calipso.theme.renderItem(req, res, template, block, {form:form},next);
   });
 
-};
+}
 
 /**
  * Login form
@@ -231,7 +231,7 @@ function loginPage(req, res, template, block, next) {
     calipso.theme.renderItem(req, res, template, block, {form:form},next);
   });
 
-};
+}
 
 function roleForm(req, res, template, block, next) {
 
@@ -253,7 +253,7 @@ function roleForm(req, res, template, block, next) {
           {label:'Description', name:'role[description]', type:'text', description:'Enter the description of the role.'},
           {label:'Is Default', name:'role[isDefault]', type:'checkbox', description:'Is this a default role.'},
           {label:'Is Admin', name:'role[isAdmin]', type:'checkbox', description:'Is a user with this role an admin.'}
-        ],
+        ]
       }],
       buttons:[
         {name:'submit', type:'submit', value:'Register'}
@@ -271,7 +271,7 @@ function roleForm(req, res, template, block, next) {
     });
   } else
     finish(null);
-};
+}
 
 /**
  * Register form
@@ -304,7 +304,7 @@ function registerUserForm(req, res, template, block, next) {
           {label:'Registered Users Only',value:'registered'},
           {label:'Public',value:'public'}
         ], description:'Decide how your profile displays your email.'}
-      ],
+      ]
     }],
     buttons:[
       {name:'submit', type:'submit', value:'Register'}
@@ -335,7 +335,7 @@ function registerUserForm(req, res, template, block, next) {
     calipso.theme.renderItem(req, res, form, block, {}, next);
   });
 
-};
+}
 
 /**
  * Update user form
@@ -449,7 +449,7 @@ function updateUserForm(req, res, template, block, next) {
 
   });
 
-};
+}
 
 /**
  * Lock a user account
@@ -706,8 +706,7 @@ function updateUserProfile(req, res, template, block, next) {
     }
   });
 
-};
-
+}
 
 
 /**

@@ -16,48 +16,47 @@ var req = require('express/lib/request');
    }
  };
 
- /**
-  * Queue flash `msg` of the given `type`.
-  *
-  * Examples:
-  *
-  *      req.flash('info', 'email sent');
-  *      req.flash('error', 'email delivery failed');
-  *      req.flash('info', 'email re-sent');
-  *      // => 2
-  *
-  *      req.flash('info');
-  *      // => ['email sent', 'email re-sent']
-  *
-  *      req.flash('info');
-  *      // => []
-  *
-  *      req.flash();
-  *      // => { error: ['email delivery failed'], info: [] }
-  *
-  * Formatting:
-  *
-  * Flash notifications also support arbitrary formatting support.
-  * For example you may pass variable arguments to `req.flash()`
-  * and use the %s specifier to be replaced by the associated argument:
-  *
-  *     req.flash('info', 'email has been sent to %s.', userName);
-  *
-  * To add custom formatters use the `exports.flashFormatters` object.
-  *
-  * @param {String} type
-  * @param {String} msg
-  * @return {Array|Object|Number}
-  * @api public
-  */
-
   function miniMarkdown(str){
     return String(str)
       .replace(/(__|\*\*)(.*?)\1/g, '<strong>$2</strong>')
       .replace(/(_|\*)(.*?)\1/g, '<em>$2</em>')
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-  };
+  }
 
+/**
+ * Queue flash `msg` of the given `type`.
+ *
+ * Examples:
+ *
+ *      req.flash('info', 'email sent');
+ *      req.flash('error', 'email delivery failed');
+ *      req.flash('info', 'email re-sent');
+ *      // => 2
+ *
+ *      req.flash('info');
+ *      // => ['email sent', 'email re-sent']
+ *
+ *      req.flash('info');
+ *      // => []
+ *
+ *      req.flash();
+ *      // => { error: ['email delivery failed'], info: [] }
+ *
+ * Formatting:
+ *
+ * Flash notifications also support arbitrary formatting support.
+ * For example you may pass variable arguments to `req.flash()`
+ * and use the %s specifier to be replaced by the associated argument:
+ *
+ *     req.flash('info', 'email has been sent to %s.', userName);
+ *
+ * To add custom formatters use the `exports.flashFormatters` object.
+ *
+ * @param {String} type
+ * @param {String} msg
+ * @return {Array|Object|Number}
+ * @api public
+ */
  req.flash = function(type, msg){
    if (this.session === undefined) throw Error('req.flash() requires sessions');
    var msgs = this.session.flash = this.session.flash || {};
@@ -70,6 +69,7 @@ var req = require('express/lib/request');
      msg = msg.replace(/%([a-zA-Z])/g, function(_, format){
        var formatter = formatters[format];
        if (formatter) return formatter(utils.escape(args[i++]));
+       return null;
      });
      return (msgs[type] = msgs[type] || []).push(msg);
    } else if (type) {
@@ -90,15 +90,14 @@ try {
 }
 
 var rootpath = process.cwd() + '/',
-  path = require('path'),
   fs = require('fs'),
   express = require('express'),
-  nodepath = require('path'),
   stylus = require('stylus'),
   colors = require('colors'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  translate = require(path.join(rootpath, 'i18n/translate')),
-  logo = require(path.join(rootpath, 'logo')),
+  nodepath = require('path'),
+  calipso = require(nodepath.join(rootpath, 'lib/calipso')),
+  translate = require(nodepath.join(rootpath, 'i18n/translate')),
+  logo = require(nodepath.join(rootpath, 'logo')),
   everyauth = require("everyauth");
 
 // To enable everyauth debugging.
@@ -119,10 +118,10 @@ function calipsoFindOrCreateUser(user, sess, promise) {
       delete sess._pending;
       return calipso.lib.user.createUserSession(req, null, user, function(err) {
         if(err) { calipso.error("Error saving session: " + err); return promise.fail(err); }
-        promise.fulfill(user);
+        return promise.fulfill(user);
       });
     } else
-      promise.fulfill(user);
+      return promise.fulfill(user);
   }
   
   User.findOne({username:user.username}, function (err, u) {
@@ -138,11 +137,12 @@ function calipsoFindOrCreateUser(user, sess, promise) {
     
     calipso.e.pre_emit('USER_CREATE',u);
 
-    u.save(function(err) {
+    return u.save(function(err) {
       if (err) return promise.fail(err);
       calipso.e.post_emit('USER_CREATE',u);
       // If not already redirecting, then redirect
       finishUser(u);
+      return null;
     });
   });
   return promise;
@@ -326,7 +326,7 @@ function bootApplication(cluster, next) {
     app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
     // Core calipso router
-    calipso.init(app, function() {
+    return calipso.init(app, function() {
 
       // Add the calipso mw
       app.use(calipso.routingFn());

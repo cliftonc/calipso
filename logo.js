@@ -19,5 +19,5 @@ exports.print = function() {
   console.log("               |_|                 ".magenta.bold);
   console.log("");
 
- }
+};
 
