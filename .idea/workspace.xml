@@ -24,33 +24,6 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="admin.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/core/admin/admin.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="logo.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logo.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="611" selection-end="611" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app-cluster.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app-cluster.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,16 +45,63 @@
       <file leaf-file-name="nodeunit-intellij-starter.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file:///private/var/folders/9p/nts3rwvx1bd8jtvn4jq5bvxw0000gn/T/nodeunit-intellij-starter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="364" column="31" selection-start="12814" selection-end="12814" vertical-scroll-proportion="0.0">
+            <state line="359" column="1" selection-start="12453" selection-end="12453" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="lib.calipso.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Menu.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/core/Menu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="40" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calipsoHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/helpers/calipsoHelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="8" selection-start="1525" selection-end="1525" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Configuration.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/core/Configuration.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="0" selection-start="277" selection-end="277" vertical-scroll-proportion="0.5084746">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calipso.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/calipso.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="67" column="4" selection-start="1649" selection-end="1649" vertical-scroll-proportion="-0.15384616">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="require.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/helpers/require.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lib.calipso.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/lib.calipso.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="4" selection-start="130" selection-end="130" vertical-scroll-proportion="0.14478764">
+            <state line="13" column="11" selection-start="403" selection-end="403" vertical-scroll-proportion="-7.5">
               <folding />
             </state>
           </provider>
@@ -91,15 +111,6 @@
         <entry file="file://$PROJECT_DIR$/test/config.test.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="18" column="0" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JasmineAdapter-1.1.2.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JasmineAdapter-1.1.2.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="117" column="4" selection-start="2727" selection-end="2727" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -121,7 +132,6 @@
       <list>
         <option value="$PROJECT_DIR$/conf/development.json" />
         <option value="$PROJECT_DIR$/modules/core/user/user.js" />
-        <option value="$PROJECT_DIR$/lib/core/Configuration.js" />
         <option value="$PROJECT_DIR$/logo.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/testConfig.yaml" />
@@ -129,6 +139,9 @@
         <option value="/private/var/folders/9p/nts3rwvx1bd8jtvn4jq5bvxw0000gn/T/nodeunit-intellij-starter.js" />
         <option value="$PROJECT_DIR$/test/lib.calipso.js" />
         <option value="$PROJECT_DIR$/test/config.test.js" />
+        <option value="$PROJECT_DIR$/test/helpers/calipsoHelper.js" />
+        <option value="$PROJECT_DIR$/lib/core/Menu.js" />
+        <option value="$PROJECT_DIR$/lib/core/Configuration.js" />
       </list>
     </option>
   </component>
@@ -231,6 +244,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -294,6 +325,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -375,7 +438,7 @@
       <ConfigurationWrapper RunnerId="NodeJS.run" />
       <method />
     </configuration>
-    <configuration default="false" name="Calipso Tests" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="node_modules/mocha/bin/_mocha" working-dir="$PROJECT_DIR$">
+    <configuration default="false" name="Calipso Tests" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="node_modules/mocha/bin/_mocha" application-parameters="-R min -c -w" working-dir="$PROJECT_DIR$">
       <RunnerSettings RunnerId="NodeJS.run" />
       <ConfigurationWrapper RunnerId="NodeJS.run" />
       <method />
@@ -455,18 +518,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="75" y="22" width="1435" height="1005" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.6062323" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.49716714" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.49716714" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.38235295" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.67081445" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39932126" sideWeight="0.4780453" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39932126" sideWeight="0.48016998" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.23755656" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32918552" sideWeight="0.34560907" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32918552" sideWeight="0.64943343" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32918552" sideWeight="0.34915015" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32918552" sideWeight="0.6458923" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JsTestDriver Server" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39932126" sideWeight="0.51203966" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -531,31 +594,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/jscoverage/tests/javascript.expected/javascript-with.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="763" selection-end="763" vertical-scroll-proportion="0.6639511" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/jade/testing/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="204" selection-end="204" vertical-scroll-proportion="0.14880952" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/everyauth/node_modules/openid/openid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="724" column="35" selection-start="17974" selection-end="17974" vertical-scroll-proportion="0.31771895" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/mysql/test/unit/legacy/test-parser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="57" selection-start="1308" selection-end="1308" vertical-scroll-proportion="0.31746033" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/downloaded/calipso/public/js/prettify/lang-apollo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="441" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.030549899" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/core/admin/admin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -612,9 +650,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///private/var/folders/9p/nts3rwvx1bd8jtvn4jq5bvxw0000gn/T/nodeunit-intellij-starter.js">
+    <entry file="file://$PROJECT_DIR$/test/lib.calipso.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="364" column="31" selection-start="12814" selection-end="12814" vertical-scroll-proportion="0.0">
+        <state line="13" column="11" selection-start="403" selection-end="403" vertical-scroll-proportion="-7.5">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/helpers/require.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -626,9 +671,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/lib.calipso.js">
+    <entry file="file://$PROJECT_DIR$/lib/calipso.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="4" selection-start="130" selection-end="130" vertical-scroll-proportion="0.14478764">
+        <state line="67" column="4" selection-start="1649" selection-end="1649" vertical-scroll-proportion="-0.15384616">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/helpers/calipsoHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="8" selection-start="1525" selection-end="1525" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///private/var/folders/9p/nts3rwvx1bd8jtvn4jq5bvxw0000gn/T/nodeunit-intellij-starter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="359" column="1" selection-start="12453" selection-end="12453" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/core/Menu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="40" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/core/Configuration.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="277" selection-end="277" vertical-scroll-proportion="0.5084746">
           <folding />
         </state>
       </provider>
