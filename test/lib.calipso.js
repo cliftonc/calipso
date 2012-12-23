@@ -26,7 +26,7 @@ helper.finalize(function (err, calipsoHelper) {
   
       it('Calipso has loaded successfully', function(done) {
         calipso.loaded.should.equal(true);
-        calipso.modules.should.exist();
+        calipso.modules.should.exist;
         done();
       });
   
