@@ -1,0 +1,176 @@
+/* ---------------------------------------------------------------------------------------------------------------------
+
+  88888888e.     d8b       88888888e.       d8b       8bc:..  88888    .8888888.    88888  888888888.        d8b
+  888888888b    d888b      888888888b      d888b      888888bb88888   d888888888b   88888  8888888888b      d888b
+  888888888D   d88888b     888888888D     d88888b     8888888888888  C88888888888D  88888  88888888888D    d88888b
+  88888888P   d8888888b    88888888P     d8888888b    8888888888888  C88888888888D  88888  88888888888D   d8888888b
+  888888P    d888888888b   88888888b    d888888888b   8888888888888   d888888888P   88888  8888888888b   d888888888b
+  88888     d88888888888b  888888888b  d88888888888b  8888888888888    '8888888'    88888  888888888'   d88888888888b
+
+------------------------------------------------------------------------------------------------------------------------
+
+    Author: Rafal Bromirski
+    www: http://paranoida.com/
+    blog: http://lab.paranoida.com/
+
+    twitter: http://twitter.com/paranoida
+    dribbble: http://dribbble.com/paranoida
+
+    Licensed under a MIT License
+
+--------------------------------------------------------------------------------------------------------------------- */
+
+/* --- main content ------------------------------------------------------------------------------------------------- */
+@import "variables.scss";
+
+/* --- media queries ------------------------------------------------------------------------------------------------ */
+
+@media screen and (max-width: 1920px) {
+
+}
+
+@media screen and (max-width: 1600px) {
+
+}
+
+@media screen and (max-width: 1400px) {
+	.btn {
+		padding: 2.6% 5%;
+	}
+	#admin-body {
+		max-width: $rowWidth / 1.3;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 1024px) {
+}
+
+@media screen and (max-width: 1000px) {
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 640px) {
+/* to avoid the adjustment of fonts on iOS devices you should keep this line */
+	* {
+		-webkit-text-size-adjust: none;
+		-ms-text-size-adjust: none;
+	}
+}
+
+@media screen and (max-width: 600px) {
+}
+
+@media screen and (max-width: 480px) {
+}
+
+@media screen and (max-width: 400px) {
+}
+
+@media screen and (max-width: 320px) {
+}
+
+/* --- iPad --------------------------------------------------------------------------------------------------------- */
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:portrait) {
+}
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+}
+
+/* --- iPhone 4(S) retina ------------------------------------------------------------------------------------------- */
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.5), screen and (min-device-pixel-ratio: 1.5) {
+
+}
+
+/* --- iPhone ------------------------------------------------------------------------------------------------------- */
+
+@media screen and (max-device-width: 640px) and (-webkit-device-pixel-ratio: 1), screen and (max-device-width: 640px) and (device-pixel-ratio: 1) {
+}
+
+/* --- print (optional) --------------------------------------------------------------------------------------------- */
+
+@media print {
+}
+
+@media screen and (max-width: 420px) {
+	p {
+		font-size: 1.3em;
+		line-height: 1.5;
+	}
+}
+
+@media screen and (max-width: 800px) {
+
+}
+
+@media screen and (max-width: 1200px) {
+
+}
+
+/* Smaller screens */
+
+@media only screen and (max-width: 1023px) {
+
+	body {
+		line-height: 1.8;
+	}
+
+}
+
+/* Mobile */
+
+@media handheld, only screen and (max-width: 767px) {
+
+	figure figcaption {
+		width: 90%;
+	}
+
+	h1 {
+		&.title {
+			font-size: 3em;
+		}
+		&.shoutout {
+			font-size: 40%;
+		}
+	}
+
+	#admin-body {
+		max-width: none;
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+	.admin-install-links {
+		text-align: center;
+	}
+	.form-steps {
+		text-align: center;
+	}
+	#admin-body {
+		max-width: $rowWidth;
+	}
+	textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
+		width: 98%;
+		min-width: 98%;
+		padding: $borderRadius;
+	}
+	label {
+		text-align: left;
+		margin-right: 0;
+	}
+	.description {
+		max-width: none;
+	}
+}

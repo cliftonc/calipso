@@ -1,12 +1,12 @@
 {
-  "name": "mail",
-  "label": "Mail",
-  "description": "Support for email notifications.",
-  "version": "0.0.1",
-  "homepage": "http://calip.so",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/richtera/calipso.git"
-  },
-  "author": "Geoffrey Johnson (github.com/gajohnson)"
+	"name":"mail",
+	"label":"Mail",
+	"description":"Support for email notifications.",
+	"version":"0.0.1",
+	"homepage":"http://calip.so",
+	"repository":{
+		"type":"git",
+		"url":"git://github.com/richtera/calipso.git"
+	},
+	"author":"Geoffrey Johnson (github.com/gajohnson)"
 }
