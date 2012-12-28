@@ -1,12 +1,22 @@
- <div class='content-version'>
-    <h2>Version: <%- version._id %></h2>
-    <p><a href='/content/show/<%= version.get("contentId") %>/version/<%= version._id %>'><%- version.get("title") %></a></p>
-    <p class='by'>By <a href='/user/profile/<%- version.get("author") %>'><%- version.get("author") %></a></small>
-    <p class='status'><%- version.get("status") %></p>
-    <p class='created'><%- version.get("created") %>
-    <p class='updated'><%- version.get("updated") %>
-    <p class='tags'><%- version.get("tags") %></p>
-    <p class='teaser'><%- version.get("teaser") %></p>
-    <p class='content'><%- version.get("content") %></p>
-    <p class='comment'><%- version.get("comment") %></p>
+<div class = 'content-version'>
+	<h2>Version: <%- version._id %></h2>
+
+	<p><a href = '/content/show/<%= version.get("contentId") %>/version/<%= version._id %>'><%- version.get("title")
+		%></a></p>
+
+	<p class = 'by'>By <a href = '/user/profile/<%- version.get("author") %>'><%- version.get("author") %></a></small>
+
+	<p class = 'status'><%- version.get("status") %></p>
+
+	<p class = 'created'><%- version.get("created") %>
+
+	<p class = 'updated'><%- version.get("updated") %>
+
+	<p class = 'tags'><%- version.get("tags") %></p>
+
+	<p class = 'teaser'><%- version.get("teaser") %></p>
+
+	<p class = 'content'><%- version.get("content") %></p>
+
+	<p class = 'comment'><%- version.get("comment") %></p>
 </div>

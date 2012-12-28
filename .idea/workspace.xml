@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="458327c9-4ed3-495b-8c7b-1bfa55213de6" name="Default" comment="Made installation styles responsive.  Users can now install calipso via a mobile device.&#10;Many style fixes: changed 0px to 0, changed px to em, and used percentages when advantageous.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" />
+      <change type="DELETED" beforePath="C:\Users\Sean\Documents\GitHub\calipso\themes\core\cleanslate\public\css\admin-menu.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Sean\Documents\GitHub\calipso\themes\core\cleanslate\public\css\primary-menu.css" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/conf/default.json" afterPath="$PROJECT_DIR$/lib/conf/default.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/admin.js" afterPath="$PROJECT_DIR$/modules/core/admin/admin.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/package.json" afterPath="$PROJECT_DIR$/modules/core/admin/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/cache.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/cache.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/install_modules.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/install_modules.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/install_mongo.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/install_mongo.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/install_user.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/install_user.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/install_welcome.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/install_welcome.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/languages.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/languages.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/reload.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/reload.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/assets.js" afterPath="$PROJECT_DIR$/modules/core/assets/assets.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/package.json" afterPath="$PROJECT_DIR$/modules/core/assets/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/templates/list.html" afterPath="$PROJECT_DIR$/modules/core/assets/templates/list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/templates/listAdmin.html" afterPath="$PROJECT_DIR$/modules/core/assets/templates/listAdmin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/templates/rss.html" afterPath="$PROJECT_DIR$/modules/core/assets/templates/rss.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/templates/show.html" afterPath="$PROJECT_DIR$/modules/core/assets/templates/show.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentTypes/contentTypes.js" afterPath="$PROJECT_DIR$/modules/core/contentTypes/contentTypes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentTypes/package.json" afterPath="$PROJECT_DIR$/modules/core/contentTypes/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentTypes/templates/list.html" afterPath="$PROJECT_DIR$/modules/core/contentTypes/templates/list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentTypes/templates/show.html" afterPath="$PROJECT_DIR$/modules/core/contentTypes/templates/show.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentVersions/contentVersions.js" afterPath="$PROJECT_DIR$/modules/core/contentVersions/contentVersions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentVersions/package.json" afterPath="$PROJECT_DIR$/modules/core/contentVersions/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentVersions/support/jsdiff.js" afterPath="$PROJECT_DIR$/modules/core/contentVersions/support/jsdiff.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentVersions/templates/diff.html" afterPath="$PROJECT_DIR$/modules/core/contentVersions/templates/diff.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentVersions/templates/list.html" afterPath="$PROJECT_DIR$/modules/core/contentVersions/templates/list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/contentVersions/templates/show.html" afterPath="$PROJECT_DIR$/modules/core/contentVersions/templates/show.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/content.js" afterPath="$PROJECT_DIR$/modules/core/content/content.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/defaults/about-me.json" afterPath="$PROJECT_DIR$/modules/core/content/defaults/about-me.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/defaults/article.json" afterPath="$PROJECT_DIR$/modules/core/content/defaults/article.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/defaults/welcome.json" afterPath="$PROJECT_DIR$/modules/core/content/defaults/welcome.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/package.json" afterPath="$PROJECT_DIR$/modules/core/content/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/templates/list.html" afterPath="$PROJECT_DIR$/modules/core/content/templates/list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/templates/listAdmin.html" afterPath="$PROJECT_DIR$/modules/core/content/templates/listAdmin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/templates/rss.html" afterPath="$PROJECT_DIR$/modules/core/content/templates/rss.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/templates/show.html" afterPath="$PROJECT_DIR$/modules/core/content/templates/show.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/mail/mail.js" afterPath="$PROJECT_DIR$/modules/core/mail/mail.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/mail/package.json" afterPath="$PROJECT_DIR$/modules/core/mail/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/mail/templates/mail.html" afterPath="$PROJECT_DIR$/modules/core/mail/templates/mail.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/permissions/package.json" afterPath="$PROJECT_DIR$/modules/core/permissions/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/permissions/permissions.js" afterPath="$PROJECT_DIR$/modules/core/permissions/permissions.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/permissions/templates/permissions.html" afterPath="$PROJECT_DIR$/modules/core/permissions/templates/permissions.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/scheduler/package.json" afterPath="$PROJECT_DIR$/modules/core/scheduler/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/scheduler/scheduler.cron.js" afterPath="$PROJECT_DIR$/modules/core/scheduler/scheduler.cron.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/scheduler/scheduler.js" afterPath="$PROJECT_DIR$/modules/core/scheduler/scheduler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/scheduler/templates/admin.html" afterPath="$PROJECT_DIR$/modules/core/scheduler/templates/admin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/scheduler/templates/show.html" afterPath="$PROJECT_DIR$/modules/core/scheduler/templates/show.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/static/package.json" afterPath="$PROJECT_DIR$/modules/core/static/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/static/static.js" afterPath="$PROJECT_DIR$/modules/core/static/static.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/tagcloud/package.json" afterPath="$PROJECT_DIR$/modules/core/tagcloud/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/tagcloud/tagcloud.js" afterPath="$PROJECT_DIR$/modules/core/tagcloud/tagcloud.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/tagcloud/templates/tagcloud.html" afterPath="$PROJECT_DIR$/modules/core/tagcloud/templates/tagcloud.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/taxonomy/package.json" afterPath="$PROJECT_DIR$/modules/core/taxonomy/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/taxonomy/taxonomy.js" afterPath="$PROJECT_DIR$/modules/core/taxonomy/taxonomy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/package.json" afterPath="$PROJECT_DIR$/modules/core/user/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/public/css/login-icons.css" afterPath="$PROJECT_DIR$/modules/core/user/public/css/login-icons.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/public/sass/login-icons.scss" afterPath="$PROJECT_DIR$/modules/core/user/public/sass/login-icons.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/templates/list.html" afterPath="$PROJECT_DIR$/modules/core/user/templates/list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/templates/login.html" afterPath="$PROJECT_DIR$/modules/core/user/templates/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/templates/loginPage.html" afterPath="$PROJECT_DIR$/modules/core/user/templates/loginPage.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/templates/profile.html" afterPath="$PROJECT_DIR$/modules/core/user/templates/profile.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/templates/role.list.html" afterPath="$PROJECT_DIR$/modules/core/user/templates/role.list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/templates/role.show.html" afterPath="$PROJECT_DIR$/modules/core/user/templates/role.show.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/user.js" afterPath="$PROJECT_DIR$/modules/core/user/user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/user/user.roles.js" afterPath="$PROJECT_DIR$/modules/core/user/user.roles.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/help.js" afterPath="$PROJECT_DIR$/scripts/help.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/helpers/defaultConfig.json" afterPath="$PROJECT_DIR$/test/helpers/defaultConfig.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/install.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/install.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/install.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/install.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/theme.json" afterPath="$PROJECT_DIR$/themes/core/cleanslate/theme.json" />
+    </list>
+    <ignored path="calipso.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="454" column="26" selection-start="10839" selection-end="10839" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="install_modules.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/core/admin/templates/install_modules.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="58" selection-start="618" selection-end="618" vertical-scroll-proportion="-13.235294">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="install.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/install.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="216" column="5" selection-start="3556" selection-end="3608" vertical-scroll-proportion="0.8781818">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="media-queries.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="171" column="5" selection-start="4198" selection-end="4198" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="install_mongo.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/core/admin/templates/install_mongo.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="13" selection-start="572" selection-end="572" vertical-scroll-proportion="-19.852942">
+              <folding>
+                <element signature="n#style#0;n#div#0;n#article#0;n#!!top" expanded="true" />
+                <element signature="tag#div#0;tag#article#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/grids.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/install.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css" />
+        <option value="$PROJECT_DIR$/lib/conf/default.json" />
+        <option value="$PROJECT_DIR$/test/helpers/defaultConfig.json" />
+        <option value="$PROJECT_DIR$/modules/core/admin/templates/install_user.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss" />
+        <option value="$PROJECT_DIR$/modules/core/admin/templates/install_welcome.html" />
+        <option value="$PROJECT_DIR$/modules/core/admin/admin.js" />
+        <option value="$PROJECT_DIR$/modules/core/admin/templates/install_modules.html" />
+        <option value="$PROJECT_DIR$/modules/core/admin/templates/install_mongo.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/install.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/css/primary-menu.css" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents ProjectPane="true" />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cleanslate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cleanslate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cleanslate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cleanslate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="preferences.sourceCode.SCSS" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app.js" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="PublishConfig">
+    <servers>
+      <server id="9cfa253b-0d15-48d6-8614-4f4e672f03da">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </server>
+    </servers>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Sean\Documents\GitHub\calipso\themes\core\cleanslate\public\sass" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Node.js.Main">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeunitConfigurationType" factoryName="Nodeunit">
+      <setting name="nodePath" value="C:/Program Files/nodejs/node" />
+      <envs />
+      <setting name="passParentEnvVars" value="true" />
+      <setting name="nodeunitModuleDir" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="testType" value="JS_FILE" />
+      <setting name="jsFile" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="app.js" working-dir="$PROJECT_DIR$" coffeescript-run="false">
+      <method />
+    </configuration>
+    <configuration default="false" name="Main" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="app.js" working-dir="$PROJECT_DIR$" coffeescript-run="false">
+      <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.run" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.Main" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="458327c9-4ed3-495b-8c7b-1bfa55213de6" name="Default" comment="" />
+      <created>1356596335698</created>
+      <updated>1356596335698</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Reformatting some files.">
+      <created>1356596877785</created>
+      <updated>1356596877785</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17235859" sideWeight="0.6703911" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="myTodoPanelSettings">
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
+    </option>
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made installation styles responsive.  Users can now install calipso via a mobile device.&#10;Many style fixes: changed 0px to 0, changed px to em, and used percentages when advantageous." />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="Reformatting some files." />
+    <MESSAGE value="Made installation styles responsive.  Users can now install calipso via a mobile device.&#10;Many style fixes: changed 0px to 0, changed px to em, and used percentages when advantageous." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/modules/core/admin/templates/cache.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/core/admin/templates/install_welcome.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="442" selection-end="442" vertical-scroll-proportion="-11.029411">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/core/admin/admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="327" column="57" selection-start="8540" selection-end="8540" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/core/admin/templates/install_mongo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="13" selection-start="572" selection-end="572" vertical-scroll-proportion="-19.852942">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#article#0;n#!!top" expanded="true" />
+            <element signature="tag#div#0;tag#article#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="454" column="26" selection-start="10839" selection-end="10839" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="1" selection-start="690" selection-end="690" vertical-scroll-proportion="1.1494253">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="20" selection-start="461" selection-end="461" vertical-scroll-proportion="0.95652175">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/core/admin/templates/install_modules.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="58" selection-start="618" selection-end="618" vertical-scroll-proportion="-13.235294">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/installation.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="234" column="8" selection-start="5574" selection-end="5574" vertical-scroll-proportion="5.092527">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="3720" selection-start="3720" selection-end="3720" vertical-scroll-proportion="0.7117438">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="5" selection-start="4198" selection-end="4198" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="10613" selection-start="10613" selection-end="10613" vertical-scroll-proportion="0.3482309">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/install.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="5" selection-start="3556" selection-end="3608" vertical-scroll-proportion="0.8781818">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
+

@@ -1,0 +1,23 @@
+/*Grid*/
+$num-cols: 12;
+$rowWidth: 100%;
+$container-lateral-padding: 1em;
+$col-margin-right: 3.8%;
+$col-unit: ($rowWidth + $col-margin-right) / $num-cols;
+
+$padding: 1em;
+$paddingLarge: $padding * 1.3;
+$paddingSmall: $padding / 1.3;
+$margin: 1em;
+
+/*Type*/
+$baseFontSize: 16px;
+$lineHeight: 1.4;
+$em: 1em;
+
+$borderRadius: ($margin / 3.5);
+$borderRadiusSmall: $borderRadius * 0.75;
+$borderRadiusLarge: $borderRadius * 1.25;
+
+/* Transitions*/
+$transitionTime: 0.5s;
