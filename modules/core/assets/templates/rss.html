@@ -7,10 +7,10 @@
 <ttl>40</ttl>
 <% contents.forEach(function(asset) { %>
 <item>
-  <description><%- asset.teaser %></description>
-  <pubDate><%- asset.published %></pubDate>
-  <guid><%- request.url %><%- asset.alias %></guid>
-  </item>
+	<description><%- asset.teaser %></description>
+	<pubDate><%- asset.published %></pubDate>
+	<guid><%- request.url %><%- asset.alias %></guid>
+</item>
 <item>
-<% }); %>
+	<% }); %>
 

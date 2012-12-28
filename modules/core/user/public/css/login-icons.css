@@ -1,26 +1,26 @@
 /* line 2, ../sass/login-icons.scss */
 .googleicon {
-  display: block;
-  padding-left: 20px;
-  padding-bottom: 2px;
-  padding-top: 2px;
-  background: url(../images/google.ico) center left no-repeat;
+	display: block;
+	padding-left: 20px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	background: url(../images/google.ico) center left no-repeat;
 }
 
 /* line 3, ../sass/login-icons.scss */
 .twittericon {
-  display: block;
-  padding-left: 20px;
-  padding-bottom: 2px;
-  padding-top: 2px;
-  background: url(../images/twitter.ico) center left no-repeat;
+	display: block;
+	padding-left: 20px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	background: url(../images/twitter.ico) center left no-repeat;
 }
 
 /* line 4, ../sass/login-icons.scss */
 .facebookicon {
-  display: block;
-  padding-left: 20px;
-  padding-bottom: 2px;
-  padding-top: 2px;
-  background: url(../images/facebook.ico) center left no-repeat;
+	display: block;
+	padding-left: 20px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	background: url(../images/facebook.ico) center left no-repeat;
 }
