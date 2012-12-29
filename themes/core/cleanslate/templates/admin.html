@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="put your site description here">
-    <meta name="keywords" content="put your site keywords here">
-    <title>Clean Slate</title>
-    
-    <link rel="stylesheet" href="/css/admin.css"/>
-    <link rel="stylesheet" href="/css/admin-menu.css"/>
+<html lang = "en">
+<head>
+	<meta charset = "utf-8">
+	<meta name = "description" content = "put your site description here">
+	<meta name = "keywords" content = "put your site keywords here">
+	<title>Clean Slate</title>
 
-    <%- scripts %>
-    
-  </head>
-  <body>
-    <div id="adminMenu">
-      <%- admin %>
-    </div>            
-    <div id="container">
-      <div id="header">
-        <%- header %>
-        <div id="adminToolbar">
-          <%- getMenu('adminToolbar') %>
-        </div>
-      </div>
+	<link rel = "stylesheet" href = "/css/admin.css"/>
+	<link rel = "stylesheet" href = "/css/admin-menu.css"/>
 
-      <div id="messages">
-        <%- messages %>
-      </div>
+	<%- scripts %>
 
-      <div id="admin-body">        
-        <!--PAGE_BODY_START-->
-        <%- body %>
-        <!--PAGE_BODY_END-->
-      </div>
-      <div id="footer">
-        <%- footer %>
-      </div>
-    </div>
-  </body>
+</head>
+<body>
+<div id = "adminMenu">
+	<%- admin %>
+</div>
+<div id = "container">
+	<div id = "header">
+		<%- header %>
+		<div id = "adminToolbar">
+			<%- getMenu('adminToolbar') %>
+		</div>
+	</div>
+
+	<div id = "messages">
+		<%- messages %>
+	</div>
+
+	<div id = "admin-body">
+		<!--PAGE_BODY_START-->
+		<%- body %>
+		<!--PAGE_BODY_END-->
+	</div>
+	<div id = "footer">
+		<%- footer %>
+	</div>
+</div>
+</body>
 </html>

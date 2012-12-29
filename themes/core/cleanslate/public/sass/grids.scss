@@ -1,4 +1,6 @@
 @import "compass/css3";
+@import "variables.scss";
+
 @function col-name($n) {
 /* Use naming consistent with original 1140x Grid V2 */
 	$col-name: col;
@@ -135,9 +137,10 @@ img {
 		.row .#{ col-name($i) } {
 			width: auto;
 			float: none;
+			position: static !important;
 			margin-left: 0;
 			margin-right: 0;
-			padding-left: $container-lateral-padding;
+			//padding-left: $container-lateral-padding;
 			padding-right: $container-lateral-padding;
 		}
 	}
