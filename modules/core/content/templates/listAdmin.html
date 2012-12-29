@@ -1,19 +1,19 @@
-<table class='tabular'>
-<tr>
-<th><%- t('Title') %></th>
-<th><%- t('Type') %></th>
-<th><%- t('Author') %></th>
-<th><%- t('Published') %></th>
-<th><%- t('Updated') %></th>
-</tr>
-<% contents.forEach(function(item) { %>
-<tr class='content-list-item content-list-item-<%- item.status %> content-type-<%- item.contentType %>'>
-    <td><a href='/content/show/<%= item._id %>'><%- item.title %></a></td>
+<table class = 'tabular'>
+  <tr>
+    <th><%- t('Title') %></th>
+    <th><%- t('Type') %></th>
+    <th><%- t('Author') %></th>
+    <th><%- t('Published') %></th>
+    <th><%- t('Updated') %></th>
+  </tr>
+  <% contents.forEach(function(item) { %>
+  <tr class = 'content-list-item content-list-item-<%- item.status %> content-type-<%- item.contentType %>'>
+    <td><a href = '/content/show/<%= item._id %>'><%- item.title %></a></td>
     <td><%- item.contentType %></td>
     <td><%- item.author %></td>
     <td><%- prettyDate(item.published) %></td>
     <td><%- prettyDate(item.updated) %></td>
-</tr>
-<% });  %>
+  </tr>
+  <% }); %>
 </table>
 <%- pager %>

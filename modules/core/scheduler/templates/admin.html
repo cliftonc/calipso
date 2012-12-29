@@ -1,4 +1,4 @@
-<div class="template-module">
+<div class = "template-module">
   <h2><%- t('Scheduled Jobs') %></h2>
   <table>
     <tr>
@@ -8,27 +8,37 @@
       <th><%- t('Module') %></th>
       <th><%- t('Method') %></th>
       <th>&nbsp;</th>
-    </tr><%
-            var jobs = false;
-            for(var job in item.meta.jobs) {
-                jobs = true;
-        %>
-    <tr class='<%= item.meta.jobs[job].invalid ? "job-invalid" : ""%>'>
-      <td><a href='/scheduler/show/<%- item.meta.jobs[job].jobName %>'><%- item.meta.jobs[job].jobName %></a></td>
-      <td><%- item.meta.jobs[job].cronTimeString %></td><% if(item.meta.jobs[job].enabled) { %>
-      <td><a href="/scheduler/switch/off/%3C%-%20item.meta.jobs[job].jobName%20%%3E" title="Switch job on ..."><%- item.meta.jobs[job].enabled %></a></td><% } else { %>
-      <td><a href="/scheduler/switch/on/%3C%-%20item.meta.jobs[job].jobName%20%%3E" title="Switch job on ..."><%- item.meta.jobs[job].enabled %></a></td><% } %>
+    </tr>
+    <%
+    var jobs = false;
+    for(var job in item.meta.jobs) {
+    jobs = true;
+    %>
+    <tr class = '<%= item.meta.jobs[job].invalid ? "job-invalid" : ""%>'>
+      <td><a href = '/scheduler/show/<%- item.meta.jobs[job].jobName %>'><%- item.meta.jobs[job].jobName %></a>
+      </td>
+      <td><%- item.meta.jobs[job].cronTimeString %></td>
+      <% if(item.meta.jobs[job].enabled) { %>
+      <td>
+        <a href = "/scheduler/switch/off/%3C%-%20item.meta.jobs[job].jobName%20%%3E" title = "Switch job on ..."><%-
+          item.meta.jobs[job].enabled %></a></td>
+      <% } else { %>
+      <td><a href = "/scheduler/switch/on/%3C%-%20item.meta.jobs[job].jobName%20%%3E" title = "Switch job on ..."><%-
+        item.meta.jobs[job].enabled %></a></td>
+      <% } %>
       <td><%- item.meta.jobs[job].module %></td>
       <td><%- item.meta.jobs[job].method %></td>
       <td></td>
-    </tr><%
-            }
+    </tr>
+    <%
+    }
 
-            if(!jobs) {
-        %>
+    if(!jobs) {
+    %>
     <tr>
-      <td colspan='6'><%- t('No jobs defined') %></td><%
-              }
+      <td colspan = '6'><%- t('No jobs defined') %></td>
+      <%
+      }
       %>
     </tr>
   </table>

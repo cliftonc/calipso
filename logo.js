@@ -8,8 +8,7 @@
 
 require('colors');
 
-exports.print = function() {
-
+exports.print = function () {
   console.log("");
   console.log("            _ _                    ".yellow.bold);
   console.log("  ___  __ _| (_)_ __  ___  ___     ".yellow.bold);
@@ -20,4 +19,3 @@ exports.print = function() {
   console.log("");
 
 };
-

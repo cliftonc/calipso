@@ -1,17 +1,17 @@
-<div id="login-form" class="stackContent">
-  <link rel="stylesheet" href="/css/login-icons.css" />
+<div id = "login-form" class = "stackContent">
+  <link rel = "stylesheet" href = "/css/login-icons.css"/>
   <% if(user.anonymous) { %>
 
-    <%- form %>
+  <%- form %>
 
-  <% }  else { %>
+  <% } else { %>
 
-    <h2><%- t("{name} Profile",{name:user.username}) %></h2>
-    <% if(user) { %>
-      <a href="/user"><%- user.username %></a>
-      <span class="link-divider">|</span>
-      <a href="/user/logout">Logout</a>
-    <% } %>
+  <h2><%- t("{name} Profile",{name:user.username}) %></h2>
+  <% if(user) { %>
+  <a href = "/user"><%- user.username %></a>
+  <span class = "link-divider">|</span>
+  <a href = "/user/logout">Logout</a>
+  <% } %>
 
   <% } %>
 </div>

@@ -9,8 +9,8 @@ var rootpath = process.cwd() + '/',
   everyauth = require("everyauth");
 
 exports = module.exports = {
-  init: init,
-  route: route,
+  init:init,
+  route:route,
   install:install,
   userDisplay:userDisplay
 };
@@ -23,9 +23,9 @@ function route(req, res, module, app, next) {
   var aPerm = calipso.permission.Helper.hasPermission("admin:user");
 
   // Menu
-  res.menu.admin.addMenuItem(req, {name:'Security', path: 'admin/security', weight: 5, url:'', description: 'Users, Roles & Permissions ...', permit:aPerm });
-  res.menu.admin.addMenuItem(req, {name:'Users', path: 'admin/security/users', weight: 10, url: '/user/list', description: 'Manage users ...', permit:aPerm });
-  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight: 100, url: '/user/logout', description: 'Logout', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Security', path:'admin/security', weight:5, url:'', description:'Users, Roles & Permissions ...', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Users', path:'admin/security/users', weight:10, url:'/user/list', description:'Manage users ...', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight:100, url:'/user/logout', description:'Logout', permit:aPerm });
 
   // Router
   module.router.route(req, res, next);
@@ -45,51 +45,51 @@ function init(module, app, next) {
   calipso.e.addEvent('USER_UNLOCK');
   calipso.e.addEvent('USER_LOGIN');
   calipso.e.addEvent('USER_LOGOUT');
-  
+
   // Define permissions
-  calipso.permission.Helper.addPermission("admin:user","Users",true);
-  calipso.permission.Helper.addPermission("admin:user:register","Register other users.");
+  calipso.permission.Helper.addPermission("admin:user", "Users", true);
+  calipso.permission.Helper.addPermission("admin:user:register", "Register other users.");
 
   calipso.lib.step(
 
     function defineRoutes() {
-      module.router.addRoute(/.*/, setCookie, { end: false }, this.parallel());
-      module.router.addRoute(/.*/, loginForm, { end: false, template: 'login', block: 'user.login' }, this.parallel());
-      module.router.addRoute('GET /user/login', loginPage, { end: false, template: 'loginPage', block: 'content' }, this.parallel());
-      module.router.addRoute('POST /user/login',loginUser,null,this.parallel());
-      module.router.addRoute('GET /user/list',listUsers,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
-      module.router.addRoute('GET /admin/role/register',roleForm,{end:false,admin:true,block:'content'},this.parallel());
-      module.router.addRoute('GET /admin/role/list',listRoles,{end:false,admin:true,template:'list',block:'content.user.list'},this.parallel());
-      module.router.addRoute('GET /admin/roles/:role?',roleForm,{end:false,admin:true,block:'content'},this.parallel());
-      module.router.addRoute('POST /admin/roles/:role?', updateRole,{block:'content'},this.parallel());
-      module.router.addRoute('GET /admin/roles/:role/delete', deleteRole,{admin:true},this.parallel());
-      module.router.addRoute('GET /user/logout',logoutUser,null,this.parallel());
-      module.router.addRoute('GET /user/register',registerUserForm,{block:'content'},this.parallel());
-      module.router.addRoute('POST /user/register',registerUser,null,this.parallel());
-      module.router.addRoute('GET /user',myProfile,{template:'profile',block:'content'},this.parallel());
-      module.router.addRoute('GET /user/profile/:username',userProfile,{template:'profile',block:'content'},this.parallel());
-      module.router.addRoute('POST /user/profile/:username',updateUserProfile,{block:'content'},this.parallel());
-      module.router.addRoute('GET /user/profile/:username/edit',updateUserForm,{block:'content'},this.parallel());
-      module.router.addRoute('GET /user/profile/:username/lock',lockUser,{admin:true},this.parallel());
-      module.router.addRoute('GET /user/profile/:username/unlock',unlockUser,{admin:true},this.parallel());
-      module.router.addRoute('GET /user/profile/:username/delete',deleteUser,{admin:true},this.parallel());
+      module.router.addRoute(/.*/, setCookie, { end:false }, this.parallel());
+      module.router.addRoute(/.*/, loginForm, { end:false, template:'login', block:'user.login' }, this.parallel());
+      module.router.addRoute('GET /user/login', loginPage, { end:false, template:'loginPage', block:'content' }, this.parallel());
+      module.router.addRoute('POST /user/login', loginUser, null, this.parallel());
+      module.router.addRoute('GET /user/list', listUsers, {end:false, admin:true, template:'list', block:'content.user.list'}, this.parallel());
+      module.router.addRoute('GET /admin/role/register', roleForm, {end:false, admin:true, block:'content'}, this.parallel());
+      module.router.addRoute('GET /admin/role/list', listRoles, {end:false, admin:true, template:'list', block:'content.user.list'}, this.parallel());
+      module.router.addRoute('GET /admin/roles/:role?', roleForm, {end:false, admin:true, block:'content'}, this.parallel());
+      module.router.addRoute('POST /admin/roles/:role?', updateRole, {block:'content'}, this.parallel());
+      module.router.addRoute('GET /admin/roles/:role/delete', deleteRole, {admin:true}, this.parallel());
+      module.router.addRoute('GET /user/logout', logoutUser, null, this.parallel());
+      module.router.addRoute('GET /user/register', registerUserForm, {block:'content'}, this.parallel());
+      module.router.addRoute('POST /user/register', registerUser, null, this.parallel());
+      module.router.addRoute('GET /user', myProfile, {template:'profile', block:'content'}, this.parallel());
+      module.router.addRoute('GET /user/profile/:username', userProfile, {template:'profile', block:'content'}, this.parallel());
+      module.router.addRoute('POST /user/profile/:username', updateUserProfile, {block:'content'}, this.parallel());
+      module.router.addRoute('GET /user/profile/:username/edit', updateUserForm, {block:'content'}, this.parallel());
+      module.router.addRoute('GET /user/profile/:username/lock', lockUser, {admin:true}, this.parallel());
+      module.router.addRoute('GET /user/profile/:username/unlock', unlockUser, {admin:true}, this.parallel());
+      module.router.addRoute('GET /user/profile/:username/delete', deleteUser, {admin:true}, this.parallel());
 
     },
     function done() {
 
       var User = new calipso.lib.mongoose.Schema({
         // Single default property
-        username:{type: String, required: true, unique:true},
-        fullname:{type: String, required: false},
-        password:{type: String, required: false},
-        hash:{type: String, required: true, "default":''},
-        email:{type: String, required: true, unique:true},
-        showName:{type: String, "default":'registered'},
-        showEmail:{type: String, "default":'registered'},
-        about:{type: String},
-        language:{type: String, "default":'en'},
+        username:{type:String, required:true, unique:true},
+        fullname:{type:String, required:false},
+        password:{type:String, required:false},
+        hash:{type:String, required:true, "default":''},
+        email:{type:String, required:true, unique:true},
+        showName:{type:String, "default":'registered'},
+        showEmail:{type:String, "default":'registered'},
+        about:{type:String},
+        language:{type:String, "default":'en'},
         roles:[String],
-        locked:{type: Boolean, "default":false}
+        locked:{type:Boolean, "default":false}
       });
 
       calipso.db.model('User', User);
@@ -102,7 +102,6 @@ function init(module, app, next) {
 
 }
 
-
 /**
  * Set a cookie with some user data
  * put some of the user information in a cookie so that most pages can be
@@ -113,10 +112,10 @@ function init(module, app, next) {
  */
 function setCookie(req, res, template, block, next) {
 
-  if(res.statusCode != 302) {
-    if(req.session.user) {
-      if(!req.cookies.userData){
-       res.cookie('userData', JSON.stringify(req.session.user));
+  if (res.statusCode != 302) {
+    if (req.session.user) {
+      if (!req.cookies.userData) {
+        res.cookie('userData', JSON.stringify(req.session.user));
       }
     } else {
       res.clearCookie('userData');
@@ -140,11 +139,11 @@ function userDisplay(req, username, next) {
   var isAdmin = (req.session.user && req.session.user.isAdmin);
   var isUser = (req.session.user);
   var User = calipso.db.model('User');
-  var responseData = {name:'',email:''};
+  var responseData = {name:'', email:''};
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({username:username}, function (err, u) {
 
-    if(err || !u) {
+    if (err || !u) {
 
       // Fail gracefully
       responseData.name = username + " [" + req.t("No longer active") + "]";
@@ -153,13 +152,13 @@ function userDisplay(req, username, next) {
 
       // Default display name
       responseData.name = u.username;
-      if(isAdmin || (u.showName === 'registered' && isUser) || u.showName === 'public') {
+      if (isAdmin || (u.showName === 'registered' && isUser) || u.showName === 'public') {
         responseData.name = u.fullname || u.username;
       }
 
       // Default display name
       responseData.email = '';
-      if(isAdmin || (u.showEmail === 'registered' && isUser) || u.showEmail === 'public') {
+      if (isAdmin || (u.showEmail === 'registered' && isUser) || u.showEmail === 'public') {
         responseData.email = u.email;
       }
 
@@ -172,17 +171,17 @@ function userDisplay(req, username, next) {
 
 function userFields() {
   var fields = calipso.auth.password ? [
-      {label:'Username', name:'user[username]', type:'text'},
-      {label:'Password', name:'user[password]', type:'password'}
+    {label:'Username', name:'user[username]', type:'text'},
+    {label:'Password', name:'user[password]', type:'password'}
   ] : [];
   if (calipso.auth.google) {
-    fields.push({name:'google',text:'Use Google Login', type:'link', href:'/auth/google', cls:'googleicon'});
+    fields.push({name:'google', text:'Use Google Login', type:'link', href:'/auth/google', cls:'googleicon'});
   }
   if (calipso.auth.twitter) {
-    fields.push({name:'twitter',text:'Use Twitter Login', type:'link', href:'/auth/twitter', cls:'twittericon'});
+    fields.push({name:'twitter', text:'Use Twitter Login', type:'link', href:'/auth/twitter', cls:'twittericon'});
   }
   if (calipso.auth.facebook) {
-    fields.push({name:'facebook',text:'Use Facebook Login', type:'link', href:'/auth/facebook', cls:'facebookicon'});
+    fields.push({name:'facebook', text:'Use Facebook Login', type:'link', href:'/auth/facebook', cls:'facebookicon'});
   }
   return fields;
 }
@@ -201,15 +200,15 @@ function loginForm(req, res, template, block, next) {
     [
       {name:'submit', type:'submit', value:'Login'}
     ];
-    
+
   var userForm = {
-    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
+    id:'login-form', cls:'login', title:'Log In', type:'form', method:'POST', action:'/user/login',
     fields:fields,
     buttons:buttons
   };
 
-  calipso.form.render(userForm, null, req, function(form) {
-    calipso.theme.renderItem(req, res, template, block, {form:form},next);
+  calipso.form.render(userForm, null, req, function (form) {
+    calipso.theme.renderItem(req, res, template, block, {form:form}, next);
   });
 
 }
@@ -220,15 +219,15 @@ function loginForm(req, res, template, block, next) {
 function loginPage(req, res, template, block, next) {
   var fields = userFields();
   var userForm = {
-    id:'login-form',cls:'login',title:'Log In',type:'form',method:'POST',action:'/user/login',
+    id:'login-form', cls:'login', title:'Log In', type:'form', method:'POST', action:'/user/login',
     fields:fields,
     buttons:[
       {name:'submit', type:'submit', value:'Login'}
     ]
   };
 
-  calipso.form.render(userForm, null, req, function(form) {
-    calipso.theme.renderItem(req, res, template, block, {form:form},next);
+  calipso.form.render(userForm, null, req, function (form) {
+    calipso.theme.renderItem(req, res, template, block, {form:form}, next);
   });
 
 }
@@ -241,7 +240,7 @@ function roleForm(req, res, template, block, next) {
   function finish(role) {
     // TODO : Use secitons!
     if (req.session.user.isAdmin && role && (role.name != 'Guest') && (role.name != 'Administrator') && (role.name != 'Contributor')) {
-      res.menu.adminToolbar.addMenuItem({name:'Delete Role',path:'return',url:'/admin/roles/' + role._id + '/delete',description:'Delete role ...',security:[]});
+      res.menu.adminToolbar.addMenuItem({name:'Delete Role', path:'return', url:'/admin/roles/' + role._id + '/delete', description:'Delete role ...', security:[]});
     }
     var roleForm = {
       id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/admin/roles/' + (role && role._id ? role._id : ""),
@@ -260,18 +259,19 @@ function roleForm(req, res, template, block, next) {
       ]
     };
 
-    calipso.form.render(roleForm, {role:role}, req, function(form) {
+    calipso.form.render(roleForm, {role:role}, req, function (form) {
       calipso.theme.renderItem(req, res, form, block, {}, next);
     });
   }
 
   if (req.moduleParams.role) {
-    Role.findOne({_id:req.moduleParams.role}, function(err, role) {
+    Role.findOne({_id:req.moduleParams.role}, function (err, role) {
       finish(role);
     });
-  } else
+  } else {
     finish(null);
-}
+  }
+};
 
 /**
  * Register form
@@ -312,26 +312,26 @@ function registerUserForm(req, res, template, block, next) {
   };
 
   // Allow admins to register other admins
-  if(req.session.user && req.session.user.isAdmin) {
+  if (req.session.user && req.session.user.isAdmin) {
 
     // Role checkboxes
     var roleFields = [];
-    calipso.data.roleArray.forEach(function(role) {
+    calipso.data.roleArray.forEach(function (role) {
       roleFields.push(
         {label:role, name:'user[roles][' + role + ']', type:'checkbox', checked:false}
       );
     });
 
     userForm.sections[0].fields.push({
-      type: 'fieldset',
-      name: 'roles_fieldset', // shouldn't need a name ...
-      legend: 'User Roles',
-      fields: roleFields
+      type:'fieldset',
+      name:'roles_fieldset', // shouldn't need a name ...
+      legend:'User Roles',
+      fields:roleFields
     });
 
   }
 
-  calipso.form.render(userForm, null, req, function(form) {
+  calipso.form.render(userForm, null, req, function (form) {
     calipso.theme.renderItem(req, res, form, block, {}, next);
   });
 
@@ -350,12 +350,12 @@ function updateUserForm(req, res, template, block, next) {
   var roleSection = 3; // Update if changing sections
   var passwordSection = 1; // Update if changing sections
 
-  if(isAdmin) {
-      res.menu.adminToolbar.addMenuItem(req, {name:'Return',path:'return',url:'/user/profile/'+username,description:'Show user ...',security:[]});
+  if (isAdmin) {
+    res.menu.adminToolbar.addMenuItem(req, {name:'Return', path:'return', url:'/user/profile/' + username, description:'Show user ...', security:[]});
   }
 
   var userForm = {
-    id:'FORM',title:'Update Profile',type:'form',method:'POST',tabs:true,action:'/user/profile/' + username,
+    id:'FORM', title:'Update Profile', type:'form', method:'POST', tabs:true, action:'/user/profile/' + username,
     sections:[
       {
         id:'form-section-core',
@@ -364,7 +364,8 @@ function updateUserForm(req, res, template, block, next) {
           {label:'Username', name:'user[username]', type:'text', readonly:!isAdmin},
           {label:'Full Name', name:'user[fullname]', type:'text'},
           {label:'Email', name:'user[email]', type:'text'},
-          {label:'Language', name:'user[language]', type:'select', options:req.languages}, // TODO : Select based on available
+          {label:'Language', name:'user[language]', type:'select', options:req.languages},
+          // TODO : Select based on available
           {label:'About You', name:'user[about]', type:'textarea'},
         ]
       },
@@ -372,7 +373,7 @@ function updateUserForm(req, res, template, block, next) {
         id:'form-section-about',
         label:'Password',
         fields:[
-          {label:'Old Password', name:'user[old_password]', type:'password',description:req.t('Leave blank if not changing password.')},
+          {label:'Old Password', name:'user[old_password]', type:'password', description:req.t('Leave blank if not changing password.')},
           {label:'New Password', name:'user[new_password]', type:'password'},
           {label:'Repeat Password', name:'user[repeat_password]', type:'password'}
         ]
@@ -381,15 +382,15 @@ function updateUserForm(req, res, template, block, next) {
         id:'form-section-privacy',
         label:'Privacy',
         fields:[
-          {label:'Show Full Name', name:'user[showName]', type:'select',options:[
-            {label:'Never',value:'never'},
-            {label:'Registered Users Only',value:'registered'},
-            {label:'Public',value:'public'}
+          {label:'Show Full Name', name:'user[showName]', type:'select', options:[
+            {label:'Never', value:'never'},
+            {label:'Registered Users Only', value:'registered'},
+            {label:'Public', value:'public'}
           ]},
-          {label:'Show Email', name:'user[showEmail]', type:'select',options:[
-            {label:'Never',value:'never'},
-            {label:'Registered Users Only',value:'registered'},
-            {label:'Public',value:'public'}
+          {label:'Show Email', name:'user[showEmail]', type:'select', options:[
+            {label:'Never', value:'never'},
+            {label:'Registered Users Only', value:'registered'},
+            {label:'Public', value:'public'}
           ]}
         ]
       },
@@ -405,32 +406,32 @@ function updateUserForm(req, res, template, block, next) {
   };
 
   // Quickly check that the user is an admin or it is their account
-  if(req.session.user && (req.session.user.isAdmin || req.session.user.username === username)) {
+  if (req.session.user && (req.session.user.isAdmin || req.session.user.username === username)) {
     // We're ok
   } else {
-    req.flash('error',req.t('You are not authorised to perform that action.'));
+    req.flash('error', req.t('You are not authorised to perform that action.'));
     res.redirect('/');
     return;
   }
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({username:username}, function (err, u) {
 
     // Allow admins to register other admins
-    if(req.session.user && req.session.user.isAdmin) {
+    if (req.session.user && req.session.user.isAdmin) {
 
       // Role checkboxes
       var roleFields = [];
-      calipso.data.roleArray.forEach(function(role) {
+      calipso.data.roleArray.forEach(function (role) {
         roleFields.push(
-          {label:role, name:'user[roleList][' + role + ']', type:'checkbox', description:calipso.data.roles[role].description, checked:calipso.lib._.contains(u.roles,role)}
+          {label:role, name:'user[roleList][' + role + ']', type:'checkbox', description:calipso.data.roles[role].description, checked:calipso.lib._.contains(u.roles, role)}
         );
       });
 
       userForm.sections[roleSection].fields.push({
-        type: 'fieldset',
-        name: 'roles_fieldset', // shouldn't need a name ...
-        legend: 'User Roles',
-        fields: roleFields
+        type:'fieldset',
+        name:'roles_fieldset', // shouldn't need a name ...
+        legend:'User Roles',
+        fields:roleFields
       });
 
     } else {
@@ -443,7 +444,7 @@ function updateUserForm(req, res, template, block, next) {
 
     var values = {user:u};
 
-    calipso.form.render(userForm,values,req,function(form) {
+    calipso.form.render(userForm, values, req, function (form) {
       calipso.theme.renderItem(req, res, form, block, {}, next);
     });
 
@@ -459,31 +460,29 @@ function lockUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({username:username}, function (err, u) {
 
-    if(err || !u) {
-      req.flash('error',req.t('There was an error unlocking that user account.'));
+    if (err || !u) {
+      req.flash('error', req.t('There was an error unlocking that user account.'));
       res.redirect('/user/list');
       return;
     }
 
     u.locked = true;
-    calipso.e.pre_emit('USER_LOCK',u);
-    u.save(function(err) {
-      if(err) {
-        req.flash('error',req.t('There was an error unlocking that user account.'));
+    calipso.e.pre_emit('USER_LOCK', u);
+    u.save(function (err) {
+      if (err) {
+        req.flash('error', req.t('There was an error unlocking that user account.'));
       } else {
-        calipso.e.post_emit('USER_LOCK',u);
-        req.flash('info',req.t('Account locked.'));
+        calipso.e.post_emit('USER_LOCK', u);
+        req.flash('info', req.t('Account locked.'));
       }
       res.redirect('/user/profile/' + username);
     });
 
   });
 
-
 }
-
 
 /**
  * Unlock a user account
@@ -493,22 +492,22 @@ function unlockUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({username:username}, function (err, u) {
 
-    if(err || !u) {
-      req.flash('error',req.t('There was an error unlocking that user account.'));
+    if (err || !u) {
+      req.flash('error', req.t('There was an error unlocking that user account.'));
       res.redirect('/user/list');
       return;
     }
 
     u.locked = false;
-    calipso.e.pre_emit('USER_UNLOCK',u);
-    u.save(function(err) {
-      if(err) {
-        req.flash('error',req.t('There was an error unlocking that user account.'));
+    calipso.e.pre_emit('USER_UNLOCK', u);
+    u.save(function (err) {
+      if (err) {
+        req.flash('error', req.t('There was an error unlocking that user account.'));
       } else {
-        calipso.e.post_emit('USER_UNLOCK',u);
-        req.flash('info',req.t('Account unlocked.'));
+        calipso.e.post_emit('USER_UNLOCK', u);
+        req.flash('info', req.t('Account unlocked.'));
       }
       res.redirect('/user/profile/' + username);
     });
@@ -518,21 +517,21 @@ function unlockUser(req, res, template, block, next) {
 }
 
 function updateRole(req, res, template, block, next) {
-  calipso.form.process(req,function(form) {
-    if(form) {
+  calipso.form.process(req, function (form) {
+    if (form) {
       var role = req.moduleParams.role;
       var Role = calipso.db.model('Role');
 
       // Quickly check that the user is an admin or it is their account
-       if(req.session.user && req.session.user.isAdmin) {
-         // We're ok
-       } else {
-         req.flash('error',req.t('You are not authorised to perform that action.'));
-         res.redirect('/');
-         return;
-       }
+      if (req.session.user && req.session.user.isAdmin) {
+        // We're ok
+      } else {
+        req.flash('error', req.t('You are not authorised to perform that action.'));
+        res.redirect('/');
+        return;
+      }
 
-      Role.findOne({_id:role}, function(err, role) {
+      Role.findOne({_id:role}, function (err, role) {
         var role = null;
         if (err || !role) {
           role = new Role(form.role);
@@ -552,14 +551,16 @@ function updateRole(req, res, template, block, next) {
           return roleForm(req, res, template, block, next);
         }
         role.save(function (err) {
-          if (err)
+          if (err) {
             req.flash('error', req.t('There was an error {err}', {err:err}));
+          }
 
         })
         res.redirect('/admin/role/list');
       });
-    } else
+    } else {
       res.redirect('/admin/role/list');
+    }
   });
 }
 
@@ -571,20 +572,20 @@ function updateUserProfile(req, res, template, block, next) {
   // Use moduleParams until this is patched.
   var uname = !req.session.user.isAdmin ? req.moduleParams.username : null;
 
-  calipso.form.process(req,function(form) {
-    if(form) {
+  calipso.form.process(req, function (form) {
+    if (form) {
 
       var username = req.moduleParams.username;
       var User = calipso.db.model('User');
 
       // Quickly check that the user is an admin or it is their account
-       if(req.session.user && (req.session.user.isAdmin || req.session.user.username === username)) {
-         // We're ok
-       } else {
-         req.flash('error',req.t('You are not authorised to perform that action.'));
-         res.redirect('/');
-         return;
-       }
+      if (req.session.user && (req.session.user.isAdmin || req.session.user.username === username)) {
+        // We're ok
+      } else {
+        req.flash('error', req.t('You are not authorised to perform that action.'));
+        res.redirect('/');
+        return;
+      }
 
       // Get the password values and remove from form
       // This ensures they are never stored
@@ -595,10 +596,10 @@ function updateUserProfile(req, res, template, block, next) {
       var old_password = form.user.old_password;
       delete form.user.old_password;
 
-      User.findOne({username:username}, function(err, u) {
-        if(err) {
-          req.flash('error',req.t('Could not find user because {msg}.',{msg:err.message}));
-          if(res.statusCode != 302) {
+      User.findOne({username:username}, function (err, u) {
+        if (err) {
+          req.flash('error', req.t('Could not find user because {msg}.', {msg:err.message}));
+          if (res.statusCode != 302) {
             res.redirect('/');
             return;
           }
@@ -615,11 +616,11 @@ function updateUserProfile(req, res, template, block, next) {
         u.showEmail = form.user.showEmail;
 
         // Update user roles and admin flag
-        if(req.session.user && req.session.user.isAdmin) {
+        if (req.session.user && req.session.user.isAdmin) {
           var newRoles = [];
           u.isAdmin = false; // TO-DO Replace
           for (var role in form.user.roleList) {
-            if(form.user.roleList[role]) {
+            if (form.user.roleList[role]) {
               newRoles.push(role);
             }
           }
@@ -627,36 +628,36 @@ function updateUserProfile(req, res, template, block, next) {
         }
 
         // Check to see if we are changing the password
-        if(old_password) {
+        if (old_password) {
 
           // Check to see if old password is valid
-          calipso.lib.crypto.check(old_password,u.hash, function (err, ok) {
-            if(u.hash != '' && !ok) {
-              req.flash('error',req.t('Your old password was invalid.'));
+          calipso.lib.crypto.check(old_password, u.hash, function (err, ok) {
+            if (u.hash != '' && !ok) {
+              req.flash('error', req.t('Your old password was invalid.'));
               res.redirect('back');
               return;
             }
 
             // Check to see if new passwords match
-            if(new_password != repeat_password) {
-              req.flash('error',req.t('Your new passwords do not match.'));
+            if (new_password != repeat_password) {
+              req.flash('error', req.t('Your new passwords do not match.'));
               res.redirect('back');
               return;
             }
-  
+
             // Check to see if new passwords are blank
-            if(new_password === '') {
-              req.flash('error',req.t('Your password cannot be blank.'));
+            if (new_password === '') {
+              req.flash('error', req.t('Your password cannot be blank.'));
               res.redirect('back');
               return;
             }
-  
+
             u.password = ''; // Temporary for migration to hash, remove later
             // Create the hash
-            calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'), function (err, hash) {
+            calipso.lib.crypto.hash(new_password, calipso.config.get('session:secret'), function (err, hash) {
               if (err) {
                 req.flash('error', req.t('Could not hash password because {msg}.', {msg:err.message}));
-                if(res.statusCode != 302) {
+                if (res.statusCode != 302) {
                   res.redirect('/');
                   return;
                 }
@@ -671,32 +672,35 @@ function updateUserProfile(req, res, template, block, next) {
           saveUser();
         }
         function saveUser() {
-          calipso.e.pre_emit('USER_UPDATE',u);
-          u.save(function(err) {
-            if(err) {
-  
-              req.flash('error',req.t('Could not save user because {msg}.',{msg:err.message}));
-              if(res.statusCode != 302) {
+          calipso.e.pre_emit('USER_UPDATE', u);
+          u.save(function (err) {
+            if (err) {
+
+              req.flash('error', req.t('Could not save user because {msg}.', {msg:err.message}));
+              if (res.statusCode != 302) {
                 // Redirect to old page
                 res.redirect('/user/profile/' + username + '/edit');
                 return;
               }
-  
+
             } else {
-  
-              calipso.e.post_emit('USER_UPDATE',u);
-  
+
+              calipso.e.post_emit('USER_UPDATE', u);
+
               // Update session details if your account
-              if(req.session.user && (req.session.user.username === username)) { // Allows for name change
-                createUserSession(req, res, u, function(err) {
-                  if(err) calipso.error("Error saving session: " + err);
+              if (req.session.user && (req.session.user.username === username)) {
+                // Allows for name change
+                createUserSession(req, res, u, function (err) {
+                  if (err) {
+                    calipso.error("Error saving session: " + err);
+                  }
                 });
               }
-  
+
               // Redirect to new page
               res.redirect('/user/profile/' + u.username);
               return;
-  
+
             }
             // If not already redirecting, then redirect
             next();
@@ -708,35 +712,36 @@ function updateUserProfile(req, res, template, block, next) {
 
 }
 
-
 /**
  * Login
  */
 function loginUser(req, res, template, block, next) {
 
-  calipso.form.process(req, function(form) {
-    if(form) {
+  calipso.form.process(req, function (form) {
+    if (form) {
 
       var User = calipso.db.model('User');
       var username = form.user.username;
       var found = false;
 
-      User.findOne({username:username},function (err, user) {
-        if(user) {
-          calipso.lib.crypto.check(form.user.password,user.hash, function (err, ok) {
-            if(user && !user.locked && ok) {
+      User.findOne({username:username}, function (err, user) {
+        if (user) {
+          calipso.lib.crypto.check(form.user.password, user.hash, function (err, ok) {
+            if (user && !user.locked && ok) {
               found = true;
-              calipso.e.post_emit('USER_LOGIN',user);
-              createUserSession(req, res, user, function(err) {
-                if(err) calipso.error("Error saving session: " + err);
+              calipso.e.post_emit('USER_LOGIN', user);
+              createUserSession(req, res, user, function (err) {
+                if (err) {
+                  calipso.error("Error saving session: " + err);
+                }
               });
             }
 
-            if(!found) {
-              req.flash('error',req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
+            if (!found) {
+              req.flash('error', req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
             }
-  
-            if(res.statusCode != 302) {
+
+            if (res.statusCode != 302) {
               res.redirect(calipso.config.get('server:loginPath') || 'back');
               return;
             }
@@ -757,8 +762,8 @@ function loginUser(req, res, template, block, next) {
 function isUserAdmin(user) {
   // Set admin
   var isAdmin = false;
-  user.roles.forEach(function(role) {
-    if(calipso.data.roles[role] && calipso.data.roles[role].isAdmin){
+  user.roles.forEach(function (role) {
+    if (calipso.data.roles[role] && calipso.data.roles[role].isAdmin) {
       isAdmin = true;
     }
   });
@@ -771,8 +776,8 @@ function isUserAdmin(user) {
 function createUserSession(req, res, user, next) {
   var isAdmin = isUserAdmin(user);
   // Create session
-  req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id,language:user.language,roles:user.roles};
-  req.session.save(function(err) {
+  req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id, language:user.language, roles:user.roles};
+  req.session.save(function (err) {
     next(err);
   });
 }
@@ -784,18 +789,19 @@ calipso.lib.user = {createUserSession:createUserSession};
  */
 function logoutUser(req, res, template, block, next) {
   var returnTo = req.moduleParams.returnto || null;
-  if(req.session && req.session.user) {
+  if (req.session && req.session.user) {
 
     var User = calipso.db.model('User');
-    if (req.logout)
+    if (req.logout) {
       req.logout();
-    User.findOne({username:req.session.user.username}, function(err, u) {
+    }
+    User.findOne({username:req.session.user.username}, function (err, u) {
 
       req.session.user = null;
-      req.session.save(function(err) {
+      req.session.save(function (err) {
         // Check for error
-        calipso.e.post_emit('USER_LOGOUT',u);
-        if(res.statusCode != 302) {
+        calipso.e.post_emit('USER_LOGOUT', u);
+        if (res.statusCode != 302) {
           res.redirect(returnTo || 'back');
           return;
         }
@@ -817,9 +823,9 @@ function logoutUser(req, res, template, block, next) {
  */
 function registerUser(req, res, template, block, next) {
 
-  calipso.form.process(req, function(form) {
+  calipso.form.process(req, function (form) {
 
-    if(form) {
+    if (form) {
 
       var User = calipso.db.model('User');
 
@@ -833,14 +839,14 @@ function registerUser(req, res, template, block, next) {
       var u = new User(form.user);
 
       // Over ride admin
-      if(req.session.user && req.session.user.isAdmin) {
+      if (req.session.user && req.session.user.isAdmin) {
 
         var newRoles = [];
         u.isAdmin = false; // TO-DO Replace
         for (var role in form.user.roles) {
-          if(form.user.roles[role] === 'on') {
+          if (form.user.roles[role] === 'on') {
             newRoles.push(role);
-            if(calipso.data.roles[role].isAdmin){
+            if (calipso.data.roles[role].isAdmin) {
               u.isAdmin = true;
             }
           }
@@ -856,24 +862,25 @@ function registerUser(req, res, template, block, next) {
       //TODO : Add form validation and email confirmation
 
       // Check to see if new passwords match
-      if(new_password != repeat_password) {
-        req.flash('error',req.t('Your passwords do not match.'));
+      if (new_password != repeat_password) {
+        req.flash('error', req.t('Your passwords do not match.'));
         res.redirect('back');
         return;
       }
 
       // Check to see if new passwords are blank
-      if(new_password === '') {
-        req.flash('error',req.t('Your password cannot be blank.'));
+      if (new_password === '') {
+        req.flash('error', req.t('Your password cannot be blank.'));
         res.redirect('back');
         return;
       }
 
       // Create the hash
-      calipso.lib.crypto.hash(new_password,calipso.config.get('session:secret'), function (err, hash) {
+      calipso.lib.crypto.hash(new_password, calipso.config.get('session:secret'), function (err, hash) {
         if (err) {
-          req.flash('error',req.t('Could not hash user password because {msg}.',{msg:msg}));
-          if(res.statusCode != 302 && !res.noRedirect) {
+          req.flash('error', req.t('Could not hash user password because {msg}.', {msg:msg}));
+          if (res.statusCode != 302 && !res.noRedirect)
+          {
             res.redirect('back');
             return;
           }
@@ -884,31 +891,31 @@ function registerUser(req, res, template, block, next) {
       });
 
       function saveUser() {
-        calipso.e.pre_emit('USER_CREATE',u);
-        u.save(function(err) {
-  
-          if(err) {
+        calipso.e.pre_emit('USER_CREATE', u);
+        u.save(function (err) {
+
+          if (err) {
             var msg = err.message;
             if (err.code === 11000) {
               msg = "a user has already registered with that email";
             }
-            req.flash('error',req.t('Could not save user because {msg}.',{msg:msg}));
-            if(res.statusCode != 302 && !res.noRedirect) {
+            req.flash('error', req.t('Could not save user because {msg}.', {msg:msg}));
+            if (res.statusCode != 302 && !res.noRedirect) {
               res.redirect('back');
               return;
             }
           } else {
-            calipso.e.post_emit('USER_CREATE',u);
-            if(!res.noRedirect) {
-              req.flash('info',req.t('Profile created, you can now login using this account.'));
+            calipso.e.post_emit('USER_CREATE', u);
+            if (!res.noRedirect) {
+              req.flash('info', req.t('Profile created, you can now login using this account.'));
               res.redirect('/user/profile/' + u.username);
               return;
             }
           }
-  
+
           // If not already redirecting, then redirect
           next(err);
-  
+
         });
       }
     }
@@ -921,11 +928,11 @@ function registerUser(req, res, template, block, next) {
  * My profile (shortcut to profile)
  */
 function myProfile(req, res, template, block, next) {
-  if(req.session.user) {
+  if (req.session.user) {
     req.moduleParams.username = req.session.user.username;
     userProfile(req, res, template, block, next);
   } else {
-    req.flash('error',req.t('You need to login to view your created profile.'));
+    req.flash('error', req.t('You need to login to view your created profile.'));
     res.redirect('/');
   }
 }
@@ -938,38 +945,39 @@ function userProfile(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({username:username}, function (err, u) {
 
-    if(err || !u) {
-      req.flash('error',req.t('Could not locate user: {user}',{user:username}));
+    if (err || !u) {
+      req.flash('error', req.t('Could not locate user: {user}', {user:username}));
       res.redirect('/');
       return;
     }
 
-    if(req.session.user && req.session.user.isAdmin) {
-      res.menu.adminToolbar.addMenuItem(req, {name:'List',weight:2,path:'list',url:'/user/list',description:'List users ...',security:[]});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Edit',weight:1,path:'edit',url:'/user/profile/' + username + '/edit',description:'Edit user details ...',security:[]});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Delete',weight:3,path:'delete',url:'/user/profile/' + username + '/delete',description:'Delete account ...',security:[]});
+    if (req.session.user && req.session.user.isAdmin) {
+      res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:2, path:'list', url:'/user/list', description:'List users ...', security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:1, path:'edit', url:'/user/profile/' + username + '/edit', description:'Edit user details ...', security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:3, path:'delete', url:'/user/profile/' + username + '/delete', description:'Delete account ...', security:[]});
 
-      if(u.locked){
-        res.menu.adminToolbar.addMenuItem(req, {name:'Unlock',weight:4,path:'unlock',url:'/user/profile/' + username + '/unlock',description:'Unlock account ...',security:[]});
+      if (u.locked) {
+        res.menu.adminToolbar.addMenuItem(req, {name:'Unlock', weight:4, path:'unlock', url:'/user/profile/' + username + '/unlock', description:'Unlock account ...', security:[]});
       } else {
-        res.menu.adminToolbar.addMenuItem(req, {name:'Lock',weight:5,path:'lock',url:'/user/profile/' + username + '/lock',description:'Lock account ...',security:[]});
+        res.menu.adminToolbar.addMenuItem(req, {name:'Lock', weight:5, path:'lock', url:'/user/profile/' + username + '/lock', description:'Lock account ...', security:[]});
       }
     }
 
-    userDisplay(req,username,function(err,display) {
-      calipso.theme.renderItem(req, res, template, block, {item:u,display:display}, next);
+    userDisplay(req, username, function (err, display) {
+      calipso.theme.renderItem(req, res, template, block, {item:u, display:display}, next);
     });
 
   });
 
 }
 
-function deleteRole(req, res, template, block, next) {
+function deleteRole(req, res, template, block, next)
+{
   var Role = calipso.db.model('Role');
   Role.findOne({_id:req.moduleParams.role}, function (err, r) {
-    Role.remove({_id:r._id}, function(err) {
+    Role.remove({_id:r._id}, function (err) {
       if (err) {
         req.flash('info', req.t('Unable to delete the role because {mst}', {msg:err.message}));
         res.redirect("/admin/role/list");
@@ -991,19 +999,19 @@ function deleteUser(req, res, template, block, next) {
   var User = calipso.db.model('User');
   var username = req.moduleParams.username;
 
-  User.findOne({username:username}, function(err, u) {
+  User.findOne({username:username}, function (err, u) {
 
     // Raise USER_DELETE event
-    calipso.e.pre_emit('USER_DELETE',u);
+    calipso.e.pre_emit('USER_DELETE', u);
 
-    User.remove({_id:u._id}, function(err) {
-      if(err) {
-        req.flash('info',req.t('Unable to delete the user because {msg}',{msg:err.message}));
+    User.remove({_id:u._id}, function (err) {
+      if (err) {
+        req.flash('info', req.t('Unable to delete the user because {msg}', {msg:err.message}));
         res.redirect("/user/list");
         return;
       } else {
-        calipso.e.post_emit('USER_DELETE',u);
-        req.flash('info',req.t('The user has now been deleted.'));
+        calipso.e.post_emit('USER_DELETE', u);
+        req.flash('info', req.t('The user has now been deleted.'));
         res.redirect("/user/list");
         return;
       }
@@ -1016,25 +1024,26 @@ function deleteUser(req, res, template, block, next) {
 /**
  * Helper function for link to user
  */
-function userLink(req,user) {
-  return calipso.link.render({id:user._id,title:req.t('View {user}',{user:user.username}),label:user.username,url:'/user/profile/' + user.username});
+function userLink(req, user) {
+  return calipso.link.render({id:user._id, title:req.t('View {user}', {user:user.username}), label:user.username, url:'/user/profile/' + user.username});
 }
 
-function roleLink(req,role) {
-  if (role.name === 'Guest' || role.name === 'Administrator' || role.name === 'Contributor')
+function roleLink(req, role) {
+  if (role.name === 'Guest' || role.name === 'Administrator' || role.name === 'Contributor') {
     return role.name;
-  return calipso.link.render({id:role._id,title:req.t('View {role}',{role:role.name}),label:role.name,url:'/admin/roles/' + role._id});
+  }
+  return calipso.link.render({id:role._id, title:req.t('View {role}', {role:role.name}), label:role.name, url:'/admin/roles/' + role._id});
 }
 
 /**
  * List all content types
  */
-function listUsers(req,res,template,block,next) {
+function listUsers(req, res, template, block, next) {
 
   // Re-retrieve our object
   var User = calipso.db.model('User');
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'Register New User',path:'new',url:'/user/register',description:'Register new user ...',security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Register New User', path:'new', url:'/user/register', description:'Register new user ...', security:[]});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
@@ -1051,21 +1060,21 @@ function listUsers(req,res,template,block,next) {
     var qry = User.find(query).skip(from).limit(limit);
 
     // Add sort
-    qry = calipso.table.sortQuery(qry,sortBy);
+    qry = calipso.table.sortQuery(qry, sortBy);
 
     qry.find(function (err, users) {
 
       // Render the item into the response
-      if(format === 'html') {
+      if (format === 'html') {
 
         var table = {
-          id:'user-list',sort:true,cls:'table-admin',
+          id:'user-list', sort:true, cls:'table-admin',
           columns:[
-            {name:'_id',sort:'username',label:'User',fn:userLink},
-            {name:'fullname',label:'Full Name'},
-            {name:'roles',label:'Roles',sortable:false},
-            {name:'email',label:'Email',fn:function(req,row) {
-              return calipso.link.render({label:row.email,url:'mailto:' + row.email});
+            {name:'_id', sort:'username', label:'User', fn:userLink},
+            {name:'fullname', label:'Full Name'},
+            {name:'roles', label:'Roles', sortable:false},
+            {name:'email', label:'Email', fn:function (req, row) {
+              return calipso.link.render({label:row.email, url:'mailto:' + row.email});
             }}
           ],
           data:users,
@@ -1081,13 +1090,13 @@ function listUsers(req,res,template,block,next) {
 
         var tableHtml = calipso.table.render(req, table);
 
-        calipso.theme.renderItem(req,res,tableHtml,block,null,next);
+        calipso.theme.renderItem(req, res, tableHtml, block, null, next);
 
       }
 
-      if(format === 'json') {
+      if (format === 'json') {
         res.format = format;
-        res.send(users.map(function(u) {
+        res.send(users.map(function (u) {
           return u.toObject();
         }));
         next();
@@ -1101,12 +1110,12 @@ function listUsers(req,res,template,block,next) {
 /**
  * List all content types
  */
-function listRoles(req,res,template,block,next) {
+function listRoles(req, res, template, block, next) {
 
   // Re-retrieve our object
   var Role = calipso.db.model('Role');
 
-  res.menu.adminToolbar.addMenuItem({name:'Register New Role',path:'new',url:'/admin/role/register',description:'Register new role ...',security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Register New Role', path:'new', url:'/admin/role/register', description:'Register new role ...', security:[]});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
@@ -1123,20 +1132,20 @@ function listRoles(req,res,template,block,next) {
     var qry = Role.find(query).skip(from).limit(limit);
 
     // Add sort
-    qry = calipso.table.sortQuery(qry,sortBy);
+    qry = calipso.table.sortQuery(qry, sortBy);
 
     qry.find(function (err, roles) {
 
       // Render the item into the response
-      if(format === 'html') {
+      if (format === 'html') {
 
         var table = {
-          id:'user-list',sort:true,cls:'table-admin',
+          id:'user-list', sort:true, cls:'table-admin',
           columns:[
-            {name:'_id',sort:'name',label:'Role',fn:roleLink},
-            {name:'description',label:'Description'},
-            {name:'isAdmin',label:'Is Admin'},
-            {name:'isDefault',label:'Is Default'}
+            {name:'_id', sort:'name', label:'Role', fn:roleLink},
+            {name:'description', label:'Description'},
+            {name:'isAdmin', label:'Is Admin'},
+            {name:'isDefault', label:'Is Default'}
           ],
           data:roles,
           view:{
@@ -1149,15 +1158,15 @@ function listRoles(req,res,template,block,next) {
           }
         };
 
-        var tableHtml = calipso.table.render(table,req);
+        var tableHtml = calipso.table.render(table, req);
 
-        calipso.theme.renderItem(req,res,tableHtml,block,null,next);
+        calipso.theme.renderItem(req, res, tableHtml, block, null, next);
 
       }
 
-      if(format === 'json') {
+      if (format === 'json') {
         res.format = format;
-        res.send(roles.map(function(u) {
+        res.send(roles.map(function (u) {
           return u.toObject();
         }));
         next();
@@ -1196,7 +1205,7 @@ function install(next) {
           about:'',
           roles:['Administrator']
         });
-        calipso.lib.crypto.hash(adminUser.password,calipso.config.get('session:secret'), function (err, hash) {
+        calipso.lib.crypto.hash(adminUser.password, calipso.config.get('session:secret'), function (err, hash) {
           if (err) {
             return self()(err);
           }
@@ -1204,17 +1213,17 @@ function install(next) {
           admin.save(self());
         }),
 
-        // Delete this now to ensure it isn't hanging around;
-        delete calipso.data.adminUser;
+          // Delete this now to ensure it isn't hanging around;
+          delete calipso.data.adminUser;
 
       } else {
         // Fatal error
         self()(new Error("No administrative user details provided through login process!"));
       }
 
-    },  
+    },
     function allDone(err) {
-      if(err) {
+      if (err) {
         calipso.error("User module failed installation " + err.message);
         next();
       } else {

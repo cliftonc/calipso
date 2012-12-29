@@ -11,18 +11,18 @@
 var req = require('express/lib/request'),
     utils = require('express/lib/utils');
 
- var flashFormatters = req.flashFormatters = {
-   s: function(val){
-     return String(val);
-   }
- };
-
-  function miniMarkdown(str){
-    return String(str)
-      .replace(/(__|\*\*)(.*?)\1/g, '<strong>$2</strong>')
-      .replace(/(_|\*)(.*?)\1/g, '<em>$2</em>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+var flashFormatters = req.flashFormatters = {
+  s:function (val) {
+    return String(val);
   }
+};
+
+function miniMarkdown(str) {
+  return String(str)
+    .replace(/(__|\*\*)(.*?)\1/g, '<strong>$2</strong>')
+    .replace(/(_|\*)(.*?)\1/g, '<em>$2</em>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+};
 
 /**
  * Queue flash `msg` of the given `type`.
@@ -58,35 +58,39 @@ var req = require('express/lib/request'),
  * @return {Array|Object|Number}
  * @api public
  */
- req.flash = function(type, msg){
-   if (this.session === undefined) throw Error('req.flash() requires sessions');
-   var msgs = this.session.flash = this.session.flash || {};
-   if (type && msg) {
-     var i = 2
-       , args = arguments
-       , formatters = this.app.flashFormatters || {};
-     formatters.__proto__ = flashFormatters;
-     msg = miniMarkdown(msg);
-     msg = msg.replace(/%([a-zA-Z])/g, function(_, format){
-       var formatter = formatters[format];
-       if (formatter) return formatter(utils.escape(args[i++]));
-       return null;
-     });
-     return (msgs[type] = msgs[type] || []).push(msg);
-   } else if (type) {
-     var arr = msgs[type];
-     delete msgs[type];
-     return arr || [];
-   } else {
-     this.session.flash = {};
-     return msgs;
-   }
- };
+req.flash = function (type, msg) {
+  if (this.session === undefined) {
+    throw Error('req.flash() requires sessions');
+  }
+  var msgs = this.session.flash = this.session.flash || {};
+  if (type && msg) {
+    var i = 2,
+      args = arguments,
+      formatters = this.app.flashFormatters || {};
+    formatters.__proto__ = flashFormatters;
+    msg = miniMarkdown(msg);
+    msg = msg.replace(/%([a-zA-Z])/g, function (_, format) {
+      var formatter = formatters[format];
+      if (formatter) {
+        return formatter(utils.escape(args[i++]));
+      }
+    });
+    return (msgs[type] = msgs[type] || []).push(msg);
+  } else if (type) {
+    var arr = msgs[type];
+    delete msgs[type];
+    return arr || [];
+  } else {
+    this.session.flash = {};
+    return msgs;
+  }
+};
 
 var sys;
 try {
   sys = require('util');
-} catch (e) {
+}
+catch (e) {
   sys = require('sys');
 }
 
@@ -105,7 +109,7 @@ var rootpath = process.cwd() + '/',
 //everyauth.debug = true;
 
 everyauth.everymodule
-  .findUserById( function (req, id, callback) {
+  .findUserById(function (req, id, callback) {
     var User = calipso.db.model('User');
     User.findById(id, callback);
   });
@@ -114,33 +118,45 @@ function calipsoFindOrCreateUser(user, sess, promise) {
   var User = calipso.db.model('User');
   function finishUser(user) {
     if (sess) {
-      if (!sess._pending) return promise.fulfill(user);
+      if (!sess._pending) {
+        return promise.fulfill(user);
+      }
       var req = sess._pending;
       delete sess._pending;
-      return calipso.lib.user.createUserSession(req, null, user, function(err) {
-        if(err) { calipso.error("Error saving session: " + err); return promise.fail(err); }
-        return promise.fulfill(user);
+      return calipso.lib.user.createUserSession(req, null, user, function (err) {
+        if (err) {
+          calipso.error("Error saving session: " + err);
+          return promise.fail(err);
+        }
+        promise.fulfill(user);
       });
-    } else
-      return promise.fulfill(user);
+    } else {
+      promise.fulfill(user);
+    }
   }
-  
+
   User.findOne({username:user.username}, function (err, u) {
-    if (err) return promise.fail(err);
-    if (u) return finishUser(u);
+    if (err) {
+      return promise.fail(err);
+    }
+    if (u) {
+      return finishUser(u);
+    }
     u = new User({
-      username: user.username,
-      fullname: user.name,
-      email: user.email,
-      hash: 'external:auth'
+      username:user.username,
+      fullname:user.name,
+      email:user.email,
+      hash:'external:auth'
     });
     u.roles = ['Guest']; // Todo - need to make sure guest role can't be deleted?
-    
-    calipso.e.pre_emit('USER_CREATE',u);
 
-    return u.save(function(err) {
-      if (err) return promise.fail(err);
-      calipso.e.post_emit('USER_CREATE',u);
+    calipso.e.pre_emit('USER_CREATE', u);
+
+    u.save(function (err) {
+      if (err) {
+        return promise.fail(err);
+      }
+      calipso.e.post_emit('USER_CREATE', u);
       // If not already redirecting, then redirect
       finishUser(u);
       return null;
@@ -151,8 +167,8 @@ function calipsoFindOrCreateUser(user, sess, promise) {
 
 // Local App Variables
 var path = rootpath,
-    theme = 'default',
-    port = process.env.PORT || 3000;
+  theme = 'default',
+  port = process.env.PORT || 3000;
 
 /**
  * Catch All exception handler
@@ -170,134 +186,149 @@ function bootApplication(cluster, next) {
 
   // Create our express instance, export for later reference
   var app = express();
-  app.path = function() { return path };
+  app.path = function () {
+    return path
+  };
   app.isCluster = cluster;
 
   // Load configuration
   var Config = calipso.configuration; //require(path + "/lib/core/Config").Config;
   app.config = new Config();
-  app.config.init(function(err) {
+  app.config.init(function (err) {
 
-    if(err) return console.error(err.message);
+    if (err) {
+      return console.error(err.message);
+    }
 
     // Default Theme
     calipso.defaultTheme = app.config.get('themes:default');
 
     app.use(express.bodyParser());
     // Pause requests if they were not parsed to allow PUT and POST with custom mime types
-    app.use(function (req, res, next) { if (!req._body) { req.pause(); } next(); });
+    app.use(function (req, res, next) {
+      if (!req._body) {
+        req.pause();
+      }
+      next();
+    });
     app.use(express.methodOverride());
     app.use(express.cookieParser(app.config.get('session:secret')));
     app.use(express.responseTime());
 
     // Create dummy session middleware - tag it so we can later replace
-    var temporarySession = app.config.get('installed') ? {} : express.session({ secret: "installing calipso is great fun" });
+    var temporarySession = app.config.get('installed') ? {} : express.session({ secret:"installing calipso is great fun" });
     temporarySession.tag = "session";
     app.use(temporarySession);
-    
+
     // Create holders for theme dependent middleware
     // These are here because they need to be in the connect stack before the calipso router
     // THese helpers are re-used when theme switching.
     app.mwHelpers = {};
 
-    calipso.auth = {password: app.config.get('server:authentication:password')
-      , migrate2pbkdf2: app.config.get('server:authentication:migrate2pbkdf2')
+    calipso.auth = {
+      password:app.config.get('server:authentication:password'),
+      migrate2pbkdf2:app.config.get('server:authentication:migrate2pbkdf2')
     };
-    if (calipso.auth.password === undefined)
+    if (calipso.auth.password === undefined) {
       calipso.auth.password = true;
-    if (calipso.auth.migrate2pbkdf2 === undefined)
+    }
+    if (calipso.auth.migrate2pbkdf2 === undefined) {
       calipso.auth.migrate2pbkdf2 = false;
-    
+    }
+
     var appId = app.config.get('server:authentication:facebookAppId');
-    var appSecret = app.config.get('server:authentication:facebookAppSecret');    
+    var appSecret = app.config.get('server:authentication:facebookAppSecret');
     if (appId && appSecret) {
       calipso.auth.facebook = true;
       everyauth
         .facebook
-          .myHostname(app.config.get('server:url'))
-          .getSession( function (req) {
-            if (!req.session)
-              req.session = { _pending: req };
-            else
-              req.session._pending = req;
-            return req.session;
-          })
-          .appId(appId)
-          .appSecret(appSecret)
-          .findOrCreateUser( function (sess, accessToken, accessTokenExtra, fbUserMetadata) {
-            var promise = this.Promise();
-      
-            return calipsoFindOrCreateUser({username:'facebook:' + fbUserMetadata.username,
-              email:fbUserMetadata.username + '@facebook.com', name:fbUserMetadata.name}, sess, promise);
-          })
-          .redirectPath('/');
+        .myHostname(app.config.get('server:url'))
+        .getSession(function (req) {
+          if (!req.session) {
+            req.session = { _pending:req };
+          } else {
+            req.session._pending = req;
+          }
+          return req.session;
+        })
+        .appId(appId)
+        .appSecret(appSecret)
+        .findOrCreateUser(function (sess, accessToken, accessTokenExtra, fbUserMetadata) {
+          var promise = this.Promise();
+
+          return calipsoFindOrCreateUser({username:'facebook:' + fbUserMetadata.username,
+            email:fbUserMetadata.username + '@facebook.com', name:fbUserMetadata.name}, sess, promise);
+        })
+        .redirectPath('/');
     }
-    
+
     var consumerKey = app.config.get('server:authentication:twitterConsumerKey');
     var consumerSecret = app.config.get('server:authentication:twitterConsumerSecret');
     if (consumerKey && consumerSecret) {
       calipso.auth.twitter = true;
       everyauth
         .twitter
-          .getSession( function (req) {
-            if (!req.session)
-              req.session = { _pending: req };
-            else
-              req.session._pending = req;
-            return req.session;
-          })
-          .myHostname(app.config.get('server:url'))
-          .apiHost('https://api.twitter.com/1')
-          .consumerKey(consumerKey)
-          .consumerSecret(consumerSecret)
-          .findOrCreateUser( function (sess, accessToken, accessSecret, twitUser) {
-            var promise = this.Promise();
-      
-            return calipsoFindOrCreateUser({username:'twitter:' + twitUser.screen_name,
-              email:twitUser.screen_name + '@twitter.com', name:twitUser.name}, sess, promise);
-          })
-          .redirectPath('/');
+        .getSession(function (req) {
+          if (!req.session) {
+            req.session = { _pending:req };
+          } else {
+            req.session._pending = req;
+          }
+          return req.session;
+        })
+        .myHostname(app.config.get('server:url'))
+        .apiHost('https://api.twitter.com/1')
+        .consumerKey(consumerKey)
+        .consumerSecret(consumerSecret)
+        .findOrCreateUser(function (sess, accessToken, accessSecret, twitUser) {
+          var promise = this.Promise();
+
+          return calipsoFindOrCreateUser({username:'twitter:' + twitUser.screen_name,
+            email:twitUser.screen_name + '@twitter.com', name:twitUser.name}, sess, promise);
+        })
+        .redirectPath('/');
     }
-  
+
     var clientId = app.config.get('server:authentication:googleClientId');
     var clientSecret = app.config.get('server:authentication:googleClientSecret');
     if (clientId && clientSecret) {
       calipso.auth.google = true;
       everyauth
         .google
-          .myHostname(app.config.get('server:url'))
-          .appId(clientId)
-          .appSecret(clientSecret)
-          .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
-          .getSession( function (req) {
-            if (!req.session)
-              req.session = { _pending: req };
-            else
-              req.session._pending = req;
-            return req.session;
-          })
-          .findOrCreateUser( function (sess, accessToken, extra, googleUser) {
-            googleUser.refreshToken = extra.refresh_token;
-            googleUser.expiresIn = extra.expires_in;
-          
+        .myHostname(app.config.get('server:url'))
+        .appId(clientId)
+        .appSecret(clientSecret)
+        .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
+        .getSession(function (req) {
+          if (!req.session) {
+            req.session = { _pending:req };
+          } else {
+            req.session._pending = req;
+          }
+          return req.session;
+        })
+        .findOrCreateUser(function (sess, accessToken, extra, googleUser) {
+          googleUser.refreshToken = extra.refresh_token;
+          googleUser.expiresIn = extra.expires_in;
+
           var promise = this.Promise();
-      
+
           return calipsoFindOrCreateUser({username:'google:' + googleUser.email,
             email:googleUser.email, name:googleUser.name}, sess, promise);
         })
         .redirectPath('/');
     }
-    
+
     app.use(everyauth.middleware());
 
     // Load placeholder, replaced later
-    if(app.config.get('libraries:stylus:enable')) {
+    if (app.config.get('libraries:stylus:enable')) {
       app.mwHelpers.stylusMiddleware = function (themePath) {
         var mw = stylus.middleware({
-          src: themePath + '/stylus',
-          dest: themePath + '/public',
-          debug: false,
-          compile: function (str, path) { // optional, but recommended
+          src:themePath + '/stylus',
+          dest:themePath + '/public',
+          debug:false,
+          compile:function (str, path) { // optional, but recommended
             return stylus(str)
               .set('filename', path)
               .set('warn', app.config.get('libraries:stylus:warn'))
@@ -309,10 +340,10 @@ function bootApplication(cluster, next) {
       };
       app.use(app.mwHelpers.stylusMiddleware(''));
     }
-    
+
     // Static
     app.mwHelpers.staticMiddleware = function (themePath) {
-      var mw = express["static"](themePath + '/public', {maxAge: 86400000});
+      var mw = express["static"](themePath + '/public', {maxAge:86400000});
       mw.tag = 'theme.static';
       return mw;
     };
@@ -320,15 +351,14 @@ function bootApplication(cluster, next) {
     app.use(app.mwHelpers.staticMiddleware(''));
 
     // Core static paths
-    app.use(express["static"](path + '/media', {maxAge: 86400000}));
-    app.use(express["static"](path + '/lib/client/js', {maxAge: 86400000}));
+    app.use(express["static"](path + '/media', {maxAge:86400000}));
+    app.use(express["static"](path + '/lib/client/js', {maxAge:86400000}));
 
     // Translation - after static, set to add mode if appropriate
     app.use(translate.translate(app.config.get('i18n:language'), app.config.get('i18n:languages'), app.config.get('i18n:additive')));
 
     // Core calipso router
-    return calipso.init(app, function() {
-
+    calipso.init(app, function () {
       // Add the calipso mw
       app.use(calipso.routingFn());
 
@@ -363,14 +393,16 @@ if (!module.parent) {
       var out = app.listen(port, function () {
         console.log("Calipso version: ".green + app.about.version);
         console.log("Calipso configured for: ".green + (global.process.env.NODE_ENV || 'development') + " environment.".green);
-        if (app.address)
+        if (app.address) {
           console.log("Calipso server listening on port: ".green + app.address().port);
-        else
+        } else {
           console.log("Calipso server listening on port: ".green + port);
+        }
       });
       process.nextTick(function () {
-        if (out && out.address && out.address().port !== port)
+        if (out && out.address && out.address().port !== port) {
           console.log("Calipso server listening on port: ".red + out.address().port);
+        }
       });
     } else {
       console.log("\r\nCalipso terminated ...\r\n".grey);
