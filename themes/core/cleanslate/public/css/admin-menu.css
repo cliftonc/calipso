@@ -1,11 +1,11 @@
 /* Main menu */
 /* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
-/* line 7, ../sass/admin-menu.scss */
+/* line 6, ../sass/admin-menu.scss */
 html {
   padding-top: 40px;
 }
 
-/* line 11, ../sass/admin-menu.scss */
+/* line 10, ../sass/admin-menu.scss */
 #admin-menu {
   background: #16272f;
   border-bottom: 1px solid #16272f;
@@ -25,14 +25,14 @@ html {
   background: linear-gradient(#2f5163, #1f3540);
 }
 
-/* line 26, ../sass/admin-menu.scss */
+/* line 25, ../sass/admin-menu.scss */
 #admin-menu li {
   float: left;
   padding: 0;
   position: relative;
 }
 
-/* line 32, ../sass/admin-menu.scss */
+/* line 31, ../sass/admin-menu.scss */
 #admin-menu a {
   color: #fff;
   float: left;
@@ -45,7 +45,7 @@ html {
   text-shadow: 0 1px 2px #000;
 }
 
-/* line 44, ../sass/admin-menu.scss */
+/* line 43, ../sass/admin-menu.scss */
 #admin-menu li:hover > a {
   color: #fafafa;
 }
@@ -192,14 +192,14 @@ html {
   border-bottom-color: transparent;
 }
 
-/* line 148, ../sass/admin-menu.scss */
+/* line 147, ../sass/admin-menu.scss */
 #admin-menu ul li:last-child > a {
   -moz-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
 }
 
 /* Clear floated elements */
-/* line 154, ../sass/admin-menu.scss */
+/* line 153, ../sass/admin-menu.scss */
 #admin-menu:after {
   visibility: hidden;
   display: block;
@@ -209,9 +209,7 @@ html {
   height: 0;
 }
 
-/* line 163, ../sass/admin-menu.scss */
+/* line 162, ../sass/admin-menu.scss */
 #admin-menu {
   *zoom: 1;
 }
-
-/* IE6 & IE7 */

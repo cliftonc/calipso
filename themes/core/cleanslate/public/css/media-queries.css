@@ -1,0 +1,123 @@
+/* ---------------------------------------------------------------------------------------------------------------------
+
+  88888888e.     d8b       88888888e.       d8b       8bc:..  88888    .8888888.    88888  888888888.        d8b
+  888888888b    d888b      888888888b      d888b      888888bb88888   d888888888b   88888  8888888888b      d888b
+  888888888D   d88888b     888888888D     d88888b     8888888888888  C88888888888D  88888  88888888888D    d88888b
+  88888888P   d8888888b    88888888P     d8888888b    8888888888888  C88888888888D  88888  88888888888D   d8888888b
+  888888P    d888888888b   88888888b    d888888888b   8888888888888   d888888888P   88888  8888888888b   d888888888b
+  88888     d88888888888b  888888888b  d88888888888b  8888888888888    '8888888'    88888  888888888'   d88888888888b
+
+------------------------------------------------------------------------------------------------------------------------
+
+    Author: Rafal Bromirski
+    www: http://paranoida.com/
+    blog: http://lab.paranoida.com/
+
+    twitter: http://twitter.com/paranoida
+    dribbble: http://dribbble.com/paranoida
+
+    Licensed under a MIT License
+
+--------------------------------------------------------------------------------------------------------------------- */
+/* --- main content ------------------------------------------------------------------------------------------------- */
+/*Grid*/
+/*Type*/
+/* Transitions*/
+/* --- media queries ------------------------------------------------------------------------------------------------ */
+@media screen and (max-width: 1400px) {
+  /* line 37, ../sass/media-queries.scss */
+  .btn {
+    padding: 2.6% 5%;
+  }
+
+  /* line 40, ../sass/media-queries.scss */
+  #admin-body {
+    max-width: 76.923%;
+  }
+}
+@media screen and (max-width: 640px) {
+  /* to avoid the adjustment of fonts on iOS devices you should keep this line */
+  /* line 63, ../sass/media-queries.scss */
+  * {
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+  }
+}
+/* --- iPad --------------------------------------------------------------------------------------------------------- */
+/* --- iPhone 4(S) retina ------------------------------------------------------------------------------------------- */
+/* --- iPhone ------------------------------------------------------------------------------------------------------- */
+/* --- print (optional) --------------------------------------------------------------------------------------------- */
+@media screen and (max-width: 420px) {
+  /* line 106, ../sass/media-queries.scss */
+  p {
+    font-size: 1.3em;
+    line-height: 1.5;
+  }
+}
+/* Smaller screens */
+@media only screen and (max-width: 1023px) {
+  /* line 124, ../sass/media-queries.scss */
+  body {
+    line-height: 1.8;
+  }
+}
+/* Mobile */
+@media handheld, only screen and (max-width: 767px) {
+  /* line 134, ../sass/media-queries.scss */
+  figure figcaption {
+    width: 90%;
+  }
+
+  /* line 139, ../sass/media-queries.scss */
+  h1.title {
+    font-size: 3em;
+  }
+  /* line 142, ../sass/media-queries.scss */
+  h1.shoutout {
+    font-size: 40%;
+  }
+
+  /* line 147, ../sass/media-queries.scss */
+  #admin-body {
+    max-width: none;
+  }
+
+  /* line 151, ../sass/media-queries.scss */
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* line 155, ../sass/media-queries.scss */
+  .admin-install-links {
+    text-align: center;
+  }
+
+  /* line 158, ../sass/media-queries.scss */
+  .form-steps {
+    text-align: center;
+  }
+
+  /* line 161, ../sass/media-queries.scss */
+  #admin-body {
+    max-width: 100%;
+  }
+
+  /* line 164, ../sass/media-queries.scss */
+  textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
+    width: 98%;
+    min-width: 98%;
+    padding: 0.286em;
+  }
+
+  /* line 169, ../sass/media-queries.scss */
+  label {
+    text-align: left;
+    margin-right: 0;
+  }
+
+  /* line 173, ../sass/media-queries.scss */
+  .description {
+    max-width: none;
+  }
+}

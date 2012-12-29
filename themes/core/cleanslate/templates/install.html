@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="put your site description here">
-    <meta name="keywords" content="put your site keywords here">
-  
-    <title>Calipso Setup</title>
+<html lang = "en">
+<head>
+  <meta charset = "utf-8">
+  <meta name = "description" content = "put your site description here">
+  <meta name = "keywords" content = "put your site keywords here">
 
-    <link rel="stylesheet" href="/css/install.css" />
-  
-  </head>
+  <title>Calipso Setup</title>
 
-  <body> 
-  
-    <div id="container">
+  <link rel = "stylesheet" href = "/css/install.css"/>
 
-      <div id="messages">
-        <%- messages %>
-      </div>
+</head>
 
-      <div id="admin-body">        
-        <%- body %>
-      </div>
-      
-      <div id="footer">
-        <%- footer %>
-      </div>
+<body>
 
-    </div>
+<div id = "container">
 
-    <%- scripts %>
+  <div class = "row" id = "messages">
+    <%- messages %>
+  </div>
 
-    <script>
-        
-        $(".error, .success, .info, .notice").live('click', function() {
-          $(this).fadeOut(300);
-        });
+  <div class = "row" id = "admin-body">
+    <%- body %>
+  </div>
 
-    </script>
+  <div class="row" id = "footer">
+    <%- footer %>
+  </div>
 
-  </body>
+</div>
+
+<%- scripts %>
+
+<script>
+
+  $(".error, .success, .info, .notice").live('click', function () {
+    $(this).fadeOut(300);
+  });
+
+</script>
+
+</body>
 
 </html>

@@ -1,5 +1,5 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
-/* line 17, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -21,140 +21,409 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 20, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 20, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 body {
   line-height: 1;
 }
 
-/* line 22, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 24, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 26, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 28, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 101, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 101, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 30, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 114, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 114, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
 
+/*Grid*/
+/*Type*/
+/* Transitions*/
+/*Grid*/
+/*Type*/
+/* Transitions*/
+/* ==================================================================================================================== */
+/* ! SCSS 1140 Grid V2 by James Ramsay \ http://jwr.vc \ http://www.twitter.com/jamesramsay                           */
+/* ! derived from                                                                                                       */
+/* ! CSS 1140 Grid V2 by Andy Taylor \ http://cssgrid.net \ http://www.twitter.com/andytlr \ http://www.andytlr.com   */
+/* ==================================================================================================================== */
+/* line 58, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.container {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+/* line 63, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 0.7em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: 0.5s all;
+  -moz-transition: 0.5s all;
+  -ms-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+/* line 72, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.col, .onecol, .twocol, .threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol, .ninecol, .tencol, .elevencol {
+  margin-right: 3.8%;
+  float: left;
+  min-height: 1px;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .onecol {
+  width: 4.85%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .twocol {
+  width: 13.5%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .threecol {
+  width: 22.15%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .fourcol {
+  width: 30.8%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .fivecol {
+  width: 39.45%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .sixcol {
+  width: 48.1%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .sevencol {
+  width: 56.75%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .eightcol {
+  width: 65.4%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .ninecol {
+  width: 74.05%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .tencol {
+  width: 82.7%;
+}
+
+/* line 85, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .elevencol {
+  width: 91.35%;
+}
+
+/* line 90, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.row .twelvecol {
+  width: 100%;
+  float: left;
+}
+
+/* line 96, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+.last {
+  margin-right: 0;
+}
+
+/* line 100, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+img, object, embed {
+  max-width: 100%;
+}
+
+/* line 104, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+img {
+  height: auto;
+}
+
+/* Smaller screens */
+@media only screen and (max-width: 1023px) {
+  /* line 112, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  body {
+    font-size: 0.8em;
+    line-height: 1.5em;
+  }
+}
+/* Mobile */
+@media handheld, only screen and (max-width: 767px) {
+  /* line 123, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  body {
+    font-size: 16px;
+    -webkit-text-size-adjust: none;
+  }
+
+  /* line 128, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row, body, .container {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .onecol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .twocol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .threecol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .fourcol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .fivecol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .sixcol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .sevencol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .eightcol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .ninecol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .tencol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .elevencol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  /* line 136, /Users/andy/calipso/themes/core/cleanslate/public/sass/grids.scss */
+  .row .twelvecol {
+    width: auto;
+    float: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+}
 /* line 27, ../sass/install.scss */
 html {
   background: #fff;
 }
 
-/* line 41, ../sass/install.scss */
+/* line 31, ../sass/install.scss */
+#admin-body {
+  max-width: 50%;
+}
+
+/* line 44, ../sass/install.scss */
 body {
   background: #fff;
   color: #444;
   font: 400 0.875em/1.618em "Helvetica", serif;
-  min-width: 700px;
   text-shadow: 0 2px 1px #fff;
   height: 100%;
 }
 
-/* line 50, ../sass/install.scss */
+/* line 52, ../sass/install.scss */
 a {
   text-decoration: none;
 }
 
-/* line 54, ../sass/install.scss */
+/* line 56, ../sass/install.scss */
 a:link, a:visited {
   color: #222;
 }
 
-/* line 58, ../sass/install.scss */
+/* line 60, ../sass/install.scss */
 ul, ol, dl {
   margin: 0 0 0 1.618em;
   padding: 0;
 }
 
-/* line 63, ../sass/install.scss */
+/* line 65, ../sass/install.scss */
 ol li {
   list-style: decimal;
 }
 
-/* line 67, ../sass/install.scss */
+/* line 69, ../sass/install.scss */
 p {
   margin: 0 0 2.618em;
 }
 
-/* line 71, ../sass/install.scss */
+/* line 73, ../sass/install.scss */
+.centred {
+  text-align: center;
+}
+
+/* line 76, ../sass/install.scss */
 strong, b {
   color: #222;
   font-weight: 600;
 }
 
-/* line 76, ../sass/install.scss */
+/* line 81, ../sass/install.scss */
 i, em {
   font-style: italic;
 }
 
-/* line 82, ../sass/install.scss */
+/* line 86, ../sass/install.scss */
 h1, h2, h3, h4, h5, h6 {
   color: #222;
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   line-height: 1.618em;
-  margin-bottom: 15px;
+  margin-bottom: 1em;
   text-shadow: 0 1px 1px #fff;
 }
 
-/* line 91, ../sass/install.scss */
+/* line 96, ../sass/install.scss */
 h6, h5 {
   font-size: 1em;
 }
 
-/* line 95, ../sass/install.scss */
+/* line 100, ../sass/install.scss */
 h4 {
   font-size: 1.25em;
 }
 
-/* line 99, ../sass/install.scss */
+/* line 104, ../sass/install.scss */
 h3 {
   font-size: 1.618em;
   letter-spacing: -1px;
 }
 
-/* line 104, ../sass/install.scss */
+/* line 109, ../sass/install.scss */
 h2 {
   font-size: 2.023em;
   letter-spacing: -1px;
 }
 
-/* line 109, ../sass/install.scss */
+/* line 114, ../sass/install.scss */
 h1 {
   font-size: 2.618em;
   letter-spacing: -2px;
 }
 
-/* line 118, ../sass/install.scss */
+/* line 122, ../sass/install.scss */
 #header {
   border-bottom: 1px solid #d9d9d9;
   color: #fff;
@@ -163,71 +432,61 @@ h1 {
   left: 0;
   top: 0;
   margin: 0 auto;
-  width: 650px;
 }
 
-/* line 129, ../sass/install.scss */
+/* line 132, ../sass/install.scss */
 #container {
   margin: 0 auto;
-  width: 700px;
 }
 
-/* line 134, ../sass/install.scss */
-.admin-body {
-  margin: 0 auto 20px;
-  padding: 25px;
-  position: relative;
-  max-width: 700px;
-}
-
-/* line 141, ../sass/install.scss */
+/* line 136, ../sass/install.scss */
 #footer {
   clear: both;
 }
 
-/* line 149, ../sass/install.scss */
+/* line 143, ../sass/install.scss */
 form {
   background: #fff;
   border: 1px solid #d9d9d9;
-  padding: 0 20px 20px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+  padding: 0 1.3em 1.3em;
+  -webkit-border-radius: 0.286em;
+  -moz-border-radius: 0.286em;
+  -ms-border-radius: 0.286em;
+  -o-border-radius: 0.286em;
+  border-radius: 0.286em;
 }
-/* line 154, ../sass/install.scss */
+/* line 148, ../sass/install.scss */
 form h4 {
   background: #2F5163;
   border: 1px solid #1f3540;
   color: #fff;
-  left: -30px;
-  top: 10px;
+  left: -1.3em;
+  top: 0.769em;
   position: relative;
-  padding: 5px 15px;
+  padding: 0.286em 1em;
   float: left;
   text-shadow: 0 1px 1px black;
   text-transform: capitalize;
-  -moz-border-radius-topright: 8px;
-  -webkit-border-top-right-radius: 8px;
-  -ms-border-top-right-radius: 8px;
-  -o-border-top-right-radius: 8px;
-  border-top-right-radius: 8px;
-  -moz-border-radius-bottomright: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-  -ms-border-bottom-right-radius: 8px;
-  -o-border-bottom-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  -moz-border-radius-topleft: 8px;
-  -webkit-border-top-left-radius: 8px;
-  -ms-border-top-left-radius: 8px;
-  -o-border-top-left-radius: 8px;
-  border-top-left-radius: 8px;
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
-  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #cccccc;
+  -moz-border-radius-topright: 0.286em;
+  -webkit-border-top-right-radius: 0.286em;
+  -ms-border-top-right-radius: 0.286em;
+  -o-border-top-right-radius: 0.286em;
+  border-top-right-radius: 0.286em;
+  -moz-border-radius-bottomright: 0.286em;
+  -webkit-border-bottom-right-radius: 0.286em;
+  -ms-border-bottom-right-radius: 0.286em;
+  -o-border-bottom-right-radius: 0.286em;
+  border-bottom-right-radius: 0.286em;
+  -moz-border-radius-topleft: 0.286em;
+  -webkit-border-top-left-radius: 0.286em;
+  -ms-border-top-left-radius: 0.286em;
+  -o-border-top-left-radius: 0.286em;
+  border-top-left-radius: 0.286em;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 0.214em #cccccc;
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 0.214em #cccccc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 0.214em #cccccc;
 }
-/* line 172, ../sass/install.scss */
+/* line 166, ../sass/install.scss */
 form h4:after {
   content: ' ';
   position: absolute;
@@ -235,18 +494,18 @@ form h4:after {
   height: 0;
   left: 0px;
   top: 100%;
-  border-width: 5px 4px;
+  border-width: 0.286em 4px;
   border-style: solid;
   border-color: black black transparent transparent;
 }
 
-/* line 188, ../sass/install.scss */
+/* line 182, ../sass/install.scss */
 .form-item {
   clear: both;
-  padding: 0 0 10px;
+  padding: 0 0 0.769em;
 }
 
-/* line 193, ../sass/install.scss */
+/* line 187, ../sass/install.scss */
 label {
   display: -moz-inline-box;
   -moz-box-orient: vertical;
@@ -255,85 +514,85 @@ label {
   *vertical-align: auto;
   text-align: right;
   line-height: 2.5em;
-  padding-right: 10px;
+  padding-right: 0.769em;
   position: relative;
-  top: -3px;
+  top: -0.214em;
   font-weight: bold;
-  width: 24%;
   margin-right: 10%;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 label {
   *display: inline;
 }
 
-/* line 205, ../sass/install.scss */
+/* line 198, ../sass/install.scss */
 label.for-checkable {
   width: auto;
   text-align: left;
-  padding: 0 0 0 10px;
+  padding: 0 0 0 0.769em;
 }
 
-/* line 211, ../sass/install.scss */
+/* line 204, ../sass/install.scss */
 textarea, input[type="text"], input[type="password"], select {
   border: 1px solid #999;
   padding: 1%;
   font-size: 1em;
   width: 58%;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: inset 1px 1px 3px #d9d9d9;
-  -moz-box-shadow: inset 1px 1px 3px #d9d9d9;
-  box-shadow: inset 1px 1px 3px #d9d9d9;
+  -webkit-border-radius: 0.214em;
+  -moz-border-radius: 0.214em;
+  -ms-border-radius: 0.214em;
+  -o-border-radius: 0.214em;
+  border-radius: 0.214em;
+  -webkit-box-shadow: inset 1px 1px 0.214em #d9d9d9;
+  -moz-box-shadow: inset 1px 1px 0.214em #d9d9d9;
+  box-shadow: inset 1px 1px 0.214em #d9d9d9;
 }
-/* line 221, ../sass/install.scss */
+/* line 214, ../sass/install.scss */
 textarea.database-uri, input[type="text"].database-uri, input[type="password"].database-uri, select.database-uri {
-  width: 300px;
+  width: 30%;
+  min-width: 15em;
 }
 
-/* line 226, ../sass/install.scss */
+/* line 220, ../sass/install.scss */
 select {
   width: 60%;
 }
 
-/* line 230, ../sass/install.scss */
+/* line 224, ../sass/install.scss */
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
   border-color: #007DFF;
 }
 
-/* line 231, ../sass/install.scss */
+/* line 228, ../sass/install.scss */
 textarea {
   width: 65%;
   height: 200px;
 }
 
-/* line 232, ../sass/install.scss */
+/* line 233, ../sass/install.scss */
 #content_teaser-wrapper textarea {
   height: 100px;
 }
 
-/* line 234, ../sass/install.scss */
+/* line 237, ../sass/install.scss */
 .description {
-  padding: 2px 0 5px 215px;
-  font-size: 11px;
+  padding: 2px 0 0.286em 2 1em;
+  font-size: 80%;
   color: #777;
-  max-width: 400px;
+  max-width: 50%;
   display: block;
 }
 
-/* line 241, ../sass/install.scss */
+/* line 245, ../sass/install.scss */
 .button, button, input[type="submit"], a.submit {
   background: #d9d9d9;
   border: 1px solid #aaa;
   border-color: #aaa #999 #888;
   color: #000;
-  font-size: 14px;
+  font-size: 85%;
   font-weight: 400;
-  margin: 0 20px 0 0;
-  padding: 8px 16px;
+  margin: 0 1.3em 0 0;
+  padding: 0.286em 1em;
   text-shadow: 0 1px 0 #fff;
   text-decoration: none;
   display: -moz-inline-box;
@@ -350,17 +609,17 @@ textarea {
   -webkit-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
   -moz-box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
   box-shadow: inset 0 1px 0 white, 0 1px 4px rgba(150, 150, 150, 0.5);
-  -webkit-border-radius: 7px;
-  -moz-border-radius: 7px;
-  -ms-border-radius: 7px;
-  -o-border-radius: 7px;
-  border-radius: 7px;
+  -webkit-border-radius: 0.357em;
+  -moz-border-radius: 0.357em;
+  -ms-border-radius: 0.357em;
+  -o-border-radius: 0.357em;
+  border-radius: 0.357em;
 }
-/* line 7, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
+/* line 7, /Users/andy/.rvm/gems/ruby-1.9.2-p290/gems/compass-0.12.0/frameworks/compass/stylesheets/compass/css3/_inline-block.scss */
 .button, button, input[type="submit"], a.submit {
   *display: inline;
 }
-/* line 261, ../sass/install.scss */
+/* line 265, ../sass/install.scss */
 .button:hover, .button:focus, .button.loading, button:hover, button:focus, button.loading, input[type="submit"]:hover, input[type="submit"]:focus, input[type="submit"].loading, a.submit:hover, a.submit:focus, a.submit.loading {
   background: #2F5163;
   border-color: #333;
@@ -376,89 +635,88 @@ textarea {
   background: -ms-linear-gradient(#3f6d86, #2f5163);
   background: linear-gradient(#3f6d86, #2f5163);
 }
-/* line 270, ../sass/install.scss */
+/* line 274, ../sass/install.scss */
 .button:active, button:active, input[type="submit"]:active, a.submit:active {
   border-color: #000;
-  -webkit-box-shadow: inset 0 0 8px black;
-  -moz-box-shadow: inset 0 0 8px black;
-  box-shadow: inset 0 0 8px black;
+  -webkit-box-shadow: inset 0 0 0.286em black;
+  -moz-box-shadow: inset 0 0 0.286em black;
+  box-shadow: inset 0 0 0.286em black;
 }
-/* line 275, ../sass/install.scss */
+/* line 279, ../sass/install.scss */
 .button.loading, button.loading, input[type="submit"].loading, a.submit.loading {
-  background: #2f5163 url("/images/loader.gif") 15px 50% no-repeat;
-  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
-  background: url("/images/loader.gif") 15px 50% no-repeat, -webkit-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, -moz-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, -o-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, -ms-linear-gradient(#3f6d86, #2f5163);
-  background: url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(#3f6d86, #2f5163);
+  background: #2f5163 url("/images/loader.gif") 1em 50% no-repeat;
+  background: url("/images/loader.gif") 1em 50% no-repeat, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3f6d86), color-stop(100%, #2f5163));
+  background: url("/images/loader.gif") 1em 50% no-repeat, -webkit-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 1em 50% no-repeat, -moz-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 1em 50% no-repeat, -o-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 1em 50% no-repeat, -ms-linear-gradient(#3f6d86, #2f5163);
+  background: url("/images/loader.gif") 1em 50% no-repeat, linear-gradient(#3f6d86, #2f5163);
   padding-left: 40px;
 }
 
-/* line 283, ../sass/install.scss */
+/* line 287, ../sass/install.scss */
 input.date {
   width: 3em;
 }
 
-/* line 285, ../sass/install.scss */
+/* line 292, ../sass/install.scss */
 input.date-day,
 input.time {
   width: 2em;
 }
 
-/* line 286, ../sass/install.scss */
+/* line 296, ../sass/install.scss */
 input.checkbox, input.radio {
-  margin-left: 110px;
+  margin-left: 1.3em;
 }
 
-/* line 287, ../sass/install.scss */
+/* line 300, ../sass/install.scss */
 input.labelFirst {
   margin-left: auto;
 }
 
-/* line 288, ../sass/install.scss */
+/* line 304, ../sass/install.scss */
 form .section {
-  margin: 0 0 20px;
+  margin: 0 0 1.3em;
 }
 
-/* line 289, ../sass/install.scss */
+/* line 308, ../sass/install.scss */
 form .section:first-child {
   border: 0;
 }
 
-/* line 290, ../sass/install.scss */
+/* line 312, ../sass/install.scss */
 .actions {
   clear: both;
 }
 
-/* line 294, ../sass/install.scss */
+/* line 316, ../sass/install.scss */
 .actions input {
   float: right;
 }
 
-/* line 301, ../sass/install.scss */
+/* line 323, ../sass/install.scss */
 .form-steps {
-  margin: 20px auto 10px;
-  width: 50%;
+  margin-top: 1em;
 }
 
-/* line 306, ../sass/install.scss */
+/* line 327, ../sass/install.scss */
 .form-steps ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 312, ../sass/install.scss */
+/* line 333, ../sass/install.scss */
 .form-steps li {
   text-align: center;
-  margin: 0 2px;
-  float: left;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-  border-radius: 8px;
+  margin-bottom: 0.214em;
+  display: inline-block;
+  -webkit-border-radius: 0.286em;
+  -moz-border-radius: 0.286em;
+  -ms-border-radius: 0.286em;
+  -o-border-radius: 0.286em;
+  border-radius: 0.286em;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(5%, #aaaaaa), color-stop(20%, #cccccc));
   background: -webkit-linear-gradient(#aaaaaa 5%, #cccccc 20%);
   background: -moz-linear-gradient(#aaaaaa 5%, #cccccc 20%);
@@ -467,46 +725,32 @@ form .section:first-child {
   background: linear-gradient(#aaaaaa 5%, #cccccc 20%);
 }
 
-/* line 323, ../sass/install.scss */
-.two-form-steps li {
-  width: 50%;
-}
-
-/* line 327, ../sass/install.scss */
-.three-form-steps li {
-  width: 32%;
-}
-
-/* line 331, ../sass/install.scss */
-.four-form-steps li {
-  width: 25%;
-}
-
-/* line 335, ../sass/install.scss */
+/* line 343, ../sass/install.scss */
 .form-step-name {
   color: #222;
   background: #d9d9d9;
   border: 1px solid #aaa;
-  height: 30px;
-  font-size: 12px;
-  line-height: 30px;
+  height: 1.3em;
+  font-size: 80%;
+  line-height: 1.3em;
   position: relative;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-  border-radius: 8px;
+  padding: 0.286em;
+  -webkit-border-radius: 0.286em;
+  -moz-border-radius: 0.286em;
+  -ms-border-radius: 0.286em;
+  -o-border-radius: 0.286em;
+  border-radius: 0.286em;
 }
 
-/* line 347, ../sass/install.scss */
+/* line 356, ../sass/install.scss */
 .valid .form-step-name {
   border-color: #888;
-  -webkit-box-shadow: inset 0 0 7px #777777;
-  -moz-box-shadow: inset 0 0 7px #777777;
-  box-shadow: inset 0 0 7px #777777;
+  -webkit-box-shadow: inset 0 0 0.357em #777777;
+  -moz-box-shadow: inset 0 0 0.357em #777777;
+  box-shadow: inset 0 0 0.357em #777777;
 }
 
-/* line 352, ../sass/install.scss */
+/* line 361, ../sass/install.scss */
 .current .form-step-name {
   background: #2F5163;
   border: 1px solid #111;
@@ -525,49 +769,49 @@ form .section:first-child {
 }
 
 /* messages [info, success, warning, error] */
-/* line 364, ../sass/install.scss */
+/* line 373, ../sass/install.scss */
 #messages {
   clear: both;
 }
 
-/* line 367, ../sass/install.scss */
+/* line 377, ../sass/install.scss */
 #messages ul {
   list-style: none;
 }
 
-/* line 374, ../sass/install.scss */
+/* line 384, ../sass/install.scss */
 .info,
 .success,
 .warning,
 .error {
   border: 1px solid;
   cursor: pointer;
-  margin: 0 0 20px;
-  padding: 15px 10px 15px 50px;
+  margin: 0 0 1.3em;
+  padding: 1em 0.769em 1em 50px;
   background-repeat: no-repeat;
-  background-position: 10px 6px;
+  background-position: 0.769em 6px;
   position: fixed;
-  right: 20px;
+  right: 1.3em;
   top: 90px;
   text-shadow: 0 1px 0 #fff;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-  border-radius: 8px;
+  -webkit-border-radius: 0.286em;
+  -moz-border-radius: 0.286em;
+  -ms-border-radius: 0.286em;
+  -o-border-radius: 0.286em;
+  border-radius: 0.286em;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
-/* line 392, ../sass/install.scss */
+/* line 402, ../sass/install.scss */
 .info {
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url("images/icons/info.png");
 }
 
-/* line 397, ../sass/install.scss */
+/* line 408, ../sass/install.scss */
 .success {
   color: #4F8830;
   background-color: #DFF2BF;
@@ -575,14 +819,14 @@ form .section:first-child {
   background-image: url("images/icons/success.png");
 }
 
-/* line 403, ../sass/install.scss */
+/* line 415, ../sass/install.scss */
 .warning {
   color: #9F6000;
   background-color: #FEEFB3;
   background-image: url("images/icons/warning.png");
 }
 
-/* line 408, ../sass/install.scss */
+/* line 421, ../sass/install.scss */
 .error {
   color: #D8000C;
   background-color: #F6D6D6;
@@ -590,12 +834,7 @@ form .section:first-child {
   border-color: #F6AAAA;
 }
 
-/* line 415, ../sass/install.scss */
-.admin-install p {
-  max-width: 660px;
-}
-
-/* line 419, ../sass/install.scss */
+/* line 428, ../sass/install.scss */
 .admin-install-links {
   border-top: 1px solid #bbb;
   margin-top: 2.618em;
@@ -603,12 +842,136 @@ form .section:first-child {
   text-align: right;
 }
 
-/* line 426, ../sass/install.scss */
+/* line 435, ../sass/install.scss */
 .admin-install-links a {
   margin: 0;
 }
 
-/* line 429, ../sass/install.scss */
+/* line 439, ../sass/install.scss */
 .admin-install-links .back {
   float: left;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------
+
+  88888888e.     d8b       88888888e.       d8b       8bc:..  88888    .8888888.    88888  888888888.        d8b
+  888888888b    d888b      888888888b      d888b      888888bb88888   d888888888b   88888  8888888888b      d888b
+  888888888D   d88888b     888888888D     d88888b     8888888888888  C88888888888D  88888  88888888888D    d88888b
+  88888888P   d8888888b    88888888P     d8888888b    8888888888888  C88888888888D  88888  88888888888D   d8888888b
+  888888P    d888888888b   88888888b    d888888888b   8888888888888   d888888888P   88888  8888888888b   d888888888b
+  88888     d88888888888b  888888888b  d88888888888b  8888888888888    '8888888'    88888  888888888'   d88888888888b
+
+------------------------------------------------------------------------------------------------------------------------
+
+    Author: Rafal Bromirski
+    www: http://paranoida.com/
+    blog: http://lab.paranoida.com/
+
+    twitter: http://twitter.com/paranoida
+    dribbble: http://dribbble.com/paranoida
+
+    Licensed under a MIT License
+
+--------------------------------------------------------------------------------------------------------------------- */
+/* --- main content ------------------------------------------------------------------------------------------------- */
+/*Grid*/
+/*Type*/
+/* Transitions*/
+/* --- media queries ------------------------------------------------------------------------------------------------ */
+@media screen and (max-width: 1400px) {
+  /* line 37, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  .btn {
+    padding: 2.6% 5%;
+  }
+
+  /* line 40, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  #admin-body {
+    max-width: 76.923%;
+  }
+}
+@media screen and (max-width: 640px) {
+  /* to avoid the adjustment of fonts on iOS devices you should keep this line */
+  /* line 63, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  * {
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+  }
+}
+/* --- iPad --------------------------------------------------------------------------------------------------------- */
+/* --- iPhone 4(S) retina ------------------------------------------------------------------------------------------- */
+/* --- iPhone ------------------------------------------------------------------------------------------------------- */
+/* --- print (optional) --------------------------------------------------------------------------------------------- */
+@media screen and (max-width: 420px) {
+  /* line 106, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  p {
+    font-size: 1.3em;
+    line-height: 1.5;
+  }
+}
+/* Smaller screens */
+@media only screen and (max-width: 1023px) {
+  /* line 124, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  body {
+    line-height: 1.8;
+  }
+}
+/* Mobile */
+@media handheld, only screen and (max-width: 767px) {
+  /* line 134, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  figure figcaption {
+    width: 90%;
+  }
+
+  /* line 139, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  h1.title {
+    font-size: 3em;
+  }
+  /* line 142, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  h1.shoutout {
+    font-size: 40%;
+  }
+
+  /* line 147, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  #admin-body {
+    max-width: none;
+  }
+
+  /* line 151, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* line 155, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  .admin-install-links {
+    text-align: center;
+  }
+
+  /* line 158, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  .form-steps {
+    text-align: center;
+  }
+
+  /* line 161, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  #admin-body {
+    max-width: 100%;
+  }
+
+  /* line 164, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
+    width: 98%;
+    min-width: 98%;
+    padding: 0.286em;
+  }
+
+  /* line 169, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  label {
+    text-align: left;
+    margin-right: 0;
+  }
+
+  /* line 173, /Users/andy/calipso/themes/core/cleanslate/public/sass/media-queries.scss */
+  .description {
+    max-width: none;
+  }
 }
