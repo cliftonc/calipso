@@ -2,37 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="458327c9-4ed3-495b-8c7b-1bfa55213de6" name="Default" comment="Made installation styles responsive.  Users can now install calipso via a mobile device.&#10;Many style fixes: changed 0px to 0, changed px to em, and used percentages when advantageous.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/calipso.iml" afterPath="$PROJECT_DIR$/.idea/calipso.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/cssxfire.xml" />
+      <change type="DELETED" beforePath="C:\Users\Sean\Documents\GitHub\calipso\themes\core\cleanslate\public\js\jquery-1.7.2.min.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/coverage.html" afterPath="$PROJECT_DIR$/docs/coverage.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/calipso.js" afterPath="$PROJECT_DIR$/lib/calipso.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/client/Client.js" afterPath="$PROJECT_DIR$/lib/client/Client.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/core/Form.js" afterPath="$PROJECT_DIR$/lib/core/Form.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/core/Menu.js" afterPath="$PROJECT_DIR$/lib/core/Menu.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/admin/templates/install_user.html" afterPath="$PROJECT_DIR$/modules/core/admin/templates/install_user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" afterPath="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/content.js" afterPath="$PROJECT_DIR$/modules/core/content/content.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin-menu.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin-menu.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/grids.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/grids.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/media-queries.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/media-queries.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/primary-menu.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/primary-menu.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/primary-menu.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/primary-menu.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/adminMenu.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/adminMenu.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/body.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/body.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/messages.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/messages.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/body.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/body.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/header.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/header.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/styles.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/styles.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/home/body.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/home/body.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/install.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/install.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/install/body.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/install/body.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/install/body.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/install/body.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/styles.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/styles.html" />
     </list>
     <ignored path="calipso.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,37 +56,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="style.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
+      <file leaf-file-name="Form.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="19" selection-start="350" selection-end="350" vertical-scroll-proportion="-4.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="admin.scss" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="405" column="16" selection-start="6983" selection-end="6983" vertical-scroll-proportion="0.28727272">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="variables.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="74" selection-end="91" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Menu.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/core/Menu.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="106" column="5" selection-start="2423" selection-end="2423" vertical-scroll-proportion="0.0">
+            <state line="909" column="25" selection-start="28017" selection-end="28017" vertical-scroll-proportion="-15.32">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -90,10 +67,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admin.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin.html">
+      <file leaf-file-name="admin.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="868" column="19" selection-start="16036" selection-end="16036" vertical-scroll-proportion="-11.24">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="476" column="18" selection-start="7712" selection-end="7712" vertical-scroll-proportion="-15.0">
               <folding />
             </state>
           </provider>
@@ -102,235 +88,62 @@
       <file leaf-file-name="default.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="24" selection-start="399" selection-end="399" vertical-scroll-proportion="-9.558824">
+            <state line="29" column="28" selection-start="705" selection-end="705" vertical-scroll-proportion="-8.088235">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="grids.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss">
+      <file leaf-file-name="media-queries.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0">
+            <state line="167" column="5" selection-start="4221" selection-end="4221" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Form.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
+      <file leaf-file-name="sidePanel.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="369" column="0" selection-start="12977" selection-end="12977" vertical-scroll-proportion="-20.4">
-              <folding>
-                <element signature="n#!!doc;n#Form#0" expanded="false" />
-                <element signature="e#1363#1440#0" expanded="false" />
-                <element signature="e#1679#1967#0" expanded="false" />
-                <element signature="e#1969#2040#0" expanded="false" />
-                <element signature="e#2102#4747#0" expanded="false" />
-                <element signature="e#4762#5739#0" expanded="false" />
-                <element signature="e#4782#5737#0" expanded="false" />
-                <element signature="e#7087#7279#0" expanded="false" />
-                <element signature="e#8219#8442#0" expanded="false" />
-                <element signature="e#8557#9636#0" expanded="false" />
-                <element signature="e#9639#9726#0" expanded="false" />
-                <element signature="e#9974#10037#0" expanded="false" />
-                <element signature="e#10029#10034#0" expanded="false" />
-                <element signature="e#10052#10488#0" expanded="false" />
-                <element signature="e#10139#10485#0" expanded="false" />
-                <element signature="e#10603#11169#0" expanded="false" />
-                <element signature="e#10677#11166#0" expanded="false" />
-                <element signature="e#10700#10732#0" expanded="false" />
-                <element signature="e#11173#11295#0" expanded="false" />
-                <element signature="e#11421#11669#0" expanded="false" />
-                <element signature="e#11603#11666#0" expanded="false" />
-                <element signature="e#11885#11948#0" expanded="false" />
-                <element signature="e#12445#12748#0" expanded="false" />
-                <element signature="e#12499#12741#0" expanded="false" />
-                <element signature="e#12617#12700#0" expanded="false" />
-                <element signature="e#12760#12892#0" expanded="false" />
-                <element signature="e#12804#12885#0" expanded="false" />
-                <element signature="e#13067#13128#0" expanded="false" />
-                <element signature="e#13203#13813#0" expanded="false" />
-                <element signature="e#13366#13810#0" expanded="false" />
-                <element signature="e#13405#13739#0" expanded="false" />
-                <element signature="e#13751#13806#0" expanded="false" />
-                <element signature="e#13899#13935#0" expanded="false" />
-                <element signature="e#14031#15282#0" expanded="false" />
-                <element signature="e#14075#15279#0" expanded="false" />
-                <element signature="e#14396#14592#0" expanded="false" />
-                <element signature="e#14985#15210#0" expanded="false" />
-                <element signature="e#15294#15330#0" expanded="false" />
-                <element signature="e#15346#15712#0" expanded="false" />
-                <element signature="e#15384#15709#0" expanded="false" />
-                <element signature="e#15726#15762#0" expanded="false" />
-                <element signature="e#15778#15857#0" expanded="false" />
-                <element signature="e#15904#15940#0" expanded="false" />
-                <element signature="e#15955#16020#0" expanded="false" />
-                <element signature="e#16024#16086#0" expanded="false" />
-                <element signature="e#16285#16321#0" expanded="false" />
-                <element signature="e#16335#16371#0" expanded="false" />
-                <element signature="e#16384#16420#0" expanded="false" />
-                <element signature="e#16433#16469#0" expanded="false" />
-                <element signature="e#16473#16549#0" expanded="false" />
-                <element signature="e#16696#16993#0" expanded="false" />
-                <element signature="e#16734#16990#0" expanded="false" />
-                <element signature="e#17013#17367#0" expanded="false" />
-                <element signature="e#17057#17364#0" expanded="false" />
-                <element signature="e#17379#18739#0" expanded="false" />
-                <element signature="e#17423#18736#0" expanded="false" />
-                <element signature="e#17444#17474#0" expanded="false" />
-                <element signature="e#18142#18347#0" expanded="false" />
-                <element signature="e#18751#19510#0" expanded="false" />
-                <element signature="e#18795#19507#0" expanded="false" />
-                <element signature="e#18827#18885#0" expanded="false" />
-                <element signature="e#19526#19904#0" expanded="false" />
-                <element signature="e#19564#19901#0" expanded="false" />
-                <element signature="e#19654#19733#0" expanded="false" />
-                <element signature="e#19794#19877#0" expanded="false" />
-                <element signature="e#19920#20485#0" expanded="false" />
-                <element signature="e#19958#20482#0" expanded="false" />
-                <element signature="e#20174#20432#0" expanded="false" />
-                <element signature="e#20491#20576#0" expanded="false" />
-                <element signature="e#20637#20681#0" expanded="false" />
-                <element signature="e#20707#20751#0" expanded="false" />
-                <element signature="e#20778#21022#0" expanded="false" />
-                <element signature="e#20814#21020#0" expanded="false" />
-                <element signature="e#20818#20859#0" expanded="false" />
-                <element signature="e#21051#21465#0" expanded="false" />
-                <element signature="e#21115#21463#0" expanded="false" />
-                <element signature="e#21167#21460#0" expanded="false" />
-                <element signature="e#21468#24314#0" expanded="false" />
-                <element signature="e#24366#25339#0" expanded="false" />
-                <element signature="e#24578#25334#0" expanded="false" />
-                <element signature="e#24971#25038#0" expanded="false" />
-                <element signature="e#25255#25329#0" expanded="false" />
-                <element signature="e#25272#25310#0" expanded="false" />
-                <element signature="n#!!doc;n#saveFormInSession#0" expanded="false" />
-                <element signature="n#!!block;n#saveFormInSession#0" expanded="false" />
-                <element signature="e#25580#25754#0" expanded="false" />
-                <element signature="e#25762#25776#0" expanded="false" />
-                <element signature="e#25780#25842#0" expanded="false" />
-                <element signature="e#25877#26337#0" expanded="false" />
-                <element signature="e#25897#25914#0" expanded="false" />
-                <element signature="e#26038#26297#0" expanded="false" />
-                <element signature="e#26089#26118#0" expanded="false" />
-                <element signature="e#26156#26184#0" expanded="false" />
-                <element signature="e#26340#26417#0" expanded="false" />
-                <element signature="e#26450#27045#0" expanded="false" />
-                <element signature="e#27048#27109#0" expanded="false" />
-                <element signature="e#27140#27174#0" expanded="false" />
-                <element signature="e#27177#27290#0" expanded="false" />
-                <element signature="e#27336#27739#0" expanded="false" />
-                <element signature="e#27406#27423#0" expanded="false" />
-                <element signature="e#27489#27711#0" expanded="false" />
-                <element signature="e#27742#27820#0" expanded="false" />
-                <element signature="e#27860#28101#0" expanded="false" />
-                <element signature="e#27963#28044#0" expanded="false" />
-                <element signature="e#28104#28180#0" expanded="false" />
-                <element signature="e#28234#29205#0" expanded="false" />
-                <element signature="e#28358#28375#0" expanded="false" />
-                <element signature="e#28411#29179#0" expanded="false" />
-                <element signature="e#28529#28582#0" expanded="false" />
-                <element signature="e#28586#28655#0" expanded="false" />
-                <element signature="e#28769#28793#0" expanded="false" />
-                <element signature="e#28971#29116#0" expanded="false" />
-                <element signature="e#29126#29175#0" expanded="false" />
-                <element signature="n#!!doc;n#getValueForField#0" expanded="false" />
-                <element signature="n#!!block;n#getValueForField#0" expanded="false" />
-                <element signature="e#29370#29387#0" expanded="false" />
-                <element signature="e#29481#29531#0" expanded="false" />
-                <element signature="e#29539#29570#0" expanded="false" />
-                <element signature="e#29598#29988#0" expanded="false" />
-                <element signature="e#29660#29885#0" expanded="false" />
-                <element signature="e#29718#29754#0" expanded="false" />
-                <element signature="e#29766#29881#0" expanded="false" />
-                <element signature="e#29805#29839#0" expanded="false" />
-                <element signature="e#29853#29876#0" expanded="false" />
-                <element signature="e#29895#29925#0" expanded="false" />
-                <element signature="e#29954#29985#0" expanded="false" />
-                <element signature="n#!!doc;n#setValueForField#0" expanded="false" />
-                <element signature="n#!!block;n#setValueForField#0" expanded="false" />
-                <element signature="e#30152#30169#0" expanded="false" />
-                <element signature="e#30263#30313#0" expanded="false" />
-                <element signature="e#30321#30343#0" expanded="false" />
-                <element signature="e#30346#30348#0" expanded="false" />
-                <element signature="e#30443#30577#0" expanded="false" />
-                <element signature="e#30524#30550#0" expanded="false" />
-                <element signature="n#!!doc;n#copyFormToObject#0" expanded="false" />
-                <element signature="n#!!block;n#copyFormToObject#0" expanded="false" />
-                <element signature="e#30904#31201#0" expanded="false" />
-                <element signature="e#31002#31108#0" expanded="false" />
-                <element signature="e#31051#31079#0" expanded="false" />
-                <element signature="e#31209#31297#0" expanded="false" />
-                <element signature="e#31302#31386#0" expanded="false" />
-                <element signature="e#31430#31803#0" expanded="false" />
-                <element signature="e#31473#31519#0" expanded="false" />
-                <element signature="e#31544#31785#0" expanded="false" />
-                <element signature="e#31598#31780#0" expanded="false" />
-                <element signature="e#31646#31685#0" expanded="false" />
-                <element signature="e#31726#31776#0" expanded="false" />
-                <element signature="n#!!block;n#processFieldArray#0" expanded="false" />
-                <element signature="e#31926#32078#0" expanded="false" />
-                <element signature="e#31960#31993#0" expanded="false" />
-                <element signature="e#32029#32075#0" expanded="false" />
-                <element signature="n#!!doc;n#removeField#0" expanded="false" />
-                <element signature="n#!!block;n#removeField#0" expanded="false" />
-                <element signature="e#32244#32289#0" expanded="false" />
-                <element signature="n#!!block;n#scanFields#0" expanded="false" />
-                <element signature="e#32488#32575#0" expanded="false" />
-                <element signature="e#32524#32572#0" expanded="false" />
-                <element signature="n#!!block;n#removeSection#0" expanded="false" />
-                <element signature="e#32730#32807#0" expanded="false" />
-                <element signature="e#32766#32804#0" expanded="false" />
-                <element signature="e#32829#32902#0" expanded="false" />
-                <element signature="e#32944#33149#0" expanded="false" />
-                <element signature="e#33028#33144#0" expanded="false" />
-                <element signature="e#33101#33141#0" expanded="false" />
-                <element signature="e#33152#33321#0" expanded="false" />
-                <element signature="e#33356#33767#0" expanded="false" />
-                <element signature="e#33437#33494#0" expanded="false" />
-                <element signature="e#33502#33764#0" expanded="false" />
-                <element signature="e#33605#33758#0" expanded="false" />
-                <element signature="e#33623#33653#0" expanded="false" />
-                <element signature="n#!!doc;n#processFormData#0" expanded="false" />
-                <element signature="n#!!block;n#processFormData#0" expanded="false" />
-                <element signature="e#33995#34029#0" expanded="false" />
-                <element signature="e#34353#34671#0" expanded="false" />
-                <element signature="e#34420#34665#0" expanded="false" />
-                <element signature="e#34499#34563#0" expanded="false" />
-                <element signature="e#34518#34558#0" expanded="false" />
-                <element signature="e#34679#34749#0" expanded="false" />
-                <element signature="n#!!doc;n#processSectionData#0" expanded="false" />
-                <element signature="n#!!block;n#processSectionData#0" expanded="false" />
-                <element signature="e#34953#35101#0" expanded="false" />
-                <element signature="e#35000#35096#0" expanded="false" />
-                <element signature="e#35053#35092#0" expanded="false" />
-                <element signature="e#35121#35153#0" expanded="false" />
-                <element signature="e#35210#35257#0" expanded="false" />
-                <element signature="e#35283#35310#0" expanded="false" />
-                <element signature="n#!!doc;n#processFieldData#0" expanded="false" />
-                <element signature="n#!!block;n#processFieldData#0" expanded="false" />
-                <element signature="e#35550#35855#0" expanded="false" />
-                <element signature="e#35649#35785#0" expanded="false" />
-                <element signature="e#35726#35781#0" expanded="false" />
-                <element signature="e#35795#35852#0" expanded="false" />
-                <element signature="e#35897#36153#0" expanded="false" />
-                <element signature="e#36021#36147#0" expanded="false" />
-                <element signature="e#36059#36125#0" expanded="false" />
-                <element signature="n#!!doc;n#processFieldValue#0" expanded="false" />
-                <element signature="e#36438#36739#0" expanded="false" />
-                <element signature="e#36476#36616#0" expanded="false" />
-                <element signature="e#36481#36537#0" expanded="false" />
-                <element signature="e#36664#36686#0" expanded="false" />
-                <element signature="e#36712#36735#0" expanded="false" />
-                <element signature="e#36834#36856#0" expanded="false" />
-                <element signature="e#36881#36904#0" expanded="false" />
-                <element signature="e#36943#37617#0" expanded="false" />
-                <element signature="e#37016#37082#0" expanded="false" />
-                <element signature="e#37155#37252#0" expanded="false" />
-                <element signature="e#37325#37613#0" expanded="false" />
-                <element signature="e#37650#37698#0" expanded="false" />
-              </folding>
+            <state line="13" column="19" selection-start="282" selection-end="282" vertical-scroll-proportion="-3.8690476">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="body.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="27" selection-start="556" selection-end="556" vertical-scroll-proportion="0.72164947">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin-menu.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="0" selection-start="92" selection-end="115" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mail.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/core/mail/mail.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="260" column="34" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="variables.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="35" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -348,22 +161,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.html" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/adminMenu.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" />
-        <option value="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" />
-        <option value="$PROJECT_DIR$/lib/core/Menu.js" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" />
         <option value="$PROJECT_DIR$/lib/core/Form.js" />
+        <option value="$PROJECT_DIR$/docs/coverage.html" />
+        <option value="$PROJECT_DIR$/lib/client/Client.js" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_defs.sass" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.sass" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss" />
+        <option value="$PROJECT_DIR$/lib/core/Menu.js" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" />
       </list>
     </option>
   </component>
@@ -400,7 +213,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -593,140 +405,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cleanslate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -735,7 +420,7 @@
     <property name="options.lastSelected" value="preferences.sourceCode.SCSS" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -840,21 +525,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33631286" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33631286" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17235859" sideWeight="0.6703911" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32960895" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17235859" sideWeight="0.66368717" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32849163" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -919,327 +605,116 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/adminMenu.html">
+    <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="23" selection-start="23" selection-end="23" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/core/admin/admin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="408" column="70" selection-start="10603" selection-end="10603" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="333" selection-end="333" vertical-scroll-proportion="0.64695007">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/footer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.3478261">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="16" selection-start="397" selection-end="397" vertical-scroll-proportion="0.60073936">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/core/admin/templates/admin.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/core/Menu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="5" selection-start="2423" selection-end="2423" vertical-scroll-proportion="0.0">
+        <state line="909" column="25" selection-start="28017" selection-end="28017" vertical-scroll-proportion="-15.32">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin.html">
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="604" column="204" selection-start="7826" selection-end="7826" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/admin-menu.css">
+    <entry file="file://$PROJECT_DIR$/lib/core/Menu.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="2284" selection-start="2277" selection-end="2284" vertical-scroll-proportion="0.33333334">
+        <state line="248" column="38" selection-start="5694" selection-end="5708" vertical-scroll-proportion="-4.6525736">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/core/mail/mail.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="260" column="34" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="23" selection-start="887" selection-end="887" vertical-scroll-proportion="0.41360295">
-          <folding>
-            <element signature="e#1491#2206#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="74" selection-end="91" vertical-scroll-proportion="0.0">
+        <state line="3" column="0" selection-start="92" selection-end="115" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="369" column="0" selection-start="12977" selection-end="12977" vertical-scroll-proportion="-20.4">
-          <folding>
-            <element signature="n#!!doc;n#Form#0" expanded="false" />
-            <element signature="e#1363#1440#0" expanded="false" />
-            <element signature="e#1679#1967#0" expanded="false" />
-            <element signature="e#1969#2040#0" expanded="false" />
-            <element signature="e#2102#4747#0" expanded="false" />
-            <element signature="e#4762#5739#0" expanded="false" />
-            <element signature="e#4782#5737#0" expanded="false" />
-            <element signature="e#7087#7279#0" expanded="false" />
-            <element signature="e#8219#8442#0" expanded="false" />
-            <element signature="e#8557#9636#0" expanded="false" />
-            <element signature="e#9639#9726#0" expanded="false" />
-            <element signature="e#9974#10037#0" expanded="false" />
-            <element signature="e#10029#10034#0" expanded="false" />
-            <element signature="e#10052#10488#0" expanded="false" />
-            <element signature="e#10139#10485#0" expanded="false" />
-            <element signature="e#10603#11169#0" expanded="false" />
-            <element signature="e#10677#11166#0" expanded="false" />
-            <element signature="e#10700#10732#0" expanded="false" />
-            <element signature="e#11173#11295#0" expanded="false" />
-            <element signature="e#11421#11669#0" expanded="false" />
-            <element signature="e#11603#11666#0" expanded="false" />
-            <element signature="e#11885#11948#0" expanded="false" />
-            <element signature="e#12445#12748#0" expanded="false" />
-            <element signature="e#12499#12741#0" expanded="false" />
-            <element signature="e#12617#12700#0" expanded="false" />
-            <element signature="e#12760#12892#0" expanded="false" />
-            <element signature="e#12804#12885#0" expanded="false" />
-            <element signature="e#13067#13128#0" expanded="false" />
-            <element signature="e#13203#13813#0" expanded="false" />
-            <element signature="e#13366#13810#0" expanded="false" />
-            <element signature="e#13405#13739#0" expanded="false" />
-            <element signature="e#13751#13806#0" expanded="false" />
-            <element signature="e#13899#13935#0" expanded="false" />
-            <element signature="e#14031#15282#0" expanded="false" />
-            <element signature="e#14075#15279#0" expanded="false" />
-            <element signature="e#14396#14592#0" expanded="false" />
-            <element signature="e#14985#15210#0" expanded="false" />
-            <element signature="e#15294#15330#0" expanded="false" />
-            <element signature="e#15346#15712#0" expanded="false" />
-            <element signature="e#15384#15709#0" expanded="false" />
-            <element signature="e#15726#15762#0" expanded="false" />
-            <element signature="e#15778#15857#0" expanded="false" />
-            <element signature="e#15904#15940#0" expanded="false" />
-            <element signature="e#15955#16020#0" expanded="false" />
-            <element signature="e#16024#16086#0" expanded="false" />
-            <element signature="e#16285#16321#0" expanded="false" />
-            <element signature="e#16335#16371#0" expanded="false" />
-            <element signature="e#16384#16420#0" expanded="false" />
-            <element signature="e#16433#16469#0" expanded="false" />
-            <element signature="e#16473#16549#0" expanded="false" />
-            <element signature="e#16696#16993#0" expanded="false" />
-            <element signature="e#16734#16990#0" expanded="false" />
-            <element signature="e#17013#17367#0" expanded="false" />
-            <element signature="e#17057#17364#0" expanded="false" />
-            <element signature="e#17379#18739#0" expanded="false" />
-            <element signature="e#17423#18736#0" expanded="false" />
-            <element signature="e#17444#17474#0" expanded="false" />
-            <element signature="e#18142#18347#0" expanded="false" />
-            <element signature="e#18751#19510#0" expanded="false" />
-            <element signature="e#18795#19507#0" expanded="false" />
-            <element signature="e#18827#18885#0" expanded="false" />
-            <element signature="e#19526#19904#0" expanded="false" />
-            <element signature="e#19564#19901#0" expanded="false" />
-            <element signature="e#19654#19733#0" expanded="false" />
-            <element signature="e#19794#19877#0" expanded="false" />
-            <element signature="e#19920#20485#0" expanded="false" />
-            <element signature="e#19958#20482#0" expanded="false" />
-            <element signature="e#20174#20432#0" expanded="false" />
-            <element signature="e#20491#20576#0" expanded="false" />
-            <element signature="e#20637#20681#0" expanded="false" />
-            <element signature="e#20707#20751#0" expanded="false" />
-            <element signature="e#20778#21022#0" expanded="false" />
-            <element signature="e#20814#21020#0" expanded="false" />
-            <element signature="e#20818#20859#0" expanded="false" />
-            <element signature="e#21051#21465#0" expanded="false" />
-            <element signature="e#21115#21463#0" expanded="false" />
-            <element signature="e#21167#21460#0" expanded="false" />
-            <element signature="e#21468#24314#0" expanded="false" />
-            <element signature="e#24366#25339#0" expanded="false" />
-            <element signature="e#24578#25334#0" expanded="false" />
-            <element signature="e#24971#25038#0" expanded="false" />
-            <element signature="e#25255#25329#0" expanded="false" />
-            <element signature="e#25272#25310#0" expanded="false" />
-            <element signature="n#!!doc;n#saveFormInSession#0" expanded="false" />
-            <element signature="n#!!block;n#saveFormInSession#0" expanded="false" />
-            <element signature="e#25580#25754#0" expanded="false" />
-            <element signature="e#25762#25776#0" expanded="false" />
-            <element signature="e#25780#25842#0" expanded="false" />
-            <element signature="e#25877#26337#0" expanded="false" />
-            <element signature="e#25897#25914#0" expanded="false" />
-            <element signature="e#26038#26297#0" expanded="false" />
-            <element signature="e#26089#26118#0" expanded="false" />
-            <element signature="e#26156#26184#0" expanded="false" />
-            <element signature="e#26340#26417#0" expanded="false" />
-            <element signature="e#26450#27045#0" expanded="false" />
-            <element signature="e#27048#27109#0" expanded="false" />
-            <element signature="e#27140#27174#0" expanded="false" />
-            <element signature="e#27177#27290#0" expanded="false" />
-            <element signature="e#27336#27739#0" expanded="false" />
-            <element signature="e#27406#27423#0" expanded="false" />
-            <element signature="e#27489#27711#0" expanded="false" />
-            <element signature="e#27742#27820#0" expanded="false" />
-            <element signature="e#27860#28101#0" expanded="false" />
-            <element signature="e#27963#28044#0" expanded="false" />
-            <element signature="e#28104#28180#0" expanded="false" />
-            <element signature="e#28234#29205#0" expanded="false" />
-            <element signature="e#28358#28375#0" expanded="false" />
-            <element signature="e#28411#29179#0" expanded="false" />
-            <element signature="e#28529#28582#0" expanded="false" />
-            <element signature="e#28586#28655#0" expanded="false" />
-            <element signature="e#28769#28793#0" expanded="false" />
-            <element signature="e#28971#29116#0" expanded="false" />
-            <element signature="e#29126#29175#0" expanded="false" />
-            <element signature="n#!!doc;n#getValueForField#0" expanded="false" />
-            <element signature="n#!!block;n#getValueForField#0" expanded="false" />
-            <element signature="e#29370#29387#0" expanded="false" />
-            <element signature="e#29481#29531#0" expanded="false" />
-            <element signature="e#29539#29570#0" expanded="false" />
-            <element signature="e#29598#29988#0" expanded="false" />
-            <element signature="e#29660#29885#0" expanded="false" />
-            <element signature="e#29718#29754#0" expanded="false" />
-            <element signature="e#29766#29881#0" expanded="false" />
-            <element signature="e#29805#29839#0" expanded="false" />
-            <element signature="e#29853#29876#0" expanded="false" />
-            <element signature="e#29895#29925#0" expanded="false" />
-            <element signature="e#29954#29985#0" expanded="false" />
-            <element signature="n#!!doc;n#setValueForField#0" expanded="false" />
-            <element signature="n#!!block;n#setValueForField#0" expanded="false" />
-            <element signature="e#30152#30169#0" expanded="false" />
-            <element signature="e#30263#30313#0" expanded="false" />
-            <element signature="e#30321#30343#0" expanded="false" />
-            <element signature="e#30346#30348#0" expanded="false" />
-            <element signature="e#30443#30577#0" expanded="false" />
-            <element signature="e#30524#30550#0" expanded="false" />
-            <element signature="n#!!doc;n#copyFormToObject#0" expanded="false" />
-            <element signature="n#!!block;n#copyFormToObject#0" expanded="false" />
-            <element signature="e#30904#31201#0" expanded="false" />
-            <element signature="e#31002#31108#0" expanded="false" />
-            <element signature="e#31051#31079#0" expanded="false" />
-            <element signature="e#31209#31297#0" expanded="false" />
-            <element signature="e#31302#31386#0" expanded="false" />
-            <element signature="e#31430#31803#0" expanded="false" />
-            <element signature="e#31473#31519#0" expanded="false" />
-            <element signature="e#31544#31785#0" expanded="false" />
-            <element signature="e#31598#31780#0" expanded="false" />
-            <element signature="e#31646#31685#0" expanded="false" />
-            <element signature="e#31726#31776#0" expanded="false" />
-            <element signature="n#!!block;n#processFieldArray#0" expanded="false" />
-            <element signature="e#31926#32078#0" expanded="false" />
-            <element signature="e#31960#31993#0" expanded="false" />
-            <element signature="e#32029#32075#0" expanded="false" />
-            <element signature="n#!!doc;n#removeField#0" expanded="false" />
-            <element signature="n#!!block;n#removeField#0" expanded="false" />
-            <element signature="e#32244#32289#0" expanded="false" />
-            <element signature="n#!!block;n#scanFields#0" expanded="false" />
-            <element signature="e#32488#32575#0" expanded="false" />
-            <element signature="e#32524#32572#0" expanded="false" />
-            <element signature="n#!!block;n#removeSection#0" expanded="false" />
-            <element signature="e#32730#32807#0" expanded="false" />
-            <element signature="e#32766#32804#0" expanded="false" />
-            <element signature="e#32829#32902#0" expanded="false" />
-            <element signature="e#32944#33149#0" expanded="false" />
-            <element signature="e#33028#33144#0" expanded="false" />
-            <element signature="e#33101#33141#0" expanded="false" />
-            <element signature="e#33152#33321#0" expanded="false" />
-            <element signature="e#33356#33767#0" expanded="false" />
-            <element signature="e#33437#33494#0" expanded="false" />
-            <element signature="e#33502#33764#0" expanded="false" />
-            <element signature="e#33605#33758#0" expanded="false" />
-            <element signature="e#33623#33653#0" expanded="false" />
-            <element signature="n#!!doc;n#processFormData#0" expanded="false" />
-            <element signature="n#!!block;n#processFormData#0" expanded="false" />
-            <element signature="e#33995#34029#0" expanded="false" />
-            <element signature="e#34353#34671#0" expanded="false" />
-            <element signature="e#34420#34665#0" expanded="false" />
-            <element signature="e#34499#34563#0" expanded="false" />
-            <element signature="e#34518#34558#0" expanded="false" />
-            <element signature="e#34679#34749#0" expanded="false" />
-            <element signature="n#!!doc;n#processSectionData#0" expanded="false" />
-            <element signature="n#!!block;n#processSectionData#0" expanded="false" />
-            <element signature="e#34953#35101#0" expanded="false" />
-            <element signature="e#35000#35096#0" expanded="false" />
-            <element signature="e#35053#35092#0" expanded="false" />
-            <element signature="e#35121#35153#0" expanded="false" />
-            <element signature="e#35210#35257#0" expanded="false" />
-            <element signature="e#35283#35310#0" expanded="false" />
-            <element signature="n#!!doc;n#processFieldData#0" expanded="false" />
-            <element signature="n#!!block;n#processFieldData#0" expanded="false" />
-            <element signature="e#35550#35855#0" expanded="false" />
-            <element signature="e#35649#35785#0" expanded="false" />
-            <element signature="e#35726#35781#0" expanded="false" />
-            <element signature="e#35795#35852#0" expanded="false" />
-            <element signature="e#35897#36153#0" expanded="false" />
-            <element signature="e#36021#36147#0" expanded="false" />
-            <element signature="e#36059#36125#0" expanded="false" />
-            <element signature="n#!!doc;n#processFieldValue#0" expanded="false" />
-            <element signature="e#36438#36739#0" expanded="false" />
-            <element signature="e#36476#36616#0" expanded="false" />
-            <element signature="e#36481#36537#0" expanded="false" />
-            <element signature="e#36664#36686#0" expanded="false" />
-            <element signature="e#36712#36735#0" expanded="false" />
-            <element signature="e#36834#36856#0" expanded="false" />
-            <element signature="e#36881#36904#0" expanded="false" />
-            <element signature="e#36943#37617#0" expanded="false" />
-            <element signature="e#37016#37082#0" expanded="false" />
-            <element signature="e#37155#37252#0" expanded="false" />
-            <element signature="e#37325#37613#0" expanded="false" />
-            <element signature="e#37650#37698#0" expanded="false" />
-          </folding>
+        <state line="476" column="18" selection-start="7712" selection-end="7712" vertical-scroll-proportion="-15.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/header.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="24" selection-start="399" selection-end="399" vertical-scroll-proportion="-9.558824">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="21" selection-start="335" selection-end="335" vertical-scroll-proportion="0.13194445">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="1" selection-start="1802" selection-end="1802" vertical-scroll-proportion="1.1054546">
+        <state line="167" column="5" selection-start="4221" selection-end="4221" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="405" column="16" selection-start="6983" selection-end="6983" vertical-scroll-proportion="0.28727272">
+        <state line="868" column="19" selection-start="16036" selection-end="16036" vertical-scroll-proportion="-11.24">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="28" selection-start="705" selection-end="705" vertical-scroll-proportion="-8.088235">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="19" selection-start="282" selection-end="282" vertical-scroll-proportion="-3.8690476">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="27" selection-start="556" selection-end="556" vertical-scroll-proportion="0.72164947">
           <folding />
         </state>
       </provider>

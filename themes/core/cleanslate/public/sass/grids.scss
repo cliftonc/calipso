@@ -68,6 +68,10 @@
 	padding: 0 ($lineHeight/2) * 1em;
 	@include box-sizing(border-box);
 	@include transition($transitionTime all);
+
+	&.extended-height {
+		overflow: visible;
+	}
 }
 
 .col {

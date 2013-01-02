@@ -11,12 +11,12 @@
 	<%- scripts %>
 </head>
 <body>
-<nav class = "admin-menu">
+<nav class = "admin-menu row">
 	<%- admin %>
 </nav>
 <div class = "container">
-	<header class="row">
-		<div class="logo threecol">
+	<header class = "row">
+		<div class = "logo threecol">
 			<%- header %>
 		</div>
 
@@ -24,21 +24,21 @@
 			<%- secondary %>
 		</nav>
 	</header>
-	<div id = "messages" class="row">
+	<div id = "messages" class = "row">
 		<%- messages %>
 	</div>
-	<div id = "adminToolbar" class="row">
+	<div id = "adminToolbar">
 		<%- getMenu('adminToolbar') %>
 	</div>
-	<article class="row">
-	<div class = "body row ninecol">
-		<!--PAGE_BODY_START-->
-		<%- body %>
-		<!--PAGE_BODY_END-->
-	</div>
-	<aside class = "sidePanel threecol last">
-		<%- sidePanel %>
-	</aside>
+	<article class = "row">
+		<div class = "body ninecol">
+			<!--PAGE_BODY_START-->
+			<%- body %>
+			<!--PAGE_BODY_END-->
+		</div>
+		<aside class = "sidePanel threecol last">
+			<%- sidePanel %>
+		</aside>
 	</article>
 	<footer class = "footer row centred">
 		<%- footer %>

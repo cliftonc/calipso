@@ -249,7 +249,7 @@ function contentForm()
 				label:'Categorisation',
 				fields:[
 					{label:'Taxonomy', name:'content[taxonomy]', type:'text', description:'Enter the menu heirarchy, e.g. "welcome/about"'},
-					{label:'Tags', name:'content[tags]', type:'text', description:'Enter comma delimited tags to help manage this content.'},
+					{label:'Tags', name:'content[tags]', type:'text', description:'Enter comma delimited tags to help manage this content.'}
 				]
 			},
 			{
@@ -258,7 +258,7 @@ function contentForm()
 				fields:[
 					{label:'Status', name:'content[status]', type:'select', options:["draft", "scheduled", "published"], description:'Select the status (published is visible to all public).'},
 					{label:'Published', name:'content[published]', type:'datetime', description:'Date to appear as published.'},
-					{label:'Scheduled', name:'content[scheduled]', type:'datetime', description:'Date to be published (if scheduled).'},
+					{label:'Scheduled', name:'content[scheduled]', type:'datetime', description:'Date to be published (if scheduled).'}
 				]
 			}
 		],
