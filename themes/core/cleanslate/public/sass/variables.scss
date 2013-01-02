@@ -5,20 +5,26 @@ $container-lateral-padding: 1em;
 $col-margin-right: 3.8%;
 $col-unit: ($rowWidth + $col-margin-right) / $num-cols;
 
+$multiplier: 1.3;
+$multiplierLarge: $multiplier * 2.1;
+$multiplierSmall: $multiplier / $multiplierLarge;
+
 $padding: 1em;
-$paddingLarge: $padding * 1.3;
-$paddingSmall: $padding / 1.3;
+$paddingLarge: $padding * $multiplier;
+$paddingSmall: $padding / $multiplier;
 $margin: 1em;
-$marginLarge: $margin * 1.3;
+$marginLarge: $margin * $multiplier;
 
 /*Type*/
 $baseFontSize: 16px;
 $lineHeight: 1.4;
 $em: 1em;
 
-$borderRadius: ($margin / 3.5);
+$borderRadius: ($margin / $multiplierLarge);
 $borderRadiusSmall: $borderRadius * 0.75;
 $borderRadiusLarge: $borderRadius * 1.25;
+
+$borderColour: #d9d9d9;
 
 /* Transitions*/
 $transitionTime: 0.5s;

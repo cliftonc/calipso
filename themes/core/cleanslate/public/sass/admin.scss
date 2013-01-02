@@ -17,6 +17,7 @@
 @import "compass/css3";
 @import "variables.scss";
 @import "grids.scss";
+@import "partials/icomoon/icomoon.scss";
 
 // 1. General
 // ------------------------------------------ //
@@ -25,11 +26,16 @@ html {
 	background: #fff;
 }
 
-body {
-	background: #fff;
-	font: normal 0.875em/1em sans-serif;
+header, header.row, footer, footer.row, article, aside {
+	margin-top: $margin;
+	margin-bottom: $margin;
 }
 
+header {
+	h1 {
+		float: left;
+	}
+}
 // 2. Typography
 // ------------------------------------------ //
 
@@ -115,18 +121,6 @@ h1 {
 
 // 3. Layout
 // ----------------------------------------//
-
-header {
-
-	border-bottom: 1px solid #d9d9d9;
-	margin: $marginLarge auto $marginLarge;
-	overflow: hidden;
-
-	h1 {
-		float: left;
-	}
-}
-
 
 .admin-body {
 	clear: both;
@@ -321,26 +315,24 @@ span.pager-page {
 	clear: both;
 }
 
-#adminToolbar {
+.toolbar, .btn-group, .actions input {
 	position: relative;
-	top: $marginLarge;
-	float: right;
-
-	ul, li {
-		margin: 0;
-		list-style: none;
-		list-style-image: none;
-	}
-
-	ul {
-		text-align: right;
-	}
+	margin: 0;
+	text-align: right;
 
 	li {
 
-		@include inline-block;
+		@include inline-block();
+		&:first-child a {
+			@include border-top-left-radius($borderRadius);
+			@include border-bottom-left-radius($borderRadius);
+		}
+		&:last-child a {
+			@include border-top-right-radius($borderRadius);
+			@include border-bottom-right-radius($borderRadius);
+		}
 
-		a:link, a:visited {
+		a {
 			background: #d9d9d9;
 			border: 1px solid #aaa;
 			border-color: #aaa #999 #888;
@@ -350,7 +342,7 @@ span.pager-page {
 			font-size: 85%;
 			font-weight: 400;
 
-			margin: 0 $marginLarge 0 0;
+			margin-right: -1px;
 			padding: $borderRadiusLarge $padding;
 			text-shadow: 0 1px 0 #fff;
 			text-decoration: none;
@@ -358,7 +350,6 @@ span.pager-page {
 			@include inline-block();
 			@include background(linear-gradient(#ededed, #d9d9d9));
 			@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
-			@include border-radius($borderRadiusLarge);
 
 			&:hover, &:focus, &.loading {
 				background: #2F5163;
@@ -384,16 +375,17 @@ span.pager-page {
 		&:last-child {
 			border: 0;
 		}
+		ul {
+			display: none;
+			float: left;
+			clear: left;
+			position: absolute;
+			background: #1993A8;
+		}
 	}
 }
 
-#adminToolbar li ul {
-	display: none;
-	float: left;
-	clear: left;
-	position: absolute;
-	background: #1993A8;
-}
+
 
 // Tabs
 // ----------------------------------------//
@@ -442,7 +434,6 @@ ul.tabs li.active a:hover {
 	background: #fff;
 	border: 1px solid #999;
 	clear: both;
-	padding: 0 $marginLarge;
 
 	@include border-radius($borderRadius);
 }
@@ -488,9 +479,6 @@ ul.tabs li.active a:hover {
 	padding: $borderRadius;
 }
 
-.tab-container .actions {
-	margin: 0;
-}
 
 .mail-templates {
 	.mail-template {
@@ -542,7 +530,7 @@ label.for-checkable {
 textarea, input[type="text"], input[type="password"], select, .readonlytext {
 	@include border-radius($borderRadiusSmall);
 	border: 1px solid #999;
-	padding: $paddingSmall;
+	padding: $borderRadius;
 }
 
 .readonlytext {
@@ -559,9 +547,15 @@ textarea {
 	width: 98%;
 }
 
+legend {
+	margin: $margin 0;
+	text-shadow: 0 1px #FFF;
+	font-size: 1.6em;
+}
 .description {
 	color: #777;
-	padding: $borderRadiusSmall 0 $borderRadius 13em;
+	padding: $borderRadiusSmall;
+	text-align: center;
 	font: italic 11px/1.5em Georgia, serif;
 	display: block;
 }
@@ -622,9 +616,6 @@ select.date.date-month {
 	width: 42%;
 }
 
-input.checkbox, input.radio {
-	margin-left: 160px;
-}
 
 input.labelFirst {
 	margin-left: auto;
@@ -636,18 +627,6 @@ form .section {
 
 form .section:first-child {
 	border: 0;
-}
-
-.actions {
-	clear: both;
-	padding: $marginLarge 0 $marginLarge $marginLarge;
-	border-top: 1px solid #ccc;
-	margin: $borderRadiusLarge 0 0;
-	height: 35px;
-}
-
-.actions input {
-	float: right;
 }
 
 .log-in-or-register {
@@ -705,6 +684,26 @@ form .section:first-child {
 	display: none;
 }
 
+.actions, .form-actions {
+	text-align: center;
+	border-top: 1px solid $borderColour;
+	//background: opacify($borderColour, 0.4);
+	background: rgba(217, 217, 217, 0.2);
+	padding: $margin 0;
+
+	input, .btn, button {
+		margin: 0 -1px 0 0;
+		&:last-child {
+		@include border-top-left-radius(0);
+		@include border-bottom-left-radius(0);
+	}
+		&:first-child {
+			@include border-top-right-radius(0);
+			@include border-bottom-right-radius(0);
+		}
+	}
+
+}
 #user-welcome-or-login input[type="submit"] {
 	width: auto;
 	padding: $borderRadiusSmall $borderRadiusLarge;
@@ -867,7 +866,7 @@ form .section:first-child {
 	}
 }
 
-.form-container, .box {
+.box, form, .module {
 	padding: $padding;
 	margin: $margin;
 	@include transition($transitionTime width);

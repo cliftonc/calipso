@@ -13,29 +13,29 @@
 
 </head>
 <body>
-<div id = "adminMenu">
+<nav class = "adminMenu row extended-height">
 	<%- admin %>
-</div>
-<div id = "container">
-	<div id = "header">
+</nav>
+<div class = "container">
+	<header class = "row">
 		<%- header %>
-		<div id = "adminToolbar">
+		<nav class = "adminToolbar">
 			<%- getMenu('adminToolbar') %>
-		</div>
-	</div>
+		</nav>
+	</header>
 
-	<div id = "messages">
+	<aside id = "messages" class = "row">
 		<%- messages %>
-	</div>
+	</aside>
 
-	<div id = "admin-body">
+	<article class = "admin-body row">
 		<!--PAGE_BODY_START-->
 		<%- body %>
 		<!--PAGE_BODY_END-->
-	</div>
-	<div id = "footer">
+	</article>
+	<footer class = "row">
 		<%- footer %>
-	</div>
+	</footer>
 </div>
 </body>
 </html>
