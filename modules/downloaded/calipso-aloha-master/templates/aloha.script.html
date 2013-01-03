@@ -1,13 +1,14 @@
-<script type="text/javascript" src="/js/aloha/aloha.js"></script>
-<script type="text/javascript" src="/js/aloha/plugins/com.gentics.aloha.plugins.Format/plugin.js"></script>
-<script type="text/javascript" src="/js/aloha/plugins/com.gentics.aloha.plugins.Table/plugin.js"></script>
-<script type="text/javascript" src="/js/aloha/plugins/com.gentics.aloha.plugins.List/plugin.js"></script>
+<script type = "text/javascript" src = "/lib/require.js"></script>
+<script type = "text/javascript" src = "/lib/aloha.js"></script>
 <!-- markItUp! skin -->
-<script type="text/javascript">
-$(document).ready(function()  {
+<script type = "text/javascript">
 
-  // Add aloha to your textarea in one line
-  $('textarea.textarea').aloha();
-
-});
+	jQuery(document).ready(function ($)
+	{
+		var $textAreas = $("textarea.textarea");
+		if ($textAreas.length > 0) {
+			$.getScript(["/modules/downloaded/calipso-aloha-master/lib/require.js", "/modules/downloaded/calipso-aloha-master/lib/aloha.js"]);
+			$textAreas.aloha();
+		}
+	});
 </script>
