@@ -49,6 +49,7 @@ body {
 	font: 400 0.875em/1.618em "Helvetica", serif;
 	text-shadow: 0 $borderRadiusSmall 1px #fff;
 	height: 100%;
+	overflow-x: hidden;
 }
 
 a {
@@ -232,16 +233,25 @@ form .section:first-child {
 	border: 0;
 }
 
-.actions {
-	clear: both;
-	padding: $padding 0 $padding $padding;
-	border-top: 1px solid #ccc;
-	margin: $paddingSmall 0 0;
-	height: 35px;
-}
+.actions, .form-actions {
+	text-align: center;
+	border-top: 1px solid $borderColour;
+	//background: opacify($borderColour, 0.4);
+	background: rgba(217, 217, 217, 0.2);
+	padding: $margin 0;
 
-.actions input {
-	float: right;
+	input, .btn, button {
+		margin: 0 -1px 0 0;
+		&:last-child {
+			@include border-top-left-radius(0);
+			@include border-bottom-left-radius(0);
+		}
+		&:first-child {
+			@include border-top-right-radius(0);
+			@include border-bottom-right-radius(0);
+		}
+	}
+
 }
 
 .log-in-or-register {
@@ -296,6 +306,7 @@ form .section:first-child {
 	margin: 0;
 }
 
+
 #user-login:before,
 #user-login:after {
 	content: "";
@@ -317,13 +328,11 @@ form .section:first-child {
 }
 
 .close {
-	display: block;
 	position: absolute;
-	top: -5px;
-	right: -5px;
+	right: 5%;
 	width: $em;
 	height: $em;
-	border-radius: $em;
+	@include border-radius($borderRadiusLarge);
 	text-align: center;
 	overflow: hidden;
 	background: #aaa;
@@ -332,19 +341,17 @@ form .section:first-child {
 	-webkit-user-select: none;
 	user-select: none;
 	cursor: pointer;
+	text-shadow: 0 1px $borderColour;
 }
 
 .close:before {
 	content: "\D7";
 	color: #000;
-	display: block;
-	text-align: center;
 	font-weight: normal;
 	width: $em;
 	position: absolute;
 	top: -1px;
 	left: 0;
-	font-size: 85%;
 	line-height: $em;
 	font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
 }
@@ -502,7 +509,6 @@ form .section:first-child {
 .toolbar, .btn-group, .actions input {
 	position: relative;
 	margin: 0;
-	text-align: right;
 
 	li {
 

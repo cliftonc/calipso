@@ -3,15 +3,16 @@
 
 @import "compass/css3";
 @import "variables.scss";
+
 .menu.admin, .menu.admin ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
+
 .menu.admin {
 	background: darken(#2F5163, 15%);
 	border-bottom: 1px solid darken(#2F5163, 15%);
-	padding: $paddingSmall 0 0 0;
 	overflow: visible;
 	zoom: 1;
 
@@ -23,6 +24,7 @@
 		@include opacity(0);
 		visibility: hidden;
 		position: absolute;
+		top: 100%;
 		margin-left: $margin;
 		background: #444;
 		@include transition(opacity $transitionTime ease-in-out);
@@ -31,8 +33,10 @@
 		@include box-shadow(0 0 $paddingSmall rgba(255, 255, 255, 0.5));
 		@include border-radius($borderRadius);
 
-		ul { //for nested menus
+		ul {
+			//for nested menus
 			left: 100%;
+			top: 0;
 			li {
 				&:first-child {
 					a {
@@ -70,7 +74,7 @@
 				@include box-shadow(none);
 			}
 			&:hover {
-				ul {
+				> ul {
 					@include opacity(1);
 					visibility: visible;
 					margin: 0;
@@ -88,7 +92,7 @@
 					&:after {
 						content: '';
 						position: absolute;
-						left: 2em;
+						left: $marginLarge;
 						top: -$paddingSmall;
 						width: 0;
 						height: 0;
@@ -114,7 +118,7 @@
 			a {
 				color: #fafafa;
 			}
-			ul {
+			> ul {
 				display: block;
 				@include opacity(1);
 				visibility: visible;
@@ -140,7 +144,6 @@
 		display: table;
 	}
 }
-
 
 /*
 #menu ul ul {

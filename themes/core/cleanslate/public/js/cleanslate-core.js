@@ -64,7 +64,7 @@ cleanslate = {
 							var end = '<!--PAGE_BODY_END-->';
 							if (text.length && text.indexOf(start) > -1 && text.indexOf(end) > -1)
 							{
-								var html = '<div class="close">close</div>' + text.split(start)[1].split(end)[0];
+								var html = '<div class="close"></div>' + text.split(start)[1].split(end)[0];
 								userLoginBox = $('<div id="user-login" class="threecol"/>').html(html).appendTo(userWelcomeOrLoginBox).show();
 								userLoginBox.find('input')[0].focus();
 								userWelcomeOrLoginBox.find('.close').click(function ()

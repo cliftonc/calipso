@@ -151,7 +151,7 @@
 	}
 	header, header.row {
 		overflow: visible;
-		h1 {
+		h1, .toolbar.admin-toolbar li {
 			float: none;
 		}
 	}
@@ -166,7 +166,7 @@
 		min-width: 98%;
 		padding: $borderRadius;
 	}
-	label {
+	label, .form-item {
 		text-align: left;
 		margin-right: 0;
 	}
@@ -202,5 +202,8 @@
 				width: 100%;
 			}
 		}
+	}
+	#user-login {
+		margin: $margin 0;
 	}
 }
