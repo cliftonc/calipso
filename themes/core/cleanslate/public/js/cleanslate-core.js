@@ -20,7 +20,23 @@ cleanslate = {
 		}
 	},
 	backlog: [],
-	init: function ()
+	setResponsiveMenu: function ()
+	{
+			if (Modernizr.mq("media handheld, only screen and (max-width: 767px)")) {
+				console.log("Doing menu resize...");
+				var $menus = $("ul.menu");
+				var $menuItems = $menus.find("li");
+				$menuItems.toggle();
+				var $responsiveMenuItemTitle = "<li class='menu-item'><a href='#' class='showMenuItems'><i class='icon-list-2 responsive-logo'></i></a> </li> ";
+
+				$menus.append($responsiveMenuItemTitle).on('click', function (e)
+				{
+					e.preventDefault();
+					$menuItems.toggle("slow");
+					$(this).find(".responsive-logo").toggleClass("icon-minus-2");
+				});
+			}
+	}, init: function ()
 	{
 
 		// HIDE/SHOW USER LOGIN FORM
@@ -218,10 +234,33 @@ cleanslate = {
 		});
 
 		// REMOVE ANNOYING TITLE TOOLTIPS FROM MENUS
-		$('.menu a').each(function (i, node)
+		/*$('.menu a').each(function (i, node)
 		{
 			node.title = "";
-		});
+		});*/
+
+		this.setResponsiveMenu();
+		/*$(".menu li li").toggle("slow").parent().on('hover', function (e)
+		{
+			$(this).find("li").toggle("slow");
+		});*/
+
+		if (Modernizr.mq('only screen and (max-width: 767px)')) {
+			console.log("Doing menu resize...");
+			var $menus = $("ul.menu");
+			var $menuItems = $menus.find("li");
+			$menuItems.toggle();
+			var $responsiveMenuItemTitle = "<li class='menu-item'><a href='#' class='showMenuItems'><i class='icon-list-2 responsive-logo'></i></a> </li> ";
+
+			$menus.append($responsiveMenuItemTitle).on('click', function (e)
+			{
+				e.preventDefault();
+				$menuItems.toggle("slow");
+				$(this).find(".responsive-logo").toggleClass("icon-minus-2");
+			});
+		}
+
+		
 
 	} // end of cleanslate.init
 
