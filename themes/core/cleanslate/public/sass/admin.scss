@@ -320,6 +320,12 @@ span.pager-page {
 	margin: 0;
 	text-align: right;
 
+	&.admin-toolbar {
+		li {
+			float: right;
+		}
+	}
+
 	li {
 
 		@include inline-block();

@@ -2,41 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="458327c9-4ed3-495b-8c7b-1bfa55213de6" name="Default" comment="Made installation styles responsive.  Users can now install calipso via a mobile device.&#10;Many style fixes: changed 0px to 0, changed px to em, and used percentages when advantageous.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/cssxfire.xml" />
-      <change type="DELETED" beforePath="C:\Users\Sean\Documents\GitHub\calipso\themes\core\cleanslate\public\js\jquery-1.7.2.min.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/coverage.html" afterPath="$PROJECT_DIR$/docs/coverage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/calipso.js" afterPath="$PROJECT_DIR$/lib/calipso.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/client/Client.js" afterPath="$PROJECT_DIR$/lib/client/Client.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/core/Form.js" afterPath="$PROJECT_DIR$/lib/core/Form.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/core/Menu.js" afterPath="$PROJECT_DIR$/lib/core/Menu.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/content/content.js" afterPath="$PROJECT_DIR$/modules/core/content/content.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" afterPath="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin-menu.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin-menu.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/grids.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/grids.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/install.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/media-queries.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/media-queries.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/primary-menu.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/primary-menu.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/grids.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/body.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/body.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/header.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/header.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/secondaryMenu.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/styles.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/styles.html" />
     </list>
     <ignored path="calipso.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,21 +33,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Form.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="909" column="25" selection-start="28017" selection-end="28017" vertical-scroll-proportion="-15.32">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="admin.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="868" column="19" selection-start="16036" selection-end="16036" vertical-scroll-proportion="-11.24">
+            <state line="324" column="24" selection-start="5390" selection-end="5390" vertical-scroll-proportion="-14.24">
               <folding />
             </state>
           </provider>
@@ -79,7 +45,7 @@
       <file leaf-file-name="style.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="476" column="18" selection-start="7712" selection-end="7712" vertical-scroll-proportion="-15.0">
+            <state line="51" column="23" selection-start="1209" selection-end="1209" vertical-scroll-proportion="-33.0">
               <folding />
             </state>
           </provider>
@@ -88,16 +54,7 @@
       <file leaf-file-name="default.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="28" selection-start="705" selection-end="705" vertical-scroll-proportion="-8.088235">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="media-queries.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="167" column="5" selection-start="4221" selection-end="4221" vertical-scroll-proportion="0.0">
+            <state line="37" column="14" selection-start="880" selection-end="880" vertical-scroll-proportion="-11.117647">
               <folding />
             </state>
           </provider>
@@ -106,17 +63,28 @@
       <file leaf-file-name="sidePanel.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="19" selection-start="282" selection-end="282" vertical-scroll-proportion="-3.8690476">
+            <state line="13" column="19" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="body.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="body.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="27" selection-start="556" selection-end="556" vertical-scroll-proportion="0.72164947">
+            <state line="26" column="27" selection-start="556" selection-end="556" vertical-scroll-proportion="-13.558824">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cleanslate-core.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="68" column="53" selection-start="1942" selection-end="1942" vertical-scroll-proportion="-68.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,16 +92,16 @@
       <file leaf-file-name="admin-menu.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="92" selection-end="115" vertical-scroll-proportion="0.0">
+            <state line="96" column="33" selection-start="2019" selection-end="2019" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mail.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/core/mail/mail.js">
+      <file leaf-file-name="default.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="260" column="34" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0">
+            <state line="21" column="9" selection-start="542" selection-end="542" vertical-scroll-proportion="-9.235294">
               <folding />
             </state>
           </provider>
@@ -143,6 +111,15 @@
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
           <provider selected="true" editor-type-id="text-editor">
             <state line="8" column="35" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="media-queries.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="153" column="37" selection-start="3924" selection-end="3924" vertical-scroll-proportion="0.58639705">
               <folding />
             </state>
           </provider>
@@ -161,9 +138,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss" />
-        <option value="$PROJECT_DIR$/lib/core/Form.js" />
-        <option value="$PROJECT_DIR$/docs/coverage.html" />
         <option value="$PROJECT_DIR$/lib/client/Client.js" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" />
@@ -171,12 +145,15 @@
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.sass" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss" />
         <option value="$PROJECT_DIR$/lib/core/Menu.js" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" />
+        <option value="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
       </list>
     </option>
   </component>
@@ -213,6 +190,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -405,25 +383,84 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cleanslate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cleanslate" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode.SCSS" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="options.lastSelected" value="preferences.sourceCode.SCSS" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -605,57 +642,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="909" column="25" selection-start="28017" selection-end="28017" vertical-scroll-proportion="-15.32">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="604" column="204" selection-start="7826" selection-end="7826" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/core/Menu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="38" selection-start="5694" selection-end="5708" vertical-scroll-proportion="-4.6525736">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/core/mail/mail.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="34" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="92" selection-end="115" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="476" column="18" selection-start="7712" selection-end="7712" vertical-scroll-proportion="-15.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -684,37 +670,88 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="5" selection-start="4221" selection-end="4221" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="868" column="19" selection-start="16036" selection-end="16036" vertical-scroll-proportion="-11.24">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="28" selection-start="705" selection-end="705" vertical-scroll-proportion="-8.088235">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="19" selection-start="282" selection-end="282" vertical-scroll-proportion="-3.8690476">
+        <state line="13" column="19" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="35" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="27" selection-start="556" selection-end="556" vertical-scroll-proportion="0.72164947">
+        <state line="26" column="27" selection-start="556" selection-end="556" vertical-scroll-proportion="-13.558824">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="909" column="25" selection-start="28017" selection-end="28017" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="53" selection-start="1942" selection-end="1942" vertical-scroll-proportion="-68.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/admin-menu.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="715" selection-start="705" selection-end="715" vertical-scroll-proportion="0.09293681">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="23" selection-start="1209" selection-end="1209" vertical-scroll-proportion="-33.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="33" selection-start="2019" selection-end="2019" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="9" selection-start="542" selection-end="542" vertical-scroll-proportion="-9.235294">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="14" selection-start="880" selection-end="880" vertical-scroll-proportion="-11.117647">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="324" column="24" selection-start="5390" selection-end="5390" vertical-scroll-proportion="-14.24">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="37" selection-start="3924" selection-end="3924" vertical-scroll-proportion="0.58639705">
           <folding />
         </state>
       </provider>
