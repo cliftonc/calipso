@@ -608,13 +608,13 @@ Icomoon styles
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
-/*[data-icon]:before {
+[data-icon]:before {
 	font-family: 'icomoon';
 	content: attr(data-icon);
 	speak: none;
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
-}*/
+}
 
 /* Use the following CSS code if you want to have a class per icon */
 [class^="icon-"]:before, [class*=" icon-"]:before {
