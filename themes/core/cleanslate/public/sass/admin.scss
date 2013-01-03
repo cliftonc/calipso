@@ -13,792 +13,870 @@
 // ---------------------------------------------- //
 
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
-
 @import "compass/reset";
 @import "compass/css3";
-
+@import "variables.scss";
+@import "grids.scss";
+@import "partials/icomoon/icomoon.scss";
 
 // 1. General
 // ------------------------------------------ //
 
-  html {
-    background: #fff;
-  }
+html {
+	background: #fff;
+}
 
-  body {
-    background: #fff;
-    font: normal 0.875em/1em sans-serif;
-  }
+header, header.row, footer, footer.row, article, aside {
+	margin-top: $margin;
+	margin-bottom: $margin;
+}
 
-
+header {
+	h1 {
+		float: left;
+	}
+}
 // 2. Typography
 // ------------------------------------------ //
 
-  // Using a Modular Scale of 16/20 using the golden ratio:
-  // http://modularscale.com/scale/?px1=16&px2=20&ra1=1.618&ra2=0
-  
-  // General
+// Using a Modular Scale of 16/20 using the golden ratio:
+// http://modularscale.com/scale/?px1=16&px2=20&ra1=1.618&ra2=0
 
-    body {
-      background: #fff;
-      color: #444;
-      font: 400 0.875em/1.618em "Helvetica", serif;
-      min-width: 700px;
-      text-shadow: 0 1px 1px #fff;
-      height: 100%;
-    }
+// General
 
-    a {
-      text-decoration: none;
-    }
+body {
+	background: #fff;
+	color: #444;
+	font: 400 0.875em/1.618em "Helvetica", serif;
+	text-shadow: 0 1px 1px #fff;
+	height: 100%;
+}
 
-    a:link, a:visited {
-      color: #222;
-    }
+a {
+	text-decoration: none;
+}
 
-    ul, ol, dl {
-      margin: 0 0 0 1.618em;
-      padding: 0;
-    }
+a:link, a:visited {
+	color: #222;
+}
 
-    ol li {
-      list-style: decimal;
-    }
+ul, ol, dl {
+	margin: 0 0 0 1.618em;
+	padding: 0;
+}
 
-    p {
-      margin: 0 0 2.618em;
-    }
+ol li {
+	list-style: decimal;
+}
 
-    strong, b {
-      color: #222;
-      font-weight: 600;
-    }
+p {
+	margin: 0 0 2.618em;
+}
 
-    i, em {
-      font-style: italic;
-    }
+strong, b {
+	color: #222;
+	font-weight: 600;
+}
 
-  // Headings
-    h1,h2,h3,h4,h5,h6 {
-      color: #222;
-      font-family: "Open Sans", sans-serif;
-      font-weight: 600;
-      line-height: 1.618em;
-      margin-bottom: 15px;
-      text-shadow: 0 1px 1px #fff;  // An easy way to anti-alias text
-    }
+i, em {
+	font-style: italic;
+}
 
-    h6, h5 {
-      font-size: 1em;
-    }
+// Headings
+h1, h2, h3, h4, h5, h6 {
+	color: #222;
+	font-family: "Open Sans", sans-serif;
+	font-weight: 600;
+	line-height: 1.618em;
+	margin-bottom: $margin;
+	text-shadow: 0 1px 1px #fff;
+	// An easy way to anti-alias text
+}
 
-    h4 {
-      font-size: 1.25em;
-    }
+h6, h5 {
+	font-size: 1em;
+}
 
-    h3 {
-      color: #336699;
-      font-size: 1.618em;
-      letter-spacing: -1px;
-    }
+h4 {
+	font-size: 1.25em;
+}
 
-    h2 {
-      color: #116677;
-      font-size: 2.023em;
-      letter-spacing: -1px;
-    }
+h3 {
+	color: #336699;
+	font-size: 1.618em;
+	letter-spacing: -1px;
+}
 
-    h1 {
-      color: #114477;
-      font-size: 2.618em;
-      letter-spacing: -2px;
-    }
+h2 {
+	color: #116677;
+	font-size: 2.023em;
+	letter-spacing: -1px;
+}
 
+h1 {
+	color: #114477;
+	font-size: 2.618em;
+	letter-spacing: -2px;
+}
 
 // 3. Layout
 // ----------------------------------------//
-  
 
-  #container {
-    margin: 0 auto;
-    width: 980px;
-  }
+.admin-body {
+	clear: both;
+	margin: 0 auto $col-margin-right;
+	width: 100%;
 
-  #header {
-    
-    border-bottom: 1px solid #d9d9d9;
-    margin: 20px auto 40px;
-    overflow: hidden;
+	.content-item {
+		border: 1px solid #fff;
+		padding: $paddingLarge;
+		position: relative;
+		outline: 0;
 
-    h1 {
-      float: left;
-    }
-  }
+		@include border-radius($borderRadiusSmall);
+		@include box-shadow(0 1px $borderRadiusLarge rgba(0, 0, 0, 0.25), inset 0 0 $borderRadiusLarge #f8f8f8);
 
-  #body {
-    width:660px;
-    float:left;
-    margin:0 20px 20px 0;
-    min-height:100px;
-    _display:inline;
-  }
+		h2 {
+			line-height: 1em;
+			padding: $borderRadiusLarge;
 
-  #admin-body {
-    clear: both;
-    margin: 0 auto 40px;
-    width: 100%;
-      
-      .content-item {
-        border: 1px solid #fff;
-        padding: 25px;
-        position: relative;
-        outline: 0;
-        
-        @include border-radius(2px);
-        @include box-shadow(0 1px 8px rgba(0,0,0,0.25), inset 0 0 10px #f8f8f8 );
-          
-          h2 {
-            line-height: 1em;
-            padding: 10px;
+			@include border-radius(2px);
+		}
 
-            @include border-radius(2px);
-          }
+		.by, .status, .created, .tags {
+			font-style: italic;
+			font-family: Georgia, serif;
+			margin: 1em;
+		}
 
-          .by, .status, .created, .tags {
-            font-style: italic;
-            font-family: Georgia, serif;
-            margin: 1em;
-          }
+		.content {
+			border: 1px solid transparent;
+			clear: left;
+			margin-top: 2em;
+			padding: $borderRadiusLarge;
 
-          .content {
-            border: 1px solid transparent;
-            clear: left;
-            margin-top: 2em;
-            padding: 10px;
+			@include border-radius($borderRadiusSmall);
+		}
+	}
+}
 
-            @include border-radius(2px);
-          }
-      }
-  }
-
-  #footer {
-    border-top: 1px solid #d9d9d9;
-    clear: both;
-    overflow: hidden;
-    padding: 25px 0;
-    text-align: center;
-  }
-
+footer {
+	border-top: 1px solid #d9d9d9;
+	clear: both;
+	overflow: hidden;
+	padding: $paddingLarge 0;
+	text-align: center;
+}
 
 // 5. Misc
 // ----------------------------------------//
 
-  #form-section-modules .fieldset-fields {
-    padding: 5px 0 20px;
-  }
+#form-section-modules .fieldset-fields {
+	padding: $borderRadius 0 $marginLarge;
+}
 
-  #form-section-modules legend {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    margin-top: 5px;
-  }
+#form-section-modules legend {
+	font-size: 1.2em;
+	margin-bottom: $borderRadiusLarge;
+	margin-top: $borderRadius;
+}
 
-  #form-section-modules legend {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-  }
+#form-section-modules legend {
+	font-size: 1.2em;
+	margin-bottom: $borderRadiusLarge;
+}
 
-  #form-section-modules div.form-item {
-    float: left;
-    clear:none !important;
-    width: 50%;
-    margin-bottom: 10px;
-    height: 50px;
-    overflow: none;
-  }
+#form-section-modules div.form-item {
+	float: left;
+	margin-bottom: $borderRadiusLarge;
+	overflow: none;
+}
 
-  #form-section-modules .checkbox {
-    margin-left: 0;
-  }
-  #form-section-modules .description {
-    padding-left: 22px;
-  }
+#form-section-modules .checkbox {
+	margin-left: 0;
+}
 
-  .admin-page {
-    
-    h2 {
-      margin-bottom: 1.5em;
-    }
+#form-section-modules .description {
+	padding-left: $paddingLarge;
+}
 
-    .admin-dashboard-col1, .admin-dashboard-col2 {
-      
-      padding: 10px;
+.admin-page {
 
-      @include box-shadow(0 1px 3px #d9d9d9);
-      @include border-radius(4px);
-    }
-  }
+	h2 {
+		margin-bottom: 1.5em;
+	}
 
-  .admin-dashboard-col1 {
-    float: left;
-    width: 45%;
-    display: inline;
-    border: solid 1px silver;
-  }
+	.admin-dashboard-col1, .admin-dashboard-col2 {
 
-  .admin-dashboard-col2 {
-    display: inline;
-    float: right;
-    width: 45%;
-    border: solid 1px silver;
-  }
+		padding: $borderRadiusLarge;
 
-  .admin-dashboard-clear {
-    clear: both;
-    height: 15px;
-  }
+		@include box-shadow(0 1px $borderRadiusSmall #d9d9d9);
+		@include border-radius($borderRadiusLarge);
+	}
+}
+
+.admin-dashboard-col1 {
+	float: left;
+	width: 45%;
+	display: inline;
+	border: solid 1px silver;
+}
+
+.admin-dashboard-col2 {
+	display: inline;
+	float: right;
+	width: 45%;
+	border: solid 1px silver;
+}
+
+.admin-dashboard-clear {
+	clear: both;
+	height: $margin;
+}
 
 // 4. Tables
 // ---------------------------------------//
 
-  table {
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    width: 100%;
-    margin-bottom: 18px;
-    padding: 0;
-    border-collapse: collapse;
-    font-size: 13px;
-        
-        th, td {
-          padding: 10px 15px;
-          line-height: 18px;
-          text-align: left;
+table {
+	background: #fff;
+	border: 1px solid #d9d9d9;
+	width: 100%;
+	margin-bottom: $margin;
+	padding: 0;
+	border-collapse: collapse;
+	font-size: 85%;
 
-          text-transform: capitalize;
-        }
+	th, td {
+		padding: $borderRadiusLarge $margin;
+		line-height: $lineHeight * 1.2;
+		text-align: left;
 
-        tbody tr {
-          
-          border-bottom: 1px solid #d9d9d9;
-          
-            &:nth-child(odd) {
-              background: #f3f3f3;
-            }
+		text-transform: capitalize;
+	}
 
-            &:hover {
-              background: lighten(#8dbdd8, 20%);
-              border-width: 1px 0;
-              border-color: #8dbdd8;
-                
-                td {
-                  border-color: #8dbdd8;
-                }
-            }
-        }
-        
-        th {
-          padding-top: 9px;
-          font-weight: bold;
-          vertical-align: middle;
-          border-bottom: 1px solid #DDD;
-        }      
+	tbody tr {
 
-        th + th, td + td {
-          border-left: 1px solid #d9d9d9;
-        }
-  }
+		border-bottom: 1px solid #d9d9d9;
+
+		&:nth-child(odd) {
+			background: #f3f3f3;
+		}
+
+		&:hover {
+			background: lighten(#8dbdd8, 20%);
+			border-width: 1px 0;
+			border-color: #8dbdd8;
+
+			td {
+				border-color: #8dbdd8;
+			}
+		}
+	}
+
+	th {
+		padding-top: $paddingSmall;
+		font-weight: bold;
+		vertical-align: middle;
+		border-bottom: 1px solid #DDD;
+	}
+
+	th + th, td + td {
+		border-left: 1px solid #d9d9d9;
+	}
+}
 
 .sortable {
-  background: url(../images/sort.gif) center right no-repeat; 
-  padding-right:16px; 
-  cursor:pointer;
+	background: url(../images/sort.gif) center right no-repeat;
+	padding-right: $margin;
+	cursor: pointer;
 }
+
 .sorted-asc {
-  background: lighten(#8dbdd8, 20%) url(../images/asc.gif) center right no-repeat;
-  border-color: #8dbdd8;
+	background: lighten(#8dbdd8, 20%) url(../images/asc.gif) center right no-repeat;
+	border-color: #8dbdd8;
 }
+
 .sorted-desc {
-  background: lighten(#8dbdd8, 40%) url(../images/desc.gif) center right no-repeat;
-  border-color: #8dbdd8;
+	background: lighten(#8dbdd8, 40%) url(../images/desc.gif) center right no-repeat;
+	border-color: #8dbdd8;
 }
 
 a.pager-page {
-  padding: 3px;
-  border: solid 1px silver;
+	padding: $borderRadiusSmall;
+	border: solid 1px #c0c0c0;
 }
+
 span.pager-page {
-  padding: 3px;
-  background: silver;
+	padding: $borderRadiusSmall;
+	background: #c0c0c0;
 }
+
 .tabular {
-  clear: both;
+	clear: both;
 }
 
-#adminToolbar {
-  position: relative;
-  top: 20px;
-  float: right;
-      
-    ul, li {
-      margin: 0; 
-      list-style:none; 
-      list-style-image: none; 
-    }
+.toolbar, .btn-group, .actions input {
+	position: relative;
+	margin: 0;
+	text-align: right;
 
-    ul {
-      text-align: right;
-    }
+	&.admin-toolbar {
+		li {
+			float: right;
+		}
+	}
 
-    li {
+	li {
 
-      @include inline-block;
+		@include inline-block();
+		&:first-child a {
+			@include border-top-left-radius($borderRadius);
+			@include border-bottom-left-radius($borderRadius);
+		}
+		&:last-child a {
+			@include border-top-right-radius($borderRadius);
+			@include border-bottom-right-radius($borderRadius);
+		}
 
-        a:link, a:visited {
-          background: #d9d9d9;
-          border: 1px solid #aaa;
-          border-color: #aaa #999 #888;
-          color: #000;
-          cursor: pointer;
-          
-          font-size: 14px;
-          font-weight: 400;
-          
-          margin: 0 20px 0 0;
-          padding: 8px 16px;
-          text-shadow: 0 1px 0 #fff;
-          text-decoration: none;
+		a {
+			background: #d9d9d9;
+			border: 1px solid #aaa;
+			border-color: #aaa #999 #888;
+			color: #000;
+			cursor: pointer;
 
-          @include inline-block();
-          @include background( linear-gradient(#ededed, #d9d9d9) );
-          @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
-          @include border-radius(7px);
-            
-            &:hover, &:focus, &.loading {
-              background: #2F5163;
-              border-color: #333;
-              color: #fff;
-              text-shadow: 0 1px 1px #111;
-              @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
-              @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
-            }
+			font-size: 85%;
+			font-weight: 400;
 
-            &:active {
-              border-color: #000;
-              @include box-shadow( inset 0 0 8px #000 );
-            }
+			margin-right: -1px;
+			padding: $borderRadiusLarge $padding;
+			text-shadow: 0 1px 0 #fff;
+			text-decoration: none;
 
-            &.loading {
-              background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
-              @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
-              padding-left: 40px;
-            }
-        }
-        
-        &:last-child {
-          border: 0;
-        }
-    }
+			@include inline-block();
+			@include background(linear-gradient(#ededed, #d9d9d9));
+			@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+
+			&:hover, &:focus, &.loading {
+				background: #2F5163;
+				border-color: #333;
+				color: #fff;
+				text-shadow: 0 1px 1px #111;
+				@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+				@include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
+			}
+
+			&:active {
+				border-color: #000;
+				@include box-shadow(inset 0 0 $borderRadiusLarge #000);
+			}
+
+			&.loading {
+				background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
+				@include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
+				padding-left: $paddingLarge;
+			}
+		}
+
+		&:last-child {
+			border: 0;
+		}
+		ul {
+			display: none;
+			float: left;
+			clear: left;
+			position: absolute;
+			background: #1993A8;
+		}
+	}
 }
 
-#adminToolbar li ul {
-  display:none;
-  float:left;
-  clear:left;
-  position:absolute;
-  background:#1993A8;
-}
+
 
 // Tabs
 // ----------------------------------------//
 
 ul.tabs {
-  height: 32px;
+	height: $em;
 }
 
 ul.tabs li {
-  float: left;
-  height: 31px;
-  line-height: 31px;
-  border: 1px solid #999;
-  margin: 0 5px -1px 0;
-  background: #e0e0e0;
-  overflow: hidden;
-  position: relative;
+	float: left;
+	border: 1px solid #999;
+	margin: 0 $borderRadius -1px 0;
+	background: #e0e0e0;
+	overflow: hidden;
+	position: relative;
 
-  @include border-top-radius(5px);
+	@include border-top-radius($borderRadius);
 
-  @include box-shadow(inset 0 0 10px rgba(0,0,0,0.25));
+	@include box-shadow(inset 0 0 $borderRadiusLarge rgba(0, 0, 0, 0.25));
 }
 
 ul.tabs li a {
-  text-decoration: none;
-  color: #000;
-  display: block;
-  font-size: 0.875em;
-  padding: 0 20px;
-  border: 1px solid #eee;
-  outline: none;
- 
-  @include border-top-radius(5px);
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 85%;
+	padding: 0 $marginLarge;
+	border: 1px solid #eee;
+	outline: none;
+
+	@include border-top-radius($borderRadius);
 }
 
 ul.tabs li a:hover {
-  background: #ccc;
+	background: #ccc;
 }
+
 ul.tabs li.active,
 ul.tabs li.active a:hover {
-  background: #fff;
-  border-bottom: 1px solid #fff;
-  @include box-shadow(none);
+	background: #fff;
+	border-bottom: 1px solid #fff;
+	@include box-shadow(none);
 }
-.tab-container {
-  background: #fff;
-  border: 1px solid #999;
-  clear: both;
-  padding: 0 20px;
 
-  @include border-radius(4px);
+.tab-container {
+	background: #fff;
+	border: 1px solid #999;
+	clear: both;
+
+	@include border-radius($borderRadius);
 }
 
 .tab-content {
-  padding: 20px 0 10px;
-    
-    h3, h4 {
-      background: #2F5163;
-      border: 1px solid darken(#2F5163, 10%);
-      color: #fff;
-      font-size: 1.25em;
-      left: -30px;
-      position: relative;
-      padding: 5px 15px;
-      float: left;
+	padding: $marginLarge 0 $borderRadiusLarge;
 
-      text-shadow: 0 1px 1px darken(#2F5163, 30%);
-      text-transform: capitalize;
+	h3, h4 {
+		background: #2F5163;
+		border: 1px solid darken(#2F5163, 10%);
+		color: #fff;
+		font-size: 1.25em;
+		left: -30px;
+		position: relative;
+		padding: $borderRadius $margin;
+		float: left;
 
-      @include border-right-radius(8px);
-      @include border-top-left-radius(8px);
+		text-shadow: 0 1px 1px darken(#2F5163, 30%);
+		text-transform: capitalize;
 
-      @include box-shadow( inset 0 1px 0 rgba(255,255,255,0.25), 1px 1px 3px #ccc);
-        
-        &:after {
-          content: ' ';  
-          position: absolute;  
-          width: 0;  
-          height: 0;  
-          left: 0px;  
-          top: 100%;  
-          border-width: 5px 4px;  
-          border-style: solid;  
-          border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;  
-        }
-    }
+		@include border-right-radius($borderRadiusLarge);
+		@include border-top-left-radius($borderRadiusLarge);
+
+		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
+
+		&:after {
+			content: ' ';
+			position: absolute;
+			width: 0;
+			height: 0;
+			left: 0;
+			top: 100%;
+			border-width: $borderRadius $borderRadius;
+			border-style: solid;
+			border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
+		}
+	}
 }
 
 .tab-content img {
-  float: left;
-  margin: 0 20px 20px 0;
-  padding: 5px;
-}
-.tab-container .actions {
-  margin: 0;
+	float: left;
+	margin: 0 $marginLarge $marginLarge 0;
+	padding: $borderRadius;
 }
 
+
 .mail-templates {
-  .mail-template {
-    display: block;
-    margin: 1em;
-    padding: 1em;
-    @include background(#ededed);
-    @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
-    border: 1px solid #aaa;
-    border-color: #aaa #999 #888;
-    @include border-radius(7px);
-    .mail-subject {
-      font-style:italic;
-    }
-    .mail-body {
-      word-wrap:break-word;
-    }
-  }
+	.mail-template {
+		display: block;
+		margin: $margin;
+		padding: $padding;
+		@include background(#ededed);
+		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+		border: 1px solid #aaa;
+		border-color: #aaa #999 #888;
+		@include border-radius($borderRadiusLarge);
+		.mail-subject {
+			font-style: italic;
+		}
+		.mail-body {
+			word-wrap: break-word;
+		}
+	}
 }
 
 // 5. Form Elements
 // ----------------------------------------//
 
 .form-item {
-  border-top: 1px solid #d9d9d9;
-  clear: both;
-  margin: 20px 0;
-  padding: 10px 0 0;
+	border-top: 1px solid #d9d9d9;
+	clear: both;
+	margin: $marginLarge 0;
+	padding: $borderRadiusLarge 0 0;
 }
 
 .fieldset-fields {
-  clear: both;
-  margin-bottom: 60px;
+	clear: both;
+	margin-bottom: $margin;
 }
 
 label {
-  display:inline-block;
-  font-weight: bold;
-  width:20%;
-  text-align:left;
-  padding-right:10px;
-  vertical-align: top;
+	@include inline-block();
+	font-weight: bold;
+	text-align: left;
+	vertical-align: top;
 }
 
 label.for-checkable {
-  width:auto;
-  text-align:left;
-  padding:0 0 0 10px;
+	width: auto;
+	text-align: left;
+	padding: 0 0 0 $borderRadiusLarge;
 }
 
-textarea, input[type="text"], input[type="password"], select, .readonlytext { 
-  border-radius: 3px;
-  border: 1px solid #999; 
-  padding: 1%;
-  width: 70%;
+textarea, input[type="text"], input[type="password"], select, .readonlytext {
+	@include border-radius($borderRadiusSmall);
+	border: 1px solid #999;
+	padding: $borderRadius;
 }
 
 .readonlytext {
-  display: inline-block;
-  border: 1px solid #eee; 
-  padding: 0.75%;
+	@include inline-block();
+	border: 1px solid #eee;
+	padding: $paddingSmall * 0.75;
 }
 
-textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus { 
-  border-color: #007DFF; 
+textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
+	border-color: #007DFF;
 }
+
 textarea {
-  width:69%;
-  height:200px;
+	width: 98%;
 }
 
+legend {
+	margin: $margin 0;
+	text-shadow: 0 1px #FFF;
+	font-size: 1.6em;
+}
 .description {
-  color: #777;
-  padding: 2px 0 5px 198px;
-  font: italic 11px/1.5em Georgia, serif;
-  max-width: 420px;
-  display: block;
+	color: #777;
+	padding: $borderRadiusSmall;
+	text-align: center;
+	font: italic 11px/1.5em Georgia, serif;
+	display: block;
 }
 
 .button, button, input[type="submit"], a.submit {
 
-  background: #d9d9d9;
-  border: 1px solid #aaa;
-  border-color: #aaa #999 #888;
-  color: #000;
-  cursor: pointer;
-  
-  font-size: 14px;
-  font-weight: 400;
-  
-  margin: 0 20px 0 0;
-  padding: 8px 16px;
-  text-shadow: 0 1px 0 #fff;
-  text-decoration: none;
+	background: #d9d9d9;
+	border: 1px solid #aaa;
+	border-color: #aaa #999 #888;
+	color: #000;
+	cursor: pointer;
 
-  @include inline-block();
-  @include background( linear-gradient(#ededed, #d9d9d9) );
-  @include box-shadow(inset 0 1px 0 rgba(255,255,255,1), 0 1px 4px rgba(150, 150, 150, 0.5) );
-  @include border-radius(7px);
-    
-    &:hover, &:focus, &.loading {
-      background: #2F5163;
-      border-color: #333;
-      color: #fff;
-      text-shadow: 0 1px 1px #111;
-      @include box-shadow(inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(150, 150, 150, 0.5) );
-      @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
-    }
+	font-size: 85%;
+	font-weight: 400;
 
-    &:active {
-      border-color: #000;
-      @include box-shadow( inset 0 0 8px #000 );
-    }
+	margin: 0 $marginLarge 0 0;
+	padding: $borderRadiusLarge $margin;
+	text-shadow: 0 1px 0 #fff;
+	text-decoration: none;
 
-    &.loading {
-      background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
-      @include background( url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163 ) );
-      padding-left: 40px;
-    }
+	@include inline-block();
+	@include background(linear-gradient(#ededed, #d9d9d9));
+	@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+	@include border-radius($borderRadius);
+
+	&:hover, &:focus, &.loading {
+		background: #2F5163;
+		border-color: #333;
+		color: #fff;
+		text-shadow: 0 1px 1px #111;
+		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+		@include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
+	}
+
+	&:active {
+		border-color: #000;
+		@include box-shadow(inset 0 0 $borderRadiusLarge #000);
+	}
+
+	&.loading {
+		background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
+		@include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
+		padding-left: 40px;
+	}
 
 }
 
-input.date {width:3em;}
+input.date {
+	width: 3em;
+}
+
 input.date-day,
-input.time {width:2em;}
+input.time {
+	width: 2em;
+}
 
 select.date.date-month {
-  width: 42%;
+	width: 42%;
 }
 
-input.checkbox, input.radio {margin-left:160px;}
-input.labelFirst {margin-left:auto;}
-form .section {margin:0 0 20px;}
-form .section:first-child {border:0;}
-.actions {clear:both;padding:20px 0 20px 20px;border-top:1px solid #ccc;margin:10px 0 0; height: 35px;}
-.actions input {
-  float: right;
+
+input.labelFirst {
+	margin-left: auto;
 }
 
-.log-in-or-register {float:right;}
-.link-divider { width: 0; height: 1.2em; overflow: hidden; display: inline-block; border-right: 1px solid #000; margin: 0 5px; }
-#user-login {position: absolute;right:0;top:30px;display:none;border: 1px solid #ccc;box-shadow:0 2px 4px #333;}
-#user-login form {padding:20px;background:#eee;}
-#user-welcome-or-login h2 {display:none;}
-#user-welcome-or-login label {padding:0;text-align:left;width:auto;}
-#user-welcome-or-login input {width:180px;}
-#user-welcome-or-login .form-field {margin:0 0 2px;}
-#user-welcome-or-login .actions {margin:0;padding:0;border:0;}
-#user-welcome-or-login .actions a {display: none;}
-#user-welcome-or-login input[type="submit"] {width:auto;padding:3px 8px;font-size:inherit;font-weight:normal;}
+form .section {
+	margin: 0 0 $marginLarge;
+}
+
+form .section:first-child {
+	border: 0;
+}
+
+.log-in-or-register {
+	float: right;
+}
+
+.link-divider {
+	width: 0;
+	height: 1.2em;
+	overflow: hidden;
+	display: inline-block;
+	border-right: 1px solid #000;
+	margin: 0 $borderRadius;
+}
+
+#user-login {
+	position: absolute;
+	right: 0;
+	top: 30px;
+	display: none;
+	border: 1px solid #ccc;
+	box-shadow: 0 $borderRadiusSmall $borderRadius #333;
+}
+
+#user-login form {
+	padding: $marginLarge;
+	background: #eee;
+}
+
+#user-welcome-or-login h2 {
+	display: none;
+}
+
+#user-welcome-or-login label {
+	padding: 0;
+	text-align: left;
+	width: auto;
+}
+
+#user-welcome-or-login input {
+	width: 180px;
+}
+
+#user-welcome-or-login .form-field {
+	margin: 0 0 $borderRadiusSmall;
+}
+
+#user-welcome-or-login .actions {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+#user-welcome-or-login .actions a {
+	display: none;
+}
+
+.actions, .form-actions {
+	text-align: center;
+	border-top: 1px solid $borderColour;
+	//background: opacify($borderColour, 0.4);
+	background: rgba(217, 217, 217, 0.2);
+	padding: $margin 0;
+
+	input, .btn, button {
+		margin: 0 -1px 0 0;
+		&:last-child {
+		@include border-top-left-radius(0);
+		@include border-bottom-left-radius(0);
+	}
+		&:first-child {
+			@include border-top-right-radius(0);
+			@include border-bottom-right-radius(0);
+		}
+	}
+
+}
+#user-welcome-or-login input[type="submit"] {
+	width: auto;
+	padding: $borderRadiusSmall $borderRadiusLarge;
+	font-size: inherit;
+	font-weight: normal;
+}
 
 #user-login:before,
 #user-login:after {
-  content: "";
-  position: absolute;
-  z-index: 998;
-  top: -8px;
-  right: 78px;
-  margin-left: -8px;
-  border-top: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #eee;
+	content: "";
+	position: absolute;
+	z-index: 998;
+	top: -8px;
+	right: 78px;
+	margin-left: -8px;
+	border-top: 0;
+	border-left: $borderRadiusLarge solid transparent;
+	border-right: $borderRadiusLarge solid transparent;
+	border-bottom: $borderRadiusLarge solid #eee;
 }
 
 #user-login:after {
-  border-bottom: 9px solid #ccc;
-  top: -9px;
-  z-index: 997;
+	border-bottom: 9px solid #ccc;
+	top: -9px;
+	z-index: 997;
 }
 
 /* general 'close' button - round with an 'x',
    actually a multiplication sign:  `&times;` `&#215;`  `&#xD7;`  `×`  */
 .close {
-  display: block;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 16px;
-  text-align: center;
-  overflow: hidden;
-  background: #aaa;
-  color: #aaa;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  cursor: pointer;
+	display: block;
+	position: absolute;
+	top: $borderRadiusLarge;
+	right: $borderRadiusLarge;
+	width: $margin;
+	height: $margin;
+	border-radius: $margin;
+	text-align: center;
+	overflow: hidden;
+	background: #aaa;
+	color: #aaa;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	cursor: pointer;
 }
+
 .close:before {
-  content: "\D7";
-  color: #000;
-  display: block;
-  text-align: center;
-  font-weight: normal;
-  width: 16px;
-  position: absolute;
-  top: -1px;
-  left: 0;
-  font-size: 13px;
-  line-height: 16px;
-  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+	content: "\D7";
+	color: #000;
+	display: block;
+	text-align: center;
+	font-weight: normal;
+	width: $margin;
+	position: absolute;
+	top: -1px;
+	left: 0;
+	font-size: 13px;
+	line-height: $margin;
+	font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
 }
-
-
 
 /* messages [info, success, warning, error] */
 #messages {
-  clear: both;
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  border-radius: 8px;
-  overflow: hidden;
+	clear: both;
+	position: absolute;
+	top: 60px;
+	left: $marginLarge;
+	border-radius: $borderRadiusLarge;
+	overflow: hidden;
 }
+
 #messages ul {
-  list-style:none;
+	list-style: none;
 }
+
 .info,
 .success,
 .warning,
 .error {
-  border: 1px solid;
-  margin: 0 0 20px;
-  padding: 10px 15px;
-  background-repeat: no-repeat;
-  background-position: 10px 6px;  
+	border: 1px solid;
+	margin: 0 0 $marginLarge;
+	padding: $borderRadiusLarge $margin;
+	background-repeat: no-repeat;
+	background-position: $borderRadiusLarge 6px;
 
-  text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+	text-shadow: 0 1px $borderRadiusSmall rgba(0, 0, 0, 0.15);
 
-  @include border-radius(8px);
-  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
+	@include border-radius(8px);
+	@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
 }
+
 .info {
-  color: #00529B;
-  background-color: #BDE5F8;
-  border-color: darken(#BDE5F8, 10%);
-}
-.success {
-  color: #4F8A10;
-  background-color: #DFF2BF;
-}
-.warning {
-  color: #9F6000;
-  background-color: #FEEFB3;
-}
-.error {
-  color: #D8000C;
-  background-color: #F6D6D6;
+	color: #00529B;
+	background-color: #BDE5F8;
+	border-color: darken(#BDE5F8, 10%);
 }
 
-.sidePanelItem {margin:0 0 10px;}
+.success {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+}
+
+.warning {
+	color: #9F6000;
+	background-color: #FEEFB3;
+}
+
+.error {
+	color: #D8000C;
+	background-color: #F6D6D6;
+}
+
+.sidePanelItem {
+	margin: 0 0 $borderRadiusLarge;
+}
 
 .language-wrap {
-  
-  border: 1px solid #d9d9d9;
-  padding: 20px;
-  margin: 0 0 40px;
 
-  @include box-shadow(0 1px 4px #d9d9d9);
-    
-    pre {
-      clear: both;
-      white-space: wrap;
-    }
-  
-    h3, h4 {
-      background: #2F5163;
-      border: 1px solid darken(#2F5163, 10%);
-      color: #fff;
-      font-size: 1.25em;
-      left: -30px;
-      position: relative;
-      padding: 5px 15px;
-      float: left;
+	border: 1px solid #d9d9d9;
+	padding: $marginLarge;
+	margin: 0 0 40px;
 
-      text-shadow: 0 1px 1px darken(#2F5163, 30%);
-      text-transform: capitalize;
+	@include box-shadow(0 1px $borderRadius #d9d9d9);
 
-      @include border-right-radius(8px);
-      @include border-top-left-radius(8px);
+	pre {
+		clear: both;
+		white-space: wrap;
+	}
 
-      @include box-shadow( inset 0 1px 0 rgba(255,255,255,0.25), 1px 1px 3px #ccc);
-        
-        &:after {
-          content: ' ';  
-          position: absolute;  
-          width: 0;  
-          height: 0;  
-          left: 0px;  
-          top: 100%;  
-          border-width: 5px 4px;  
-          border-style: solid;  
-          border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;  
-        }
-    }
+	h3, h4 {
+		background: #2F5163;
+		border: 1px solid darken(#2F5163, 10%);
+		color: #fff;
+		font-size: 1.25em;
+		left: -30px;
+		position: relative;
+		padding: $borderRadius $margin;
+		float: left;
+
+		text-shadow: 0 1px 1px darken(#2F5163, 30%);
+		text-transform: capitalize;
+
+		@include border-right-radius(8px);
+		@include border-top-left-radius(8px);
+
+		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
+
+		&:after {
+			content: ' ';
+			position: absolute;
+			width: 0;
+			height: 0;
+			left: 0;
+			top: 100%;
+			border-width: $borderRadius $borderRadius;
+			border-style: solid;
+			border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
+		}
+	}
 }
+
+.box, form, .module {
+	padding: $padding;
+	margin: $margin;
+	@include transition($transitionTime width);
+	border: 1px solid #999;
+	@include border-radius($borderRadius);
+}
+@import "media-queries.scss";
