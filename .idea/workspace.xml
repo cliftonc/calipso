@@ -515,7 +515,7 @@
       <file leaf-file-name="aloha.script.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.script.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="305" selection-end="438" vertical-scroll-proportion="-6.617647">
+            <state line="8" column="39" selection-start="319" selection-end="319" vertical-scroll-proportion="-5.882353">
               <folding />
             </state>
           </provider>
@@ -524,7 +524,7 @@
       <file leaf-file-name="aloha.style.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.style.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="45" selection-start="45" selection-end="45" vertical-scroll-proportion="0.0">
+            <state line="1" column="66" selection-start="129" selection-end="129" vertical-scroll-proportion="0.04612546">
               <folding />
             </state>
           </provider>
@@ -1137,13 +1137,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="31" selection-start="123" selection-end="123" vertical-scroll-proportion="-2.2058823">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state line="613" column="16" selection-start="8096" selection-end="8096" vertical-scroll-proportion="0.0">
@@ -1246,16 +1239,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Downloads/calipso-aloha-master/calipso-aloha-master/static/js/aloha/aloha-nodeps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="133" selection-start="323" selection-end="323" vertical-scroll-proportion="0.26041666">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.script.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="305" selection-end="438" vertical-scroll-proportion="-6.617647">
+        <state line="8" column="39" selection-start="319" selection-end="319" vertical-scroll-proportion="-5.882353">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.style.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="45" selection-start="45" selection-end="45" vertical-scroll-proportion="0.0">
+        <state line="1" column="66" selection-start="129" selection-end="129" vertical-scroll-proportion="0.04612546">
           <folding />
         </state>
       </provider>

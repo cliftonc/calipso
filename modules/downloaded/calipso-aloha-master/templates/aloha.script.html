@@ -2,13 +2,11 @@
 <script type = "text/javascript" src = "/lib/aloha.js"></script>
 <!-- markItUp! skin -->
 <script type = "text/javascript">
-
-	jQuery(document).ready(function ($)
+	Aloha.ready(function ()
 	{
-		var $textAreas = $("textarea.textarea");
-		if ($textAreas.length > 0) {
-			$.getScript(["/modules/downloaded/calipso-aloha-master/lib/require.js", "/modules/downloaded/calipso-aloha-master/lib/aloha.js"]);
-			$textAreas.aloha();
-		}
+		var $ = Aloha.jQuery;
+		// Add aloha to your textarea in one line
+		$('textarea.textarea').aloha();
+
 	});
 </script>
