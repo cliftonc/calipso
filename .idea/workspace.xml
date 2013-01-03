@@ -2,10 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="458327c9-4ed3-495b-8c7b-1bfa55213de6" name="Default" comment="Made installation styles responsive.  Users can now install calipso via a mobile device.&#10;Many style fixes: changed 0px to 0, changed px to em, and used percentages when advantageous.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/js/modernizr.custom.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/static/js/aloha/sass/aloha.scss" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/js/store.min.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/cli/Download.js" afterPath="$PROJECT_DIR$/lib/cli/Download.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/templates/list.html" afterPath="$PROJECT_DIR$/modules/core/assets/templates/list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/core/assets/templates/show.html" afterPath="$PROJECT_DIR$/modules/core/assets/templates/show.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" afterPath="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/admin.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss" afterPath="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" afterPath="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" />
     </list>
     <ignored path="calipso.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,53 +38,52 @@
       <file leaf-file-name="admin.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="324" column="24" selection-start="5390" selection-end="5390" vertical-scroll-proportion="-14.24">
+            <state line="16" column="0" selection-start="513" selection-end="562" vertical-scroll-proportion="-13.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
+      <file leaf-file-name="aloha.script.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.script.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="23" selection-start="1209" selection-end="1209" vertical-scroll-proportion="-33.0">
+            <state line="1" column="86" selection-start="152" selection-end="152" vertical-scroll-proportion="-0.7352941">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
+      <file leaf-file-name="aloha.style.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.style.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="14" selection-start="880" selection-end="880" vertical-scroll-proportion="-11.117647">
+            <state line="0" column="72" selection-start="72" selection-end="72" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="body.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
+      <file leaf-file-name="aloha.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/static/js/aloha/sass/aloha.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="28" selection-start="557" selection-end="557" vertical-scroll-proportion="-9.117647">
+            <state line="21" column="18" selection-start="464" selection-end="464" vertical-scroll-proportion="-11.591463">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cleanslate-core.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="cleanslate-core.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="247" column="44" selection-start="6488" selection-end="6488" vertical-scroll-proportion="0.44852942">
+            <state line="43" column="31" selection-start="1180" selection-end="1180" vertical-scroll-proportion="-28.0">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="e#1084#2831#0" expanded="false" />
-                <element signature="e#2889#3228#0" expanded="false" />
-                <element signature="e#3236#3243#0" expanded="false" />
-                <element signature="e#3347#4038#0" expanded="false" />
-                <element signature="e#4095#5010#0" expanded="false" />
-                <element signature="e#5055#5860#0" expanded="false" />
-                <element signature="e#5868#5899#0" expanded="false" />
-                <element signature="e#6031#6176#0" expanded="false" />
+                <element signature="e#3415#3754#0" expanded="false" />
+                <element signature="e#3762#3769#0" expanded="false" />
+                <element signature="e#3873#4564#0" expanded="false" />
+                <element signature="e#4621#5536#0" expanded="false" />
+                <element signature="e#5581#6386#0" expanded="false" />
+                <element signature="e#6394#6425#0" expanded="false" />
+                <element signature="e#6557#6702#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -83,7 +92,7 @@
       <file leaf-file-name="scripts.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="47" selection-start="188" selection-end="188" vertical-scroll-proportion="-2.9411764">
+            <state line="6" column="72" selection-start="306" selection-end="306" vertical-scroll-proportion="-4.4117646">
               <folding />
             </state>
           </provider>
@@ -98,28 +107,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="default.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html">
+      <file leaf-file-name="assets.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/core/assets/assets.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="9" selection-start="542" selection-end="542" vertical-scroll-proportion="-9.235294">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="variables.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="35" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="media-queries.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="132" column="30" selection-start="3633" selection-end="3683" vertical-scroll-proportion="-8.76">
+            <state line="2831" column="9" selection-start="78987" selection-end="78987" vertical-scroll-proportion="27.76">
               <folding />
             </state>
           </provider>
@@ -138,22 +129,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_defs.sass" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.sass" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss" />
-        <option value="$PROJECT_DIR$/lib/core/Menu.js" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss" />
-        <option value="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
-        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/js/modernizr.custom.min.js" />
+        <option value="$PROJECT_DIR$/modules/core/assets/templates/show.html" />
+        <option value="$PROJECT_DIR$/modules/core/assets/templates/list.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default.html" />
+        <option value="$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html" />
+        <option value="$PROJECT_DIR$/themes/core/cleanslate/public/js/store.min.js" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html" />
         <option value="$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js" />
+        <option value="$PROJECT_DIR$/lib/cli/Download.js" />
+        <option value="$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/static/js/aloha/sass/aloha.scss" />
+        <option value="$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/static/css/aloha-calipso.css" />
+        <option value="$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.style.html" />
       </list>
     </option>
   </component>
@@ -253,92 +244,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cleanslate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cleanslate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calipso" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cleanslate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -353,23 +258,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
+              <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
+              <option name="myItemId" value="downloaded" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cleanslate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sass" />
+              <option name="myItemId" value="calipso-aloha-master" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -383,25 +280,55 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
+              <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
+              <option name="myItemId" value="downloaded" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cleanslate" />
+              <option name="myItemId" value="calipso-aloha-master" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="downloaded" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso-aloha-master" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aloha" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -413,19 +340,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
+              <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
+              <option name="myItemId" value="downloaded" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cleanslate" />
+              <option name="myItemId" value="calipso-aloha-master" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
+              <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -444,6 +371,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calipso" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cli" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -487,6 +446,10 @@
       <option name="testName" />
       <method />
     </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
     <configuration default="true" type="NodeunitConfigurationType" factoryName="Nodeunit">
       <setting name="nodePath" value="C:/Program Files/nodejs/node" />
       <envs />
@@ -498,6 +461,9 @@
       <method />
     </configuration>
     <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="app.js" working-dir="$PROJECT_DIR$" coffeescript-run="false">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <configuration default="false" name="Main" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="app.js" working-dir="$PROJECT_DIR$" coffeescript-run="false">
@@ -567,7 +533,7 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33631286" sideWeight="0.99940515" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33631286" sideWeight="0.99940515" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -576,7 +542,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Code Outline" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17235859" sideWeight="0.66368717" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17235859" sideWeight="0.6715084" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32849163" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -642,90 +608,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/footer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="21" selection-start="335" selection-end="335" vertical-scroll-proportion="0.13194445">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/sidePanel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="19" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="35" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/core/Form.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="909" column="25" selection-start="28017" selection-end="28017" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/css/admin-menu.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="715" selection-start="705" selection-end="715" vertical-scroll-proportion="0.09293681">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="23" selection-start="1209" selection-end="1209" vertical-scroll-proportion="-33.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin-menu.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="33" selection-start="2019" selection-end="2019" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/fixtures/themes/core/mocha/templates/default.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="9" selection-start="542" selection-end="542" vertical-scroll-proportion="-9.235294">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="14" selection-start="880" selection-end="880" vertical-scroll-proportion="-11.117647">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="324" column="24" selection-start="5390" selection-end="5390" vertical-scroll-proportion="-14.24">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="28" selection-start="557" selection-end="557" vertical-scroll-proportion="-9.117647">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/media-queries.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state line="132" column="30" selection-start="3633" selection-end="3683" vertical-scroll-proportion="-8.76">
@@ -733,36 +615,110 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/js/modernizr.custom.min.js">
+    <entry file="file://$PROJECT_DIR$/lib/cli/Download.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="13603" selection-start="13969" selection-end="13969" vertical-scroll-proportion="5.2724075">
+        <state line="458" column="16" selection-start="9071" selection-end="9071" vertical-scroll-proportion="1.0127041">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/scripts.html">
+    <entry file="file://$PROJECT_DIR$/node_modules/mongoose/lib/utils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="47" selection-start="188" selection-end="188" vertical-scroll-proportion="-2.9411764">
+        <state line="50" column="0" selection-start="1123" selection-end="1123" vertical-scroll-proportion="-15.145833">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/js/cleanslate-core.js">
+    <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="247" column="44" selection-start="6488" selection-end="6488" vertical-scroll-proportion="0.44852942">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#1084#2831#0" expanded="false" />
-            <element signature="e#2889#3228#0" expanded="false" />
-            <element signature="e#3236#3243#0" expanded="false" />
-            <element signature="e#3347#4038#0" expanded="false" />
-            <element signature="e#4095#5010#0" expanded="false" />
-            <element signature="e#5055#5860#0" expanded="false" />
-            <element signature="e#5868#5899#0" expanded="false" />
-            <element signature="e#6031#6176#0" expanded="false" />
-          </folding>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/admin/body.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="31" selection-start="123" selection-end="123" vertical-scroll-proportion="-2.2058823">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/partials/icomoon/_icomoon.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="613" column="16" selection-start="8096" selection-end="8096" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/templates/default/scripts.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="287" selection-end="357" vertical-scroll-proportion="-5.147059">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/static/css/aloha-calipso.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="2" selection-start="111" selection-end="111" vertical-scroll-proportion="0.2170139">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/static/js/aloha/css/aloha.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="4349" selection-start="4349" selection-end="4349" vertical-scroll-proportion="0.91119003">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.style.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="72" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/templates/aloha.script.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="86" selection-start="152" selection-end="152" vertical-scroll-proportion="-0.7352941">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/core/cleanslate/public/sass/admin.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="513" selection-end="562" vertical-scroll-proportion="-13.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/aloha.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Aloha-Editor-dev/Aloha-Editor-dev/src/lib/aloha/jquery.aloha.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="2" selection-start="515" selection-end="515" vertical-scroll-proportion="-22.524305">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Aloha-Editor-dev/Aloha-Editor-dev/src/lib/aloha.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="41" selection-start="931" selection-end="931" vertical-scroll-proportion="0.51724136">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/downloaded/calipso-aloha-master/static/js/aloha/sass/aloha.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="18" selection-start="464" selection-end="464" vertical-scroll-proportion="-11.591463">
+          <folding />
         </state>
       </provider>
     </entry>
