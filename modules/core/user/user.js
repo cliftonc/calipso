@@ -243,17 +243,19 @@ function roleForm(req, res, template, block, next) {
       res.menu.adminToolbar.addMenuItem({name:'Delete Role', path:'return', url:'/admin/roles/' + role._id + '/delete', description:'Delete role ...', security:[]});
     }
     var roleForm = {
-      id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/admin/roles/' + (role && role._id ? role._id : ""),
-      sections:[{
-        id:'form-section-core',
-        label:'The New Role',
-        fields:[
-          {label:'Role Name', name:'role[name]', type:'text', description:'Enter the name of the role.'},
-          {label:'Description', name:'role[description]', type:'text', description:'Enter the description of the role.'},
-          {label:'Is Default', name:'role[isDefault]', type:'checkbox', description:'Is this a default role.'},
-          {label:'Is Admin', name:'role[isAdmin]', type:'checkbox', description:'Is a user with this role an admin.'}
-        ]
-      }],
+      id:'FORM', title:req.t('Register'), type:'form', method:'POST', action:'/admin/roles/' + (role && role._id ? role._id : ""),
+      sections:[
+        {
+          id:'form-section-core',
+          label:'The New Role',
+          fields:[
+            {label:'Role Name', name:'role[name]', type:'text', description:'Enter the name of the role.'},
+            {label:'Description', name:'role[description]', type:'text', description:'Enter the description of the role.'},
+            {label:'Is Default', name:'role[isDefault]', type:'checkbox', description:'Is this a default role.'},
+            {label:'Is Admin', name:'role[isAdmin]', type:'checkbox', description:'Is a user with this role an admin.'}
+          ]
+        }
+      ],
       buttons:[
         {name:'submit', type:'submit', value:'Register'}
       ]
@@ -282,30 +284,33 @@ function registerUserForm(req, res, template, block, next) {
 
   // TODO : Use secitons!
   var userForm = {
-    id:'FORM',title:req.t('Register'),type:'form',method:'POST',action:'/user/register',
-    sections:[{
-      id:'form-section-core',
-      label:'Your Details',
-      fields:[
-        {label:'Username', name:'user[username]', type:'text', description:'Enter the username you would like to use on this site.'},
-        {label:'Full Name', name:'user[fullname]', type:'text', description:'Enter your actual name, you can control the privacy settings of this.'},
-        {label:'Email', name:'user[email]', type:'text', description:'Enter your email address, you can control the privacy settings of this.'},
-        {label:'Language', name:'user[language]', type:'select', options:req.languages, description:'Select your default language.'}, // TODO : Select based on available
-        {label:'About You', name:'user[about]', type:'textarea', description:'Write something about yourself, this will appear on your profile page.'},
-        {label:'New Password', name:'user[new_password]', type:'password', description:'Enter a password, the stronger the better.'},
-        {label:'Repeat Password', name:'user[repeat_password]', type:'password', description:'Repeat as always.'},
-        {label:'Show Full Name', name:'user[showName]', type:'select',options:[
-          {label:'Never',value:'never'},
-          {label:'Registered Users Only',value:'registered'},
-          {label:'Public',value:'public'}
-        ], description:'Decide how your profile displays your full name.'},
-        {label:'Show Email', name:'user[showEmail]', type:'select',options:[
-          {label:'Never',value:'never'},
-          {label:'Registered Users Only',value:'registered'},
-          {label:'Public',value:'public'}
-        ], description:'Decide how your profile displays your email.'}
-      ]
-    }],
+    id:'FORM', title:req.t('Register'), type:'form', method:'POST', action:'/user/register',
+    sections:[
+      {
+        id:'form-section-core',
+        label:'Your Details',
+        fields:[
+          {label:'Username', name:'user[username]', type:'text', description:'Enter the username you would like to use on this site.'},
+          {label:'Full Name', name:'user[fullname]', type:'text', description:'Enter your actual name, you can control the privacy settings of this.'},
+          {label:'Email', name:'user[email]', type:'text', description:'Enter your email address, you can control the privacy settings of this.'},
+          {label:'Language', name:'user[language]', type:'select', options:req.languages, description:'Select your default language.'},
+          // TODO : Select based on available
+          {label:'About You', name:'user[about]', type:'textarea', description:'Write something about yourself, this will appear on your profile page.'},
+          {label:'New Password', name:'user[new_password]', type:'password', description:'Enter a password, the stronger the better.'},
+          {label:'Repeat Password', name:'user[repeat_password]', type:'password', description:'Repeat as always.'},
+          {label:'Show Full Name', name:'user[showName]', type:'select', options:[
+            {label:'Never', value:'never'},
+            {label:'Registered Users Only', value:'registered'},
+            {label:'Public', value:'public'}
+          ], description:'Decide how your profile displays your full name.'},
+          {label:'Show Email', name:'user[showEmail]', type:'select', options:[
+            {label:'Never', value:'never'},
+            {label:'Registered Users Only', value:'registered'},
+            {label:'Public', value:'public'}
+          ], description:'Decide how your profile displays your email.'}
+        ]
+      }
+    ],
     buttons:[
       {name:'submit', type:'submit', value:'Register'}
     ]
@@ -879,8 +884,7 @@ function registerUser(req, res, template, block, next) {
       calipso.lib.crypto.hash(new_password, calipso.config.get('session:secret'), function (err, hash) {
         if (err) {
           req.flash('error', req.t('Could not hash user password because {msg}.', {msg:msg}));
-          if (res.statusCode != 302 && !res.noRedirect)
-          {
+          if (res.statusCode != 302 && !res.noRedirect) {
             res.redirect('back');
             return;
           }
@@ -973,8 +977,7 @@ function userProfile(req, res, template, block, next) {
 
 }
 
-function deleteRole(req, res, template, block, next)
-{
+function deleteRole(req, res, template, block, next) {
   var Role = calipso.db.model('Role');
   Role.findOne({_id:req.moduleParams.role}, function (err, r) {
     Role.remove({_id:r._id}, function (err) {

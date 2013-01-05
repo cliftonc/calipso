@@ -17,8 +17,7 @@ exports = module.exports = {
 /**
  * Router
  */
-function route(req, res, module, app, next)
-{
+function route(req, res, module, app, next) {
 
   /**
    * Menu items
@@ -100,7 +99,7 @@ function loadJobs(next) {
 
       // '* * * * * *'
       if (calipso.modules[job.module] && calipso.modules[job.module].enabled
-      && calipso.modules[job.module].fn.jobs[job.method]) {
+        && calipso.modules[job.module].fn.jobs[job.method]) {
 
         var options = {
           jobName:job.name,

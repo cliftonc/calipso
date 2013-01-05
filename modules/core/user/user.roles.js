@@ -48,25 +48,25 @@ function init(module, app, next) {
   calipso.permission.Helper.addPermission("admin:roles", "Roles", true);
 
   calipso.lib.async.map(routes, function (options, next) {
-    module.router.addRoute(options, next)
-  },
-  function (err, data) {
+      module.router.addRoute(options, next)
+    },
+    function (err, data) {
 
-    // Done adding routes
-    var Role = new calipso.lib.mongoose.Schema({
-      name:{type:String, required:true, unique:true},
-      description:{type:String, "default":''},
-      isAdmin:{type:Boolean, required:true, "default":false},
-      isDefault:{type:Boolean, required:true, "default":false}
+      // Done adding routes
+      var Role = new calipso.lib.mongoose.Schema({
+        name:{type:String, required:true, unique:true},
+        description:{type:String, "default":''},
+        isAdmin:{type:Boolean, required:true, "default":false},
+        isDefault:{type:Boolean, required:true, "default":false}
+      });
+      calipso.db.model('Role', Role);
+
+      // Load roles into calipso data
+      if (app.config.get('installed')) {
+        storeRoles(null, null, next);
+      }
+
     });
-    calipso.db.model('Role', Role);
-
-    // Load roles into calipso data
-    if (app.config.get('installed')) {
-      storeRoles(null, null, next);
-    }
-
-  });
 
   // Register event listeners
   calipso.e.post('USER_ROLE_CREATE', module.name, storeRoles);
@@ -170,8 +170,7 @@ function createRole(req, res, template, block, next) {
 /**
  * Create new role
  */
-function createRoleForm(req, res, template, block, next)
-{
+function createRoleForm(req, res, template, block, next) {
 
   roleForm.title = "Create Role";
   roleForm.action = "/user/role/create";
@@ -185,8 +184,7 @@ function createRoleForm(req, res, template, block, next)
 /**
  * Edit role
  */
-function editRoleForm(req, res, template, block, next)
-{
+function editRoleForm(req, res, template, block, next) {
 
   var Role = calipso.db.model('Role');
   var id = req.moduleParams.id;
@@ -274,8 +272,7 @@ function updateRole(req, res, template, block, next) {
 /**
  * Show role
  */
-function showRole(req, res, template, block, next)
-{
+function showRole(req, res, template, block, next) {
 
   var item;
 
@@ -318,8 +315,7 @@ function showRole(req, res, template, block, next)
 /**
  * List all roles
  */
-function listRole(req, res, template, block, next)
-{
+function listRole(req, res, template, block, next) {
 
   // Re-retrieve our object
   var Role = calipso.db.model('Role');

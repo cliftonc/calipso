@@ -275,7 +275,7 @@ function init(module, app, next) {
                   code = s;
                 } else if (property === 'message') {
                   message = s;
-                } else if (property === 'author')  {
+                } else if (property === 'author') {
                   owner = s;
                 }
                 if (property && item) {

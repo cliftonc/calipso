@@ -7,9 +7,9 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, "/lib/calipso"));
 
 exports = module.exports = {
-  init: init,
-  route: route,
-  depends: ['content']
+  init:init,
+  route:route,
+  depends:['content']
 };
 
 /**
@@ -28,15 +28,15 @@ function init(module, app, next) {
   // Any pre-route config
   calipso.lib.step(
     function defineRoutes() {
-      module.router.addRoute(/.*/, tagCloud, {end: false, template: 'tagcloud', block: 'tagcloud'}, this.parallel());
+      module.router.addRoute(/.*/, tagCloud, {end:false, template:'tagcloud', block:'tagcloud'}, this.parallel());
     },
     function done() {
 
       // Define our tag clouds
       var Tag = new calipso.lib.mongoose.Schema({
         // Tag name is in _ID from MR
-        "_id": {type: String},
-        "value": {type: Number}
+        "_id":{type:String},
+        "value":{type:Number}
       });
 
       calipso.db.model('Tag', Tag);
@@ -86,10 +86,10 @@ function mapReduceTagCloud(event, options, next) {
   };
 
   var command = {
-    mapreduce: "contents", // what are we acting on
-    map: tagMap.toString(), //must be a string
-    reduce: tagReduce.toString(), // must be a string
-    out: 'tags' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
+    mapreduce:"contents", // what are we acting on
+    map:tagMap.toString(), //must be a string
+    reduce:tagReduce.toString(), // must be a string
+    out:'tags' // what collection are we outputting to? mongo 1.7.4 + is different see http://www.mongodb.org/display/DOCS/MapReduce#MapReduce-Outputoptions
   };
 
   calipso.db.db.executeDbCommand(command, function (err, dbres) {
@@ -117,7 +117,7 @@ function tagCloud(req, res, template, block, next) {
     .find(function (err, tags) {
 
       // Render the item into the response
-      calipso.theme.renderItem(req, res, template, block, {tags: tags}, next);
+      calipso.theme.renderItem(req, res, template, block, {tags:tags}, next);
 
     });
 

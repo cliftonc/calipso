@@ -160,7 +160,7 @@ function diff(o, n) {
 
   for (var i = n.length - 1; i > 0; i--) {
     if (n[i].text != null && n[i - 1].text == null && n[i].row > 0
-    && o[ n[i].row - 1 ].text == null &&
+      && o[ n[i].row - 1 ].text == null &&
       n[i - 1] == o[ n[i].row - 1 ]) {
       n[i - 1] = { text:n[i - 1], row:n[i].row - 1 };
       o[n[i].row - 1] = { text:o[n[i].row - 1], row:i - 1 };

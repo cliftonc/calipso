@@ -25,99 +25,104 @@
 /* Transitions*/
 /* --- media queries ------------------------------------------------------------------------------------------------ */
 @media screen and (max-width: 1400px) {
-  /* line 37, ../sass/media-queries.scss */
-  .btn {
-    padding: 2.6% 5%;
-  }
+    /* line 37, ../sass/media-queries.scss */
+    .btn {
+        padding: 2.6% 5%;
+    }
 
-  /* line 40, ../sass/media-queries.scss */
-  #admin-body {
-    max-width: 76.923%;
-  }
+    /* line 40, ../sass/media-queries.scss */
+    #admin-body {
+        max-width: 76.923%;
+    }
 }
+
 @media screen and (max-width: 640px) {
-  /* to avoid the adjustment of fonts on iOS devices you should keep this line */
-  /* line 63, ../sass/media-queries.scss */
-  * {
-    -webkit-text-size-adjust: none;
-    -ms-text-size-adjust: none;
-  }
+    /* to avoid the adjustment of fonts on iOS devices you should keep this line */
+    /* line 63, ../sass/media-queries.scss */
+    * {
+        -webkit-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+    }
 }
+
 /* --- iPad --------------------------------------------------------------------------------------------------------- */
 /* --- iPhone 4(S) retina ------------------------------------------------------------------------------------------- */
 /* --- iPhone ------------------------------------------------------------------------------------------------------- */
 /* --- print (optional) --------------------------------------------------------------------------------------------- */
 @media screen and (max-width: 420px) {
-  /* line 106, ../sass/media-queries.scss */
-  p {
-    font-size: 1.3em;
-    line-height: 1.5;
-  }
+    /* line 106, ../sass/media-queries.scss */
+    p {
+        font-size: 1.3em;
+        line-height: 1.5;
+    }
 }
+
 /* Smaller screens */
 @media only screen and (max-width: 1023px) {
-  /* line 124, ../sass/media-queries.scss */
-  body {
-    line-height: 1.8;
-  }
+    /* line 124, ../sass/media-queries.scss */
+    body {
+        line-height: 1.8;
+    }
 }
+
 /* Mobile */
 @media handheld, only screen and (max-width: 767px) {
-  /* line 134, ../sass/media-queries.scss */
-  figure figcaption {
-    width: 90%;
-  }
+    /* line 134, ../sass/media-queries.scss */
+    figure figcaption {
+        width: 90%;
+    }
 
-  /* line 139, ../sass/media-queries.scss */
-  h1.title {
-    font-size: 3em;
-  }
-  /* line 142, ../sass/media-queries.scss */
-  h1.shoutout {
-    font-size: 40%;
-  }
+    /* line 139, ../sass/media-queries.scss */
+    h1.title {
+        font-size: 3em;
+    }
 
-  /* line 147, ../sass/media-queries.scss */
-  #admin-body {
-    max-width: none;
-  }
+    /* line 142, ../sass/media-queries.scss */
+    h1.shoutout {
+        font-size: 40%;
+    }
 
-  /* line 151, ../sass/media-queries.scss */
-  img {
-    width: 100%;
-    height: 100%;
-  }
+    /* line 147, ../sass/media-queries.scss */
+    #admin-body {
+        max-width: none;
+    }
 
-  /* line 155, ../sass/media-queries.scss */
-  .admin-install-links {
-    text-align: center;
-  }
+    /* line 151, ../sass/media-queries.scss */
+    img {
+        width: 100%;
+        height: 100%;
+    }
 
-  /* line 158, ../sass/media-queries.scss */
-  .form-steps {
-    text-align: center;
-  }
+    /* line 155, ../sass/media-queries.scss */
+    .admin-install-links {
+        text-align: center;
+    }
 
-  /* line 161, ../sass/media-queries.scss */
-  #admin-body {
-    max-width: 100%;
-  }
+    /* line 158, ../sass/media-queries.scss */
+    .form-steps {
+        text-align: center;
+    }
 
-  /* line 164, ../sass/media-queries.scss */
-  textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
-    width: 98%;
-    min-width: 98%;
-    padding: 0.286em;
-  }
+    /* line 161, ../sass/media-queries.scss */
+    #admin-body {
+        max-width: 100%;
+    }
 
-  /* line 169, ../sass/media-queries.scss */
-  label {
-    text-align: left;
-    margin-right: 0;
-  }
+    /* line 164, ../sass/media-queries.scss */
+    textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
+        width: 98%;
+        min-width: 98%;
+        padding: 0.286em;
+    }
 
-  /* line 173, ../sass/media-queries.scss */
-  .description {
-    max-width: none;
-  }
+    /* line 169, ../sass/media-queries.scss */
+    label {
+        text-align: left;
+        margin-right: 0;
+    }
+
+    /* line 173, ../sass/media-queries.scss */
+    .description {
+        max-width: none;
+    }
 }

@@ -9,7 +9,7 @@
  */
 
 var req = require('express/lib/request'),
-    utils = require('express/lib/utils');
+  utils = require('express/lib/utils');
 
 var flashFormatters = req.flashFormatters = {
   s:function (val) {
@@ -116,6 +116,7 @@ everyauth.everymodule
 
 function calipsoFindOrCreateUser(user, sess, promise) {
   var User = calipso.db.model('User');
+
   function finishUser(user) {
     if (sess) {
       if (!sess._pending) {

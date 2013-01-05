@@ -155,8 +155,7 @@ function saveVersion(event, content, next) {
 /**
  * Show version
  */
-function showVersion(req, res, template, block, next)
-{
+function showVersion(req, res, template, block, next) {
 
   var contentId = req.moduleParams.id;
   var id = req.moduleParams.version;

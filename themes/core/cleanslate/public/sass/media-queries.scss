@@ -34,12 +34,12 @@
 }
 
 @media screen and (max-width: 1400px) {
-	.btn {
-		padding: 2.6% 5%;
-	}
-	#admin-body {
-		max-width: $rowWidth / 1.3;
-	}
+  .btn {
+    padding: 2.6% 5%;
+  }
+  #admin-body {
+    max-width: $rowWidth / 1.3;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -60,10 +60,10 @@
 
 @media screen and (max-width: 640px) {
 /* to avoid the adjustment of fonts on iOS devices you should keep this line */
-	* {
-		-webkit-text-size-adjust: none;
-		-ms-text-size-adjust: none;
-	}
+  * {
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -80,10 +80,10 @@
 
 /* --- iPad --------------------------------------------------------------------------------------------------------- */
 
-@media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:portrait) {
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
 }
 
-@media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
 }
 
 /* --- iPhone 4(S) retina ------------------------------------------------------------------------------------------- */
@@ -103,10 +103,10 @@
 }
 
 @media screen and (max-width: 420px) {
-	p {
-		font-size: 1.3em;
-		line-height: 1.5;
-	}
+  p {
+    font-size: 1.3em;
+    line-height: 1.5;
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -121,9 +121,9 @@
 
 @media only screen and (max-width: 1023px) {
 
-	body {
-		line-height: 1.8;
-	}
+  body {
+    line-height: 1.8;
+  }
 
 }
 
@@ -131,46 +131,46 @@
 
 @media handheld, only screen and (max-width: 767px) {
 
-	figure figcaption {
-		width: 90%;
-	}
+  figure figcaption {
+    width: 90%;
+  }
 
-	h1 {
-		&.title {
-			font-size: 3em;
-		}
-		&.shoutout {
-			font-size: 40%;
-		}
-	}
+  h1 {
+    &.title {
+      font-size: 3em;
+    }
+    &.shoutout {
+      font-size: 40%;
+    }
+  }
 
-	#admin-body {
-		max-width: none;
-	}
+  #admin-body {
+    max-width: none;
+  }
 
-	img {
-		width: 100%;
-		height: 100%;
-	}
-	.admin-install-links {
-		text-align: center;
-	}
-	.form-steps {
-		text-align: center;
-	}
-	#admin-body {
-		max-width: $rowWidth;
-	}
-	textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
-		width: 98%;
-		min-width: 98%;
-		padding: $borderRadius;
-	}
-	label {
-		text-align: left;
-		margin-right: 0;
-	}
-	.description {
-		max-width: none;
-	}
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  .admin-install-links {
+    text-align: center;
+  }
+  .form-steps {
+    text-align: center;
+  }
+  #admin-body {
+    max-width: $rowWidth;
+  }
+  textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
+    width: 98%;
+    min-width: 98%;
+    padding: $borderRadius;
+  }
+  label {
+    text-align: left;
+    margin-right: 0;
+  }
+  .description {
+    max-width: none;
+  }
 }

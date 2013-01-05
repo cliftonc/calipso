@@ -6,9 +6,9 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, 'lib/calipso')),
 
   exports = module.exports = {
-    init: init,
-    route: route,
-    first: true // Admin must run before all else
+    init:init,
+    route:route,
+    first:true // Admin must run before all else
   };
 
 /*
@@ -22,13 +22,13 @@ function route(req, res, module, app, next) {
     cachePermit = "admin:core:cache";
 
   // Menu items
-  res.menu.admin.addMenuItem(req, {name: 'Administration', path: 'admin', url: '/admin', description: 'Calipso administration ...', permit: corePermit});
-  res.menu.admin.addMenuItem(req, {name: 'Core', path: 'admin/core', url: '/admin', description: 'Manage core settings for Calipso ...', permit: corePermit});
-  res.menu.admin.addMenuItem(req, {name: 'Configuration', path: 'admin/core/config', url: '/admin/core/config', description: 'Core configuration ...', permit: corePermit});
-  res.menu.admin.addMenuItem(req, {name: 'View Languages', path: 'admin/core/languages', url: '/admin/core/languages', description: 'Languages ...', permit: corePermit});
-  res.menu.admin.addMenuItem(req, {name: 'View Cache', path: 'admin/core/cache', url: '/admin/core/cache', description: 'Cache ...', permit: cachePermit});
-  res.menu.admin.addMenuItem(req, {name: 'Clear Cache', path: 'admin/core/cache/clear', url: '/admin/core/cache/clear', description: 'Clear Cache ...', permit: cachePermit});
-  res.menu.admin.addMenuItem(req, {name: 'Modules', path: 'admin/modules', url: '/admin', description: 'Manage module settings ...', permit: modulePermit});
+  res.menu.admin.addMenuItem(req, {name:'Administration', path:'admin', url:'/admin', description:'Calipso administration ...', permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'Core', path:'admin/core', url:'/admin', description:'Manage core settings for Calipso ...', permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'Configuration', path:'admin/core/config', url:'/admin/core/config', description:'Core configuration ...', permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'View Languages', path:'admin/core/languages', url:'/admin/core/languages', description:'Languages ...', permit:corePermit});
+  res.menu.admin.addMenuItem(req, {name:'View Cache', path:'admin/core/cache', url:'/admin/core/cache', description:'Cache ...', permit:cachePermit});
+  res.menu.admin.addMenuItem(req, {name:'Clear Cache', path:'admin/core/cache/clear', url:'/admin/core/cache/clear', description:'Clear Cache ...', permit:cachePermit});
+  res.menu.admin.addMenuItem(req, {name:'Modules', path:'admin/modules', url:'/admin', description:'Manage module settings ...', permit:modulePermit});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -41,7 +41,7 @@ function route(req, res, module, app, next) {
 function init(module, app, next) {
 
   // Initialise administration events - enabled for hook.io
-  calipso.e.addEvent('CONFIG_UPDATE', {enabled: true});
+  calipso.e.addEvent('CONFIG_UPDATE', {enabled:true});
 
   // Add listener to config_update
   calipso.e.post('CONFIG_UPDATE', module.name, calipso.reloadConfig);
@@ -62,54 +62,54 @@ function init(module, app, next) {
 
       // Core Administration dashboard
       module.router.addRoute('GET /admin', showAdmin, {
-        template: 'admin',
-        block: 'admin.show',
-        admin: true,
-        permit: corePermit
+        template:'admin',
+        block:'admin.show',
+        admin:true,
+        permit:corePermit
       }, this.parallel());
 
       // Core configuration
       module.router.addRoute('GET /admin/core/config', coreConfig, {
-        block: 'admin.show',
-        admin: true,
-        permit: corePermit
+        block:'admin.show',
+        admin:true,
+        permit:corePermit
       }, this.parallel());
 
       module.router.addRoute('POST /admin/core/config/save', saveAdmin, {
-        admin: true,
-        permit: corePermit
+        admin:true,
+        permit:corePermit
       }, this.parallel());
 
       module.router.addRoute('GET /admin/core/cache', showCache, {
-        admin: true,
-        template: 'cache',
-        block: 'admin.cache',
-        permit: cachePermit
+        admin:true,
+        template:'cache',
+        block:'admin.cache',
+        permit:cachePermit
       }, this.parallel());
 
       module.router.addRoute('GET /admin/core/cache/clear', clearCache, {
-        admin: true,
-        template: 'cache',
-        block: 'admin.cache',
-        permit: cachePermit
+        admin:true,
+        template:'cache',
+        block:'admin.cache',
+        permit:cachePermit
       }, this.parallel());
 
       module.router.addRoute('GET /admin/core/languages', showLanguages, {
-        admin: true,
-        template: 'languages',
-        block: 'admin.languages',
-        permit: corePermit
+        admin:true,
+        template:'languages',
+        block:'admin.languages',
+        permit:corePermit
       }, this.parallel());
 
       module.router.addRoute('GET /admin/modules', modulesConfig, {
-        admin: true,
-        block: 'admin.show',
-        permit: modulePermit
+        admin:true,
+        block:'admin.show',
+        permit:modulePermit
       }, this.parallel());
 
       module.router.addRoute('POST /admin/modules/save', saveModulesConfig, {
-        admin: true,
-        permit: modulePermit
+        admin:true,
+        permit:modulePermit
       }, this.parallel());
 
       // Default installation routers - only accessible in install mode
@@ -152,7 +152,7 @@ function showLanguages(req, res, template, block, next) {
         function allTranslated(err, translations) {
 
           if (err) {
-            req.flash('error', req.t('There was an error translating that language because {msg}', {msg: err.message}));
+            req.flash('error', req.t('There was an error translating that language because {msg}', {msg:err.message}));
           }
 
           if (!err && translations) {
@@ -162,7 +162,7 @@ function showLanguages(req, res, template, block, next) {
           }
 
           calipso.theme.renderItem(req, res, template, block, {
-            languageCache: req.languageCache
+            languageCache:req.languageCache
           }, next);
 
         }
@@ -171,7 +171,7 @@ function showLanguages(req, res, template, block, next) {
 
       req.flash('info', req.t('That language does not exist.'));
       calipso.theme.renderItem(req, res, template, block, {
-        languageCache: req.languageCache
+        languageCache:req.languageCache
       }, next);
 
     }
@@ -179,7 +179,7 @@ function showLanguages(req, res, template, block, next) {
   } else {
 
     calipso.theme.renderItem(req, res, template, block, {
-      languageCache: req.languageCache
+      languageCache:req.languageCache
     }, next);
 
   }
@@ -291,22 +291,22 @@ function installMongo(req, res, next) {
   var template = calipso.modules.admin.templates.install_mongo;
 
   // Create the form
-  var mongoForm = {id: 'install-mongo-form', title: '', type: 'form', method: 'POST', action: '/admin/install',
-    fields: [
-      {label: 'MongoDB URI', name: 'database:uri', cls: 'database-uri', type: 'text', description: 'Enter the database URI, in the form: mongodb://servername:port/database'},
-      {label: '', name: 'installStep', type: 'hidden'}
+  var mongoForm = {id:'install-mongo-form', title:'', type:'form', method:'POST', action:'/admin/install',
+    fields:[
+      {label:'MongoDB URI', name:'database:uri', cls:'database-uri', type:'text', description:'Enter the database URI, in the form: mongodb://servername:port/database'},
+      {label:'', name:'installStep', type:'hidden'}
     ],
-    buttons: []}; // Submitted via template
+    buttons:[]}; // Submitted via template
 
   var formValues = {
-    database: {
-      uri: calipso.config.get('database:uri')
+    database:{
+      uri:calipso.config.get('database:uri')
     },
-    'installStep': 'user'
+    'installStep':'user'
   }
 
   calipso.form.render(mongoForm, formValues, req, function (form) {
-    calipso.theme.renderItem(req, res, template, 'admin.install.mongo', {form: form}, next);
+    calipso.theme.renderItem(req, res, template, 'admin.install.mongo', {form:form}, next);
   });
 
 }
@@ -318,7 +318,7 @@ function installMongoTest(req, res, template, block, next) {
 
   if (calipso.config.get('installed')) {
     res.format = "json";
-    res.end(JSON.stringify({status: "Invalid Request"}), "UTF-8");
+    res.end(JSON.stringify({status:"Invalid Request"}), "UTF-8");
   }
 
   calipso.form.process(req, function (form) {
@@ -358,28 +358,29 @@ function installUser(req, res, next) {
   // Create the form
   // TODO - reference exported form from user module instead, this will be difficult to maintain
   var userForm = {
-    id: 'install-user-form', title: '', type: 'form', method: 'POST', action: '/admin/install',
-    fields: [
-      {label: 'Username', name: 'user[username]', cls: 'username', type: 'text'},
-      {label: 'Full Name', name: 'user[fullname]', type: 'text'},
-      {label: 'Email', name: 'user[email]', cls: 'email', type: 'text'},
-      {label: 'Language', name: 'user[language]', type: 'select', options: req.languages}, // TODO : Select based on available
-      {label: 'Password', name: 'user[password]', cls: 'password', type: 'password'},
-      {label: 'Repeat Password', name: 'user[check_password]', cls: 'check_password', type: 'password'},
-      {label: '', name: 'installStep', type: 'hidden'},
-      {label: '', name: 'userStep', type: 'hidden'}
+    id:'install-user-form', title:'', type:'form', method:'POST', action:'/admin/install',
+    fields:[
+      {label:'Username', name:'user[username]', cls:'username', type:'text'},
+      {label:'Full Name', name:'user[fullname]', type:'text'},
+      {label:'Email', name:'user[email]', cls:'email', type:'text'},
+      {label:'Language', name:'user[language]', type:'select', options:req.languages},
+      // TODO : Select based on available
+      {label:'Password', name:'user[password]', cls:'password', type:'password'},
+      {label:'Repeat Password', name:'user[check_password]', cls:'check_password', type:'password'},
+      {label:'', name:'installStep', type:'hidden'},
+      {label:'', name:'userStep', type:'hidden'}
     ],
-    buttons: []
+    buttons:[]
   };
 
   var formValues = {
-    user: (calipso.data.adminUser || {}), // Store here during install process
-    'userStep': true,
-    'installStep': 'modules'
+    user:(calipso.data.adminUser || {}), // Store here during install process
+    'userStep':true,
+    'installStep':'modules'
   }
 
   calipso.form.render(userForm, formValues, req, function (form) {
-    calipso.theme.renderItem(req, res, template, 'admin.install.user', {form: form}, next);
+    calipso.theme.renderItem(req, res, template, 'admin.install.user', {form:form}, next);
   });
 
 }
@@ -391,7 +392,7 @@ function installUserTest(req, res, template, block, next) {
 
   if (calipso.config.get('installed')) {
     res.format = "json";
-    res.end(JSON.stringify({status: "Invalid Request"}), "UTF-8");
+    res.end(JSON.stringify({status:"Invalid Request"}), "UTF-8");
   }
 
   calipso.form.process(req, function (form) {
@@ -440,45 +441,45 @@ function installModules(req, res, next) {
   var template = calipso.modules.admin.templates.install_modules;
 
   // Create the form
-  var moduleForm = {id: 'install-modules-form', title: '', type: 'form', method: 'POST', action: '/admin/install',
-    fields: [
-      {label: '', name: 'installStep', type: 'hidden'}
+  var moduleForm = {id:'install-modules-form', title:'', type:'form', method:'POST', action:'/admin/install',
+    fields:[
+      {label:'', name:'installStep', type:'hidden'}
     ],
-    buttons: []}; // Submitted via template
+    buttons:[]}; // Submitted via template
 
   //Add the modules
   moduleForm.fields = createModuleFields(moduleForm.fields);
 
   // Defaults
   var formValues = {
-    modules: {
-      admin: {
-        enabled: true
+    modules:{
+      admin:{
+        enabled:true
       },
-      content: {
-        enabled: true
+      content:{
+        enabled:true
       },
-      contentTypes: {
-        enabled: true
+      contentTypes:{
+        enabled:true
       },
-      user: {
-        enabled: true
+      user:{
+        enabled:true
       },
-      permissions: {
-        enabled: true
+      permissions:{
+        enabled:true
       },
-      taxonomy: {
-        enabled: true
+      taxonomy:{
+        enabled:true
       },
-      tagcloud: {
-        enabled: true
+      tagcloud:{
+        enabled:true
       }
     },
-    installStep: 'finalise'
+    installStep:'finalise'
   };
 
   calipso.form.render(moduleForm, formValues, req, function (form) {
-    calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form: form}, next);
+    calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form:form}, next);
   });
 
 }
@@ -572,368 +573,369 @@ function coreConfig(req, res, template, block, next) {
   }
 
   var adminForm = {
-    id: 'admin-form',
-    title: 'Administration',
-    type: 'form',
-    method: 'POST',
-    action: '/admin/core/config/save',
-    tabs: true,
-    sections: [
+    id:'admin-form',
+    title:'Administration',
+    type:'form',
+    method:'POST',
+    action:'/admin/core/config/save',
+    tabs:true,
+    sections:[
       {
-        id: 'form-section-core',
-        label: 'Site',
-        fields: [
+        id:'form-section-core',
+        label:'Site',
+        fields:[
           {
-            label: 'Site Name',
-            name: 'server:name',
-            type: 'text'
+            label:'Site Name',
+            name:'server:name',
+            type:'text'
           },
           {
-            label: 'Login Path',
-            name: 'server:loginPath',
-            type: 'text'
+            label:'Login Path',
+            name:'server:loginPath',
+            type:'text'
           },
           {
-            label: 'Modules Location',
-            name: 'server:modulePath',
-            type: 'text'
+            label:'Modules Location',
+            name:'server:modulePath',
+            type:'text'
           },
           {
-            label: 'Themes Location',
-            name: 'server:themePath',
-            type: 'text'
+            label:'Themes Location',
+            name:'server:themePath',
+            type:'text'
           },
           {
-            label: 'Server URL',
-            name: 'server:url',
-            type: 'text'
+            label:'Server URL',
+            name:'server:url',
+            type:'text'
           },
           {
-            label: 'Session Secret',
-            name: 'session:secret',
-            type: 'password'
+            label:'Session Secret',
+            name:'session:secret',
+            type:'password'
           },
           {
-            label: 'Session Max Age (seconds)',
-            name: 'session:maxAge',
-            type: 'text'
+            label:'Session Max Age (seconds)',
+            name:'session:maxAge',
+            type:'text'
           }
         ]
       },
       {
-        id: 'form-section-language',
-        label: 'Language',
-        fields: [
+        id:'form-section-language',
+        label:'Language',
+        fields:[
           {
-            label: 'Default Language',
-            name: 'i18n:language',
-            type: 'select',
-            options: req.languages
+            label:'Default Language',
+            name:'i18n:language',
+            type:'select',
+            options:req.languages
           },
           {
-            label: 'Add Unknown Terms',
-            name: 'i18n:additive',
-            type: 'checkbox',
-            labelFirst: true
+            label:'Add Unknown Terms',
+            name:'i18n:additive',
+            type:'checkbox',
+            labelFirst:true
           }
         ]
       },
       {
-        id: 'form-section-performance',
-        label: 'Performance & Clustering',
-        fields: [
+        id:'form-section-performance',
+        label:'Performance & Clustering',
+        fields:[
           {
-            label: 'Performance',
-            legend: 'Performance',
-            type: 'fieldset',
-            fields: [
+            label:'Performance',
+            legend:'Performance',
+            type:'fieldset',
+            fields:[
               {
-                label: 'Enable Cache',
-                name: 'performance:cache:enabled',
-                type: 'checkbox',
-                description: 'Experimental - will probably break things!',
-                labelFirst: true
+                label:'Enable Cache',
+                name:'performance:cache:enabled',
+                type:'checkbox',
+                description:'Experimental - will probably break things!',
+                labelFirst:true
               },
               {
-                label: 'Default Cache TTL',
-                name: 'performance:cache:ttl',
-                type: 'text',
-                description: 'Default age (in seconds) for cache items.'
+                label:'Default Cache TTL',
+                name:'performance:cache:ttl',
+                type:'text',
+                description:'Default age (in seconds) for cache items.'
               },
               {
-                label: 'Watch Template Files',
-                name: 'performance:watchFiles',
-                type: 'checkbox',
-                labelFirst: true
+                label:'Watch Template Files',
+                name:'performance:watchFiles',
+                type:'checkbox',
+                labelFirst:true
               }
             ]
           },
           {
-            label: 'Clustering',
-            legend: 'Clustering',
-            type: 'fieldset',
-            fields: [
+            label:'Clustering',
+            legend:'Clustering',
+            type:'fieldset',
+            fields:[
               {
-                label: 'Number Workers',
-                description: 'Number of workers to start, set to 0 to have Calipso default to number of available cpus.',
-                name: 'server:cluster:workers',
-                type: 'text'
+                label:'Number Workers',
+                description:'Number of workers to start, set to 0 to have Calipso default to number of available cpus.',
+                name:'server:cluster:workers',
+                type:'text'
               },
               {
-                label: 'Restart Workers',
-                name: 'server:cluster:restartWorkers',
-                description: 'Automatically restart workers if they die.',
-                type: 'checkbox',
-                labelFirst: true
+                label:'Restart Workers',
+                name:'server:cluster:restartWorkers',
+                description:'Automatically restart workers if they die.',
+                type:'checkbox',
+                labelFirst:true
               },
               {
-                label: 'Maximum Restarts',
-                name: 'server:cluster:maximumRestarts',
-                description: 'Number of failures before it will stop attempting to restart a worker.',
-                type: 'text'
+                label:'Maximum Restarts',
+                name:'server:cluster:maximumRestarts',
+                description:'Number of failures before it will stop attempting to restart a worker.',
+                type:'text'
               }
             ]
           },
           {
-            label: 'Event Emitter',
-            legend: 'Event Emitter',
-            type: 'fieldset',
-            fields: [
+            label:'Event Emitter',
+            legend:'Event Emitter',
+            type:'fieldset',
+            fields:[
               {
-                label: 'EventEmitter Max Listeners',
-                name: 'server:events:maxListeners',
-                type: 'text'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 'form-section-authentication',
-        label: 'Authentication',
-        fields: [
-          {
-            label: 'Password Login and Registration (changes require a restart of calipso)',
-            legend: 'Password Login and Registration (changes require a restart of calipso)',
-            type: 'fieldset',
-            fields: [
-              {
-                label: 'Enable password authentication and registration',
-                type: 'checkbox',
-                name: 'server:authentication:password',
-                description: 'Please make sure you have made an external user (google, facebook or twitter an admin account) so you don\'t lose access to your system.'
-              },
-              {
-                label: 'Enable password migration to pbkdf2 hash',
-                type: 'checkbox',
-                name: 'server:authentication:migrate2pbkdf2',
-                description: 'As new people create password hashes they will be converted to pbkdf2 hashes.'
-              }
-            ]
-          },
-          {
-            label: 'Facebook Authentication (changes require a restart of calipso)',
-            legend: 'Set this information to enable Facebook Authentication (changes require a restart of calipso)',
-            type: 'fieldset',
-            fields: [
-              {
-                label: 'AppId',
-                description: 'Set AppId and Secret to enable facebook authentication',
-                name: 'server:authentication:facebookAppId',
-                type: 'password'
-              },
-              {
-                label: 'AppSecret',
-                description: 'AppSecret for this application to allow facebook authentication',
-                name: 'server:authentication:facebookAppSecret',
-                type: 'password'
-              }
-            ]
-          },
-          {
-            label: 'Google Authentication (changes require a restart of calipso)',
-            legend: 'Set this information to enable Google Authentication (changes require a restart of calipso)',
-            type: 'fieldset',
-            fields: [
-              {
-                label: 'ClientId',
-                description: 'Set ClientId and ClientSecret to enable google authentication',
-                name: 'server:authentication:googleClientId',
-                type: 'password'
-              },
-              {
-                label: 'ClientSecret',
-                description: 'ClientSecret for this application to allow google authentication',
-                name: 'server:authentication:googleClientSecret',
-                type: 'password'
-              },
-              {
-                label: 'Google Callback',
-                description: 'Callback URL for google authentication',
-                type: 'readonlytext',
-                value: calipso.config.get('server:url') + '/auth/google/callback'
-              }
-            ]
-          },
-          {
-            label: 'Twitter Authentication (changes require a restart of calipso)',
-            legend: 'Set this information to enable Twitter Authentication (changes require a restart of calipso)',
-            type: 'fieldset',
-            fields: [
-              {
-                label: 'Twitter ConsumerKey',
-                description: 'Set ConsumerKey and ConsumerSecret to allow twitter authentication',
-                name: 'server:authentication:twitterConsumerKey',
-                type: 'password'
-              },
-              {
-                label: 'Twitter ConsumerSecret',
-                description: 'ConsumerSecret for this application to allow twitter authentication',
-                name: 'server:authentication:twitterConsumerSecret',
-                type: 'password'
-              },
-              {
-                label: 'Twitter Callback',
-                description: 'Callback URL for twitter authentication',
-                type: 'readonlytext',
-                value: calipso.config.get('server:url') + '/auth/twitter/callback'
+                label:'EventEmitter Max Listeners',
+                name:'server:events:maxListeners',
+                type:'text'
               }
             ]
           }
         ]
       },
       {
-        id: 'form-section-theme',
-        label: 'Theme',
-        fields: [
+        id:'form-section-authentication',
+        label:'Authentication',
+        fields:[
           {
-            label: 'Frontend Theme',
-            name: 'theme:front',
-            type: 'select',
-            options: calipso.data.themes,
-            description: 'Theme used for all web pages excluding admin pages'
-          },
-          {
-            label: 'Admin Theme',
-            name: 'theme:admin',
-            type: 'select',
-            options: calipso.data.adminThemes,
-            description: 'Administration theme [NOT YET IMPLEMENTED]'
-          },
-          {
-            name: 'theme:default',
-            type: 'hidden'
-          },
-          {
-            label: 'Stylus Middleware',
-            legend: 'Stylus Middleware',
-            type: 'fieldset',
-            fields: [
+            label:'Password Login and Registration (changes require a restart of calipso)',
+            legend:'Password Login and Registration (changes require a restart of calipso)',
+            type:'fieldset',
+            fields:[
               {
-                label: 'Enable Stylus',
-                type: 'checkbox',
-                defaultValue: false,
-                name: 'libraries:stylus:enable'
+                label:'Enable password authentication and registration',
+                type:'checkbox',
+                name:'server:authentication:password',
+                description:'Please make sure you have made an external user (google, facebook or twitter an admin account) so you don\'t lose access to your system.'
               },
               {
-                label: 'Show Warnings',
-                type: 'checkbox',
-                defaultValue: false,
-                name: 'libraries:stylus:warn'
+                label:'Enable password migration to pbkdf2 hash',
+                type:'checkbox',
+                name:'server:authentication:migrate2pbkdf2',
+                description:'As new people create password hashes they will be converted to pbkdf2 hashes.'
+              }
+            ]
+          },
+          {
+            label:'Facebook Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Facebook Authentication (changes require a restart of calipso)',
+            type:'fieldset',
+            fields:[
+              {
+                label:'AppId',
+                description:'Set AppId and Secret to enable facebook authentication',
+                name:'server:authentication:facebookAppId',
+                type:'password'
               },
               {
-                label: 'Compress CSS',
-                type: 'checkbox',
-                defaultValue: false,
-                name: 'libraries:stylus:compress'
+                label:'AppSecret',
+                description:'AppSecret for this application to allow facebook authentication',
+                name:'server:authentication:facebookAppSecret',
+                type:'password'
+              }
+            ]
+          },
+          {
+            label:'Google Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Google Authentication (changes require a restart of calipso)',
+            type:'fieldset',
+            fields:[
+              {
+                label:'ClientId',
+                description:'Set ClientId and ClientSecret to enable google authentication',
+                name:'server:authentication:googleClientId',
+                type:'password'
+              },
+              {
+                label:'ClientSecret',
+                description:'ClientSecret for this application to allow google authentication',
+                name:'server:authentication:googleClientSecret',
+                type:'password'
+              },
+              {
+                label:'Google Callback',
+                description:'Callback URL for google authentication',
+                type:'readonlytext',
+                value:calipso.config.get('server:url') + '/auth/google/callback'
+              }
+            ]
+          },
+          {
+            label:'Twitter Authentication (changes require a restart of calipso)',
+            legend:'Set this information to enable Twitter Authentication (changes require a restart of calipso)',
+            type:'fieldset',
+            fields:[
+              {
+                label:'Twitter ConsumerKey',
+                description:'Set ConsumerKey and ConsumerSecret to allow twitter authentication',
+                name:'server:authentication:twitterConsumerKey',
+                type:'password'
+              },
+              {
+                label:'Twitter ConsumerSecret',
+                description:'ConsumerSecret for this application to allow twitter authentication',
+                name:'server:authentication:twitterConsumerSecret',
+                type:'password'
+              },
+              {
+                label:'Twitter Callback',
+                description:'Callback URL for twitter authentication',
+                type:'readonlytext',
+                value:calipso.config.get('server:url') + '/auth/twitter/callback'
               }
             ]
           }
         ]
       },
       {
-        id: 'form-section-logging',
-        label: 'Logging',
-        fields: [
+        id:'form-section-theme',
+        label:'Theme',
+        fields:[
           {
-            label: 'Console Logging',
-            name: 'logging:console:enabled',
-            type: 'checkbox',
-            labelFirst: true,
-            description: 'Enable logging to the console.'
+            label:'Frontend Theme',
+            name:'theme:front',
+            type:'select',
+            options:calipso.data.themes,
+            description:'Theme used for all web pages excluding admin pages'
           },
           {
-            label: 'Console Log Level',
-            name: 'logging:console:level',
-            type: 'select',
-            options: calipso.data.loglevels,
-            description: 'Log level that controls verbosity of display on the console.'
+            label:'Admin Theme',
+            name:'theme:admin',
+            type:'select',
+            options:calipso.data.adminThemes,
+            description:'Administration theme [NOT YET IMPLEMENTED]'
           },
           {
-            label: 'Console Timestamp',
-            name: 'logging:console:timestamp',
-            type: 'checkbox',
-            labelFirst: true,
-            description: 'Prepend timestamps to console logs.'
+            name:'theme:default',
+            type:'hidden'
           },
           {
-            label: 'Console Colorize',
-            name: 'logging:console:colorize',
-            type: 'checkbox',
-            labelFirst: true,
-            description: 'Show colors on the console logs'
-          },
-          {
-            label: 'File Logging',
-            name: 'logging:file:enabled',
-            type: 'checkbox',
-            labelFirst: true
-          },
-          {
-            label: 'File Log Level',
-            name: 'logging:file:level',
-            type: 'select',
-            options: calipso.data.loglevels,
-            description: 'Log level that controls verbosity of display in the file logs.'
-          },
-          {
-            label: 'File Log Path',
-            name: 'logging:file:filepath',
-            type: 'text',
-            description: 'Path to create the file logs.'
-          },
-          {
-            label: 'File Log Timestamp',
-            name: 'logging:file:timestamp',
-            type: 'checkbox',
-            labelFirst: true,
-            description: 'Prepend timestamps to file logs.'
+            label:'Stylus Middleware',
+            legend:'Stylus Middleware',
+            type:'fieldset',
+            fields:[
+              {
+                label:'Enable Stylus',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:enable'
+              },
+              {
+                label:'Show Warnings',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:warn'
+              },
+              {
+                label:'Compress CSS',
+                type:'checkbox',
+                defaultValue:false,
+                name:'libraries:stylus:compress'
+              }
+            ]
           }
         ]
       },
       {
-        id: 'form-section-modules',
-        label: 'Modules',
-        fields: [] // populated in a loop just below
+        id:'form-section-logging',
+        label:'Logging',
+        fields:[
+          {
+            label:'Console Logging',
+            name:'logging:console:enabled',
+            type:'checkbox',
+            labelFirst:true,
+            description:'Enable logging to the console.'
+          },
+          {
+            label:'Console Log Level',
+            name:'logging:console:level',
+            type:'select',
+            options:calipso.data.loglevels,
+            description:'Log level that controls verbosity of display on the console.'
+          },
+          {
+            label:'Console Timestamp',
+            name:'logging:console:timestamp',
+            type:'checkbox',
+            labelFirst:true,
+            description:'Prepend timestamps to console logs.'
+          },
+          {
+            label:'Console Colorize',
+            name:'logging:console:colorize',
+            type:'checkbox',
+            labelFirst:true,
+            description:'Show colors on the console logs'
+          },
+          {
+            label:'File Logging',
+            name:'logging:file:enabled',
+            type:'checkbox',
+            labelFirst:true
+          },
+          {
+            label:'File Log Level',
+            name:'logging:file:level',
+            type:'select',
+            options:calipso.data.loglevels,
+            description:'Log level that controls verbosity of display in the file logs.'
+          },
+          {
+            label:'File Log Path',
+            name:'logging:file:filepath',
+            type:'text',
+            description:'Path to create the file logs.'
+          },
+          {
+            label:'File Log Timestamp',
+            name:'logging:file:timestamp',
+            type:'checkbox',
+            labelFirst:true,
+            description:'Prepend timestamps to file logs.'
+          }
+        ]
+      },
+      {
+        id:'form-section-modules',
+        label:'Modules',
+        fields:[] // populated in a loop just below
       }
     ],
-    fields: [
+    fields:[
       {
-        label: '',
-        name: 'returnTo',
-        type: 'hidden'
+        label:'',
+        name:'returnTo',
+        type:'hidden'
       }
     ],
-    buttons: [
+    buttons:[
       {
-        name: 'submit',
-        type: 'submit',
-        value: 'Save Configuration'
+        name:'submit',
+        type:'submit',
+        value:'Save Configuration'
       },
       {
-        name: 'cancel',
-        type: 'button',
-        href: '/admin', value: 'Cancel'
+        name:'cancel',
+        type:'button',
+        href:'/admin',
+        value:'Cancel'
       }
     ]
   };
@@ -967,31 +969,31 @@ function modulesConfig(req, res, template, block, next) {
   }
 
   var configForm = {
-    id: 'module-config-form',
-    title: 'Configure: ' + moduleName,
-    type: 'form',
-    method: 'POST',
-    action: '/admin/modules/save',
-    tabs: false,
-    fields: [
+    id:'module-config-form',
+    title:'Configure: ' + moduleName,
+    type:'form',
+    method:'POST',
+    action:'/admin/modules/save',
+    tabs:false,
+    fields:[
       {
-        label: '',
-        value: moduleName,
-        name: 'moduleName',
-        type: 'hidden'
+        label:'',
+        value:moduleName,
+        name:'moduleName',
+        type:'hidden'
       }
     ],
-    buttons: [
+    buttons:[
       {
-        name: 'submit',
-        type: 'submit',
-        value: 'Save Configuration'
+        name:'submit',
+        type:'submit',
+        value:'Save Configuration'
       },
       {
-        name: 'cancel',
-        type: 'button',
-        href: '/admin',
-        value: 'Cancel'
+        name:'cancel',
+        type:'button',
+        href:'/admin',
+        value:'Cancel'
       }
     ]
   };
@@ -1055,7 +1057,7 @@ function saveModulesConfig(req, res, template, block, next) {
 
       calipso.config.setModuleConfig(moduleName, '', moduleConfig);
 
-      calipso.e.pre_emit('CONFIG_UPDATE', {module: moduleName, config: moduleConfig}, function (config) {
+      calipso.e.pre_emit('CONFIG_UPDATE', {module:moduleName, config:moduleConfig}, function (config) {
 
         calipso.config.save(function (err) {
 
@@ -1067,7 +1069,7 @@ function saveModulesConfig(req, res, template, block, next) {
           } else {
 
             // Set the reload config flag for event handler to pick up
-            calipso.e.post_emit('CONFIG_UPDATE', {module: moduleName, config: moduleConfig}, function (config) {
+            calipso.e.post_emit('CONFIG_UPDATE', {module:moduleName, config:moduleConfig}, function (config) {
 
               req.flash('info', req.t('Changes to configuration saved.'));
               res.redirect('/admin');
@@ -1134,10 +1136,10 @@ function createModuleFields(formFields) {
     // "Site" modules fieldset will only show up if there are any to show.
     if (moduleTypeFields.length) {
       formFields.push({
-        type: 'fieldset',
-        name: moduleType + '_fieldset', // shouldn't need a name ...
-        legend: moduleType,
-        fields: moduleTypeFields
+        type:'fieldset',
+        name:moduleType + '_fieldset', // shouldn't need a name ...
+        legend:moduleType,
+        fields:moduleTypeFields
       });
     }
   }
@@ -1228,7 +1230,7 @@ function updateEnabledModules(form) {
 function showCache(req, res, template, block, next) {
 
   calipso.theme.renderItem(req, res, template, block, {
-    cache: calipso.cache.cache
+    cache:calipso.cache.cache
   }, next);
 
 }
@@ -1239,7 +1241,7 @@ function showCache(req, res, template, block, next) {
 function clearCache(req, res, template, block, next) {
   calipso.cache.clear(function () {
     calipso.theme.renderItem(req, res, template, block, {
-      cache: calipso.cache.cache
+      cache:calipso.cache.cache
     }, next);
   });
 }

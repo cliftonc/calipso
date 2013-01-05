@@ -9,7 +9,7 @@
   list-style: none;
   background: #111;
 
-  @include background( linear-gradient(#444, #111) );
+  @include background(linear-gradient(#444, #111));
   @include border-radius(5px);
 }
 
@@ -35,7 +35,8 @@
   color: #fafafa;
 }
 
-*html #primary-menu li a:hover /* IE6 */ {
+*html #primary-menu li a:hover /* IE6 */
+  {
   color: #fafafa;
 }
 
@@ -57,14 +58,14 @@
   z-index: 99999;
   background: #444;
   background: -moz-linear-gradient(#444, #111);
-  background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #111), color-stop(1, #444));
   background: -webkit-linear-gradient(#444, #111);
   background: -o-linear-gradient(#444, #111);
   background: -ms-linear-gradient(#444, #111);
   background: linear-gradient(#444, #111);
-  -moz-box-shadow: 0 0 2px rgba(255,255,255,.5);
-  -webkit-box-shadow: 0 0 2px rgba(255,255,255,.5);
-  box-shadow: 0 0 2px rgba(255,255,255,.5);
+  -moz-box-shadow: 0 0 2px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 2px rgba(255, 255, 255, .5);
+  box-shadow: 0 0 2px rgba(255, 255, 255, .5);
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
@@ -73,7 +74,7 @@
   top: 0;
   left: 140px;
 }
- 
+
 #primary-menu ul li {
   float: none;
   margin: 0;
@@ -108,12 +109,12 @@
 
 #primary-menu a:hover {
   background: #0186ba;
-  background: -moz-linear-gradient(#04acec,  #0186ba);
+  background: -moz-linear-gradient(#04acec, #0186ba);
   background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
-  background: -webkit-linear-gradient(#04acec,  #0186ba);
-  background: -o-linear-gradient(#04acec,  #0186ba);
-  background: -ms-linear-gradient(#04acec,  #0186ba);
-  background: linear-gradient(#04acec,  #0186ba);
+  background: -webkit-linear-gradient(#04acec, #0186ba);
+  background: -o-linear-gradient(#04acec, #0186ba);
+  background: -ms-linear-gradient(#04acec, #0186ba);
+  background: linear-gradient(#04acec, #0186ba);
 }
 
 #primary-menu li:first-child > a {
@@ -168,15 +169,18 @@
   height: 0;
 }
 
-
 #primary-menu > li:last-child > a {
   -moz-border-radius: 0 5px 5px 0;
   border-radius: 0 5px 5px 0;
 }
+
 #primary-menu > li:first-child > a {
   -moz-border-radius: 5px 0 0 5px;
   border-radius: 5px 0 0 5px;
 }
 
+#primary-menu {
+  *zoom: 1;
+}
 
-#primary-menu { *zoom: 1; } /* IE6 & IE7 */
+/* IE6 & IE7 */

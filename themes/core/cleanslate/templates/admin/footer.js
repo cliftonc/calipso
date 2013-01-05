@@ -6,7 +6,7 @@ var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
 
-exports = module.exports = function(req, options, callback) {
+exports = module.exports = function (req, options, callback) {
 
   /**
    *  Get additional content for blocks in the template
@@ -19,7 +19,7 @@ exports = module.exports = function(req, options, callback) {
       options.getBlock("dev.tools", this.parallel());
     },
     function done(err, left, center, right, dev) {
-      callback(err,{left:left, center:center, right:right, dev: dev});
+      callback(err, {left:left, center:center, right:right, dev:dev});
     }
   );
 

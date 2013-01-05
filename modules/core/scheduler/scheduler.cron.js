@@ -160,12 +160,10 @@ CronJob.prototype = {
     this.initiated = false;
     this.invalid = false;
 
-    try
-    {
+    try {
       this.cronTime = new CronTime(options.cronTime);
     }
-    catch (ex)
-    {
+    catch (ex) {
       this.invalid = true;
       this.enabled = false;
     }
@@ -173,8 +171,7 @@ CronJob.prototype = {
     this.clock();
   },
   enable:function () {
-    if (!this.invalid)
-    {
+    if (!this.invalid) {
       this.enabled = true;
     }
     this.clock();

@@ -206,7 +206,8 @@ function getContent(req, options, next) {
  */
 function contentForm() {
   return {id:'content-form', title:'Create Content ...', type:'form', method:'POST', action:'/content', tabs:true,
-    sections:[ {
+    sections:[
+      {
         id:'form-section-content',
         label:'Content',
         fields:[
@@ -224,7 +225,7 @@ function contentForm() {
         label:'Categorisation',
         fields:[
           {label:'Taxonomy', name:'content[taxonomy]', type:'text', description:'Enter the menu heirarchy, e.g. "welcome/about"'},
-          {label:'Tags', name:'content[tags]', type:'text', description:'Enter comma delimited tags to help manage this content.'},
+          {label:'Tags', name:'content[tags]', type:'text', description:'Enter comma delimited tags to help manage this content.'}
         ]
       },
       {
@@ -233,7 +234,7 @@ function contentForm() {
         fields:[
           {label:'Status', name:'content[status]', type:'select', options:["draft", "scheduled", "published"], description:'Select the status (published is visible to all public).'},
           {label:'Published', name:'content[published]', type:'datetime', description:'Date to appear as published.'},
-          {label:'Scheduled', name:'content[scheduled]', type:'datetime', description:'Date to be published (if scheduled).'},
+          {label:'Scheduled', name:'content[scheduled]', type:'datetime', description:'Date to be published (if scheduled).'}
         ]
       }
     ],
@@ -397,8 +398,7 @@ function getForm(req, action, title, contentType, next) {
  * Create and render the 'New Content' page.
  * This allows some defaults to be passed through (e.g. from missing blocks).
  */
-function createContentForm(req, res, template, block, next)
-{
+function createContentForm(req, res, template, block, next) {
 
   // Allow defaults to be passed in
   if (req.moduleParams.type) {
@@ -494,8 +494,7 @@ function createContentFormByType(req, res, template, block, next) {
  * Edit Content Form
  * Edit an existing piece of content.
  */
-function editContentForm(req, res, template, block, next)
-{
+function editContentForm(req, res, template, block, next) {
 
   var Content = calipso.db.model('Content');
   var id = req.moduleParams.id;
@@ -929,6 +928,7 @@ function getContentList(query, out, next) {
             next();
           }
         }
+
       } else {
         // We are being called as a helper, hence return raw data & the pager.
         var output = {
@@ -1006,16 +1006,17 @@ function install(next) {
     },
     function (cb) {
       art.save(cb)
-    }],
-    function (err) {
+    }
+  ],
+  function (err) {
 
-      // Allow event to fire
-      calipso.e.post_emit('CONTENT_UPDATE', art, function (artc) {
-      });
+    // Allow event to fire
+    calipso.e.post_emit('CONTENT_UPDATE', art, function (artc) {
+    });
 
-      // Done
-      calipso.info("Content module installed ... ");
-      next();
+    // Done
+    calipso.info("Content module installed ... ");
+    next();
 
   });
 

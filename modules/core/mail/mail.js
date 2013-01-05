@@ -539,8 +539,7 @@ function getMailTemplateForm(type, id, callback) {
         }
       ]
     };
-    if (type != 'new')
-    {
+    if (type != 'new') {
       form.buttons.push({
         name:'delete',
         type:'button',
