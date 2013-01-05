@@ -1,112 +1,112 @@
 {
-	"name": "cleanslate",
-	"type": "full",
-	"description": "Not intended to be used directly, but as a starting point for other themes",
-	"version": "0.2.1",
-	"author": "Dennis Hall <dennishall@github.com>",
-	"layouts": {
-		"default": {
-			"layout": {
-				"template": "default.html",
-				"sections": {
-					"header": {
-						"template": "header.html",
-						"cache": true
-					},
-					"scripts": {
-						"template": "scripts.html",
-						"cache": true
-					},
-					"styles": {
-						"template": "styles.html",
-						"cache": true
-					},
-					"admin": {
-						"menu": "admin",
-						"template": "adminMenu.html"
-					},
-					"primary": {
-						"menu": "primary",
-						"template": "primaryMenu.html"
-					},
-					"secondary": {
-						"template": "secondaryMenu.html",
-						"cache": true
-					},
-					"messages": {
-						"template": "messages.html"
-					},
-					"body": {
-						"template": "body.html"
-					},
-					"sidePanel": {
-						"template": "sidePanel.html"
-					},
-					"footer": {
-						"template": "footer.html",
-						"cache": true
-					}
-				}
-			}
-		},
-		"home": {
-			"layout": {
-				"template": "default.html",
-				"copyFrom": "default",
-				"sections": {
-					"body": {
-						"template": "body.html",
-						"cache": true
-					}
-				}
-			}
-		},
-		"admin": {
-			"layout": {
-				"template": "admin.html",
-				"copyFrom": "default",
-				"sections": {
-					"scripts": {
-						"template": "scripts.html"
-					},
-					"body": {
-						"template": "body.html"
-					},
-					"footer": {
-						"template": "footer.html"
-					},
-					"sidePanel": {
-						"disable": true
-					}
-				}
-			}
-		},
-		"install": {
-			"layout": {
-				"template": "install.html",
-				"copyFrom": "default",
-				"sections": {
-					"body": {
-						"template": "body.html"
-					},
-					"footer": {
-						"template": "footer.html"
-					},
-					"sidePanel": {
-						"disable": true
-					}
-				}
-			}
-		},
-		"rss": {
-			"layout": {
-				"template": "rss.html",
-				"sections": {
-					"body": {
-						"template": "body.html"
-					}
-				}
-			}
-		}
-	}
+    "name":"cleanslate",
+    "type":"full",
+    "description":"Not intended to be used directly, but as a starting point for other themes",
+    "version":"0.2.1",
+    "author":"Dennis Hall <dennishall@github.com>",
+    "layouts":{
+        "default":{
+            "layout":{
+                "template":"default.html",
+                "sections":{
+                    "header":{
+                        "template":"header.html",
+                        "cache":true
+                    },
+                    "scripts":{
+                        "template":"scripts.html",
+                        "cache":true
+                    },
+                    "styles":{
+                        "template":"styles.html",
+                        "cache":true
+                    },
+                    "admin":{
+                        "menu":"admin",
+                        "template":"adminMenu.html"
+                    },
+                    "primary":{
+                        "menu":"primary",
+                        "template":"primaryMenu.html"
+                    },
+                    "secondary":{
+                        "template":"secondaryMenu.html",
+                        "cache":true
+                    },
+                    "messages":{
+                        "template":"messages.html"
+                    },
+                    "body":{
+                        "template":"body.html"
+                    },
+                    "sidePanel":{
+                        "template":"sidePanel.html"
+                    },
+                    "footer":{
+                        "template":"footer.html",
+                        "cache":true
+                    }
+                }
+            }
+        },
+        "home":{
+            "layout":{
+                "template":"default.html",
+                "copyFrom":"default",
+                "sections":{
+                    "body":{
+                        "template":"body.html",
+                        "cache":true
+                    }
+                }
+            }
+        },
+        "admin":{
+            "layout":{
+                "template":"admin.html",
+                "copyFrom":"default",
+                "sections":{
+                    "scripts":{
+                        "template":"scripts.html"
+                    },
+                    "body":{
+                        "template":"body.html"
+                    },
+                    "footer":{
+                        "template":"footer.html"
+                    },
+                    "sidePanel":{
+                        "disable":true
+                    }
+                }
+            }
+        },
+        "install":{
+            "layout":{
+                "template":"install.html",
+                "copyFrom":"default",
+                "sections":{
+                    "body":{
+                        "template":"body.html"
+                    },
+                    "footer":{
+                        "template":"footer.html"
+                    },
+                    "sidePanel":{
+                        "disable":true
+                    }
+                }
+            }
+        },
+        "rss":{
+            "layout":{
+                "template":"rss.html",
+                "sections":{
+                    "body":{
+                        "template":"body.html"
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,15 +1,17 @@
-<div class = 'asset-item'>
-	<h2><a href = '/<%= content.alias %>.html'><%- content.title %></a></h2>
+<div class='asset-item'>
+    <h2><a href='/<%= content.alias %>.html'><%- content.title %></a></h2>
 
-	<p class = 'by'>By
-		<a href = '/user/profile/<%- content.author %>'><small><%- content.displayAuthor.name %></small></a></p>
+    <p class='by'>By
+        <a href='/user/profile/<%- content.author %>'>
+            <small><%- content.displayAuthor.name %></small>
+        </a></p>
 
-	<p class = 'status'><%- content.status %></p>
+    <p class='status'><%- content.status %></p>
 
-	<p class = 'created'><%- t('Published') + ': ' + prettyDate(content.published) %> / <%- t('Last Updated') + ': ' +
-		prettyDate(content.updated) %></p>
+    <p class='created'><%- t('Published') + ': ' + prettyDate(content.published) %> / <%- t('Last Updated') + ': ' +
+        prettyDate(content.updated) %></p>
 
-	<p class = 'tags'><%- content.tags %></p>
+    <p class='tags'><%- content.tags %></p>
 
-	<p class = 'asset'><%- content.asset %></p>
+    <p class='asset'><%- content.asset %></p>
 </div>

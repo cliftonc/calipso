@@ -23,19 +23,20 @@
 // ------------------------------------------ //
 
 html {
-	background: #fff;
+  background: #fff;
 }
 
 header, header.row, footer, footer.row, article, aside {
-	margin-top: $margin;
-	margin-bottom: $margin;
+  margin-top: $margin;
+  margin-bottom: $margin;
 }
 
 header {
-	h1 {
-		float: left;
-	}
+  h1 {
+    float: left;
+  }
 }
+
 // 2. Typography
 // ------------------------------------------ //
 
@@ -45,838 +46,837 @@ header {
 // General
 
 body {
-	background: #fff;
-	color: #444;
-	font: 400 0.875em/1.618em "Helvetica", serif;
-	text-shadow: 0 1px 1px #fff;
-	height: 100%;
+  background: #fff;
+  color: #444;
+  font: 400 0.875em/1.618em "Helvetica", serif;
+  text-shadow: 0 1px 1px #fff;
+  height: 100%;
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 a:link, a:visited {
-	color: #222;
+  color: #222;
 }
 
 ul, ol, dl {
-	margin: 0 0 0 1.618em;
-	padding: 0;
+  margin: 0 0 0 1.618em;
+  padding: 0;
 }
 
 ol li {
-	list-style: decimal;
+  list-style: decimal;
 }
 
 p {
-	margin: 0 0 2.618em;
+  margin: 0 0 2.618em;
 }
 
 strong, b {
-	color: #222;
-	font-weight: 600;
+  color: #222;
+  font-weight: 600;
 }
 
 i, em {
-	font-style: italic;
+  font-style: italic;
 }
 
 // Headings
 h1, h2, h3, h4, h5, h6 {
-	color: #222;
-	font-family: "Open Sans", sans-serif;
-	font-weight: 600;
-	line-height: 1.618em;
-	margin-bottom: $margin;
-	text-shadow: 0 1px 1px #fff;
-	// An easy way to anti-alias text
+  color: #222;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  line-height: 1.618em;
+  margin-bottom: $margin;
+  text-shadow: 0 1px 1px #fff;
+  // An easy way to anti-alias text
 }
 
 h6, h5 {
-	font-size: 1em;
+  font-size: 1em;
 }
 
 h4 {
-	font-size: 1.25em;
+  font-size: 1.25em;
 }
 
 h3 {
-	color: #336699;
-	font-size: 1.618em;
-	letter-spacing: -1px;
+  color: #336699;
+  font-size: 1.618em;
+  letter-spacing: -1px;
 }
 
 h2 {
-	color: #116677;
-	font-size: 2.023em;
-	letter-spacing: -1px;
+  color: #116677;
+  font-size: 2.023em;
+  letter-spacing: -1px;
 }
 
 h1 {
-	color: #114477;
-	font-size: 2.618em;
-	letter-spacing: -2px;
+  color: #114477;
+  font-size: 2.618em;
+  letter-spacing: -2px;
 }
 
 // 3. Layout
 // ----------------------------------------//
 
 .admin-body {
-	clear: both;
-	margin: 0 auto $col-margin-right;
-	width: 100%;
+  clear: both;
+  margin: 0 auto $col-margin-right;
+  width: 100%;
 
-	.content-item {
-		border: 1px solid #fff;
-		padding: $paddingLarge;
-		position: relative;
-		outline: 0;
+  .content-item {
+    border: 1px solid #fff;
+    padding: $paddingLarge;
+    position: relative;
+    outline: 0;
 
-		@include border-radius($borderRadiusSmall);
-		@include box-shadow(0 1px $borderRadiusLarge rgba(0, 0, 0, 0.25), inset 0 0 $borderRadiusLarge #f8f8f8);
+    @include border-radius($borderRadiusSmall);
+    @include box-shadow(0 1px $borderRadiusLarge rgba(0, 0, 0, 0.25), inset 0 0 $borderRadiusLarge #f8f8f8);
 
-		h2 {
-			line-height: 1em;
-			padding: $borderRadiusLarge;
+    h2 {
+      line-height: 1em;
+      padding: $borderRadiusLarge;
 
-			@include border-radius(2px);
-		}
+      @include border-radius(2px);
+    }
 
-		.by, .status, .created, .tags {
-			font-style: italic;
-			font-family: Georgia, serif;
-			margin: 1em;
-		}
+    .by, .status, .created, .tags {
+      font-style: italic;
+      font-family: Georgia, serif;
+      margin: 1em;
+    }
 
-		.content {
-			border: 1px solid transparent;
-			clear: left;
-			margin-top: 2em;
-			padding: $borderRadiusLarge;
+    .content {
+      border: 1px solid transparent;
+      clear: left;
+      margin-top: 2em;
+      padding: $borderRadiusLarge;
 
-			@include border-radius($borderRadiusSmall);
-		}
-	}
+      @include border-radius($borderRadiusSmall);
+    }
+  }
 }
 
 footer {
-	border-top: 1px solid #d9d9d9;
-	clear: both;
-	overflow: hidden;
-	padding: $paddingLarge 0;
-	text-align: center;
+  border-top: 1px solid #d9d9d9;
+  clear: both;
+  overflow: hidden;
+  padding: $paddingLarge 0;
+  text-align: center;
 }
 
 // 5. Misc
 // ----------------------------------------//
 
 #form-section-modules .fieldset-fields {
-	padding: $borderRadius 0 $marginLarge;
+  padding: $borderRadius 0 $marginLarge;
 }
 
 #form-section-modules legend {
-	font-size: 1.2em;
-	margin-bottom: $borderRadiusLarge;
-	margin-top: $borderRadius;
+  font-size: 1.2em;
+  margin-bottom: $borderRadiusLarge;
+  margin-top: $borderRadius;
 }
 
 #form-section-modules legend {
-	font-size: 1.2em;
-	margin-bottom: $borderRadiusLarge;
+  font-size: 1.2em;
+  margin-bottom: $borderRadiusLarge;
 }
 
 #form-section-modules div.form-item {
-	float: left;
-	margin-bottom: $borderRadiusLarge;
-	overflow: none;
+  float: left;
+  margin-bottom: $borderRadiusLarge;
+  overflow: none;
 }
 
 #form-section-modules .checkbox {
-	margin-left: 0;
+  margin-left: 0;
 }
 
 #form-section-modules .description {
-	padding-left: $paddingLarge;
+  padding-left: $paddingLarge;
 }
 
 .admin-page {
 
-	h2 {
-		margin-bottom: 1.5em;
-	}
+  h2 {
+    margin-bottom: 1.5em;
+  }
 
-	.admin-dashboard-col1, .admin-dashboard-col2 {
+  .admin-dashboard-col1, .admin-dashboard-col2 {
 
-		padding: $borderRadiusLarge;
+    padding: $borderRadiusLarge;
 
-		@include box-shadow(0 1px $borderRadiusSmall #d9d9d9);
-		@include border-radius($borderRadiusLarge);
-	}
+    @include box-shadow(0 1px $borderRadiusSmall #d9d9d9);
+    @include border-radius($borderRadiusLarge);
+  }
 }
 
 .admin-dashboard-col1 {
-	float: left;
-	width: 45%;
-	display: inline;
-	border: solid 1px silver;
+  float: left;
+  width: 45%;
+  display: inline;
+  border: solid 1px silver;
 }
 
 .admin-dashboard-col2 {
-	display: inline;
-	float: right;
-	width: 45%;
-	border: solid 1px silver;
+  display: inline;
+  float: right;
+  width: 45%;
+  border: solid 1px silver;
 }
 
 .admin-dashboard-clear {
-	clear: both;
-	height: $margin;
+  clear: both;
+  height: $margin;
 }
 
 // 4. Tables
 // ---------------------------------------//
 
 table {
-	background: #fff;
-	border: 1px solid #d9d9d9;
-	width: 100%;
-	margin-bottom: $margin;
-	padding: 0;
-	border-collapse: collapse;
-	font-size: 85%;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  width: 100%;
+  margin-bottom: $margin;
+  padding: 0;
+  border-collapse: collapse;
+  font-size: 85%;
 
-	th, td {
-		padding: $borderRadiusLarge $margin;
-		line-height: $lineHeight * 1.2;
-		text-align: left;
+  th, td {
+    padding: $borderRadiusLarge $margin;
+    line-height: $lineHeight * 1.2;
+    text-align: left;
 
-		text-transform: capitalize;
-	}
+    text-transform: capitalize;
+  }
 
-	tbody tr {
+  tbody tr {
 
-		border-bottom: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
 
-		&:nth-child(odd) {
-			background: #f3f3f3;
-		}
+    &:nth-child(odd) {
+      background: #f3f3f3;
+    }
 
-		&:hover {
-			background: lighten(#8dbdd8, 20%);
-			border-width: 1px 0;
-			border-color: #8dbdd8;
+    &:hover {
+      background: lighten(#8dbdd8, 20%);
+      border-width: 1px 0;
+      border-color: #8dbdd8;
 
-			td {
-				border-color: #8dbdd8;
-			}
-		}
-	}
+      td {
+        border-color: #8dbdd8;
+      }
+    }
+  }
 
-	th {
-		padding-top: $paddingSmall;
-		font-weight: bold;
-		vertical-align: middle;
-		border-bottom: 1px solid #DDD;
-	}
+  th {
+    padding-top: $paddingSmall;
+    font-weight: bold;
+    vertical-align: middle;
+    border-bottom: 1px solid #DDD;
+  }
 
-	th + th, td + td {
-		border-left: 1px solid #d9d9d9;
-	}
+  th + th, td + td {
+    border-left: 1px solid #d9d9d9;
+  }
 }
 
 .sortable {
-	background: url(../images/sort.gif) center right no-repeat;
-	padding-right: $margin;
-	cursor: pointer;
+  background: url(../images/sort.gif) center right no-repeat;
+  padding-right: $margin;
+  cursor: pointer;
 }
 
 .sorted-asc {
-	background: lighten(#8dbdd8, 20%) url(../images/asc.gif) center right no-repeat;
-	border-color: #8dbdd8;
+  background: lighten(#8dbdd8, 20%) url(../images/asc.gif) center right no-repeat;
+  border-color: #8dbdd8;
 }
 
 .sorted-desc {
-	background: lighten(#8dbdd8, 40%) url(../images/desc.gif) center right no-repeat;
-	border-color: #8dbdd8;
+  background: lighten(#8dbdd8, 40%) url(../images/desc.gif) center right no-repeat;
+  border-color: #8dbdd8;
 }
 
 a.pager-page {
-	padding: $borderRadiusSmall;
-	border: solid 1px #c0c0c0;
+  padding: $borderRadiusSmall;
+  border: solid 1px #c0c0c0;
 }
 
 span.pager-page {
-	padding: $borderRadiusSmall;
-	background: #c0c0c0;
+  padding: $borderRadiusSmall;
+  background: #c0c0c0;
 }
 
 .tabular {
-	clear: both;
+  clear: both;
 }
 
 .toolbar, .btn-group, .actions input {
-	position: relative;
-	margin: 0;
-	text-align: right;
+  position: relative;
+  margin: 0;
+  text-align: right;
 
-	&.admin-toolbar {
-		li {
-			float: right;
-		}
-	}
+  &.admin-toolbar {
+    li {
+      float: right;
+    }
+  }
 
-	li {
+  li {
 
-		@include inline-block();
-		&:first-child a {
-			@include border-top-left-radius($borderRadius);
-			@include border-bottom-left-radius($borderRadius);
-		}
-		&:last-child a {
-			@include border-top-right-radius($borderRadius);
-			@include border-bottom-right-radius($borderRadius);
-		}
+    @include inline-block();
+    &:first-child a {
+      @include border-top-left-radius($borderRadius);
+      @include border-bottom-left-radius($borderRadius);
+    }
+    &:last-child a {
+      @include border-top-right-radius($borderRadius);
+      @include border-bottom-right-radius($borderRadius);
+    }
 
-		a {
-			background: #d9d9d9;
-			border: 1px solid #aaa;
-			border-color: #aaa #999 #888;
-			color: #000;
-			cursor: pointer;
+    a {
+      background: #d9d9d9;
+      border: 1px solid #aaa;
+      border-color: #aaa #999 #888;
+      color: #000;
+      cursor: pointer;
 
-			font-size: 85%;
-			font-weight: 400;
+      font-size: 85%;
+      font-weight: 400;
 
-			margin-right: -1px;
-			padding: $borderRadiusLarge $padding;
-			text-shadow: 0 1px 0 #fff;
-			text-decoration: none;
+      margin-right: -1px;
+      padding: $borderRadiusLarge $padding;
+      text-shadow: 0 1px 0 #fff;
+      text-decoration: none;
 
-			@include inline-block();
-			@include background(linear-gradient(#ededed, #d9d9d9));
-			@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+      @include inline-block();
+      @include background(linear-gradient(#ededed, #d9d9d9));
+      @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
 
-			&:hover, &:focus, &.loading {
-				background: #2F5163;
-				border-color: #333;
-				color: #fff;
-				text-shadow: 0 1px 1px #111;
-				@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
-				@include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
-			}
+      &:hover, &:focus, &.loading {
+        background: #2F5163;
+        border-color: #333;
+        color: #fff;
+        text-shadow: 0 1px 1px #111;
+        @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+        @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
+      }
 
-			&:active {
-				border-color: #000;
-				@include box-shadow(inset 0 0 $borderRadiusLarge #000);
-			}
+      &:active {
+        border-color: #000;
+        @include box-shadow(inset 0 0 $borderRadiusLarge #000);
+      }
 
-			&.loading {
-				background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
-				@include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
-				padding-left: $paddingLarge;
-			}
-		}
+      &.loading {
+        background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
+        @include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
+        padding-left: $paddingLarge;
+      }
+    }
 
-		&:last-child {
-			border: 0;
-		}
-		ul {
-			display: none;
-			float: left;
-			clear: left;
-			position: absolute;
-			background: #1993A8;
-		}
-	}
+    &:last-child {
+      border: 0;
+    }
+    ul {
+      display: none;
+      float: left;
+      clear: left;
+      position: absolute;
+      background: #1993A8;
+    }
+  }
 }
-
-
 
 // Tabs
 // ----------------------------------------//
 
 ul.tabs {
-	height: $em;
+  height: $em;
 }
 
 ul.tabs li {
-	float: left;
-	border: 1px solid #999;
-	margin: 0 $borderRadius -1px 0;
-	background: #e0e0e0;
-	overflow: hidden;
-	position: relative;
+  float: left;
+  border: 1px solid #999;
+  margin: 0 $borderRadius -1px 0;
+  background: #e0e0e0;
+  overflow: hidden;
+  position: relative;
 
-	@include border-top-radius($borderRadius);
+  @include border-top-radius($borderRadius);
 
-	@include box-shadow(inset 0 0 $borderRadiusLarge rgba(0, 0, 0, 0.25));
+  @include box-shadow(inset 0 0 $borderRadiusLarge rgba(0, 0, 0, 0.25));
 }
 
 ul.tabs li a {
-	text-decoration: none;
-	color: #000;
-	display: block;
-	font-size: 85%;
-	padding: 0 $marginLarge;
-	border: 1px solid #eee;
-	outline: none;
+  text-decoration: none;
+  color: #000;
+  display: block;
+  font-size: 85%;
+  padding: 0 $marginLarge;
+  border: 1px solid #eee;
+  outline: none;
 
-	@include border-top-radius($borderRadius);
+  @include border-top-radius($borderRadius);
 }
 
 ul.tabs li a:hover {
-	background: #ccc;
+  background: #ccc;
 }
 
 ul.tabs li.active,
 ul.tabs li.active a:hover {
-	background: #fff;
-	border-bottom: 1px solid #fff;
-	@include box-shadow(none);
+  background: #fff;
+  border-bottom: 1px solid #fff;
+  @include box-shadow(none);
 }
 
 .tab-container {
-	background: #fff;
-	border: 1px solid #999;
-	clear: both;
+  background: #fff;
+  border: 1px solid #999;
+  clear: both;
 
-	@include border-radius($borderRadius);
+  @include border-radius($borderRadius);
 }
 
 .tab-content {
-	padding: $marginLarge 0 $borderRadiusLarge;
+  padding: $marginLarge 0 $borderRadiusLarge;
 
-	h3, h4 {
-		background: #2F5163;
-		border: 1px solid darken(#2F5163, 10%);
-		color: #fff;
-		font-size: 1.25em;
-		left: -30px;
-		position: relative;
-		padding: $borderRadius $margin;
-		float: left;
+  h3, h4 {
+    background: #2F5163;
+    border: 1px solid darken(#2F5163, 10%);
+    color: #fff;
+    font-size: 1.25em;
+    left: -30px;
+    position: relative;
+    padding: $borderRadius $margin;
+    float: left;
 
-		text-shadow: 0 1px 1px darken(#2F5163, 30%);
-		text-transform: capitalize;
+    text-shadow: 0 1px 1px darken(#2F5163, 30%);
+    text-transform: capitalize;
 
-		@include border-right-radius($borderRadiusLarge);
-		@include border-top-left-radius($borderRadiusLarge);
+    @include border-right-radius($borderRadiusLarge);
+    @include border-top-left-radius($borderRadiusLarge);
 
-		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
 
-		&:after {
-			content: ' ';
-			position: absolute;
-			width: 0;
-			height: 0;
-			left: 0;
-			top: 100%;
-			border-width: $borderRadius $borderRadius;
-			border-style: solid;
-			border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
-		}
-	}
+    &:after {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      left: 0;
+      top: 100%;
+      border-width: $borderRadius $borderRadius;
+      border-style: solid;
+      border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
+    }
+  }
 }
 
 .tab-content img {
-	float: left;
-	margin: 0 $marginLarge $marginLarge 0;
-	padding: $borderRadius;
+  float: left;
+  margin: 0 $marginLarge $marginLarge 0;
+  padding: $borderRadius;
 }
 
-
 .mail-templates {
-	.mail-template {
-		display: block;
-		margin: $margin;
-		padding: $padding;
-		@include background(#ededed);
-		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
-		border: 1px solid #aaa;
-		border-color: #aaa #999 #888;
-		@include border-radius($borderRadiusLarge);
-		.mail-subject {
-			font-style: italic;
-		}
-		.mail-body {
-			word-wrap: break-word;
-		}
-	}
+  .mail-template {
+    display: block;
+    margin: $margin;
+    padding: $padding;
+    @include background(#ededed);
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+    border: 1px solid #aaa;
+    border-color: #aaa #999 #888;
+    @include border-radius($borderRadiusLarge);
+    .mail-subject {
+      font-style: italic;
+    }
+    .mail-body {
+      word-wrap: break-word;
+    }
+  }
 }
 
 // 5. Form Elements
 // ----------------------------------------//
 
 .form-item {
-	border-top: 1px solid #d9d9d9;
-	clear: both;
-	margin: $marginLarge 0;
-	padding: $borderRadiusLarge 0 0;
+  border-top: 1px solid #d9d9d9;
+  clear: both;
+  margin: $marginLarge 0;
+  padding: $borderRadiusLarge 0 0;
 }
 
 .fieldset-fields {
-	clear: both;
-	margin-bottom: $margin;
+  clear: both;
+  margin-bottom: $margin;
 }
 
 label {
-	@include inline-block();
-	font-weight: bold;
-	text-align: left;
-	vertical-align: top;
+  @include inline-block();
+  font-weight: bold;
+  text-align: left;
+  vertical-align: top;
 }
 
 label.for-checkable {
-	width: auto;
-	text-align: left;
-	padding: 0 0 0 $borderRadiusLarge;
+  width: auto;
+  text-align: left;
+  padding: 0 0 0 $borderRadiusLarge;
 }
 
 textarea, input[type="text"], input[type="password"], select, .readonlytext {
-	@include border-radius($borderRadiusSmall);
-	border: 1px solid #999;
-	padding: $borderRadius;
+  @include border-radius($borderRadiusSmall);
+  border: 1px solid #999;
+  padding: $borderRadius;
 }
 
 .readonlytext {
-	@include inline-block();
-	border: 1px solid #eee;
-	padding: $paddingSmall * 0.75;
+  @include inline-block();
+  border: 1px solid #eee;
+  padding: $paddingSmall * 0.75;
 }
 
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
-	border-color: #007DFF;
+  border-color: #007DFF;
 }
 
 textarea {
-	width: 98%;
+  width: 98%;
 }
 
 legend {
-	margin: $margin 0;
-	text-shadow: 0 1px #FFF;
-	font-size: 1.6em;
+  margin: $margin 0;
+  text-shadow: 0 1px #FFF;
+  font-size: 1.6em;
 }
+
 .description {
-	color: #777;
-	padding: $borderRadiusSmall;
-	text-align: center;
-	font: italic 11px/1.5em Georgia, serif;
-	display: block;
+  color: #777;
+  padding: $borderRadiusSmall;
+  text-align: center;
+  font: italic 11px/1.5em Georgia, serif;
+  display: block;
 }
 
 .button, button, input[type="submit"], a.submit {
 
-	background: #d9d9d9;
-	border: 1px solid #aaa;
-	border-color: #aaa #999 #888;
-	color: #000;
-	cursor: pointer;
+  background: #d9d9d9;
+  border: 1px solid #aaa;
+  border-color: #aaa #999 #888;
+  color: #000;
+  cursor: pointer;
 
-	font-size: 85%;
-	font-weight: 400;
+  font-size: 85%;
+  font-weight: 400;
 
-	margin: 0 $marginLarge 0 0;
-	padding: $borderRadiusLarge $margin;
-	text-shadow: 0 1px 0 #fff;
-	text-decoration: none;
+  margin: 0 $marginLarge 0 0;
+  padding: $borderRadiusLarge $margin;
+  text-shadow: 0 1px 0 #fff;
+  text-decoration: none;
 
-	@include inline-block();
-	@include background(linear-gradient(#ededed, #d9d9d9));
-	@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
-	@include border-radius($borderRadius);
+  @include inline-block();
+  @include background(linear-gradient(#ededed, #d9d9d9));
+  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+  @include border-radius($borderRadius);
 
-	&:hover, &:focus, &.loading {
-		background: #2F5163;
-		border-color: #333;
-		color: #fff;
-		text-shadow: 0 1px 1px #111;
-		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
-		@include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
-	}
+  &:hover, &:focus, &.loading {
+    background: #2F5163;
+    border-color: #333;
+    color: #fff;
+    text-shadow: 0 1px 1px #111;
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+    @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
+  }
 
-	&:active {
-		border-color: #000;
-		@include box-shadow(inset 0 0 $borderRadiusLarge #000);
-	}
+  &:active {
+    border-color: #000;
+    @include box-shadow(inset 0 0 $borderRadiusLarge #000);
+  }
 
-	&.loading {
-		background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
-		@include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
-		padding-left: 40px;
-	}
+  &.loading {
+    background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
+    @include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
+    padding-left: 40px;
+  }
 
 }
 
 input.date {
-	width: 3em;
+  width: 3em;
 }
 
 input.date-day,
 input.time {
-	width: 2em;
+  width: 2em;
 }
 
 select.date.date-month {
-	width: 42%;
+  width: 42%;
 }
 
-
 input.labelFirst {
-	margin-left: auto;
+  margin-left: auto;
 }
 
 form .section {
-	margin: 0 0 $marginLarge;
+  margin: 0 0 $marginLarge;
 }
 
 form .section:first-child {
-	border: 0;
+  border: 0;
 }
 
 .log-in-or-register {
-	float: right;
+  float: right;
 }
 
 .link-divider {
-	width: 0;
-	height: 1.2em;
-	overflow: hidden;
-	display: inline-block;
-	border-right: 1px solid #000;
-	margin: 0 $borderRadius;
+  width: 0;
+  height: 1.2em;
+  overflow: hidden;
+  display: inline-block;
+  border-right: 1px solid #000;
+  margin: 0 $borderRadius;
 }
 
 #user-login {
-	position: absolute;
-	right: 0;
-	top: 30px;
-	display: none;
-	border: 1px solid #ccc;
-	box-shadow: 0 $borderRadiusSmall $borderRadius #333;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  display: none;
+  border: 1px solid #ccc;
+  box-shadow: 0 $borderRadiusSmall $borderRadius #333;
 }
 
 #user-login form {
-	padding: $marginLarge;
-	background: #eee;
+  padding: $marginLarge;
+  background: #eee;
 }
 
 #user-welcome-or-login h2 {
-	display: none;
+  display: none;
 }
 
 #user-welcome-or-login label {
-	padding: 0;
-	text-align: left;
-	width: auto;
+  padding: 0;
+  text-align: left;
+  width: auto;
 }
 
 #user-welcome-or-login input {
-	width: 180px;
+  width: 180px;
 }
 
 #user-welcome-or-login .form-field {
-	margin: 0 0 $borderRadiusSmall;
+  margin: 0 0 $borderRadiusSmall;
 }
 
 #user-welcome-or-login .actions {
-	margin: 0;
-	padding: 0;
-	border: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 #user-welcome-or-login .actions a {
-	display: none;
+  display: none;
 }
 
 .actions, .form-actions {
-	text-align: center;
-	border-top: 1px solid $borderColour;
-	//background: opacify($borderColour, 0.4);
-	background: rgba(217, 217, 217, 0.2);
-	padding: $margin 0;
+  text-align: center;
+  border-top: 1px solid $borderColour;
+  //background: opacify($borderColour, 0.4);
+  background: rgba(217, 217, 217, 0.2);
+  padding: $margin 0;
 
-	input, .btn, button {
-		margin: 0 -1px 0 0;
-		&:last-child {
-		@include border-top-left-radius(0);
-		@include border-bottom-left-radius(0);
-	}
-		&:first-child {
-			@include border-top-right-radius(0);
-			@include border-bottom-right-radius(0);
-		}
-	}
+  input, .btn, button {
+    margin: 0 -1px 0 0;
+    &:last-child {
+      @include border-top-left-radius(0);
+      @include border-bottom-left-radius(0);
+    }
+    &:first-child {
+      @include border-top-right-radius(0);
+      @include border-bottom-right-radius(0);
+    }
+  }
 
 }
+
 #user-welcome-or-login input[type="submit"] {
-	width: auto;
-	padding: $borderRadiusSmall $borderRadiusLarge;
-	font-size: inherit;
-	font-weight: normal;
+  width: auto;
+  padding: $borderRadiusSmall $borderRadiusLarge;
+  font-size: inherit;
+  font-weight: normal;
 }
 
 #user-login:before,
 #user-login:after {
-	content: "";
-	position: absolute;
-	z-index: 998;
-	top: -8px;
-	right: 78px;
-	margin-left: -8px;
-	border-top: 0;
-	border-left: $borderRadiusLarge solid transparent;
-	border-right: $borderRadiusLarge solid transparent;
-	border-bottom: $borderRadiusLarge solid #eee;
+  content: "";
+  position: absolute;
+  z-index: 998;
+  top: -8px;
+  right: 78px;
+  margin-left: -8px;
+  border-top: 0;
+  border-left: $borderRadiusLarge solid transparent;
+  border-right: $borderRadiusLarge solid transparent;
+  border-bottom: $borderRadiusLarge solid #eee;
 }
 
 #user-login:after {
-	border-bottom: 9px solid #ccc;
-	top: -9px;
-	z-index: 997;
+  border-bottom: 9px solid #ccc;
+  top: -9px;
+  z-index: 997;
 }
 
 /* general 'close' button - round with an 'x',
    actually a multiplication sign:  `&times;` `&#215;`  `&#xD7;`  `×`  */
 .close {
-	display: block;
-	position: absolute;
-	top: $borderRadiusLarge;
-	right: $borderRadiusLarge;
-	width: $margin;
-	height: $margin;
-	border-radius: $margin;
-	text-align: center;
-	overflow: hidden;
-	background: #aaa;
-	color: #aaa;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
-	cursor: pointer;
+  display: block;
+  position: absolute;
+  top: $borderRadiusLarge;
+  right: $borderRadiusLarge;
+  width: $margin;
+  height: $margin;
+  border-radius: $margin;
+  text-align: center;
+  overflow: hidden;
+  background: #aaa;
+  color: #aaa;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
 }
 
 .close:before {
-	content: "\D7";
-	color: #000;
-	display: block;
-	text-align: center;
-	font-weight: normal;
-	width: $margin;
-	position: absolute;
-	top: -1px;
-	left: 0;
-	font-size: 13px;
-	line-height: $margin;
-	font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+  content: "\D7";
+  color: #000;
+  display: block;
+  text-align: center;
+  font-weight: normal;
+  width: $margin;
+  position: absolute;
+  top: -1px;
+  left: 0;
+  font-size: 13px;
+  line-height: $margin;
+  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
 }
 
 /* messages [info, success, warning, error] */
 #messages {
-	clear: both;
-	position: absolute;
-	top: 60px;
-	left: $marginLarge;
-	border-radius: $borderRadiusLarge;
-	overflow: hidden;
+  clear: both;
+  position: absolute;
+  top: 60px;
+  left: $marginLarge;
+  border-radius: $borderRadiusLarge;
+  overflow: hidden;
 }
 
 #messages ul {
-	list-style: none;
+  list-style: none;
 }
 
 .info,
 .success,
 .warning,
 .error {
-	border: 1px solid;
-	margin: 0 0 $marginLarge;
-	padding: $borderRadiusLarge $margin;
-	background-repeat: no-repeat;
-	background-position: $borderRadiusLarge 6px;
+  border: 1px solid;
+  margin: 0 0 $marginLarge;
+  padding: $borderRadiusLarge $margin;
+  background-repeat: no-repeat;
+  background-position: $borderRadiusLarge 6px;
 
-	text-shadow: 0 1px $borderRadiusSmall rgba(0, 0, 0, 0.15);
+  text-shadow: 0 1px $borderRadiusSmall rgba(0, 0, 0, 0.15);
 
-	@include border-radius(8px);
-	@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
+  @include border-radius(8px);
+  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
 }
 
 .info {
-	color: #00529B;
-	background-color: #BDE5F8;
-	border-color: darken(#BDE5F8, 10%);
+  color: #00529B;
+  background-color: #BDE5F8;
+  border-color: darken(#BDE5F8, 10%);
 }
 
 .success {
-	color: #4F8A10;
-	background-color: #DFF2BF;
+  color: #4F8A10;
+  background-color: #DFF2BF;
 }
 
 .warning {
-	color: #9F6000;
-	background-color: #FEEFB3;
+  color: #9F6000;
+  background-color: #FEEFB3;
 }
 
 .error {
-	color: #D8000C;
-	background-color: #F6D6D6;
+  color: #D8000C;
+  background-color: #F6D6D6;
 }
 
 .sidePanelItem {
-	margin: 0 0 $borderRadiusLarge;
+  margin: 0 0 $borderRadiusLarge;
 }
 
 .language-wrap {
 
-	border: 1px solid #d9d9d9;
-	padding: $marginLarge;
-	margin: 0 0 40px;
+  border: 1px solid #d9d9d9;
+  padding: $marginLarge;
+  margin: 0 0 40px;
 
-	@include box-shadow(0 1px $borderRadius #d9d9d9);
+  @include box-shadow(0 1px $borderRadius #d9d9d9);
 
-	pre {
-		clear: both;
-		white-space: wrap;
-	}
+  pre {
+    clear: both;
+    white-space: wrap;
+  }
 
-	h3, h4 {
-		background: #2F5163;
-		border: 1px solid darken(#2F5163, 10%);
-		color: #fff;
-		font-size: 1.25em;
-		left: -30px;
-		position: relative;
-		padding: $borderRadius $margin;
-		float: left;
+  h3, h4 {
+    background: #2F5163;
+    border: 1px solid darken(#2F5163, 10%);
+    color: #fff;
+    font-size: 1.25em;
+    left: -30px;
+    position: relative;
+    padding: $borderRadius $margin;
+    float: left;
 
-		text-shadow: 0 1px 1px darken(#2F5163, 30%);
-		text-transform: capitalize;
+    text-shadow: 0 1px 1px darken(#2F5163, 30%);
+    text-transform: capitalize;
 
-		@include border-right-radius(8px);
-		@include border-top-left-radius(8px);
+    @include border-right-radius(8px);
+    @include border-top-left-radius(8px);
 
-		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
 
-		&:after {
-			content: ' ';
-			position: absolute;
-			width: 0;
-			height: 0;
-			left: 0;
-			top: 100%;
-			border-width: $borderRadius $borderRadius;
-			border-style: solid;
-			border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
-		}
-	}
+    &:after {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      left: 0;
+      top: 100%;
+      border-width: $borderRadius $borderRadius;
+      border-style: solid;
+      border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
+    }
+  }
 }
 
 .box, form, .module {
-	padding: $padding;
-	margin: $margin;
-	@include transition($transitionTime width);
-	border: 1px solid #999;
-	@include border-radius($borderRadius);
+  padding: $padding;
+  margin: $margin;
+  @include transition($transitionTime width);
+  border: 1px solid #999;
+  @include border-radius($borderRadius);
 }
+
 @import "media-queries.scss";

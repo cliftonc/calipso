@@ -3,51 +3,51 @@
 
 @function col-name($n) {
 /* Use naming consistent with original 1140x Grid V2 */
-	$col-name: col;
+  $col-name: col;
 
-	@if $n == 1  {
-		$col-name: onecol;
-	}
-	@if $n == 2  {
-		$col-name: twocol;
-	}
-	@if $n == 3  {
-		$col-name: threecol;
-	}
-	@if $n == 4  {
-		$col-name: fourcol;
-	}
-	@if $n == 5  {
-		$col-name: fivecol;
-	}
-	@if $n == 6  {
-		$col-name: sixcol;
-	}
-	@if $n == 7  {
-		$col-name: sevencol;
-	}
-	@if $n == 8  {
-		$col-name: eightcol;
-	}
-	@if $n == 9  {
-		$col-name: ninecol;
-	}
-	@if $n == 10 {
-		$col-name: tencol;
-	}
-	@if $n == 11 {
-		$col-name: elevencol;
-	}
-	@if $n == 12 {
-		$col-name: twelvecol;
-	}
+  @if $n == 1  {
+    $col-name: onecol;
+  }
+  @if $n == 2  {
+    $col-name: twocol;
+  }
+  @if $n == 3  {
+    $col-name: threecol;
+  }
+  @if $n == 4  {
+    $col-name: fourcol;
+  }
+  @if $n == 5  {
+    $col-name: fivecol;
+  }
+  @if $n == 6  {
+    $col-name: sixcol;
+  }
+  @if $n == 7  {
+    $col-name: sevencol;
+  }
+  @if $n == 8  {
+    $col-name: eightcol;
+  }
+  @if $n == 9  {
+    $col-name: ninecol;
+  }
+  @if $n == 10 {
+    $col-name: tencol;
+  }
+  @if $n == 11 {
+    $col-name: elevencol;
+  }
+  @if $n == 12 {
+    $col-name: twelvecol;
+  }
 
-	@return $col-name;
+  @return $col-name;
 }
 
 @function col-width($i) {
 /* Helpful for calculating the column width for other elements */
-	@return $col-unit * $i - $col-margin-right;
+  @return $col-unit * $i - $col-margin-right;
 }
 
 /* ==================================================================================================================== */
@@ -57,67 +57,67 @@
 /* ==================================================================================================================== */
 
 .container {
-	padding-left: $container-lateral-padding;
-	padding-right: $container-lateral-padding;
+  padding-left: $container-lateral-padding;
+  padding-right: $container-lateral-padding;
 }
 
 .row {
-	width: 100%;
-	margin: 0 auto;
-	overflow: hidden;
-	padding: 0 ($lineHeight/2) * 1em;
-	@include box-sizing(border-box);
-	@include transition($transitionTime all);
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 ($lineHeight/2) * 1em;
+  @include box-sizing(border-box);
+  @include transition($transitionTime all);
 
-	&.extended-height {
-		overflow: visible;
-	}
+  &.extended-height {
+    overflow: visible;
+  }
 }
 
 .col {
-	margin-right: $col-margin-right;
-	float: left;
-	min-height: 1px;
+  margin-right: $col-margin-right;
+  float: left;
+  min-height: 1px;
 }
 
 @for $i from 1 through ($num-cols - 1) {
-	.#{ col-name($i) } {
-		@extend .col;
-	}
+  .#{ col-name($i) } {
+    @extend .col;
+  }
 }
 
 @for $i from 1 through ($num-cols - 1) {
-	.row .#{ col-name($i) } {
-		width: $col-unit * $i - $col-margin-right;
-	}
+  .row .#{ col-name($i) } {
+    width: $col-unit * $i - $col-margin-right;
+  }
 }
 
 .row .#{ col-name($num-cols) } {
-	width: 100%;
-	float: left;
+  width: 100%;
+  float: left;
 
 }
 
 .last {
-	margin-right: 0;
+  margin-right: 0;
 }
 
 img, object, embed {
-	max-width: 100%;
+  max-width: 100%;
 }
 
 img {
-	height: auto;
+  height: auto;
 }
 
 /* Smaller screens */
 
 @media only screen and (max-width: 1023px) {
 
-	body {
-		font-size: 0.8em;
-		line-height: 1.5em;
-	}
+  body {
+    font-size: 0.8em;
+    line-height: 1.5em;
+  }
 
 }
 
@@ -125,27 +125,27 @@ img {
 
 @media handheld, only screen and (max-width: 767px) {
 
-	body {
-		font-size: 16px;
-		-webkit-text-size-adjust: none;
-	}
+  body {
+    font-size: 16px;
+    -webkit-text-size-adjust: none;
+  }
 
-	.row, body, .container {
-		width: 100%;
-		min-width: 0;
-		margin-left: 0;
-		margin-right: 0;
-	}
+  .row, body, .container {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
 
-	@for $i from 1 through $num-cols {
-		.row .#{ col-name($i) } {
-			width: auto;
-			float: none;
-			position: static !important;
-			margin-left: 0;
-			margin-right: 0;
-			//padding-left: $container-lateral-padding;
-			padding-right: $container-lateral-padding;
-		}
-	}
+  @for $i from 1 through $num-cols {
+    .row .#{ col-name($i) } {
+      width: auto;
+      float: none;
+      position: static !important;
+      margin-left: 0;
+      margin-right: 0;
+      //padding-left: $container-lateral-padding;
+      padding-right: $container-lateral-padding;
+    }
+  }
 }

@@ -1,33 +1,33 @@
-<div class = 'job'>
-	<h1><%- item.meta.contentType %></h1>
-	<table>
-		<tr>
-			<th><%- t('Content Type') %></th>
-			<td><%- item.meta.contentType %></td>
-		</tr>
-		<tr>
-			<th><%- t('Description') %></th>
-			<td><%- item.meta.description %></td>
-		</tr>
-		<tr>
-			<th><%- t('Layout') %></th>
-			<td><%- item.meta.layout %></td>
-		</tr>
-		<tr>
-			<th><%- t('Public') %></th>
-			<td><%- item.meta.ispublic ? "Yes" : "No" %></td>
-		</tr>
-		<tr>
-			<th><%- t('Fields') %></th>
-			<td>
+<div class='job'>
+    <h1><%- item.meta.contentType %></h1>
+    <table>
+        <tr>
+            <th><%- t('Content Type') %></th>
+            <td><%- item.meta.contentType %></td>
+        </tr>
+        <tr>
+            <th><%- t('Description') %></th>
+            <td><%- item.meta.description %></td>
+        </tr>
+        <tr>
+            <th><%- t('Layout') %></th>
+            <td><%- item.meta.layout %></td>
+        </tr>
+        <tr>
+            <th><%- t('Public') %></th>
+            <td><%- item.meta.ispublic ? "Yes" : "No" %></td>
+        </tr>
+        <tr>
+            <th><%- t('Fields') %></th>
+            <td>
 <pre>
 <%- item.meta.fields %>
 </pre>
-			</td>
-		</tr>
-		<tr>
-			<th><%- t('Fields Valid?') %></th>
-			<td><%- item.meta.fieldsValid %></td>
-		</tr>
-	</table>
+            </td>
+        </tr>
+        <tr>
+            <th><%- t('Fields Valid?') %></th>
+            <td><%- item.meta.fieldsValid %></td>
+        </tr>
+    </table>
 </div>

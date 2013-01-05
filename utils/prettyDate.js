@@ -12,40 +12,42 @@ var rootpath = process.cwd() + '/',
 
 exports = module.exports = {
 
-  prettyDate: function(stringDate) {
+  prettyDate:function (stringDate) {
 
     var date = new Date(stringDate),
-        diff = (((new Date()).getTime() - date.getTime()) / 1000),
-        day_diff = Math.floor(diff / 86400);
+      diff = (((new Date()).getTime() - date.getTime()) / 1000),
+      day_diff = Math.floor(diff / 86400);
 
-    if ( isNaN(day_diff) || day_diff < 0 )
+    if (isNaN(day_diff) || day_diff < 0) {
       return;
+    }
 
     return day_diff == 0 && (
-        diff < 60 && "just now" ||
+      diff < 60 && "just now" ||
         diff < 120 && "1 minute ago" ||
-        diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+        diff < 3600 && Math.floor(diff / 60) + " minutes ago" ||
         diff < 7200 && "1 hour ago" ||
-        diff < 86400 && Math.floor( diff / 3600 ) + " hours ago"
+        diff < 86400 && Math.floor(diff / 3600) + " hours ago"
       ) ||
       day_diff == 1 && "Yesterday" ||
       day_diff < 7 && day_diff + " days ago" ||
-      day_diff < 31 && Math.ceil( day_diff / 7 ) == 1 && "1 week ago" ||
-      day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago"  ||
-      day_diff >=31 && calipsoDate.formatDate('D, d M yy', date);
+      day_diff < 31 && Math.ceil(day_diff / 7) == 1 && "1 week ago" ||
+      day_diff < 31 && Math.ceil(day_diff / 7) + " weeks ago" ||
+      day_diff >= 31 && calipsoDate.formatDate('D, d M yy', date);
   },
   // Splits the date into 7 'hot' categories based on recency
-  hotDate: function(stringDate) {
+  hotDate:function (stringDate) {
 
     var date = new Date(stringDate),
-        diff = (((new Date()).getTime() - date.getTime()) / 1000),
-        day_diff = Math.floor(diff / 86400);
+      diff = (((new Date()).getTime() - date.getTime()) / 1000),
+      day_diff = Math.floor(diff / 86400);
 
-    if ( isNaN(day_diff) || day_diff < 0 )
+    if (isNaN(day_diff) || day_diff < 0) {
       return;
+    }
 
     return day_diff == 0 && (
-        diff < 7200 && "h1" ||
+      diff < 7200 && "h1" ||
         diff < 86400 && "h2"
       ) ||
       day_diff == 1 && "h3" ||

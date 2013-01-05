@@ -1,33 +1,33 @@
-<div class = "template-module">
-	<h2><%- t('Users') %></h2>
-	<table>
-		<tr>
-			<th><%- t('Name') %></th>
-			<th><%- t('Email') %></th>
-			<th><%- t('Roles') %></th>
-			<th><%- t('Is Admin') %></th>
-			<th><%- t('Locked') %></th>
-		</tr>
+<div class="template-module">
+    <h2><%- t('Users') %></h2>
+    <table>
+        <tr>
+            <th><%- t('Name') %></th>
+            <th><%- t('Email') %></th>
+            <th><%- t('Roles') %></th>
+            <th><%- t('Is Admin') %></th>
+            <th><%- t('Locked') %></th>
+        </tr>
 
-		<%
-		items.forEach(function(item) {
-		%>
-		<tr>
-			<td><a href = '/user/profile/<%- item.username %>'><%- item.username %></a></td>
-			<td> <%- item.email %></td>
-			<td> <%- item.roles %></td>
-			<td> <%- isUserAdmin(item) ? "Yes" : "No" %></td>
-			<td> <%- item.locked ? "Yes" : "No" %></td>
-		</tr>
-		<%
-		});
+        <%
+        items.forEach(function(item) {
+        %>
+        <tr>
+            <td><a href='/user/profile/<%- item.username %>'><%- item.username %></a></td>
+            <td> <%- item.email %></td>
+            <td> <%- item.roles %></td>
+            <td> <%- isUserAdmin(item) ? "Yes" : "No" %></td>
+            <td> <%- item.locked ? "Yes" : "No" %></td>
+        </tr>
+        <%
+        });
 
-		if(!items) {
-		%>
-		<td colspan = '4'><%- t('No users registered.') %></td>
-		<%
-		}
-		%>
-	</table>
-	<%- pager %>
+        if(!items) {
+        %>
+        <td colspan='4'><%- t('No users registered.') %></td>
+        <%
+        }
+        %>
+    </table>
+    <%- pager %>
 </div>
