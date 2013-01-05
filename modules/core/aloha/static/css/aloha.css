@@ -1,0 +1,143 @@
+.aloha ol, .aloha ul {
+    list-style: none
+}
+
+.aloha-sidebar-bar {
+    z-index: 999999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px solid #d9d9d9;
+    -webkit-box-shadow: 0 0 0.76923em rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 0.76923em rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0.76923em rgba(0, 0, 0, 0.5)
+}
+
+.aloha-sidebar-bar.aloha-sidebar-right {
+    left: auto;
+    right: 0;
+    border-right-width: 0;
+    border-left: 1px solid #888888
+}
+
+.aloha-sidebar-inner {
+    position: relative;
+    background-color: #cccccc;
+    background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 100, color-stop(20%, rgba(0, 0, 0, 0)), color-stop(80%, rgba(0, 0, 0, 0.2)), color-stop(100%, rgba(0, 0, 0, 0.3)));
+    background-image: -webkit-radial-gradient(rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.3) 100%);
+    background-image: -moz-radial-gradient(rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.3) 100%);
+    background-image: -o-radial-gradient(rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.3) 100%);
+    background-image: radial-gradient(rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.3) 100%)
+}
+
+.aloha-sidebar-panels {
+    padding: 1em 0
+}
+
+.aloha-sidebar-panels li {
+    overflow: hidden;
+    padding: 0 1em
+}
+
+.aloha-sidebar-panel-top, .aloha-sidebar-panel-content.aloha-sidebar-panel-bottom {
+    -webkit-border-radius: 0.3663em;
+    -moz-border-radius: 0.3663em;
+    -ms-border-radius: 0.3663em;
+    -o-border-radius: 0.3663em;
+    border-radius: 0.3663em
+}
+
+.aloha-metaview p {
+    background-image: url(../plugins/extra/metaview/img/p.png)
+}
+
+.aloha-metaview pre {
+    background-image: url(../plugins/extra/metaview/img/pre.png)
+}
+
+.aloha-metaview h1 {
+    background-image: url(../plugins/extra/metaview/img/h1.png)
+}
+
+.aloha-metaview h2 {
+    background-image: url(../plugins/extra/metaview/img/h2.png)
+}
+
+.aloha-metaview h3 {
+    background-image: url(../plugins/extra/metaview/img/h3.png)
+}
+
+.aloha-metaview h4 {
+    background-image: url(../plugins/extra/metaview/img/h4.png)
+}
+
+.aloha-metaview h5 {
+    background-image: url(../plugins/extra/metaview/img/h5.png)
+}
+
+.aloha-metaview h6 {
+    background-image: url(../plugins/extra/metaview/img/h6.png)
+}
+
+.aloha-metaview blockquote {
+    background-image: url(../plugins/extra/metaview/img/blockquote.png)
+}
+
+.aloha-metaview div {
+    background-image: url(../plugins/extra/metaview/img/div.png)
+}
+
+.aloha-metaview dl {
+    background-image: url(../plugins/extra/metaview/img/dl.png)
+}
+
+.aloha-metaview dt {
+    background-image: url(../plugins/extra/metaview/img/dt.png)
+}
+
+.aloha-metaview dd {
+    background-image: url(../plugins/extra/metaview/img/dd.png)
+}
+
+.aloha-metaview td {
+    background-image: url(../plugins/extra/metaview/img/td.png)
+}
+
+.aloha-metaview th {
+    background-image: url(../plugins/extra/metaview/img/th.png)
+}
+
+.aloha-metaview table {
+    background-image: url(../plugins/extra/metaview/img/table.png)
+}
+
+.aloha-metaview caption {
+    background-image: url(../plugins/extra/metaview/img/caption.png)
+}
+
+.aloha-metaview hr {
+    background-image: url(../plugins/extra/metaview/img/hr.png)
+}
+
+.aloha-metaview abbr[title], .aloha-metaview dfn[title] {
+    border-bottom: 1px dotted;
+    cursor: help
+}
+
+.aloha-metaview [lang] {
+    background-image: url(../plugins/extra/wai-lang/img/button.png);
+    padding-left: 20px;
+    border: 1px dotted #ddd;
+    background-color: #ccc;
+    background-repeat: no-repeat;
+    background-position: left center
+}
+
+.aloha-metaview q {
+    background-image: url(../plugins/extra/metaview/img/icon_cite.png);
+    padding-left: 20px;
+    border: 1px dotted #ddd;
+    background-color: #ccc;
+    background-repeat: no-repeat;
+    background-position: left center
+}
