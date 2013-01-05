@@ -10,22 +10,22 @@
     <link rel="stylesheet" href="/css/admin-menu.css"/>
 </head>
 <body>
-<div id="adminMenu">
+<nav class="admin-menu row extended-height">
     <%- admin %>
-</div>
+</nav>
 <div id="container">
     <div id="header">
         <%- header %>
     </div>
-    <div id="adminToolbar">
+    <nav class="adminToolbar">
         <%- getMenu('adminToolbar') %>
-    </div>
+    </nav>
     <div id="body">
         <!--PAGE_BODY_START-->
         <%- body %>
         <!--PAGE_BODY_END-->
     </div>
-    <div id="sidePanel">
+    <div class="sidepanel threecol last">
         <%- sidePanel %>
     </div>
     <div id="footer">

@@ -15,6 +15,9 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
 @import "compass/reset";
 @import "compass/css3";
+@import "variables.scss";
+@import "grids.scss";
+@import "partials/icomoon/icomoon.scss";
 
 // 1. General
 // ------------------------------------------ //
@@ -23,9 +26,15 @@ html {
   background: #fff;
 }
 
-body {
-  background: #fff;
-  font: normal 0.875em/1em sans-serif;
+header, header.row, footer, footer.row, article, aside {
+  margin-top: $margin;
+  margin-bottom: $margin;
+}
+
+header {
+  h1 {
+    float: left;
+  }
 }
 
 // 2. Typography
@@ -40,7 +49,6 @@ body {
   background: #fff;
   color: #444;
   font: 400 0.875em/1.618em "Helvetica", serif;
-  min-width: 700px;
   text-shadow: 0 1px 1px #fff;
   height: 100%;
 }
@@ -81,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   line-height: 1.618em;
-  margin-bottom: 15px;
+  margin-bottom: $margin;
   text-shadow: 0 1px 1px #fff;
   // An easy way to anti-alias text
 }
@@ -115,47 +123,23 @@ h1 {
 // 3. Layout
 // ----------------------------------------//
 
-#container {
-  margin: 0 auto;
-  width: 980px;
-}
-
-#header {
-
-  border-bottom: 1px solid #d9d9d9;
-  margin: 20px auto 40px;
-  overflow: hidden;
-
-  h1 {
-    float: left;
-  }
-}
-
-#body {
-  width: 660px;
-  float: left;
-  margin: 0 20px 20px 0;
-  min-height: 100px;
-  _display: inline;
-}
-
-#admin-body {
+.admin-body {
   clear: both;
-  margin: 0 auto 40px;
+  margin: 0 auto $col-margin-right;
   width: 100%;
 
   .content-item {
     border: 1px solid #fff;
-    padding: 25px;
+    padding: $paddingLarge;
     position: relative;
     outline: 0;
 
-    @include border-radius(2px);
-    @include box-shadow(0 1px 8px rgba(0, 0, 0, 0.25), inset 0 0 10px #f8f8f8);
+    @include border-radius($borderRadiusSmall);
+    @include box-shadow(0 1px $borderRadiusLarge rgba(0, 0, 0, 0.25), inset 0 0 $borderRadiusLarge #f8f8f8);
 
     h2 {
       line-height: 1em;
-      padding: 10px;
+      padding: $borderRadiusLarge;
 
       @include border-radius(2px);
     }
@@ -170,18 +154,18 @@ h1 {
       border: 1px solid transparent;
       clear: left;
       margin-top: 2em;
-      padding: 10px;
+      padding: $borderRadiusLarge;
 
-      @include border-radius(2px);
+      @include border-radius($borderRadiusSmall);
     }
   }
 }
 
-#footer {
+footer {
   border-top: 1px solid #d9d9d9;
   clear: both;
   overflow: hidden;
-  padding: 25px 0;
+  padding: $paddingLarge 0;
   text-align: center;
 }
 
@@ -189,26 +173,23 @@ h1 {
 // ----------------------------------------//
 
 #form-section-modules .fieldset-fields {
-  padding: 5px 0 20px;
+  padding: $borderRadius 0 $marginLarge;
 }
 
 #form-section-modules legend {
   font-size: 1.2em;
-  margin-bottom: 10px;
-  margin-top: 5px;
+  margin-bottom: $borderRadiusLarge;
+  margin-top: $borderRadius;
 }
 
 #form-section-modules legend {
   font-size: 1.2em;
-  margin-bottom: 10px;
+  margin-bottom: $borderRadiusLarge;
 }
 
 #form-section-modules div.form-item {
   float: left;
-  clear: none !important;
-  width: 50%;
-  margin-bottom: 10px;
-  height: 50px;
+  margin-bottom: $borderRadiusLarge;
   overflow: none;
 }
 
@@ -217,7 +198,7 @@ h1 {
 }
 
 #form-section-modules .description {
-  padding-left: 22px;
+  padding-left: $paddingLarge;
 }
 
 .admin-page {
@@ -228,10 +209,10 @@ h1 {
 
   .admin-dashboard-col1, .admin-dashboard-col2 {
 
-    padding: 10px;
+    padding: $borderRadiusLarge;
 
-    @include box-shadow(0 1px 3px #d9d9d9);
-    @include border-radius(4px);
+    @include box-shadow(0 1px $borderRadiusSmall #d9d9d9);
+    @include border-radius($borderRadiusLarge);
   }
 }
 
@@ -251,7 +232,7 @@ h1 {
 
 .admin-dashboard-clear {
   clear: both;
-  height: 15px;
+  height: $margin;
 }
 
 // 4. Tables
@@ -261,14 +242,14 @@ table {
   background: #fff;
   border: 1px solid #d9d9d9;
   width: 100%;
-  margin-bottom: 18px;
+  margin-bottom: $margin;
   padding: 0;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 85%;
 
   th, td {
-    padding: 10px 15px;
-    line-height: 18px;
+    padding: $borderRadiusLarge $margin;
+    line-height: $lineHeight * 1.2;
     text-align: left;
 
     text-transform: capitalize;
@@ -294,7 +275,7 @@ table {
   }
 
   th {
-    padding-top: 9px;
+    padding-top: $paddingSmall;
     font-weight: bold;
     vertical-align: middle;
     border-bottom: 1px solid #DDD;
@@ -307,7 +288,7 @@ table {
 
 .sortable {
   background: url(../images/sort.gif) center right no-repeat;
-  padding-right: 16px;
+  padding-right: $margin;
   cursor: pointer;
 }
 
@@ -322,125 +303,125 @@ table {
 }
 
 a.pager-page {
-  padding: 3px;
-  border: solid 1px silver;
+  padding: $borderRadiusSmall;
+  border: solid 1px #c0c0c0;
 }
 
 span.pager-page {
-  padding: 3px;
-  background: silver;
+  padding: $borderRadiusSmall;
+  background: #c0c0c0;
 }
 
 .tabular {
   clear: both;
 }
 
-#adminToolbar {
+.toolbar, .btn-group, .actions input {
   position: relative;
-  top: 20px;
-  float: right;
+  margin: 0;
+  text-align: right;
 
-  ul, li {
-    margin: 0;
-    list-style: none;
-    list-style-image: none;
-  }
-
-  ul {
-    text-align: right;
+  &.admin-toolbar {
+    li {
+      float: right;
+    }
   }
 
   li {
 
-    @include inline-block;
+    @include inline-block();
+    &:first-child a {
+      @include border-top-left-radius($borderRadius);
+      @include border-bottom-left-radius($borderRadius);
+    }
+    &:last-child a {
+      @include border-top-right-radius($borderRadius);
+      @include border-bottom-right-radius($borderRadius);
+    }
 
-    a:link, a:visited {
+    a {
       background: #d9d9d9;
       border: 1px solid #aaa;
       border-color: #aaa #999 #888;
       color: #000;
       cursor: pointer;
 
-      font-size: 14px;
+      font-size: 85%;
       font-weight: 400;
 
-      margin: 0 20px 0 0;
-      padding: 8px 16px;
+      margin-right: -1px;
+      padding: $borderRadiusLarge $padding;
       text-shadow: 0 1px 0 #fff;
       text-decoration: none;
 
       @include inline-block();
       @include background(linear-gradient(#ededed, #d9d9d9));
-      @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 4px rgba(150, 150, 150, 0.5));
-      @include border-radius(7px);
+      @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
 
       &:hover, &:focus, &.loading {
         background: #2F5163;
         border-color: #333;
         color: #fff;
         text-shadow: 0 1px 1px #111;
-        @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5));
+        @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
         @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
       }
 
       &:active {
         border-color: #000;
-        @include box-shadow(inset 0 0 8px #000);
+        @include box-shadow(inset 0 0 $borderRadiusLarge #000);
       }
 
       &.loading {
-        background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
-        @include background(url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
-        padding-left: 40px;
+        background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
+        @include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
+        padding-left: $paddingLarge;
       }
     }
 
     &:last-child {
       border: 0;
     }
+    ul {
+      display: none;
+      float: left;
+      clear: left;
+      position: absolute;
+      background: #1993A8;
+    }
   }
-}
-
-#adminToolbar li ul {
-  display: none;
-  float: left;
-  clear: left;
-  position: absolute;
-  background: #1993A8;
 }
 
 // Tabs
 // ----------------------------------------//
 
 ul.tabs {
-  height: 32px;
+  height: $em;
 }
 
 ul.tabs li {
   float: left;
-  height: 31px;
-  line-height: 31px;
   border: 1px solid #999;
-  margin: 0 5px -1px 0;
+  margin: 0 $borderRadius -1px 0;
   background: #e0e0e0;
   overflow: hidden;
   position: relative;
 
-  @include border-top-radius(5px);
+  @include border-top-radius($borderRadius);
 
-  @include box-shadow(inset 0 0 10px rgba(0, 0, 0, 0.25));
+  @include box-shadow(inset 0 0 $borderRadiusLarge rgba(0, 0, 0, 0.25));
 }
 
 ul.tabs li a {
   text-decoration: none;
   color: #000;
   display: block;
-  font-size: 0.875em;
-  padding: 0 20px;
+  font-size: 85%;
+  padding: 0 $marginLarge;
   border: 1px solid #eee;
   outline: none;
 
-  @include border-top-radius(5px);
+  @include border-top-radius($borderRadius);
 }
 
 ul.tabs li a:hover {
@@ -458,13 +439,12 @@ ul.tabs li.active a:hover {
   background: #fff;
   border: 1px solid #999;
   clear: both;
-  padding: 0 20px;
 
-  @include border-radius(4px);
+  @include border-radius($borderRadius);
 }
 
 .tab-content {
-  padding: 20px 0 10px;
+  padding: $marginLarge 0 $borderRadiusLarge;
 
   h3, h4 {
     background: #2F5163;
@@ -473,25 +453,25 @@ ul.tabs li.active a:hover {
     font-size: 1.25em;
     left: -30px;
     position: relative;
-    padding: 5px 15px;
+    padding: $borderRadius $margin;
     float: left;
 
     text-shadow: 0 1px 1px darken(#2F5163, 30%);
     text-transform: capitalize;
 
-    @include border-right-radius(8px);
-    @include border-top-left-radius(8px);
+    @include border-right-radius($borderRadiusLarge);
+    @include border-top-left-radius($borderRadiusLarge);
 
-    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #ccc);
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
 
     &:after {
       content: ' ';
       position: absolute;
       width: 0;
       height: 0;
-      left: 0px;
+      left: 0;
       top: 100%;
-      border-width: 5px 4px;
+      border-width: $borderRadius $borderRadius;
       border-style: solid;
       border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
     }
@@ -500,24 +480,20 @@ ul.tabs li.active a:hover {
 
 .tab-content img {
   float: left;
-  margin: 0 20px 20px 0;
-  padding: 5px;
-}
-
-.tab-container .actions {
-  margin: 0;
+  margin: 0 $marginLarge $marginLarge 0;
+  padding: $borderRadius;
 }
 
 .mail-templates {
   .mail-template {
     display: block;
-    margin: 1em;
-    padding: 1em;
+    margin: $margin;
+    padding: $padding;
     @include background(#ededed);
-    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 4px rgba(150, 150, 150, 0.5));
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
     border: 1px solid #aaa;
     border-color: #aaa #999 #888;
-    @include border-radius(7px);
+    @include border-radius($borderRadiusLarge);
     .mail-subject {
       font-style: italic;
     }
@@ -533,41 +509,38 @@ ul.tabs li.active a:hover {
 .form-item {
   border-top: 1px solid #d9d9d9;
   clear: both;
-  margin: 20px 0;
-  padding: 10px 0 0;
+  margin: $marginLarge 0;
+  padding: $borderRadiusLarge 0 0;
 }
 
 .fieldset-fields {
   clear: both;
-  margin-bottom: 60px;
+  margin-bottom: $margin;
 }
 
 label {
-  display: inline-block;
+  @include inline-block();
   font-weight: bold;
-  width: 20%;
   text-align: left;
-  padding-right: 10px;
   vertical-align: top;
 }
 
 label.for-checkable {
   width: auto;
   text-align: left;
-  padding: 0 0 0 10px;
+  padding: 0 0 0 $borderRadiusLarge;
 }
 
 textarea, input[type="text"], input[type="password"], select, .readonlytext {
-  border-radius: 3px;
+  @include border-radius($borderRadiusSmall);
   border: 1px solid #999;
-  padding: 1%;
-  width: 70%;
+  padding: $borderRadius;
 }
 
 .readonlytext {
-  display: inline-block;
+  @include inline-block();
   border: 1px solid #eee;
-  padding: 0.75%;
+  padding: $paddingSmall * 0.75;
 }
 
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
@@ -575,15 +548,20 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:f
 }
 
 textarea {
-  width: 69%;
-  height: 200px;
+  width: 98%;
+}
+
+legend {
+  margin: $margin 0;
+  text-shadow: 0 1px #FFF;
+  font-size: 1.6em;
 }
 
 .description {
   color: #777;
-  padding: 2px 0 5px 198px;
+  padding: $borderRadiusSmall;
+  text-align: center;
   font: italic 11px/1.5em Georgia, serif;
-  max-width: 420px;
   display: block;
 }
 
@@ -595,36 +573,36 @@ textarea {
   color: #000;
   cursor: pointer;
 
-  font-size: 14px;
+  font-size: 85%;
   font-weight: 400;
 
-  margin: 0 20px 0 0;
-  padding: 8px 16px;
+  margin: 0 $marginLarge 0 0;
+  padding: $borderRadiusLarge $margin;
   text-shadow: 0 1px 0 #fff;
   text-decoration: none;
 
   @include inline-block();
   @include background(linear-gradient(#ededed, #d9d9d9));
-  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 4px rgba(150, 150, 150, 0.5));
-  @include border-radius(7px);
+  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
+  @include border-radius($borderRadius);
 
   &:hover, &:focus, &.loading {
     background: #2F5163;
     border-color: #333;
     color: #fff;
     text-shadow: 0 1px 1px #111;
-    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5));
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px $borderRadius rgba(150, 150, 150, 0.5));
     @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
   }
 
   &:active {
     border-color: #000;
-    @include box-shadow(inset 0 0 8px #000);
+    @include box-shadow(inset 0 0 $borderRadiusLarge #000);
   }
 
   &.loading {
-    background: #2F5163 url("/images/loader.gif") 15px 50% no-repeat;
-    @include background(url("/images/loader.gif") 15px 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
+    background: #2F5163 url("/images/loader.gif") $margin 50% no-repeat;
+    @include background(url("/images/loader.gif") $margin 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
     padding-left: 40px;
   }
 
@@ -643,32 +621,16 @@ select.date.date-month {
   width: 42%;
 }
 
-input.checkbox, input.radio {
-  margin-left: 160px;
-}
-
 input.labelFirst {
   margin-left: auto;
 }
 
 form .section {
-  margin: 0 0 20px;
+  margin: 0 0 $marginLarge;
 }
 
 form .section:first-child {
   border: 0;
-}
-
-.actions {
-  clear: both;
-  padding: 20px 0 20px 20px;
-  border-top: 1px solid #ccc;
-  margin: 10px 0 0;
-  height: 35px;
-}
-
-.actions input {
-  float: right;
 }
 
 .log-in-or-register {
@@ -681,7 +643,7 @@ form .section:first-child {
   overflow: hidden;
   display: inline-block;
   border-right: 1px solid #000;
-  margin: 0 5px;
+  margin: 0 $borderRadius;
 }
 
 #user-login {
@@ -690,11 +652,11 @@ form .section:first-child {
   top: 30px;
   display: none;
   border: 1px solid #ccc;
-  box-shadow: 0 2px 4px #333;
+  box-shadow: 0 $borderRadiusSmall $borderRadius #333;
 }
 
 #user-login form {
-  padding: 20px;
+  padding: $marginLarge;
   background: #eee;
 }
 
@@ -713,7 +675,7 @@ form .section:first-child {
 }
 
 #user-welcome-or-login .form-field {
-  margin: 0 0 2px;
+  margin: 0 0 $borderRadiusSmall;
 }
 
 #user-welcome-or-login .actions {
@@ -726,9 +688,30 @@ form .section:first-child {
   display: none;
 }
 
+.actions, .form-actions {
+  text-align: center;
+  border-top: 1px solid $borderColour;
+  //background: opacify($borderColour, 0.4);
+  background: rgba(217, 217, 217, 0.2);
+  padding: $margin 0;
+
+  input, .btn, button {
+    margin: 0 -1px 0 0;
+    &:last-child {
+      @include border-top-left-radius(0);
+      @include border-bottom-left-radius(0);
+    }
+    &:first-child {
+      @include border-top-right-radius(0);
+      @include border-bottom-right-radius(0);
+    }
+  }
+
+}
+
 #user-welcome-or-login input[type="submit"] {
   width: auto;
-  padding: 3px 8px;
+  padding: $borderRadiusSmall $borderRadiusLarge;
   font-size: inherit;
   font-weight: normal;
 }
@@ -742,9 +725,9 @@ form .section:first-child {
   right: 78px;
   margin-left: -8px;
   border-top: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #eee;
+  border-left: $borderRadiusLarge solid transparent;
+  border-right: $borderRadiusLarge solid transparent;
+  border-bottom: $borderRadiusLarge solid #eee;
 }
 
 #user-login:after {
@@ -758,11 +741,11 @@ form .section:first-child {
 .close {
   display: block;
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 16px;
+  top: $borderRadiusLarge;
+  right: $borderRadiusLarge;
+  width: $margin;
+  height: $margin;
+  border-radius: $margin;
   text-align: center;
   overflow: hidden;
   background: #aaa;
@@ -779,12 +762,12 @@ form .section:first-child {
   display: block;
   text-align: center;
   font-weight: normal;
-  width: 16px;
+  width: $margin;
   position: absolute;
   top: -1px;
   left: 0;
   font-size: 13px;
-  line-height: 16px;
+  line-height: $margin;
   font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
 }
 
@@ -793,8 +776,8 @@ form .section:first-child {
   clear: both;
   position: absolute;
   top: 60px;
-  left: 20px;
-  border-radius: 8px;
+  left: $marginLarge;
+  border-radius: $borderRadiusLarge;
   overflow: hidden;
 }
 
@@ -807,12 +790,12 @@ form .section:first-child {
 .warning,
 .error {
   border: 1px solid;
-  margin: 0 0 20px;
-  padding: 10px 15px;
+  margin: 0 0 $marginLarge;
+  padding: $borderRadiusLarge $margin;
   background-repeat: no-repeat;
-  background-position: 10px 6px;
+  background-position: $borderRadiusLarge 6px;
 
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 1px $borderRadiusSmall rgba(0, 0, 0, 0.15);
 
   @include border-radius(8px);
   @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.55));
@@ -840,16 +823,16 @@ form .section:first-child {
 }
 
 .sidePanelItem {
-  margin: 0 0 10px;
+  margin: 0 0 $borderRadiusLarge;
 }
 
 .language-wrap {
 
   border: 1px solid #d9d9d9;
-  padding: 20px;
+  padding: $marginLarge;
   margin: 0 0 40px;
 
-  @include box-shadow(0 1px 4px #d9d9d9);
+  @include box-shadow(0 1px $borderRadius #d9d9d9);
 
   pre {
     clear: both;
@@ -863,7 +846,7 @@ form .section:first-child {
     font-size: 1.25em;
     left: -30px;
     position: relative;
-    padding: 5px 15px;
+    padding: $borderRadius $margin;
     float: left;
 
     text-shadow: 0 1px 1px darken(#2F5163, 30%);
@@ -872,18 +855,28 @@ form .section:first-child {
     @include border-right-radius(8px);
     @include border-top-left-radius(8px);
 
-    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px 3px #ccc);
+    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
 
     &:after {
       content: ' ';
       position: absolute;
       width: 0;
       height: 0;
-      left: 0px;
+      left: 0;
       top: 100%;
-      border-width: 5px 4px;
+      border-width: $borderRadius $borderRadius;
       border-style: solid;
       border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
     }
   }
 }
+
+.box, form, .module {
+  padding: $padding;
+  margin: $margin;
+  @include transition($transitionTime width);
+  border: 1px solid #999;
+  @include border-radius($borderRadius);
+}
+
+@import "media-queries.scss";

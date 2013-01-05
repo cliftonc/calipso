@@ -11,14 +11,46 @@ cleanslate = {
   log:function () {
     try {
       console.log.apply(window, arguments);
-    } catch (e) {
+    }
+    catch (e) {
       cleanslate.backlog.push(arguments);
     }
   },
   backlog:[],
-  init:function () {
+  setResponsiveMenu:function () {
+    if (Modernizr.mq('only screen and (max-width: 767px)') || Modernizr.mq('handheld')) {
+      console.log("Doing menu resize...");
+      var $menus = $("ul.menu");
+      var $menuItems = $menus.find("li");
+      $menuItems.toggle();
+      var $responsiveMenuItemTitle = "<li class='menu-item'><a href='#' class='showMenuItems'><i class='icon-list-2 responsive-logo'></i></a></li> ";
+
+      /*			$menus.append($responsiveMenuItemTitle).on('click', function (e)
+       {
+       e.preventDefault();
+       $menuItems.toggle("slow");
+       $(this).find(".responsive-logo").toggleClass("icon-minus-2");
+       });	*/
+
+      $menus.append($responsiveMenuItemTitle);
+      var $responsiveLogo = $(".responsive-logo");
+      $responsiveLogo.parent().parent().on('click', function (e) {
+        e.preventDefault();
+        $menuItems.toggle("slow");
+        $responsiveLogo.toggleClass("icon-minus-2");
+      });
+
+    }
+  }, checkJson:function () {
+    hasJson = false;
+    if (!Modernizr.json) {
+      console.log("this browser doesn't support local storage.")
+      $.getScript("/js/store.min.js");
+    }
+  }, init:function () {
 
     // HIDE/SHOW USER LOGIN FORM
+    this.checkJson();
     (function doUsername() {
       var userDataString = $.cookie('userData') || localStorage.user || '{}';
       var user = JSON.parse(decodeURIComponent(userDataString == 'undefined' ? '{}' : userDataString));
@@ -51,22 +83,22 @@ cleanslate = {
               var start = '<!--PAGE_BODY_START-->';
               var end = '<!--PAGE_BODY_END-->';
               if (text.length && text.indexOf(start) > -1 && text.indexOf(end) > -1) {
-                var html = '<div class="close">close</div>' + text.split(start)[1].split(end)[0];
-                userLoginBox = $('<div id="user-login"/>').html(html).appendTo(userWelcomeOrLoginBox).show();
+                var html = '<div class="close"></div>' + text.split(start)[1].split(end)[0];
+                userLoginBox = $('<div id="user-login" class="threecol"/>').html(html).appendTo(userWelcomeOrLoginBox).show();
                 userLoginBox.find('input')[0].focus();
                 userWelcomeOrLoginBox.find('.close').click(function () {
                   userLoginBox.toggle();
                 });
               }
             });
-          } else {
+          }
+          else {
             userLoginBox.toggle();
             userLoginBox.find('input')[0].focus();
           }
         });
       }
     })();
-
 
     // FLASH MESSAGING
     (function doFlashMessage() {
@@ -108,7 +140,6 @@ cleanslate = {
       });
     })();
 
-
     // TABLES
     $("th.sortable").click(function () {
 
@@ -130,7 +161,8 @@ cleanslate = {
           if (paramSplit[1] == 'asc') {
             newParams.push(paramSplit[0] + ',desc');
           }
-        } else {
+        }
+        else {
           newParams.push(param);
         }
       });
@@ -181,13 +213,13 @@ cleanslate = {
       }
     });
 
-
     // REMOVE ANNOYING TITLE TOOLTIPS FROM MENUS
-    $('.menu a').each(function (i, node) {
-      node.title = "";
-    });
+    /*$('.menu a').each(function (i, node)
+     {
+     node.title = "";
+     });*/
 
-
+    this.setResponsiveMenu();
   } // end of cleanslate.init
 
 }; //end of cleanslate

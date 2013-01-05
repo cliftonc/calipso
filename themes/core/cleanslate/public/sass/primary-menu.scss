@@ -2,25 +2,25 @@
 /* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
 
 @import "compass/css3";
+@import "variables.scss";
 
-#primary-menu {
+.primary-menu {
   width: 100%;
-  margin: 0;
   list-style: none;
   background: #111;
 
   @include background(linear-gradient(#444, #111));
-  @include border-radius(5px);
+  @include border-radius($borderRadius);
 }
 
-#primary-menu li {
+.primary-menu li {
   float: left;
   padding: 0;
   position: relative;
   line-height: 0;
 }
 
-#primary-menu a {
+.primary-menu a {
   float: left;
   height: 20px;
   padding: 2px 22px 10px;
@@ -31,22 +31,24 @@
   text-shadow: 0 1px 0 #000;
 }
 
-#primary-menu li:hover > a {
+.primary-menu li:hover > a {
   color: #fafafa;
 }
 
-*html #primary-menu li a:hover /* IE6 */
+~
+"*html"
+.primary-menu li a:hover /* IE6 */
   {
   color: #fafafa;
 }
 
-#primary-menu li:hover > ul {
+.primary-menu li:hover > ul {
   display: block;
 }
 
 /* Sub-menu */
 
-#primary-menu ul {
+.primary-menu ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -70,12 +72,12 @@
   border-radius: 5px;
 }
 
-#primary-menu ul ul {
+.primary-menu ul ul {
   top: 0;
   left: 140px;
 }
 
-#primary-menu ul li {
+.primary-menu ul li {
   float: none;
   margin: 0;
   padding: 0;
@@ -85,13 +87,13 @@
   box-shadow: 0 1px 0 #111111, 0 2px 0 #777777;
 }
 
-#primary-menu ul li:last-child {
+.primary-menu ul li:last-child {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
 
-#primary-menu ul a {
+.primary-menu ul a {
   padding: 10px;
   height: 10px;
   width: 130px;
@@ -103,11 +105,11 @@
   text-transform: none;
 }
 
-#primary-menu ul a {
+.primary-menu ul a {
   *height: 10px; /* IE6 & IE7 */
 }
 
-#primary-menu a:hover {
+.primary-menu a:hover {
   background: #0186ba;
   background: -moz-linear-gradient(#04acec, #0186ba);
   background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba));
@@ -117,12 +119,12 @@
   background: linear-gradient(#04acec, #0186ba);
 }
 
-#primary-menu li:first-child > a {
+.primary-menu li:first-child > a {
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
 }
 
-#primary-menu ul li:first-child > a:after {
+.primary-menu ul li:first-child > a:after {
   content: '';
   position: absolute;
   left: 30px;
@@ -134,7 +136,7 @@
   border-bottom: 8px solid #444;
 }
 
-#primary-menu ul ul li:first-child a:after {
+.primary-menu ul ul li:first-child a:after {
   left: -8px;
   top: 12px;
   width: 0;
@@ -145,22 +147,22 @@
   border-right: 8px solid #444;
 }
 
-#primary-menu ul li:first-child a:hover:after {
+.primary-menu ul li:first-child a:hover:after {
   border-bottom-color: #04acec;
 }
 
-#primary-menu ul ul li:first-child a:hover:after {
+.primary-menu ul ul li:first-child a:hover:after {
   border-right-color: #04acec;
   border-bottom-color: transparent;
 }
 
-#primary-menu ul li:last-child > a {
+.primary-menu ul li:last-child > a {
   -moz-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
 }
 
 /* Clear floated elements */
-#primary-menu:after {
+.primary-menu:after {
   visibility: hidden;
   display: block;
   font-size: 0;
@@ -169,17 +171,17 @@
   height: 0;
 }
 
-#primary-menu > li:last-child > a {
+.primary-menu > li:last-child > a {
   -moz-border-radius: 0 5px 5px 0;
   border-radius: 0 5px 5px 0;
 }
 
-#primary-menu > li:first-child > a {
+.primary-menu > li:first-child > a {
   -moz-border-radius: 5px 0 0 5px;
   border-radius: 5px 0 0 5px;
 }
 
-#primary-menu {
+.primary-menu {
   *zoom: 1;
 }
 

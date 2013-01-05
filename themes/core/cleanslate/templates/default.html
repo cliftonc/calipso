@@ -11,33 +11,38 @@
     <%- scripts %>
 </head>
 <body>
-<div id="adminMenu">
+<nav class="admin-menu row extended-height">
     <%- admin %>
-</div>
-<div id="container">
-    <div id="header">
-        <%- header %>
-        <nav class="secondary">
+</nav>
+<div class="container">
+    <header class="row">
+        <div class="logo threecol">
+            <%- header %>
+        </div>
+
+        <nav class="secondary ninecol last">
             <%- secondary %>
         </nav>
-    </div>
-    <div id="messages">
+    </header>
+    <div id="messages" class="row">
         <%- messages %>
     </div>
-    <div id="adminToolbar">
+    <nav class="adminToolbar">
         <%- getMenu('adminToolbar') %>
-    </div>
-    <div id="body">
-        <!--PAGE_BODY_START-->
-        <%- body %>
-        <!--PAGE_BODY_END-->
-    </div>
-    <div id="sidePanel">
-        <%- sidePanel %>
-    </div>
-    <div id="footer">
+    </nav>
+    <article class="row">
+        <div class="body ninecol">
+            <!--PAGE_BODY_START-->
+            <%- body %>
+            <!--PAGE_BODY_END-->
+        </div>
+        <aside class="sidePanel threecol last">
+            <%- sidePanel %>
+        </aside>
+    </article>
+    <footer class="footer row centred">
         <%- footer %>
-    </div>
+    </footer>
 </div>
 </body>
 </html>

@@ -1,27 +1,36 @@
-<div class="content">
+<article class="content">
     <% if(request.url === "/admin") { %>
-    <div class="admin-page">
-        <h2>Default Administration Dashboard</h2>
+    <section class="admin-page">
+        <h1>Default Administration Dashboard</h1>
 
-        <div class="admin-dashboard-col1">
-            A
+        <div class="row">
+            <div class="sixcol">
+                <div class="module centred">
+                    Module A
+                </div>
+            </div>
+            <div class="sixcol last">
+                <div class="module centred">
+                    Module B
+                </div>
+            </div>
         </div>
-        <div class="admin-dashboard-col2">
-            B
+
+        <div class="row">
+            <div class="sixcol">
+                <div class="module centred">
+                    Module C
+                </div>
+            </div>
+            <div class="sixcol last">
+                <div class="module centred">
+                    Module D
+                </div>
+            </div>
         </div>
-        <div class="admin-dashboard-clear">
-        </div>
-        <div class="admin-dashboard-col1">
-            C
-        </div>
-        <div class="admin-dashboard-col2">
-            D
-        </div>
-        <div class="admin-dashboard-clear">
-        </div>
-    </div>
+    </section>
     <% } else { %>
     <%- admin %>
     <%- content %>
     <% } %>
-</div>
+</article>

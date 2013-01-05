@@ -68,6 +68,10 @@
   padding: 0 ($lineHeight/2) * 1em;
   @include box-sizing(border-box);
   @include transition($transitionTime all);
+
+  &.extended-height {
+    overflow: visible;
+  }
 }
 
 .col {
@@ -137,9 +141,10 @@ img {
     .row .#{ col-name($i) } {
       width: auto;
       float: none;
+      position: static !important;
       margin-left: 0;
       margin-right: 0;
-      padding-left: $container-lateral-padding;
+      //padding-left: $container-lateral-padding;
       padding-right: $container-lateral-padding;
     }
   }

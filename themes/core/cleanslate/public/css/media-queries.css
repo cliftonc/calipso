@@ -1,128 +1,111 @@
-/* ---------------------------------------------------------------------------------------------------------------------
-
-  88888888e.     d8b       88888888e.       d8b       8bc:..  88888    .8888888.    88888  888888888.        d8b
-  888888888b    d888b      888888888b      d888b      888888bb88888   d888888888b   88888  8888888888b      d888b
-  888888888D   d88888b     888888888D     d88888b     8888888888888  C88888888888D  88888  88888888888D    d88888b
-  88888888P   d8888888b    88888888P     d8888888b    8888888888888  C88888888888D  88888  88888888888D   d8888888b
-  888888P    d888888888b   88888888b    d888888888b   8888888888888   d888888888P   88888  8888888888b   d888888888b
-  88888     d88888888888b  888888888b  d88888888888b  8888888888888    '8888888'    88888  888888888'   d88888888888b
-
-------------------------------------------------------------------------------------------------------------------------
-
-    Author: Rafal Bromirski
-    www: http://paranoida.com/
-    blog: http://lab.paranoida.com/
-
-    twitter: http://twitter.com/paranoida
-    dribbble: http://dribbble.com/paranoida
-
-    Licensed under a MIT License
-
---------------------------------------------------------------------------------------------------------------------- */
-/* --- main content ------------------------------------------------------------------------------------------------- */
-/*Grid*/
-/*Type*/
-/* Transitions*/
-/* --- media queries ------------------------------------------------------------------------------------------------ */
 @media screen and (max-width: 1400px) {
-    /* line 37, ../sass/media-queries.scss */
     .btn {
-        padding: 2.6% 5%;
-    }
-
-    /* line 40, ../sass/media-queries.scss */
-    #admin-body {
-        max-width: 76.923%;
+        padding: 2.6% 5%
     }
 }
 
 @media screen and (max-width: 640px) {
-    /* to avoid the adjustment of fonts on iOS devices you should keep this line */
-    /* line 63, ../sass/media-queries.scss */
     * {
         -webkit-text-size-adjust: none;
-        -ms-text-size-adjust: none;
+        -ms-text-size-adjust: none
     }
 }
 
-/* --- iPad --------------------------------------------------------------------------------------------------------- */
-/* --- iPhone 4(S) retina ------------------------------------------------------------------------------------------- */
-/* --- iPhone ------------------------------------------------------------------------------------------------------- */
-/* --- print (optional) --------------------------------------------------------------------------------------------- */
 @media screen and (max-width: 420px) {
-    /* line 106, ../sass/media-queries.scss */
     p {
         font-size: 1.3em;
-        line-height: 1.5;
+        line-height: 1.5
     }
 }
 
-/* Smaller screens */
 @media only screen and (max-width: 1023px) {
-    /* line 124, ../sass/media-queries.scss */
     body {
-        line-height: 1.8;
+        line-height: 1.8
     }
 }
 
-/* Mobile */
 @media handheld, only screen and (max-width: 767px) {
-    /* line 134, ../sass/media-queries.scss */
     figure figcaption {
-        width: 90%;
+        width: 90%
     }
 
-    /* line 139, ../sass/media-queries.scss */
     h1.title {
-        font-size: 3em;
+        font-size: 3em
     }
 
-    /* line 142, ../sass/media-queries.scss */
     h1.shoutout {
-        font-size: 40%;
+        font-size: 40%
     }
 
-    /* line 147, ../sass/media-queries.scss */
-    #admin-body {
-        max-width: none;
-    }
-
-    /* line 151, ../sass/media-queries.scss */
     img {
         width: 100%;
-        height: 100%;
+        height: 100%
     }
 
-    /* line 155, ../sass/media-queries.scss */
-    .admin-install-links {
-        text-align: center;
+    header, header.row {
+        overflow: visible
     }
 
-    /* line 158, ../sass/media-queries.scss */
-    .form-steps {
-        text-align: center;
+    header h1, header .toolbar.admin-toolbar li, header.row h1, header.row .toolbar.admin-toolbar li {
+        float: none
     }
 
-    /* line 161, ../sass/media-queries.scss */
-    #admin-body {
-        max-width: 100%;
+    .form-steps, .toolbar, .admin-install-links, header, footer, .secondary {
+        text-align: center
     }
 
-    /* line 164, ../sass/media-queries.scss */
+    .admin-body {
+        max-width: 100%
+    }
+
     textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
         width: 98%;
         min-width: 98%;
-        padding: 0.286em;
+        padding: 0.3663em
     }
 
-    /* line 169, ../sass/media-queries.scss */
-    label {
+    label, .form-item {
         text-align: left;
-        margin-right: 0;
+        margin-right: 0
     }
 
-    /* line 173, ../sass/media-queries.scss */
-    .description {
-        max-width: none;
+    ul.tabs {
+        height: auto;
+        padding-right: 1em
+    }
+
+    ul.tabs li {
+        float: none
+    }
+
+    ul.tabs li a {
+        text-align: center
+    }
+
+    .adminMenu .menu.admin li {
+        display: block;
+        text-align: center;
+        overflow: hidden
+    }
+
+    .adminMenu .menu.admin li a {
+        width: 100%
+    }
+
+    .adminMenu .menu.admin ul {
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 100);
+        opacity: 1;
+        display: block;
+        margin: 0;
+        visibility: visible;
+        position: static
+    }
+
+    .adminMenu .menu.admin ul a {
+        width: 100%
+    }
+
+    #user-login {
+        margin: 1em 0
     }
 }

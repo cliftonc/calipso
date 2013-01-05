@@ -22,6 +22,7 @@
 
 /* --- main content ------------------------------------------------------------------------------------------------- */
 @import "variables.scss";
+@import "compass/css3";
 
 /* --- media queries ------------------------------------------------------------------------------------------------ */
 
@@ -37,9 +38,11 @@
   .btn {
     padding: 2.6% 5%;
   }
+/*
   #admin-body {
     max-width: $rowWidth / 1.3;
   }
+*/
 }
 
 @media screen and (max-width: 1200px) {
@@ -144,21 +147,20 @@
     }
   }
 
-  #admin-body {
-    max-width: none;
-  }
-
   img {
     width: 100%;
     height: 100%;
   }
-  .admin-install-links {
+  header, header.row {
+    overflow: visible;
+    h1, .toolbar.admin-toolbar li {
+      float: none;
+    }
+  }
+  .form-steps, .toolbar, .admin-install-links, header, footer, .secondary {
     text-align: center;
   }
-  .form-steps {
-    text-align: center;
-  }
-  #admin-body {
+  .admin-body {
     max-width: $rowWidth;
   }
   textarea, input[type="text"], input[type="password"], select, .form-field input.database-uri {
@@ -166,11 +168,44 @@
     min-width: 98%;
     padding: $borderRadius;
   }
-  label {
+  label, .form-item {
     text-align: left;
     margin-right: 0;
   }
-  .description {
-    max-width: none;
+  ul.tabs {
+    height: auto;
+    padding-right: $padding;
+    li {
+      float: none;
+
+      a {
+        text-align: center;
+      }
+    }
+  }
+  .adminMenu .menu.admin {
+    li {
+      display: block;
+      text-align: center;
+      overflow: hidden;
+
+      a {
+        width: 100%;
+      }
+    }
+    ul {
+      @include opacity(1);
+      display: block;
+      margin: 0;
+      visibility: visible;
+      position: static;
+
+      a {
+        width: 100%;
+      }
+    }
+  }
+  #user-login {
+    margin: $margin 0;
   }
 }
