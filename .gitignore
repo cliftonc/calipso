@@ -18,3 +18,4 @@ conf/*.json
 *.sock
 *.gz
 *.sass-cache
+.idea
