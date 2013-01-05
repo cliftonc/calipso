@@ -71,8 +71,7 @@ cleanslate = {
         //
         //}
 
-      }
-      else {
+      } else {
         // not logged in
         userWelcomeOrLoginBox.find('a').eq(0).click(function (e) {
           // if the 'plain layout' module is active, then prevent default and get the login form via ajax

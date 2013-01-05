@@ -194,7 +194,7 @@ function init(module, app, next) {
               var s = asset.key.split('/');
               bucket = s[0];
             }
-            var expat = require('node-expat');
+            var nodeXml = require('node-xml');
             var knox = require('knox').createClient({
               key:calipso.config.getModuleConfig("assets", "s3key"),
               secret:calipso.config.getModuleConfig("assets", "s3secret"),
@@ -212,7 +212,6 @@ function init(module, app, next) {
             }
             knox.get((info && info.prefix) ? ('?prefix=' + info.prefix) : '').on('response',function (s3res) {
               s3res.setEncoding('utf8');
-              var parser = new expat.Parser();
               var items = [];
               var item = null;
               var dirs = {};
@@ -274,11 +273,9 @@ function init(module, app, next) {
               parser.addListener('text', function (s) {
                 if (property === 'code') {
                   code = s;
-                }
-                if (property === 'message') {
+                } else if (property === 'message') {
                   message = s;
-                }
-                if (property === 'author') {
+                } else if (property === 'author') {
                   owner = s;
                 }
                 if (property && item) {
@@ -638,8 +635,9 @@ function init(module, app, next) {
                   if (bucket !== '') {
                     list = assetsToDelete[bucket].splice(0, 1000); // Pop off the first 1000 assets for one of the buckets.
                     if (assetsToDelete[bucket].length == 0) {
+                      // If we're done with the bucket then remove it from here.
                       delete assetsToDelete[bucket];
-                    } // If we're done with the bucket then remove it from here.
+                    }
                     break;
                   }
                 }
@@ -2014,15 +2012,15 @@ function updateAsset(req, res, template, block, next) {
 
                   var errorMsg = '';
                   if (err.errors) {
-                    for (var error in
-                      err.errors) {
+                    for (var error in err.errors) {
                       errorMessage = error + " " + err.errors[error] + '\r\n';
                     }
                   } else {
                     errorMessage = err.message;
                   }
                   req.flash('error', req.t('Could not update content because {msg}', {msg:errorMessage}));
-                  if (res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                  if (res.statusCode != 302) {
+                    // Don't redirect if we already are, multiple errors
                     res.redirect('back');
                   }
                   next();

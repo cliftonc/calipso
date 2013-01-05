@@ -1,7 +1,7 @@
 {
     "name":"calipso",
     "description":"A NodeJS CMS",
-    "version":"0.3.15",
+    "version":"0.3.17",
     "homepage":"http://calip.so",
     "repository":{
         "type":"git",
@@ -41,7 +41,6 @@
         "request":"2.9.x",
         "pool":"0.4.x",
         "mime":"1.2.x",
-        "cluster":"0.7.x",
         "step":"0.0.x",
         "optimist":"0.3.x",
         "colors":"0.6.x",
@@ -51,14 +50,14 @@
         "async":"0.1.x",
         "hook.io":"0.8.x",
         "mailer":"~0.6.4",
-        "everyauth":"0.3.x"
+        "everyauth":"0.3.x",
+        "adm-zip":"0.1.x",
+        "node-xml":"1.0.x",
+        "knox":"0.0.x"
     },
     "optionalDependencies":{
         "bcrypt":"0.7.x",
-        "knox":"0.0.x",
-        "node-expat":"1.4.x",
-        "imagemagick":"0.1.x",
-        "zipfile":"0.3.x"
+        "imagemagick":"0.1.x"
     },
     "scripts":{
         "install":"bash ./bin/install.sh",

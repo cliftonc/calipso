@@ -245,7 +245,8 @@ function updateRole(req, res, template, block, next) {
             c.save(function (err) {
               if (err) {
                 req.flash('error', req.t('Could not update role because {msg}.', {msg:err.message}));
-                if (res.statusCode != 302) {  // Don't redirect if we already are, multiple errors
+                if (res.statusCode != 302) {
+                  // Don't redirect if we already are, multiple errors
                   res.redirect('/user/role/edit/' + id);
                 }
                 next();
