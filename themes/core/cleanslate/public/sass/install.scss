@@ -17,19 +17,23 @@
 
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
 @import "compass/css3";
+@import "compass/css3/pie";
 @import "compass/reset";
-@import "variables.scss";
-@import "grids.scss";
+@import "partials/_variables";
+@import "partials/_grids";
+@import "partials/_helpers.scss";
+@import "partials/_primary-menu.scss";
+@import "partials/icomoon/_icomoon.scss";
 
 // 1. General
 // ------------------------------------------ //
 
 html {
-  background: #fff;
+	background: #fff;
 }
 
 #admin-body {
-  max-width: $rowWidth / 2;
+	max-width: $rowWidth / 2;
 }
 
 // 2. Typography
@@ -42,403 +46,403 @@ html {
 // General
 
 body {
-  background: #fff;
-  color: #444;
-  font: 400 0.875em/1.618em "Helvetica", serif;
-  text-shadow: 0 2px 1px #fff;
-  height: 100%;
+	background: #fff;
+	color: #444;
+	font: 400 0.875em/1.618em "Helvetica", serif;
+	text-shadow: 0 2px 1px #fff;
+	height: 100%;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 a:link, a:visited {
-  color: #222;
+	color: #222;
 }
 
 ul, ol, dl {
-  margin: 0 0 0 1.618em;
-  padding: 0;
+	margin: 0 0 0 1.618em;
+	padding: 0;
 }
 
 ol li {
-  list-style: decimal;
+	list-style: decimal;
 }
 
 p {
-  margin: 0 0 2.618em;
+	margin: 0 0 2.618em;
 }
 
 .centred {
-  text-align: center;
+	text-align: center;
 }
 
 strong, b {
-  color: #222;
-  font-weight: 600;
+	color: #222;
+	font-weight: 600;
 }
 
 i, em {
-  font-style: italic;
+	font-style: italic;
 }
 
 // Headings
 h1, h2, h3, h4, h5, h6 {
-  color: #222;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
-  line-height: 1.618em;
-  margin-bottom: 1em;
-  text-shadow: 0 1px 1px #fff;
-  // An easy way to anti-alias text
+	color: #222;
+	font-family: "Open Sans", sans-serif;
+	font-weight: 600;
+	line-height: 1.618em;
+	margin-bottom: 1em;
+	text-shadow: 0 1px 1px #fff;
+	// An easy way to anti-alias text
 }
 
 h6, h5 {
-  font-size: 1em;
+	font-size: 1em;
 }
 
 h4 {
-  font-size: 1.25em;
+	font-size: 1.25em;
 }
 
 h3 {
-  font-size: 1.618em;
-  letter-spacing: -1px;
+	font-size: 1.618em;
+	letter-spacing: -1px;
 }
 
 h2 {
-  font-size: 2.023em;
-  letter-spacing: -1px;
+	font-size: 2.023em;
+	letter-spacing: -1px;
 }
 
 h1 {
-  font-size: 2.618em;
-  letter-spacing: -2px;
+	font-size: 2.618em;
+	letter-spacing: -2px;
 }
 
 // 3. Layout
 // ------------------------------------------ //
 
 #header {
-  border-bottom: 1px solid #d9d9d9;
-  color: #fff;
-  overflow: hidden;
-  padding: 1% 0 1.5%;
-  left: 0;
-  top: 0;
-  margin: 0 auto;
+	border-bottom: 1px solid #d9d9d9;
+	color: #fff;
+	overflow: hidden;
+	padding: 1% 0 1.5%;
+	left: 0;
+	top: 0;
+	margin: 0 auto;
 }
 
 #container {
-  margin: 0 auto;
+	margin: 0 auto;
 }
 
 #footer {
-  clear: both;
+	clear: both;
 }
 
 // 4. Form Elements
 // ------------------------------------------ //
 
 form {
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  padding: 0 $paddingLarge $paddingLarge;
+	background: #fff;
+	border: 1px solid #d9d9d9;
+	padding: 0 $paddingLarge $paddingLarge;
 
-  h4 {
-    background: #2F5163;
-    border: 1px solid darken(#2F5163, 10%);
-    color: #fff;
-    left: -$paddingLarge;
-    top: $paddingSmall;
-    position: relative;
-    padding: $borderRadius $padding;
-    float: left;
+	h4 {
+		background: #2F5163;
+		border: 1px solid darken(#2F5163, 10%);
+		color: #fff;
+		left: -$paddingLarge;
+		top: $paddingSmall;
+		position: relative;
+		padding: $borderRadius $padding;
+		float: left;
 
-    text-shadow: 0 1px 1px darken(#2F5163, 30%);
-    text-transform: capitalize;
+		text-shadow: 0 1px 1px darken(#2F5163, 30%);
+		text-transform: capitalize;
 
-    @include border-right-radius($borderRadius);
-    @include border-top-left-radius($borderRadius);
+		@include border-right-radius($borderRadius);
+		@include border-top-left-radius($borderRadius);
 
-    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
+		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 1px 1px $borderRadiusSmall #ccc);
 
-    &:after {
-      content: ' ';
-      position: absolute;
-      width: 0;
-      height: 0;
-      left: 0px;
-      top: 100%;
-      border-width: $borderRadius 4px;
-      border-style: solid;
-      border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
-    }
-  }
+		&:after {
+			content: ' ';
+			position: absolute;
+			width: 0;
+			height: 0;
+			left: 0px;
+			top: 100%;
+			border-width: $borderRadius 4px;
+			border-style: solid;
+			border-color: darken(#2F5163, 35%) darken(#2F5163, 35%) transparent transparent;
+		}
+	}
 
-  @include border-radius($borderRadius);
+	@include border-radius($borderRadius);
 }
 
 .form-item {
-  clear: both;
-  padding: 0 0 $paddingSmall;
+	clear: both;
+	padding: 0 0 $paddingSmall;
 }
 
 label {
-  @include inline-block();
-  text-align: right;
-  line-height: 2.5em;
-  padding-right: $paddingSmall;
-  position: relative;
-  top: -$borderRadiusSmall;
-  font-weight: bold;
-  margin-right: 10%;
+	@include inline-block();
+	text-align: right;
+	line-height: 2.5em;
+	padding-right: $paddingSmall;
+	position: relative;
+	top: -$borderRadiusSmall;
+	font-weight: bold;
+	margin-right: 10%;
 }
 
 label.for-checkable {
-  width: auto;
-  text-align: left;
-  padding: 0 0 0 $paddingSmall;
+	width: auto;
+	text-align: left;
+	padding: 0 0 0 $paddingSmall;
 }
 
 textarea, input[type="text"], input[type="password"], select {
-  border: 1px solid #999;
-  padding: 1%;
-  font-size: 1em;
+	border: 1px solid #999;
+	padding: 1%;
+	font-size: 1em;
 
-  width: 58%;
+	width: 58%;
 
-  @include border-radius($borderRadiusSmall);
-  @include box-shadow(inset 1px 1px $borderRadiusSmall #d9d9d9);
+	@include border-radius($borderRadiusSmall);
+	@include box-shadow(inset 1px 1px $borderRadiusSmall #d9d9d9);
 
-  &.database-uri {
-    width: 30%;
-    min-width: 15em;
-  }
+	&.database-uri {
+		width: 30%;
+		min-width: 15em;
+	}
 }
 
 select {
-  width: 60%;
+	width: 60%;
 }
 
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
-  border-color: #007DFF;
+	border-color: #007DFF;
 }
 
 textarea {
-  width: 65%;
-  height: 200px;
+	width: 65%;
+	height: 200px;
 }
 
 #content_teaser-wrapper textarea {
-  height: 100px;
+	height: 100px;
 }
 
 .description {
-  padding: 2px 0 $borderRadius 2 $padding;
-  font-size: 80%;
-  color: #777;
-  max-width: 50%;
-  display: block;
+	padding: 2px 0 $borderRadius 2 $padding;
+	font-size: 80%;
+	color: #777;
+	max-width: 50%;
+	display: block;
 }
 
 .button, button, input[type="submit"], a.submit {
 
-  background: #d9d9d9;
-  border: 1px solid #aaa;
-  border-color: #aaa #999 #888;
-  color: #000;
+	background: #d9d9d9;
+	border: 1px solid #aaa;
+	border-color: #aaa #999 #888;
+	color: #000;
 
-  font-size: 85%;
-  font-weight: 400;
+	font-size: 85%;
+	font-weight: 400;
 
-  margin: 0 $paddingLarge 0 0;
-  padding: $borderRadius $em;
-  text-shadow: 0 1px 0 #fff;
-  text-decoration: none;
+	margin: 0 $paddingLarge 0 0;
+	padding: $borderRadius $em;
+	text-shadow: 0 1px 0 #fff;
+	text-decoration: none;
 
-  @include inline-block();
-  @include background(linear-gradient(#ededed, #d9d9d9));
-  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 4px rgba(150, 150, 150, 0.5));
-  @include border-radius($borderRadiusLarge);
+	@include inline-block();
+	@include background(linear-gradient(#ededed, #d9d9d9));
+	@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 4px rgba(150, 150, 150, 0.5));
+	@include border-radius($borderRadiusLarge);
 
-  &:hover, &:focus, &.loading {
-    background: #2F5163;
-    border-color: #333;
-    color: #fff;
-    text-shadow: 0 1px 1px #111;
-    @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5));
-    @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
-  }
+	&:hover, &:focus, &.loading {
+		background: #2F5163;
+		border-color: #333;
+		color: #fff;
+		text-shadow: 0 1px 1px #111;
+		@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 4px rgba(150, 150, 150, 0.5));
+		@include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
+	}
 
-  &:active {
-    border-color: #000;
-    @include box-shadow(inset 0 0 $borderRadius #000);
-  }
+	&:active {
+		border-color: #000;
+		@include box-shadow(inset 0 0 $borderRadius #000);
+	}
 
-  &.loading {
-    background: #2F5163 url("/images/loader.gif") $padding 50% no-repeat;
-    @include background(url("/images/loader.gif") $padding 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
-    padding-left: 40px;
-  }
+	&.loading {
+		background: #2F5163 url("/images/loader.gif") $padding 50% no-repeat;
+		@include background(url("/images/loader.gif") $padding 50% no-repeat, linear-gradient(lighten(#2F5163, 10%), #2F5163));
+		padding-left: 40px;
+	}
 
 }
 
 input.date {
-  width: 3em;
+	width: 3em;
 }
 
 input.date-day,
 input.time {
-  width: 2em;
+	width: 2em;
 }
 
 input.checkbox, input.radio {
-  margin-left: $paddingLarge;
+	margin-left: $paddingLarge;
 }
 
 input.labelFirst {
-  margin-left: auto;
+	margin-left: auto;
 }
 
 form .section {
-  margin: 0 0 $paddingLarge;
+	margin: 0 0 $paddingLarge;
 }
 
 form .section:first-child {
-  border: 0;
+	border: 0;
 }
 
 .actions {
-  clear: both;
+	clear: both;
 }
 
 .actions input {
-  float: right;
+	float: right;
 }
 
 // 5. Misc
 // ------------------------------------//
 
 .form-steps {
-  margin-top: $margin;
+	margin-top: $margin;
 }
 
 .form-steps ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 .form-steps li {
-  text-align: center;
-  margin-bottom: $borderRadiusSmall;
-  display: inline-block;
+	text-align: center;
+	margin-bottom: $borderRadiusSmall;
+	display: inline-block;
 
-  @include border-radius($borderRadius);
-  @include background(linear-gradient(#aaa 5%, #ccc 20%));
+	@include border-radius($borderRadius);
+	@include background(linear-gradient(#aaa 5%, #ccc 20%));
 
 }
 
 .form-step-name {
-  color: #222;
-  background: #d9d9d9;
-  border: 1px solid #aaa;
-  height: $paddingLarge;
-  font-size: 80%;
-  line-height: $paddingLarge;
-  position: relative;
-  padding: $borderRadius;
+	color: #222;
+	background: #d9d9d9;
+	border: 1px solid #aaa;
+	height: $paddingLarge;
+	font-size: 80%;
+	line-height: $paddingLarge;
+	position: relative;
+	padding: $borderRadius;
 
-  @include border-radius($borderRadius);
+	@include border-radius($borderRadius);
 }
 
 .valid .form-step-name {
-  border-color: #888;
-  @include box-shadow(inset 0 0 $borderRadiusLarge #777);
+	border-color: #888;
+	@include box-shadow(inset 0 0 $borderRadiusLarge #777);
 }
 
 .current .form-step-name {
-  background: #2F5163;
-  border: 1px solid #111;
-  color: #fff;
-  font-weight: bold;
-  text-shadow: 0 1px 1px #000;
+	background: #2F5163;
+	border: 1px solid #111;
+	color: #fff;
+	font-weight: bold;
+	text-shadow: 0 1px 1px #000;
 
-  @include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
-  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25));
+	@include background(linear-gradient(lighten(#2F5163, 10%), #2F5163));
+	@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.25));
 }
 
 /* messages [info, success, warning, error] */
 #messages {
-  clear: both;
+	clear: both;
 }
 
 #messages ul {
-  list-style: none;
+	list-style: none;
 }
 
 .info,
 .success,
 .warning,
 .error {
-  border: 1px solid;
-  cursor: pointer;
-  margin: 0 0 $paddingLarge;
-  padding: $padding $paddingSmall $padding 50px;
-  background-repeat: no-repeat;
-  background-position: $paddingSmall 6px;
+	border: 1px solid;
+	cursor: pointer;
+	margin: 0 0 $paddingLarge;
+	padding: $padding $paddingSmall $padding 50px;
+	background-repeat: no-repeat;
+	background-position: $paddingSmall 6px;
 
-  position: fixed;
-  right: $paddingLarge;
-  top: 90px;
+	position: fixed;
+	right: $paddingLarge;
+	top: 90px;
 
-  text-shadow: 0 1px 0 #fff;
+	text-shadow: 0 1px 0 #fff;
 
-  @include border-radius($borderRadius);
-  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.75));
+	@include border-radius($borderRadius);
+	@include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.75));
 }
 
 .info {
-  color: #00529B;
-  background-color: #BDE5F8;
-  background-image: url('images/icons/info.png');
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('images/icons/info.png');
 }
 
 .success {
-  color: #4F8830;
-  background-color: #DFF2BF;
-  border-color: #AC6;
-  background-image: url('images/icons/success.png');
+	color: #4F8830;
+	background-color: #DFF2BF;
+	border-color: #AC6;
+	background-image: url('images/icons/success.png');
 }
 
 .warning {
-  color: #9F6000;
-  background-color: #FEEFB3;
-  background-image: url('images/icons/warning.png');
+	color: #9F6000;
+	background-color: #FEEFB3;
+	background-image: url('images/icons/warning.png');
 }
 
 .error {
-  color: #D8000C;
-  background-color: #F6D6D6;
-  background-image: url('images/icons/error.png');
-  border-color: #F6AAAA;
+	color: #D8000C;
+	background-color: #F6D6D6;
+	background-image: url('images/icons/error.png');
+	border-color: #F6AAAA;
 }
 
 .admin-install-links {
-  border-top: 1px solid #bbb;
-  margin-top: 2.618em;
-  padding: 1.618em;
-  text-align: right;
+	border-top: 1px solid #bbb;
+	margin-top: 2.618em;
+	padding: 1.618em;
+	text-align: right;
 }
 
 .admin-install-links a {
-  margin: 0;
+	margin: 0;
 }
 
 .admin-install-links .back {
-  float: left;
+	float: left;
 }
 
-@import "media-queries.scss";
+@import "partials/_media-queries";

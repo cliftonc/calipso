@@ -1,0 +1,145 @@
+/* Main menu */
+/* Excellent CSS from http://www.red-team-design.com/css3-dropdown-menu */
+
+@import "base.scss";
+
+.menu.admin, .menu.admin ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.menu.admin {
+	background: darken(#2F5163, 15%);
+	border-bottom: 1px solid darken(#2F5163, 15%);
+	overflow: visible;
+	zoom: 1;
+
+	@include border-radius($borderRadius);
+
+	@include background(linear-gradient(#2F5163, darken(#2F5163, 10%)));
+	ul {
+		list-style: none;
+		@include opacity(0);
+		visibility: hidden;
+		position: absolute;
+		top: 100%;
+		margin-left: $margin;
+		background: #444;
+		@include transition(opacity $transitionTime ease-in-out);
+
+		@include background(linear-gradient(#444, #111));
+		@include box-shadow(0 0 $paddingSmall rgba(255, 255, 255, 0.5));
+		@include border-radius($borderRadius);
+
+		ul {
+			//for nested menus
+			left: 100%;
+			top: 0;
+			li {
+				&:first-child {
+					a {
+						&:after {
+							left: -$paddingSmall;
+							top: $em * 0.8;
+							width: 0;
+							height: 0;
+							border-left: 0;
+							border-bottom: $borderRadius solid transparent;
+							border-top: $borderRadius solid transparent;
+							border-right: $borderRadiusLarge solid #444;
+						}
+
+						&:hover {
+							&:after {
+								border-right-color: #04acec;
+								border-bottom-color: transparent;
+							}
+						}
+					}
+				}
+				&:last-child {
+					a {
+						border-right-color: #04acec;
+						border-bottom-color: transparent;
+					}
+				}
+			}
+		}
+		li {
+			@include box-shadow(0 1px 0 #111111, 0 $paddingSmall 0 #777777);
+			width: 100%;
+			&:last-child {
+				@include box-shadow(none);
+			}
+			&:hover {
+				> ul {
+					@include opacity(1);
+					visibility: visible;
+					margin: 0;
+				}
+			}
+
+			&:first-child {
+				a {
+					@include border-top-radius($borderRadius);
+					&:hover {
+						&:after {
+							border-bottom-color: #04acec;
+						}
+					}
+					&:after {
+						content: '';
+						position: absolute;
+						left: $marginLarge;
+						top: -$paddingSmall;
+						width: 0;
+						height: 0;
+						border-left: $borderRadius solid transparent;
+						border-right: $borderRadius solid transparent;
+						border-bottom: $borderRadiusLarge solid #444;
+					}
+				}
+			}
+		}
+		a {
+			padding: $paddingSmall;
+			line-height: 1;
+			width: 83%;
+		}
+	}
+	li {
+		@include inline-block();
+		position: relative;
+		@include box-shadow(1px 0 0 #444);
+		border-right: 1px solid #222;
+		&:hover {
+			a {
+				color: #fafafa;
+			}
+			> ul {
+				display: block;
+				@include opacity(1);
+				visibility: visible;
+				margin: 0;
+			}
+		}
+	}
+	a {
+		color: #fff;
+		font-size: 85%;
+		@include inline-block();
+		padding: $paddingSmall $paddingLarge;
+		text-decoration: none;
+		text-shadow: 0 1px $paddingSmall #000;
+
+		&:hover {
+			background: #0186ba;
+			@include background(linear-gradient(#04acec, #0186ba));
+		}
+	}
+	&:before, &:after {
+		content: "";
+		display: table;
+	}
+}

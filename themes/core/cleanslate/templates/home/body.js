@@ -3,23 +3,26 @@
  */
 
 var rootpath = process.cwd() + '/',
-  path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso'));
+	path = require('path'),
+	calipso = require(path.join(rootpath, 'lib/calipso'));
 
-exports = module.exports = function (req, options, callback) {
+exports = module.exports = function (req, options, callback)
+{
 
-  /**
-   *  Get additional content for blocks in the template
-   */
-  calipso.lib.step(
+	/**
+	 *  Get additional content for blocks in the template
+	 */
+	calipso.lib.step(
 
-    function getContent() {
-      options.getContent(req, "welcome", this.parallel());
-    }, function done(err, welcome, homepageText) {
-      callback(err, {
-        welcome:welcome,
-        homepageText:homepageText
-      });
-    });
+		function getContent()
+		{
+			options.getContent(req, "welcome", this.parallel());
+		}, function done(err, welcome, homepageText)
+		{
+			callback(err, {
+				welcome: welcome,
+				homepageText: homepageText
+			});
+		});
 
 };
