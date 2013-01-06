@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en">
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="put your site description here">
-    <meta name="keywords" content="put your site keywords here">
-    <title>Clean Slate</title>
+	<meta charset = "utf-8">
+	<meta name = "description" content = "put your site description here">
+	<meta name = "keywords" content = "put your site keywords here">
+	<title>Clean Slate</title>
 
-    <link rel="stylesheet" href="/css/admin.css"/>
-    <link rel="stylesheet" href="/css/admin-menu.css"/>
+	<link rel = "stylesheet" href = "/css/admin.css"/>
+	<link rel = "stylesheet" href = "/css/admin-menu.css"/>
 
-    <%- scripts %>
+	<%- scripts %>
 
 </head>
 <body>
-<nav class="adminMenu row extended-height">
-    <%- admin %>
+<nav class = "adminMenu row extended-height">
+	<%- admin %>
 </nav>
-<div class="container">
-    <header class="row">
-        <%- header %>
-        <nav class="adminToolbar">
-            <%- getMenu('adminToolbar') %>
-        </nav>
-    </header>
+<div class = "container">
+	<header class = "row">
+		<%- header %>
+		<nav class = "adminToolbar">
+			<%- getMenu('adminToolbar') %>
+		</nav>
+	</header>
 
-    <aside id="messages" class="row">
-        <%- messages %>
-    </aside>
+	<aside id = "messages" class = "row">
+		<%- messages %>
+	</aside>
 
-    <article class="admin-body row">
-        <!--PAGE_BODY_START-->
-        <%- body %>
-        <!--PAGE_BODY_END-->
-    </article>
-    <footer class="row">
-        <%- footer %>
-    </footer>
+	<article class = "admin-body row">
+		<!--PAGE_BODY_START-->
+		<%- body %>
+		<!--PAGE_BODY_END-->
+	</article>
+	<footer class = "row">
+		<%- footer %>
+	</footer>
 </div>
 </body>
 </html>

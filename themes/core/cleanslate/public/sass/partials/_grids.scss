@@ -1,0 +1,110 @@
+@import "base.scss";
+
+@function col-name($n) {
+/* Use naming consistent with original 1140x Grid V2 */
+	$col-name: col;
+
+	@if $n == 1  {
+		$col-name: onecol;
+	}
+	@if $n == 2  {
+		$col-name: twocol;
+	}
+	@if $n == 3  {
+		$col-name: threecol;
+	}
+	@if $n == 4  {
+		$col-name: fourcol;
+	}
+	@if $n == 5  {
+		$col-name: fivecol;
+	}
+	@if $n == 6  {
+		$col-name: sixcol;
+	}
+	@if $n == 7  {
+		$col-name: sevencol;
+	}
+	@if $n == 8  {
+		$col-name: eightcol;
+	}
+	@if $n == 9  {
+		$col-name: ninecol;
+	}
+	@if $n == 10 {
+		$col-name: tencol;
+	}
+	@if $n == 11 {
+		$col-name: elevencol;
+	}
+	@if $n == 12 {
+		$col-name: twelvecol;
+	}
+
+	@return $col-name;
+}
+
+@function col-width($i) {
+/* Helpful for calculating the column width for other elements */
+	@return $col-unit * $i - $col-margin-right;
+}
+
+/* ==================================================================================================================== */
+/* ! SCSS 1140 Grid V2 by James Ramsay \ http://jwr.vc \ http://www.twitter.com/jamesramsay                           */
+/* ! derived from                                                                                                       */
+/* ! CSS 1140 Grid V2 by Andy Taylor \ http://cssgrid.net \ http://www.twitter.com/andytlr \ http://www.andytlr.com   */
+/* ==================================================================================================================== */
+
+.container {
+	padding-left: $container-lateral-padding;
+	padding-right: $container-lateral-padding;
+}
+
+.row {
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 0 ($lineHeight/2) * 1em;
+	@include box-sizing(border-box);
+	@include transition($transitionTime all);
+
+	&.extended-height {
+		overflow: visible;
+	}
+}
+
+.col {
+	margin-right: $col-margin-right;
+	float: left;
+	min-height: 1px;
+}
+
+@for $i from 1 through ($num-cols - 1) {
+	.#{ col-name($i) } {
+		@extend .col;
+	}
+}
+
+@for $i from 1 through ($num-cols - 1) {
+	.row .#{ col-name($i) } {
+		width: $col-unit * $i - $col-margin-right;
+	}
+}
+
+.row .#{ col-name($num-cols) } {
+	width: 100%;
+	float: left;
+
+}
+
+.last {
+	margin-right: 0;
+}
+
+img, object, embed {
+	max-width: 100%;
+}
+
+img {
+	height: auto;
+}
