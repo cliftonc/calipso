@@ -22,13 +22,13 @@ function route(req, res, module, app, next) {
     cachePermit = "admin:core:cache";
 
   // Menu items
-  res.menu.admin.addMenuItem(req, {name:'Administration', path:'admin', url:'/admin', description:'Calipso administration ...', permit:corePermit});
-  res.menu.admin.addMenuItem(req, {name:'Core', path:'admin/core', url:'/admin', description:'Manage core settings for Calipso ...', permit:corePermit});
-  res.menu.admin.addMenuItem(req, {name:'Configuration', path:'admin/core/config', url:'/admin/core/config', description:'Core configuration ...', permit:corePermit});
-  res.menu.admin.addMenuItem(req, {name:'View Languages', path:'admin/core/languages', url:'/admin/core/languages', description:'Languages ...', permit:corePermit});
-  res.menu.admin.addMenuItem(req, {name:'View Cache', path:'admin/core/cache', url:'/admin/core/cache', description:'Cache ...', permit:cachePermit});
-  res.menu.admin.addMenuItem(req, {name:'Clear Cache', path:'admin/core/cache/clear', url:'/admin/core/cache/clear', description:'Clear Cache ...', permit:cachePermit});
-  res.menu.admin.addMenuItem(req, {name:'Modules', path:'admin/modules', url:'/admin', description:'Manage module settings ...', permit:modulePermit});
+  res.menu.admin.addMenuItem(req, {name:'Administration', path:'admin', url:'/admin', description:'Calipso administration ...', permit:corePermit, icon:"icon-users"});
+  res.menu.admin.addMenuItem(req, {name:'Core', path:'admin/core', url:'/admin', description:'Manage core settings for Calipso ...', permit:corePermit, icon:"icon-wrench"});
+  res.menu.admin.addMenuItem(req, {name:'Configuration', path:'admin/core/config', url:'/admin/core/config', description:'Core configuration ...', permit:corePermit, icon:"icon-wrench"});
+  res.menu.admin.addMenuItem(req, {name:'View Languages', path:'admin/core/languages', url:'/admin/core/languages', description:'Languages ...', permit:corePermit, icon:"icon-airplane"});
+  res.menu.admin.addMenuItem(req, {name:'View Cache', path:'admin/core/cache', url:'/admin/core/cache', description:'Cache ...', permit:cachePermit, icon:"icon-view-2"});
+  res.menu.admin.addMenuItem(req, {name:'Clear Cache', path:'admin/core/cache/clear', url:'/admin/core/cache/clear', description:'Clear Cache ...', permit:cachePermit, icon:"icon-refresh"});
+  res.menu.admin.addMenuItem(req, {name:'Modules', path:'admin/modules', url:'/admin', description:'Manage module settings ...', permit:modulePermit, icon:"icon-layout"});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -293,7 +293,7 @@ function installMongo(req, res, next) {
   // Create the form
   var mongoForm = {id:'install-mongo-form', title:'', type:'form', method:'POST', action:'/admin/install',
     fields:[
-      {label:'MongoDB URI', name:'database:uri', cls:'database-uri', type:'text', description:'Enter the database URI, in the form: mongodb://servername:port/database'},
+      {label:'MongoDB URI', name:'database:uri', cls:'database-uri', type:'text', description:'Enter the database URI, in the form: mongodb://servername:port/database', required:true, placeholder:"mongodb://servername:port/database"},
       {label:'', name:'installStep', type:'hidden'}
     ],
     buttons:[]}; // Submitted via template
@@ -360,13 +360,13 @@ function installUser(req, res, next) {
   var userForm = {
     id:'install-user-form', title:'', type:'form', method:'POST', action:'/admin/install',
     fields:[
-      {label:'Username', name:'user[username]', cls:'username', type:'text'},
+      {label:'Username', name:'user[username]', cls:'username', type:'text', required:true, 'placeholder':"Your desired username"},
       {label:'Full Name', name:'user[fullname]', type:'text'},
-      {label:'Email', name:'user[email]', cls:'email', type:'text'},
-      {label:'Language', name:'user[language]', type:'select', options:req.languages},
+      {label:'Email', name:'user[email]', cls:'email', type:'email', required:true, 'placeholder':"someone@gmail.com"},
+      {label:'Language', name:'user[language]', type:'select', options:req.languages, required:true},
       // TODO : Select based on available
-      {label:'Password', name:'user[password]', cls:'password', type:'password'},
-      {label:'Repeat Password', name:'user[check_password]', cls:'check_password', type:'password'},
+      {label:'Password', name:'user[password]', cls:'password', type:'password', required:true, placeholder:"Password"},
+      {label:'Repeat Password', name:'user[check_password]', cls:'check_password', type:'password', required:true, placeholder:"Repeat Password"},
       {label:'', name:'installStep', type:'hidden'},
       {label:'', name:'userStep', type:'hidden'}
     ],
@@ -587,12 +587,15 @@ function coreConfig(req, res, template, block, next) {
           {
             label:'Site Name',
             name:'server:name',
-            type:'text'
+            type:'text',
+            placeholder:"My Site Name",
+            required:true
           },
           {
             label:'Login Path',
             name:'server:loginPath',
-            type:'text'
+            type:'text',
+            placeholder:"/"
           },
           {
             label:'Modules Location',
@@ -602,22 +605,29 @@ function coreConfig(req, res, template, block, next) {
           {
             label:'Themes Location',
             name:'server:themePath',
-            type:'text'
+            type:'text',
+            placeholder:"./themes",
+            required:true
           },
           {
             label:'Server URL',
             name:'server:url',
-            type:'text'
+            type:'url',
+            placeholder:"./themes",
+            required:true
           },
           {
             label:'Session Secret',
             name:'session:secret',
-            type:'password'
+            type:'password',
+            placeholder:"http://localhost:3000",
+            required:true
           },
           {
             label:'Session Max Age (seconds)',
             name:'session:maxAge',
-            type:'text'
+            type:'text',
+            placeholder:"960000"
           }
         ]
       },
@@ -629,7 +639,8 @@ function coreConfig(req, res, template, block, next) {
             label:'Default Language',
             name:'i18n:language',
             type:'select',
-            options:req.languages
+            options:req.languages,
+            required:true
           },
           {
             label:'Add Unknown Terms',
@@ -659,7 +670,8 @@ function coreConfig(req, res, template, block, next) {
                 label:'Default Cache TTL',
                 name:'performance:cache:ttl',
                 type:'text',
-                description:'Default age (in seconds) for cache items.'
+                description:'Default age (in seconds) for cache items.',
+                placeholder:"96000"
               },
               {
                 label:'Watch Template Files',
@@ -678,7 +690,8 @@ function coreConfig(req, res, template, block, next) {
                 label:'Number Workers',
                 description:'Number of workers to start, set to 0 to have Calipso default to number of available cpus.',
                 name:'server:cluster:workers',
-                type:'text'
+                type:'text',
+                placeholder:"ex: 600"
               },
               {
                 label:'Restart Workers',
@@ -691,7 +704,8 @@ function coreConfig(req, res, template, block, next) {
                 label:'Maximum Restarts',
                 name:'server:cluster:maximumRestarts',
                 description:'Number of failures before it will stop attempting to restart a worker.',
-                type:'text'
+                type:'text',
+                placeholder:"3"
               }
             ]
           },
@@ -703,7 +717,8 @@ function coreConfig(req, res, template, block, next) {
               {
                 label:'EventEmitter Max Listeners',
                 name:'server:events:maxListeners',
-                type:'text'
+                type:'text',
+                placeholder:"500"
               }
             ]
           }
@@ -741,13 +756,15 @@ function coreConfig(req, res, template, block, next) {
                 label:'AppId',
                 description:'Set AppId and Secret to enable facebook authentication',
                 name:'server:authentication:facebookAppId',
-                type:'password'
+                type:'password',
+                placeholder:"short number you could potentially memorize"
               },
               {
                 label:'AppSecret',
                 description:'AppSecret for this application to allow facebook authentication',
                 name:'server:authentication:facebookAppSecret',
-                type:'password'
+                type:'password',
+                placeholder:"long-ass hash code that you would never memorize"
               }
             ]
           },
@@ -760,19 +777,22 @@ function coreConfig(req, res, template, block, next) {
                 label:'ClientId',
                 description:'Set ClientId and ClientSecret to enable google authentication',
                 name:'server:authentication:googleClientId',
-                type:'password'
+                type:'password',
+                placeholder:"short number you could potentially memorize"
               },
               {
                 label:'ClientSecret',
                 description:'ClientSecret for this application to allow google authentication',
                 name:'server:authentication:googleClientSecret',
-                type:'password'
+                type:'password',
+                placeholder:"you could never memorize this"
               },
               {
                 label:'Google Callback',
                 description:'Callback URL for google authentication',
                 type:'readonlytext',
-                value:calipso.config.get('server:url') + '/auth/google/callback'
+                value:calipso.config.get('server:url') + '/auth/google/callback',
+                placeholder:"Callback URL for google authentication"
               }
             ]
           },
@@ -785,19 +805,22 @@ function coreConfig(req, res, template, block, next) {
                 label:'Twitter ConsumerKey',
                 description:'Set ConsumerKey and ConsumerSecret to allow twitter authentication',
                 name:'server:authentication:twitterConsumerKey',
-                type:'password'
+                type:'password',
+                placeholder:"short number you could potentially memorize"
               },
               {
                 label:'Twitter ConsumerSecret',
                 description:'ConsumerSecret for this application to allow twitter authentication',
                 name:'server:authentication:twitterConsumerSecret',
-                type:'password'
+                type:'password',
+                placeholder:"This is long, so copy-paste from Twitter"
               },
               {
                 label:'Twitter Callback',
                 description:'Callback URL for twitter authentication',
                 type:'readonlytext',
-                value:calipso.config.get('server:url') + '/auth/twitter/callback'
+                value:calipso.config.get('server:url') + '/auth/twitter/callback',
+                placeholder:"Your callback URL here"
               }
             ]
           }

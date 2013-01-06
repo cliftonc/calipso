@@ -37,8 +37,8 @@ function route(req, res, module, app, next) {
   var mPerm = calipso.permission.Helper.hasPermission("asset:manage:manage"),
     vPerm = calipso.permission.Helper.hasPermission("asset:manage:view");
 
-  res.menu.admin.addMenuItem(req, {name:'Asset Management', path:'asset', url:'/asset', description:'Manage assets ...', permit:mPerm});
-  res.menu.admin.addMenuItem(req, {name:'Asset', path:'asset/content', url:'/asset', description:'Manage assets ...', permit:vPerm});
+  res.menu.admin.addMenuItem(req, {name:'Asset Management', path:'asset', url:'/asset', description:'Manage assets ...', permit:mPerm, icon:"icon-file"});
+  res.menu.admin.addMenuItem(req, {name:'Asset', path:'asset/content', url:'/asset', description:'Manage assets ...', permit:vPerm, icon:"icon-file"});
 
   // Routing and Route Handler
   module.router.route(req, res, next);
@@ -1723,7 +1723,7 @@ function addFolder(req, res, template, block, next) {
               label:'Name',
               name:'name',
               type:'text',
-              description:'The name of your folder ...'
+              description:'The name of your folder ...', required:true, placeholder:"myFolderName"
             }
           ],
           buttons:[
@@ -1947,10 +1947,10 @@ function editAssetForm(req, res, template, block, next) {
         } else {
           parent = '/asset/' + parent;
         }
-        res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:1, path:'list', url:parent, description:'List all ...', permit:aPerm});
-        res.menu.adminToolbar.addMenuItem(req, {name:'View', weight:2, path:'show', url:'/asset/' + c.alias, description:'Download actual file ...', permit:aPerm});
-        res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:3, path:'edit', url:'/assets/' + c.id, description:'Edit asset ...', permit:aPerm});
-        res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:4, path:'delete', url:'/assets/delete/' + id, description:'Delete asset ...', permit:aPerm});
+        res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:1, path:'list', url:parent, description:'List all ...', permit:aPerm, icon:"icon-list-3"});
+        res.menu.adminToolbar.addMenuItem(req, {name:'View', weight:2, path:'show', url:'/asset/' + c.alias, description:'Download actual file ...', permit:aPerm, icon:"icon-file-download"});
+        res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:3, path:'edit', url:'/assets/' + c.id, description:'Edit asset ...', permit:aPerm, icon:"icon-pencil-3"});
+        res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:4, path:'delete', url:'/assets/delete/' + id, description:'Delete asset ...', permit:aPerm, icon:"icon-delete"});
         // Create the form
         getForm(req, "/assets/" + id, req.t("Edit Asset ... "), c, function (form) {
           // Default values
@@ -2203,11 +2203,11 @@ function listAssets(req, res, template, block, next) {
     var aPerm = calipso.permission.Helper.hasPermission("admin:user");
     var p = alias ? alias : "";
     if (alias === null) {
-      res.menu.adminToolbar.addMenuItem(req, {name:'Create Bucket', weight:1, path:'new', url:'/assets/new', description:'Create Bucket ...', permit:aPerm});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Create Bucket', weight:1, path:'new', url:'/assets/new', description:'Create Bucket ...', permit:aPerm, icon:"icon-basket-2"});
     } else {
-      res.menu.adminToolbar.addMenuItem(req, {name:'Add folder', path:'newfolder', url:'/assets/addfolder/' + p, description:'Add a subfolder ...', popup:true, permit:aPerm});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Upload files', path:'uploadfiles', url:'/assets/upload/' + p, description:'Upload new files ...', popup:true, permit:aPerm});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Upload folder', path:'uploadfolder', url:'/assets/upload/' + p + '?directory=true', description:'Upload new folder ...', popup:true, permit:aPerm});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Add folder', path:'newfolder', url:'/assets/addfolder/' + p, description:'Add a subfolder ...', popup:true, permit:aPerm, icon:"icon-folder-3"});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Upload files', path:'uploadfiles', url:'/assets/upload/' + p, description:'Upload new files ...', popup:true, permit:aPerm, icon:"icon-upload"});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Upload folder', path:'uploadfolder', url:'/assets/upload/' + p + '?directory=true', description:'Upload new folder ...', popup:true, permit:aPerm, icon:"icon-upload-2"});
     }
     if (req.session.user && req.session.user.isAdmin) {
       // Show all

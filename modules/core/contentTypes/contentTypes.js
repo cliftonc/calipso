@@ -40,7 +40,7 @@ function route(req, res, module, app, next) {
   /**
    * Menu items
    */
-  res.menu.admin.addMenuItem(req, {name:'Content Types', path:'cms/type', url:'/content/type', description:'Manage content types ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
+  res.menu.admin.addMenuItem(req, {name:'Content Types', path:'cms/type', url:'/content/type', description:'Manage content types ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view"), icon:"icon-suitcase"});
 
   /**
    * Routing and Route Handler
@@ -84,7 +84,7 @@ function init(module, app, next) {
     fields:{type:String, "default":""},
     templateLanguage:{type:String, required:true, "default":'html'},
     viewTemplate:{type:String, "default":''},
-    listTemplate:{type:String, "default":''},
+    listTemplate:{type:String, "default":''}
   });
 
   calipso.db.model('ContentType', ContentType);
@@ -146,23 +146,23 @@ var contentTypeForm = {
   id:'FORM', title:'Form', type:'form', method:'POST', tabs:true, action:'/content/type',
   sections:[
     {id:'type-section', label:'Content Type', fields:[
-      {label:'Content Type', name:'contentType[contentType]', type:'text', description:'Enter the name of the content type, it must be unique.'},
-      {label:'Description', name:'contentType[description]', type:'text', description:'Enter a description.'},
+      {label:'Content Type', name:'contentType[contentType]', type:'text', description:'Enter the name of the content type, it must be unique.', placeholder:"myNewContentType", required:true},
+      {label:'Description', name:'contentType[description]', type:'text', description:'Enter a description.', placeholder:"Serves as a..."},
       {label:'Layout', name:'contentType[layout]', type:'select', options:function () {
         return calipso.theme.getLayoutsArray()
       }, description:'Select the layout from the active theme used to render this type, choose default if unsure!'},
-      {label:'Is Public', name:'contentType[ispublic]', type:'select', options:["Yes", "No"], description:"Public content types appear in lists of content, private types are usually used as components in other pages."}
+      {label:'Is Public', name:'contentType[ispublic]', type:'select', options:["Yes", "No"], description:"Public content types appear in lists of content; private types are usually used as components in other pages."}
     ]},
     {id:'type-custom-fields', label:'Custom Fields', fields:[
-      {label:'Custom Fields', name:'contentType[fields]', type:'json', description:"Define any custom fields using the Calipso form language, see the help below."}
+      {label:'Custom Fields', name:'contentType[fields]', type:'json', description:"Define any custom fields using the Calipso form language, see the help below.", placeholder:"Custom fields here >>"}
     ]},
     {id:'type-custom-templates', label:'Custom Templates', fields:[
       {label:'Template Language', name:'contentType[templateLanguage]', type:'select', options:[
         {label:"EJS", value:"html"},
         {label:"Jade", value:"jade"}
       ], description:"Select the template language to use (if you are over-riding the default templates using the fields below)."},
-      {label:'List Template', name:'contentType[listTemplate]', type:'textarea', description:"NOT YET IMPLEMENTED: Define the template used when listing groups of content of this type, leave blank for default."},
-      {label:'View Template', name:'contentType[viewTemplate]', type:'textarea', description:"Define the template to display a single item of this type, leave blank for default."}
+      {label:'List Template', name:'contentType[listTemplate]', type:'textarea', description:"NOT YET IMPLEMENTED: Define the template used when listing groups of content of this type, leave blank for default.", placeholder:"put template here"},
+      {label:'View Template', name:'contentType[viewTemplate]', type:'textarea', description:"Define the template to display a single item of this type, leave blank for default.", placeholder:"Put template here >>"}
     ]}
   ],
   buttons:[
@@ -237,10 +237,10 @@ function editContentTypeForm(req, res, template, block, next) {
   var id = req.moduleParams.id;
   var item;
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'List', path:'list', url:'/content/type/', description:'List all ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
-  res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/content/type/show/' + id, description:'Current item ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/content/type/edit/' + id, description:'Edit content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:edit")});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/content/type/delete/' + id, description:'Delete content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:delete")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'List', path:'list', url:'/content/type/', description:'List all ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view"), icon:"icon-list-3"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/content/type/show/' + id, description:'Current item ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view"), icon:"icon-file"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/content/type/edit/' + id, description:'Edit content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:edit"), icon:"icon-pencil-2"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/content/type/delete/' + id, description:'Delete content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:delete"), icon:"icon-file-remove"});
 
   ContentType.findById(id, function (err, c) {
 
@@ -335,10 +335,10 @@ function showContentType(req, res, template, block, next) {
 
     } else {
 
-      res.menu.adminToolbar.addMenuItem(req, {name:'List', path:'list', url:'/content/type/', description:'List all ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
-      res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/content/type/show/' + id, description:'Current item ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view")});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/content/type/edit/' + id, description:'Edit content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:edit")});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/content/type/delete/' + id, description:'Delete content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:delete")});
+      res.menu.adminToolbar.addMenuItem(req, {name:'List', path:'list', url:'/content/type/', description:'List all ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view"), icon:"icon-list-3"});
+      res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/content/type/show/' + id, description:'Current item ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:view"), icon:"icon-file"});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/content/type/edit/' + id, description:'Edit content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:edit"), icon:"icon-pencil-2"});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/content/type/delete/' + id, description:'Delete content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:delete"), icon:"icon-file-remove"});
 
       item = {id:content._id, type:'content', meta:content.toObject()};
 
@@ -378,7 +378,7 @@ function listContentType(req, res, template, block, next) {
   // Re-retrieve our object
   var ContentType = calipso.db.model('ContentType');
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'New Type', path:'new', url:'/content/type/new', description:'Create content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:create")});
+  res.menu.adminToolbar.addMenuItem(req, {name:'New Type', path:'new', url:'/content/type/new', description:'Create content type ...', permit:calipso.permission.Helper.hasPermission("admin:content:type:create"), icon:"icon-file-add"});
 
   var format = req.moduleParams.format || 'html';
 

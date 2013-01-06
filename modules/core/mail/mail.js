@@ -30,51 +30,63 @@ exports = module.exports = {
       "default":"",
       "label":"SMTP Server",
       "type":"text",
-      "description":"This is the SMTP server IP or DNS name."
+      "description":"This is the SMTP server IP or DNS name.",
+      required:true,
+      placeholder:"192.168.1.55"
     },
     port:{
       "default":"",
       "label":"SMTP Port",
       "type":"text",
-      "description":"This is the SMTP server port to use."
+      "description":"This is the SMTP server port to use.",
+      required:true,
+      placeholder:"9000"
     },
     domain:{
       "default":"",
       "label":"Domain",
       "type":"text",
-      "description":"This is the domain name."
+      "description":"This is the domain name.",
+      required:true,
+      placeholder:"myDomain"
     },
     authentication:{
       "default":false,
       "label":"Authentication",
       "type":"checkbox",
       "labelFirst":true,
-      "description":"Does this SMPT server require authentication"
+      "description":"Does this SMPT server require authentication?"
     },
     ssl:{
       "default":false,
       "label":"SSL",
       "type":"checkbox",
       "labelFirst":true,
-      "description":"Should we use SSL to connect to the SMTP server."
+      "description":"Should we use SSL to connect to the SMTP server?"
     },
     from:{
       "default":"",
       "label":"From",
       "type":"text",
-      "description":"This is the email address the email is being sent from."
+      "description":"This is the email address the email is being sent from.",
+      required:true,
+      placeholder:"someone@gmail.com"
     },
     username:{
       "default":"",
       "label":"Username",
       "type":"text",
-      "description":"This is the username to use when authenticating to the SMTP server."
+      "description":"This is the username to use when authenticating to the SMTP server.",
+      required:true,
+      placeholder:"admin username"
     },
     password:{
       "default":"",
       "label":"Password",
       "type":"password",
-      "description":"This is the password to use to authenticating to the SMTP server."
+      "description":"This is the password to use to authenticating to the SMTP server.",
+      required:true,
+      placeholder:"Password"
     },
     base64:{
       "default":false,
@@ -91,7 +103,7 @@ exports = module.exports = {
 function route(req, res, module, app, next) {
 
   // Menu
-  res.menu.admin.addMenuItem(req, {name:'Mail', permit:{}, path:'admin/mail', url:'/admin/mail/show', description:'Manage mail templates ...', security:[] });
+  res.menu.admin.addMenuItem(req, {name:'Mail', permit:{}, path:'admin/mail', url:'/admin/mail/show', description:'Manage mail templates ...', security:[], icon:"icon-newspaper" });
 
   // Router
   module.router.route(req, res, next);
@@ -231,7 +243,8 @@ function showMailTemplates(req, res, options, next) {
     path:'newtemplate',
     url:'/admin/mail/new',
     description:'Make a new template ...',
-    security:[]
+    security:[],
+    icon:"icon-file-add"
   });
   MailTemplate.find().run(function (err, mailTemplates) {
     if (err || !mailTemplates) {
@@ -432,7 +445,7 @@ function deleteMailTemplateForm(req, res, options, next) {
           name:'id',
           type:'hidden',
           value:mailTemplate.id
-        },
+        }
       ],
       buttons:[
         {
@@ -479,7 +492,8 @@ function getMailTemplateForm(type, id, callback) {
   var User = calipso.db.model('User');
   var eventArray = [];
   eventArray.push('');
-  for (key in calipso.e.events) {
+  for (key in
+    calipso.e.events) {
     eventArray.push(key);
   }
   eventArray.sort();

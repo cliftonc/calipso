@@ -23,9 +23,9 @@ function route(req, res, module, app, next) {
   var aPerm = calipso.permission.Helper.hasPermission("admin:user");
 
   // Menu
-  res.menu.admin.addMenuItem(req, {name:'Security', path:'admin/security', weight:5, url:'', description:'Users, Roles & Permissions ...', permit:aPerm });
-  res.menu.admin.addMenuItem(req, {name:'Users', path:'admin/security/users', weight:10, url:'/user/list', description:'Manage users ...', permit:aPerm });
-  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight:100, url:'/user/logout', description:'Logout', permit:aPerm });
+  res.menu.admin.addMenuItem(req, {name:'Security', path:'admin/security', weight:5, url:'', description:'Users, Roles & Permissions ...', permit:aPerm, icon:"icon-locked-2" });
+  res.menu.admin.addMenuItem(req, {name:'Users', path:'admin/security/users', weight:10, url:'/user/list', description:'Manage users ...', permit:aPerm, icon:"icon-users" });
+  res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight:100, url:'/user/logout', description:'Logout', permit:aPerm, icon:"icon-upload-3" });
 
   // Router
   module.router.route(req, res, next);
@@ -171,8 +171,8 @@ function userDisplay(req, username, next) {
 
 function userFields() {
   var fields = calipso.auth.password ? [
-    {label:'Username', name:'user[username]', type:'text'},
-    {label:'Password', name:'user[password]', type:'password'}
+    {label:'Username', name:'user[username]', type:'text', required:true, 'placeholder':"Your username"},
+    {label:'Password', name:'user[password]', type:'password', required:true, 'placeholder':"Your password"}
   ] : [];
   if (calipso.auth.google) {
     fields.push({name:'google', text:'Use Google Login', type:'link', href:'/auth/google', cls:'googleicon'});
@@ -240,7 +240,7 @@ function roleForm(req, res, template, block, next) {
   function finish(role) {
     // TODO : Use secitons!
     if (req.session.user.isAdmin && role && (role.name != 'Guest') && (role.name != 'Administrator') && (role.name != 'Contributor')) {
-      res.menu.adminToolbar.addMenuItem({name:'Delete Role', path:'return', url:'/admin/roles/' + role._id + '/delete', description:'Delete role ...', security:[]});
+      res.menu.adminToolbar.addMenuItem({name:'Delete Role', path:'return', url:'/admin/roles/' + role._id + '/delete', description:'Delete role ...', security:[], icon:"icon-close"});
     }
     var roleForm = {
       id:'FORM', title:req.t('Register'), type:'form', method:'POST', action:'/admin/roles/' + (role && role._id ? role._id : ""),
@@ -249,10 +249,10 @@ function roleForm(req, res, template, block, next) {
           id:'form-section-core',
           label:'The New Role',
           fields:[
-            {label:'Role Name', name:'role[name]', type:'text', description:'Enter the name of the role.'},
-            {label:'Description', name:'role[description]', type:'text', description:'Enter the description of the role.'},
-            {label:'Is Default', name:'role[isDefault]', type:'checkbox', description:'Is this a default role.'},
-            {label:'Is Admin', name:'role[isAdmin]', type:'checkbox', description:'Is a user with this role an admin.'}
+            {label:'Role Name', name:'role[name]', type:'text', description:'Enter the name of the role.', required:true, placeholder:"Role Name"},
+            {label:'Description', name:'role[description]', type:'text', description:'Enter the description of the role.', placeholder:"Enter a role description (optional)"},
+            {label:'Is Default', name:'role[isDefault]', type:'checkbox', description:'Is this a default role?', required:true},
+            {label:'Is Admin', name:'role[isAdmin]', type:'checkbox', description:'Is a user with this role an admin?', required:true}
           ]
         }
       ],
@@ -290,15 +290,15 @@ function registerUserForm(req, res, template, block, next) {
         id:'form-section-core',
         label:'Your Details',
         fields:[
-          {label:'Username', name:'user[username]', type:'text', description:'Enter the username you would like to use on this site.'},
-          {label:'Full Name', name:'user[fullname]', type:'text', description:'Enter your actual name, you can control the privacy settings of this.'},
-          {label:'Email', name:'user[email]', type:'text', description:'Enter your email address, you can control the privacy settings of this.'},
-          {label:'Language', name:'user[language]', type:'select', options:req.languages, description:'Select your default language.'},
+          {label:'Username', name:'user[username]', type:'text', description:'Enter the username you would like to use on this site.', required:true, placeholder:"Username"},
+          {label:'Full Name', name:'user[fullname]', type:'text', description:'Enter your actual name.  You can control the privacy settings of this.', required:true, placeholder:"Full Name"},
+          {label:'Email', name:'user[email]', type:'email', description:'Enter your email address, you can control the privacy settings of this.', required:true, placeholder:"someone@gmail.com"},
+          {label:'Language', name:'user[language]', type:'select', options:req.languages, description:'Select your default language.', required:true},
           // TODO : Select based on available
-          {label:'About You', name:'user[about]', type:'textarea', description:'Write something about yourself, this will appear on your profile page.'},
-          {label:'New Password', name:'user[new_password]', type:'password', description:'Enter a password, the stronger the better.'},
-          {label:'Repeat Password', name:'user[repeat_password]', type:'password', description:'Repeat as always.'},
-          {label:'Show Full Name', name:'user[showName]', type:'select', options:[
+          {label:'About You', name:'user[about]', type:'textarea', description:'Write something about yourself.  This will appear on your profile page.', required:true, placeholder:"Description of me"},
+          {label:'New Password', name:'user[new_password]', type:'password', description:'Enter a password, the stronger the better.', required:true, placeholder:"Password"},
+          {label:'Repeat Password', name:'user[repeat_password]', type:'password', description:'Repeat as always.', required:true, placeholder:"Repeat Password"},
+          {label:'Show Full Name', name:'user[showName]', type:'select', required:true, options:[
             {label:'Never', value:'never'},
             {label:'Registered Users Only', value:'registered'},
             {label:'Public', value:'public'}
@@ -307,7 +307,7 @@ function registerUserForm(req, res, template, block, next) {
             {label:'Never', value:'never'},
             {label:'Registered Users Only', value:'registered'},
             {label:'Public', value:'public'}
-          ], description:'Decide how your profile displays your email.'}
+          ], description:'Decide how your profile displays your email.', required:true}
         ]
       }
     ],
@@ -356,7 +356,7 @@ function updateUserForm(req, res, template, block, next) {
   var passwordSection = 1; // Update if changing sections
 
   if (isAdmin) {
-    res.menu.adminToolbar.addMenuItem(req, {name:'Return', path:'return', url:'/user/profile/' + username, description:'Show user ...', security:[]});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Return', path:'return', url:'/user/profile/' + username, description:'Show user ...', security:[], icon:"icon-undo"});
   }
 
   var userForm = {
@@ -368,10 +368,10 @@ function updateUserForm(req, res, template, block, next) {
         fields:[
           {label:'Username', name:'user[username]', type:'text', readonly:!isAdmin},
           {label:'Full Name', name:'user[fullname]', type:'text'},
-          {label:'Email', name:'user[email]', type:'text'},
+          {label:'Email', name:'user[email]', type:'email'},
           {label:'Language', name:'user[language]', type:'select', options:req.languages},
           // TODO : Select based on available
-          {label:'About You', name:'user[about]', type:'textarea'},
+          {label:'About You', name:'user[about]', type:'textarea'}
         ]
       },
       {
@@ -624,7 +624,8 @@ function updateUserProfile(req, res, template, block, next) {
         if (req.session.user && req.session.user.isAdmin) {
           var newRoles = [];
           u.isAdmin = false; // TO-DO Replace
-          for (var role in form.user.roleList) {
+          for (var role in
+            form.user.roleList) {
             if (form.user.roleList[role]) {
               newRoles.push(role);
             }
@@ -848,7 +849,8 @@ function registerUser(req, res, template, block, next) {
 
         var newRoles = [];
         u.isAdmin = false; // TO-DO Replace
-        for (var role in form.user.roles) {
+        for (var role in
+          form.user.roles) {
           if (form.user.roles[role] === 'on') {
             newRoles.push(role);
             if (calipso.data.roles[role].isAdmin) {
@@ -958,14 +960,14 @@ function userProfile(req, res, template, block, next) {
     }
 
     if (req.session.user && req.session.user.isAdmin) {
-      res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:2, path:'list', url:'/user/list', description:'List users ...', security:[]});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:1, path:'edit', url:'/user/profile/' + username + '/edit', description:'Edit user details ...', security:[]});
-      res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:3, path:'delete', url:'/user/profile/' + username + '/delete', description:'Delete account ...', security:[]});
+      res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:2, path:'list', url:'/user/list', description:'List users ...', security:[], icon:"icon-list-3"});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:1, path:'edit', url:'/user/profile/' + username + '/edit', description:'Edit user details ...', security:[], icon:"icon-pencil-2"});
+      res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:3, path:'delete', url:'/user/profile/' + username + '/delete', description:'Delete account ...', security:[], icon:"icon-close"});
 
       if (u.locked) {
-        res.menu.adminToolbar.addMenuItem(req, {name:'Unlock', weight:4, path:'unlock', url:'/user/profile/' + username + '/unlock', description:'Unlock account ...', security:[]});
+        res.menu.adminToolbar.addMenuItem(req, {name:'Unlock', weight:4, path:'unlock', url:'/user/profile/' + username + '/unlock', description:'Unlock account ...', security:[], icon:"icon-unlocked"});
       } else {
-        res.menu.adminToolbar.addMenuItem(req, {name:'Lock', weight:5, path:'lock', url:'/user/profile/' + username + '/lock', description:'Lock account ...', security:[]});
+        res.menu.adminToolbar.addMenuItem(req, {name:'Lock', weight:5, path:'lock', url:'/user/profile/' + username + '/lock', description:'Lock account ...', security:[], icon:"icon-locked"});
       }
     }
 
@@ -1046,7 +1048,7 @@ function listUsers(req, res, template, block, next) {
   // Re-retrieve our object
   var User = calipso.db.model('User');
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'Register New User', path:'new', url:'/user/register', description:'Register new user ...', security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Register New User', path:'new', url:'/user/register', description:'Register new user ...', security:[], icon:"icon-user"});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
@@ -1118,7 +1120,7 @@ function listRoles(req, res, template, block, next) {
   // Re-retrieve our object
   var Role = calipso.db.model('Role');
 
-  res.menu.adminToolbar.addMenuItem({name:'Register New Role', path:'new', url:'/admin/role/register', description:'Register new role ...', security:[]});
+  res.menu.adminToolbar.addMenuItem({name:'Register New Role', path:'new', url:'/admin/role/register', description:'Register new role ...', security:[], icon:"icon-neutral"});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;

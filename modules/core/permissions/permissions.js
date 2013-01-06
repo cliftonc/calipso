@@ -31,7 +31,7 @@ function route(req, res, module, app, next) {
   var permPermit = calipso.permission.Helper.hasPermission("admin:permission:configuration");
 
   // Menu
-  res.menu.admin.addMenuItem(req, {name:'Permissions', permit:permPermit, path:'admin/security/permissions', weight:10, url:'/admin/permissions', description:'Manage permissions ...', security:[] });
+  res.menu.admin.addMenuItem(req, {name:'Permissions', permit:permPermit, path:'admin/security/permissions', weight:10, url:'/admin/permissions', description:'Manage permissions ...', security:[], icon:"icon-users" });
 
   // Router
   module.router.route(req, res, next);

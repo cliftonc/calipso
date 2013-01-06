@@ -29,8 +29,8 @@ function route(req, res, module, app, next) {
     dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
     vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
-  res.menu.admin.addMenuItem(req, {name:'Content Management', path:'cms', url:'/content', description:'Manage content ...', permit:vPerm});
-  res.menu.admin.addMenuItem(req, {name:'Content', path:'cms/content', url:'/content', description:'Manage content ...', permit:vPerm});
+  res.menu.admin.addMenuItem(req, {name:'Content Management', path:'cms', url:'/content', description:'Manage content ...', permit:vPerm, icon:"icon-list-2"});
+  res.menu.admin.addMenuItem(req, {name:'Content', path:'cms/content', url:'/content', description:'Manage content ...', permit:vPerm, icon:"icon-book-2"});
 
   module.router.route(req, res, next);
 
@@ -211,30 +211,30 @@ function contentForm() {
         id:'form-section-content',
         label:'Content',
         fields:[
-          {label:'Title', name:'content[title]', type:'text', description:'Title to appear for this piece of content.'},
-          {label:'Permanent URL / Alias', name:'content[alias]', type:'text', description:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.'},
+          {label:'Title', name:'content[title]', type:'text', description:'Title to appear for this piece of content.', required:true, placeholder:"Ex. How to Bake a Cake"},
+          {label:'Permanent URL / Alias', name:'content[alias]', type:'text', description:'Permanent url (no spaces or invalid html characters), if left blank is generated from title.', placeholder:"[title-separated-by-dashes]"},
           {label:'Type', name:'content[contentType]', type:'select', options:function () {
             return calipso.data.contentTypes
           }, description:'Select the type, this impacts custom fields and page display.'},
-          {label:'Teaser', name:'content[teaser]', type:'textarea', description:'Enter some short text that describes the content, appears in lists.'},
-          {label:'Content', name:'content[content]', type:'textarea', description:'Enter the full content text.'}
+          {label:'Teaser', name:'content[teaser]', type:'textarea', description:'Enter some short text that describes the content, appears in lists.', placeholder:escape("<p>In this article, learn how to... </p>")},
+          {label:'Content', name:'content[content]', type:'textarea', description:'Enter the full content text.', required:true, placeholder:escape("<h1>Article Title</h1><p>Insert some content in HTML here.  Remember that your content will already be placed inside an article.</p><section id='1'><h1>Section 1</h1><p>More content Here</p></section>")}
         ]
       },
       {
         id:'form-section-category',
         label:'Categorisation',
         fields:[
-          {label:'Taxonomy', name:'content[taxonomy]', type:'text', description:'Enter the menu heirarchy, e.g. "welcome/about"'},
-          {label:'Tags', name:'content[tags]', type:'text', description:'Enter comma delimited tags to help manage this content.'}
+          {label:'Taxonomy', name:'content[taxonomy]', type:'text', description:'Enter the menu heirarchy, e.g. "welcome/about"', placeholder:"welcome/about", required:true},
+          {label:'Tags', name:'content[tags]', type:'text', description:'Enter comma-delimited tags to help manage this content.', placeholder:"tutorials,photography,cooking,how-to,classics"}
         ]
       },
       {
         id:'form-section-status',
         label:'Status',
         fields:[
-          {label:'Status', name:'content[status]', type:'select', options:["draft", "scheduled", "published"], description:'Select the status (published is visible to all public).'},
-          {label:'Published', name:'content[published]', type:'datetime', description:'Date to appear as published.'},
-          {label:'Scheduled', name:'content[scheduled]', type:'datetime', description:'Date to be published (if scheduled).'}
+          {label:'Status', name:'content[status]', type:'select', options:["draft", "scheduled", "published"], description:'Select the status (published is visible to all public).', required:true},
+          {label:'Published', name:'content[published]', type:'datetime', description:'Date to appear as published.', required:true},
+          {label:'Scheduled', name:'content[scheduled]', type:'datetime', description:'Date to be published (if scheduled).', required:true}
         ]
       }
     ],
@@ -507,10 +507,10 @@ function editContentForm(req, res, template, block, next) {
     dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
     vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:1, path:'list', url:'/content/', description:'List all ...', permit:vPerm});
-  res.menu.adminToolbar.addMenuItem(req, {name:'View', weight:2, path:'show', url:'/content/show/' + id, description:'Show current ...', permit:vPerm});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:3, path:'edit', url:'/content/edit/' + id, description:'Edit content ...', permit:uPerm});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:4, path:'delete', url:'/content/delete/' + id, description:'Delete content ...', permit:dPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:1, path:'list', url:'/content/', description:'List all ...', permit:vPerm, icon:"icon-list-2"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View', weight:2, path:'show', url:'/content/show/' + id, description:'Show current ...', permit:vPerm, icon:"icon-eye"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:3, path:'edit', url:'/content/edit/' + id, description:'Edit content ...', permit:uPerm, icon:"icon-pencil-2"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:4, path:'delete', url:'/content/delete/' + id, description:'Delete content ...', permit:dPerm, icon:"icon-trashcan"});
 
   Content.findById(id, function (err, c) {
 
@@ -759,11 +759,11 @@ function showContent(req, res, template, block, next, err, content, format) {
       dPerm = calipso.permission.Helper.hasPermission("content:manage:delete"),
       vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
-    res.menu.adminToolbar.addMenuItem(req, {name:'Create', weight:3, path:'new', url:'/content/new', description:'Create content ...', permit:cPerm});
-    res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:1, path:'list', url:'/content/', description:'List all ...', permit:vPerm});
-    res.menu.adminToolbar.addMenuItem(req, {name:'View', weight:2, path:'show', url:'/content/show/' + content.id, description:'Show current ...', permit:vPerm});
-    res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:4, path:'edit', url:'/content/edit/' + content.id, description:'Edit content ...', permit:uPerm});
-    res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:5, path:'delete', url:'/content/delete/' + content.id, description:'Delete content ...', permit:dPerm});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Create', weight:3, path:'new', url:'/content/new', description:'Create content...', permit:cPerm, icon:"icon-pencil-2"});
+    res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:1, path:'list', url:'/content/', description:'List all ...', permit:vPerm, icon:"icon-list-2"});
+    res.menu.adminToolbar.addMenuItem(req, {name:'View', weight:2, path:'show', url:'/content/show/' + content.id, description:'Show current ...', permit:vPerm, icon:"icon-eye"});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Edit', weight:4, path:'edit', url:'/content/edit/' + content.id, description:'Edit content ...', permit:uPerm, icon:"icon-pencil"});
+    res.menu.adminToolbar.addMenuItem(req, {name:'Delete', weight:5, path:'delete', url:'/content/delete/' + content.id, description:'Delete content ...', permit:dPerm, icon:"icon-remove-2"});
 
   }
 
@@ -802,7 +802,7 @@ function listContent(req, res, template, block, next) {
   var cPerm = calipso.permission.Helper.hasPermission("content:manage:create"),
     vPerm = calipso.permission.Helper.hasPermission("content:manage:view");
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'Create', weight:1, path:'new', url:'/content/new', description:'Create content ...', permit:cPerm});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Create', weight:1, path:'new', url:'/content/new', description:'Create content ...', permit:cPerm, icon:"icon-plus"});
 
   var tag = req.moduleParams.tag ? req.moduleParams.tag : '';
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';

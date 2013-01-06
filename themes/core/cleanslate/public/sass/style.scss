@@ -293,7 +293,7 @@ form .section:first-child {
 
 #user-welcome-or-login input[type="submit"] {
 	width: auto;
-	margin: 0;
+	margin-bottom: $margin;
 }
 
 #user-login:before,

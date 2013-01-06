@@ -136,7 +136,7 @@ function taxonomy(req, res, template, block, next) {
     // Render the item into the response
     tax.forEach(function (item) {
       //TODO: This needs to be improved!
-      res.menu.primary.addMenuItem(req, {name:item._id, path:item._id, url:'/section/' + item._id, description:'Link ...', security:[]});
+      res.menu.primary.addMenuItem(req, {name:item._id, path:item._id, url:'/section/' + item._id, description:'Link ...', security:[], icon:item._icon});
     });
     next();
   });

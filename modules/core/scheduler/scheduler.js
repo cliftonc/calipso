@@ -23,7 +23,7 @@ function route(req, res, module, app, next) {
    * Menu items
    */
     //res.menu.admin.primary.push({name:req.t('Scheduler'),url:'/scheduler',regexp:/scheduler/});
-  res.menu.admin.addMenuItem(req, {name:'Scheduled Jobs', path:'admin/core/scheduler', url:'/scheduler', description:'Manage scheduled jobs ...', security:[]});
+  res.menu.admin.addMenuItem(req, {name:'Scheduled Jobs', path:'admin/core/scheduler', url:'/scheduler', description:'Manage scheduled jobs ...', security:[], icon:"icon-database"});
 
   /**
    * Routes
@@ -194,7 +194,7 @@ function enableScheduler(req, res, template, block, next) {
  */
 function schedulerAdmin(req, res, template, block, next) {
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'New Job', path:'new', url:'/scheduler/new', description:'Create new job ...', security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'New Job', path:'new', url:'/scheduler/new', description:'Create new job ...', security:[], icon:"icon-plus"});
 
   var ScheduledJob = calipso.db.model('ScheduledJob');
 
@@ -352,9 +352,9 @@ function editJobForm(req, res, template, block, next) {
   //res.menu.admin.secondary.push({name:req.t('New Job'),parentUrl:'/scheduler',url:'/scheduler/new'});
   //res.menu.admin.secondary.push({name:req.t('Edit Job'),parentUrl:'/scheduler',url:'/scheduler/edit/' + jobName});
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/scheduler/show/' + jobName, description:'Current item ...', security:[]});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/scheduler/edit/' + jobName, description:'Edit schedule ...', security:[]});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/scheduler/delete/' + jobName, description:'Delete schedule ...', security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/scheduler/show/' + jobName, description:'Current item ...', security:[], icon:"icon-eye"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/scheduler/edit/' + jobName, description:'Edit schedule ...', security:[], icon:"icon-pencil-2"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/scheduler/delete/' + jobName, description:'Delete schedule ...', security:[], icon:"icon-close"});
 
   ScheduledJob.findOne({name:jobName}, function (err, job) {
 
@@ -480,9 +480,9 @@ function showJob(req, res, template, block, next, err) {
   var jobName = req.moduleParams.jobName;
   var item;
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/scheduler/show/' + jobName, description:'Current item ...', security:[]});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/scheduler/edit/' + jobName, description:'Edit schedule ...', security:[]});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/scheduler/delete/' + jobName, description:'Delete schedule ...', security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'View', path:'show', url:'/scheduler/show/' + jobName, description:'Current item ...', security:[], icon:"icon-eye"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Edit', path:'edit', url:'/scheduler/edit/' + jobName, description:'Edit schedule ...', security:[], icon:"icon-pencil-2"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Delete', path:'delete', url:'/scheduler/delete/' + jobName, description:'Delete schedule ...', security:[], icon:"icon-close"});
 
   ScheduledJob.findOne({name:jobName}, function (err, job) {
 
