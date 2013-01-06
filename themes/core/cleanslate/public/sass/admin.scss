@@ -29,12 +29,6 @@ header, header.row, footer, footer.row, article, aside {
 	margin: $margin 0;
 }
 
-header {
-	h1 {
-		float: left;
-	}
-}
-
 // 2. Typography
 // ------------------------------------------ //
 
@@ -319,13 +313,6 @@ span.pager-page {
 	position: relative;
 	margin: 0;
 	text-align: right;
-
-	&.admin-toolbar {
-		li {
-			float: right;
-		}
-	}
-
 	li {
 
 		@include inline-block();

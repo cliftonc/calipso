@@ -106,7 +106,7 @@ var contentVersionFormSection = {
   label:'Versioning',
   fields:[
     {label:'New Version?', name:'content[version]', type:'select', options:["No", "Yes"], noValue:true, description:'This change marks the content as a new version.'},
-    {label:'Comment', name:'content[comment]', type:'textarea', noValue:true, description:'Describe the reason for this version.'},
+    {label:'Comment', name:'content[comment]', type:'textarea', noValue:true, description:'Describe the reason for this version.', placeholder: "New version, describing X changes"}
   ]
 }
 
@@ -115,7 +115,7 @@ var contentVersionFormSection = {
  */
 function showContentVersionsMenu(req, res, template, block, next) {
   var id = req.moduleParams.id, vPerm = calipso.permission.Helper.hasPermission("content:versions:view");
-  res.menu.adminToolbar.addMenuItem(req, {name:'Versions', permit:vPerm, weight:10, path:'versions', url:'/content/show/' + id + '/versions', description:'Show versions ...', security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Versions', permit:vPerm, weight:10, path:'versions', url:'/content/show/' + id + '/versions', icon: "icon-list-3", description:'Show versions ...', security:[]});
   next();
 }
 
@@ -166,8 +166,8 @@ function showVersion(req, res, template, block, next) {
   var vPerm = calipso.permission.Helper.hasPermission("content:versions:view"),
     rPerm = calipso.permission.Helper.hasPermission("content:versions:revert");
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'Return', path:'return', permit:vPerm, url:'/content/show/' + contentId + '/versions', description:'Show content ...', security:[]});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Revert', path:'revert', permit:rPerm, url:'/content/show/' + contentId + '/version/' + id + '/revert', description:'Revert to this version of content ...', security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Return', path:'return', permit:vPerm, url:'/content/show/' + contentId + '/versions', description:'Show content ...', security:[], icon: "icon-undo"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Revert', path:'revert', permit:rPerm, url:'/content/show/' + contentId + '/version/' + id + '/revert', description:'Revert to this version of content ...', security:[], icon: "icon-reply-2"});
 
   ContentVersion.findById(id, function (err, version) {
 
@@ -261,8 +261,8 @@ function listVersions(req, res, template, block, next) {
   var vPerm = calipso.permission.Helper.hasPermission("content:versions:view"),
     dPerm = calipso.permission.Helper.hasPermission("content:versions:diff");
 
-  res.menu.adminToolbar.addMenuItem(req, {name:'Diff', permit:dPerm, path:'diff', url:'', description:'Diff versions ...', security:[]});
-  res.menu.adminToolbar.addMenuItem(req, {name:'Return', permit:vPerm, path:'return', url:'/content/show/' + id, description:'Show content ...', security:[]});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Diff', permit:dPerm, path:'diff', url:'', description:'Diff versions ...', security:[], icon: "icon-console"});
+  res.menu.adminToolbar.addMenuItem(req, {name:'Return', permit:vPerm, path:'return', url:'/content/show/' + id, description:'Show content ...', security:[], icon: "icon-undo"});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
 
