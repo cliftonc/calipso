@@ -57,9 +57,9 @@ cleanslate = {
 		}
 	}, init: function ()
 	{
-
 		// HIDE/SHOW USER LOGIN FORM
 		this.checkJson();
+		var animationSpeed = "fast";
 		(function doUsername()
 		{
 			var userDataString = $.cookie('userData') || localStorage.user || '{}';
@@ -101,18 +101,18 @@ cleanslate = {
 							if (text.length && text.indexOf(start) > -1 && text.indexOf(end) > -1)
 							{
 								var html = '<div class="close"></div>' + text.split(start)[1].split(end)[0];
-								userLoginBox = $('<div id="user-login" class="threecol"/>').html(html).appendTo(userWelcomeOrLoginBox).show();
+								userLoginBox = $('<div id="user-login" class="threecol"/>').html(html).appendTo(userWelcomeOrLoginBox).show(animationSpeed);
 								userLoginBox.find('input')[0].focus();
 								userWelcomeOrLoginBox.find('.close').click(function ()
 								{
-									userLoginBox.toggle();
+									userLoginBox.toggle(animationSpeed);
 								});
 							}
 						});
 					}
 					else
 					{
-						userLoginBox.toggle();
+						userLoginBox.toggle(animationSpeed);
 						userLoginBox.find('input')[0].focus();
 					}
 				});

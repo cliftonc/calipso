@@ -12,23 +12,21 @@
 // 5. Misc.
 // ---------------------------------------------- //
 
-@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
 @import "compass/reset";
 @import "compass/css3";
-@import "variables.scss";
-@import "grids.scss";
-@import "partials/icomoon/icomoon.scss";
+@import "partials/_variables.scss";
+@import "partials/_grids.scss";
+@import "partials/_helpers.scss";
+@import "partials/icomoon/_icomoon.scss";
+
+@import "partials/admin-menu.scss";
 
 // 1. General
 // ------------------------------------------ //
 
-html {
-	background: #fff;
-}
-
 header, header.row, footer, footer.row, article, aside {
-	margin-top: $margin;
-	margin-bottom: $margin;
+	margin: $margin 0;
 }
 
 header {
@@ -51,14 +49,15 @@ body {
 	font: 400 0.875em/1.618em "Helvetica", serif;
 	text-shadow: 0 1px 1px #fff;
 	height: 100%;
+	overflow-x: hidden;
 }
 
 a {
 	text-decoration: none;
-}
 
-a:link, a:visited {
-	color: #222;
+	&:link, &:visited {
+		color: #222;
+	}
 }
 
 ul, ol, dl {
@@ -879,4 +878,4 @@ form .section:first-child {
 	@include border-radius($borderRadius);
 }
 
-@import "media-queries.scss";
+@import "partials/_media-queries";

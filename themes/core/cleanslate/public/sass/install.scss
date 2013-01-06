@@ -17,9 +17,13 @@
 
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700);
 @import "compass/css3";
+@import "compass/css3/pie";
 @import "compass/reset";
-@import "variables.scss";
-@import "grids.scss";
+@import "partials/_variables";
+@import "partials/_grids";
+@import "partials/_helpers.scss";
+@import "partials/_primary-menu.scss";
+@import "partials/icomoon/_icomoon.scss";
 
 // 1. General
 // ------------------------------------------ //
@@ -441,4 +445,4 @@ form .section:first-child {
 	float: left;
 }
 
-@import "media-queries.scss";
+@import "partials/_media-queries";
