@@ -1,36 +1,36 @@
-<article class="content">
-    <% if(request.url === "/admin") { %>
-    <section class="admin-page">
-        <h1>Default Administration Dashboard</h1>
+<article class = "content">
+	<% if(request.url === "/admin") { %>
+	<section class = "admin-page">
+		<h1>Default Administration Dashboard</h1>
 
-        <div class="row">
-            <div class="sixcol">
-                <div class="module centred">
-                    Module A
-                </div>
-            </div>
-            <div class="sixcol last">
-                <div class="module centred">
-                    Module B
-                </div>
-            </div>
-        </div>
+		<div class = "row">
+			<div class = "sixcol">
+				<div class = "module centred">
+					Module A
+				</div>
+			</div>
+			<div class = "sixcol last">
+				<div class = "module centred">
+					Module B
+				</div>
+			</div>
+		</div>
 
-        <div class="row">
-            <div class="sixcol">
-                <div class="module centred">
-                    Module C
-                </div>
-            </div>
-            <div class="sixcol last">
-                <div class="module centred">
-                    Module D
-                </div>
-            </div>
-        </div>
-    </section>
-    <% } else { %>
-    <%- admin %>
-    <%- content %>
-    <% } %>
+		<div class = "row">
+			<div class = "sixcol">
+				<div class = "module centred">
+					Module C
+				</div>
+			</div>
+			<div class = "sixcol last">
+				<div class = "module centred">
+					Module D
+				</div>
+			</div>
+		</div>
+	</section>
+	<% } else { %>
+	<%- admin %>
+	<%- content %>
+	<% } %>
 </article>
