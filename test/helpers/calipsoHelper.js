@@ -109,7 +109,6 @@ var loggingConfig = {
     "colorize":true
   }
 };
-calipso.logging.configureLogging(loggingConfig);
 
 /**
  * Request
@@ -178,6 +177,7 @@ var requests = {
  * Initialise everything and then export
  */
 module.exports.finalize = function (next) {
+  calipso.logging.configureLogging(loggingConfig);
   if (module.exports.app) {
     return next(null, module.exports);
   }
