@@ -79,7 +79,6 @@ function MockApp(next) {
 
   // Initialise and return
   self.config.init(function (err) {
-    calipso.logging.configureLogging(loggingConfig);
 
     if (err) {
       console.log('Config error: '.grey + err.message.red);
@@ -92,24 +91,6 @@ function MockApp(next) {
   })
 
 }
-
-/**
- * Test permissions
- */
-calipso.permission.Helper.addPermission("test:permission", "Simple permission for testing purposes.");
-calipso.permission.Helper.addPermissionRole("test:permission", "Test");
-
-/**
- * Setup logging
- */
-var loggingConfig = {
-  "console":{
-    "enabled":false,
-    "level":"error",
-    "timestamp":true,
-    "colorize":true
-  }
-};
 
 /**
  * Request
@@ -187,6 +168,26 @@ module.exports.finalize = function (next) {
     module.exports.testPermit = calipso.permission.Helper.hasPermission("test:permission"),
       module.exports.requests = requests;
     module.exports.response = CreateResponse();
+
+    /**
+     * Test permissions
+     */
+    calipso.permission.Helper.addPermission("test:permission", "Simple permission for testing purposes.");
+    calipso.permission.Helper.addPermissionRole("test:permission", "Test");
+
+    /**
+     * Setup logging
+     */
+    var loggingConfig = {
+      "console":{
+        "enabled":false,
+        "level":"error",
+        "timestamp":true,
+        "colorize":true
+      }
+    };
+    
+    calipso.logging.configureLogging(loggingConfig);
     next(null, module.exports);
   });
 };
