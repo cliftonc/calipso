@@ -177,11 +177,11 @@ var requests = {
  * Initialise everything and then export
  */
 module.exports.finalize = function (next) {
-  calipso.logging.configureLogging(loggingConfig);
   if (module.exports.app) {
     return next(null, module.exports);
   }
   new MockApp(function (app) {
+    calipso.logging.configureLogging(loggingConfig);
     module.exports.app = app;
     module.exports.calipso = calipso;
     module.exports.testPermit = calipso.permission.Helper.hasPermission("test:permission"),
