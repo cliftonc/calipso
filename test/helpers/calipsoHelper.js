@@ -79,6 +79,7 @@ function MockApp(next) {
 
   // Initialise and return
   self.config.init(function (err) {
+    calipso.logging.configureLogging(loggingConfig);
 
     if (err) {
       console.log('Config error: '.grey + err.message.red);
@@ -181,7 +182,6 @@ module.exports.finalize = function (next) {
     return next(null, module.exports);
   }
   new MockApp(function (app) {
-    calipso.logging.configureLogging(loggingConfig);
     module.exports.app = app;
     module.exports.calipso = calipso;
     module.exports.testPermit = calipso.permission.Helper.hasPermission("test:permission"),
