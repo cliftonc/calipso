@@ -1855,56 +1855,55 @@ var requirejs, require, define;
       //UNFORTUNATELY Opera implements attachEvent but does not follow the script
       //script execution mode.
       if (node.attachEvent &&
-        //Check if node.attachEvent is artificially added by custom script or
-        //natively supported by browser
-        //read https://github.com/jrburke/requirejs/issues/187
-        //if we can NOT find [native code] then it must NOT natively supported.
-        //in IE8, node.attachEvent does not have toString()
-        //Note the test for "[native code" with no closing brace, see:
-        //https://github.com/jrburke/requirejs/issues/273 !(node.attachEvent.toString && node.attachEvent.toString().indexOf('[native code') < 0) && !isOpera) {
+	        //Check if node.attachEvent is artificially added by custom script or
+  	      //natively supported by browser
+    	    //read https://github.com/jrburke/requirejs/issues/187
+      	  //if we can NOT find [native code] then it must NOT natively supported.
+        	//in IE8, node.attachEvent does not have toString()
+       	 	//Note the test for "[native code" with no closing brace, see:
+        	//https://github.com/jrburke/requirejs/issues/273
+					!(node.attachEvent.toString && node.attachEvent.toString().indexOf('[native code') < 0) &&
+					!isOpera) {
         //Probably IE. IE (at least 6-8) do not fire
         //script onload right after executing the script, so
         //we cannot tie the anonymous define call to a name.
         //However, IE reports the script as being in 'interactive'
         //readyState at the time of the define call.
-        useInteractive = true{
-        ;
-      }
+        useInteractive = true;
 
-      node.attachEvent('onreadystatechange', context.onScriptLoad);
-      //It would be great to add an error handler here to catch
-      //404s in IE9+. However, onreadystatechange will fire before
-      //the error handler, so that does not help. If addEvenListener
-      //is used, then IE will fire error before load, but we cannot
-      //use that pathway given the connect.microsoft.com issue
-      //mentioned above about not doing the 'script execute,
-      //then fire the script load event listener before execute
-      //next script' that other browsers do.
-      //Best hope: IE10 fixes the issues,
-      //and then destroys all installs of IE 6-9.
-      //node.attachEvent('onerror', context.onScriptError);
-    } else {
-      node.addEventListener('load', context.onScriptLoad, false);
-      node.addEventListener('error', context.onScriptError, false);
-    }
-    node.src = url;
+      	node.attachEvent('onreadystatechange', context.onScriptLoad);
+      	//It would be great to add an error handler here to catch
+      	//404s in IE9+. However, onreadystatechange will fire before
+      	//the error handler, so that does not help. If addEvenListener
+      	//is used, then IE will fire error before load, but we cannot
+      	//use that pathway given the connect.microsoft.com issue
+      	//mentioned above about not doing the 'script execute,
+      	//then fire the script load event listener before execute
+      	//next script' that other browsers do.
+      	//Best hope: IE10 fixes the issues,
+      	//and then destroys all installs of IE 6-9.
+      	//node.attachEvent('onerror', context.onScriptError);
+    	} else {
+      	node.addEventListener('load', context.onScriptLoad, false);
+      	node.addEventListener('error', context.onScriptError, false);
+    	}
+    	node.src = url;
 
-    //For some cache cases in IE 6-8, the script executes before the end
-    //of the appendChild execution, so to tie an anonymous define
-    //call to the module name (which is stored on the node), hold on
-    //to a reference to this node, but clear after the DOM insertion.
-    currentlyAddingScript = node;
-    if (baseElement) {
-      head.insertBefore(node, baseElement);
-    } else {
-      head.appendChild(node);
-    }
-    currentlyAddingScript = null;
+    	//For some cache cases in IE 6-8, the script executes before the end
+    	//of the appendChild execution, so to tie an anonymous define
+    	//call to the module name (which is stored on the node), hold on
+    	//to a reference to this node, but clear after the DOM insertion.
+    	currentlyAddingScript = node;
+    	if (baseElement) {
+      	head.insertBefore(node, baseElement);
+    	} else {
+      	head.appendChild(node);
+    	}
+    	currentlyAddingScript = null;
 
-    return node;
-  }
-  else
-  if (isWebWorker) {
+  	  return node;
+	  }
+  else if (isWebWorker) {
     //In a web worker, use importScripts. This is not a very
     //efficient use of importScripts, importScripts will block until
     //its script is downloaded and evaluated. However, if web workers
