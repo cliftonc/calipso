@@ -5,6 +5,7 @@ var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
   roles = require('./user.roles'),
+	sanitizer = require('sanitizer'),
   Query = require("mongoose").Query,
   everyauth = require("everyauth");
 
@@ -958,6 +959,14 @@ function userProfile(req, res, template, block, next) {
       res.redirect('/');
       return;
     }
+
+		// Sanitize user object
+		var prop;
+		for (var prop in u) {
+			if (typeof u[prop] === 'string') {
+				u[prop] = sanitizer.sanitize(u[prop]);
+			}
+		}
 
     if (req.session.user && req.session.user.isAdmin) {
       res.menu.adminToolbar.addMenuItem(req, {name:'List', weight:2, path:'list', url:'/user/list', description:'List users ...', security:[], icon:"icon-list-3"});

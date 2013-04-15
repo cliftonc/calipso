@@ -53,7 +53,8 @@
         "everyauth":"0.3.x",
         "adm-zip":"0.1.x",
         "node-xml":"1.0.x",
-        "knox":"0.0.x"
+        "knox":"0.0.x",
+				"sanitizer":"0.0.15"
     },
     "optionalDependencies":{
         "bcrypt":"0.7.x",
