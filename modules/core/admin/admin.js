@@ -737,6 +737,7 @@ function coreConfig(req, res, template, block, next) {
                 label:'Enable password authentication and registration',
                 type:'checkbox',
                 name:'server:authentication:password',
+                defaultValue:true,
                 description:'Please make sure you have made an external user (google, facebook or twitter an admin account) so you don\'t lose access to your system.'
               },
               {
