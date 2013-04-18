@@ -1,11 +1,28 @@
 <script type="text/javascript" src="/lib/require.js"></script>
-<script type="text/javascript" src="/lib/aloha.js"></script>
-<!-- markItUp! skin -->
+<script type="text/javascript" src="/lib/store.js"></script>
+<!-- Define jQuery so that aloha uses calipso's library -->
+<script type="text/javascript">
+    define('jquery', [], function () { return window.jQuery; });
+</script>
+<script type="text/javascript" src="/js/aloha-config.js"></script>
+<script type="text/javascript" src="/lib/aloha.js" data-aloha-plugins="common/ui,
+								common/format,
+								common/table,
+								common/list,
+								common/link,
+								common/highlighteditables,
+								common/block,
+								common/image,
+								extra/imagebrowser,
+								common/undo,
+								common/contenthandler,
+								common/paste,
+								common/commands,
+								common/abbr"></script>
+<script type="text/javascript" src="/js/aloha-save.js"></script>
 <script type="text/javascript">
     Aloha.ready(function () {
         var $ = Aloha.jQuery;
-        // Add aloha to your textarea in one line
-        $('textarea.textarea').aloha();
-
+        $('div.content-block').aloha();
     });
 </script>

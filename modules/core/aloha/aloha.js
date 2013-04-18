@@ -55,9 +55,7 @@ function init(module, app, next) {
  * Every page block function
  */
 function allPages(req, res, template, block, next) {
-
   calipso.theme.renderItem(req, res, template, block, {}, next);
-
 };
 
 /**

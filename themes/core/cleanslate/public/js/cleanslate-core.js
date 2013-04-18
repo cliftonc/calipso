@@ -52,8 +52,11 @@ cleanslate = {
 		hasJson = false;
 		if (!Modernizr.json)
 		{
-			console.log("this browser doesn't support local storage.")
-			$.getScript("/js/store.min.js");
+			console.log("this browser doesn't support local storage.");
+			if (window.require)
+			  window.require({context:'aloha'},['store']);
+			else
+  			$.getScript("/js/store.min.js");
 		}
 	}, init: function ()
 	{
@@ -66,7 +69,7 @@ cleanslate = {
 			var user = JSON.parse(decodeURIComponent(userDataString == 'undefined' ? '{}' : userDataString));
 			var userWelcomeOrLoginBox = $('#user-welcome-or-login');
 
-			console.log(user);
+			//console.log(user);
 
 			if (user.username)
 			{
