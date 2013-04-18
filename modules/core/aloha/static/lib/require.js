@@ -1870,7 +1870,6 @@ var requirejs, require, define;
         //However, IE reports the script as being in 'interactive'
         //readyState at the time of the define call.
         useInteractive = true;
-      }
 
       node.attachEvent('onreadystatechange', context.onScriptLoad);
       //It would be great to add an error handler here to catch
