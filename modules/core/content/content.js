@@ -8,6 +8,7 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, 'lib/calipso')),
   Query = require("mongoose").Query,
   utils = require('connect').utils,
+	sanitizer = require('sanitizer'),
   merge = utils.merge;
 
 exports = module.exports = {
@@ -186,10 +187,18 @@ function getContent(req, options, next) {
           text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
             text + "</span>";
         }
+				text = sanitizer.sanitize(text);
 
         next(null, text);
 
       } else {
+				// Sanitize strings
+				var prop;
+				for (var prop in c) {
+					if (typeof c[prop] === 'string') {
+						c[prop] = sanitizer.sanitize(c[prop]);
+					}
+				}
 
         // Just return the object
         next(null, c);
