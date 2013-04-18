@@ -1861,14 +1861,15 @@ var requirejs, require, define;
         //if we can NOT find [native code] then it must NOT natively supported.
         //in IE8, node.attachEvent does not have toString()
         //Note the test for "[native code" with no closing brace, see:
-        //https://github.com/jrburke/requirejs/issues/273 !(node.attachEvent.toString && node.attachEvent.toString().indexOf('[native code') < 0) && !isOpera) {
+        //https://github.com/jrburke/requirejs/issues/273
+        !(node.attachEvent.toString && node.attachEvent.toString().indexOf('[native code') < 0) &&
+        !isOpera) {
         //Probably IE. IE (at least 6-8) do not fire
         //script onload right after executing the script, so
         //we cannot tie the anonymous define call to a name.
         //However, IE reports the script as being in 'interactive'
         //readyState at the time of the define call.
-        useInteractive = true{
-        ;
+        useInteractive = true;
       }
 
       node.attachEvent('onreadystatechange', context.onScriptLoad);
