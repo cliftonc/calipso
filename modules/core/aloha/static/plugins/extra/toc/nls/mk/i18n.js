@@ -1,3 +1,3 @@
 define({
-  "button.addtoc.tooltip":"Табела на содржина"
+	"button.addtoc.tooltip": "Табела на содржина"
 });

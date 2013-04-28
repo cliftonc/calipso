@@ -1,3 +1,3 @@
 define({
-  "button.addtoc.tooltip":"Inhaltsverzeichnis"
+	"button.addtoc.tooltip": "Inhaltsverzeichnis"
 });

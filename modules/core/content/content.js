@@ -184,8 +184,8 @@ function getContent(req, options, next) {
 
         var text = c.get(options.property) || req.t("Invalid content property: {property}", {property:options.property});
         if (options.clickEdit && req.session && req.session.user && req.session.user.isAdmin) {
-          text = "<span title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
-            text + "</span>";
+          text = "<div title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
+            text + "</div>";
         }
 				text = sanitizer.sanitize(text);
 

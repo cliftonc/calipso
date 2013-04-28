@@ -1,3 +1,3 @@
 define({
-  "button.addtoc.tooltip":"Оглавление"
+	"button.addtoc.tooltip": "Оглавление"
 });

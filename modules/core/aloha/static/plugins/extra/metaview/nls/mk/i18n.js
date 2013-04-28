@@ -1,3 +1,3 @@
 define({
-  "button.switch-metaview.tooltip":"Промени помеѓу мета и нормален поглед"
+	"button.switch-metaview.tooltip": "Промени помеѓу мета и нормален поглед"
 });

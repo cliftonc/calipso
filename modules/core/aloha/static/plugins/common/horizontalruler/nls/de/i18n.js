@@ -1,3 +1,3 @@
 define({
-  "button.addhr.tooltip":"Horizontale Linie einfügen"
+	"button.addhr.tooltip": "Horizontale Linie einfügen"
 });

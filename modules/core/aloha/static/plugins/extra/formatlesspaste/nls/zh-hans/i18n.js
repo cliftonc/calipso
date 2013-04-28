@@ -1,3 +1,3 @@
 define({
-  "button.formatlessPaste.tooltip":"切换无格式粘贴"
+	"button.formatlessPaste.tooltip": "切换无格式粘贴"
 });

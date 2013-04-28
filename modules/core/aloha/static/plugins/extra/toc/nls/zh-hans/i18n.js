@@ -1,3 +1,3 @@
 define({
-  "button.addtoc.tooltip":"表格内容"
+	"button.addtoc.tooltip": "表格内容"
 });

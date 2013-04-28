@@ -1,3 +1,3 @@
 define({
-  "button.addtoc.tooltip":"Tabela de conteúdo"
+	"button.addtoc.tooltip": "Tabela de conteúdo"
 });

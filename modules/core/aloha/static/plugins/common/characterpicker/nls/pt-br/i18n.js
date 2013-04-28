@@ -1,3 +1,3 @@
 define({
-  "button.addcharacter.tooltip":"Escolher caracteres especiais"
+	"button.addcharacter.tooltip": "Escolher caracteres especiais"
 });

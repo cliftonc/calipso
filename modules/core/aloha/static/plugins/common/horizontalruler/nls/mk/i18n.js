@@ -1,3 +1,3 @@
 define({
-  "button.addhr.tooltip":"Додади хоризонтален линијар"
+	"button.addhr.tooltip": "Додади хоризонтален линијар"
 });

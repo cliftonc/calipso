@@ -1,3 +1,3 @@
 define({
-  "button.formatlessPaste.tooltip":"Habilita/deshabilita l\'enganxada sense format"
+	"button.formatlessPaste.tooltip": "Habilita/deshabilita l\'enganxada sense format"
 });

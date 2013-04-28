@@ -1,3 +1,3 @@
 define({
-  "button.toggledragdrop.tooltip":"Переключатель Drag & Drop"
+	"button.toggledragdrop.tooltip": "Переключатель Drag & Drop"
 });

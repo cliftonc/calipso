@@ -1,3 +1,3 @@
 define({
-  "button.addcharacter.tooltip":"одбери специјални карактери"
+	"button.addcharacter.tooltip": "одбери специјални карактери"
 });

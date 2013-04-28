@@ -1,3 +1,3 @@
 define({
-  "button.switch-metaview.tooltip":"Перемикання між мета- та звичайним виглядом"
+	"button.switch-metaview.tooltip": "Перемикання між мета- та звичайним виглядом"
 });
