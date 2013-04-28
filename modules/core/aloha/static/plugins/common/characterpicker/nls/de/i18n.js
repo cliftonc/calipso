@@ -1,3 +1,3 @@
 define({
-  "button.addcharacter.tooltip":"Sonderzeichen wählen"
+	"button.addcharacter.tooltip": "Sonderzeichen wählen"
 });

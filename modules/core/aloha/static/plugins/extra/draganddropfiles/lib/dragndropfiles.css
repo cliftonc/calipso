@@ -1,48 +1,45 @@
 .GENTICS_drop_file_box {
-    width: 64px;
-    height: 64px;
-    margin: 0;
-    padding: 0;
-    float: left;
-    border: solid 1px grey;
-}
+	width: 64px;
+	height: 64px;
+	margin:0;
+	padding:0;
+	float:left;
+	border: solid 1px grey;
+	}
 
 .GENTICS_drop_file_icon {
-    position: relative;
-    top: 24px;
-    left: 24px;
-    width: 16px;
-    height: 16px;
-    margin: 0;
-    padding: 0;
-}
-
+	position: relative;
+	top: 24px;
+	left:24px;
+	width: 16px;
+	height:16px;
+	margin: 0;
+	padding:0;
+	}
 .GENTICS_drop_file_default {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-    padding: 0;
-    background-image: url(resources/images/page.png) !important;
+	width: 16px;
+	height:16px;
+	margin: 0;
+	padding:0;
+	background-image: url(resources/images/page.png) !important;
 }
 
 .GENTICS_drop_file_details {
-    position: relative;
-    top: 24px;
-    width: 60px;
-    height: 24px;
-    text-align: center;
-}
-
+	position: relative;
+	top: 24px;
+	width:60px;
+	height:24px;
+	text-align:center;
+	}
+	
 /* Uploader styles */
 
 div.x-grid3-header-offset {
-    display: none;
-}
-
+	display: none;
+	} 
 div.karacos_uploader_status_icon {
-    position: relative;
-}
-
+	position: relative;
+	}
 .x-grid3-td-progress-cell {
     padding: 0;
 }
@@ -54,29 +51,26 @@ div.karacos_uploader_status_icon {
 }
 
 .x-grid3-cell-inner {
-    display: bloc;
+	display: bloc;
     position: relative;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
     overflow: hidden;
-    color: black;
+    color:black;
 }
 
 .x-grid3-cell-background {
     background: #E0E8F3; /*url(../../resources/images/default/qtip/bg.gif) repeat-x scroll 0 -1px;*/
     white-space: nowrap;
 }
-
 .x-grid3-td-progress-cell .low {
     background: #11aa11;
 }
-
 .x-grid3-td-progress-cell .medium {
     background: #f1fa1a;
 }
-
 .x-grid3-td-progress-cell .high {
     background: #ee1111;
 }

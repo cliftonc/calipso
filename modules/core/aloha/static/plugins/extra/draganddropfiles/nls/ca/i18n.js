@@ -1,3 +1,3 @@
 define({
-  "floatingmenu.tab.file":"Arxiu"
+	"floatingmenu.tab.file": "Arxiu"
 });

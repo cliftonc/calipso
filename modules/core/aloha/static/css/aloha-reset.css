@@ -11,15 +11,14 @@
 
 .aloha div, .aloha span, .aloha button, .aloha a, .aloha img,
 .aloha ol, .aloha ul, .aloha li, .aloha label {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
-
 /* HTML5 display-role reset for older browsers */
 .aloha ol, .aloha ul {
-    list-style: none;
+	list-style: none;
 }

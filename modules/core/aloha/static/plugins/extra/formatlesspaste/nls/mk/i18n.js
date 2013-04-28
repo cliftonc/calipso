@@ -1,3 +1,3 @@
 define({
-  "button.formatlessPaste.tooltip":"Уклучи/Исклучи лепење без стил"
+	"button.formatlessPaste.tooltip": "Уклучи/Исклучи лепење без стил"
 });

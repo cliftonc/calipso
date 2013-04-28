@@ -1,3 +1,3 @@
 define({
-  "button.addhr.tooltip":"Afegeix un regle horitzontal"
+	"button.addhr.tooltip": "Afegeix un regle horitzontal"
 });

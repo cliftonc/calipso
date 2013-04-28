@@ -1,3 +1,3 @@
 define({
-  "button.addtoc.tooltip":"Taula de continguts"
+	"button.addtoc.tooltip": "Taula de continguts"
 });

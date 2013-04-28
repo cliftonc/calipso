@@ -1,3 +1,3 @@
 define({
-  "button.addhr.tooltip":"Adicionar régua horizontal"
+	"button.addhr.tooltip": "Adicionar régua horizontal"
 });
