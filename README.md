@@ -6,7 +6,7 @@ similar themes to Drupal and Wordpress, that is designed to be fast,
 flexible and simple.
 
 For additional details, including installation instructions, please
-visit the home page: [http://calip.so/][]
+visit the home page: [http://calipso.nodejitsu.com/][]
 
 If you would like to contribute, please take a look at the issues list
 as this will have the most up to date view of work that needs to be done
@@ -101,7 +101,7 @@ npm), and should be run on site install.
  \* [dale tan][]  
  \* [Nate Hunzaker][]  
 
-  [http://calip.so/]: http://calip.so/?utm_source=github&utm_medium=calipso&utm_campaign=github
+  [http://calipso.nodejitsu.com/]: http://calipso.nodejitsu.com/?utm_source=github&utm_medium=calipso&utm_campaign=github
   [http://travis-ci.org/cliftonc/calipso]: http://travis-ci.org/cliftonc/calipso
   [Clifton Cunningham]: https://github.com/cliftonc
   [Dennis Hall]: https://github.com/dennishall
