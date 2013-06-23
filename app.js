@@ -231,9 +231,11 @@ function bootApplication(cluster, next) {
       migrate2pbkdf2:app.config.get('server:authentication:migrate2pbkdf2')
     };
     if (calipso.auth.password === undefined) {
+      app.config.set('server:authentication:password', true);
       calipso.auth.password = true;
     }
     if (calipso.auth.migrate2pbkdf2 === undefined) {
+      app.config.set('server:authentication:migrate2pbkdf2', false);
       calipso.auth.migrate2pbkdf2 = false;
     }
 
