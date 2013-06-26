@@ -187,7 +187,8 @@ function getContent(req, options, next) {
           text = "<div title='" + req.t("Double click to edit content block ...") + "' class='content-block' id='" + c._id + "'>" +
             text + "</div>";
         }
-				text = sanitizer.sanitize(text);
+        // Don't sanitize the content of the actual post.
+				//text = sanitizer.sanitize(text);
 
         next(null, text);
 

@@ -68796,7 +68796,8 @@ var $ = jQuery;
 		}
 	});
 	// autodetect themes path
-	$(function () {
+	$.jstree._themes = "/themes/"; // calipso uses /themes to point to public folder.
+	/* $(function () {
 		if($.jstree._themes === false) {
 			$("script").each(function () { 
 				if(this.src.toString().match(/jquery\.jstree[^\/]*?\.js(\?.*)?$/)) { 
@@ -68806,7 +68807,7 @@ var $ = jQuery;
 			});
 		}
 		if($.jstree._themes === false) { $.jstree._themes = "themes/"; }
-	});
+	}); */
 	// include the themes plugin by default
 	$.jstree.defaults.plugins.push("themes");
 })(jQuery);
