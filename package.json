@@ -1,70 +1,72 @@
 {
-    "name":"calipso",
-    "description":"A NodeJS CMS",
-    "version":"0.3.23",
-    "homepage":"http://calip.so",
-    "repository":{
-        "type":"git",
-        "url":"git://github.com/cliftonc/calipso.git"
+    "name": "calipso",
+    "description": "A NodeJS CMS",
+    "version": "0.3.22",
+    "homepage": "http://calip.so",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/cliftonc/calipso.git"
     },
-    "author":"Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
-    "directories":{
-        "lib":"./lib",
-        "conf":"./conf",
-        "modules":"./modules",
-        "themes":"./themes",
-        "support":"./support",
-        "utils":"./utils",
-        "tests":"./tests"
+    "author": "Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)",
+    "directories": {
+        "lib": "./lib",
+        "conf": "./conf",
+        "modules": "./modules",
+        "themes": "./themes",
+        "support": "./support",
+        "utils": "./utils",
+        "tests": "./tests"
     },
-    "engines":{
-        "node":">=0.6||>=0.8"
+    "engines": {
+        "node": ">=0.6||>=0.8"
     },
-    "devDependencies":{
-        "mocha":"~1.4.2",
-        "should":"~1.1.0"
+    "devDependencies": {
+        "mocha": "~1.4.2",
+        "should": "~1.1.0"
     },
-    "dependencies":{
-        "express":"3.0.x",
-        "formidable":"1.0.x",
-        "connect":"2.3.x",
-        "ejs":"0.6.x",
-        "jade":"0.27.x",
-        "stylus":"0.28.x",
-        "underscore":"1.3.x",
-        "mongoose":"2.5.x",
-        "connect-mongodb":"1.1.x",
-        "winston":"0.5.x",
-        "mongodb":"0.9.x",
-        "connect-form":"0.2.x",
-        "qs":"0.4.x",
-        "request":"2.9.x",
-        "pool":"0.4.x",
-        "mime":"1.2.x",
-        "step":"0.0.x",
-        "optimist":"0.3.x",
-        "colors":"0.6.x",
-        "semver":"1.0.x",
-        "rimraf":"2.0.x",
-        "nconf":"0.6.x",
-        "async":"0.1.x",
-        "hook.io":"0.8.x",
-        "mailer":"~0.6.4",
-        "everyauth":"0.3.x",
-        "adm-zip":"0.1.x",
-        "node-xml":"1.0.x",
-        "knox":"0.0.x",
-				"sanitizer":"0.0.15"
+    "dependencies": {
+        "express": "3.0.x",
+        "formidable": "1.0.x",
+        "connect": "2.3.x",
+        "ejs": "0.6.x",
+        "jade": "0.27.x",
+        "stylus": "0.28.x",
+        "underscore": "1.3.x",
+        "mongoose": "2.5.x",
+        "connect-mongodb": "1.1.x",
+        "winston": "0.5.x",
+        "mongodb": "0.9.x",
+        "connect-form": "0.2.x",
+        "qs": "0.4.x",
+        "request": "2.9.x",
+        "pool": "0.4.x",
+        "mime": "1.2.x",
+        "step": "0.0.x",
+        "optimist": "0.3.x",
+        "colors": "0.6.x",
+        "semver": "1.0.x",
+        "rimraf": "2.0.x",
+        "nconf": "0.6.x",
+        "async": "0.1.x",
+        "hook.io": "0.8.x",
+        "mailer": "~0.6.4",
+        "everyauth": "0.3.x",
+        "adm-zip": "0.1.x",
+        "node-xml": "1.0.x",
+        "knox": "0.0.x",
+        "sanitizer": "0.0.15"
     },
-    "optionalDependencies":{
-        "bcrypt":"0.7.x",
-        "imagemagick":"0.1.x"
+    "optionalDependencies": {
+        "bcrypt": "0.7.x",
+        "imagemagick": "0.1.x"
     },
-    "scripts":{
-        "install":"bash ./bin/install.sh",
-        "test":"NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 5000 -s 500"
+    "scripts": {
+        "install": "bash ./bin/install.sh",
+        "test": "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 5000 -s 500",
+        "start": "node app.js"
     },
-    "bin":{
-        "calipso":"./bin/calipso"
-    }
+    "bin": {
+        "calipso": "./bin/calipso"
+    },
+    "subdomain": "calipso"
 }
