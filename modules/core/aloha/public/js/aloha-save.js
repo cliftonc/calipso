@@ -37,7 +37,6 @@ Aloha.ready(function() {
 			request.done(function( msg ) {
 				var formData;
 				var $msg = jQuery(msg);
-				console.log(content);
 				$msg.find('textarea[name="content[content]"]').text(content);
 				formData = $msg.find('#content-form').serializeArray();
 				alohaSave(formData);

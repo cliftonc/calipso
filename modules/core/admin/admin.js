@@ -68,6 +68,11 @@ function init(module, app, next) {
         permit:corePermit
       }, this.parallel());
 
+      module.router.addRoute('GET /admin/config.json', downloadConfig, {
+        admin:true,
+        permit:corePermit
+      }, this.parallel());
+
       // Core configuration
       module.router.addRoute('GET /admin/core/config', coreConfig, {
         block:'admin.show',
@@ -551,6 +556,14 @@ function showAdmin(req, res, template, block, next) {
 
 }
 
+function downloadConfig(req, res, template, block, next) {
+  var config = require(path.join(rootpath, process.env.NODE_ENV == 'production' ? 'conf/production' : 'conf/development'));
+  res.format = 'json';
+  res.statusCode = 200;
+  res.send(config);
+  next();
+}
+
 /**
  * Show the current configuration
  * TODO Refactor this to a proper form
@@ -960,6 +973,12 @@ function coreConfig(req, res, template, block, next) {
         type:'button',
         href:'/admin',
         value:'Cancel'
+      },
+      {
+        name:'download',
+        type:'button',
+        href:'/admin/config.json',
+        value:'Download JSON'
       }
     ]
   };
