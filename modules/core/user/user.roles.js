@@ -397,30 +397,42 @@ function install(next) {
 
       var self = this;
 
-      // Create default roles
-      var r = new Role({
-        name:'Guest',
-        description:'Guest account',
-        isAdmin:false,
-        isDefault:true
+      Role.findOne({name:'Guest'}, function (err, item) {
+        // Create default roles
+        if (item != null)
+          return self.parallel()(null);
+        var r = new Role({
+          name:'Guest',
+          description:'Guest account',
+          isAdmin:false,
+          isDefault:true
+        });
+        r.save(self.parallel());
       });
-      r.save(self.parallel());
 
-      var r = new Role({
-        name:'Contributor',
-        description:'Able to create and manage own content items linked to their own user profile area.',
-        isAdmin:false,
-        isDefault:false
+      Role.findOne({name:'Contributor'}, function (err, item) {
+        if (item)
+          return self.parallel()(null);
+        var r = new Role({
+          name:'Contributor',
+          description:'Able to create and manage own content items linked to their own user profile area.',
+          isAdmin:false,
+          isDefault:false
+        });
+        r.save(self.parallel());
       });
-      r.save(self.parallel());
 
-      var r = new Role({
-        name:'Administrator',
-        description:'Able to manage the entire site.',
-        isAdmin:true,
-        isDefault:false
+      Role.findOne({name:'Administrator'}, function (err, item) {
+        if (item)
+          return self.parallel()(null);
+        var r = new Role({
+          name:'Administrator',
+          description:'Able to manage the entire site.',
+          isAdmin:true,
+          isDefault:false
+        });
+        r.save(self.parallel());
       });
-      r.save(self.parallel());
 
     },
     function allDone(err) {

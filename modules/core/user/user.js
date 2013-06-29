@@ -733,31 +733,33 @@ function loginUser(req, res, template, block, next) {
 
       User.findOne({username:username}, function (err, user) {
         if (user) {
-          calipso.lib.crypto.check(form.user.password, user.hash, function (err, ok) {
-            if (user && !user.locked && ok) {
-              found = true;
-              calipso.e.post_emit('USER_LOGIN', user);
-              createUserSession(req, res, user, function (err) {
-                if (err) {
-                  calipso.error("Error saving session: " + err);
-                }
-              });
-            }
+          calipso.lib.crypto.check(form.user.password, user.hash, finish);
+        } else {
+          finish(null, false);
+        }
+        function finish(err, ok) {
+          if (user && !user.locked && ok) {
+            found = true;
+            calipso.e.post_emit('USER_LOGIN', user);
+            createUserSession(req, res, user, function (err) {
+              if (err) {
+                calipso.error("Error saving session: " + err);
+              }
+            });
+          }
 
-            if (!found) {
-              req.flash('error', req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
-            }
+          if (!found) {
+            req.flash('error', req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
+          }
 
-            if (res.statusCode != 302) {
-              res.redirect(calipso.config.get('server:loginPath') || 'back');
-              return;
-            }
-            next();
+          if (res.statusCode != 302) {
+            res.redirect(calipso.config.get('server:loginPath') || 'back');
             return;
-          });
+          }
+          next();
+          return;
         }
       });
-
     }
   });
 
@@ -1211,24 +1213,38 @@ function install(next) {
         var adminUser = calipso.data.adminUser;
 
         // Create a new user
-        var admin = new User({
-          username:adminUser.username,
-          fullname:adminUser.fullname,
-          email:adminUser.email,
-          language:adminUser.language,
-          about:'',
-          roles:['Administrator']
-        });
-        calipso.lib.crypto.hash(adminUser.password, calipso.config.get('session:secret'), function (err, hash) {
-          if (err) {
-            return self()(err);
+        User.findOne({username:adminUser.username}, function (err, user) {
+          var admin;
+          if (user) {
+            user.fullname = adminUser.fullname;
+            user.email = adminUser.email;
+            user.language = adminUser.language;
+            if (!user.roles) {
+              user.roles = ['Administrator'];
+            } else if (user.roles.indexOf('Administrator') === -1) {
+              user.roles.push('Administrator');
+            }
+            admin = new User(user);
+          } else {
+            admin = new User({
+              username:adminUser.username,
+              fullname:adminUser.fullname,
+              email:adminUser.email,
+              language:adminUser.language,
+              about:'',
+              roles:['Administrator']
+            });
           }
-          admin.hash = hash;
-          admin.save(self());
-        }),
-
-          // Delete this now to ensure it isn't hanging around;
-          delete calipso.data.adminUser;
+          calipso.lib.crypto.hash(adminUser.password, calipso.config.get('session:secret'), function (err, hash) {
+            if (err) {
+              return self()(err);
+            }
+            admin.hash = hash;
+            admin.save(self());
+          });
+        });
+        // Delete this now to ensure it isn't hanging around;
+        delete calipso.data.adminUser;
 
       } else {
         // Fatal error
