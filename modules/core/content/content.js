@@ -188,8 +188,7 @@ function getContent(req, options, next) {
             text + "</div>";
         }
         // Don't sanitize the content of the actual post.
-				//text = sanitizer.sanitize(text);
-
+				text = sanitizer.sanitize(text, function uri_policy(uri) { return uri; });
         next(null, text);
 
       } else {
