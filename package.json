@@ -68,5 +68,9 @@
     "bin": {
         "calipso": "./bin/calipso"
     },
-    "subdomain": "calipso"
+    "subdomain": "calipso",
+    "domains": [
+      "calip.so",
+      "www.calip.so"
+    ]
 }
