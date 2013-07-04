@@ -62,7 +62,7 @@
     },
     "scripts": {
         "install": "bash ./bin/install.sh",
-        "test": "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 5000 -s 500",
+        "test": "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 20000 -s 500",
         "start": "node app.js"
     },
     "bin": {
