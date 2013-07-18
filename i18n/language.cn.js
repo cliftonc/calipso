@@ -88,7 +88,7 @@ exports.language = {
   "Tag Cloud":"标签云",
   "Tags":"标签",
   "Taxonomy":"分类",
-  "Teaser":"预告",
+  "Teaser":"简介",
   "Template":"模板",
   "The content has now been deleted.":"内容已经删除。",
   "The content type has now been deleted.":"内容类别已经删除。",
