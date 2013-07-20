@@ -225,8 +225,8 @@ function contentForm() {
           {label:'Type', name:'content[contentType]', type:'select', options:function () {
             return calipso.data.contentTypes
           }, description:'Select the type, this impacts custom fields and page display.'},
-          {label:'Teaser', name:'content[teaser]', type:'textarea', description:'Enter some short text that describes the content, appears in lists.', placeholder:escape("<p>In this article, learn how to... </p>")},
-          {label:'Content', name:'content[content]', type:'textarea', description:'Enter the full content text.', required:true, placeholder:escape("<h1>Article Title</h1><p>Insert some content in HTML here.  Remember that your content will already be placed inside an article.</p><section id='1'><h1>Section 1</h1><p>More content Here</p></section>")}
+          {label:'Teaser', name:'content[teaser]', type:'textarea', description:'Enter some short text that describes the content, appears in lists.', placeholder:calipso.utils.escapeHtmlQuotes("<p>In this article, learn how to... </p>")},
+          {label:'Content', name:'content[content]', type:'textarea', description:'Enter the full content text.', required:true, placeholder:calipso.utils.escapeHtmlQuotes("<h1>Article Title</h1><p>Insert some content in HTML here.  Remember that your content will already be placed inside an article.</p><section id='1'><h1>Section 1</h1><p>More content Here</p></section>")}
         ]
       },
       {
