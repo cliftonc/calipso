@@ -63,7 +63,7 @@ function check(string, hash, cb) {
 function hash(string, key, cb) {
   loadBCrypt();
   if (bcrypt && !calipso.auth.migrate2pbkdf2) {
-    cb(null, bcrypt.hashSync(string, globalSalt));
+    return cb(null, bcrypt.hashSync(string, globalSalt));
   }
   var salt = new Buffer(key);
   var items = [salt.toString('base64'), null];
