@@ -558,11 +558,31 @@ function showAdmin(req, res, template, block, next) {
 }
 
 function downloadConfig(req, res, template, block, next) {
-  var config = require(path.join(rootpath, process.env.NODE_ENV == 'production' ? 'conf/production' : 'conf/development'));
-  res.format = 'json';
-  res.statusCode = 200;
-  res.send(config);
-  next();
+  if (process.env.MONGO_URI) {
+    var Conf = calipso.db.model('Conf');
+    Conf.findOne({environment:calipso.config.env}, function (err, conf) {
+      if (err) return next(err);
+      res.format = 'json';
+      res.statusCode = 200;
+      conf = conf.configuration;
+      res.send(conf);
+      next();
+    });
+  } else {
+    fs.readFile(calipso.config.file, function (err, data) {
+      if (err) return next(err);
+      try {
+        config = JSON.parse(data);
+      }
+      catch (e) {
+        return next(e);
+      }
+      res.format = 'json';
+      res.statusCode = 200;
+      res.send(config);
+      next();
+    });
+  }
 }
 
 /**
