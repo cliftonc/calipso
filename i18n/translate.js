@@ -114,6 +114,7 @@ function doTranslation(englishString, languageCache, values, addMode) {
 function replaceValues(string, values) {
 
   return string.replace(/{[^{}]+}/g, function (key) {
+    if (!values) values = {}; // In case we have { } in the string but really no values (thinking Mongo Errors during install)
     return values[key.replace(/[{}]+/g, "")] || "";
   });
 

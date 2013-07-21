@@ -2,11 +2,13 @@
 
     <div class="form-steps three-form-steps clearfix">
         <ul>
+        <% if (needMongo) { %>
             <li class="step1 valid">
                 <div class="form-step-name">
                     <%= t("Setup Database") %>
                 </div>
             </li>
+        <% } %>
             <li class="step2 valid">
                 <div class="form-step-name">
                     <%= t("Create Admin") %>

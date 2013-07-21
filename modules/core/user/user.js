@@ -1213,18 +1213,18 @@ function install(next) {
         var adminUser = calipso.data.adminUser;
 
         // Create a new user
-        User.findOne({username:adminUser.username}, function (err, user) {
-          var admin;
-          if (user) {
-            user.fullname = adminUser.fullname;
-            user.email = adminUser.email;
-            user.language = adminUser.language;
-            if (!user.roles) {
-              user.roles = ['Administrator'];
-            } else if (user.roles.indexOf('Administrator') === -1) {
-              user.roles.push('Administrator');
+        User.findOne({username:adminUser.username}, function (err, admin) {
+          if (admin) {
+            admin.fullname = adminUser.fullname;
+//            admin.email = adminUser.email; // This is dangerous if trying to reset the password
+// Since e-mail has a unique index if the user happens to type the wrong e-mail during a reinstall
+// this update will fail and they won't be able to login.
+            admin.language = adminUser.language;
+            if (!admin.roles) {
+              admin.roles = ['Administrator'];
+            } else if (admin.roles.indexOf('Administrator') === -1) {
+              admin.roles.push('Administrator');
             }
-            admin = new User(user);
           } else {
             admin = new User({
               username:adminUser.username,
@@ -1237,10 +1237,14 @@ function install(next) {
           }
           calipso.lib.crypto.hash(adminUser.password, calipso.config.get('session:secret'), function (err, hash) {
             if (err) {
-              return self()(err);
+              console.log(err);
+              return self(err);
             }
             admin.hash = hash;
-            admin.save(self());
+            admin.save(function (err) {
+              if (err) console.log(err);
+              self(err);
+            });
           });
         });
         // Delete this now to ensure it isn't hanging around;
@@ -1248,7 +1252,7 @@ function install(next) {
 
       } else {
         // Fatal error
-        self()(new Error("No administrative user details provided through login process!"));
+        self(new Error("No administrative user details provided through login process!"));
       }
 
     },

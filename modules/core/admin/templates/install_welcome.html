@@ -9,13 +9,15 @@
     </p>
 
     <ol>
-        <li><%= t("Setup Database") %></li>
+        <% if (needMongo) { %>
+          <li><%= t("Setup Database") %></li>
+        <% } %>
         <li><%= t("Create Admin") %></li>
         <li><%= t("Add Features (Modules)") %></li>
     </ol>
 
     <footer class="admin-install-links row">
-        <a class="step_1 button next" href="?installStep=mongodb"><%= t("Let's Begin") %></a>
+        <a class="step_1 button next" href="<% if (needMongo) { %>?installStep=mongodb<% } else { %>?installStep=user<% } %>"><%= t("Let's Begin") %></a>
     </footer>
 
 </article>

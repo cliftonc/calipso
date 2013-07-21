@@ -116,13 +116,22 @@ function install(next) {
         layout:'default',
         ispublic:true
       });
-      c.save(this.parallel());
+      var self = this;
+      ContentType.findOne({contentType:'Article'}, function (err, ct) {
+        if (ct)
+          return self.parallel()(null);
+        c.save(self.parallel());
+      });
       var c = new ContentType({contentType:'Block Content',
         description:'Content that is used to construct other pages in a page template via the getContent call, not visibile in the taxonomy or tag cloud.',
         layout:'default',
         ispublic:false
       });
-      c.save(this.parallel());
+      ContentType.findOne({contentType:'Block Content'}, function (err, ct) {
+        if (ct)
+          return self.parallel()(null);
+        c.save(this.parallel());
+      });
     },
     function allDone(err) {
       if (err) {

@@ -120,7 +120,9 @@ function init(module, app, next) {
       // Default installation routers - only accessible in install mode
       module.router.addRoute('GET /admin/install', install, null, this.parallel());
       module.router.addRoute('POST /admin/install', install, null, this.parallel());
-      module.router.addRoute('POST /admin/installTest/mongo', installMongoTest, null, this.parallel());
+      if (!process.env.MONGO_URI) {
+        module.router.addRoute('POST /admin/installTest/mongo', installMongoTest, null, this.parallel());
+      }
       module.router.addRoute('POST /admin/installTest/user', installUserTest, null, this.parallel());
 
     }, function done() {
@@ -283,7 +285,7 @@ function installWelcome(req, res, next) {
 
   // Manually grab the template
   var template = calipso.modules.admin.templates.install_welcome;
-  calipso.theme.renderItem(req, res, template, 'admin.install.welcome', {}, next);
+  calipso.theme.renderItem(req, res, template, process.env.MONGO_URI ? 'admin.install.welcome_nodb' : 'admin.install.welcome', {needMongo:!process.env.MONGO_URI}, next);
 
 }
 
@@ -385,7 +387,7 @@ function installUser(req, res, next) {
   }
 
   calipso.form.render(userForm, formValues, req, function (form) {
-    calipso.theme.renderItem(req, res, template, 'admin.install.user', {form:form}, next);
+    calipso.theme.renderItem(req, res, template, 'admin.install.user', {form:form,needMongo:!process.env.MONGO_URI}, next);
   });
 
 }
@@ -484,7 +486,7 @@ function installModules(req, res, next) {
   };
 
   calipso.form.render(moduleForm, formValues, req, function (form) {
-    calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form:form}, next);
+    calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form:form,needMongo:!process.env.MONGO_URI}, next);
   });
 
 }
@@ -514,7 +516,6 @@ function doInstallation(req, res, next) {
         calipso.reloadConfig("ADMIN_INSTALL", calipso.config, this);
       },
       function installModules() {
-
         // TODO - this should just be part of enabling them the first time!
 
         var group = this.group();
