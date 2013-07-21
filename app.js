@@ -202,7 +202,7 @@ function bootApplication(cluster, next) {
     }
 
     // Default Theme
-    calipso.defaultTheme = app.config.get('themes:default');
+    calipso.defaultTheme = app.config.get('theme:default');
 
     app.use(express.bodyParser());
     // Pause requests if they were not parsed to allow PUT and POST with custom mime types

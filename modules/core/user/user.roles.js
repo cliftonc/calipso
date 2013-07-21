@@ -64,6 +64,8 @@ function init(module, app, next) {
       // Load roles into calipso data
       if (app.config.get('installed')) {
         storeRoles(null, null, next);
+      } else {
+        next(null);
       }
 
     });
