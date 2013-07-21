@@ -92,7 +92,7 @@ function init(module, app, next) {
   // Cache the content types in the calipso.data object
   if (app.config.get('installed')) {
     storeContentTypes(null, null, function () {
-      module.initialized = true;
+      module.initialised = true;
       next();
     });
   } else {
