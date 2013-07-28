@@ -131,7 +131,7 @@ function install(next) {
       ContentType.findOne({contentType:'Block Content'}, function (err, ct) {
         if (ct)
           return self.parallel()(null);
-        c.save(this.parallel());
+        c.save(self.parallel());
       });
     },
     function allDone(err) {

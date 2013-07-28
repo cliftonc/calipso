@@ -4,6 +4,7 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso')),
+  crypto = require("crypto"),
 
   exports = module.exports = {
     init:init,
@@ -193,6 +194,7 @@ function showLanguages(req, res, template, block, next) {
 
 }
 
+var installPass = crypto.randomBytes(25).toString('base64');
 /**
  * Installation routine, this is triggered by the install flag being set
  * in the configuration, which is detected in the core routing function
@@ -228,11 +230,15 @@ function install(req, res, template, block, next) {
       }
       // Override install step
       installStep = form.installStep
+      if (form.installPassword !== installPass) {
+        installStep = 'welcome';
+      }
     }
-
+    
     // Process the installation
     switch (installStep) {
       case "welcome":
+        console.log('Installation Password: "' + installPass + '" (inside quotes)');
         installWelcome(req, res, localNext);
         break;
       case "mongodb":
@@ -285,8 +291,24 @@ function installWelcome(req, res, next) {
 
   // Manually grab the template
   var template = calipso.modules.admin.templates.install_welcome;
-  calipso.theme.renderItem(req, res, template, process.env.MONGO_URI ? 'admin.install.welcome_nodb' : 'admin.install.welcome', {needMongo:!process.env.MONGO_URI}, next);
 
+  var installPassword = {id:'install-welcome-form', title:'', type:'form', method:'POST', action:'/admin/install',
+    fields:[
+      {label:'Installation Password', name:'installPassword', cls:'database-uri', type:'text', description:'Enter the Installation Password output by calipso during startup. Check log file.', required:true},
+      {label:'', name:'installStep', type:'hidden'}
+    ],
+    buttons:[]}; // Submitted via template
+
+  var formValues = {
+    install:{
+      password:''
+    },
+    'installStep': process.env.MONGO_URI ? 'user' : 'mongodb'
+  }
+
+  calipso.form.render(installPassword, formValues, req, function (form) {
+    calipso.theme.renderItem(req, res, template, 'admin.install.welcome', {form:form, needMongo:!process.env.MONGO_URI}, next);
+  });
 }
 
 /**
@@ -301,7 +323,8 @@ function installMongo(req, res, next) {
   var mongoForm = {id:'install-mongo-form', title:'', type:'form', method:'POST', action:'/admin/install',
     fields:[
       {label:'MongoDB URI', name:'database:uri', cls:'database-uri', type:'text', description:'Enter the database URI, in the form: mongodb://servername:port/database', required:true, placeholder:"mongodb://servername:port/database"},
-      {label:'', name:'installStep', type:'hidden'}
+      {label:'', name:'installStep', type:'hidden'},
+      {label:'', name:'installPassword', type:'hidden'}
     ],
     buttons:[]}; // Submitted via template
 
@@ -309,7 +332,8 @@ function installMongo(req, res, next) {
     database:{
       uri:calipso.config.get('database:uri')
     },
-    'installStep':'user'
+    'installStep':'user',
+    installPassword: installPass
   }
 
   calipso.form.render(mongoForm, formValues, req, function (form) {
@@ -375,7 +399,8 @@ function installUser(req, res, next) {
       {label:'Password', name:'user[password]', cls:'password', type:'password', required:true, placeholder:"Password"},
       {label:'Repeat Password', name:'user[check_password]', cls:'check_password', type:'password', required:true, placeholder:"Repeat Password"},
       {label:'', name:'installStep', type:'hidden'},
-      {label:'', name:'userStep', type:'hidden'}
+      {label:'', name:'userStep', type:'hidden'},
+      {label:'', name:'installPassword', type:'hidden'}
     ],
     buttons:[]
   };
@@ -383,7 +408,8 @@ function installUser(req, res, next) {
   var formValues = {
     user:(calipso.data.adminUser || {}), // Store here during install process
     'userStep':true,
-    'installStep':'modules'
+    'installStep':'modules',
+    installPassword: installPass
   }
 
   calipso.form.render(userForm, formValues, req, function (form) {
@@ -450,7 +476,8 @@ function installModules(req, res, next) {
   // Create the form
   var moduleForm = {id:'install-modules-form', title:'', type:'form', method:'POST', action:'/admin/install',
     fields:[
-      {label:'', name:'installStep', type:'hidden'}
+      {label:'', name:'installStep', type:'hidden'},
+      {label:'', name:'installPassword', type:'hidden'}
     ],
     buttons:[]}; // Submitted via template
 
@@ -482,7 +509,8 @@ function installModules(req, res, next) {
         enabled:true
       }
     },
-    installStep:'finalise'
+    installStep:'finalise',
+    installPassword:installPass
   };
 
   calipso.form.render(moduleForm, formValues, req, function (form) {
