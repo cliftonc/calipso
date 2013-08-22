@@ -196,7 +196,7 @@ function getContent(req, options, next) {
 				var prop;
 				for (var prop in c) {
 					if (typeof c[prop] === 'string') {
-						c[prop] = sanitizer.sanitize(c[prop]);
+						c[prop] = sanitizer.sanitize(c[prop], function uri_policy(uri) { return uri; });
 					}
 				}
 
