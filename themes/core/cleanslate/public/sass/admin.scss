@@ -499,6 +499,12 @@ ul.tabs li.active a:hover {
 	padding: $borderRadiusLarge 0 0;
 }
 
+.field-settings > .form-item {
+  display: inline-block;
+  vertical-align: top;
+  padding: .5em;
+}
+
 .fieldset-fields {
 	clear: both;
 	margin-bottom: $margin;
