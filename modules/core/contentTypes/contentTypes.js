@@ -58,6 +58,7 @@ function init(module, app, next) {
   calipso.e.addEvent('CONTENT_TYPE_CREATE');
   calipso.e.addEvent('CONTENT_TYPE_UPDATE');
   calipso.e.addEvent('CONTENT_TYPE_DELETE');
+  calipso.e.addEvent('CONTENT_TYPE_MAP_FIELDS');
 
   // Register event listeners
   calipso.e.post('CONTENT_TYPE_CREATE', module.name, storeContentTypes);
@@ -164,7 +165,7 @@ var contentTypeForm = {
       {label:'Is Public', name:'contentType[ispublic]', type:'select', options:["Yes", "No"], description:"Public content types appear in lists of content; private types are usually used as components in other pages."}
     ]},
     {id:'type-custom-fields', label:'Custom Fields', fields:[
-      {label:'Custom Fields', name:'contentType[fields]', type:'json', description:"Define any custom fields using the Calipso form language, see the help below.", placeholder:"Custom fields here >>"}
+      {label:'Custom Fields Definition', name:'contentType[fields]', type:'json', description:"Define any custom fields using the Calipso form language, see the help below.", placeholder:"Custom fields here >>"}
     ]},
     {id:'type-custom-templates', label:'Custom Templates', fields:[
       {label:'Template Language', name:'contentType[templateLanguage]', type:'select', options:[
@@ -294,7 +295,16 @@ function updateContentType(req, res, template, block, next) {
       ContentType.findById(id, function (err, c) {
         if (!err && c) {
 
+          var fields = c.fields,
+            updatedFields = fields,
+            formData = {form: form, json: ''};
+          calipso.e.pre_emit('CONTENT_TYPE_MAP_FIELDS', formData, function (formData) {
+            updatedFields = formData.json;
+          });
           calipso.form.mapFields(form.contentType, c);
+          if (c.fields == fields && updatedFields != fields) {
+            c.fields = updatedFields;
+          }
           c.ispublic = form.contentType.ispublic === "Yes" ? true : false;
           c.updated = new Date();
 

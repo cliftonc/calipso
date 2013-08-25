@@ -1,0 +1,12 @@
+{
+    "name":"checkbox",
+    "label":"Checkbox",
+    "description":"Core checkbox field module.",
+    "version":"0.0.1",
+    "homepage":"http://calip.so",
+    "repository":{
+        "type":"git",
+        "url":"git://github.com/cliftonc/calipso.git"
+    },
+    "author":"Clifton Cunningham <clifton.cunningham@gmail.com> (cliftoncunningham.co.uk)"
+}
