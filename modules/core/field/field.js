@@ -14,6 +14,24 @@ var rootpath = process.cwd() + '/',
 var routes = [
 ]
 
+var newField = {
+  label: "",
+  name: "",
+  type: "",
+  description: "",
+};
+
+var newSection = {
+  label: "Add a new Section",
+  type: "container",
+  fields: [{
+    label: "label",
+    name: "addSection",
+    type: "text",
+    description: "Enter a label for a new section"
+  }]
+};
+
 /**
  * Exports
  */
@@ -42,8 +60,6 @@ function route(req, res, module, app, next) {
  */
 function init(module, app, next) {
   calipso.e.custom('FORM', 'FORM', module.name, addFieldConfiguration);
-  //calipso.e.pre('CONTENT_TYPE_CREATE', module.name, processFieldConfiguration);
-  //calipso.e.pre('CONTENT_TYPE_UPDATE', module.name, processFieldConfiguration);
   calipso.e.pre('CONTENT_TYPE_MAP_FIELDS', module.name, processFieldConfiguration);
 
   module.initialised = true;
@@ -54,23 +70,30 @@ function init(module, app, next) {
  * Alter form when changing content Types.
  */
 function addFieldConfiguration(event, formData, next) {
+  console.log(formData.values);
   var formJson = formData.formJson,
-    values = formData.values;
+    values = formData.values,
+    fields = values.contentType.fields;
 
   for (var key in formJson.sections) {
     if (formJson.sections.hasOwnProperty(key)) {
       if (formJson.sections[key].id === 'type-custom-fields') {
-        if (values.contentType.fields == '') {
-          return next(formData);
+        if (!fields.length || fields == '{}') {
+          fields = '{"fields":[],"sections":[]}';
         }
         var formFields = formJson.sections[key].fields;
         try {
-          fieldValues = JSON.parse(values.contentType.fields)
+          fieldValues = JSON.parse(fields)
         }
         catch (err) {
+          // TODO handle parse error
+          console.log(err);
           return next(formData);
         }
+          console.log(fieldValues);
         var settings = fieldSettings(fieldValues);
+        // Add a new section
+        settings.push(newSection);
           
           // Initially there was only one element in the array, reset it.
           while (formFields.length > 1) {
@@ -95,9 +118,19 @@ function fieldSettings(fields, settings) {
   if (typeof settings === 'undefined') {
     settings = [];
   }
+
+  // Initialize fields
+  if (typeof fields !== 'object') {
+    fields = {
+      fields: []
+    }
+  }
+
   for (var key in fields) {
     if (fields.hasOwnProperty(key)) {
       if (key === 'fields') {
+        // Add a new field
+        fields[key].push(newField);
         for (var i = 0; i < fields[key].length; i++) {
           settingsFormCb = fieldHelper.settingsForm[fields[key][i].type];
           if (typeof settingsFormCb !== 'function') {
@@ -122,9 +155,14 @@ function fieldSettings(fields, settings) {
  */
 function defaultFieldSettingsFormJson(field) {
   var id = field.name.replace(/\[|\]/g, '_');
+
+  if (id == "") {
+    id = "newField";
+  }
   
   return [{
     type: "container",
+    label: (id == "newField" ?  "Add a new field" : false),
     cls: "field-settings",
     fields: [{
       label: "label",
@@ -241,7 +279,19 @@ function processFieldConfiguration(event, formData, next) {
     }
   }
 
-  formData.json = JSON.stringify(jsonObject);
+  if (form.addSection.length) {
+    if (typeof jsonObject.sections === 'undefined') {
+      jsonObject.sections = [];
+    }
+    jsonObject.sections.push({
+      label: form.addSection,
+      fields: []
+    });
+  }
+
+  if (JSON.stringify(jsonObject) != '{}') {
+    formData.json = JSON.stringify(jsonObject);
+  }
   next(formData);
 }
 
@@ -249,6 +299,9 @@ function processFieldConfiguration(event, formData, next) {
  * Return json for each field.
  */
 function processFieldJson(fieldSettings, jsonObject) {
+  if (!fieldSettings.name.length) {
+    return;
+  }
   var fieldHelper = calipso.field.Helper,
     fieldJsonCb = fieldHelper.json;
   if (typeof fieldJsonCb !== 'function') {
@@ -271,6 +324,7 @@ function processSectionJson(sectionSettings, jsonObject) {
   else {
     var tempJsonObject = jsonObject.sections;
   }
+
   if (typeof sectionSettings.fieldSettings !== 'undefined') {
     for (var key in sectionSettings.fieldSettings) {
       if (sectionSettings.fieldSettings.hasOwnProperty(key)) {
@@ -278,6 +332,7 @@ function processSectionJson(sectionSettings, jsonObject) {
       }
     }
   }
+
 
   jsonObject.sections = [];
   jsonObject.sections.push(tempJsonObject);
