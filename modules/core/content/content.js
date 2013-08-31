@@ -8,7 +8,7 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, 'lib/calipso')),
   Query = require("mongoose").Query,
   utils = require('connect').utils,
-	sanitizer = require('sanitizer'),
+  sanitizer = require('sanitizer'),
   merge = utils.merge;
 
 exports = module.exports = {
@@ -188,17 +188,17 @@ function getContent(req, options, next) {
             text + "</div>";
         }
         // Don't sanitize the content of the actual post.
-				text = sanitizer.sanitize(text, function uri_policy(uri) { return uri; });
+        text = sanitizer.sanitize(text, function uri_policy(uri) { return uri; });
         next(null, text);
 
       } else {
-				// Sanitize strings
-				var prop;
-				for (var prop in c) {
-					if (typeof c[prop] === 'string') {
-						c[prop] = sanitizer.sanitize(c[prop], function uri_policy(uri) { return uri; });
-					}
-				}
+        // Sanitize strings
+        var prop;
+        for (var prop in c) {
+          if (typeof c[prop] === 'string') {
+            c[prop] = sanitizer.sanitize(c[prop], function uri_policy(uri) { return uri; });
+          }
+        }
 
         // Just return the object
         next(null, c);
