@@ -1,7 +1,7 @@
 {
     "name": "calipso",
     "description": "A NodeJS CMS",
-    "version": "0.3.32",
+    "version": "0.3.33",
     "homepage": "http://calip.so",
     "repository": {
         "type": "git",
@@ -62,7 +62,7 @@
     },
     "scripts": {
         "install": "bash ./bin/install.sh",
-        "test": "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 20000 -s 500",
+        "test": "NODE_ENV=mocha ./node_modules/.bin/mocha --reporter spec -t 80000 -s 500",
         "start": "node app.js"
     },
     "bin": {
@@ -70,7 +70,7 @@
     },
     "subdomain": "calipso",
     "domains": [
-      "calip.so",
-      "www.calip.so"
+        "calip.so",
+        "www.calip.so"
     ]
 }
