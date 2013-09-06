@@ -693,7 +693,7 @@ function showAliasedContent(req, res, template, block, next) {
             next(err);
           } else {
             // Add the user display details to content
-            content.set('displayAuthor', userDetails);
+            content.displayAuthor = userDetails;
             showContent(req, res, template, block, next, err, content, format);
           }
         });
@@ -736,7 +736,7 @@ function showContentByID(req, res, template, block, next) {
           next(err);
         } else {
           // Add the user display details to content
-          content.set('displayAuthor', userDetails);
+          content.displayAuthor = userDetails;
           showContent(req, res, template, block, next, err, content, format);
         }
 
@@ -788,7 +788,7 @@ function showContent(req, res, template, block, next, err, content, format) {
       template = calipso.theme.cache.contentTypes[content.contentType] && calipso.theme.cache.contentTypes[content.contentType].view ? calipso.theme.cache.contentTypes[content.contentType].view : template;
 
     }
-    calipso.theme.renderItem(req, res, template, block, {content:content.toObject()}, next);
+    calipso.theme.renderItem(req, res, template, block, {content:content}, next);
 
   }
 

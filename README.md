@@ -28,6 +28,42 @@ packages) and then use NPM:
         calipso site /var/www/MySite
         cd /var/www/MySite
         calipso server
+``
+
+#### NOTE: Mongoose upgraded to 3.6.x
+
+This causes the sort api to change. In order to run under SmartOS mongoose had to be upgraded
+to in turn upgrade mongodb to 1.3.x.
+When sorting rather than
+```javascript
+query.sort('column', 1).sort('column2', -1)
+```
+
+Use
+
+```javascript
+query.sort('column -column2')
+```
+
+Instead.
+
+#### Using environment variables
+
+The site will respond to a environment variable called MONGO_URI. If MONGO_URI is set
+then the configuration storage will move from the /conf folder into the mongodb database
+pointed to by the MONGO_URI. This allows easy deployment of a calipso site to a nodejs
+hosting provider. To re-install or install, calipso will ask for an installation password
+which is a randomly generated string which will be logged to your log file.
+Copy this string and paste it into the UI to proceed. The system will overwrite and adjust
+the username/password your specify for the admin which previously was a little bit of a problem.
+To "re-install" use your mongo command shell to update the settings in the database as follows:
+
+```javascript
+db.confs.update({environment:'development'},{$set:{"configuration.installed":false}})
+```
+or
+```javascript
+db.confs.update({environment:'production'},{$set:{"configuration.installed":false}})
 ```
 
 #### Using node v0.5.3 and later
