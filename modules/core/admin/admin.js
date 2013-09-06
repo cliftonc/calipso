@@ -1280,6 +1280,7 @@ function saveAdmin(req, res, template, block, next) {
 
             req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
             res.redirect('/admin/core/config');
+            next();
 
           } else {
 

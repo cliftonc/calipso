@@ -410,7 +410,7 @@ function listContentType(req, res, template, block, next) {
     var total = count;
 
     ContentType.find(query)
-      .sort('contentType', 1)
+      .sort('contentType')
       .find(function (err, contents) {
 
         // Render the item into the response
@@ -509,7 +509,7 @@ function storeContentTypes(event, contentType, next) {
   delete calipso.data.contentTypes;
   calipso.data.contentTypes = [];
 
-  ContentType.find({}).sort('contentType', 1).find(function (err, types) {
+  ContentType.find({}).sort('contentType').find(function (err, types) {
     if (err || !types) {
 
       // Don't throw error, just pass back failure.

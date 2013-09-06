@@ -270,7 +270,7 @@ function listVersions(req, res, template, block, next) {
 
   // Initialise the block based on our content
   ContentVersion.find(query)
-    .sort('updated', -1)
+    .sort('-updated')
     .find(function (err, versions) {
 
       // Render the item into the response

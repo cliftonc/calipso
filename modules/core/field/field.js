@@ -90,11 +90,10 @@ function addFieldConfiguration(event, formData, next) {
           console.log(err);
           return next(formData);
         }
-          console.log(fieldValues);
+        //console.log(fieldValues);
         var settings = fieldSettings(fieldValues);
         // Add a new section
         settings.push(newSection);
-          
           // Initially there was only one element in the array, reset it.
           while (formFields.length > 1) {
             formFields.shift();
@@ -146,7 +145,6 @@ function fieldSettings(fields, settings) {
       }
     }
   }
-
   return settings;
 }
 

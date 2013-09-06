@@ -599,7 +599,7 @@ function init(module, app, next) {
             if (err) {
               return callback(err, null);
             }
-            var query = Asset.find({folder:project._id}).sort('isfolder', -1).sort('title', 1);
+            var query = Asset.find({folder:project._id}).sort('-isfolder title');
             callback(err, query);
           });
         },
@@ -2311,7 +2311,7 @@ function listAssets(req, res, template, block, next) {
                     return populateChildren(parent, folder, callback);
                   }
                 }
-                Asset.find({folder:folder.guid}).sort('customSort', 1, 'title', 1).run(function (err, assets) {
+                Asset.find({folder:folder.guid}).sort('customSort title').run(function (err, assets) {
                   if (err) {
                     return next(err);
                   }

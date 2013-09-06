@@ -89,7 +89,7 @@ function storeRoles(event, data, next) {
   calipso.data.roleArray = [];
   calipso.data.roles = {};
 
-  Role.find({}).sort('name', 1).find(function (err, roles) {
+  Role.find({}).sort('name').find(function (err, roles) {
 
     if (err || !roles) {
       // Don't throw error, just pass back failure.
