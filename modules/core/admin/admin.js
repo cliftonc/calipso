@@ -12,6 +12,8 @@ var rootpath = process.cwd() + '/',
     first:true // Admin must run before all else
   };
 
+var readonlyModules = ["admin", "user", "content", "contentTypes", "permissions", "checkbox", "field", "hidden", "text"]; // Modules that cant be disabled
+
 /*
  * Router
  */
@@ -486,32 +488,15 @@ function installModules(req, res, next) {
 
   // Defaults
   var formValues = {
-    modules:{
-      admin:{
-        enabled:true
-      },
-      content:{
-        enabled:true
-      },
-      contentTypes:{
-        enabled:true
-      },
-      user:{
-        enabled:true
-      },
-      permissions:{
-        enabled:true
-      },
-      taxonomy:{
-        enabled:true
-      },
-      tagcloud:{
-        enabled:true
-      }
-    },
+    modules:{},
     installStep:'finalise',
     installPassword:installPass
   };
+  readonlyModules.forEach(function(e) {
+    formValues.modules[e] = {
+      enabled:true
+    };
+  });
 
   calipso.form.render(moduleForm, formValues, req, function (form) {
     calipso.theme.renderItem(req, res, template, 'admin.install.modules', {form:form,needMongo:!process.env.MONGO_URI}, next);
@@ -1190,7 +1175,6 @@ function saveModulesConfig(req, res, template, block, next) {
  */
 function createModuleFields(formFields) {
 
-  var readonlyModules = ["admin", "user", "content", "contentTypes", "permissions"]; // Modules that cant be disabled
   var tempModuleFields = {};
 
   // load up the tempModuleFields (according to module category)

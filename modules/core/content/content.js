@@ -233,7 +233,7 @@ function contentForm() {
         id:'form-section-category',
         label:'Categorisation',
         fields:[
-          {label:'Taxonomy', name:'content[taxonomy]', type:'text', description:'Enter the menu heirarchy, e.g. "welcome/about"', placeholder:"welcome/about", required:true},
+          {label:'Taxonomy', name:'content[taxonomy]', type:'text', description:'Enter the menu heirarchy, e.g. "welcome/about"', placeholder:"welcome/about"},
           {label:'Tags', name:'content[tags]', type:'text', description:'Enter comma-delimited tags to help manage this content.', placeholder:"tutorials,photography,cooking,how-to,classics"}
         ]
       },
@@ -1006,27 +1006,32 @@ function install(next) {
     ac = new Content(calipso.lib._.extend(defaults, about)),
     art = new Content(calipso.lib._.extend(defaults, article));
 
+  function saveContent(content, cb) {
+    return function (cb) {
+      Content.find({alias:content.alias}).sort('-created').find(function (err, contentc) {
+        if (err) return cb(err);
+        if (!contentc || contentc.length === 0) {
+          calipso.e.pre_emit('CONTENT_UPDATE', content, function (contentc) {
+            content.save(function (err) {
+              if (err) return cb(err);
+              calipso.e.post_emit('CONTENT_UPDATE', content, cb);
+            });
+          });
+        } else {
+          cb();
+        }
+      });
+    };
+  }
   calipso.lib.async.parallel([
-    function (cb) {
-      wc.save(cb)
-    },
-    function (cb) {
-      ac.save(cb)
-    },
-    function (cb) {
-      art.save(cb)
-    }
+    saveContent(ws, cb),
+    saveContent(ac, cb),
+    saveContent(art, cb)
   ],
   function (err) {
-
-    // Allow event to fire
-    calipso.e.post_emit('CONTENT_UPDATE', art, function (artc) {
-    });
-
     // Done
     calipso.info("Content module installed ... ");
     next();
-
   });
 
 }
