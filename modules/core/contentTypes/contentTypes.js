@@ -110,7 +110,7 @@ function install(next) {
 
   // Create the default content types
   var ContentType = calipso.db.model('ContentType');
-
+debugger;
   calipso.lib.step(
     function createDefaults() {
       var c = new ContentType({contentType:'Article',

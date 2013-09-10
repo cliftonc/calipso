@@ -1006,7 +1006,7 @@ function install(next) {
     ac = new Content(calipso.lib._.extend(defaults, about)),
     art = new Content(calipso.lib._.extend(defaults, article));
 
-  function saveContent(content, cb) {
+  function saveContent(content) {
     return function (cb) {
       Content.find({alias:content.alias}).sort('-created').find(function (err, contentc) {
         if (err) return cb(err);
@@ -1023,10 +1023,11 @@ function install(next) {
       });
     };
   }
+debugger;
   calipso.lib.async.parallel([
-    saveContent(ws, cb),
-    saveContent(ac, cb),
-    saveContent(art, cb)
+    saveContent(wc),
+    saveContent(ac),
+    saveContent(art)
   ],
   function (err) {
     // Done
