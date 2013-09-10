@@ -107,33 +107,29 @@ function init(module, app, next) {
  * @returns
  */
 function install(next) {
-
   // Create the default content types
   var ContentType = calipso.db.model('ContentType');
-debugger;
+  function saveItem(item, cb) {
+    ContentType.findOne({contentType:item.contentType}, function (err, ct) {
+      if (err) { return cb(err); }
+      if (ct) { return cb(); }
+      item.save(cb);
+    });
+  }
+  var article = new ContentType({contentType:'Article',
+    description:'Standard page type used for most content.',
+    layout:'default',
+    ispublic:true
+  });
+  var block = new ContentType({contentType:'Block Content',
+    description:'Content that is used to construct other pages in a page template via the getContent call, not visibile in the taxonomy or tag cloud.',
+    layout:'default',
+    ispublic:false
+  });
   calipso.lib.step(
     function createDefaults() {
-      var c = new ContentType({contentType:'Article',
-        description:'Standard page type used for most content.',
-        layout:'default',
-        ispublic:true
-      });
-      var self = this;
-      ContentType.findOne({contentType:'Article'}, function (err, ct) {
-        if (ct)
-          return self.parallel()(null);
-        c.save(self.parallel());
-      });
-      var c = new ContentType({contentType:'Block Content',
-        description:'Content that is used to construct other pages in a page template via the getContent call, not visibile in the taxonomy or tag cloud.',
-        layout:'default',
-        ispublic:false
-      });
-      ContentType.findOne({contentType:'Block Content'}, function (err, ct) {
-        if (ct)
-          return self.parallel()(null);
-        c.save(self.parallel());
-      });
+      saveItem(article, this.parallel());
+      saveItem(block, this.parallel());
     },
     function allDone(err) {
       if (err) {
@@ -517,7 +513,6 @@ function storeContentTypes(event, contentType, next) {
       return next(contentType);
 
     } else {
-
       types.forEach(function (type) {
 
         calipso.data.contentTypes.push(type.contentType);

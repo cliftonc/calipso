@@ -1023,7 +1023,6 @@ function install(next) {
       });
     };
   }
-debugger;
   calipso.lib.async.parallel([
     saveContent(wc),
     saveContent(ac),
