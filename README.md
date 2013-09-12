@@ -28,7 +28,7 @@ packages) and then use NPM:
         calipso site /var/www/MySite
         cd /var/www/MySite
         calipso server
-``
+```
 Note the server will output an installation password during install to prevent
 some other person from installing your server.
 The output will look something like this:
