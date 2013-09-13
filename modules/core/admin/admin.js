@@ -29,8 +29,10 @@ function route(req, res, module, app, next) {
   res.menu.admin.addMenuItem(req, {name:'Core', path:'admin/core', url:'/admin', description:'Manage core settings for Calipso ...', permit:corePermit, icon:"icon-wrench"});
   res.menu.admin.addMenuItem(req, {name:'Configuration', path:'admin/core/config', url:'/admin/core/config', description:'Core configuration ...', permit:corePermit, icon:"icon-wrench"});
   res.menu.admin.addMenuItem(req, {name:'View Languages', path:'admin/core/languages', url:'/admin/core/languages', description:'Languages ...', permit:corePermit, icon:"icon-airplane"});
-  res.menu.admin.addMenuItem(req, {name:'View Cache', path:'admin/core/cache', url:'/admin/core/cache', description:'Cache ...', permit:cachePermit, icon:"icon-view-2"});
-  res.menu.admin.addMenuItem(req, {name:'Clear Cache', path:'admin/core/cache/clear', url:'/admin/core/cache/clear', description:'Clear Cache ...', permit:cachePermit, icon:"icon-refresh"});
+  if (typeof calipso.cache.clear === "function") { // cache module not activated, deactivate menu item (will appear - then fail - if permission exist and module deactivated)
+    res.menu.admin.addMenuItem(req, {name:'View Cache', path:'admin/core/cache', url:'/admin/core/cache', description:'Cache ...', permit:cachePermit, icon:"icon-view-2"});
+    res.menu.admin.addMenuItem(req, {name:'Clear Cache', path:'admin/core/cache/clear', url:'/admin/core/cache/clear', description:'Clear Cache ...', permit:cachePermit, icon:"icon-refresh"});
+  }
   res.menu.admin.addMenuItem(req, {name:'Modules', path:'admin/modules', url:'/admin', description:'Manage module settings ...', permit:modulePermit, icon:"icon-layout"});
 
   // Routing and Route Handler
