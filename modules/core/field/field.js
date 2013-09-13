@@ -71,14 +71,16 @@ function init(module, app, next) {
  */
 function addFieldConfiguration(event, formData, next) {
   console.log(formData.values);
-  var formJson = formData.formJson,
+    var formJson = formData.formJson,
     values = formData.values,
-    fields = values.contentType.fields;
-
+    fields = null;
+    if (values !== null) {
+        fields = values.contentType.fields;
+    }
   for (var key in formJson.sections) {
     if (formJson.sections.hasOwnProperty(key)) {
       if (formJson.sections[key].id === 'type-custom-fields') {
-        if (!fields.length || fields == '{}') {
+        if (fields != null && (!fields.length || fields == '{}')) {
           fields = '{"fields":[],"sections":[]}';
         }
         var formFields = formJson.sections[key].fields;
