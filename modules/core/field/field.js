@@ -71,11 +71,11 @@ function init(module, app, next) {
  */
 function addFieldConfiguration(event, formData, next) {
   console.log(formData.values);
-    var formJson = formData.formJson,
+  var formJson = formData.formJson,
     values = formData.values,
     fields = null;
     if (values !== null) {
-        fields = values.contentType.fields;
+      fields = values.contentType.fields;
     }
   for (var key in formJson.sections) {
     if (formJson.sections.hasOwnProperty(key)) {
