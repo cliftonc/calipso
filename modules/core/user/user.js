@@ -1130,9 +1130,9 @@ function listUsers(req, res, template, block, next) {
 function listRoles(req, res, template, block, next) {
 
   // Re-retrieve our object
-  var Role = calipso.db.model('Role');
-
-  //res.menu.adminToolbar.addMenuItem({name:'Register New Role', path:'new', url:'/admin/role/register', description:'Register new role ...', security:[], icon:"icon-neutral"});
+  var Role = calipso.db.model('Role'),
+    aPerm = calipso.permission.Helper.hasPermission("admin:role");
+  res.menu.adminToolbar.addMenuItem(req,{name:'Register New Role', path:'new', url:'/admin/role/register', description:'Register new role ...', security:[], permit:aPerm, icon:"icon-neutral"});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
