@@ -26,6 +26,7 @@ function route(req, res, module, app, next) {
   // Menu
   res.menu.admin.addMenuItem(req, {name:'Security', path:'admin/security', weight:5, url:'', description:'Users, Roles & Permissions ...', permit:aPerm, icon:"icon-locked-2" });
   res.menu.admin.addMenuItem(req, {name:'Users', path:'admin/security/users', weight:10, url:'/user/list', description:'Manage users ...', permit:aPerm, icon:"icon-users" });
+  res.menu.admin.addMenuItem(req, {name:'Roles', path:'admin/security/roles', weight:15, url:'/admin/role/list', description:'Manage roles ...', permit:aPerm, icon:"icon-users" });
   res.menu.admin.addMenuItem(req, {name:'Logout', path:'admin/logout', weight:100, url:'/user/logout', description:'Logout', permit:aPerm, icon:"icon-upload-3" });
 
   // Router
@@ -1131,7 +1132,7 @@ function listRoles(req, res, template, block, next) {
   // Re-retrieve our object
   var Role = calipso.db.model('Role');
 
-  res.menu.adminToolbar.addMenuItem({name:'Register New Role', path:'new', url:'/admin/role/register', description:'Register new role ...', security:[], icon:"icon-neutral"});
+  //res.menu.adminToolbar.addMenuItem({name:'Register New Role', path:'new', url:'/admin/role/register', description:'Register new role ...', security:[], icon:"icon-neutral"});
 
   var format = req.moduleParams.format ? req.moduleParams.format : 'html';
   var from = req.moduleParams.from ? parseInt(req.moduleParams.from) - 1 : 0;
@@ -1174,7 +1175,7 @@ function listRoles(req, res, template, block, next) {
           }
         };
 
-        var tableHtml = calipso.table.render(table, req);
+        var tableHtml = calipso.table.render(req, table);
 
         calipso.theme.renderItem(req, res, tableHtml, block, null, next);
 

@@ -74,7 +74,7 @@ function addFieldConfiguration(event, formData, next) {
   var formJson = formData.formJson,
     values = formData.values,
     fields = null;
-    if (values !== null) {
+    if (values != null && values.contentType != null) {
       fields = values.contentType.fields;
     }
   for (var key in formJson.sections) {
