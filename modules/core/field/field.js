@@ -70,41 +70,41 @@ function init(module, app, next) {
  * Alter form when changing content Types.
  */
 function addFieldConfiguration(event, formData, next) {
-  console.log(formData.values);
   var formJson = formData.formJson,
     values = formData.values,
-    fields = values.contentType.fields;
+    fields = values && values.contentType && values.contentType.fields;
 
-  for (var key in formJson.sections) {
-    if (formJson.sections.hasOwnProperty(key)) {
-      if (formJson.sections[key].id === 'type-custom-fields') {
-        if (!fields.length || fields == '{}') {
-          fields = '{"fields":[],"sections":[]}';
-        }
-        var formFields = formJson.sections[key].fields;
-        try {
-          fieldValues = JSON.parse(fields)
-        }
-        catch (err) {
-          // TODO handle parse error
-          console.log(err);
-          return next(formData);
-        }
-        //console.log(fieldValues);
-        var settings = fieldSettings(fieldValues);
-        // Add a new section
-        settings.push(newSection);
-          // Initially there was only one element in the array, reset it.
-          while (formFields.length > 1) {
-            formFields.shift();
+  if (fields && formJson) {
+    for (var key in formJson.sections) {
+      if (formJson.sections.hasOwnProperty(key)) {
+        if (formJson.sections[key].id === 'type-custom-fields') {
+          if (!fields.length || fields == '{}') {
+            fields = '{"fields":[],"sections":[]}';
           }
-          formFields = settings.concat(formFields);
-          formJson.sections[key].fields = formFields;
+          var formFields = formJson.sections[key].fields;
+          try {
+            fieldValues = JSON.parse(fields)
+          }
+          catch (err) {
+            // TODO handle parse error
+            console.log(err);
+            return next(formData);
+          }
+          //console.log(fieldValues);
+          var settings = fieldSettings(fieldValues);
+          // Add a new section
+          settings.push(newSection);
+            // Initially there was only one element in the array, reset it.
+            while (formFields.length > 1) {
+              formFields.shift();
+            }
+            formFields = settings.concat(formFields);
+            formJson.sections[key].fields = formFields;
+        }
       }
     }
+    formData.formJson = formJson;
   }
-
-  formData.formJson = formJson;
 
   next(formData);
 }
