@@ -113,6 +113,14 @@ h1 {
 	letter-spacing: -2px;
 }
 
+// don't do text transformation on mailto
+// links because they are likely to have
+// the email address in the label and it
+// looks like an error
+a[href^="mailto:"] {
+	text-transform: initial;
+}
+
 // 3. Layout
 // ----------------------------------------//
 
