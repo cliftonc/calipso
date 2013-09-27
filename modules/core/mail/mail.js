@@ -132,7 +132,7 @@ function init(module, app, next) {
 function bindEvents() {
   calipso.debug("Binding events for mail handler ...");
   var MailTemplate = calipso.db.model('MailTemplate');
-  MailTemplate.find().run(function (err, mailTemplates) {
+  MailTemplate.find().exec(function (err, mailTemplates) {
     if (err || !mailTemplates) {
       calipso.debug('A problem occurred while retrieving your templates.');
       return;
@@ -246,7 +246,7 @@ function showMailTemplates(req, res, options, next) {
     security:[],
     icon:"icon-file-add"
   });
-  MailTemplate.find().run(function (err, mailTemplates) {
+  MailTemplate.find().exec(function (err, mailTemplates) {
     if (err || !mailTemplates) {
       req.flash('error', req.t('A problem occurred while retrieving your templates.'));
       return next();
