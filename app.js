@@ -169,7 +169,7 @@ function calipsoFindOrCreateUser(user, sess, promise) {
 // Local App Variables
 var path = rootpath,
   theme = 'default',
-  port = process.env.PORT || 3000;
+  port = (process.env.PORT && parseInt(process.env.PORT)) || 3000;
 
 /**
  * Catch All exception handler
