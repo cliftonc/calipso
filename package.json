@@ -53,7 +53,8 @@
         "adm-zip": "0.1.x",
         "node-xml": "1.0.x",
         "knox": "0.0.x",
-        "sanitizer": "0.0.15"
+        "sanitizer": "0.0.15",
+        "jsonschema": "~0.4.0"
     },
     "optionalDependencies": {
         "bcrypt": "0.7.x",
