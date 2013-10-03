@@ -1,0 +1,73 @@
+{
+  "name": "cleanslate-jade",
+  "description": "Jade version of Calipso's cleanslate theme",
+  "version": "0.1.0",
+  "author": "Grey Ang <conancat@gmail.com>",
+  "layouts": {
+    "default": {
+      "layout": {
+        "template": "default.jade",
+        "sections": {
+          "scripts": {"template": "scripts.jade"},
+          "styles": {"template": "styles.jade"},
+          "admin": {"menu": "admin", "template": "adminMenu.jade"},
+          "primary": {"menu": "primary", "template": "primaryMenu.jade"},
+          "secondary": {"template": "secondaryMenu.jade"},
+          "messages": {"template": "messages.jade"},
+          "body": {"template": "body.jade"},
+          "sidePanel": {"template": "sidePanel.jade"},
+          "footer": {"template": "footer.jade"}
+        }
+      }
+    },
+    "home": {
+      "layout": {
+        "copyFrom": "default",
+        "sections": {
+          "body": {"template": "body.jade"}
+        }
+      }
+    },
+    "blogLanding": {
+      "layout": {
+        "copyFrom": "default",
+        "sections": {
+          "body": {"template": "body.jade"}
+        }
+      }
+    },
+    "admin": {
+      "layout": {
+        "template": "admin.jade",
+        "sections": {
+          "scripts": {"template": "scripts.jade"},
+          "styles": {"template": "styles.jade"},
+          "admin": {"menu": "admin", "template": "adminMenu.jade"},
+          "primary": {"menu": "primary", "template": "primaryMenu.jade"},
+          "secondary": {"template": "secondaryMenu.jade"},
+          "messages": {"template": "messages.jade"},
+          "body": {"template": "body.jade"},
+          "footer": {"template": "footer.jade"}
+        }
+      }
+    },
+    "preview": {
+      "layout": {
+        "template": "preview.jade",
+        "sections": {
+          "scripts": {"template": "scripts.jade"},
+          "styles": {"template": "styles.jade"},
+          "body": {"template": "body.jade"}
+        }
+      }
+    },
+    "rss": {
+      "layout": {
+        "template": "rss.jade",
+        "sections": {
+          "body": {"template": "body.html"}
+        }
+      }
+    }
+  }
+}
