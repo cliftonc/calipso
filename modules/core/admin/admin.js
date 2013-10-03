@@ -611,14 +611,16 @@ function coreConfig(req, res, template, block, next) {
   calipso.data.adminThemes = []; // TODO
   for (var themeName in calipso.availableThemes) {
     var theme = calipso.availableThemes[themeName];
-    if (theme.about.type === "full" || theme.about.type === "frontend") {
-      calipso.data.themes.push(themeName);
+    if (theme.about && theme.about.type) {
+      if (theme.about.type === "full" || theme.about.type === "frontend") {
+        calipso.data.themes.push(themeName);
+      }
+      if (theme.about.type === "full" || theme.about.type === "admin") {
+        calipso.data.adminThemes.push(themeName);
+      }
     }
-    if (theme.about.type === "full" || theme.about.type === "admin") {
-      calipso.data.adminThemes.push(themeName);
-    }
-    if (!theme.about.type) {
-      console.error("Theme " + themeName + " not enabled due to missing type.");
+    else {
+      calipso.warn("Theme " + themeName + " not enabled due to missing type.  Is theme.json valid JSON?");
     }
   }
 
