@@ -277,7 +277,7 @@ function processFieldConfiguration(event, formData, next) {
     }
   }
 
-  if (form.addSection.length) {
+  if (typeof form.addSection !== 'undefined' && form.addSection.length) {
     if (typeof jsonObject.sections === 'undefined') {
       jsonObject.sections = [];
     }
