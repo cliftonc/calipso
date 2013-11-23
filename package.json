@@ -50,7 +50,7 @@
         "hook.io": "0.8.x",
         "mailer": "~0.6.4",
         "everyauth": "0.3.x",
-        "adm-zip": "0.1.x",
+        "adm-zip": "0.4.x",
         "node-xml": "1.0.x",
         "knox": "0.0.x",
         "sanitizer": "0.0.15",
