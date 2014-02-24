@@ -470,7 +470,7 @@ function lockUser(req, res, template, block, next) {
   User.findOne({username:username}, function (err, u) {
 
     if (err || !u) {
-      req.flash('error', req.t('There was an error unlocking that user account.'));
+      req.flash('error', req.t('There was an error locking that user account.'));
       res.redirect('/user/list');
       return;
     }
@@ -479,7 +479,7 @@ function lockUser(req, res, template, block, next) {
     calipso.e.pre_emit('USER_LOCK', u);
     u.save(function (err) {
       if (err) {
-        req.flash('error', req.t('There was an error unlocking that user account.'));
+        req.flash('error', req.t('There was an error locking that user account.'));
       } else {
         calipso.e.post_emit('USER_LOCK', u);
         req.flash('info', req.t('Account locked.'));
