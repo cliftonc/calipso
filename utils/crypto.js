@@ -42,7 +42,12 @@ var keylength = 64;
 function check(string, hash, cb) {
   loadBCrypt();
   if (bcrypt && hash.indexOf(':') === -1) {
-    return cb(null, bcrypt.compareSync(string, hash));
+    try {
+      return cb(null, bcrypt.compareSync(string, hash));
+    }
+    catch (e) {
+      return cb(e);
+    }
   }
   var items = hash.split(':');
   if (items.length > 2) {
@@ -63,7 +68,12 @@ function check(string, hash, cb) {
 function hash(string, key, cb) {
   loadBCrypt();
   if (bcrypt && !calipso.auth.migrate2pbkdf2) {
-    return cb(null, bcrypt.hashSync(string, globalSalt));
+    try {
+      return cb(null, bcrypt.hashSync(string, globalSalt));
+    }
+    catch (e) {
+      return cb(e);
+    }
   }
   var salt = new Buffer(key);
   var items = [salt.toString('base64'), null];
