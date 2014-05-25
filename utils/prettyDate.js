@@ -8,7 +8,14 @@
 // long ago the date represents.
 var rootpath = process.cwd() + '/',
   path = require('path'),
+  calipsoDate;
+
+try {
   calipsoDate = require(path.join(rootpath, "lib/core/Date"));
+}
+catch (e) {
+  calipsoDate = require('calipso/lib/core/Date');
+}
 
 exports = module.exports = {
 

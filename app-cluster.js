@@ -13,12 +13,19 @@
 var rootpath = process.cwd() + '/',
   cluster = require('cluster'),
   path = require('path'),
-  logo = require(path.join(rootpath, 'logo')),
+  logo,
   colors = require('colors'),
   port = process.env.PORT || 3000 || process.argv.port,
   restarts = 0,
   totalWorkers = 0,
   runningWorkers = 0;
+
+try {
+  logo = require(path.join(rootpath, 'logo'));
+}
+catch (e) {
+  logo = require('calipso/logo');
+}
 
 var argv = processArgs();
 
@@ -44,9 +51,15 @@ function launchServer(inPort) {
 
 
     // Load configuration
-    var Config = require(rootpath + "lib/core/Configuration"),
-      config = new Config();
+    var Config;
+    try {
+      Config = require(rootpath + "lib/core/Configuration");
+    }
+    catch (e) {
+      Config = require('calipso/lib/core/Configuration');
+    }
 
+    config = new Config();
     config.init();
 
     // Print the logo
@@ -82,9 +95,15 @@ function launchServer(inPort) {
     //});
 
   } else {
-
+    var app;
+    try {
+      app = require(rootpath + 'app');
+    }
+    catch (e) {
+      app = require('calipso/app');
+    }
     // We are a child worker, so bootstrap the app.
-    require(rootpath + 'app').boot(true, function (app) {
+    app.boot(true, function (app) {
 
       //logger.info("Worker [" + argv.m.cyan + "] with pid " + (process.pid + "").grey + " online.");
       app.listen(port);
@@ -94,7 +113,6 @@ function launchServer(inPort) {
     });
 
   }
-
 }
 
 /**
