@@ -103,12 +103,17 @@ catch (e) {
 
 var rootpath = process.cwd() + '/',
   fs = require('fs'),
-  express, stylus,
-  colors = require('colors'),
+  express, stylus, colors,
   nodepath = require('path'),
   everyauth,
   calipso, translate, logo;
 
+try {
+  colors = require('colors');
+}
+catch (e) {
+  colors = require('calipso/node_modules/colors');
+}
 try {
   express = require('express');
 }
