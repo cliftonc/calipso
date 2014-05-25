@@ -4,15 +4,15 @@
  */
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  cron = require('./scheduler.cron');
-
-exports = module.exports = {
-  init:init,
-  route:route,
-  reload:reload,
-  disable:disable
-};
+  calipso = require(path.join(rootpath, 'lib/calipso'));
+if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
+var cron = require('./scheduler.cron'),
+  exports = module.exports = {
+    init:init,
+    route:route,
+    reload:reload,
+    disable:disable
+  };
 
 /**
  * Router

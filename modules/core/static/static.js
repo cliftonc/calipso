@@ -3,13 +3,14 @@
  */
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
+if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
 
-  exports = module.exports = {
-    init:init,
-    route:route,
-    last:true
-  };
+var exports = module.exports = {
+  init:init,
+  route:route,
+  last:true
+};
 function route(req, res, module, app, next) {
   module.router.route(req, res, next);
 }

@@ -4,6 +4,7 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
+if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
 
 /**
  * Turns form date elements into jQUery UI Datepickers

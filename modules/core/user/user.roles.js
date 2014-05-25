@@ -3,8 +3,10 @@
  */
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  Query = require("mongoose").Query,
   calipso = require(path.join(rootpath, 'lib/calipso'));
+if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
+
+var Query = require("mongoose").Query;
 
 module.exports = {
   init:init,

@@ -8,15 +8,18 @@
  *
  */
 
-var req, utils;
+var calipso, rootpath = process.cwd() + '/', path = require('path');
 try {
-  req = require('express/lib/request');
-  utils = require('express/lib/utils');
+  calipso = require(path.join(rootpath, 'lib/calipso'));
 }
 catch (e) {
-  req = require('calipso/node_modules/express/lib/request');
-  utils = require('calipso/node_modules/express/lib/utils');
+  calipso = require('../../../lib/calipso');
 }
+if (calipso.wrapRequire) {
+  require = calipso.wrapRequire(require);
+}
+var req = require('express/lib/request'),
+  utils = require('express/lib/utils');
 
 var flashFormatters = req.flashFormatters = {
   s:function (val) {
@@ -101,21 +104,19 @@ catch (e) {
   sys = require('sys');
 }
 
-var rootpath = process.cwd() + '/',
-  fs = require('fs'),
+var fs = require('fs'),
   nodepath = require('path'),
   translate, logo,
   colors = require('colors'),
   express = require('express'),
   stylus = require('stylus'),
   colors = require('colors'),
-  everyauth = require('everyauth'),
-  calipso = require('./lib/calipso');
+  everyauth = require('everyauth');
 try {
   translate = require(nodepath.join(rootpath, 'i18n/translate'));
 }
 catch (e) {
-  translate = require('./i18n/translate');
+  translate = require('../i18n/translate');
 }
 try {
   logo = require(nodepath.join(rootpath, 'logo'));

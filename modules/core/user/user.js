@@ -3,8 +3,10 @@
  */
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
-  roles = require('./user.roles'),
+  calipso = require(path.join(rootpath, 'lib/calipso'));
+if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
+
+var roles = require('./user.roles'),
 	sanitizer = require('sanitizer'),
   Query = require("mongoose").Query,
   everyauth = require("everyauth");

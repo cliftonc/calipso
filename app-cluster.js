@@ -95,13 +95,7 @@ function launchServer(inPort) {
     //});
 
   } else {
-    var app;
-    try {
-      app = require(rootpath + 'app');
-    }
-    catch (e) {
-      app = require('calipso/app');
-    }
+    var app = require('./app');
     // We are a child worker, so bootstrap the app.
     app.boot(true, function (app) {
 

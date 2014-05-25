@@ -1,8 +1,9 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
-  Query = require("mongoose").Query,
+  calipso = require(path.join(rootpath, 'lib/calipso'));
+if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
+var Query = require("mongoose").Query,
   mime = require('mime'),
-  calipso = require(path.join(rootpath, 'lib/calipso')),
   parse = require('url').parse,
   crypto = require('crypto'),
   fs = require('fs'),
