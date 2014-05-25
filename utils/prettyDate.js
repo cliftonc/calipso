@@ -14,7 +14,7 @@ try {
   calipsoDate = require(path.join(rootpath, "lib/core/Date"));
 }
 catch (e) {
-  calipsoDate = require('calipso/lib/core/Date');
+  calipsoDate = require('../lib/core/Date');
 }
 
 exports = module.exports = {

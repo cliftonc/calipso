@@ -103,58 +103,25 @@ catch (e) {
 
 var rootpath = process.cwd() + '/',
   fs = require('fs'),
-  express, stylus, colors,
   nodepath = require('path'),
-  everyauth,
-  calipso, translate, logo;
-
-try {
-  colors = require('colors');
-}
-catch (e) {
-  colors = require('calipso/node_modules/colors');
-}
-try {
-  express = require('express');
-}
-catch (e) {
-  express = require('calipso/node_modules/express');
-}
-try {
-  stylus = require('stylus');
-}
-catch (e) {
-  stylus = require('calipso/node_modules/stylus')
-}
-try {
-  colors = require('colors');
-}
-catch (e) {
-  colors = require('calipso/node_modules/colors');
-}
-try {
-  everyauth = require('everyauth');
-}
-catch (e) {
-  everyauth = require('calipso/node_modules/everyauth')
-}
-try {
-  calipso = require(nodepath.join(rootpath, 'lib/calipso'));
-}
-catch (e) {
-  calipso = require('calipso/lib/calipso');
-}
+  translate, logo,
+  colors = require('colors'),
+  express = require('express'),
+  stylus = require('stylus'),
+  colors = require('colors'),
+  everyauth = require('everyauth'),
+  calipso = require('./lib/calipso');
 try {
   translate = require(nodepath.join(rootpath, 'i18n/translate'));
 }
 catch (e) {
-  translate = require('calipso/i18n/translate');
+  translate = require('./i18n/translate');
 }
 try {
   logo = require(nodepath.join(rootpath, 'logo'));
 }
 catch (e) {
-  logo = require('calipso/logo');
+  logo = require('./logo');
 }
 
 
@@ -248,6 +215,7 @@ function bootApplication(cluster, next) {
   // Load configuration
   var Config = calipso.configuration; //require(path + "/lib/core/Config").Config;
   app.config = new Config();
+
   app.config.init(function (err) {
 
     if (err) {
