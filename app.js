@@ -102,6 +102,11 @@ var fs = require('fs'),
   translate, logo,
   colors = require('colors'),
   express = require('express'),
+  bodyParser = require('body-parser'),
+  responseTime = require('response-time'),
+  methodOverride = require('method-override'),
+  cookieParser = require('cookie-parser'),
+  session = require('express-session'),
   stylus = require('stylus'),
   colors = require('colors'),
   everyauth = require('everyauth'),
@@ -208,7 +213,7 @@ function bootApplication(cluster, next) {
     // Default Theme
     calipso.defaultTheme = app.config.get('theme:default');
 
-    app.use(express.bodyParser());
+    app.use(bodyParser());
     // Pause requests if they were not parsed to allow PUT and POST with custom mime types
     app.use(function (req, res, next) {
       if (!req._body) {
@@ -216,12 +221,12 @@ function bootApplication(cluster, next) {
       }
       next();
     });
-    app.use(express.methodOverride());
-    app.use(express.cookieParser(app.config.get('session:secret')));
-    app.use(express.responseTime());
+    app.use(methodOverride());
+    app.use(cookieParser(app.config.get('session:secret')));
+    app.use(responseTime());
 
     // Create dummy session middleware - tag it so we can later replace
-    var temporarySession = app.config.get('installed') ? {} : express.session({ secret:"installing calipso is great fun" });
+    var temporarySession = app.config.get('installed') ? function (req, res, next) { next(); } : session({ secret:"installing calipso is great fun" });
     temporarySession.tag = "session";
     app.use(temporarySession);
 

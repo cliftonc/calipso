@@ -25,7 +25,12 @@
         "should": "~1.1.0"
     },
     "dependencies": {
-        "express": "3.0.x",
+        "express": "4.0.x",
+        "body-parser": "1.0.x",
+        "cookie-parser": "1.0.x",
+        "method-override": "1.0.x",
+        "response-time": "1.0.x",
+        "express-session": "1.0.x",
         "formidable": "1.0.x",
         "connect": "2.3.x",
         "ejs": "0.6.x",
