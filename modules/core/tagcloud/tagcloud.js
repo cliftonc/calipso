@@ -5,9 +5,9 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
-if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
+if (calipso.wrapRequire) { require = calipso.wrapRequire(module); }
 
-var exports = module.exports = {
+exports = module.exports = {
   init:init,
   route:route,
   depends:['content']

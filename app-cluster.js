@@ -51,13 +51,7 @@ function launchServer(inPort) {
 
 
     // Load configuration
-    var Config;
-    try {
-      Config = require(rootpath + "lib/core/Configuration");
-    }
-    catch (e) {
-      Config = require('calipso/lib/core/Configuration');
-    }
+    var Config = require('./lib/core/Configuration');
 
     config = new Config();
     config.init();

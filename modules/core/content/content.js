@@ -6,7 +6,7 @@
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
-if (calipso.wrapRequire) { require = calipso.wrapRequire(require); }
+if (calipso.wrapRequire) { require = calipso.wrapRequire(module); }
 var Query = require("mongoose").Query,
   utils = require('connect').utils,
   sanitizer = require('sanitizer'),

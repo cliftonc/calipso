@@ -9,15 +9,8 @@
  */
 
 var calipso, rootpath = process.cwd() + '/', path = require('path');
-try {
-  calipso = require(path.join(rootpath, 'lib/calipso'));
-}
-catch (e) {
-  calipso = require('../../../lib/calipso');
-}
-if (calipso.wrapRequire) {
-  require = calipso.wrapRequire(require);
-}
+calipso = require('./lib/calipso');
+if (calipso.wrapRequire) { require = calipso.wrapRequire(module); }
 var req = require('express/lib/request'),
   utils = require('express/lib/utils');
 
@@ -111,20 +104,9 @@ var fs = require('fs'),
   express = require('express'),
   stylus = require('stylus'),
   colors = require('colors'),
-  everyauth = require('everyauth');
-try {
-  translate = require(nodepath.join(rootpath, 'i18n/translate'));
-}
-catch (e) {
-  translate = require('../i18n/translate');
-}
-try {
-  logo = require(nodepath.join(rootpath, 'logo'));
-}
-catch (e) {
+  everyauth = require('everyauth'),
+  translate = require('./i18n/translate'),
   logo = require('./logo');
-}
-
 
 // To enable everyauth debugging.
 //everyauth.debug = true;
