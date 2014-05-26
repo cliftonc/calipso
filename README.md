@@ -82,8 +82,12 @@ your file:
 var rootpath = process.cwd() + '/',
   path = require('path'),
   calipso = require(path.join(rootpath, 'lib/calipso'));
+if (calipso.wrapRequire) { require = calipso.wrapRequire(module); }
 ```
     That also goes for including anything that is based on the root path of the project directory.
+    The new wrapRequire will create a new require for the module which is capable of loading relative
+    and absolute paths. When using relative paths it will first try to load the module as a site module
+    and then as a calipso module.
 
 ### Development Steps
 
