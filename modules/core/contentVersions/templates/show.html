@@ -4,7 +4,7 @@
     <p><a href='/content/show/<%= version.get("contentId") %>/version/<%= version._id %>'><%- version.get("title")
         %></a></p>
 
-    <p class='by'>By <a href='/user/profile/<%- version.get("author") %>'><%- version.get("author") %></a></small>
+    <p class='by'>By <a href='/user/profile/<%= encodeURIComponent(version.get("author")) %>'><%- version.get("author") %></a></small>
 
     <p class='status'><%- version.get("status") %></p>
 

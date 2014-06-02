@@ -8,7 +8,7 @@
 
     <h2><%- t("{name} Profile",{name:user.username}) %></h2>
     <% if(user) { %>
-    <a href="/user"><%- user.username %></a>
+    <a href="/user"><%= encodeURIComponent(user.username) %></a>
     <span class="link-divider">|</span>
     <a href="/user/logout">Logout</a>
     <% } %>

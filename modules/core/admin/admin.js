@@ -1147,7 +1147,7 @@ function saveModulesConfig(req, res, template, block, next) {
           if (err) {
 
             req.flash('error', req.t('Could not save the updated configuration, there was an error: ' + err.message));
-            res.redirect('/admin/modules?module=' + moduleName);
+            res.redirect('/admin/modules?module=' + encodeURIComponent(moduleName));
 
           } else {
 

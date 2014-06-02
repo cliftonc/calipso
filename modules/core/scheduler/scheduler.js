@@ -425,7 +425,7 @@ function updateJob(req, res, template, block, next) {
               req.flash('error', req.t('Could not update job because {msg}.', {msg:err.message}));
               if (res.statusCode != 302) {
                 // Don't redirect if we already are, multiple errors
-                res.redirect('/scheduler/edit/' + job.name);
+                res.redirect('/scheduler/edit/' + encodeURIComponent(job.name));
               }
 
             } else {
@@ -453,7 +453,7 @@ function updateJob(req, res, template, block, next) {
                 req.flash('error', req.t('Module {module}, method {method} does not exist, job modified but not initialised.', {module:job.module, method:job.method}));
               }
 
-              res.redirect('/scheduler/show/' + job.name);
+              res.redirect('/scheduler/show/' + encodeURIComponent(job.name));
 
             }
             next();
