@@ -1,7 +1,7 @@
 <div class='content-item'>
     <h2><a href='/<%= content.alias %>.html'><%- content.title %></a></h2>
 
-    <p class='by'>By <a href='/user/profile/<%- content.author %>'><%- content.displayAuthor.name %></a></small>
+    <p class='by'>By <a href='/user/profile/<%= encodeURIComponent(content.author) %>'><%- content.displayAuthor.name %></a></small>
 
     <p class='status'><%- content.status %></p>
 

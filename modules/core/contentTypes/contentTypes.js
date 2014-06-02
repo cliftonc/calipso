@@ -311,12 +311,12 @@ function updateContentType(req, res, template, block, next) {
                 req.flash('error', req.t('Could not update content type because {msg}.', {msg:err.message}));
                 if (res.statusCode != 302) {
                   // Don't redirect if we already are, multiple errors
-                  res.redirect('/content/type/edit/' + id);
+                  res.redirect('/content/type/edit/' + encodeURIComponent(id));
                 }
                 next();
               } else {
                 calipso.e.post_emit('CONTENT_TYPE_UPDATE', c, function (c) {
-                  res.redirect('/content/type/show/' + id);
+                  res.redirect('/content/type/show/' + encodeURIComponent(id));
                   next();
                 });
               }

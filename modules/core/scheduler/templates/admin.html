@@ -15,7 +15,7 @@
         jobs = true;
         %>
         <tr class='<%= item.meta.jobs[job].invalid ? "job-invalid" : ""%>'>
-            <td><a href='/scheduler/show/<%- item.meta.jobs[job].jobName %>'><%- item.meta.jobs[job].jobName %></a>
+            <td><a href='/scheduler/show/<%= encodeURIComponent(item.meta.jobs[job].jobName) %>'><%- item.meta.jobs[job].jobName %></a>
             </td>
             <td><%- item.meta.jobs[job].cronTimeString %></td>
             <% if(item.meta.jobs[job].enabled) { %>

@@ -1,5 +1,5 @@
 <div class="content-item">
-    <h1><a href="/user/profile/<%= item.username %>"><%= display.name ? display.name : item.username %></a></h1>
+    <h1><a href="/user/profile/<%= encodeURIComponent(item.username) %>"><%= display.name ? display.name : item.username %></a></h1>
     <% if(display.email) { %>
     <p><a href='mailto:<%- display.email %>'><%= display.email %></a></p>
     <% } %>
@@ -7,7 +7,7 @@
 
     <p>
         <% if(user.isAdmin || user.username === item.username) { %>
-        <small><a href="/user/profile/<%= item.username %>/edit"><%= t('Edit Your Profile') %></a></small>
+        <small><a href="/user/profile/<%= encodeURIComponent(item.username) %>/edit"><%= t('Edit Your Profile') %></a></small>
         <% } %>
     </p>
 </div>
