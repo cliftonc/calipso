@@ -484,7 +484,7 @@ function lockUser(req, res, template, block, next) {
         calipso.e.post_emit('USER_LOCK', u);
         req.flash('info', req.t('Account locked.'));
       }
-      res.redirect('/user/profile/' + username);
+      res.redirect('/user/profile/' + encodeURIComponent(username));
     });
 
   });
@@ -516,7 +516,7 @@ function unlockUser(req, res, template, block, next) {
         calipso.e.post_emit('USER_UNLOCK', u);
         req.flash('info', req.t('Account unlocked.'));
       }
-      res.redirect('/user/profile/' + username);
+      res.redirect('/user/profile/' + encodeURIComponent(username));
     });
 
   });
@@ -687,7 +687,7 @@ function updateUserProfile(req, res, template, block, next) {
               req.flash('error', req.t('Could not save user because {msg}.', {msg:err.message}));
               if (res.statusCode != 302) {
                 // Redirect to old page
-                res.redirect('/user/profile/' + username + '/edit');
+                res.redirect('/user/profile/' + encodeURIComponent(username) + '/edit');
                 return;
               }
 
@@ -706,7 +706,7 @@ function updateUserProfile(req, res, template, block, next) {
               }
 
               // Redirect to new page
-              res.redirect('/user/profile/' + u.username);
+              res.redirect('/user/profile/' + encodeURIComponent(u.username));
               return;
 
             }
@@ -918,7 +918,7 @@ function registerUser(req, res, template, block, next) {
             calipso.e.post_emit('USER_CREATE', u);
             if (!res.noRedirect) {
               req.flash('info', req.t('Profile created, you can now login using this account.'));
-              res.redirect('/user/profile/' + u.username);
+              res.redirect('/user/profile/' + encodeURIComponent(u.username));
               return;
             }
           }

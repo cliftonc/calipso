@@ -2,7 +2,7 @@
     <h2><a href='/<%= content.alias %>.html'><%- content.title %></a></h2>
 
     <p class='by'>By
-        <a href='/user/profile/<%- content.author %>'>
+        <a href='/user/profile/<%= encodeURIComponent(content.author) %>'>
             <small><%- content.displayAuthor.name %></small>
         </a></p>
 

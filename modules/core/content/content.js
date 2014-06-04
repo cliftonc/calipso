@@ -313,7 +313,7 @@ function createContent(req, res, template, block, next) {
                 // To the form
                 req.flash('error', req.t('Could not save content because {msg}.', {msg:err.message}));
                 if (res.statusCode != 302) {
-                  res.redirect('/content/new?type=' + form.content.contentType);
+                  res.redirect('/content/new?type=' + encodeURIComponent(form.content.contentType));
                 }
                 next();
               } else {
@@ -325,7 +325,7 @@ function createContent(req, res, template, block, next) {
                   if (returnTo) {
                     res.redirect(returnTo);
                   } else {
-                    res.redirect('/content/show/' + c._id);
+                    res.redirect('/content/show/' + encodeURIComponent(c._id));
                   }
                   next();
                 });
@@ -631,7 +631,7 @@ function updateContent(req, res, template, block, next) {
                         res.redirect(returnTo);
                       } else {
                         // use the reference to the originally id deifned by req.moduleParams.id
-                        res.redirect('/content/show/' + id);
+                        res.redirect('/content/show/' + encodeURIComponent(id));
                       }
                       next();
                     });
@@ -680,7 +680,7 @@ function showAliasedContent(req, res, template, block, next) {
       if (err || !content) {
         // Create content if it doesn't exist
         if (req.session.user && req.session.user.isAdmin) {
-          res.redirect("/content/new?alias=" + alias + "&type=Article") // TODO - make this configurable
+          res.redirect("/content/new?alias=" + encodeURIComponent(alias) + "&type=Article") // TODO - make this configurable
         } else {
           res.statusCode = 404;
         }

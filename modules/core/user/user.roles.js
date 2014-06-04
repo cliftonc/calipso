@@ -249,12 +249,12 @@ function updateRole(req, res, template, block, next) {
                 req.flash('error', req.t('Could not update role because {msg}.', {msg:err.message}));
                 if (res.statusCode != 302) {
                   // Don't redirect if we already are, multiple errors
-                  res.redirect('/user/role/edit/' + id);
+                  res.redirect('/user/role/edit/' + encodeURIComponent(id));
                 }
                 next();
               } else {
                 calipso.e.post_emit('USER_ROLE_UPDATE', c, function (c) {
-                  res.redirect('/user/role/show/' + id);
+                  res.redirect('/user/role/show/' + encodeURIComponent(id));
                   next();
                 });
               }

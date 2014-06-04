@@ -1702,7 +1702,7 @@ function addFolder(req, res, template, block, next) {
           calipso.form.process(req, function (form) {
             if (form) {
               calipso.lib.assets.createAsset({path:alias + form.name + '/', author:req.session.user.username}, function (err, asset) {
-                res.redirect('/asset/' + alias + form.name + '/');
+                res.redirect('/asset/' + encodeURIComponent(alias + form.name) + '/');
               });
             } else {
               req.flash('info', req.t('Woah there, slow down. You should stick with the forms ...'));
@@ -2035,7 +2035,7 @@ function updateAsset(req, res, template, block, next) {
                         res.redirect(returnTo);
                       } else {
                         // use the reference to the originally id deifned by req.moduleParams.id
-                        res.redirect('/s3/' + id);
+                        res.redirect('/s3/' + encodeURIComponent(id));
                       }
                       next();
                     });
@@ -2082,7 +2082,7 @@ function deleteAsset(req, res, template, block, next) {
               }
               req.flash('info', req.t('Asset deleted'));
               if (c.folder) {
-                res.redirect('/assets/' + c.folder.id);
+                res.redirect('/assets/' + encodeURIComponent(c.folder.id));
               } else {
                 res.redirect('/assets/');
               }

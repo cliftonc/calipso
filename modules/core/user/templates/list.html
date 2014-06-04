@@ -13,7 +13,7 @@
         items.forEach(function(item) {
         %>
         <tr>
-            <td><a href='/user/profile/<%- item.username %>'><%- item.username %></a></td>
+            <td><a href='/user/profile/<%= encodeURIComponent(item.username) %>'><%- item.username %></a></td>
             <td> <%- item.email %></td>
             <td> <%- item.roles %></td>
             <td> <%- isUserAdmin(item) ? "Yes" : "No" %></td>

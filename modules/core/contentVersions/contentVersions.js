@@ -327,7 +327,7 @@ function revertVersion(req, res, template, block, next) {
       content.set("version", 'Yes');
 
       content.save(function (err) {
-        res.redirect('/content/show/' + contentId);
+        res.redirect('/content/show/' + encodeURIComponent(contentId));
         next();
       });
 
