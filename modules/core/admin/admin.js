@@ -200,7 +200,7 @@ function showLanguages(req, res, template, block, next) {
 
 }
 
-var installPass = crypto.randomBytes(25).toString('base64');
+var installPass = crypto.randomBytes(25).toString('hex');
 /**
  * Installation routine, this is triggered by the install flag being set
  * in the configuration, which is detected in the core routing function
