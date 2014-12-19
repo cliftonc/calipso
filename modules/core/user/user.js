@@ -422,7 +422,11 @@ function updateUserForm(req, res, template, block, next) {
   }
 
   User.findOne({username:username}, function (err, u) {
-
+    if (!u || err) {
+      req.flash('error', req.t('There was an error refering to user account.'));
+      res.redirect('/user/list');
+      return next();
+    }
     // Allow admins to register other admins
     if (req.session.user && req.session.user.isAdmin) {
 
