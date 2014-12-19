@@ -19,3 +19,4 @@ conf/*.json
 *.gz
 *.sass-cache
 .idea
+db/dump
