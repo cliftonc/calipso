@@ -111,7 +111,8 @@ var fs = require('fs'),
   colors = require('colors'),
   everyauth = require('everyauth'),
   translate = require('./i18n/translate'),
-  logo = require('./logo');
+  logo = require('./logo'),
+  multiparty = require('multiparty');
 
 // To enable everyauth debugging.
 //everyauth.debug = true;
@@ -214,6 +215,43 @@ function bootApplication(cluster, next) {
     calipso.defaultTheme = app.config.get('theme:default');
 
     app.use(bodyParser());
+    app.use(function parseMultiPart(req, res, next) {
+      var form = new multiparty.Form();
+      form.parse(req, function (err, fields, files) {
+        if (fields) {
+          req.body = {};
+          Object.keys(fields).forEach(function (k) {
+            var vals = fields[k];
+            if (vals.length == 1) {
+              vals = vals[0];
+            }
+            var split = k.split(/\[|\]|\./);
+            if (split.length == 1) {
+              req.body[k] = vals;
+            } else {
+              split = split.filter(function (val) { return val; });
+              out = req.body[split[0]];
+              if (!out) {
+                out = req.body[split[0]] = {};
+              }
+              k = split[split.length - 1];
+              for (i = 1; i < (split.length - 1); i++) {
+                k = split[i];
+                out = out[k];
+                if (!val) {
+                  out = out[k] = {};
+                }
+                k = split[i + 1];
+              }
+              out[k] = vals;
+            }
+          });
+        }
+        if (files)
+          req.files = files;
+        next();
+      });
+    });
     // Pause requests if they were not parsed to allow PUT and POST with custom mime types
     app.use(function (req, res, next) {
       if (!req._body) {
@@ -252,6 +290,27 @@ function bootApplication(cluster, next) {
     var appSecret = app.config.get('server:authentication:facebookAppSecret');
     if (appId && appSecret) {
       calipso.auth.facebook = true;
+
+      everyauth.use(require("everyauth-facebook"));
+
+      app.get('/auth/facebook'
+        , everyauth.facebook.middleware('entryPath')
+        , function (err, req, res, next) {
+            req.flash(err.message);
+            res.redirect("/")
+          });
+      app.get('/auth/facebook/callback'
+        , everyauth.facebook.middleware('callbackPath')
+        , function (req, res, next) {
+            req.flash(err.message);
+            res.redirect("/");
+          }
+        , function (err, req, res, next) {
+            console.log(err.stack);
+            req.flash(err.message);
+            res.redirect("/");
+          });
+
       everyauth
         .facebook
         .myHostname(app.config.get('server:url'))
@@ -278,6 +337,27 @@ function bootApplication(cluster, next) {
     var consumerSecret = app.config.get('server:authentication:twitterConsumerSecret');
     if (consumerKey && consumerSecret) {
       calipso.auth.twitter = true;
+
+      everyauth.use(require("everyauth-twitter"));
+
+      app.get('/auth/twitter'
+        , everyauth.twitter.middleware('entryPath')
+        , function (err, req, res, next) {
+            req.flash(err.message);
+            res.redirect("/")
+          });
+      app.get('/auth/twitter/callback'
+        , everyauth.twitter.middleware('callbackPath')
+        , function (req, res, next) {
+            req.flash(err.message);
+            res.redirect("/");
+          }
+        , function (err, req, res, next) {
+            console.log(err.stack);
+            req.flash(err.message);
+            res.redirect("/");
+          });
+
       everyauth
         .twitter
         .getSession(function (req) {
@@ -330,8 +410,6 @@ function bootApplication(cluster, next) {
         })
         .redirectPath('/');
     }
-
-    app.use(everyauth.middleware());
 
     // Load placeholder, replaced later
     if (app.config.get('libraries:stylus:enable')) {

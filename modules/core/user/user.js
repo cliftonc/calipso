@@ -803,6 +803,13 @@ function logoutUser(req, res, template, block, next) {
   var returnTo = req.moduleParams.returnto || null;
   if (req.session && req.session.user) {
 
+    try {
+      everyauth.logout(req);
+    }
+    catch (e) {
+      calipso.error(e);
+    }
+    
     var User = calipso.db.model('User');
     if (req.logout) {
       req.logout();

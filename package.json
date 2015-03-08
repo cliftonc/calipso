@@ -30,7 +30,7 @@
         "cookie-parser": "1.0.x",
         "method-override": "1.0.x",
         "response-time": "1.0.x",
-        "express-session": "1.0.x",
+        "express-session": "*",
         "formidable": "1.0.x",
         "connect": "2.3.x",
         "ejs": "0.6.x",
@@ -54,12 +54,16 @@
         "async": "0.1.x",
         "hook.io": "0.8.x",
         "mailer": "~0.6.4",
-        "everyauth": "0.3.x",
+        "everyauth": "git://github.com/bnoguchi/everyauth.git#0.5.x",
+        "everyauth-oauth": "git://github.com/everyauth/oauth.git",
+        "everyauth-facebook": "git://github.com/everyauth/facebook.git",
+        "everyauth-twitter": "git://github.com/everyauth/twitter.git",
         "adm-zip": "0.4.x",
         "node-xml": "1.0.x",
         "knox": "0.0.x",
         "sanitizer": "0.0.15",
-        "jsonschema": "~0.4.0"
+        "jsonschema": "~0.4.0",
+        "multiparty": "*"
     },
     "optionalDependencies": {
         "bcrypt": "0.7.x",
