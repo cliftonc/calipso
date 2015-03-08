@@ -60,6 +60,9 @@ function pageLink(path, skip, limit, page) {
 
   // Update params
   var pathUrl = url.parse(path, true);
+  if (!pathUrl.query) {
+    pathUrl.query = {};
+  }
   pathUrl.query.limit = limit;
   pathUrl.query.from = skip;
 
