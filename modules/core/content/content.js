@@ -8,9 +8,8 @@ var rootpath = process.cwd() + '/',
   calipso = require(path.join(rootpath, 'lib/calipso'));
 if (calipso.wrapRequire) { require = calipso.wrapRequire(module); }
 var Query = require("mongoose").Query,
-  utils = require('connect').utils,
   sanitizer = require('sanitizer'),
-  merge = utils.merge;
+  merge = require('utils-merge');
 
 exports = module.exports = {
   init:init,

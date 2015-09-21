@@ -9,6 +9,11 @@
  */
 
 var calipso, rootpath = process.cwd() + '/', path = require('path');
+
+var http = require('http');
+// Prevent outdated connect patch.
+http.OutgoingMessage.prototype._hasConnectPatch = true;
+
 calipso = require('./lib/calipso');
 if (calipso.wrapRequire) { require = calipso.wrapRequire(module); }
 var req = require('express/lib/request'),
@@ -109,52 +114,29 @@ var fs = require('fs'),
   session = require('express-session'),
   stylus = require('stylus'),
   colors = require('colors'),
-  everyauth = require('everyauth'),
+  passport = require('passport'),
+  GoogleStrategy = require('passport-google-openidconnect').Strategy,
+  TwitterStrategy = require('passport-twitter').Strategy,
+  FacebookStrategy = require('passport-facebook').Strategy,
+  LocalStrategy = require('passport-local').Strategy,
   translate = require('./i18n/translate'),
   logo = require('./logo'),
   multiparty = require('multiparty');
 
-// To enable everyauth debugging.
-//everyauth.debug = true;
 
-everyauth.everymodule
-  .findUserById(function (req, id, callback) {
-    var User = calipso.db.model('User');
-    User.findById(id, callback);
-  });
-
-function calipsoFindOrCreateUser(user, sess, promise) {
+function calipsoFindOrCreateUser(user, done) {
   var User = calipso.db.model('User');
-
-  function finishUser(user) {
-    if (sess) {
-      if (!sess._pending) {
-        return promise.fulfill(user);
-      }
-      var req = sess._pending;
-      delete sess._pending;
-      return calipso.lib.user.createUserSession(req, null, user, function (err) {
-        if (err) {
-          calipso.error("Error saving session: " + err);
-          return promise.fail(err);
-        }
-        promise.fulfill(user);
-      });
-    } else {
-      promise.fulfill(user);
-    }
-  }
 
   User.findOne({username:user.username}, function (err, u) {
     if (err) {
-      return promise.fail(err);
+      return done(err);
     }
     if (u) {
-      return finishUser(u);
+      return done(null, u);
     }
     u = new User({
       username:user.username,
-      fullname:user.name,
+      fullname:user.fullname,
       email:user.email,
       hash:'external:auth'
     });
@@ -164,15 +146,14 @@ function calipsoFindOrCreateUser(user, sess, promise) {
 
     u.save(function (err) {
       if (err) {
-        return promise.fail(err);
+        return done(err);
       }
       calipso.e.post_emit('USER_CREATE', u);
       // If not already redirecting, then redirect
-      finishUser(u);
+      done(null, u);
       return null;
     });
   });
-  return promise;
 }
 
 // Local App Variables
@@ -214,6 +195,14 @@ function bootApplication(cluster, next) {
     // Default Theme
     calipso.defaultTheme = app.config.get('theme:default');
 
+    // Pause requests if they were not parsed to allow PUT and POST with custom mime types
+    app.use(function (req, res, next) {
+      if (!req._body) {
+        req.pause();
+      }
+      next();
+    });
+    app.use(methodOverride());
     app.use(bodyParser());
     app.use(function parseMultiPart(req, res, next) {
       var form = new multiparty.Form();
@@ -252,14 +241,6 @@ function bootApplication(cluster, next) {
         next();
       });
     });
-    // Pause requests if they were not parsed to allow PUT and POST with custom mime types
-    app.use(function (req, res, next) {
-      if (!req._body) {
-        req.pause();
-      }
-      next();
-    });
-    app.use(methodOverride());
     app.use(cookieParser(app.config.get('session:secret')));
     app.use(responseTime());
 
@@ -267,7 +248,17 @@ function bootApplication(cluster, next) {
     var temporarySession = app.config.get('installed') ? function (req, res, next) { next(); } : session({ secret:"installing calipso is great fun" });
     temporarySession.tag = "session";
     app.use(temporarySession);
-
+    app.use(passport.initialize());
+    app.use(passport.session());
+    passport.serializeUser(function(user, done) {
+      done(null, user.id);
+    });
+    passport.deserializeUser(function(id, done) {
+      var User = calipso.db.model('User');
+      User.findById(id, function (err, user) {
+        done(err, user);
+      });
+    });
     // Create holders for theme dependent middleware
     // These are here because they need to be in the connect stack before the calipso router
     // THese helpers are re-used when theme switching.
@@ -286,51 +277,73 @@ function bootApplication(cluster, next) {
       calipso.auth.migrate2pbkdf2 = false;
     }
 
+    if (calipso.auth.password) {
+      var strat = new LocalStrategy({
+            usernameField: 'user[username]',
+            passwordField: 'user[password]'
+        },
+        function(username, password, done) {
+          var User = calipso.db.model('User');
+          User.findOne({ username: username }, function (err, user) {
+            if (err) { return done(err); }
+            if (!user) {
+              req.flash('error', req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
+              return done(null, false);
+            }
+            calipso.lib.crypto.check(password, user.hash, function (err, success) {
+              if (err) { return done(err); }
+              if (!success) {
+                req.flash('error', req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
+              }
+              done(err, success ? user : false);
+            });
+          });
+        }
+      );
+      //var oldAuth = strat.authenticate;
+      //strat.authenticate = function(req, options) {
+      //  var body = {};
+      //  body[this._usernameField] = req.body.user.username;
+      //  body[this._passwordField] + "=" + encodeURIComponent(req.body.user.password);
+      //  return oldAuth.call(this, req, options);
+      //}
+      passport.use(strat);
+
+      app.post('/user/login', 
+        passport.authenticate('local', {
+          failureRedirect: '/user/login'
+        }),
+        function(req, res) {
+          res.redirect('/');
+        });
+    }
     var appId = app.config.get('server:authentication:facebookAppId');
     var appSecret = app.config.get('server:authentication:facebookAppSecret');
     if (appId && appSecret) {
       calipso.auth.facebook = true;
 
-      everyauth.use(require("everyauth-facebook"));
+      passport.use(new FacebookStrategy({
+          clientID: appId,
+          clientSecret: appSecret,
+          callbackURL: app.config.get('server:url') + "/auth/facebook/callback"
+        },
+        function(accessToken, refreshToken, profile, done) {
+          console.log(profile);
+          calipsoFindOrCreateUser({
+            username: 'facebook:' + profile.id,
+            email: (profile.emails && profile.emails[0] && profile.emails[0].value) || 'unknown@faceboo.com',
+            fullname: profile.displayName || 'unknown'
+          }, done);
+        }
+      ));
+      app.get('/auth/facebook',
+        passport.authenticate('facebook'));
 
-      app.get('/auth/facebook'
-        , everyauth.facebook.middleware('entryPath')
-        , function (err, req, res, next) {
-            req.flash(err.message);
-            res.redirect("/")
-          });
-      app.get('/auth/facebook/callback'
-        , everyauth.facebook.middleware('callbackPath')
-        , function (req, res, next) {
-            req.flash(err.message);
-            res.redirect("/");
-          }
-        , function (err, req, res, next) {
-            console.log(err.stack);
-            req.flash(err.message);
-            res.redirect("/");
-          });
-
-      everyauth
-        .facebook
-        .myHostname(app.config.get('server:url'))
-        .getSession(function (req) {
-          if (!req.session) {
-            req.session = { _pending:req };
-          } else {
-            req.session._pending = req;
-          }
-          return req.session;
-        })
-        .appId(appId)
-        .appSecret(appSecret)
-        .findOrCreateUser(function (sess, accessToken, accessTokenExtra, fbUserMetadata) {
-          var promise = this.Promise();
-
-          return calipsoFindOrCreateUser({username:'facebook:' + fbUserMetadata.username,
-            email:fbUserMetadata.username + '@facebook.com', name:fbUserMetadata.name}, sess, promise);
-        })
-        .redirectPath('/');
+      app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+          successRedirect: '/',
+          failureRedirect: '/login'
+        }));
     }
 
     var consumerKey = app.config.get('server:authentication:twitterConsumerKey');
@@ -338,87 +351,68 @@ function bootApplication(cluster, next) {
     if (consumerKey && consumerSecret) {
       calipso.auth.twitter = true;
 
-      everyauth.use(require("everyauth-twitter"));
+      passport.use(new TwitterStrategy({
+          returnURL: app.config.get('server:url') + '/auth/twitter/callback',
+          realm: app.config.get('server:url'),
+          consumerKey: consumerKey,
+          consumerSecret: consumerSecret
+        },
+        function(token, tokenSecret, profile, done) {
+          console.log(profile);
+          calipsoFindOrCreateUser({
+            username: 'twitter:' + profile.id,
+            email: (profile.emails && profile.emails[0] && profile.emails[0].value) || 'unknown@twitter.com',
+            fullname: profile.displayName || 'unknown'
+          }, done);
+        }
+      ));
 
-      app.get('/auth/twitter'
-        , everyauth.twitter.middleware('entryPath')
-        , function (err, req, res, next) {
-            req.flash(err.message);
-            res.redirect("/")
-          });
-      app.get('/auth/twitter/callback'
-        , everyauth.twitter.middleware('callbackPath')
-        , function (req, res, next) {
-            req.flash(err.message);
-            res.redirect("/");
-          }
-        , function (err, req, res, next) {
-            console.log(err.stack);
-            req.flash(err.message);
-            res.redirect("/");
-          });
+      app.get('/auth/twitter',
+        passport.authenticate('twitter-authz'));
 
-      everyauth
-        .twitter
-        .getSession(function (req) {
-          if (!req.session) {
-            req.session = { _pending:req };
-          } else {
-            req.session._pending = req;
-          }
-          return req.session;
-        })
-        .myHostname(app.config.get('server:url'))
-        .apiHost('https://api.twitter.com/1')
-        .consumerKey(consumerKey)
-        .consumerSecret(consumerSecret)
-        .findOrCreateUser(function (sess, accessToken, accessSecret, twitUser) {
-          var promise = this.Promise();
-
-          return calipsoFindOrCreateUser({username:'twitter:' + twitUser.screen_name,
-            email:twitUser.screen_name + '@twitter.com', name:twitUser.name}, sess, promise);
-        })
-        .redirectPath('/');
+      app.get('/auth/twitter/callback',
+        passport.authenticate('twitter-authz', {
+          successRedirect: '/',
+          failureRedirect: '/login'
+        }));
     }
 
     var clientId = app.config.get('server:authentication:googleClientId');
     var clientSecret = app.config.get('server:authentication:googleClientSecret');
     if (clientId && clientSecret) {
+      passport.use(new GoogleStrategy({
+          clientID: clientId,
+          clientSecret: clientSecret,
+          callbackURL: app.config.get('server:url') + '/auth/google/callback'
+        },
+        function(iss, sub, profile, accessToken, refreshToken, done) {
+          calipsoFindOrCreateUser({
+            username: 'google:' + profile.id,
+            email: profile._json.email,
+            fullname: profile.displayName
+          }, done);
+        }
+      ));
       calipso.auth.google = true;
-      everyauth
-        .google
-        .myHostname(app.config.get('server:url'))
-        .appId(clientId)
-        .appSecret(clientSecret)
-        .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')
-        .getSession(function (req) {
-          if (!req.session) {
-            req.session = { _pending:req };
-          } else {
-            req.session._pending = req;
-          }
-          return req.session;
-        })
-        .findOrCreateUser(function (sess, accessToken, extra, googleUser) {
-          googleUser.refreshToken = extra.refresh_token;
-          googleUser.expiresIn = extra.expires_in;
 
-          var promise = this.Promise();
+      app.get('/auth/google',
+        passport.authenticate('google-openidconnect', { scope: ['email', 'profile'] }));
 
-          return calipsoFindOrCreateUser({username:'google:' + googleUser.email,
-            email:googleUser.email, name:googleUser.name}, sess, promise);
-        })
-        .redirectPath('/');
+      app.get('/auth/google/callback',
+        passport.authenticate('google-openidconnect', {
+          successRedirect: '/',
+          failureRedirect: '/login'
+        }));
     }
 
     // Load placeholder, replaced later
     if (app.config.get('libraries:stylus:enable')) {
       app.mwHelpers.stylusMiddleware = function (themePath) {
         var mw = stylus.middleware({
-          src:themePath + '/stylus',
-          dest:themePath + '/public',
-          debug:false,
-          compile:function (str, path) { // optional, but recommended
+          src: themePath + '/stylus',
+          dest: themePath + '/public',
+          debug: false,
+          compile: function (str, path) { // optional, but recommended
             return stylus(str)
               .set('filename', path)
               .set('warn', app.config.get('libraries:stylus:warn'))

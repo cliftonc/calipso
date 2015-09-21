@@ -5,6 +5,7 @@ node_modules
 modules/community
 modules/private
 modules/site
+modules/downloaded
 themes/downloaded
 themes/custom
 themes/community
@@ -17,6 +18,7 @@ conf/*.json
 *.swp
 *.sock
 *.gz
+*.iml
 *.sass-cache
 .idea
 db/dump

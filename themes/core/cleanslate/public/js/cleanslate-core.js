@@ -75,7 +75,7 @@ cleanslate = {
 			{
 				// logged in
 				userWelcomeOrLoginBox.html(
-					'<a href="/user">' + user.username + '</a> | ' +
+					'<a href="/user">' + (user.fullname || user.username) + '</a> | ' +
 						// we could get fancy and check whether the first letter of the username is uppercase
 						// and if so, make "Log Out" uppercase to match.
 						'<a href="/user/logout?returnto=' + location.href + '">log out</a>'
@@ -105,7 +105,10 @@ cleanslate = {
 							{
 								var html = '<div class="close"></div>' + text.split(start)[1].split(end)[0];
 								userLoginBox = $('<div id="user-login" class="threecol"/>').html(html).appendTo(userWelcomeOrLoginBox).show(animationSpeed);
-								userLoginBox.find('input')[0].focus();
+								var box = userLoginBox.find('input')[0];
+								if (box) {
+									box.focus();
+								}
 								userWelcomeOrLoginBox.find('.close').click(function ()
 								{
 									userLoginBox.toggle(animationSpeed);

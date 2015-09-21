@@ -8,8 +8,7 @@ if (calipso.wrapRequire) { require = calipso.wrapRequire(module); }
 
 var roles = require('./user.roles'),
 	sanitizer = require('sanitizer'),
-  Query = require("mongoose").Query,
-  everyauth = require("everyauth");
+  Query = require("mongoose").Query;
 
 exports = module.exports = {
   init:init,
@@ -60,7 +59,8 @@ function init(module, app, next) {
       module.router.addRoute(/.*/, setCookie, { end:false }, this.parallel());
       module.router.addRoute(/.*/, loginForm, { end:false, template:'login', block:'user.login' }, this.parallel());
       module.router.addRoute('GET /user/login', loginPage, { end:false, template:'loginPage', block:'content' }, this.parallel());
-      module.router.addRoute('POST /user/login', loginUser, null, this.parallel());
+      // NO LONGER used because of passport's LocalStrategy
+      // module.router.addRoute('POST /user/login', loginUser, null, this.parallel());
       module.router.addRoute('GET /user/list', listUsers, {end:false, admin:true, template:'list', block:'content.user.list'}, this.parallel());
       module.router.addRoute('GET /admin/role/register', roleForm, {end:false, admin:true, block:'content'}, this.parallel());
       module.router.addRoute('GET /admin/role/list', listRoles, {end:false, admin:true, template:'list', block:'content.user.list'}, this.parallel());
@@ -119,7 +119,9 @@ function setCookie(req, res, template, block, next) {
   if (res.statusCode != 302) {
     if (req.session.user) {
       if (!req.cookies.userData) {
-        res.cookie('userData', JSON.stringify(req.session.user));
+        res.cookie('userData', JSON.stringify(req.session.user), {
+          httpOnly: false
+        });
       }
     } else {
       res.clearCookie('userData');
@@ -722,51 +724,52 @@ function updateUserProfile(req, res, template, block, next) {
 
 }
 
-/**
- * Login
- */
-function loginUser(req, res, template, block, next) {
+// NO LONGER used because of passport LocalStrategy
+// /**
+//  * Login
+//  */
+// function loginUser(req, res, template, block, next) {
 
-  calipso.form.process(req, function (form) {
-    if (form) {
+//   calipso.form.process(req, function (form) {
+//     if (form) {
 
-      var User = calipso.db.model('User');
-      var username = form.user.username;
-      var found = false;
+//       var User = calipso.db.model('User');
+//       var username = form.user.username;
+//       var found = false;
 
-      User.findOne({username:username}, function (err, user) {
-        if (user) {
-          calipso.lib.crypto.check(form.user.password, user.hash, finish);
-        } else {
-          finish(null, false);
-        }
-        function finish(err, ok) {
-          if (user && !user.locked && ok) {
-            found = true;
-            calipso.e.post_emit('USER_LOGIN', user);
-            createUserSession(req, res, user, function (err) {
-              if (err) {
-                calipso.error("Error saving session: " + err);
-              }
-            });
-          }
+//       User.findOne({username:username}, function (err, user) {
+//         if (user) {
+//           calipso.lib.crypto.check(form.user.password, user.hash, finish);
+//         } else {
+//           finish(null, false);
+//         }
+//         function finish(err, ok) {
+//           if (user && !user.locked && ok) {
+//             found = true;
+//             calipso.e.post_emit('USER_LOGIN', user);
+//             createUserSession(req, res, user, function (err) {
+//               if (err) {
+//                 calipso.error("Error saving session: " + err);
+//               }
+//             });
+//           }
 
-          if (!found) {
-            req.flash('error', req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
-          }
+//           if (!found) {
+//             req.flash('error', req.t('You may have entered an incorrect username or password, please try again.  If you still cant login after a number of tries your account may be locked, please contact the site administrator.'));
+//           }
 
-          if (res.statusCode != 302) {
-            res.redirect(calipso.config.get('server:loginPath') || 'back');
-            return;
-          }
-          next();
-          return;
-        }
-      });
-    }
-  });
+//           if (res.statusCode != 302) {
+//             res.redirect(calipso.config.get('server:loginPath') || 'back');
+//             return;
+//           }
+//           next();
+//           return;
+//         }
+//       });
+//     }
+//   });
 
-}
+// }
 
 /**
  * Helper function to check if the user is an admin
@@ -788,13 +791,19 @@ function isUserAdmin(user) {
 function createUserSession(req, res, user, next) {
   var isAdmin = isUserAdmin(user);
   // Create session
+  if (!req.session) {
+    req.sessionStore.generate();
+  }
   req.session.user = {username:user.username, isAdmin:isAdmin, id:user._id, language:user.language, roles:user.roles};
   req.session.save(function (err) {
     next(err);
   });
 }
 
-calipso.lib.user = {createUserSession:createUserSession};
+calipso.lib.user = {
+  createUserSession: createUserSession,
+  isUserAdmin: isUserAdmin
+};
 
 /**
  * Logout
@@ -802,21 +811,15 @@ calipso.lib.user = {createUserSession:createUserSession};
 function logoutUser(req, res, template, block, next) {
   var returnTo = req.moduleParams.returnto || null;
   if (req.session && req.session.user) {
-
-    try {
-      everyauth.logout(req);
-    }
-    catch (e) {
-      calipso.error(e);
-    }
-    
     var User = calipso.db.model('User');
-    if (req.logout) {
-      req.logout();
-    }
     User.findOne({username:req.session.user.username}, function (err, u) {
 
-      req.session.user = null;
+      try {
+        req.logout();
+      }
+      catch (e) {
+        calipso.error(e);
+      }
       req.session.save(function (err) {
         // Check for error
         calipso.e.post_emit('USER_LOGOUT', u);

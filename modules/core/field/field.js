@@ -88,7 +88,7 @@ function addFieldConfiguration(event, formData, next) {
           }
           catch (err) {
             // TODO handle parse error
-            console.log(err);
+            //console.log(err);
             return next(formData);
           }
           //console.log(fieldValues);
