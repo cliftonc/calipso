@@ -155,7 +155,7 @@ npm), and should be run on site install.
   [Nate Hunzaker]: https://github.com/nhunzaker
   [Andreas Richter]: https://github.com/richtera
 
-#MIT License
+# MIT License
 
 Copyright (c) 
 
