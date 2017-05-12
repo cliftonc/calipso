@@ -1,7 +1,8 @@
 conf
 tmp
 lib-cov
-node_modules
+node_modules/**/*
+!node_modules/calipso
 modules/community
 modules/private
 modules/site
